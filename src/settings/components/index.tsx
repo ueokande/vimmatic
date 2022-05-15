@@ -134,7 +134,7 @@ class SettingsComponent extends React.Component<Props> {
     }
     return (
       <Container>
-        <h1>Configure Vim-Vixen</h1>
+        <h1>Configure Vimmatic</h1>
         <Radio
           id="setting-source-form"
           name="source"

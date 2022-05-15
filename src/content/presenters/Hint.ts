@@ -35,7 +35,7 @@ export default abstract class Hint {
     const { scrollX, scrollY } = window;
 
     const hint = doc.createElement("span");
-    hint.className = "vimvixen-hint";
+    hint.className = "vimmatic-hint";
     hint.textContent = tag;
     hint.style.left = x + scrollX + "px";
     hint.style.top = y + scrollY + "px";

@@ -4,7 +4,7 @@ title: Search engines
 
 # Search engines
 
-Vim Vixen supports searching with search engines such as Google and Yahoo.
+Vimmatic supports searching with search engines such as Google and Yahoo.
 
 You can configure search engines, including the default search engine, in the add-on's preferences.
 The URLs specified in `"engines"` must contain a `{}`-placeholder, which will be

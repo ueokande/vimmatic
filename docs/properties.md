@@ -4,7 +4,7 @@ title: Properties
 
 # Properties
 
-Vim Vixen can be configured by defining settings in a JSON document, e.g.:
+Vimmatic can be configured by defining settings in a JSON document, e.g.:
 
 ```json
 {

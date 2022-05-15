@@ -4,7 +4,7 @@ title: Console commands
 
 # Console commands
 
-Vim Vixen provides a console for `ex`-style commands, similar to Vimperator.
+Vimmatic provides a console for `ex`-style commands, similar to Vimperator.
 
 Open the console with <kbd>:</kbd>. Or populate it with initial values using
 <kbd>o</kbd>/<kbd>O</kbd>, <kbd>t</kbd>/<kbd>T</kbd>, or
@@ -12,7 +12,7 @@ Open the console with <kbd>:</kbd>. Or populate it with initial values using
 
 ## `:help`
 
-Open a [Vim Vixen official document](https://ueokande.github.io/vim-vixen/) in a new tab.
+Open a [Vimmatic official document](https://ueokande.github.io/vimmatic/) in a new tab.
 
 ## `:open`
 
@@ -26,13 +26,13 @@ When the parameter is a URL, it's opened in the current tab.
 Otherwise, the current tab opens a search page with the supplied string (defaults to Google).
 
 ```
-:open How to contribute to Vim-Vixen
+:open How to contribute to Vimmatic
 ```
 
 To use a search engine other than the default, specify the search engine to use as the first parameter.
 
 ```
-:open yahoo How to contribute to Vim-Vixen
+:open yahoo How to contribute to Vimmatic
 ```
 
 To adjust the default search-engine and add/remove search engines, see the [search engines](./search_engines.md) section.

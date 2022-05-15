@@ -73,7 +73,7 @@ See the [console commands](./console_commands.md) section for a more detailed de
 - <kbd>g</kbd><kbd>U</kbd>: go to the root directory
 - <kbd>g</kbd><kbd>i</kbd>: focus the first input field
 
-Vim Vixen can be configured to follow links opened in tabs in the background
+Vimmatic can be configured to follow links opened in tabs in the background
 instead of switching to a new tab immediately. To do this, you'll need to update
 the config file: change the `"background"` property of the `"follow.start"`
 action to `true`, e.g.:

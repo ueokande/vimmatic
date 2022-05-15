@@ -172,7 +172,7 @@ export default class ContentMessageListener {
   }
 
   onConnected(port: browser.runtime.Port): void {
-    if (port.name !== "vimvixen-console") {
+    if (port.name !== "vimmatic-console") {
       return;
     }
 

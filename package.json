@@ -1,6 +1,6 @@
 {
-  "name": "vim-vixen",
-  "description": "Vim vixen",
+  "name": "vimmatic",
+  "description": "vimmatic",
   "scripts": {
     "schema": "ajv compile -s src/shared/settings/schema.json -o src/shared/settings/validate.js",
     "start": "webpack --mode development -w --devtool inline-source-map",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ueokande/vim-vixen.git"
+    "url": "git+https://github.com/ueokande/vimmatic.git"
   },
   "author": "Shin'ya Ueoka",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ueokande/vim-vixen/issues"
+    "url": "https://github.com/ueokande/vimmatic/issues"
   },
-  "homepage": "https://github.com/ueokande/vim-vixen",
+  "homepage": "https://github.com/ueokande/vimmatic",
   "devDependencies": {
     "@types/assert": "^1.4.6",
     "@types/express": "^4.17.13",

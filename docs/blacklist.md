@@ -22,7 +22,7 @@ You can also specify path patterns to disable sites on the URL matched with the 
 }
 ```
 
-You can toggle Vim Vixen between disabled and enabled with <kbd>shift</kbd>+<kbd>Esc</kbd>.
+You can toggle Vimmatic between disabled and enabled with <kbd>shift</kbd>+<kbd>Esc</kbd>.
 
 ## Partial Blacklist
 

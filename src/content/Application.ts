@@ -54,7 +54,7 @@ export default class Application {
     // /* on background script */
     // port.sendMessage({ type: "do something" });  <- returns void
     //
-    browser.runtime.connect(undefined, { name: "vimvixen-find" });
+    browser.runtime.connect(undefined, { name: "vimmatic-find" });
     return Promise.resolve();
   }
 

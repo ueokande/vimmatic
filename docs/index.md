@@ -1,21 +1,21 @@
 ---
-title: Vim Vixen
+title: Vimmatic
 ---
 
-# Vim Vixen
+# Vimmatic
 
-Vim Vixen is a Firefox add-on which allows you to easily navigate the web by
+Vimmatic is a Firefox add-on which allows you to easily navigate the web by
 keyboard. Since version 57, Firefox has migrated to the WebExtensions API and
-has dropped support for legacy add-ons. Vim Vixen is a new choice for Vim users
+has dropped support for legacy add-ons. Vimmatic is a new choice for Vim users
 since it uses the WebExtensions API.
 
 ## Getting started
 
-### Install Vim Vixen
+### Install Vimmatic
 
-Vim Vixen is supported on Firefox 68 ESR.  Please install the latest version of stable ESR
+Vimmatic is supported on Firefox 68 ESR.  Please install the latest version of stable ESR
 from the [download page](https://www.mozilla.org/en-US/firefox/).
-You can install Vim Vixen from [Firefox add-ons (addons.mozilla.org)][AMO], and
+You can install Vimmatic from [Firefox add-ons (addons.mozilla.org)][AMO], and
 manage installed add-ons on Firefox preferences `about:preferences`.
 
 ### Quick start
@@ -36,13 +36,13 @@ See also [Keymaps](./keymaps.md) for more detailed of keymaps.
 
 ### Using commands
 
-Vim Vixen supports command line to run commands that control tabs and opens a
+Vimmatic supports command line to run commands that control tabs and opens a
 tab.  To open command line, press <kbd>:</kbd>.
 
 To open a tab with URL, use `open` command as the following:
 
 ```
-:open https://github.com/ueokande/vimvixen
+:open https://github.com/ueokande/vimmatic
 ```
 
 or search keywords with search engine (such as Google) like:
@@ -57,4 +57,4 @@ You can see completed commands on [Console commands](./console_commands.md).
 
 Copyright © 2017-2019 by Shin'ya Ueoka
 
-[AMO]: https://addons.mozilla.org/en-US/firefox/addon/vim-vixen/
+[AMO]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/

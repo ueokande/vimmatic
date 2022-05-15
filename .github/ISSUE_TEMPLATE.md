@@ -19,7 +19,7 @@ Please provide detailed steps for reproducing the issue.
 
 - Operating system:
 - Firefox version:
-- Vim-Vixen version:
+- Vimmatic version:
 
 #### Console logs
 

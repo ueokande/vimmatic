@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from "redux";
 const store = createStore(reducer, applyMiddleware(promise));
 
 document.addEventListener("DOMContentLoaded", () => {
-  const wrapper = document.getElementById("vimvixen-settings");
+  const wrapper = document.getElementById("vimmatic-settings");
   ReactDOM.render(
     <Provider store={store}>
       <SettingsComponent store={store} />

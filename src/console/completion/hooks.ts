@@ -24,7 +24,7 @@ const commandDocs = {
   [Command.Quit]: "Close the current tab",
   [Command.QuitAll]: "Close all tabs",
   [Command.AddBookmark]: "Add current page to bookmarks",
-  [Command.Help]: "Open Vim Vixen help in new tab",
+  [Command.Help]: "Open Vimmatic help in new tab",
 };
 
 const propertyDocs: { [key: string]: string } = {

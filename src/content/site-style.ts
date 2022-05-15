@@ -1,5 +1,5 @@
 export default `
-.vimvixen-console-frame {
+.vimmatic-console-frame {
   margin: 0;
   padding: 0;
   bottom: 0;
@@ -12,7 +12,7 @@ export default `
   pointer-events:none;
 }
 
-.vimvixen-hint {
+.vimmatic-hint {
   background-color: yellow;
   border: 1px solid gold;
   font-weight: bold;

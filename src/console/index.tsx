@@ -6,7 +6,7 @@ import App from "./App";
 import "./index.css";
 
 window.addEventListener("DOMContentLoaded", () => {
-  const wrapper = document.getElementById("vimvixen-console");
+  const wrapper = document.getElementById("vimmatic-console");
   ReactDOM.render(
     <React.StrictMode>
       <AppProvider>

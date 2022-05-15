@@ -11,10 +11,10 @@ export default interface ConsoleFramePresenter {
 }
 
 export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
-  private static readonly IframeId = "vimvixen-console-frame" as const;
+  private static readonly IframeId = "vimmatic-console-frame" as const;
 
   attach(): void {
-    const ele = document.getElementById("vimvixen-console-frame");
+    const ele = document.getElementById("vimmatic-console-frame");
     if (ele) {
       return;
     }
@@ -22,7 +22,7 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
     const iframe = document.createElement("iframe");
     iframe.src = browser.runtime.getURL("build/console.html");
     iframe.id = ConsoleFramePresenterImpl.IframeId;
-    iframe.className = "vimvixen-console-frame";
+    iframe.className = "vimmatic-console-frame";
     document.body.append(iframe);
   }
 
@@ -35,7 +35,7 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
   }
 
   blur(): void {
-    const ele = document.getElementById("vimvixen-console-frame");
+    const ele = document.getElementById("vimmatic-console-frame");
     if (!ele) {
       return;
     }
@@ -43,7 +43,7 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
   }
 
   resize(_width: number, height: number): void {
-    const ele = document.getElementById("vimvixen-console-frame");
+    const ele = document.getElementById("vimmatic-console-frame");
     if (!ele) {
       return;
     }

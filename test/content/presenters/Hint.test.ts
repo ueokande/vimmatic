@@ -19,7 +19,7 @@ describe("Hint", () => {
       const link = document.getElementById("test-link")!;
       new Hint(link, "abc");
 
-      const elem = document.querySelector(".vimvixen-hint");
+      const elem = document.querySelector(".vimmatic-hint");
       expect(elem!.textContent!.trim()).toEqual("abc");
     });
   });
@@ -31,7 +31,7 @@ describe("Hint", () => {
       hint.hide();
       hint.show();
 
-      const elem = document.querySelector(".vimvixen-hint") as HTMLElement;
+      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
       expect(elem.style.display).not.toEqual("none");
     });
   });
@@ -42,7 +42,7 @@ describe("Hint", () => {
       const hint = new Hint(link, "abc");
       hint.hide();
 
-      const elem = document.querySelector(".vimvixen-hint") as HTMLElement;
+      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
       expect(elem.style.display).toEqual("none");
     });
   });
@@ -52,7 +52,7 @@ describe("Hint", () => {
       const link = document.getElementById("test-link")!;
       const hint = new Hint(link, "abc");
 
-      const elem = document.querySelector(".vimvixen-hint")!;
+      const elem = document.querySelector(".vimmatic-hint")!;
       expect(elem.parentElement).not.toBeNull;
       hint.remove();
       expect(elem.parentElement).toBeNull;

@@ -43,7 +43,7 @@ export default class Page {
 
   async showConsole(): Promise<Console> {
     await this.sendKeys(":");
-    const iframe = this.webdriver.findElement(By.id("vimvixen-console-frame"));
+    const iframe = this.webdriver.findElement(By.id("vimmatic-console-frame"));
     await this.webdriver.wait(until.elementIsVisible(iframe));
 
     await this.webdriver.switchTo().frame(iframe);
@@ -53,7 +53,7 @@ export default class Page {
 
   async getConsole(): Promise<Console> {
     const iframe = this.webdriver.findElement(
-      By.css("#vimvixen-console-frame")
+      By.css("#vimmatic-console-frame")
     );
     await this.webdriver.wait(until.elementIsVisible(iframe));
     await this.webdriver.switchTo().frame(iframe);
@@ -96,10 +96,10 @@ export default class Page {
   }
 
   async waitAndGetHints(): Promise<Hint[]> {
-    await this.webdriver.wait(until.elementsLocated(By.css(".vimvixen-hint")));
+    await this.webdriver.wait(until.elementsLocated(By.css(".vimmatic-hint")));
 
     const elements = await this.webdriver.findElements(
-      By.css(`.vimvixen-hint`)
+      By.css(`.vimmatic-hint`)
     );
     const hints = [];
     for (const e of elements) {
@@ -126,7 +126,7 @@ export default class Page {
     await webdriver.wait(until.elementLocated(By.tagName("style")));
 
     const iframe = await webdriver.findElements(
-      By.id("vimvixen-console-frame")
+      By.id("vimmatic-console-frame")
     );
     if (iframe.length === 0) {
       return;

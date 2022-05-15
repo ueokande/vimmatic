@@ -101,4 +101,4 @@ jobs:
         JWT_SECRET: "${{ secrets.JWT_SECRET }}"
       run: |
         version=$(jq -r '.version' manifest.json)
-        ./script/deploy vim-vixen@i-beam.org "$version" "vim-vixen-${version}.zip"
+        ./script/deploy vimmatic@i-beam.org "$version" "vimmatic-${version}.zip"

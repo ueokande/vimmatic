@@ -1,5 +1,5 @@
-const NOTIFICATION_ID_UPDATE = "vimvixen-update";
-const NOTIFICATION_ID_INVALID_SETTINGS = "vimvixen-update-invalid-settings";
+const NOTIFICATION_ID_UPDATE = "vimmatic-update";
+const NOTIFICATION_ID_INVALID_SETTINGS = "vimmatic-update-invalid-settings";
 
 export default interface Notifier {
   notifyUpdated(version: string, onclick: () => void): Promise<void>;
@@ -9,7 +9,7 @@ export default interface Notifier {
 
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {
-    const title = `Vim Vixen ${version} has been installed`;
+    const title = `Vimmatic ${version} has been installed`;
     const message = "Click here to see release notes";
 
     const listener = (id: string) => {

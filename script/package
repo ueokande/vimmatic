@@ -20,7 +20,7 @@ const resources = () => {
   ).sort();
 };
 
-const output = `vim-vixen-${manifest.version}.zip`
+const output = `vimmatic-${manifest.version}.zip`
 
 let basedir = path.join(__dirname, '..');
 let zip = new JSZip();

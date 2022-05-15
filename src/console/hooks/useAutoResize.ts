@@ -11,7 +11,7 @@ const useAutoResize = () => {
 
   React.useLayoutEffect(() => {
     const { scrollWidth: width, scrollHeight: height } =
-      document.getElementById("vimvixen-console")!;
+      document.getElementById("vimmatic-console")!;
     consoleFrameClient.resize(width, height);
 
     if (width === prevWidth && height === prevHeight) {

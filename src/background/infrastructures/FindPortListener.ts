@@ -12,7 +12,7 @@ export default class FindPortListener {
 
   run(): void {
     browser.runtime.onConnect.addListener((port) => {
-      if (port.name !== "vimvixen-find") {
+      if (port.name !== "vimmatic-find") {
         return;
       }
 

@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "Vim Vixen",
-  "description": "Vim Vixen",
-  "version": "1.2.4",
+  "name": "Vimmatic",
+  "description": "Vimmatic",
+  "version": "0.0.1",
   "icons": {
     "48": "resources/icon_48x48.png",
     "96": "resources/icon_96x96.png"
   },
   "applications": {
     "gecko": {
-      "id": "vim-vixen@i-beam.org"
+      "id": "vimmatic@i-beam.org"
     }
   },
   "content_scripts": [
@@ -47,6 +47,6 @@
     "default_icon": {
       "32": "resources/enabled_32x32.png"
     },
-    "default_title": "Vim Vixen"
+    "default_title": "Vimmatic"
   }
 }

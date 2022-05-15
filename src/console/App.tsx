@@ -40,7 +40,7 @@ const App: React.FC = () => {
 
     browser.runtime.onMessage.addListener(onMessage);
     const port = browser.runtime.connect(undefined, {
-      name: "vimvixen-console",
+      name: "vimmatic-console",
     });
     port.onMessage.addListener(onMessage);
   }, []);
