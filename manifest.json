@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Vimmatic",
+  "description": "Vim extension for browsers",
+  "version": "0.0.1",
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [ "<all_urls>" ],
+      "js": [ "dist/content.js" ],
+      "run_at": "document_start",
+      "match_about_blank": true
+    }
+  ],
+  "background": {
+    "scripts": [
+      "dist/background.js"
+    ]
+  }
+}
