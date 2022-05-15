@@ -1,5 +1,7 @@
-import { message } from "./message";
-import { add } from "../lib/calc"
+import "reflect-metadata";
+import { container } from "tsyringe";
+import Application from "./Application";
+import "./di";
 
-console.log(message, add(10, 20));
-
+const app = container.resolve(Application);
+app.run();

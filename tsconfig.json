@@ -1,20 +1,38 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
-    "strict": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "lib": ["es6", "dom", "esnext"],
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react",
     "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "noEmit": true,
+    "outDir": "./build",
+    "removeComments": true,
+    "importHelpers": true,
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true,
-    "jsx": "react-jsx"
+
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+
+    "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"],
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

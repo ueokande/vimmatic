@@ -1,20 +1,52 @@
 {
   "manifest_version": 2,
-  "name": "Vimmatic",
-  "description": "Vim extension for browsers",
-  "version": "0.0.1",
+  "name": "Vim Vixen",
+  "description": "Vim Vixen",
+  "version": "1.2.4",
+  "icons": {
+    "48": "resources/icon_48x48.png",
+    "96": "resources/icon_96x96.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "vim-vixen@i-beam.org"
+    }
+  },
   "content_scripts": [
     {
       "all_frames": true,
       "matches": [ "<all_urls>" ],
-      "js": [ "dist/content.js" ],
+      "js": [ "build/content.js" ],
       "run_at": "document_start",
       "match_about_blank": true
     }
   ],
   "background": {
     "scripts": [
-      "dist/background.js"
+      "build/background.js"
     ]
+  },
+  "permissions": [
+    "history",
+    "sessions",
+    "storage",
+    "tabs",
+    "clipboardRead",
+    "notifications",
+    "bookmarks",
+    "browserSettings"
+  ],
+  "web_accessible_resources": [
+    "build/console.html",
+    "build/console.js"
+  ],
+  "options_ui": {
+    "page": "build/settings.html"
+  },
+  "browser_action": {
+    "default_icon": {
+      "32": "resources/enabled_32x32.png"
+    },
+    "default_title": "Vim Vixen"
   }
 }

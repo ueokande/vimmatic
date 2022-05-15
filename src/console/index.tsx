@@ -1,10 +1,20 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { add } from "../lib/calc";
+import React from "react";
+import ReactDOM from "react-dom";
+import ColorSchemeProvider from "./colorscheme/providers";
+import { AppProvider } from "./app/provider";
+import App from "./App";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <p>{ 'hello' + add(10, 20) }</p>
-  </React.StrictMode>
-)
-
+window.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.getElementById("vimvixen-console");
+  ReactDOM.render(
+    <React.StrictMode>
+      <AppProvider>
+        <ColorSchemeProvider>
+          <App />
+        </ColorSchemeProvider>
+      </AppProvider>
+    </React.StrictMode>,
+    wrapper
+  );
+});
