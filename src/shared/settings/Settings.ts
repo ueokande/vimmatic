@@ -13,6 +13,9 @@ export type SettingsJSON = {
   blacklist?: BlacklistJSON;
 };
 
+// eslint-disable-next-line prefer-const
+export let DefaultSetting: Settings;
+
 export default class Settings {
   public keymaps: Keymaps;
 
@@ -164,6 +167,4 @@ export const DefaultSettingJSONText = `{
   ]
 }`;
 
-export const DefaultSetting: Settings = Settings.fromJSON(
-  JSON.parse(DefaultSettingJSONText)
-);
+DefaultSetting = Settings.fromJSON(JSON.parse(DefaultSettingJSONText));

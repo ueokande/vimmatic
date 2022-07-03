@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import TabOperatorFactoryChain from "../../../../src/background/operators/impls/TabOperatorFactoryChain";
 import MockTabPresenter from "../../mock/MockTabPresenter";
 import * as operations from "../../../../src/shared/operations";

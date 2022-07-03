@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import PropertyCompletionUseCase from "../../../src/background/completion/PropertyCompletionUseCase";
 
 describe("PropertyCompletionUseCase", () => {

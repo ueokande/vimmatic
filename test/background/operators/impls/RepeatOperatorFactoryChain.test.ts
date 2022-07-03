@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import RepeatOperatorFactoryChain from "../../../../src/background/operators/impls/RepeatOperatorFactoryChain";
 import RepeatLastOperator from "../../../../src/background/operators/impls/RepeatLastOperator";
 import OperatorFactory from "../../../../src/background/operators/OperatorFactory";
