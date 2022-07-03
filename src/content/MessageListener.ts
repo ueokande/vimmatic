@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import { Message, valueOf } from "../shared/messages";
 
 export type WebExtMessageSender = browser.runtime.MessageSender;

@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import Hint, { InputHint, LinkHint } from "./Hint";
 import * as doms from "../../shared/utils/dom";
 
@@ -80,12 +81,9 @@ export default interface FollowPresenter {
   getHint(tag: string): Hint | undefined;
 }
 
+@injectable()
 export class FollowPresenterImpl implements FollowPresenter {
-  private hints: Hint[];
-
-  constructor() {
-    this.hints = [];
-  }
+  private hints: Hint[] = [];
 
   getTargetCount(viewSize: Size, framePosition: Point): number {
     const targets = this.getTargets(viewSize, framePosition);

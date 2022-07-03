@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
 
 @injectable()

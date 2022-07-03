@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import FollowSlaveRepository from "../repositories/FollowSlaveRepository";
 import FollowPresenter from "../presenters/FollowPresenter";
 import TabsClient from "../client/TabsClient";
@@ -20,16 +20,13 @@ interface Point {
 export default class FollowSlaveUseCase {
   constructor(
     @inject("FollowPresenter")
-    private presenter: FollowPresenter,
-
+    private readonly presenter: FollowPresenter,
     @inject("TabsClient")
-    private tabsClient: TabsClient,
-
+    private readonly tabsClient: TabsClient,
     @inject("FollowMasterClient")
-    private followMasterClient: FollowMasterClient,
-
+    private readonly followMasterClient: FollowMasterClient,
     @inject("FollowSlaveRepository")
-    private followSlaveRepository: FollowSlaveRepository
+    private readonly followSlaveRepository: FollowSlaveRepository
   ) {}
 
   countTargets(viewSize: Size, framePosition: Point): void {

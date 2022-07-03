@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import OperatorFactory from "../OperatorFactory";
 import BackgroundOperationOperator from "./BackgroundOperationOperator";
 import Operator from "../Operator";
@@ -17,11 +17,17 @@ export default class OperatorFactoryImpl implements OperatorFactory {
   private readonly factoryChains: OperatorFactoryChain[];
 
   constructor(
+    @inject(AddonOperatorFactoryChain)
     addonOperatorFactoryChain: AddonOperatorFactoryChain,
+    @inject(ClipboardOperatorFactoryChain)
     clipboardOperatorFactoryChain: ClipboardOperatorFactoryChain,
+    @inject(FocusOperatorFactoryChain)
     focusOperatorFactoryChain: FocusOperatorFactoryChain,
+    @inject(FollowOperatorFactoryChain)
     followOperatorFactoryChain: FollowOperatorFactoryChain,
+    @inject(MarkOperatorFactoryChain)
     markOperatorFactoryChain: MarkOperatorFactoryChain,
+    @inject(ScrollOperatorFactoryChain)
     scrollOperatorFactoryChain: ScrollOperatorFactoryChain,
     @inject("OperationClient")
     private readonly operationClient: OperationClient

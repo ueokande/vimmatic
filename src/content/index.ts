@@ -1,10 +1,8 @@
-import "reflect-metadata";
-
+import "@abraham/reflection";
 import Application from "./Application";
 import Bootstrap from "./Bootstrap";
 import consoleFrameStyle from "./site-style";
-import { container } from "tsyringe";
-import "./di";
+import { container } from "./di";
 
 const initDom = () => {
   (async () => {

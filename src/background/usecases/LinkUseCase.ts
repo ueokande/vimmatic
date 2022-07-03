@@ -1,9 +1,11 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import TabPresenter from "../presenters/TabPresenter";
 
 @injectable()
 export default class LinkUseCase {
-  constructor(@inject("TabPresenter") private tabPresenter: TabPresenter) {}
+  constructor(
+    @inject("TabPresenter") private readonly tabPresenter: TabPresenter
+  ) {}
 
   async openToTab(url: string, tabId: number): Promise<void> {
     await this.tabPresenter.open(url, tabId);

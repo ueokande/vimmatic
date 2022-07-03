@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface FollowSlaveRepository {
   enableFollowMode(): void;
 
@@ -12,6 +14,7 @@ const current: {
   enabled: false,
 };
 
+@injectable()
 export class FollowSlaveRepositoryImpl implements FollowSlaveRepository {
   enableFollowMode(): void {
     current.enabled = true;

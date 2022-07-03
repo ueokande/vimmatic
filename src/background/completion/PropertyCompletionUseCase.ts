@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import Properties from "../../shared/settings/Properties";
 
 type Property = {

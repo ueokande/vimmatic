@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import EnableSetMarkOperator from "./EnableSetMarkOperator";
 import EnableJumpMarkOperator from "./EnableJumpMarkOperator";
 import Operator from "../Operator";

@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
 
 export default interface FindClient {
@@ -8,6 +9,7 @@ export default interface FindClient {
   clearSelection(tabId: number, frameId: number): Promise<void>;
 }
 
+@injectable()
 export class FindClientImpl implements FindClient {
   async findNext(
     tabId: number,

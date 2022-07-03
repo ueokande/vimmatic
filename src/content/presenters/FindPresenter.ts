@@ -1,9 +1,12 @@
+import { injectable } from "inversify";
+
 export default interface FindPresenter {
   find(keyword: string, backwards: boolean): boolean;
 
   clearSelection(): void;
 }
 
+@injectable()
 export class FindPresenterImpl implements FindPresenter {
   find(keyword: string, backwards: boolean): boolean {
     const caseSensitive = false;

@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
 import Key from "../../shared/settings/Key";
 
@@ -9,6 +10,7 @@ export default interface FollowMasterClient {
   sendKey(key: Key): void;
 }
 
+@injectable()
 export class FollowMasterClientImpl implements FollowMasterClient {
   private window: Window;
 

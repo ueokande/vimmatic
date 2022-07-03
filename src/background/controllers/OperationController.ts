@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import * as operations from "../../shared/operations";
 import OperatorFactory from "../operators/OperatorFactory";
 import RepeatUseCase from "../usecases/RepeatUseCase";
@@ -6,6 +6,7 @@ import RepeatUseCase from "../usecases/RepeatUseCase";
 @injectable()
 export default class OperationController {
   constructor(
+    @inject(RepeatUseCase)
     private readonly repeatUseCase: RepeatUseCase,
     @inject("OperatorFactory")
     private readonly operatorFactory: OperatorFactory

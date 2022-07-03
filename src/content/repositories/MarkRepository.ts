@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import Mark from "../domains/Mark";
 
 export default interface MarkRepository {
@@ -8,6 +9,7 @@ export default interface MarkRepository {
 
 const saved: { [key: string]: Mark } = {};
 
+@injectable()
 export class MarkRepositoryImpl implements MarkRepository {
   set(key: string, mark: Mark): void {
     saved[key] = mark;

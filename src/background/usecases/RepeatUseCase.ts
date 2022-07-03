@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import * as operations from "../../shared/operations";
 import RepeatRepository from "../repositories/RepeatRepository";
 

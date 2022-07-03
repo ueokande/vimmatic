@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import Mark from "../domains/Mark";
 import * as messages from "../../shared/messages";
 
@@ -7,6 +8,7 @@ export default interface MarkClient {
   jumpGlobalMark(key: string): Promise<void>;
 }
 
+@injectable()
 export class MarkClientImpl implements MarkClient {
   async setGloablMark(key: string, mark: Mark): Promise<void> {
     await browser.runtime.sendMessage({

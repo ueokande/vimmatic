@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import Settings from "../../shared/settings/Settings";
 import * as messages from "../../shared/messages";
 
@@ -5,6 +6,7 @@ export default interface SettingClient {
   load(): Promise<Settings>;
 }
 
+@injectable()
 export class SettingClientImpl {
   async load(): Promise<Settings> {
     const settings = await browser.runtime.sendMessage({

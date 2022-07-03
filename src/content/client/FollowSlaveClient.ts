@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
 
 interface Size {
@@ -22,6 +23,7 @@ export default interface FollowSlaveClient {
   activateIfExists(tag: string, newTab: boolean, background: boolean): void;
 }
 
+@injectable()
 export class FollowSlaveClientImpl implements FollowSlaveClient {
   private target: Window;
 

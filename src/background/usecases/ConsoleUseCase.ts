@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import ConsoleFrameClient from "../clients/ConsoleFrameClient";
 
 @injectable()

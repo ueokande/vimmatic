@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import CachedSettingRepository from "../repositories/CachedSettingRepository";
 import SettingData, { DefaultSettingData } from "../../shared/SettingData";
 import Settings from "../../shared/settings/Settings";

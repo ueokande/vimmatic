@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import AddonIndicatorClient from "../client/AddonIndicatorClient";
 import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
 import ConsoleFramePresenter from "../presenters/ConsoleFramePresenter";

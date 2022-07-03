@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 
 const REPOSITORY_KEY = "readyFrameRepository";
@@ -12,6 +13,7 @@ export default interface ReadyFrameRepository {
   getFrameIds(tabId: number): Promise<number[] | undefined>;
 }
 
+@injectable()
 export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
   private cache: MemoryStorage;
 

@@ -6,7 +6,7 @@ import {
 } from "./repositories/SettingRepository";
 import { NotifierImpl } from "./presenters/Notifier";
 import { CachedSettingRepositoryImpl } from "./repositories/CachedSettingRepository";
-import { container } from "tsyringe";
+import { Container } from "inversify";
 import HistoryRepositoryImpl from "./completion/impl/HistoryRepositoryImpl";
 import BookmarkRepositoryImpl from "./completion/impl/BookmarkRepositoryImpl";
 import TabRepositoryImpl from "./completion/impl/TabRepositoryImpl";
@@ -23,32 +23,26 @@ import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
 import { ReadyFrameRepositoryImpl } from "./repositories/ReadyFrameRepository";
 
-container.register("LocalSettingRepository", {
-  useClass: LocalSettingRepository,
-});
-container.register("SyncSettingRepository", {
-  useClass: SyncSettingRepository,
-});
-container.register("CachedSettingRepository", {
-  useClass: CachedSettingRepositoryImpl,
-});
-container.register("Notifier", { useClass: NotifierImpl });
-container.register("HistoryRepository", { useClass: HistoryRepositoryImpl });
-container.register("BookmarkRepository", { useClass: BookmarkRepositoryImpl });
-container.register("BrowserSettingRepository", {
-  useClass: BrowserSettingRepositoryImpl,
-});
-container.register("RepeatRepository", { useClass: RepeatRepositoryImpl });
-container.register("TabRepository", { useClass: TabRepositoryImpl });
-container.register("ZoomPresenter", { useClass: ZoomPresenterImpl });
-container.register("TabPresenter", { useClass: TabPresenterImpl });
-container.register("WindowPresenter", { useClass: WindowPresenterImpl });
-container.register("FindRepository", { useClass: FindRepositoryImpl });
-container.register("FindClient", { useClass: FindClientImpl });
-container.register("NavigateClient", { useClass: NavigateClientImpl });
-container.register("ConsoleClient", { useClass: ConsoleClientImpl });
-container.register("ConsoleFrameClient", { useClass: ConsoleFrameClientImpl });
-container.register("OperatorFactory", { useClass: OperatorFactoryImpl });
-container.register("ReadyFrameRepository", {
-  useClass: ReadyFrameRepositoryImpl,
-});
+const container = new Container({ autoBindInjectable: true });
+
+container.bind("LocalSettingRepository").to(LocalSettingRepository);
+container.bind("SyncSettingRepository").to(SyncSettingRepository);
+container.bind("CachedSettingRepository").to(CachedSettingRepositoryImpl);
+container.bind("Notifier").to(NotifierImpl);
+container.bind("HistoryRepository").to(HistoryRepositoryImpl);
+container.bind("BookmarkRepository").to(BookmarkRepositoryImpl);
+container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
+container.bind("RepeatRepository").to(RepeatRepositoryImpl);
+container.bind("TabRepository").to(TabRepositoryImpl);
+container.bind("ZoomPresenter").to(ZoomPresenterImpl);
+container.bind("TabPresenter").to(TabPresenterImpl);
+container.bind("WindowPresenter").to(WindowPresenterImpl);
+container.bind("FindRepository").to(FindRepositoryImpl);
+container.bind("FindClient").to(FindClientImpl);
+container.bind("NavigateClient").to(NavigateClientImpl);
+container.bind("ConsoleClient").to(ConsoleClientImpl);
+container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
+container.bind("OperatorFactory").to(OperatorFactoryImpl);
+container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
+
+export { container };

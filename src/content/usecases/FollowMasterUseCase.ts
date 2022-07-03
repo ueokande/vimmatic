@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import FollowKeyRepository from "../repositories/FollowKeyRepository";
 import FollowMasterRepository from "../repositories/FollowMasterRepository";
 import FollowSlaveClient from "../client/FollowSlaveClient";
@@ -10,19 +10,15 @@ import HintKeyRepository from "../repositories/HintKeyRepository";
 export default class FollowMasterUseCase {
   constructor(
     @inject("FollowKeyRepository")
-    private followKeyRepository: FollowKeyRepository,
-
+    private readonly followKeyRepository: FollowKeyRepository,
     @inject("FollowMasterRepository")
-    private followMasterRepository: FollowMasterRepository,
-
+    private readonly followMasterRepository: FollowMasterRepository,
     @inject("SettingRepository")
-    private settingRepository: SettingRepository,
-
+    private readonly settingRepository: SettingRepository,
     @inject("FollowSlaveClientFactory")
-    private followSlaveClientFactory: FollowSlaveClientFactory,
-
+    private readonly followSlaveClientFactory: FollowSlaveClientFactory,
     @inject("HintKeyRepository")
-    private hintKeyRepository: HintKeyRepository
+    private readonly hintKeyRepository: HintKeyRepository
   ) {}
 
   startFollow(newTab: boolean, background: boolean): void {

@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import CachedSettingRepository from "../repositories/CachedSettingRepository";
 import CompletionType from "../../shared/CompletionType";
 import BookmarkRepository from "./BookmarkRepository";

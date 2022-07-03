@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import OperatorFactoryChain from "../OperatorFactoryChain";
 import ScrollPresenter from "../../presenters/ScrollPresenter";
 import SettingRepository from "../../repositories/SettingRepository";

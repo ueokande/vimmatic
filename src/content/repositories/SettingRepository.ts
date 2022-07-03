@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import Settings, { DefaultSetting } from "../../shared/settings/Settings";
 
 let current: Settings = DefaultSetting;
@@ -8,6 +9,7 @@ export default interface SettingRepository {
   get(): Settings;
 }
 
+@injectable()
 export class SettingRepositoryImpl implements SettingRepository {
   set(setting: Settings): void {
     current = setting;

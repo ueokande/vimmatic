@@ -1,10 +1,13 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import ConsoleFrameUseCase from "../usecases/ConsoleFrameUseCase";
 import * as messages from "../../shared/messages";
 
 @injectable()
 export default class ConsoleFrameController {
-  constructor(private consoleFrameUseCase: ConsoleFrameUseCase) {}
+  constructor(
+    @inject(ConsoleFrameUseCase)
+    private readonly consoleFrameUseCase: ConsoleFrameUseCase
+  ) {}
 
   unfocus(_message: messages.Message) {
     this.consoleFrameUseCase.unfocus();

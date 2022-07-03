@@ -1,11 +1,11 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import ConsoleFramePresenter from "../presenters/ConsoleFramePresenter";
 
 @injectable()
 export default class ConsoleFrameUseCase {
   constructor(
     @inject("ConsoleFramePresenter")
-    private consoleFramePresenter: ConsoleFramePresenter
+    private readonly consoleFramePresenter: ConsoleFramePresenter
   ) {}
 
   unfocus() {

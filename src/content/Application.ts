@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import MessageListener from "./MessageListener";
 import MarkController from "./controllers/MarkController";
 import FollowMasterController from "./controllers/FollowMasterController";
@@ -21,19 +21,31 @@ type Message = messages.Message;
 export default class Application {
   // eslint-disable-next-line max-params
   constructor(
-    private messageListener: MessageListener,
-    private markController: MarkController,
-    private followMasterController: FollowMasterController,
-    private followSlaveController: FollowSlaveController,
-    private followKeyController: FollowKeyController,
-    private keymapController: KeymapController,
-    private addonEnabledUseCase: AddonEnabledUseCase,
-    private markKeyController: MarkKeyController,
-    private addonEnabledController: AddonEnabledController,
-    private settingController: SettingController,
-    private consoleFrameController: ConsoleFrameController,
-    private navigateController: NavigateController,
-    private findController: FindController
+    @inject(MessageListener)
+    private readonly messageListener: MessageListener,
+    @inject(MarkController)
+    private readonly markController: MarkController,
+    @inject(FollowMasterController)
+    private readonly followMasterController: FollowMasterController,
+    @inject(FollowSlaveController)
+    private readonly followSlaveController: FollowSlaveController,
+    @inject(FollowKeyController)
+    private readonly followKeyController: FollowKeyController,
+    @inject(KeymapController)
+    private readonly keymapController: KeymapController,
+    @inject(AddonEnabledUseCase)
+    private readonly addonEnabledUseCase: AddonEnabledUseCase,
+    @inject(MarkKeyController)
+    private readonly markKeyController: MarkKeyController,
+    @inject(AddonEnabledController)
+    private readonly addonEnabledController: AddonEnabledController,
+    @inject(SettingController)
+    private readonly settingController: SettingController,
+    @inject(ConsoleFrameController)
+    private readonly consoleFrameController: ConsoleFrameController,
+    @inject(NavigateController)
+    private readonly navigateController: NavigateController,
+    @inject(FindController) private readonly findController: FindController
   ) {}
 
   init(): Promise<void> {

@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
 
 export default interface NavigateClient {
@@ -10,6 +11,7 @@ export default interface NavigateClient {
   linkPrev(tabId: number): Promise<void>;
 }
 
+@injectable()
 export class NavigateClientImpl implements NavigateClient {
   async historyNext(tabId: number): Promise<void> {
     await browser.tabs.sendMessage(tabId, {

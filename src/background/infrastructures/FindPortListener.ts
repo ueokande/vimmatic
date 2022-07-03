@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 
 type OnConnectFunc = (port: browser.runtime.Port) => void;
 type OnDisconnectFunc = (port: browser.runtime.Port) => void;

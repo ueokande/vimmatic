@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface MarkKeyRepository {
   isSetMode(): boolean;
 
@@ -22,6 +24,7 @@ const current: Mode = {
   jumpMode: false,
 };
 
+@injectable()
 export class MarkKeyRepositoryImpl implements MarkKeyRepository {
   isSetMode(): boolean {
     return current.setMode;

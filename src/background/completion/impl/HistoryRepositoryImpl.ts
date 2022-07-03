@@ -1,8 +1,10 @@
+import { injectable } from "inversify";
 import * as filters from "./filters";
 import HistoryRepository, { HistoryItem } from "../HistoryRepository";
 
 const COMPLETION_ITEM_LIMIT = 10;
 
+@injectable()
 export default class HistoryRepositoryImpl implements HistoryRepository {
   async queryHistories(keywords: string): Promise<HistoryItem[]> {
     const items = await browser.history.search({
