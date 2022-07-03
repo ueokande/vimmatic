@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
 import SettingUseCase from "../usecases/SettingUseCase";
 import * as messages from "../../shared/messages";
@@ -6,8 +6,10 @@ import * as messages from "../../shared/messages";
 @injectable()
 export default class SettingController {
   constructor(
-    private addonEnabledUseCase: AddonEnabledUseCase,
-    private settingUseCase: SettingUseCase
+    @inject(AddonEnabledUseCase)
+    private readonly addonEnabledUseCase: AddonEnabledUseCase,
+    @inject(SettingUseCase)
+    private readonly settingUseCase: SettingUseCase
   ) {}
 
   async initSettings(): Promise<void> {

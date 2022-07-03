@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 let enabled = false;
 
 export default interface AddonEnabledRepository {
@@ -6,6 +8,7 @@ export default interface AddonEnabledRepository {
   get(): boolean;
 }
 
+@injectable()
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   set(on: boolean): void {
     enabled = on;

@@ -1,10 +1,13 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import FollowMasterUseCase from "../usecases/FollowMasterUseCase";
 import * as messages from "../../shared/messages";
 
 @injectable()
 export default class FollowMasterController {
-  constructor(private followMasterUseCase: FollowMasterUseCase) {}
+  constructor(
+    @inject(FollowMasterUseCase)
+    private readonly followMasterUseCase: FollowMasterUseCase
+  ) {}
 
   followStart(m: messages.FollowStartMessage): void {
     this.followMasterUseCase.startFollow(m.newTab, m.background);

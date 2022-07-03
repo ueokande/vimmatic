@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import OperatorFactoryChain from "../OperatorFactoryChain";
 import * as operations from "../../../shared/operations";
 import Operator from "../Operator";

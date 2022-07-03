@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import MarkKeyRepository from "../repositories/MarkKeyRepository";
 
 @injectable()

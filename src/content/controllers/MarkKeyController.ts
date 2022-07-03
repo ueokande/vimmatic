@@ -1,13 +1,15 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import MarkUseCase from "../usecases/MarkUseCase";
-import MarkKeyyUseCase from "../usecases/MarkKeyUseCase";
+import MarkKeyUseCase from "../usecases/MarkKeyUseCase";
 import Key from "../../shared/settings/Key";
 
 @injectable()
 export default class MarkKeyController {
   constructor(
-    private markUseCase: MarkUseCase,
-    private markKeyUseCase: MarkKeyyUseCase
+    @inject(MarkUseCase)
+    private readonly markUseCase: MarkUseCase,
+    @inject(MarkKeyUseCase)
+    private readonly markKeyUseCase: MarkKeyUseCase
   ) {}
 
   press(key: Key): boolean {

@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface NavigationPresenter {
   openHistoryPrev(): void;
 
@@ -30,6 +32,7 @@ function selectLast<E extends Element>(
   return nodes.length ? nodes[nodes.length - 1] : null;
 }
 
+@injectable()
 export class NavigationPresenterImpl implements NavigationPresenter {
   openHistoryPrev(): void {
     window.history.back();

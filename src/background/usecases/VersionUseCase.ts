@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import TabPresenter from "../presenters/TabPresenter";
 import Notifier from "../presenters/Notifier";
 

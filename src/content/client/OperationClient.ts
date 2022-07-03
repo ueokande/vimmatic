@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as operations from "../../shared/operations";
 import * as messages from "../../shared/messages";
 
@@ -11,6 +12,7 @@ export default interface OperationClient {
   ): Promise<void>;
 }
 
+@injectable()
 export class OperationClientImpl implements OperationClient {
   execBackgroundOp(repeat: number, op: operations.Operation): Promise<void> {
     return browser.runtime.sendMessage({

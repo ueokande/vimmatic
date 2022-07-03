@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import ContentMessageListener from "./infrastructures/ContentMessageListener";
 import FindPortListener from "./infrastructures/FindPortListener";
 import SettingController from "./controllers/SettingController";
@@ -10,11 +10,14 @@ import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
 @injectable()
 export default class Application {
   constructor(
-    private contentMessageListener: ContentMessageListener,
-    private settingController: SettingController,
-    private versionController: VersionController,
+    @inject(ContentMessageListener)
+    private readonly contentMessageListener: ContentMessageListener,
+    @inject(SettingController)
+    private readonly settingController: SettingController,
+    @inject(VersionController)
+    private readonly versionController: VersionController,
     @inject("SyncSettingRepository")
-    private syncSettingRepository: SettingRepository,
+    private readonly syncSettingRepository: SettingRepository,
     @inject("FindRepository")
     private readonly findRepository: FindRepositoryImpl,
     @inject("ReadyFrameRepository")

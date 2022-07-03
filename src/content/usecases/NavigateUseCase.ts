@@ -1,11 +1,11 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import NavigationPresenter from "../presenters/NavigationPresenter";
 
 @injectable()
 export default class NavigateUseCase {
   constructor(
     @inject("NavigationPresenter")
-    private navigationPresenter: NavigationPresenter
+    private readonly navigationPresenter: NavigationPresenter
   ) {}
 
   openHistoryPrev(): void {

@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import { Operation } from "../../shared/operations";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 

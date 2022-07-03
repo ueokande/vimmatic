@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import * as messages from "../../shared/messages";
 import * as operations from "../../shared/operations";
 import CommandController from "../controllers/CommandController";
@@ -16,14 +16,23 @@ export default class ContentMessageListener {
   private readonly consolePorts: { [tabId: number]: browser.runtime.Port } = {};
 
   constructor(
+    @inject(SettingController)
     private readonly settingController: SettingController,
+    @inject(CommandController)
     private readonly commandController: CommandController,
+    @inject(CompletionController)
     private readonly completionController: CompletionController,
+    @inject(AddonEnabledController)
     private readonly addonEnabledController: AddonEnabledController,
+    @inject(LinkController)
     private readonly linkController: LinkController,
+    @inject(OperationController)
     private readonly operationController: OperationController,
+    @inject(MarkController)
     private readonly markController: MarkController,
+    @inject(ConsoleController)
     private readonly consoleController: ConsoleController,
+    @inject(FindController)
     private readonly findController: FindController
   ) {}
 

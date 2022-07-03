@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import IndicatorPresenter from "../presenters/IndicatorPresenter";
 import TabPresenter from "../presenters/TabPresenter";
 import ContentMessageClient from "../infrastructures/ContentMessageClient";
@@ -6,9 +6,12 @@ import ContentMessageClient from "../infrastructures/ContentMessageClient";
 @injectable()
 export default class AddonEnabledUseCase {
   constructor(
-    private indicatorPresentor: IndicatorPresenter,
-    @inject("TabPresenter") private tabPresenter: TabPresenter,
-    private contentMessageClient: ContentMessageClient
+    @inject(IndicatorPresenter)
+    private readonly indicatorPresentor: IndicatorPresenter,
+    @inject("TabPresenter")
+    private readonly tabPresenter: TabPresenter,
+    @inject(ContentMessageClient)
+    private readonly contentMessageClient: ContentMessageClient
   ) {
     this.indicatorPresentor.onClick((tab) => {
       if (tab.id) {

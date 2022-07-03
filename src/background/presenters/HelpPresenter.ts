@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 
 const url = "https://ueokande.github.io/vimmatic/";
 

@@ -1,8 +1,10 @@
+import { injectable } from "inversify";
 import BookmarkRepository, { BookmarkItem } from "../BookmarkRepository";
 
 const COMPLETION_ITEM_LIMIT = 10;
 
-export default class CachedBookmarkRepository implements BookmarkRepository {
+@injectable()
+export default class BookmarkRepositoryImpl implements BookmarkRepository {
   async queryBookmarks(query: string): Promise<BookmarkItem[]> {
     const items = await browser.bookmarks.search({ query });
     return items

@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import SettingData from "../../shared/SettingData";
 
 export default interface SettingRepository {
@@ -6,6 +7,7 @@ export default interface SettingRepository {
   onChange(callback: () => void): void;
 }
 
+@injectable()
 export class LocalSettingRepository implements SettingRepository {
   async load(): Promise<SettingData | null> {
     const { settings } = await browser.storage.local.get("settings");
@@ -27,6 +29,7 @@ export class LocalSettingRepository implements SettingRepository {
   }
 }
 
+@injectable()
 export class SyncSettingRepository implements SettingRepository {
   async load(): Promise<SettingData | null> {
     const { settings } = await browser.storage.sync.get("settings");

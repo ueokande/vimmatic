@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 
 const CURRENT_SELECTED_KEY = "tabs.current.selected";
@@ -51,6 +52,7 @@ export default interface TabPresenter {
   toggleReaderMode(tabId: number): Promise<void>;
 }
 
+@injectable()
 export class TabPresenterImpl implements TabPresenter {
   open(url: string, tabId?: number): Promise<Tab> {
     return browser.tabs.update(tabId, { url });

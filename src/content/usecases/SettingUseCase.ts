@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import SettingRepository from "../repositories/SettingRepository";
 import SettingClient from "../client/SettingClient";
 import Settings from "../../shared/settings/Settings";
@@ -6,8 +6,10 @@ import Settings from "../../shared/settings/Settings";
 @injectable()
 export default class SettingUseCase {
   constructor(
-    @inject("SettingRepository") private repository: SettingRepository,
-    @inject("SettingClient") private client: SettingClient
+    @inject("SettingRepository")
+    private readonly repository: SettingRepository,
+    @inject("SettingClient")
+    private readonly client: SettingClient
   ) {}
 
   async reload(): Promise<Settings> {

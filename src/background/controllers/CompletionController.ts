@@ -1,3 +1,4 @@
+import { injectable, inject } from "inversify";
 import {
   ConsoleGetCompletionTypesResponse,
   ConsoleGetPropertiesResponse,
@@ -6,7 +7,6 @@ import {
   ConsoleRequestSearchEnginesResponse,
   ConsoleRequestTabsResponse,
 } from "../../shared/messages";
-import { injectable } from "tsyringe";
 import OpenCompletionUseCase from "../completion/OpenCompletionUseCase";
 import TabCompletionUseCase from "../completion/TabCompletionUseCase";
 import PropertyCompletionUseCase from "../completion/PropertyCompletionUseCase";
@@ -14,8 +14,11 @@ import PropertyCompletionUseCase from "../completion/PropertyCompletionUseCase";
 @injectable()
 export default class CompletionController {
   constructor(
+    @inject(OpenCompletionUseCase)
     private completionUseCase: OpenCompletionUseCase,
+    @inject(TabCompletionUseCase)
     private tabCompletionUseCase: TabCompletionUseCase,
+    @inject(PropertyCompletionUseCase)
     private propertyCompletionUseCase: PropertyCompletionUseCase
   ) {}
 

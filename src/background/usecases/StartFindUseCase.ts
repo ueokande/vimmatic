@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import ConsoleClient from "../infrastructures/ConsoleClient";
 import FindRepositoryImpl from "../repositories/FindRepository";
 import FindClient from "../clients/FindClient";

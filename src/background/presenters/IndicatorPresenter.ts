@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 
 @injectable()
 export default class IndicatorPresenter {

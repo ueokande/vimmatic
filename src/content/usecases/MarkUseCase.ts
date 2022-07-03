@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import ScrollPresenter from "../presenters/ScrollPresenter";
 import MarkClient from "../client/MarkClient";
 import MarkRepository from "../repositories/MarkRepository";
@@ -8,11 +8,16 @@ import ConsoleClient from "../client/ConsoleClient";
 @injectable()
 export default class MarkUseCase {
   constructor(
-    @inject("ScrollPresenter") private scrollPresenter: ScrollPresenter,
-    @inject("MarkClient") private client: MarkClient,
-    @inject("MarkRepository") private repository: MarkRepository,
-    @inject("SettingRepository") private settingRepository: SettingRepository,
-    @inject("ConsoleClient") private consoleClient: ConsoleClient
+    @inject("ScrollPresenter")
+    private readonly scrollPresenter: ScrollPresenter,
+    @inject("MarkClient")
+    private readonly client: MarkClient,
+    @inject("MarkRepository")
+    private readonly repository: MarkRepository,
+    @inject("SettingRepository")
+    private readonly settingRepository: SettingRepository,
+    @inject("ConsoleClient")
+    private readonly consoleClient: ConsoleClient
   ) {}
 
   async set(key: string): Promise<void> {

@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import KeymapRepository from "../repositories/KeymapRepository";
 import SettingRepository from "../repositories/SettingRepository";
 import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
@@ -22,16 +22,13 @@ const enableAddonOps = [
 export default class KeymapUseCase {
   constructor(
     @inject("KeymapRepository")
-    private repository: KeymapRepository,
-
+    private readonly repository: KeymapRepository,
     @inject("SettingRepository")
-    private settingRepository: SettingRepository,
-
+    private readonly settingRepository: SettingRepository,
     @inject("AddonEnabledRepository")
-    private addonEnabledRepository: AddonEnabledRepository,
-
+    private readonly addonEnabledRepository: AddonEnabledRepository,
     @inject("AddressRepository")
-    private addressRepository: AddressRepository
+    private readonly addressRepository: AddressRepository
   ) {}
 
   // eslint-disable-next-line max-statements

@@ -1,4 +1,4 @@
-import { inject, delay, injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import Operator from "../Operator";
 import OperatorFactory from "../OperatorFactory";
 import OperatorFactoryChain from "../OperatorFactoryChain";
@@ -9,6 +9,7 @@ import RepeatOperatorFactoryChain from "./RepeatOperatorFactoryChain";
 import TabOperatorFactoryChain from "./TabOperatorFactoryChain";
 import ZoomOperatorFactoryChain from "./ZoomOperatorFactoryChain";
 import FindOperatorFactoryChain from "./FindOperatorFactoryChain";
+import RepeatRepository from "../../repositories/RepeatRepository";
 import * as operations from "../../../shared/operations";
 
 @injectable()
@@ -16,20 +17,26 @@ export class OperatorFactoryImpl implements OperatorFactory {
   private readonly factoryChains: OperatorFactoryChain[];
 
   constructor(
+    @inject(CommandOperatorFactoryChain)
     commandOperatorFactoryChain: CommandOperatorFactoryChain,
+    @inject(InternalOperatorFactoryChain)
     internalOperatorFactoryChain: InternalOperatorFactoryChain,
+    @inject(NavigateOperatorFactoryChain)
     navigateOperatorFactoryChain: NavigateOperatorFactoryChain,
+    @inject(TabOperatorFactoryChain)
     tabOperatorFactoryChain: TabOperatorFactoryChain,
+    @inject(ZoomOperatorFactoryChain)
     zoomOperatorFactoryChain: ZoomOperatorFactoryChain,
+    @inject(FindOperatorFactoryChain)
     findOperatorFactoryChain: FindOperatorFactoryChain,
-    @inject(delay(() => RepeatOperatorFactoryChain))
-    repeatOperatorFactoryChain: RepeatOperatorFactoryChain
+    @inject("RepeatRepository")
+    repeatRepository: RepeatRepository
   ) {
     this.factoryChains = [
       commandOperatorFactoryChain,
       internalOperatorFactoryChain,
       navigateOperatorFactoryChain,
-      repeatOperatorFactoryChain,
+      new RepeatOperatorFactoryChain(repeatRepository, this),
       tabOperatorFactoryChain,
       zoomOperatorFactoryChain,
       findOperatorFactoryChain,

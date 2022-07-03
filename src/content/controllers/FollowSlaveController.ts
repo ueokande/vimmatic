@@ -1,10 +1,13 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import * as messages from "../../shared/messages";
 import FollowSlaveUseCase from "../usecases/FollowSlaveUseCase";
 
 @injectable()
 export default class FollowSlaveController {
-  constructor(private usecase: FollowSlaveUseCase) {}
+  constructor(
+    @inject(FollowSlaveUseCase)
+    private readonly usecase: FollowSlaveUseCase
+  ) {}
 
   countTargets(m: messages.FollowRequestCountTargetsMessage): void {
     this.usecase.countTargets(m.viewSize, m.framePosition);

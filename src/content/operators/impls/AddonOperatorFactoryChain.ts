@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import OperatorFactoryChain from "../OperatorFactoryChain";
 import AddonIndicatorClient from "../../client/AddonIndicatorClient";
 import AddonEnabledRepository from "../../repositories/AddonEnabledRepository";

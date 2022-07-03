@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface ConsoleFramePresenter {
   attach(): void;
 
@@ -10,6 +12,7 @@ export default interface ConsoleFramePresenter {
   isTopWindow(): boolean;
 }
 
+@injectable()
 export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
   private static readonly IframeId = "vimmatic-console-frame" as const;
 

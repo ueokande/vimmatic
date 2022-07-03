@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import CommandUseCase from "../usecases/CommandUseCase";
 
 const trimStart = (str: string): string => {
@@ -8,7 +8,10 @@ const trimStart = (str: string): string => {
 
 @injectable()
 export default class CommandController {
-  constructor(private commandIndicator: CommandUseCase) {}
+  constructor(
+    @inject(CommandUseCase)
+    private readonly commandIndicator: CommandUseCase
+  ) {}
 
   // eslint-disable-next-line complexity
   exec(line: string): Promise<unknown> {

@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as doms from "../../shared/utils/dom";
 
 const SCROLL_DELTA_X = 64;
@@ -123,6 +124,7 @@ export default interface ScrollPresenter {
   scrollToEnd(smooth: boolean): void;
 }
 
+@injectable()
 export class ScrollPresenterImpl {
   getScroll(): Point {
     const target = scrollTarget();

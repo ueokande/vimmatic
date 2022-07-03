@@ -1,7 +1,6 @@
-import "reflect-metadata";
-import { container } from "tsyringe";
+import "@abraham/reflection";
 import Application from "./Application";
-import "./di";
+import { container } from "./di";
 
 const app = container.resolve(Application);
 app.run();

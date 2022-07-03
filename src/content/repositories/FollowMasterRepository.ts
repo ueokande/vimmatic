@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface FollowMasterRepository {
   setCurrentFollowMode(newTab: boolean, background: boolean): void;
 
@@ -24,6 +26,7 @@ const current: {
   tags: [],
 };
 
+@injectable()
 export class FollowMasterRepositoryImpl implements FollowMasterRepository {
   setCurrentFollowMode(newTab: boolean, background: boolean): void {
     current.newTab = newTab;

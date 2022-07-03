@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 import Settings from "../../shared/settings/Settings";
 import Properties from "../../shared/settings/Properties";
@@ -13,12 +14,9 @@ export default interface CachedSettingRepository {
   setProperty(name: string, value: string | number | boolean): Promise<void>;
 }
 
+@injectable()
 export class CachedSettingRepositoryImpl implements CachedSettingRepository {
-  private cache: MemoryStorage;
-
-  constructor() {
-    this.cache = new MemoryStorage();
-  }
+  private readonly cache = new MemoryStorage();
 
   get(): Promise<Settings> {
     const data = this.cache.get(CACHED_SETTING_KEY);

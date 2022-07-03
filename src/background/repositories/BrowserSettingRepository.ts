@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import * as urls from "../../shared/urls";
 
 export default interface BrowserSettingRepository {

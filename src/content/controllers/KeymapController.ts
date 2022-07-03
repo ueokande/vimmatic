@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import KeymapUseCase from "../usecases/KeymapUseCase";
 import Key from "../../shared/settings/Key";
 import OperatorFactory from "../operators/OperatorFactory";
@@ -6,8 +6,8 @@ import OperatorFactory from "../operators/OperatorFactory";
 @injectable()
 export default class KeymapController {
   constructor(
-    private keymapUseCase: KeymapUseCase,
-
+    @inject(KeymapUseCase)
+    private readonly keymapUseCase: KeymapUseCase,
     @inject("OperatorFactory")
     private readonly operatorFactory: OperatorFactory
   ) {}

@@ -1,4 +1,4 @@
-import { injectable } from "tsyringe";
+import { injectable } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 
 const FIND_GLOBAL_KEYWORD_KEY = "find-global-keyword";

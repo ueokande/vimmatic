@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface FollowKeyRepository {
   getKeys(): string[];
 
@@ -14,6 +16,7 @@ const current: {
   keys: [],
 };
 
+@injectable()
 export class FollowKeyRepositoryImpl implements FollowKeyRepository {
   getKeys(): string[] {
     return current.keys;

@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 const NOTIFICATION_ID_UPDATE = "vimmatic-update";
 const NOTIFICATION_ID_INVALID_SETTINGS = "vimmatic-update-invalid-settings";
 
@@ -7,6 +9,7 @@ export default interface Notifier {
   notifyInvalidSettings(error: Error, onclick: () => void): Promise<void>;
 }
 
+@injectable()
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {
     const title = `Vimmatic ${version} has been installed`;

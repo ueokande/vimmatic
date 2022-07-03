@@ -1,9 +1,12 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import MarkUseCase from "../usecases/MarkUseCase";
 
 @injectable()
 export default class MarkController {
-  constructor(private markUseCase: MarkUseCase) {}
+  constructor(
+    @inject(MarkUseCase)
+    private readonly markUseCase: MarkUseCase
+  ) {}
 
   setGlobal(key: string, x: number, y: number): Promise<void> {
     return this.markUseCase.setGlobal(key, x, y);

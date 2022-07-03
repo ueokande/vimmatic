@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
 
 export default interface ConsoleClient {
@@ -5,6 +6,7 @@ export default interface ConsoleClient {
   error(text: string): Promise<void>;
 }
 
+@injectable()
 export class ConsoleClientImpl implements ConsoleClient {
   async info(text: string): Promise<void> {
     await browser.runtime.sendMessage({

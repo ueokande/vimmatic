@@ -1,9 +1,12 @@
+import { injectable } from "inversify";
+
 export default interface ClipboardRepository {
   read(): string;
 
   write(text: string): void;
 }
 
+@injectable()
 export class ClipboardRepositoryImpl {
   read(): string {
     const textarea = window.document.createElement("textarea");

@@ -1,9 +1,11 @@
+import { injectable } from "inversify";
 import * as doms from "../../shared/utils/dom";
 
 export default interface FocusPresenter {
   focusFirstElement(): boolean;
 }
 
+@injectable()
 export class FocusPresenterImpl implements FocusPresenter {
   focusFirstElement(): boolean {
     const inputTypes = ["email", "number", "search", "tel", "text", "url"];

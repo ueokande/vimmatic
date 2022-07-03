@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 export default interface HintKeyRepository {
   reset(charset: string): void;
 
@@ -12,6 +14,7 @@ const current: {
   counter: [],
 };
 
+@injectable()
 export class HintKeyRepositoryImpl implements HintKeyRepository {
   reset(charset: string): void {
     if (charset.length === 0) {

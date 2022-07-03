@@ -1,5 +1,7 @@
+import { injectable } from "inversify";
 import TabRepository, { Tab } from "../TabRepository";
 
+@injectable()
 export default class TabRepositoryImpl implements TabRepository {
   async queryTabs(query: string, excludePinned: boolean): Promise<Tab[]> {
     const tabs = await browser.tabs.query({ currentWindow: true });

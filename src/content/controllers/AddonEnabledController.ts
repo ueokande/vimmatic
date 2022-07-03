@@ -1,10 +1,13 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import * as messages from "../../shared/messages";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
 
 @injectable()
 export default class AddonEnabledController {
-  constructor(private addonEnabledUseCase: AddonEnabledUseCase) {}
+  constructor(
+    @inject(AddonEnabledUseCase)
+    private readonly addonEnabledUseCase: AddonEnabledUseCase
+  ) {}
 
   getAddonEnabled(
     _message: messages.AddonEnabledQueryMessage

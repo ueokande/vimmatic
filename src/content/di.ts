@@ -24,57 +24,41 @@ import { ScrollPresenterImpl } from "./presenters/ScrollPresenter";
 import { SettingClientImpl } from "./client/SettingClient";
 import { SettingRepositoryImpl } from "./repositories/SettingRepository";
 import { TabsClientImpl } from "./client/TabsClient";
-import { container } from "tsyringe";
 import OperatorFactoryImpl from "./operators/impls/OperatorFactoryImpl";
 import { URLRepositoryImpl } from "./operators/impls/URLRepository";
 import { FindPresenterImpl } from "./presenters/FindPresenter";
+import { Container } from "inversify";
 
-container.register("FollowMasterClient", {
-  useValue: new FollowMasterClientImpl(window.top),
-});
-container.register("AddonEnabledRepository", {
-  useClass: AddonEnabledRepositoryImpl,
-});
-container.register("AddonIndicatorClient", {
-  useClass: AddonIndicatorClientImpl,
-});
-container.register("AddressRepository", { useClass: AddressRepositoryImpl });
-container.register("ClipboardRepository", {
-  useClass: ClipboardRepositoryImpl,
-});
-container.register("ConsoleClient", { useClass: ConsoleClientImpl });
-container.register("ConsoleFramePresenter", {
-  useClass: ConsoleFramePresenterImpl,
-});
-container.register("FocusPresenter", { useClass: FocusPresenterImpl });
-container.register("FollowKeyRepository", {
-  useClass: FollowKeyRepositoryImpl,
-});
-container.register("FollowMasterRepository", {
-  useClass: FollowMasterRepositoryImpl,
-});
-container.register("FollowPresenter", { useClass: FollowPresenterImpl });
-container.register("FollowSlaveClientFactory", {
-  useClass: FollowSlaveClientFactoryImpl,
-});
-container.register("FollowSlaveRepository", {
-  useClass: FollowSlaveRepositoryImpl,
-});
-container.register("HintKeyRepository", {
-  useClass: HintKeyRepositoryImpl,
-});
-container.register("KeymapRepository", { useClass: KeymapRepositoryImpl });
-container.register("MarkClient", { useClass: MarkClientImpl });
-container.register("MarkKeyRepository", { useClass: MarkKeyRepositoryImpl });
-container.register("MarkRepository", { useClass: MarkRepositoryImpl });
-container.register("NavigationPresenter", {
-  useClass: NavigationPresenterImpl,
-});
-container.register("OperationClient", { useClass: OperationClientImpl });
-container.register("ScrollPresenter", { useClass: ScrollPresenterImpl });
-container.register("FindPresenter", { useClass: FindPresenterImpl });
-container.register("SettingClient", { useClass: SettingClientImpl });
-container.register("SettingRepository", { useClass: SettingRepositoryImpl });
-container.register("URLRepository", { useClass: URLRepositoryImpl });
-container.register("TabsClient", { useClass: TabsClientImpl });
-container.register("OperatorFactory", { useClass: OperatorFactoryImpl });
+const container = new Container({ autoBindInjectable: true });
+
+container
+  .bind("FollowMasterClient")
+  .toConstantValue(new FollowMasterClientImpl(window.top));
+container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
+container.bind("AddonIndicatorClient").to(AddonIndicatorClientImpl);
+container.bind("AddressRepository").to(AddressRepositoryImpl);
+container.bind("ClipboardRepository").to(ClipboardRepositoryImpl);
+container.bind("ConsoleClient").to(ConsoleClientImpl);
+container.bind("ConsoleFramePresenter").to(ConsoleFramePresenterImpl);
+container.bind("FocusPresenter").to(FocusPresenterImpl);
+container.bind("FollowKeyRepository").to(FollowKeyRepositoryImpl);
+container.bind("FollowMasterRepository").to(FollowMasterRepositoryImpl);
+container.bind("FollowPresenter").to(FollowPresenterImpl);
+container.bind("FollowSlaveClientFactory").to(FollowSlaveClientFactoryImpl);
+container.bind("FollowSlaveRepository").to(FollowSlaveRepositoryImpl);
+container.bind("HintKeyRepository").to(HintKeyRepositoryImpl);
+container.bind("KeymapRepository").to(KeymapRepositoryImpl);
+container.bind("MarkClient").to(MarkClientImpl);
+container.bind("MarkKeyRepository").to(MarkKeyRepositoryImpl);
+container.bind("MarkRepository").to(MarkRepositoryImpl);
+container.bind("NavigationPresenter").to(NavigationPresenterImpl);
+container.bind("OperationClient").to(OperationClientImpl);
+container.bind("ScrollPresenter").to(ScrollPresenterImpl);
+container.bind("FindPresenter").to(FindPresenterImpl);
+container.bind("SettingClient").to(SettingClientImpl);
+container.bind("SettingRepository").to(SettingRepositoryImpl);
+container.bind("URLRepository").to(URLRepositoryImpl);
+container.bind("TabsClient").to(TabsClientImpl);
+container.bind("OperatorFactory").to(OperatorFactoryImpl);
+
+export { container };

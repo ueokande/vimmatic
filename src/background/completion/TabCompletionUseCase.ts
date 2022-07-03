@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 import TabItem from "./TabItem";
 import TabRepository, { Tab } from "./TabRepository";
 import TabPresenter from "../presenters/TabPresenter";

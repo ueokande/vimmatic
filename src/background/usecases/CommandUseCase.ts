@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+import { injectable, inject } from "inversify";
 import * as operations from "../../shared/operations";
 import * as parsers from "./parsers";
 import * as urls from "../../shared/urls";
@@ -18,13 +18,17 @@ export default class CommandUseCase {
     private readonly tabPresenter: TabPresenter,
     @inject("WindowPresenter")
     private readonly windowPresenter: WindowPresenter,
+    @inject(HelpPresenter)
     private readonly helpPresenter: HelpPresenter,
     @inject("CachedSettingRepository")
     private readonly cachedSettingRepository: CachedSettingRepository,
+    @inject(BookmarkRepository)
     private readonly bookmarkRepository: BookmarkRepository,
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,
+    @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
+    @inject(RepeatUseCase)
     private readonly repeatUseCase: RepeatUseCase
   ) {}
 

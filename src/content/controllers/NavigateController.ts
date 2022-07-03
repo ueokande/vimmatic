@@ -1,10 +1,13 @@
-import { injectable } from "tsyringe";
+import { injectable, inject } from "inversify";
 import { Message } from "../../shared/messages";
 import NavigateUseCase from "../usecases/NavigateUseCase";
 
 @injectable()
 export default class NavigateController {
-  constructor(private navigateUseCase: NavigateUseCase) {}
+  constructor(
+    @inject(NavigateUseCase)
+    private readonly navigateUseCase: NavigateUseCase
+  ) {}
 
   openHistoryNext(_m: Message): Promise<void> {
     this.navigateUseCase.openHistoryNext();
