@@ -16,14 +16,14 @@
     {
       "all_frames": true,
       "matches": [ "<all_urls>" ],
-      "js": [ "build/content.js" ],
+      "js": [ "dist/content.js" ],
       "run_at": "document_start",
       "match_about_blank": true
     }
   ],
   "background": {
     "scripts": [
-      "build/background.js"
+      "dist/background.js"
     ]
   },
   "permissions": [
@@ -37,11 +37,12 @@
     "browserSettings"
   ],
   "web_accessible_resources": [
-    "build/console.html",
-    "build/console.js"
+    "dist/console.html",
+    "dist/console.css",
+    "dist/console.js"
   ],
   "options_ui": {
-    "page": "build/settings.html"
+    "page": "dist/settings.html"
   },
   "browser_action": {
     "default_icon": {
