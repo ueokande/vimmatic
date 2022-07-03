@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import KeymapUseCase from "../../../src/content/usecases/KeymapUseCase";
 import SettingRepository from "../../../src/content/repositories/SettingRepository";
 import Settings from "../../../src/shared/settings/Settings";

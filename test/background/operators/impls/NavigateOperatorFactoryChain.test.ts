@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import NavigateOperatorFactoryChain from "../../../../src/background/operators/impls/NavigateOperatorFactoryChain";
 import MockTabPresenter from "../../mock/MockTabPresenter";
 import MockNavigateClient from "../../mock/MockNavigateClient";

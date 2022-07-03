@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import InternalOperatorFactoryChain from "../../../../src/background/operators/impls/InternalOperatorFactoryChain";
 import MockWindowPresenter from "../../mock/MockWindowPresenter";
 import MockTabPresenter from "../../mock/MockTabPresenter";

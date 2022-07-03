@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import SettingUseCase from "../../../src/background/usecases/SettingUseCase";
 import SettingRepository from "../../../src/background/repositories/SettingRepository";
 import SettingData, { JSONTextSettings } from "../../../src/shared/SettingData";

@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import TabRepositoryImpl from "../../../src/background/completion/impl/TabRepositoryImpl";
 import { Tab } from "../../../src/background/completion/TabRepository";
 import TabPresenter from "../../../src/background/presenters/TabPresenter";

@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import CompletionType from "../../../src/shared/CompletionType";
 import BookmarkRepository, {
   BookmarkItem,

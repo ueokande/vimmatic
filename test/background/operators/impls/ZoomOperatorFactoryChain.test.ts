@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import "@abraham/reflection";
 import ZoomOperatorFactoryChain from "../../../../src/background/operators/impls/ZoomOperatorFactoryChain";
 import MockZoomPresenter from "../../mock/MockZoomPresenter";
 import ZoomInOperator from "../../../../src/background/operators/impls/ZoomInOperator";
