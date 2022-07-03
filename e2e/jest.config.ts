@@ -4,7 +4,7 @@ const config: Config.InitialOptions = {
   verbose: true,
   testMatch: ["**/e2e/**/*.test.+(ts|tsx|js|jsx)"],
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.(ts|tsx)$": "esbuild-jest",
   },
   setupFiles: ["./main.ts"],
   testTimeout: 20000,
