@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+
+const fs = require('node:fs/promises');
+const { build } = require('esbuild')
+
+const buildScripts = async () => {
+  await build({
+    entryPoints: {
+      console: 'src/console/index.tsx',
+      content: 'src/content/index.ts',
+      background: 'src/background/index.ts',
+      settings: 'src/settings/index.tsx',
+    },
+    outdir: './dist',
+    bundle: true,
+    target: 'firefox91',
+    sourcemap: 'inline',
+    platform: 'browser',
+  })
+}
+
+const buildAssets = async () => {
+  await fs.copyFile('src/console/index.css', 'dist/console.css');
+  await fs.copyFile('src/console/index.html', 'dist/console.html');
+  await fs.copyFile('src/settings/index.html', 'dist/settings.html');
+}
+
+(async() => {
+  await buildScripts();
+  await buildAssets();
+})()

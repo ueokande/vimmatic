@@ -13,7 +13,7 @@ export default class OptionPage {
   static async open(lanthan: Lanthan) {
     const url = await lanthan
       .getWebExtBrowser()
-      .runtime.getURL("build/settings.html");
+      .runtime.getURL("dist/settings.html");
     await lanthan.getWebDriver().navigate().to(url);
     return new OptionPage(lanthan);
   }
