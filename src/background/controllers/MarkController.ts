@@ -4,7 +4,7 @@ import MarkUseCase from "../usecases/MarkUseCase";
 @injectable()
 export default class MarkController {
   constructor(
-    @inject(MarkUseCase)   
+    @inject(MarkUseCase)
     private readonly markUseCase: MarkUseCase
   ) {}
 

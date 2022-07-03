@@ -6,7 +6,7 @@ import * as messages from "../../shared/messages";
 export default class FollowMasterController {
   constructor(
     @inject(FollowMasterUseCase)
-    private readonly followMasterUseCase: FollowMasterUseCase,
+    private readonly followMasterUseCase: FollowMasterUseCase
   ) {}
 
   followStart(m: messages.FollowStartMessage): void {

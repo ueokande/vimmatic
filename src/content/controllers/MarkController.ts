@@ -6,7 +6,7 @@ import MarkUseCase from "../usecases/MarkUseCase";
 export default class MarkController {
   constructor(
     @inject(MarkUseCase)
-    private readonly markUseCase: MarkUseCase,
+    private readonly markUseCase: MarkUseCase
   ) {}
 
   scrollTo(message: messages.TabScrollToMessage) {

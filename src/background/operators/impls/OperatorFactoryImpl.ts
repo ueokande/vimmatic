@@ -30,7 +30,7 @@ export class OperatorFactoryImpl implements OperatorFactory {
     @inject(FindOperatorFactoryChain)
     findOperatorFactoryChain: FindOperatorFactoryChain,
     @inject("RepeatRepository")
-    repeatRepository: RepeatRepository,
+    repeatRepository: RepeatRepository
   ) {
     this.factoryChains = [
       commandOperatorFactoryChain,

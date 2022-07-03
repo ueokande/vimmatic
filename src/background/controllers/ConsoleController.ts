@@ -5,7 +5,7 @@ import ConsoleUseCase from "../usecases/ConsoleUseCase";
 export default class ConsoleController {
   constructor(
     @inject(ConsoleUseCase)
-    private readonly consoleUseCase: ConsoleUseCase,
+    private readonly consoleUseCase: ConsoleUseCase
   ) {}
 
   resize(senderTabId: number, width: number, height: number) {

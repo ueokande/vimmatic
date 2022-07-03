@@ -16,7 +16,7 @@ export default interface CachedSettingRepository {
 
 @injectable()
 export class CachedSettingRepositoryImpl implements CachedSettingRepository {
-  private readonly cache = new MemoryStorage();;
+  private readonly cache = new MemoryStorage();
 
   get(): Promise<Settings> {
     const data = this.cache.get(CACHED_SETTING_KEY);

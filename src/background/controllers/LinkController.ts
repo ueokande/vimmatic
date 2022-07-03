@@ -5,7 +5,7 @@ import LinkUseCase from "../usecases/LinkUseCase";
 export default class LinkController {
   constructor(
     @inject(LinkUseCase)
-    private readonly linkUseCase: LinkUseCase,
+    private readonly linkUseCase: LinkUseCase
   ) {}
 
   openToTab(url: string, tabId: number): Promise<void> {

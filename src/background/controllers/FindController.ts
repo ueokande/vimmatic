@@ -5,7 +5,7 @@ import StartFindUseCase from "../usecases/StartFindUseCase";
 export default class FindController {
   constructor(
     @inject(StartFindUseCase)
-    private startFindUseCase: StartFindUseCase,
+    private startFindUseCase: StartFindUseCase
   ) {}
 
   startFind(tabId: number, keyword?: string): Promise<void> {

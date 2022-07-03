@@ -1,4 +1,4 @@
-import "@abraham/reflection"
+import "@abraham/reflection";
 import Application from "./Application";
 import { container } from "./di";
 
