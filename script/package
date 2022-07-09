@@ -12,7 +12,6 @@ const resources = () => {
     'resources/enabled_32x32.png',
     manifest.options_ui.page,
     'dist/settings.js',
-    'dist/settings.css',
   ].concat(
     Object.values(manifest.icons),
     manifest.background.scripts,
