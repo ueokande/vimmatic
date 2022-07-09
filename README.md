@@ -1,24 +1,16 @@
 # Vimmatic
 
-[![Join the chat room on Gitter for vimmatic/vimmatic](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vimmatic/vimmatic)
 [![GitHub Actions](https://github.com/ueokande/vimmatic/workflows/Build/badge.svg)](https://github.com/ueokande/vimmatic/actions?query=workflow%3ABuild)
 
-Vimmatic is a Firefox add-on which allows you to easily navigate the web by
-keyboard. Since version 57, Firefox has migrated to the WebExtensions API and
-has dropped support for legacy add-ons. Vimmatic is a new choice for Vim users
-since it uses the WebExtensions API.
+:warning: **The project status is experimental.** :warning: 
 
-To get Vimmatic, install it from [Firefox add-ons][AMO].
-
+Vimmatic is a chrome extension that allows you to navigate the web by your keyboard easily.
+Vimmatic is a new choice to browse websites for Vim users.
 For usage and more detailed information, check out our [documentations][documentations].
-
-## Compatibility
-
-- Firefox 78 ESR
 
 ## Copyright
 
-Copyright © 2017-2020 by Shin'ya Ueoka
+Copyright © Shin'ya Ueoka
 
 ## Licence
 
