@@ -55,7 +55,7 @@
     "lanthan": "0.0.2",
     "nodemon": "^2.0.18",
     "prettier": "2.5.1",
-    "prettier-eslint": "13.0.0",
+    "prettier-eslint": "15.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.6",
