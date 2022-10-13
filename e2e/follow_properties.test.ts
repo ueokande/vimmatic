@@ -1,18 +1,31 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver, Key } from "selenium-webdriver";
-import Page from "./lib/Page";
 import SettingRepository from "./lib/SettingRepository";
 import Settings from "../src/shared/settings/Settings";
 
-describe("follow properties test", () => {
-  const server = new TestServer().receiveContent(
-    "/",
-    `
+const setupHintchars = async (api) => {
+  await new SettingRepository(api).saveJSON(
+    Settings.fromJSON({
+      keymaps: {
+        ":": { type: "command.show" },
+        f: { type: "follow.start", newTab: false },
+        F: { type: "follow.start", newTab: true, background: false },
+        "<C-F>": { type: "follow.start", newTab: true, background: true },
+      },
+      properties: {
+        hintchars: "jk",
+      },
+    })
+  );
+};
+
+const resetSettings = async (api) => {
+  await new SettingRepository(api).saveJSON(Settings.fromJSON({}));
+};
+
+const server = new TestServer().receiveContent(
+  "/",
+  `
     <!DOCTYPE html>
     <html lang="en"><body>
       <a href="/">link1</a>
@@ -21,121 +34,73 @@ describe("follow properties test", () => {
       <a href="/">link4</a>
       <a href="/">link5</a>
     </body></html>`
-  );
+);
 
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
-  let page: Page;
+test.beforeAll(async () => {
+  await server.start();
+});
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
+test.afterEach(async ({ api }) => {
+  await resetSettings(api);
+});
 
-    await new SettingRepository(browser).saveJSON(
-      Settings.fromJSON({
-        keymaps: {
-          ":": { type: "command.show" },
-          f: { type: "follow.start", newTab: false },
-          F: { type: "follow.start", newTab: true, background: false },
-          "<C-F>": { type: "follow.start", newTab: true, background: true },
-        },
-        properties: {
-          hintchars: "jk",
-        },
-      })
-    );
+test.afterAll(async () => {
+  await server.stop();
+});
 
-    await server.start();
-  });
+test("should show hints with hintchars by settings", async ({ page, api }) => {
+  await setupHintchars(api);
+  await page.goto(server.url());
+  await page.keyboard.press("f");
+  await page.locator(".vimmatic-hint").first().waitFor();
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+  let hints = await page.locator(".vimmatic-hint:visible").allInnerTexts();
+  expect(hints).toEqual(["J", "K", "JJ", "JK", "KJ"]);
 
-  beforeEach(async () => {
-    page = await Page.navigateTo(webdriver, server.url());
-  });
+  await page.keyboard.press("j");
 
-  afterEach(async () => {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs.slice(1)) {
-      await browser.tabs.remove(tab.id);
-    }
-  });
+  hints = await page.locator(".vimmatic-hint:visible").allInnerTexts();
+  expect(hints).toEqual(["J", "JJ", "JK"]);
+});
 
-  it("should show hints with hintchars by settings", async () => {
-    await page.sendKeys("f");
+test("should open link into a new tab", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-    let hints = await page.waitAndGetHints();
-    assert.strictEqual(hints.length, 5);
+  await setupHintchars(api);
+  await page.goto(server.url());
+  await page.keyboard.press("Shift+F");
+  await page.locator(".vimmatic-hint").first().waitFor();
+  await page.keyboard.press("j");
+  await page.keyboard.press("j");
 
-    assert.strictEqual(hints[0].text, "J");
-    assert.strictEqual(hints[1].text, "K");
-    assert.strictEqual(hints[2].text, "JJ");
-    assert.strictEqual(hints[3].text, "JK");
-    assert.strictEqual(hints[4].text, "KJ");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ active: false }, { active: true }]);
+});
 
-    await page.sendKeys("j");
-    hints = await page.waitAndGetHints();
+test("should open link into new tab in background", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-    assert.strictEqual(hints[0].displayed, true);
-    assert.strictEqual(hints[1].displayed, false);
-    assert.strictEqual(hints[2].displayed, true);
-    assert.strictEqual(hints[3].displayed, true);
-    assert.strictEqual(hints[4].displayed, false);
-  });
+  await setupHintchars(api);
+  await page.goto(server.url());
+  await page.keyboard.press("Control+f");
+  await page.locator(".vimmatic-hint").first().waitFor();
+  await page.keyboard.press("j");
+  await page.keyboard.press("j");
 
-  it("should open tab in background by background:false", async () => {
-    await page.sendKeys(Key.SHIFT, "f");
-    await page.waitAndGetHints();
-    await page.sendKeys("jj");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ active: true }, { active: false }]);
+});
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs[0].active, false);
-      assert.strictEqual(tabs[1].active, true);
-    });
-  });
+test("should show hints with set hintchars", async ({ page }) => {
+  await page.goto(server.url());
+  await page.console.exec("set hintchars=abc");
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
-  it("should open tab in background by background:true", async () => {
-    await page.sendKeys(Key.CONTROL, "f");
-    await page.waitAndGetHints();
-    await page.sendKeys("jj");
+  await page.keyboard.press("f");
+  await page.locator(".vimmatic-hint").first().waitFor();
+  const hints = await page.locator(".vimmatic-hint:visible").allInnerTexts();
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs[0].active, true);
-      assert.strictEqual(tabs[1].active, false);
-    });
-  });
-
-  it("should show hints with hintchars by settings", async () => {
-    const console = await page.showConsole();
-    await console.execCommand("set hintchars=abc");
-    await (webdriver.switchTo() as any).parentFrame();
-
-    await page.sendKeys("f");
-    let hints = await page.waitAndGetHints();
-    assert.strictEqual(hints.length, 5);
-    assert.strictEqual(hints[0].text, "A");
-    assert.strictEqual(hints[1].text, "B");
-    assert.strictEqual(hints[2].text, "C");
-    assert.strictEqual(hints[3].text, "AA");
-    assert.strictEqual(hints[4].text, "AB");
-
-    await page.sendKeys("a");
-    hints = await page.waitAndGetHints();
-    assert.strictEqual(hints[0].displayed, true);
-    assert.strictEqual(hints[1].displayed, false);
-    assert.strictEqual(hints[2].displayed, false);
-    assert.strictEqual(hints[3].displayed, true);
-    assert.strictEqual(hints[4].displayed, true);
-  });
+  expect(hints).toEqual(["A", "B", "C", "AA", "AB"]);
 });

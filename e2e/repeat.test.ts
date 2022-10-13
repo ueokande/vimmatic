@@ -1,74 +1,79 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
 
-describe("tab test", () => {
-  const server = new TestServer().receiveContent("/*", "ok");
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
+const server = new TestServer().receiveContent(
+  "/",
+  `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`
+);
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    await server.start();
-  });
+test.beforeAll(async () => {
+  await server.start();
+});
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+test.afterAll(async () => {
+  await server.stop();
+});
 
-  it("repeats last command", async () => {
-    let page = await Page.navigateTo(webdriver, server.url());
-    const console = await page.showConsole();
-    await console.execCommand(`tabopen ${server.url("/newtab")}`);
+test("repeats last command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-    await eventually(async () => {
-      const current = await browser.tabs.query({ url: `*://*/newtab` });
-      assert.strictEqual(current.length, 1);
+  await page.console.exec(`tabopen about:blank?newtab`);
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: "about:blank" }, { url: "about:blank?newtab" }]);
+
+  await page.keyboard.press(".");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: "about:blank?newtab" },
+      { url: "about:blank?newtab" },
+    ]);
+});
+
+test("repeats last operation", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  for (let i = 1; i <= 5; ++i) {
+    await api.tabs.create({ url: `about:blank?tab${i}`, windowId });
+  }
+
+  await page.keyboard.press("d");
+  await page.keyboard.press(".");
+  await page.keyboard.press(".");
+
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: "about:blank?tab1" },
+      { url: "about:blank?tab2" },
+    ]);
+});
+
+test("repeats scroll 3-times", async ({ page }) => {
+  await page.goto(server.url("/"));
+  await page.keyboard.press("3");
+  await page.keyboard.press("j");
+
+  const y = await page.evaluate(() => window.pageYOffset);
+  expect(y).toBe(64 * 3);
+});
+
+test("repeats tab deletion 3-times", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  for (let i = 1; i <= 5; ++i) {
+    await api.tabs.create({
+      url: `about:blank?tab${i}`,
+      windowId,
     });
+  }
 
-    page = await Page.currentContext(webdriver);
-    await page.sendKeys(".");
+  await page.keyboard.press("d");
+  await page.keyboard.press("3");
+  await page.keyboard.press(".");
 
-    await eventually(async () => {
-      const current = await browser.tabs.query({ url: `*://*/newtab` });
-      assert.strictEqual(current.length, 2);
-    });
-  });
-
-  it("repeats last operation", async () => {
-    for (let i = 1; i < 5; ++i) {
-      await browser.tabs.create({ url: server.url("/#" + i) });
-    }
-    const before = await browser.tabs.query({});
-
-    let page = await Page.currentContext(webdriver);
-    await page.sendKeys("d");
-
-    await eventually(async () => {
-      const current = await browser.tabs.query({});
-      assert.strictEqual(current.length, before.length - 1);
-    });
-
-    await browser.tabs.update(before[2].id, { active: true });
-    page = await Page.currentContext(webdriver);
-    await page.sendKeys(".");
-
-    await eventually(async () => {
-      const current = await browser.tabs.query({});
-      assert.strictEqual(current.length, before.length - 2);
-    });
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: "about:blank" }, { url: "about:blank?tab1" }]);
 });

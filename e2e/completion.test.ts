@@ -1,95 +1,107 @@
-import * as path from "path";
-import * as assert from "assert";
+import { test, expect } from "./lib/fixture";
 
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver, Key } from "selenium-webdriver";
-import Page from "./lib/Page";
+test("should shows all commands on empty line", async ({ page }) => {
+  await page.console.show();
 
-describe("general completion test", () => {
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let page: Page;
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([{ title: "Console Command", items: { length: 11 } }]);
+});
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-  });
+test("should shows commands filtered by prefix", async ({ page }) => {
+  await page.console.show();
+  await page.console.type("b");
 
-  afterAll(async () => {
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Console Command",
+        items: [{ text: "buffer" }, { text: "bdelete" }, { text: "bdeletes" }],
+      },
+    ]);
+});
 
-  beforeEach(async () => {
-    page = await Page.navigateTo(webdriver, "about:blank");
-  });
+// > byffer
+// > bdelete
+// > bdeletes
+// : b
+test("selects completion items by <Tab>/<S-Tab> keys", async ({ page }) => {
+  await page.console.show();
+  await page.console.type("b");
 
-  it("should shows all commands on empty line", async () => {
-    const console = await page.showConsole();
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Console Command",
+        items: [
+          { text: "buffer", highlight: false },
+          { text: "bdelete", highlight: false },
+          { text: "bdeletes", highlight: false },
+        ],
+      },
+    ]);
+  await expect.poll(() => page.console.getCommand()).toBe("b");
 
-    const groups = await console.getCompletions();
-    assert.strictEqual(groups.length, 1);
-    assert.strictEqual(groups[0].title, "Console Command");
-    assert.strictEqual(groups[0].items.length, 11);
-  });
+  await page.keyboard.press("Tab");
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Console Command",
+        items: [
+          { text: "buffer", highlight: true },
+          { text: "bdelete", highlight: false },
+          { text: "bdeletes", highlight: false },
+        ],
+      },
+    ]);
+  await expect.poll(() => page.console.getCommand()).toBe("buffer");
 
-  it("should shows commands filtered by prefix", async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("b");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Console Command",
+        items: [
+          { text: "buffer", highlight: false },
+          { text: "bdelete", highlight: false },
+          { text: "bdeletes", highlight: true },
+        ],
+      },
+    ]);
+  await expect.poll(() => page.console.getCommand()).toBe("bdeletes");
 
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.ok(items[0].text.startsWith("buffer"));
-      assert.ok(items[1].text.startsWith("bdelete"));
-      assert.ok(items[2].text.startsWith("bdeletes"));
-    });
-  });
+  await page.keyboard.press("Tab");
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Console Command",
+        items: [
+          { text: "buffer", highlight: false },
+          { text: "bdelete", highlight: false },
+          { text: "bdeletes", highlight: false },
+        ],
+      },
+    ]);
+  await expect.poll(() => page.console.getCommand()).toBe("b");
 
-  // > byffer
-  // > bdelete
-  // > bdeletes
-  // : b
-  it("selects completion items by <Tab>/<S-Tab> keys", async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("b");
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.strictEqual(items.length, 3);
-    });
-
-    await console.sendKeys(Key.TAB);
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.ok(items[0].highlight);
-      assert.strictEqual(await console.currentValue(), "buffer");
-    });
-
-    await console.sendKeys(Key.TAB, Key.TAB);
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.ok(items[2].highlight);
-      assert.strictEqual(await console.currentValue(), "bdeletes");
-    });
-
-    await console.sendKeys(Key.TAB);
-    await eventually(async () => {
-      assert.strictEqual(await console.currentValue(), "b");
-    });
-
-    await console.sendKeys(Key.SHIFT, Key.TAB);
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.ok(items[2].highlight);
-      assert.strictEqual(await console.currentValue(), "bdeletes");
-    });
-  });
+  await page.keyboard.press("Shift+Tab");
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Console Command",
+        items: [
+          { text: "buffer", highlight: false },
+          { text: "bdelete", highlight: false },
+          { text: "bdeletes", highlight: true },
+        ],
+      },
+    ]);
+  await expect.poll(() => page.console.getCommand(page)).toBe("bdeletes");
 });

@@ -1,63 +1,27 @@
-import * as path from "path";
-import * as assert from "assert";
+import { test, expect } from "./lib/fixture";
 
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
+test("should zoom in by zi", async ({ page, api }) => {
+  const tab = await api.tabs.getCurrent();
+  const before = await api.tabs.getZoom(tab.id);
 
-describe("zoom test", () => {
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
-  let tab: any;
-  let page: Page;
+  await page.keyboard.type("zi");
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    tab = (await browser.tabs.query({}))[0];
-    page = await Page.currentContext(webdriver);
-  });
+  await expect.poll(() => api.tabs.getZoom(tab.id)).toBeGreaterThan(before);
+});
 
-  afterAll(async () => {
-    await lanthan.quit();
-  });
+test("should zoom out by zo", async ({ page, api }) => {
+  const tab = await api.tabs.getCurrent();
+  const before = await api.tabs.getZoom(tab.id);
 
-  beforeEach(async () => {
-    await webdriver.navigate().to("about:blank");
-  });
+  await page.keyboard.type("zo");
 
-  it("should zoom in by zi", async () => {
-    const before = await browser.tabs.getZoom(tab.id);
-    await page.sendKeys("zi");
+  await expect.poll(() => api.tabs.getZoom(tab.id)).toBeLessThan(before);
+});
 
-    await eventually(async () => {
-      const actual = await browser.tabs.getZoom(tab.id);
-      assert.ok(before < actual);
-    });
-  });
+test("should reset zoom by zz", async ({ page, api }) => {
+  const tab = await api.tabs.getCurrent();
+  await api.tabs.setZoom(tab.id, 2);
+  await page.keyboard.type("zz");
 
-  it("should zoom out by zo", async () => {
-    const before = await browser.tabs.getZoom(tab.id);
-    await page.sendKeys("zo");
-
-    await eventually(async () => {
-      const actual = await browser.tabs.getZoom(tab.id);
-      assert.ok(before > actual);
-    });
-  });
-
-  it("should reset zoom by zz", async () => {
-    await browser.tabs.setZoom(tab.id, 2);
-    await page.sendKeys("zz");
-
-    await eventually(async () => {
-      const actual = await browser.tabs.getZoom(tab.id);
-      assert.strictEqual(actual, 1);
-    });
-  });
+  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1);
 });

@@ -1,93 +1,69 @@
-import * as path from "path";
-import * as assert from "assert";
+import { test, expect } from "./lib/fixture";
 
-import TestServer from "./lib/TestServer";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver, Key } from "selenium-webdriver";
-import Page from "./lib/Page";
+test("open console with :", async ({ page }) => {
+  await page.console.show();
 
-describe("console test", () => {
-  const server = new TestServer().receiveContent(
-    "/",
-    `<!DOCTYPE html><html lang="en"><head><title>Hello, world!</title></head></html>`
-  );
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let page: Page;
+  await expect.poll(() => page.console.getCommand()).toBe("");
+});
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    await server.start();
-  });
+test("open console with open command by o", async ({ page }) => {
+  await page.keyboard.press("o");
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+  await expect.poll(() => page.console.getCommand()).toBe("open ");
+});
 
-  beforeEach(async () => {
-    page = await Page.navigateTo(webdriver, server.url());
-  });
+test("open console with open command and current URL by O", async ({
+  page,
+}) => {
+  await page.keyboard.press("Shift+O");
 
-  it("open console with :", async () => {
-    await page.sendKeys(":");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), "");
-  });
+  await expect.poll(() => page.console.getCommand()).toBe("open about:blank");
+});
 
-  it("open console with open command by o", async () => {
-    await page.sendKeys("o");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), "open ");
-  });
+test("open console with tabopen command by t", async ({ page }) => {
+  await page.keyboard.press("t");
 
-  it("open console with open command and current URL by O", async () => {
-    await page.sendKeys(Key.SHIFT, "o");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), `open ${server.url()}`);
-  });
+  await expect.poll(() => page.console.getCommand()).toBe("tabopen ");
+});
 
-  it("open console with tabopen command by t", async () => {
-    await page.sendKeys("t");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), "tabopen ");
-  });
+test("open console with tabopen command and current URL by T", async ({
+  page,
+}) => {
+  await page.keyboard.press("Shift+T");
 
-  it("open console with tabopen command and current URL by T", async () => {
-    await page.sendKeys(Key.SHIFT, "t");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), `tabopen ${server.url()}`);
-  });
+  await expect
+    .poll(() => page.console.getCommand())
+    .toBe("tabopen about:blank");
+});
 
-  it("open console with winopen command by w", async () => {
-    await page.sendKeys("w");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), `winopen `);
-  });
+test("open console with winopen command by w", async ({ page }) => {
+  await page.keyboard.press("w");
 
-  it("open console with winopen command and current URL by W", async () => {
-    await page.sendKeys(Key.SHIFT, "W");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), `winopen ${server.url()}`);
-  });
+  await expect.poll(() => page.console.getCommand()).toBe("winopen ");
+});
 
-  it("open console with buffer command by b", async () => {
-    await page.sendKeys("b");
-    const console = await page.getConsole();
-    assert.strictEqual(await console.currentValue(), `buffer `);
-  });
+test("open console with winopen command and current URL by W", async ({
+  page,
+}) => {
+  await page.keyboard.press("Shift+W");
 
-  it("open console with addbookmark command with title by a", async () => {
-    await page.sendKeys("a");
-    const console = await page.getConsole();
-    assert.strictEqual(
-      await console.currentValue(),
-      `addbookmark Hello, world!`
-    );
-  });
+  await expect
+    .poll(() => page.console.getCommand())
+    .toBe("winopen about:blank");
+});
+
+test("open console with buffer command by b", async ({ page }) => {
+  await page.keyboard.press("b");
+
+  await expect.poll(() => page.console.getCommand()).toBe("buffer ");
+});
+
+test("open console with addbookmark command with title by a", async ({
+  page,
+}) => {
+  await page.keyboard.press("a");
+
+  await expect
+    .poll(() => page.console.getCommand())
+    .toBe("addbookmark New Tab");
 });

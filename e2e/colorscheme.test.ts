@@ -1,60 +1,45 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import { Options as FirefoxOptions } from "selenium-webdriver/firefox";
-import Page from "./lib/Page";
 
-describe("colorscheme test", () => {
-  const server = new TestServer();
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let page: Page;
+const server = new TestServer();
 
-  beforeAll(async () => {
-    const opts = (new FirefoxOptions() as any).setPreference(
-      "ui.systemUsesDarkTheme",
-      1
-    );
+test.beforeAll(async () => {
+  await server.start();
+});
 
-    lanthan = await Builder.forBrowser("firefox")
-      .setOptions(opts)
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
+test.afterAll(async () => {
+  await server.stop();
+});
 
-    await server.start();
-  });
+test("changes color scheme by set command", async ({ page }) => {
+  await page.goto(server.url());
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+  await page.console.show();
+  await expect
+    .poll(() => page.console.getBackgroundColor())
+    .toBe("rgb(255, 255, 255)");
 
-  beforeEach(async () => {
-    page = await Page.navigateTo(webdriver, server.url());
-  });
+  await page.keyboard.type("set colorscheme=dark");
+  await page.keyboard.press("Enter");
 
-  it("changes color scheme by set command", async () => {
-    let console = await page.showConsole();
+  await page.console.show();
+  await expect
+    .poll(() => page.console.getBackgroundColor())
+    .toBe("rgb(5, 32, 39)");
 
-    await console.execCommand("set colorscheme=dark");
-    await (webdriver.switchTo() as any).parentFrame();
-    console = await page.showConsole();
-    assert.strictEqual(await console.getTheme(), "dark");
+  await page.keyboard.type("set colorscheme=light");
+  await page.keyboard.press("Enter");
 
-    await console.execCommand("set colorscheme=light");
-    await (webdriver.switchTo() as any).parentFrame();
-    console = await page.showConsole();
-    assert.strictEqual(await console.getTheme(), "light");
+  await page.console.show();
+  await expect
+    .poll(() => page.console.getBackgroundColor())
+    .toBe("rgb(255, 255, 255)");
 
-    await console.execCommand("set colorscheme=system");
-    await (webdriver.switchTo() as any).parentFrame();
-    console = await page.showConsole();
-    assert.strictEqual(await console.getTheme(), "dark");
-  });
+  await page.keyboard.type("set colorscheme=system");
+  await page.keyboard.press("Enter");
+
+  await page.console.show();
+  await expect
+    .poll(() => page.console.getBackgroundColor())
+    .toBe("rgb(255, 255, 255)");
 });

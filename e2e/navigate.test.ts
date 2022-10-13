@@ -1,33 +1,26 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver, Key } from "selenium-webdriver";
-import { Options as FirefoxOptions } from "selenium-webdriver/firefox";
-import Page from "./lib/Page";
 
 const newApp = () => {
   const server = new TestServer();
-  server.handle("/pagenation-a/:page", (req, res) => {
+  server.handle("/pagination-a/:page", (req, res) => {
     res.status(200).send(`
       <!DOCTYPE html>
       <html lang="en">
-        <a href="/pagenation-a/${Number(req.params.page) - 1}">prev</a>
-        <a href="/pagenation-a/${Number(req.params.page) + 1}">next</a>
+        <a href="/pagination-a/${Number(req.params.page) - 1}">prev</a>
+        <a href="/pagination-a/${Number(req.params.page) + 1}">next</a>
       </html>`);
   });
 
-  server.handle("/pagenation-link/:page", (req, res) => {
+  server.handle("/pagination-link/:page", (req, res) => {
     res.status(200).send(`
       <!DOCTYPE html>
       <html lang="en">
         <head>
-          <link rel="prev" href="/pagenation-link/${
+          <link rel="prev" href="/pagination-link/${
             Number(req.params.page) - 1
           }"></link>
-          <link rel="next" href="/pagenation-link/${
+          <link rel="next" href="/pagination-link/${
             Number(req.params.page) + 1
           }"></link>
         </head>
@@ -38,10 +31,7 @@ const newApp = () => {
     `
     <!DOCTYPE html>
     <html lang="en">
-      <head>
-        <script>window.location.hash = Date.now()</script>
-      </head>
-      <body style="width:10000px; height:10000px"></body>
+      <body style="width:1000px; height:1000px"></body>
     </html>`
   );
 
@@ -50,225 +40,117 @@ const newApp = () => {
   return server;
 };
 
-describe("navigate test", () => {
-  const server = newApp();
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
+const server = newApp();
 
-  beforeAll(async () => {
-    await server.start();
+test.beforeAll(async () => {
+  await server.start();
+});
 
-    const opts = (new FirefoxOptions() as any).setPreference(
-      "browser.startup.homepage",
-      server.url("/#home")
-    );
-    lanthan = await Builder.forBrowser("firefox")
-      .setOptions(opts)
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-  });
+test.afterAll(async () => {
+  await server.stop();
+});
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+test("should go to parent path without hash by gu", async ({ page }) => {
+  await page.goto(server.url("/a/b/c"));
+  await page.keyboard.type("gu");
 
-  beforeEach(async () => {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs.slice(1)) {
-      await browser.tabs.remove(tab.id);
-    }
-  });
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/");
+});
 
-  it("should go to parent path without hash by gu", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/a/b/c"));
-    await page.sendKeys("g", "u");
+test("should remove hash by gu", async ({ page }) => {
+  await page.goto(server.url("/a/b/c#hash"));
+  await page.keyboard.type("gu");
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, `/a/b/`);
-    });
-  });
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/c");
+});
 
-  it("should remove hash by gu", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/a/b/c#hash"));
-    await page.sendKeys("g", "u");
+test("should go to root path by gU", async ({ page }) => {
+  await page.goto(server.url("/a/b/c#hash"));
+  await page.keyboard.press("g");
+  await page.keyboard.press("Shift+U");
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.hash, "");
-      assert.strictEqual(url.pathname, `/a/b/c`);
-    });
-  });
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/");
+});
 
-  it("should go to root path by gU", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/a/b/c#hash"));
-    await page.sendKeys("g", Key.SHIFT, "u");
+test("should go back and forward in history by H and L", async ({ page }) => {
+  await page.goto(server.url("/first"));
+  await page.goto(server.url("/second"));
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, `/`);
-    });
-  });
+  await page.keyboard.press("Shift+H");
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/first");
 
-  it("should go back and forward in history by H and L", async () => {
-    let page = await Page.navigateTo(webdriver, server.url("/first"));
-    await page.navigateTo(server.url("/second"));
-    await page.sendKeys(Key.SHIFT, "h");
+  await page.keyboard.press("Shift+L");
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/second");
+});
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, `/first`);
-    });
+test("should transit next/prev page in <a> by [[/]]", async ({ page }) => {
+  await page.goto(server.url("/pagination-a/10"));
 
-    page = await Page.currentContext(webdriver);
-    page.sendKeys(Key.SHIFT, "l");
+  await page.keyboard.type("[[");
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/pagination-a/9");
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, `/second`);
-    });
-  });
+  await page.keyboard.type("]]");
+  await expect
+    .poll(() => new URL(page.url()).pathname)
+    .toBe("/pagination-a/10");
+});
 
-  it("should go previous and next page in <a> by [[ and ]]", async () => {
-    const page = await Page.navigateTo(
-      webdriver,
-      server.url("/pagenation-a/10")
-    );
-    await page.sendKeys("[", "[");
+test("should transit next/prev page in <link> by [[/]]", async ({ page }) => {
+  await page.goto(server.url("/pagination-link/10"));
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, "/pagenation-a/9");
-    });
-  });
+  await page.keyboard.type("[[");
+  await expect
+    .poll(() => new URL(page.url()).pathname)
+    .toBe("/pagination-link/9");
 
-  it("should go next page in <a> by ]]", async () => {
-    const page = await Page.navigateTo(
-      webdriver,
-      server.url("/pagenation-a/10")
-    );
-    await page.sendKeys("]", "]");
+  await page.keyboard.type("]]");
+  await expect
+    .poll(() => new URL(page.url()).pathname)
+    .toBe("/pagination-link/10");
+});
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, "/pagenation-a/11");
-    });
-  });
+test("should go to home page into current tab by gh", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-  it("should go previous page in <link> by ]]", async () => {
-    const page = await Page.navigateTo(
-      webdriver,
-      server.url("/pagenation-link/10")
-    );
-    await page.sendKeys("[", "[");
+  await page.goto("https://example.com");
+  await page.keyboard.type("gh");
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, "/pagenation-link/9");
-    });
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: "about:blank" }]);
+});
 
-  it("should go next page by in <link> by [[", async () => {
-    const page = await Page.navigateTo(
-      webdriver,
-      server.url("/pagenation-link/10")
-    );
-    await page.sendKeys("]", "]");
+test("should go to home page into current tab by gH", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.pathname, "/pagenation-link/11");
-    });
-  });
+  await page.goto(server.url());
+  await page.keyboard.press("g");
+  await page.keyboard.press("Shift+H");
 
-  it("should go to home page into current tab by gh", async () => {
-    const page = await Page.navigateTo(webdriver, server.url());
-    await page.sendKeys("g", "h");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: server.url() }, { url: "about:blank" }]);
+});
 
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      const url = new URL(tab.url);
-      assert.strictEqual(url.hash, "#home");
-    });
-  });
+test("should reload by r", async ({ page }) => {
+  await page.goto(server.url("/reload"));
+  const before = await page.evaluate(
+    () => window.performance.timing.navigationStart
+  );
 
-  it("should go to home page into current tab by gH", async () => {
-    const page = await Page.navigateTo(webdriver, server.url());
-    await page.sendKeys("g", Key.SHIFT, "H");
+  await page.keyboard.press("r");
+  await expect
+    .poll(() => page.evaluate(() => window.performance.timing.navigationStart))
+    .toBeGreaterThan(before);
+});
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs.length, 2);
-      assert.strictEqual(new URL(tabs[0].url).hash, "");
-      assert.strictEqual(new URL(tabs[1].url).hash, "#home");
-      assert.strictEqual(tabs[1].active, true);
-    });
-  });
+test("should hard reload by R", async ({ page }) => {
+  await page.goto(server.url("/reload"));
+  await page.evaluate(() => window.scrollBy(0, 100));
 
-  it("should reload current tab by r", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/reload"));
-    await page.scrollTo(500, 500);
+  const before = await page.evaluate(() => window.pageYOffset);
+  expect(before).toBe(100);
 
-    let before: number;
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      before = Number(new URL(tab.url).hash.split("#")[1]);
-      assert.ok(before > 0);
-    });
-
-    await page.sendKeys("r");
-
-    let after;
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      after = Number(new URL(tab.url).hash.split("#")[1]);
-      assert.ok(after > before);
-    });
-
-    await eventually(async () => {
-      const page = await Page.currentContext(webdriver);
-      assert.strictEqual(await page.getScrollX(), 500);
-    });
-  });
-
-  it("should reload current tab without cache by R", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/reload"));
-    await page.scrollTo(500, 500);
-
-    let before: number;
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      before = Number(new URL(tab.url).hash.split("#")[1]);
-      assert.ok(before > 0);
-    });
-
-    await page.sendKeys(Key.SHIFT, "R");
-
-    let after;
-    await eventually(async () => {
-      const tab = (await browser.tabs.query({}))[0];
-      after = Number(new URL(tab.url).hash.split("#")[1]);
-      assert.ok(after > before);
-    });
-
-    await eventually(async () => {
-      const page = await Page.currentContext(webdriver);
-      assert.strictEqual(await page.getScrollY(), 0);
-    });
-  });
+  await page.keyboard.press("Shift+R");
+  await expect.poll(() => page.evaluate(() => window.pageYOffset)).toBe(0);
 });

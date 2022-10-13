@@ -1,186 +1,199 @@
-import * as assert from "assert";
-import * as path from "path";
-
-import { Request, Response } from "express";
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
 
-describe("completion on buffer/bdelete/bdeletes", () => {
-  const server = new TestServer().handle(
-    "/*",
-    (req: Request, res: Response) => {
-      res.send(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <title>title_${req.path.slice(1)}</title>
-        </head>
-      </html>`);
-    }
-  );
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
-  let page: Page;
+const server = new TestServer().handle("/*", (req, res) => {
+  res.status(200).send(`
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Site ${req.path.slice(1)}</title>
+  </head>
+</html>`);
+});
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
+const setupTabs = async (api) => {
+  const tabs = [];
+  for (let i = 0; i < 4; ++i) {
+    const url = server.url(`/site_${"abcd"[i]}`);
+    const pinned = i === 0 || i === 1;
+    const active = false;
+    const tab = await api.tabs.create({ url, pinned, active });
+    tabs.push(tab);
+  }
+  return tabs;
+};
 
-    await server.start();
-  });
+test.beforeAll(async () => {
+  await server.start();
+});
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+test.afterAll(async () => {
+  await server.stop();
+});
 
-  beforeEach(async () => {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs.slice(1)) {
-      await browser.tabs.remove(tab.id);
-    }
+test('should all tabs by "buffer" command with empty params', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.keyboard.press("Shift+J");
+  await page.keyboard.press("Shift+K");
+  await page.console.show();
+  await page.console.type("buffer ");
 
-    await browser.tabs.update(tabs[0].id, {
-      url: server.url("/site1"),
-      pinned: true,
-    });
-    await browser.tabs.create({ url: server.url("/site2"), pinned: true });
-    for (let i = 3; i <= 5; ++i) {
-      await browser.tabs.create({ url: server.url("/site" + i) });
-    }
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [
+          { text: "1:   Site site_a" },
+          { text: "2:   Site site_b" },
+          { text: "3: % New Tab" },
+          { text: "4: # Site site_c" },
+          { text: "5:   Site site_d" },
+        ],
+      },
+    ]);
+});
 
-    await eventually(async () => {
-      const handles = await webdriver.getAllWindowHandles();
-      assert.strictEqual(handles.length, 5);
-      await webdriver.switchTo().window(handles[2]);
-    });
+test('should filter items with URLs by keywords on "buffer" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("buffer /site_b");
 
-    page = await Page.currentContext(webdriver);
-  });
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [{ text: "2:   Site site_b" }],
+      },
+    ]);
+});
 
-  it('should all tabs by "buffer" command with empty params', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("buffer ");
+test('should filter items with titles by keywords on "buffer" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("buffer Site");
 
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      assert.strictEqual(groups.length, 1);
-      assert.strictEqual(groups[0].title, "Buffers");
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [
+          { text: "1:   Site site_a" },
+          { text: "2:   Site site_b" },
+          { text: "4:   Site site_c" },
+          { text: "5:   Site site_d" },
+        ],
+      },
+    ]);
+});
 
-      const items = groups[0].items;
-      assert.ok(items[0].text.startsWith("1:"));
-      assert.ok(items[1].text.startsWith("2:"));
-      assert.ok(items[2].text.startsWith("3:"));
-      assert.ok(items[3].text.startsWith("4:"));
-      assert.ok(items[4].text.startsWith("5:"));
+test('should show one item by number on "buffer" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("buffer 2");
 
-      assert.ok(items[2].text.includes("%"));
-      assert.ok(items[4].text.includes("#"));
-    });
-  });
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [{ text: "2:   Site site_b" }],
+      },
+    ]);
+});
 
-  it('should filter items with URLs by keywords on "buffer" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("buffer title_site2");
+test('should show only unpinned tabs "bdelete" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("bdelete Site");
 
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.ok(items[0].text.startsWith("2:"));
-      assert.ok(items[0].text.includes("title_site2"));
-    });
-  });
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [{ text: "4:   Site site_c" }, { text: "5:   Site site_d" }],
+      },
+    ]);
+});
 
-  it('should filter items with titles by keywords on "buffer" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("buffer /site2");
+test('should show only unpinned tabs "bdeletes" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("bdeletes Site");
 
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.ok(items[0].text.startsWith("2:"));
-    });
-  });
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [{ text: "4:   Site site_c" }, { text: "5:   Site site_d" }],
+      },
+    ]);
+});
 
-  it('should show one item by number on "buffer" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("buffer 2");
+test('should show both pinned and unpinned tabs "bdelete!" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("bdelete! Site");
 
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [
+          { text: "1:   Site site_a" },
+          { text: "2:   Site site_b" },
+          { text: "4:   Site site_c" },
+          { text: "5:   Site site_d" },
+        ],
+      },
+    ]);
+});
 
-      assert.strictEqual(items.length, 1);
-      assert.ok(items[0].text.startsWith("2:"));
-    });
-  });
+test('should show both pinned and unpinned tabs "bdeletes!" command', async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
+  await page.console.show();
+  await page.console.type("bdelete! Site");
 
-  it('should show unpinned tabs "bdelete" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("bdelete site");
-
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.strictEqual(items.length, 3);
-      assert.ok(items[0].text.includes("site3"));
-      assert.ok(items[1].text.includes("site4"));
-      assert.ok(items[2].text.includes("site5"));
-    });
-  });
-
-  it('should show unpinned tabs "bdeletes" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("bdeletes site");
-
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.strictEqual(items.length, 3);
-      assert.ok(items[0].text.includes("site3"));
-      assert.ok(items[1].text.includes("site4"));
-      assert.ok(items[2].text.includes("site5"));
-    });
-  });
-
-  it('should show both pinned and unpinned tabs "bdelete!" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("bdelete! site");
-
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.strictEqual(items.length, 5);
-      assert.ok(items[0].text.includes("site1"));
-      assert.ok(items[1].text.includes("site2"));
-      assert.ok(items[2].text.includes("site3"));
-      assert.ok(items[3].text.includes("site4"));
-      assert.ok(items[4].text.includes("site5"));
-    });
-  });
-
-  it('should show both pinned and unpinned tabs "bdeletes!" command', async () => {
-    const console = await page.showConsole();
-    await console.inputKeys("bdeletes! site");
-
-    await eventually(async () => {
-      const groups = await console.getCompletions();
-      const items = groups[0].items;
-      assert.strictEqual(items.length, 5);
-      assert.ok(items[0].text.includes("site1"));
-      assert.ok(items[1].text.includes("site2"));
-      assert.ok(items[2].text.includes("site3"));
-      assert.ok(items[3].text.includes("site4"));
-      assert.ok(items[4].text.includes("site5"));
-    });
-  });
+  await expect
+    .poll(() => page.console.getCompletion())
+    .toMatchObject([
+      {
+        title: "Buffers",
+        items: [
+          { text: "1:   Site site_a" },
+          { text: "2:   Site site_b" },
+          { text: "4:   Site site_c" },
+          { text: "5:   Site site_d" },
+        ],
+      },
+    ]);
 });

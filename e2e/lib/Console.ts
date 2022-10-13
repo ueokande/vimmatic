@@ -1,55 +1,59 @@
-import { WebDriver, By, Key } from "selenium-webdriver";
+import type { Page } from "@playwright/test";
 
-export type CompletionGroups = {
+type CompletionGroup = {
   title: string;
-  items: Array<CompletionItem>;
+  items: Array<{ text: string; highlight: boolean }>;
 };
 
-export type CompletionItem = {
-  text: string;
-  highlight: boolean;
-};
+export default class Console {
+  private readonly page: Page;
 
-export class Console {
-  constructor(private webdriver: WebDriver) {}
-
-  async sendKeys(...keys: string[]) {
-    const input = await this.webdriver.findElement(By.css("input"));
-    input.sendKeys(...keys);
+  constructor(page: Page) {
+    this.page = page;
   }
 
-  async currentValue() {
-    return await this.webdriver.executeScript(() => {
-      const input = document.querySelector("input");
-      if (input === null) {
-        throw new Error("could not find input element");
-      }
-      return input.value;
+  async show() {
+    await this.page
+      .locator("#vimmatic-console-frame")
+      .waitFor({ state: "attached" });
+    await this.page.keyboard.press(":");
+    await this.consoleFrame()
+      .locator("[role=menu]")
+      .waitFor({ state: "visible" });
+  }
+
+  async exec(command: string) {
+    await this.show();
+    await this.type(command);
+    await this.enter();
+  }
+
+  async find(keyword: string) {
+    await this.page
+      .locator("#vimmatic-console-frame")
+      .waitFor({ state: "attached" });
+    await this.page.keyboard.press("/");
+    await this.type(keyword);
+    await this.enter();
+  }
+
+  async type(str: string) {
+    await this.consoleFrame().locator("input").waitFor({ state: "visible" });
+    await this.page.keyboard.type(str);
+  }
+
+  async enter() {
+    await this.page.keyboard.press("Enter");
+  }
+
+  async getCommand(): Promise<string> {
+    return this.consoleFrame().evaluate(() => {
+      return document.querySelector("input").value;
     });
   }
 
-  async execCommand(command: string): Promise<void> {
-    const input = await this.webdriver.findElement(By.css("input"));
-    await input.sendKeys(command, Key.ENTER);
-  }
-
-  async getErrorMessage(): Promise<string> {
-    const p = await this.webdriver.findElement(By.css("[role=alert]"));
-    return p.getText();
-  }
-
-  async getInformationMessage(): Promise<string> {
-    const p = await this.webdriver.findElement(By.css("[role=status]"));
-    return p.getText();
-  }
-
-  async inputKeys(...keys: string[]) {
-    const input = await this.webdriver.findElement(By.css("input"));
-    await input.sendKeys(...keys);
-  }
-
-  getCompletions(): Promise<CompletionGroups[]> {
-    return this.webdriver.executeScript(() => {
+  async getCompletion(): Promise<CompletionGroup[]> {
+    return this.consoleFrame().evaluate(() => {
       const groups = document.querySelectorAll("[role=group]");
       if (groups.length === 0) {
         throw new Error("completion items not found");
@@ -73,24 +77,18 @@ export class Console {
     });
   }
 
-  async getTheme(): Promise<string> {
-    const color = (await this.webdriver.executeScript(() => {
+  async getBackgroundColor(): Promise<string> {
+    return this.consoleFrame().evaluate(() => {
       const input = document.querySelector("input")!;
       return window.getComputedStyle(input).backgroundColor;
-    })) as string;
-    if (color === "rgb(5, 32, 39)") {
-      return "dark";
-    } else if (color === "rgb(255, 255, 255)") {
-      return "light";
-    }
-    throw new Error(`unknown input color: ${color}`);
+    });
   }
 
-  async close(): Promise<void> {
-    const input = await this.webdriver.findElement(By.css("input"));
-    await input.sendKeys(Key.ESCAPE);
-    // TODO remove sleep
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    await (this.webdriver.switchTo() as any).parentFrame();
+  async getErrorMessage(): Promise<string> {
+    return this.consoleFrame().textContent("[role=alert]");
+  }
+
+  private consoleFrame() {
+    return this.page.frame("vimmatic-console-frame");
   }
 }

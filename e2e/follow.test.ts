@@ -1,11 +1,5 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver, Key } from "selenium-webdriver";
-import Page from "./lib/Page";
 
 const newApp = () => {
   const server = new TestServer();
@@ -82,7 +76,7 @@ const newApp = () => {
     `
     <!DOCTYPE html>
     <html lang="en"><body>
-      <iframe height="5000" src='/test2-frame'>
+      <iframe name="inner-frame" height="5000" src='/test2-frame'>
     </body></html>`
   );
   server.receiveContent(
@@ -111,7 +105,7 @@ const newApp = () => {
     `
     <!DOCTYPE html>
     <html lang="en"><body>
-      <iframe src='/test3-frame'>
+      <iframe name="inner-frame" src='/test3-frame'>
     </body></html>`
   );
   server.receiveContent(
@@ -128,116 +122,91 @@ const newApp = () => {
   return server;
 };
 
-describe("follow test", () => {
-  const server = newApp();
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
+const server = newApp();
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    await server.start();
-  });
+test.beforeAll(async () => {
+  await server.start();
+});
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+test.afterAll(async () => {
+  await server.stop();
+});
 
-  afterEach(async () => {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs.slice(1)) {
-      await browser.tabs.remove(tab.id);
-    }
-  });
+test("should focus an input by f", async ({ page }) => {
+  await page.goto(server.url("/follow-input"));
+  await page.keyboard.press("f");
+  await page.locator("text=a").waitFor();
+  await page.keyboard.press("a");
 
-  it("should focus an input by f", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/follow-input"));
-    await page.sendKeys("f");
-    await page.waitAndGetHints();
-    await page.sendKeys("a");
+  const activeTag = await page.evaluate(() => document.activeElement.tagName);
+  expect(activeTag.toLowerCase()).toBe("input");
+});
 
-    const tagName = (await webdriver.executeScript(
-      () => document.activeElement!.tagName
-    )) as string;
-    assert.strictEqual(tagName.toLowerCase(), "input");
-  });
+test("should open a link by f", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-  it("should open a link by f", async () => {
-    const page = await Page.navigateTo(webdriver, server.url());
-    await page.sendKeys("f");
-    await page.waitAndGetHints();
-    await page.sendKeys("a");
+  await page.goto(server.url());
+  await page.keyboard.press("f");
+  await page.locator("text=a").waitFor();
+  await page.keyboard.press("a");
+  await page.waitForNavigation();
 
-    await eventually(async () => {
-      const hash = await webdriver.executeScript("return location.pathname");
-      assert.strictEqual(hash, "/hello");
-    });
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: server.url("/hello") }]);
+});
 
-  it("should focus an input by F", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/follow-input"));
-    await page.sendKeys(Key.SHIFT, "f");
-    await page.waitAndGetHints();
-    await page.sendKeys("a");
+test("should open a link to new tab by F", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-    const tagName = (await webdriver.executeScript(
-      () => document.activeElement!.tagName
-    )) as string;
-    assert.strictEqual(tagName.toLowerCase(), "input");
-  });
+  await page.goto(server.url());
+  await page.keyboard.press("Shift+F");
+  await page.locator("text=a").waitFor();
+  await page.keyboard.press("a");
 
-  it("should open a link to new tab by F", async () => {
-    const page = await Page.navigateTo(webdriver, server.url());
-    await page.sendKeys(Key.SHIFT, "f");
-    await page.waitAndGetHints();
-    await page.sendKeys("a");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: server.url() }, { url: server.url("/hello") }]);
+});
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs.length, 2);
-      assert.strictEqual(new URL(tabs[1].url).pathname, "/hello");
-      assert.strictEqual(tabs[1].openerTabId, tabs[0].id);
-    });
-  });
+test("should show hints of links in area", async ({ page }) => {
+  await page.goto(server.url("/area"));
+  await page.keyboard.press("f");
+  await page.locator("text=a").waitFor();
 
-  it("should show hints of links in area", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/area"));
-    await page.sendKeys(Key.SHIFT, "f");
+  const hints = await page.locator(".vimmatic-hint").allInnerTexts();
+  expect(hints.length).toBe(3);
+});
 
-    const hints = await page.waitAndGetHints();
-    assert.strictEqual(hints.length, 3);
-  });
+test("should shows hints only in viewport", async ({ page }) => {
+  await page.goto(server.url("/test1"));
+  await page.keyboard.press("f");
+  await page.locator("text=a").waitFor();
 
-  it("should shows hints only in viewport", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/test1"));
-    await page.sendKeys(Key.SHIFT, "f");
+  const hints = await page.locator(".vimmatic-hint").allInnerTexts();
+  expect(hints.length).toBe(1);
+});
 
-    const hints = await page.waitAndGetHints();
-    assert.strictEqual(hints.length, 1);
-  });
+test("should shows hints only in window of the frame", async ({ page }) => {
+  await page.goto(server.url("/test2"));
+  await page.keyboard.press("f");
+  await page.frame("inner-frame").locator("text=a").waitFor();
 
-  it("should shows hints only in window of the frame", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/test2"));
-    await page.sendKeys(Key.SHIFT, "f");
+  const hints = await page
+    .frame("inner-frame")
+    .locator(".vimmatic-hint")
+    .allInnerTexts();
+  expect(hints.length).toBe(1);
+});
 
-    await webdriver.switchTo().frame(0);
-    const hints = await page.waitAndGetHints();
-    assert.strictEqual(hints.length, 1);
-  });
+test("should shows hints only in the frame", async ({ page }) => {
+  await page.goto(server.url("/test3"));
+  await page.keyboard.press("f");
+  await page.frame("inner-frame").locator("text=a").waitFor();
 
-  it("should shows hints only in the frame", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/test3"));
-    await page.sendKeys(Key.SHIFT, "f");
-
-    await webdriver.switchTo().frame(0);
-    const hints = await page.waitAndGetHints();
-    assert.strictEqual(hints.length, 1);
-  });
+  const hints = await page
+    .frame("inner-frame")
+    .locator(".vimmatic-hint")
+    .allInnerTexts();
+  expect(hints.length).toBe(1);
 });

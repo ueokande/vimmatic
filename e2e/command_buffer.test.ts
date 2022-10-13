@@ -1,164 +1,189 @@
-import * as path from "path";
-import * as assert from "assert";
-import { Request, Response } from "express";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
 
-describe("buffer command test", () => {
-  const server = new TestServer().handle(
-    "/*",
-    (req: Request, res: Response) => {
-      res.send(`
+const server = new TestServer().handle("/*", (req, res) => {
+  res.send(`
       <!DOCTYPE html>
       <html lang="en">
         <head>
-          <title>my_${req.path.slice(1)}</title>
+          <title>site_${req.path.slice(1)}</title>
         </head>
       </html>`);
-    }
-  );
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
+});
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    await server.start();
-  });
+const setupTabs = async (api) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  const tabs = [];
+  for (let i = 1; i <= 3; i++) {
+    const url = server.url(`/${i}`);
+    const active = false;
+    const tab = await api.tabs.create({ windowId, url, active });
+    tabs.push(tab);
+  }
+  return tabs;
+};
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+test.beforeAll(async () => {
+  await server.start();
+});
 
-  beforeEach(async () => {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs.slice(1)) {
-      await browser.tabs.remove(tab.id);
-    }
-    await browser.tabs.update(tabs[0].id, { url: server.url("/site1") });
-    for (let i = 2; i <= 5; ++i) {
-      await browser.tabs.create({ url: server.url("/site" + i) });
-    }
+test.afterAll(async () => {
+  await server.stop();
+});
 
-    await eventually(async () => {
-      const handles = await webdriver.getAllWindowHandles();
-      assert.strictEqual(handles.length, 5);
-      await webdriver.switchTo().window(handles[2]);
-    });
-  });
+test("should do nothing by buffer command with no parameters", async ({
+  page,
+  api,
+}) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-  it("should do nothing by buffer command with no parameters", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer");
+  await page.console.exec("buffer");
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 2);
-    });
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank", active: true },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+    ]);
+});
 
-  it("should select a tab by buffer command with a number", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer 1");
+test("should select a tab by buffer command with a number", async ({
+  page,
+  api,
+}) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 0);
-    });
-  });
+  await page.console.exec("buffer 3");
 
-  it("should should an out of range error by buffer commands", async () => {
-    const page = await Page.currentContext(webdriver);
-    let console = await page.showConsole();
-    await console.execCommand("buffer 0");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2"), active: true },
+      { url: server.url("/3") },
+    ]);
+});
 
-    await eventually(async () => {
-      const text = await console.getErrorMessage();
-      assert.strictEqual(text, "tab 0 does not exist");
-    });
+test("should should an out of range error by buffer commands", async ({
+  page,
+  api,
+}) => {
+  await setupTabs(api);
 
-    await (webdriver.switchTo() as any).parentFrame();
+  await page.console.exec("buffer 0");
+  await expect
+    .poll(() => page.console.getErrorMessage())
+    .toBe("tab 0 does not exist");
 
-    console = await page.showConsole();
-    await console.execCommand("buffer 9");
+  await page.console.exec("buffer 9");
+  await expect
+    .poll(() => page.console.getErrorMessage())
+    .toBe("tab 9 does not exist");
+});
 
-    await eventually(async () => {
-      const text = await console.getErrorMessage();
-      assert.strictEqual(text, "tab 9 does not exist");
-    });
-  });
+test("should select a tab by buffer command with a title", async ({
+  page,
+  api,
+}) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-  it("should select a tab by buffer command with a title", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer my_site1");
+  await page.console.exec("buffer site_1");
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 0);
-    });
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1"), active: true },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+    ]);
+});
 
-  it("should select a tab by buffer command with an URL", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer /site1");
+test("should select a tab by buffer command with an URL", async ({
+  page,
+  api,
+}) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 0);
-    });
-  });
+  await page.console.exec("buffer /1");
 
-  it("should select tabs rotately", async () => {
-    const handles = await webdriver.getAllWindowHandles();
-    await webdriver.switchTo().window(handles[4]);
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1"), active: true },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+    ]);
+});
 
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer site");
+test.fixme("should select tabs rotately", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 0);
-    });
-  });
+  await page.console.exec("buffer site");
 
-  it('should do nothing by ":buffer %"', async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer %");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1"), active: true },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+    ]);
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 2);
-    });
-  });
+  await page.console.exec("buffer site");
 
-  it('should selects last selected tab by ":buffer #"', async () => {
-    const handles = await webdriver.getAllWindowHandles();
-    await webdriver.switchTo().window(handles[1]);
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2"), active: true },
+      { url: server.url("/3") },
+    ]);
+});
 
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("buffer #");
+test('should do nothing by ":buffer %"', async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({ active: true });
-      assert.strictEqual(tabs[0].index, 2);
-    });
-  });
+  await page.console.exec("buffer %");
+
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank", active: true },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+    ]);
+});
+
+test('should selects last selected tab by ":buffer #"', async ({
+  page,
+  api,
+}) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("Shift+J");
+  await page.keyboard.press("Shift+K");
+  await page.console.exec("buffer #");
+
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1"), active: true },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+    ]);
 });

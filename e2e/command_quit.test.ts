@@ -1,92 +1,61 @@
-import * as path from "path";
-import * as assert from "assert";
+import { test, expect } from "./lib/fixture";
 
-import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
+const setupTabs = async (api) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  const tabs = [];
+  for (let i = 1; i <= 3; i++) {
+    const url = `about:blank#${i}`;
+    const active = false;
+    const tab = await api.tabs.create({ windowId, url, active });
+    tabs.push(tab);
+  }
+  return tabs;
+};
 
-describe("quit/quitall command test", () => {
-  const server = new TestServer().receiveContent("/*", "ok");
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
+test.fixme("should current tab by q command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    await server.start();
-  });
+  await page.console.exec("q");
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank#1" },
+      { url: "about:blank#2" },
+      { url: "about:blank#3" },
+    ]);
+});
 
-  beforeEach(async () => {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs.slice(1)) {
-      await browser.tabs.remove(tab.id);
-    }
-    await browser.tabs.update(tabs[0].id, { url: server.url("/site1") });
-    for (let i = 2; i <= 5; ++i) {
-      await browser.tabs.create({ url: server.url("/site" + i) });
-    }
+test.fixme("should current tab by quit command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-    await eventually(async () => {
-      const handles = await webdriver.getAllWindowHandles();
-      assert.strictEqual(handles.length, 5);
-      await webdriver.switchTo().window(handles[2]);
-    });
-  });
+  await page.console.exec("quit");
 
-  it("should current tab by q command", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("q");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank#1" },
+      { url: "about:blank#2" },
+      { url: "about:blank#3" },
+    ]);
+});
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs.length, 4);
-    });
-  });
+test.fixme("should current tab by qa command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-  it("should current tab by quit command", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("quit");
+  await page.console.exec("qa");
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs.length, 4);
-    });
-  });
+  await expect.poll(() => api.tabs.query({ windowId })).toHaveLength(0);
+});
 
-  it("should current tab by qa command", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("qa");
+test.fixme("should current tab by quitall command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
 
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs.length, 1);
-    });
-  });
+  await page.console.exec("quitall");
 
-  it("should current tab by quitall command", async () => {
-    const page = await Page.currentContext(webdriver);
-    const console = await page.showConsole();
-    await console.execCommand("quitall");
-
-    await eventually(async () => {
-      const tabs = await browser.tabs.query({});
-      assert.strictEqual(tabs.length, 1);
-    });
-  });
+  await expect.poll(() => api.tabs.query({ windowId })).toHaveLength(0);
 });

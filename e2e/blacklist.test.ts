@@ -1,61 +1,65 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
 import SettingRepository from "./lib/SettingRepository";
 import Settings from "../src/shared/settings/Settings";
 
-describe("blacklist test", () => {
-  const server = new TestServer().receiveContent(
-    "/*",
-    `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`
+const setupBlacklist = async (api, blacklist: unknown) => {
+  await new SettingRepository(api).saveJSON(
+    Settings.fromJSON({
+      blacklist,
+    })
   );
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
+};
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    await server.start();
+const server = new TestServer().receiveContent(
+  "/*",
+  `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`
+);
 
-    const url = server.url("/a").replace("http://", "");
-    await new SettingRepository(browser).saveJSON(
-      Settings.fromJSON({
-        keymaps: {
-          j: { type: "scroll.vertically", count: 1 },
-        },
-        blacklist: [url],
-      })
-    );
-  });
+test.beforeAll(async () => {
+  await server.start();
+});
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+test.afterAll(async () => {
+  await server.stop();
+});
 
-  it("should disable add-on if the URL is in the blacklist", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/a"));
-    await page.sendKeys("j");
+test("should disable add-on if the URL is in the blacklist", async ({
+  page,
+  api,
+}) => {
+  await setupBlacklist(api, [new URL(server.url()).host + "/a"]);
 
-    const scrollY = await page.getScrollY();
-    assert.strictEqual(scrollY, 0);
-  });
+  await page.goto(server.url("/a"));
+  await page.keyboard.press("j");
 
-  it("should enabled add-on if the URL is not in the blacklist", async () => {
-    const page = await Page.navigateTo(webdriver, server.url("/ab"));
-    await page.sendKeys("j");
+  const y = await page.evaluate(() => window.pageYOffset);
+  expect(y).toBe(0);
+});
 
-    const scrollY = await page.getScrollY();
-    assert.strictEqual(scrollY, 64);
-  });
+test("should enabled add-on if the URL is not in the blacklist", async ({
+  page,
+  api,
+}) => {
+  await setupBlacklist(api, [new URL(server.url()).host + "/a"]);
+
+  await page.goto(server.url("/ab"));
+  await page.keyboard.press("j");
+
+  const y = await page.evaluate(() => window.pageYOffset);
+  expect(y).toBe(64);
+});
+
+test("should disable keys in the partial blacklist", async ({ page, api }) => {
+  await setupBlacklist(api, [{ url: new URL(server.url()).host, keys: ["k"] }]);
+
+  await page.goto(server.url());
+
+  await page.keyboard.press("j");
+  const y1 = await page.evaluate(() => window.pageYOffset);
+  expect(y1).toBe(64);
+
+  await page.keyboard.press("k");
+  const y2 = await page.evaluate(() => window.pageYOffset);
+  expect(y2).toBe(64);
 });

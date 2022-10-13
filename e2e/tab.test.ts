@@ -1,232 +1,298 @@
-import * as path from "path";
-import * as assert from "assert";
-
+import { test, expect } from "./lib/fixture";
 import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver, Key } from "selenium-webdriver";
-import Page from "./lib/Page";
 
-describe("tab test", () => {
-  const server = new TestServer().receiveContent("/*", "ok");
-  let lanthan: Lanthan;
-  let webdriver: WebDriver;
-  let browser: any;
-  let win: any;
-  let tabs: any[];
+const server = new TestServer().receiveContent("/*", "ok");
 
-  beforeAll(async () => {
-    lanthan = await Builder.forBrowser("firefox")
-      .spyAddon(path.join(__dirname, ".."))
-      .build();
-    webdriver = lanthan.getWebDriver();
-    browser = lanthan.getWebExtBrowser();
-    await server.start();
+const setupTabs = async (api) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  const tabs = [];
+  for (let i = 1; i <= 5; i++) {
+    const url = server.url(`/${i}`);
+    const active = i === 3;
+    const tab = await api.tabs.create({ windowId, url, active });
+    tabs.push(tab);
+  }
+  return tabs;
+};
+
+test.beforeAll(async () => {
+  await server.start();
+});
+
+test.afterAll(async () => {
+  await server.stop();
+});
+
+test("deletes tab and selects right by d", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("d");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/4"), active: true },
+      { url: server.url("/5") },
+    ]);
+});
+
+test("deletes tab and selects left by D", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("Shift+D");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2"), active: true },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+});
+
+test("deletes all tabs to the right by x$", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("x");
+  await page.keyboard.press("$");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3"), active: true },
+    ]);
+});
+
+test("duplicates tab by zd", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+
+  await page.keyboard.press("z");
+  await page.keyboard.press("d");
+
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: "about:blank" }, { url: "about:blank" }]);
+});
+
+test("makes pinned by zp", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+
+  await page.keyboard.press("z");
+  await page.keyboard.press("p");
+
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: "about:blank", pinned: true }]);
+});
+
+test.fixme("switches to reader view", async ({ page }) => {
+  await page.keyboard.press("z");
+  await page.keyboard.press("r");
+
+  await expect
+    .poll(() => page.console.getErrorMessage())
+    .toBe("The specified tab cannot be placed into reader mode.");
+});
+
+test("selects previous tab by K", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("Shift+K");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2"), active: true },
+      { url: server.url("/3") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+
+  await page.keyboard.press("Shift+K");
+  await page.keyboard.press("Shift+K");
+  await page.keyboard.press("Shift+K");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4") },
+      { url: server.url("/5"), active: true },
+    ]);
+});
+
+test("selects next tab by J", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("Shift+J");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4"), active: true },
+      { url: server.url("/5") },
+    ]);
+
+  await page.keyboard.press("Shift+J");
+  await page.keyboard.press("Shift+J");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank", active: true },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+});
+
+test("selects first tab by g0 and last tab by g$", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("g");
+  await page.keyboard.press("0");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank", active: true },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+
+  await page.keyboard.press("g");
+  await page.keyboard.press("$");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4") },
+      { url: server.url("/5"), active: true },
+    ]);
+});
+
+test("selects last selected tab by Control+6", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+
+  await page.keyboard.press("Shift+J");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4"), active: true },
+      { url: server.url("/5") },
+    ]);
+
+  await page.keyboard.press("Control+6");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3"), active: true },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+});
+
+test.fixme("reopen tab by u", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+  await page.keyboard.press("d");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+
+  await page.keyboard.press("u");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/3") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+});
+
+test("does not delete pinned tab by !d", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  const tabs = await setupTabs(api);
+  await api.tabs.update(tabs[2].id, {
+    pinned: true,
+    active: true,
   });
 
-  afterAll(async () => {
-    await server.stop();
-    if (lanthan) {
-      await lanthan.quit();
-    }
-  });
+  await page.keyboard.press("d");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: server.url("/3"), pinned: true },
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
 
-  beforeEach(async () => {
-    win = await browser.windows.create({ url: server.url("/#0") });
-    for (let i = 1; i < 5; ++i) {
-      await browser.tabs.create({
-        url: server.url("/#" + i),
-        windowId: win.id,
-      });
-      await webdriver.navigate().to(server.url("/#" + i));
-    }
-    tabs = await browser.tabs.query({ windowId: win.id });
-    tabs.sort((t1: any, t2: any) => t1.index - t2.index);
-  });
+  await page.keyboard.press("!");
+  await page.keyboard.press("d");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/1") },
+      { url: server.url("/2") },
+      { url: server.url("/4") },
+      { url: server.url("/5") },
+    ]);
+});
 
-  afterEach(async () => {
-    await browser.windows.remove(win.id);
-  });
+test("opens view-source by gf", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
 
-  it("deletes tab and selects right by d", async () => {
-    await browser.tabs.update(tabs[3].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("d");
+  await page.keyboard.press("g");
+  await page.keyboard.press("f");
 
-    await eventually(async () => {
-      const current = await browser.tabs.query({ windowId: win.id });
-      assert.strictEqual(current.length, tabs.length - 1);
-      assert.strictEqual(current[3].active, true);
-      assert.strictEqual(current[3].id, tabs[4].id);
-    });
-  });
-
-  it("deletes tab and selects left by D", async () => {
-    await browser.tabs.update(tabs[3].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys(Key.SHIFT, "D");
-
-    await eventually(async () => {
-      const current = await browser.tabs.query({ windowId: win.id });
-      assert.strictEqual(current.length, tabs.length - 1);
-      assert.strictEqual(current[2].active, true);
-      assert.strictEqual(current[2].id, tabs[2].id);
-    });
-  });
-
-  it("deletes all tabs to the right by x$", async () => {
-    await browser.tabs.update(tabs[1].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("x", "$");
-
-    await eventually(async () => {
-      const current = await browser.tabs.query({ windowId: win.id });
-      assert.strictEqual(current.length, 2);
-    });
-  });
-
-  it("duplicates tab by zd", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("z", "d");
-
-    await eventually(async () => {
-      const current = await browser.tabs.query({ windowId: win.id });
-      current.sort((t1: any, t2: any) => t1.index - t2.index);
-      assert.strictEqual(current.length, tabs.length + 1);
-      assert.strictEqual(current[0].url, current[1].url);
-    });
-  });
-
-  it("makes pinned by zp", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("z", "p");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[0].pinned, true);
-  });
-
-  it("switches to reader view", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("g", "r");
-
-    // Unable to switch to reader view, but an error message occurs
-    const console = await page.getConsole();
-    const errorMessage = await console.getErrorMessage();
-    assert.strictEqual(
-      errorMessage,
-      "The specified tab cannot be placed into reader mode."
-    );
-  });
-
-  it("selects previous tab by K", async () => {
-    await browser.tabs.update(tabs[2].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys(Key.SHIFT, "K");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[1].active, true);
-  });
-
-  it("selects previous tab by K rotatory", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys(Key.SHIFT, "K");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[current.length - 1].active, true);
-  });
-
-  it("selects next tab by J", async () => {
-    await browser.tabs.update(tabs[2].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys(Key.SHIFT, "J");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[3].active, true);
-  });
-
-  it("selects previous tab by J rotatory", async () => {
-    await browser.tabs.update(tabs[tabs.length - 1].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys(Key.SHIFT, "J");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[0].active, true);
-  });
-
-  it("selects first tab by g0", async () => {
-    await browser.tabs.update(tabs[2].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("g", "0");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[0].active, true);
-  });
-
-  it("selects last tab by g$", async () => {
-    await browser.tabs.update(tabs[2].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("g", "$");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[current.length - 1].active, true);
-  });
-
-  it("selects last selected tab by <C-6>", async () => {
-    await browser.tabs.update(tabs[1].id, { active: true });
-    await browser.tabs.update(tabs[4].id, { active: true });
-
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys(Key.CONTROL, "6");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current[1].active, true);
-  });
-
-  // browser.sessions.getRecentlyClosed() sometime throws "An unexpected error occurred"
-  // This might be a bug in Firefox.
-  it.skip("reopen tab by u", async () => {
-    await browser.tabs.remove(tabs[1].id);
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("u");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current.length, tabs.length);
-  });
-
-  it("does not delete pinned tab by d", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true, pinned: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("d");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current.length, tabs.length);
-  });
-
-  it("deletes pinned tab by !d", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true, pinned: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("!", "d");
-
-    const current = await browser.tabs.query({ windowId: win.id });
-    assert.strictEqual(current.length, tabs.length - 1);
-  });
-
-  it("opens view-source by gf", async () => {
-    await browser.tabs.update(tabs[0].id, { active: true });
-    const page = await Page.currentContext(webdriver);
-    await page.sendKeys("g", "f");
-
-    await eventually(async () => {
-      const current = await browser.tabs.query({ windowId: win.id });
-      assert.strictEqual(current.length, tabs.length + 1);
-      assert.strictEqual(
-        current[current.length - 1].url,
-        `view-source:${server.url("/#0")}`
-      );
-    });
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: "view-source:about:blank" },
+    ]);
 });
