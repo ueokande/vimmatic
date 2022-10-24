@@ -1,15 +1,7 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newDynamicTitleServer } from "./lib/servers";
 
-const server = new TestServer().handle("/*", (req, res) => {
-  res.status(200).send(`
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Site ${req.path.slice(1)}</title>
-  </head>
-</html>`);
-});
+const server = newDynamicTitleServer((req) => `Site ${req.url.slice(1)}`);
 
 const setupTabs = async (api) => {
   const tabs = [];

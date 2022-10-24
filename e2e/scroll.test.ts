@@ -1,10 +1,7 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newScrollableServer } from "./lib/servers";
 
-const server = new TestServer().receiveContent(
-  "/",
-  `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`
-);
+const server = newScrollableServer();
 
 test.beforeAll(async () => {
   await server.start();

@@ -1,7 +1,7 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newNopServer } from "./lib/servers";
 
-const server = new TestServer().receiveContent("/*", "ok");
+const server = newNopServer();
 
 const setupTabs = async (api) => {
   const { id: windowId } = await api.windows.getCurrent();

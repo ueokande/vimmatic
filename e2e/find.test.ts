@@ -1,8 +1,7 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newSingleContentServer } from "./lib/servers";
 
-const server = new TestServer().receiveContent(
-  "/",
+const server = newSingleContentServer(
   `<!DOCTYPE html><html lang="en"><body>--hello--hello--hello--</body></html>`
 );
 

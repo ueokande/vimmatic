@@ -1,5 +1,5 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newSingleContentServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
 import Settings from "../src/shared/settings/Settings";
 
@@ -23,18 +23,16 @@ const resetSettings = async (api) => {
   await new SettingRepository(api).saveJSON(Settings.fromJSON({}));
 };
 
-const server = new TestServer().receiveContent(
-  "/",
-  `
-    <!DOCTYPE html>
-    <html lang="en"><body>
-      <a href="/">link1</a>
-      <a href="/">link2</a>
-      <a href="/">link3</a>
-      <a href="/">link4</a>
-      <a href="/">link5</a>
-    </body></html>`
-);
+const server = newSingleContentServer(`
+  <!DOCTYPE html>
+  <html lang="en"><body>
+    <a href="/">link1</a>
+    <a href="/">link2</a>
+    <a href="/">link3</a>
+    <a href="/">link4</a>
+    <a href="/">link5</a>
+  </body></html>
+`);
 
 test.beforeAll(async () => {
   await server.start();

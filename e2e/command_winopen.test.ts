@@ -1,19 +1,18 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newNopServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
 import Settings from "../src/shared/settings/Settings";
 
-const server = new TestServer()
-  .receiveContent("/google", "google")
-  .receiveContent("/yahoo", "yahoo");
+const server = newNopServer();
+
 const setupSearchEngines = async (api) => {
   await new SettingRepository(api).saveJSON(
     Settings.fromJSON({
       search: {
         default: "google",
         engines: {
-          google: server.url("/google?q={}"),
-          yahoo: server.url("/yahoo?q={}"),
+          google: server.url("/google") + "?q={}",
+          yahoo: server.url("/yahoo") + "?q={}",
         },
       },
     })

@@ -1,11 +1,9 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newNopServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
 import Settings from "../src/shared/settings/Settings";
 
-const server = new TestServer()
-  .receiveContent("/google", "google")
-  .receiveContent("/yahoo", "yahoo");
+const server = newNopServer();
 
 const setupSearchEngines = async (api) => {
   await new SettingRepository(api).saveJSON(
@@ -13,8 +11,8 @@ const setupSearchEngines = async (api) => {
       search: {
         default: "google",
         engines: {
-          google: server.url("/google?q={}"),
-          yahoo: server.url("/yahoo?q={}"),
+          google: server.url("/google") + "?q={}",
+          yahoo: server.url("/yahoo") + "?q={}",
         },
       },
     })
@@ -41,7 +39,7 @@ test("should open default search for keywords by tabopen command", async ({
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
       { url: "about:blank" },
-      { url: server.url("/google?q=an%20apple") },
+      { url: server.url("/google") + "?q=an%20apple" },
     ]);
 });
 
@@ -57,7 +55,7 @@ test("should open certain search page for keywords by tabopen command", async ({
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
       { url: "about:blank" },
-      { url: server.url("/yahoo?q=an%20apple") },
+      { url: server.url("/yahoo") + "?q=an%20apple" },
     ]);
 });
 
@@ -71,7 +69,10 @@ test("should open default engine with empty keywords by tabopen command", async 
 
   await expect
     .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([{ url: "about:blank" }, { url: server.url("/google?q=") }]);
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/google") + "?q=" },
+    ]);
 });
 
 test("should open certain search page for empty keywords by tabopen command", async ({
@@ -84,7 +85,10 @@ test("should open certain search page for empty keywords by tabopen command", as
 
   await expect
     .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([{ url: "about:blank" }, { url: server.url("/yahoo?q=") }]);
+    .toMatchObject([
+      { url: "about:blank" },
+      { url: server.url("/yahoo") + "?q=" },
+    ]);
 });
 
 test("should open a site with domain by tabopen command", async ({

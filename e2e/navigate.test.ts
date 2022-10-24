@@ -1,46 +1,41 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newServer, staticContentHandler } from "./lib/servers";
 
-const newApp = () => {
-  const server = new TestServer();
-  server.handle("/pagination-a/:page", (req, res) => {
-    res.status(200).send(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <a href="/pagination-a/${Number(req.params.page) - 1}">prev</a>
-        <a href="/pagination-a/${Number(req.params.page) + 1}">next</a>
-      </html>`);
-  });
-
-  server.handle("/pagination-link/:page", (req, res) => {
-    res.status(200).send(`
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <link rel="prev" href="/pagination-link/${
-            Number(req.params.page) - 1
-          }"></link>
-          <link rel="next" href="/pagination-link/${
-            Number(req.params.page) + 1
-          }"></link>
-        </head>
-      </html>`);
-  });
-  server.receiveContent(
-    "/reload",
-    `
-    <!DOCTYPE html>
-    <html lang="en">
-      <body style="width:1000px; height:1000px"></body>
-    </html>`
-  );
-
-  server.receiveContent("/*", `ok`);
-
-  return server;
-};
-
-const server = newApp();
+const server = newServer([
+  {
+    url: "/pagination-a/:page",
+    handler: (req, reply) => {
+      reply.type("text/html").send(`<!DOCTYPE html>
+<html lang="en">
+  <a href="/pagination-a/${Number(req.params["page"]) - 1}">prev</a>
+  <a href="/pagination-a/${Number(req.params["page"]) + 1}">next</a>
+</html>`);
+    },
+  },
+  {
+    url: "/pagination-link/:page",
+    handler: (req, reply) => {
+      reply.type("text/html").send(`<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="prev" href="/pagination-link/${
+      Number(req.params["page"]) - 1
+    }"></link>
+    <link rel="next" href="/pagination-link/${
+      Number(req.params["page"]) + 1
+    }"></link>
+  </head>
+</html>`);
+    },
+  },
+  {
+    url: "/reload",
+    handler: staticContentHandler(`<!DOCTYPE html>
+<html lang="en">
+  <body style="width:1000px; height:1000px"></body>
+</html>`),
+  },
+]);
 
 test.beforeAll(async () => {
   await server.start();
@@ -58,7 +53,7 @@ test("should go to parent path without hash by gu", async ({ page }) => {
 });
 
 test("should remove hash by gu", async ({ page }) => {
-  await page.goto(server.url("/a/b/c#hash"));
+  await page.goto(server.url("/a/b/c") + "#hash");
   await page.keyboard.type("gu");
 
   await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/c");

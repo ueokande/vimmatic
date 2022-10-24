@@ -1,7 +1,7 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newNopServer } from "./lib/servers";
 
-const server = new TestServer();
+const server = newNopServer();
 
 test.beforeAll(async () => {
   await server.start();

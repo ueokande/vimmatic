@@ -1,9 +1,9 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newNopServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
 import Settings from "../src/shared/settings/Settings";
 
-const server = new TestServer().receiveContent("/*", "ok");
+const server = newNopServer();
 
 test.beforeAll(async () => {
   await server.start();

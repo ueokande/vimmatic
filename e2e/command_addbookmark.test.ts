@@ -1,11 +1,7 @@
 import { test, expect } from "./lib/fixture";
-import TestServer from "./lib/TestServer";
+import { newSingleTitleServer } from "./lib/servers";
 
-const server = new TestServer().receiveContent(
-  "/happy",
-  `<!DOCTYPE html>
-<html lang="en"><head><title>how to be happy</title></head></html>`
-);
+const server = newSingleTitleServer("how to be happy");
 
 test.beforeAll(async () => {
   await server.start();
