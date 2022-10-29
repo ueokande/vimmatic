@@ -1,14 +1,16 @@
+import type Command from "./Command";
 import Properties from "../../shared/settings/Properties";
+import PropertySettings from "../settings/PropertySettings";
 
 const mustNumber = (v: any): number => {
   const num = Number(v);
   if (isNaN(num)) {
-    throw new Error("Not number: " + v);
+    throw new Error("Not a number: " + v);
   }
   return num;
 };
 
-const parseSetOption = (args: string): any[] => {
+const parseSetOption = (args: string): [string, string | number | boolean] => {
   let [key, value]: any[] = args.split("=");
   if (value === undefined) {
     value = !key.startsWith("no");
@@ -37,4 +39,24 @@ const parseSetOption = (args: string): any[] => {
   }
 };
 
-export { parseSetOption };
+class SetCommand implements Command {
+  constructor(private readonly propretySettings: PropertySettings) {}
+
+  names(): string[] {
+    return ["set"];
+  }
+
+  fullname(): string {
+    return "set";
+  }
+
+  async exec(_force: boolean, args: string): Promise<void> {
+    if (args.length === 0) {
+      return;
+    }
+    const [name, value] = parseSetOption(args);
+    await this.propretySettings.setProperty(name, value);
+  }
+}
+
+export default SetCommand;

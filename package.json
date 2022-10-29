@@ -27,6 +27,7 @@
     "@playwright/test": "1.26.0",
     "@types/assert": "^1.4.6",
     "@types/express": "^4.17.13",
+    "@types/firefox-webext-browser": "^94.0.1",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.18",
     "@types/prop-types": "^15.7.4",
