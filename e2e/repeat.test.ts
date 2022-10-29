@@ -11,24 +11,6 @@ test.afterAll(async () => {
   await server.stop();
 });
 
-test("repeats last command", async ({ page, api }) => {
-  const { id: windowId } = await api.windows.getCurrent();
-
-  await page.console.exec(`tabopen about:blank?newtab`);
-  await expect
-    .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([{ url: "about:blank" }, { url: "about:blank?newtab" }]);
-
-  await page.keyboard.press(".");
-  await expect
-    .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([
-      { url: "about:blank" },
-      { url: "about:blank?newtab" },
-      { url: "about:blank?newtab" },
-    ]);
-});
-
 test("repeats last operation", async ({ page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
   for (let i = 1; i <= 5; ++i) {
