@@ -20,6 +20,7 @@ jobs:
       with:
         geckodriver-version: 0.28.0
     - run: yarn install --immutable
+    - run: yarn tsc
     - run: yarn lint
     - run: yarn test
     - run: yarn package

@@ -42,7 +42,7 @@ export default class ContentMessageListener {
         try {
           const ret = this.onMessage(message, sender.tab as browser.tabs.Tab);
           if (!(ret instanceof Promise)) {
-            return {};
+            return Promise.resolve({});
           }
           return ret.catch((e) => {
             console.error(e);
