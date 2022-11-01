@@ -1,4 +1,4 @@
-import * as filters from "../../../../src/background/completion/impl/filters";
+import * as filters from "../../../src/background/command/filters";
 
 describe("background/usecases/filters", () => {
   describe("filterHttp", () => {

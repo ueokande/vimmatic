@@ -1,4 +1,5 @@
 import type Command from "./Command";
+import type { Completions } from "./Command";
 
 class QuitAllCommand implements Command {
   names(): string[] {
@@ -7,6 +8,14 @@ class QuitAllCommand implements Command {
 
   fullname(): string {
     return "quitall";
+  }
+
+  description(): string {
+    return "Close all tabs";
+  }
+
+  getCompletions(_force: boolean, _query: string): Promise<Completions> {
+    return Promise.resolve([]);
   }
 
   async exec(force: boolean, _args: string): Promise<void> {

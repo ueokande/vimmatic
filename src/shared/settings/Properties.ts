@@ -14,12 +14,17 @@ export type PropertyTypes = {
   colorscheme: string;
 };
 
-type PropertyName = "hintchars" | "smoothscroll" | "complete" | "colorscheme";
+export type PropertyName =
+  | "hintchars"
+  | "smoothscroll"
+  | "complete"
+  | "colorscheme";
 
 type PropertyDef = {
   name: PropertyName;
   defaultValue: string | number | boolean;
   type: "string" | "number" | "boolean";
+  description: string;
 };
 
 const defs: PropertyDef[] = [
@@ -27,21 +32,25 @@ const defs: PropertyDef[] = [
     name: "hintchars",
     defaultValue: "abcdefghijklmnopqrstuvwxyz",
     type: "string",
+    description: "hint characters on follow mode",
   },
   {
     name: "smoothscroll",
     defaultValue: false,
     type: "boolean",
+    description: "smooth scroll",
   },
   {
     name: "complete",
     defaultValue: "sbh",
     type: "string",
+    description: "which are completed at the open page",
   },
   {
     name: "colorscheme",
     defaultValue: ColorScheme.System,
     type: "string",
+    description: "color scheme of the console",
   },
 ];
 

@@ -10,28 +10,28 @@ import QuitCommand from "./QuitCommand";
 import SetCommand from "./SetCommand";
 import TabOpenCommand from "./TabOpenCommand";
 import WindowOpenCommand from "./WindowOpenCommand";
-import TabFilter, { TabFilterImpl } from "./TabFilter";
+import BufferCommandHelper from "./BufferCommandHelper";
 import PropertySettings, {
   PropertySettingsImpl,
 } from "../settings/PropertySettings";
 import SearchEngineSettings, {
   SearchEngineSettingsImpl,
 } from "../settings/SearchEngineSettings";
-import CommandRegistory, { CommandRegistoryImpl } from "./CommandRegistory";
-import LastselectedTab, { LastSelectedTabImpl } from "./LastSelectedTab";
+import CommandRegistry, { CommandRegistryImpl } from "./CommandRegistry";
+import LastSelectedTab, { LastSelectedTabImpl } from "./LastSelectedTab";
 import CachedSettingRepository from "../repositories/CachedSettingRepository";
 import ContentMessageClient from "../infrastructures/ContentMessageClient";
 import ConsoleClient from "../infrastructures/ConsoleClient";
 
 @injectable()
-export class CommandRegistoryFactory {
-  private readonly tabFilter: TabFilter = new TabFilterImpl();
-
-  private readonly lastSelectedTab: LastselectedTab = new LastSelectedTabImpl();
+export class CommandRegistryFactory {
+  private readonly lastSelectedTab: LastSelectedTab = new LastSelectedTabImpl();
 
   private readonly propertySettings: PropertySettings;
 
   private readonly searchEngineSettings: SearchEngineSettings;
+
+  private readonly bufferCommandHelper: BufferCommandHelper;
 
   constructor(
     @inject("CachedSettingRepository")
@@ -48,19 +48,28 @@ export class CommandRegistoryFactory {
     this.searchEngineSettings = new SearchEngineSettingsImpl(
       cachedSettingRepository
     );
+    this.bufferCommandHelper = new BufferCommandHelper(this.lastSelectedTab);
   }
 
-  create(): CommandRegistory {
-    const registory = new CommandRegistoryImpl();
+  create(): CommandRegistry {
+    const registory = new CommandRegistryImpl();
 
     registory.register(new AddBookmarkCommand(this.consoleClient));
-    registory.register(new BufferCommand(this.tabFilter, this.lastSelectedTab));
-    registory.register(new BufferDeleteCommand(this.tabFilter));
-    registory.register(new BufferDeletesCommand(this.tabFilter));
+    registory.register(
+      new BufferCommand(this.lastSelectedTab, this.bufferCommandHelper)
+    );
+    registory.register(new BufferDeleteCommand(this.bufferCommandHelper));
+    registory.register(new BufferDeletesCommand(this.bufferCommandHelper));
     registory.register(new HelpCommand());
-    registory.register(new OpenCommand(this.searchEngineSettings));
-    registory.register(new TabOpenCommand(this.searchEngineSettings));
-    registory.register(new WindowOpenCommand(this.searchEngineSettings));
+    registory.register(
+      new OpenCommand(this.searchEngineSettings, this.propertySettings)
+    );
+    registory.register(
+      new TabOpenCommand(this.searchEngineSettings, this.propertySettings)
+    );
+    registory.register(
+      new WindowOpenCommand(this.searchEngineSettings, this.propertySettings)
+    );
     registory.register(new QuitAllCommand());
     registory.register(new QuitCommand());
     registory.register(new SetCommand(this.propertySettings));

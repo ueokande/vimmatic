@@ -1,5 +1,4 @@
 import Completions from "../Completions";
-import CompletionType from "../../shared/CompletionType";
 import {
   SET_COMPLETION_SOURCE,
   SET_COMPLETIONS,
@@ -9,14 +8,12 @@ import {
 } from "./actions";
 
 export interface State {
-  completionTypes?: CompletionType[];
   completionSource: string;
   completions: Completions;
   select: number;
 }
 
 export const defaultState = {
-  completionTypes: undefined,
   completionSource: "",
   completions: [],
   select: -1,

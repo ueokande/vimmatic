@@ -1,4 +1,5 @@
 import type Command from "./Command";
+import type { Completions } from "./Command";
 import Properties from "../../shared/settings/Properties";
 import PropertySettings from "../settings/PropertySettings";
 
@@ -48,6 +49,44 @@ class SetCommand implements Command {
 
   fullname(): string {
     return "set";
+  }
+
+  description(): string {
+    return "Set a value of the property";
+  }
+
+  getCompletions(_force: boolean, query: string): Promise<Completions> {
+    const items = Properties.defs().map(({ name, type, description }) => {
+      if (type === "boolean") {
+        return [
+          {
+            primary: name,
+            secondary: "Enable " + description,
+            value: name,
+          },
+          {
+            primary: "no" + name,
+            secondary: "Disable " + description,
+            value: "no" + name,
+          },
+        ];
+      } else {
+        return [
+          {
+            primary: name,
+            secondary: "Set " + description,
+            value: name,
+          },
+        ];
+      }
+    });
+
+    return Promise.resolve([
+      {
+        name: "Properties",
+        items: items.flat().filter((item) => item.primary.startsWith(query)),
+      },
+    ]);
   }
 
   async exec(_force: boolean, args: string): Promise<void> {

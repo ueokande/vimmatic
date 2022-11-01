@@ -1,11 +1,14 @@
 import type Command from "./Command";
-import type TabFilter from "./TabFilter";
+import type { Completions } from "./Command";
 import type LastSelectedTab from "./LastSelectedTab";
+import BufferCommandHelper from "./BufferCommandHelper";
 
 class BufferCommand implements Command {
   constructor(
-    private readonly tabFilter: TabFilter,
-    private readonly lastSelectedTab: LastSelectedTab
+    private readonly lastSelectedTab: LastSelectedTab,
+    private readonly bufferCommandHelper = new BufferCommandHelper(
+      lastSelectedTab
+    )
   ) {}
 
   names(): string[] {
@@ -14,6 +17,14 @@ class BufferCommand implements Command {
 
   fullname(): string {
     return "buffer";
+  }
+
+  description(): string {
+    return "Select tabs by matched keywords";
+  }
+
+  async getCompletions(_force: boolean, query: string): Promise<Completions> {
+    return this.bufferCommandHelper.getCompletions(true, query);
   }
 
   // eslint-disable-next-line max-statements
@@ -44,8 +55,11 @@ class BufferCommand implements Command {
       return;
     }
 
-    const [current] = await browser.tabs.query({ active: true });
-    const tabs = await this.tabFilter.getByKeyword(keywords);
+    const [current] = await browser.tabs.query({
+      currentWindow: true,
+      active: true,
+    });
+    const tabs = await this.bufferCommandHelper.queryTabs(true, keywords);
     if (tabs.length === 0) {
       throw new RangeError("No matching buffer for " + keywords);
     }

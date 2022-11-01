@@ -1,11 +1,11 @@
-import { CommandRegistoryImpl } from "../../../src/background/command/CommandRegistory";
+import { CommandRegistryImpl } from "../../../src/background/command/CommandRegistry";
 
 const exec = () => {
   throw new Error("not implemented");
 };
 const description = () => "";
 
-describe("CommandRegistoryImpl", () => {
+describe("CommandRegistryImpl", () => {
   test("register and get command", () => {
     const cmd1 = {
       fullname: () => "open",
@@ -20,7 +20,7 @@ describe("CommandRegistoryImpl", () => {
       exec,
     };
 
-    const r = new CommandRegistoryImpl();
+    const r = new CommandRegistryImpl();
     r.register(cmd1);
     r.register(cmd2);
 
@@ -40,7 +40,7 @@ describe("CommandRegistoryImpl", () => {
       exec,
     };
 
-    const r = new CommandRegistoryImpl();
+    const r = new CommandRegistryImpl();
     r.register(cmd);
 
     expect(() =>
@@ -54,7 +54,7 @@ describe("CommandRegistoryImpl", () => {
   });
 
   test("throws an error when names does not contains fullname", () => {
-    const r = new CommandRegistoryImpl();
+    const r = new CommandRegistryImpl();
     expect(() =>
       r.register({
         fullname: () => "open",

@@ -1,8 +1,9 @@
 import type Command from "./Command";
-import type TabFilter from "./TabFilter";
+import type { Completions } from "./Command";
+import type BufferCommandHelper from "./BufferCommandHelper";
 
 class BufferDeleteCommand implements Command {
-  constructor(private readonly tabFilter: TabFilter) {}
+  constructor(private readonly bufferCommandHelper: BufferCommandHelper) {}
 
   names(): string[] {
     return ["bd", "bdel", "bdelete"];
@@ -12,12 +13,17 @@ class BufferDeleteCommand implements Command {
     return "bdelete";
   }
 
+  description(): string {
+    return "Close a certain tab matched by keywords";
+  }
+
+  async getCompletions(force: boolean, query: string): Promise<Completions> {
+    return this.bufferCommandHelper.getCompletions(force, query);
+  }
+
   async exec(force: boolean, args: string): Promise<void> {
     const keywords = args.trim();
-    let tabs = await this.tabFilter.getByKeyword(keywords);
-    if (!force) {
-      tabs = tabs.filter((tab) => !tab.pinned);
-    }
+    const tabs = await this.bufferCommandHelper.queryTabs(force, keywords);
     if (tabs.length === 0) {
       throw new Error("No matching buffer for " + keywords);
     } else if (tabs.length > 1) {

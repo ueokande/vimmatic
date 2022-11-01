@@ -59,6 +59,10 @@ const Completion: React.FC<Props> = ({ select, size, completions }) => {
   const groups: Array<JSX.Element> = [];
 
   completions.forEach((group, groupIndex) => {
+    if (group.items.length === 0) {
+      return;
+    }
+
     const items = [];
     const title = (
       <CompletionTitle

@@ -1,6 +1,5 @@
 import * as operations from "./operations";
-import CompletionType from "./CompletionType";
-import TabFlag from "./TabFlag";
+import type { Completions } from "../shared/Completions";
 
 export const BACKGROUND_OPERATION = "background.operation";
 
@@ -12,13 +11,7 @@ export const CONSOLE_SHOW_ERROR = "console.show.error";
 export const CONSOLE_SHOW_INFO = "console.show.info";
 export const CONSOLE_SHOW_FIND = "console.show.find";
 export const CONSOLE_HIDE = "console.hide";
-export const CONSOLE_GET_COMPLETION_TYPES = "console.get.completion.types";
-export const CONSOLE_REQUEST_SEARCH_ENGINES_MESSAGE =
-  "console.qresut.searchEngines";
-export const CONSOLE_REQUEST_BOOKMARKS = "console.request.bookmarks";
-export const CONSOLE_REQUEST_HISTORY = "console.request.history";
-export const CONSOLE_REQUEST_TABS = "console.request.tabs";
-export const CONSOLE_GET_PROPERTIES = "console.get.properties";
+export const CONSOLE_GET_COMPLETIONS = "console.get.completions";
 export const CONSOLE_RESIZE = "console.resize";
 
 export const FOLLOW_START = "follow.start";
@@ -98,69 +91,18 @@ export interface ConsoleHideMessage {
   type: typeof CONSOLE_HIDE;
 }
 
-export interface ConsoleGetCompletionTypesMessage {
-  type: typeof CONSOLE_GET_COMPLETION_TYPES;
-}
-
-export interface ConsoleRequestSearchEnginesMessage {
-  type: typeof CONSOLE_REQUEST_SEARCH_ENGINES_MESSAGE;
+export interface ConsoleGetCompletions {
+  type: typeof CONSOLE_GET_COMPLETIONS;
   query: string;
 }
 
-export interface ConsoleRequestBookmarksMessage {
-  type: typeof CONSOLE_REQUEST_BOOKMARKS;
-  query: string;
-}
-
-export interface ConsoleRequestHistoryMessage {
-  type: typeof CONSOLE_REQUEST_HISTORY;
-  query: string;
-}
-
-export interface ConsoleRequestTabsMessage {
-  type: typeof CONSOLE_REQUEST_TABS;
-  query: string;
-  excludePinned: boolean;
-}
-
-export interface ConsoleGetPropertiesMessage {
-  type: typeof CONSOLE_GET_PROPERTIES;
-}
+export type ConsoleGetCompletionsResponse = Completions;
 
 export interface ConsoleResizeMessage {
   type: typeof CONSOLE_RESIZE;
   width: number;
   height: number;
 }
-
-export type ConsoleRequestTabsResponse = {
-  index: number;
-  flag: TabFlag;
-  title: string;
-  url: string;
-  faviconUrl?: string;
-}[];
-
-export type ConsoleGetCompletionTypesResponse = CompletionType[];
-
-export type ConsoleRequestSearchEnginesResponse = {
-  title: string;
-}[];
-
-export type ConsoleRequestBookmarksResponse = {
-  title: string;
-  url: string;
-}[];
-
-export type ConsoleRequestHistoryResponse = {
-  title: string;
-  url: string;
-}[];
-
-export type ConsoleGetPropertiesResponse = {
-  name: string;
-  type: "string" | "boolean" | "number";
-}[];
 
 export interface FollowStartMessage {
   type: typeof FOLLOW_START;
@@ -299,13 +241,8 @@ export type Message =
   | ConsoleShowInfoMessage
   | ConsoleShowFindMessage
   | ConsoleHideMessage
-  | ConsoleRequestBookmarksMessage
-  | ConsoleRequestHistoryMessage
-  | ConsoleRequestTabsMessage
-  | ConsoleGetPropertiesMessage
+  | ConsoleGetCompletions
   | ConsoleResizeMessage
-  | ConsoleGetCompletionTypesMessage
-  | ConsoleRequestSearchEnginesMessage
   | FollowStartMessage
   | FollowRequestCountTargetsMessage
   | FollowResponseCountTargetsMessage
@@ -336,6 +273,7 @@ export type Message =
 export const valueOf = (o: any): Message => {
   switch (o.type) {
     case CONSOLE_UNFOCUS:
+    case CONSOLE_GET_COMPLETIONS:
     case CONSOLE_ENTER_COMMAND:
     case CONSOLE_ENTER_FIND:
     case CONSOLE_SHOW_COMMAND:

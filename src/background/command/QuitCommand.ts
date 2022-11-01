@@ -1,4 +1,5 @@
 import type Command from "./Command";
+import type { Completions } from "./Command";
 
 class QuitCommand implements Command {
   names(): string[] {
@@ -9,8 +10,19 @@ class QuitCommand implements Command {
     return "quit";
   }
 
+  description(): string {
+    return "Close the current tab";
+  }
+
+  getCompletions(_force: boolean, _query: string): Promise<Completions> {
+    return Promise.resolve([]);
+  }
+
   async exec(force: boolean, _args: string): Promise<void> {
-    const [tab] = await browser.tabs.query({ active: true });
+    const [tab] = await browser.tabs.query({
+      currentWindow: true,
+      active: true,
+    });
     if (!tab.id) {
       return;
     }

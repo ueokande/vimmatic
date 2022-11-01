@@ -7,7 +7,6 @@ import AddonEnabledController from "../controllers/AddonEnabledController";
 import LinkController from "../controllers/LinkController";
 import OperationController from "../controllers/OperationController";
 import MarkController from "../controllers/MarkController";
-import CompletionController from "../controllers/CompletionController";
 import ConsoleController from "../controllers/ConsoleController";
 import FindController from "../controllers/FindController";
 
@@ -20,8 +19,6 @@ export default class ContentMessageListener {
     private readonly settingController: SettingController,
     @inject(CommandController)
     private readonly commandController: CommandController,
-    @inject(CompletionController)
-    private readonly completionController: CompletionController,
     @inject(AddonEnabledController)
     private readonly addonEnabledController: AddonEnabledController,
     @inject(LinkController)
@@ -74,21 +71,8 @@ export default class ContentMessageListener {
     senderTab: browser.tabs.Tab
   ): Promise<unknown> | unknown {
     switch (message.type) {
-      case messages.CONSOLE_GET_COMPLETION_TYPES:
-        return this.completionController.getCompletionTypes();
-      case messages.CONSOLE_REQUEST_SEARCH_ENGINES_MESSAGE:
-        return this.completionController.requestSearchEngines(message.query);
-      case messages.CONSOLE_REQUEST_BOOKMARKS:
-        return this.completionController.requestBookmarks(message.query);
-      case messages.CONSOLE_REQUEST_HISTORY:
-        return this.completionController.requestHistory(message.query);
-      case messages.CONSOLE_REQUEST_TABS:
-        return this.completionController.queryTabs(
-          message.query,
-          message.excludePinned
-        );
-      case messages.CONSOLE_GET_PROPERTIES:
-        return this.completionController.getProperties();
+      case messages.CONSOLE_GET_COMPLETIONS:
+        return this.commandController.getCompletions(message.query);
       case messages.CONSOLE_ENTER_COMMAND:
         return this.onConsoleEnterCommand(message.text);
       case messages.CONSOLE_ENTER_FIND:

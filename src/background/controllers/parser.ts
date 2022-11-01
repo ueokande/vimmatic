@@ -20,3 +20,16 @@ export const parseCommand = (input: string): Result => {
   }
   return { name, force, args };
 };
+
+export const onCommandInputting = (input: string) => {
+  const line = input.trimLeft();
+  if (line.length == 0) {
+    return true;
+  }
+
+  const command = line.split(" ", 1)[0];
+  if (line.length == command.length) {
+    return true;
+  }
+  return false;
+};

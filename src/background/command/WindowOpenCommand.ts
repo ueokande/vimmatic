@@ -1,9 +1,19 @@
 import type Command from "./Command";
+import type { Completions } from "./Command";
 import * as urls from "../../shared/urls";
 import SearchEngineSettings from "../settings/SearchEngineSettings";
+import PropertySettings from "../settings/PropertySettings";
+import OpenCommandHelper from "./OpenCommandHelper";
 
 class WindowOpenCommand implements Command {
-  constructor(private readonly searchEngineSettings: SearchEngineSettings) {}
+  constructor(
+    private readonly searchEngineSettings: SearchEngineSettings,
+    propertySettings: PropertySettings,
+    private readonly openCommandHelper: OpenCommandHelper = new OpenCommandHelper(
+      searchEngineSettings,
+      propertySettings
+    )
+  ) {}
 
   names(): string[] {
     return ["w", "winopen"];
@@ -11,6 +21,14 @@ class WindowOpenCommand implements Command {
 
   fullname(): string {
     return "winopen";
+  }
+
+  description(): string {
+    return "Open a URL or search by keywords in new window";
+  }
+
+  getCompletions(_force: boolean, query: string): Promise<Completions> {
+    return this.openCommandHelper.getCompletions(query);
   }
 
   async exec(_force: boolean, args: string): Promise<void> {
