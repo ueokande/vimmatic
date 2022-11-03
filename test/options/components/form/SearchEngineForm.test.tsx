@@ -6,10 +6,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
-import SearchForm from "../../../../src/settings/components/form/SearchForm";
+import SearchForm from "../../../../src/options/components/form/SearchForm";
 import { FormSearch } from "../../../../src/shared/SettingData";
 
-describe("settings/form/SearchForm", () => {
+describe("options/form/SearchForm", () => {
   describe("render", () => {
     it("renders SearchForm", () => {
       const root = ReactTestRenderer.create(

@@ -6,10 +6,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
-import KeymapsForm from "../../../../src/settings/components/form/KeymapsForm";
+import KeymapsForm from "../../../../src/options/components/form/KeymapsForm";
 import { FormKeymaps } from "../../../../src/shared/SettingData";
 
-describe("settings/form/KeymapsForm", () => {
+describe("options/form/KeymapsForm", () => {
   describe("render", () => {
     it("renders keymap fields", () => {
       const root = ReactTestRenderer.create(

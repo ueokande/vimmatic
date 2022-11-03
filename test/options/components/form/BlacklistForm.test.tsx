@@ -7,11 +7,11 @@ import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
 
-import BlacklistForm from "../../../../src/settings/components/form/BlacklistForm";
+import BlacklistForm from "../../../../src/options/components/form/BlacklistForm";
 import Blacklist from "../../../../src/shared/settings/Blacklist";
-import AddButton from "../../../../src/settings/components/ui/AddButton";
+import AddButton from "../../../../src/options/components/ui/AddButton";
 
-describe("settings/form/BlacklistForm", () => {
+describe("options/form/BlacklistForm", () => {
   describe("render", () => {
     it("renders BlacklistForm", () => {
       const root = ReactTestRenderer.create(

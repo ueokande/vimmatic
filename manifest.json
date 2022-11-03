@@ -42,7 +42,7 @@
     "dist/console.js"
   ],
   "options_ui": {
-    "page": "dist/settings.html"
+    "page": "dist/options.html"
   },
   "browser_action": {
     "default_icon": {

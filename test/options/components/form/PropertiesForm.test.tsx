@@ -6,9 +6,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
-import PropertiesForm from "../../../../src/settings/components/form/PropertiesForm";
+import PropertiesForm from "../../../../src/options/components/form/PropertiesForm";
 
-describe("settings/form/PropertiesForm", () => {
+describe("options/form/PropertiesForm", () => {
   describe("render", () => {
     it("renders PropertiesForm", () => {
       const types = {

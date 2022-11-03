@@ -1,5 +1,5 @@
-import * as actions from "../../../src/settings/actions";
-import settingReducer from "../../../src/settings/reducers/setting";
+import * as actions from "../../../src/options/actions";
+import settingReducer from "../../../src/options/reducers/setting";
 import {
   FormSettings,
   JSONTextSettings,
@@ -7,7 +7,7 @@ import {
 } from "../../../src/shared/SettingData";
 import { DefaultSetting } from "../../../src/shared/settings/Settings";
 
-describe("settings setting reducer", () => {
+describe("options setting reducer", () => {
   it("return the initial state", () => {
     const state = settingReducer(undefined, {} as any);
     expect(state).toHaveProperty("source", "json");

@@ -7,7 +7,7 @@ import SearchForm from "./form/SearchForm";
 import KeymapsForm from "./form/KeymapsForm";
 import BlacklistForm from "./form/BlacklistForm";
 import PartialBlacklistForm from "./form/PartialBlacklistForm";
-import * as settingActions from "../../settings/actions/setting";
+import * as settingActions from "../actions/setting";
 import SettingData, {
   FormKeymaps,
   FormSearch,

@@ -5,9 +5,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestUtils from "react-dom/test-utils";
-import Radio from "../../../../src/settings/components/ui/Radio";
+import Radio from "../../../../src/options/components/ui/Radio";
 
-describe("settings/ui/Radio", () => {
+describe("options/ui/Radio", () => {
   let container: HTMLDivElement;
 
   beforeEach(() => {

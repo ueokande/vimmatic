@@ -5,9 +5,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactTestUtils from "react-dom/test-utils";
-import Text from "../../../../src/settings/components/ui/Text";
+import TextArea from "../../../../src/options/components/ui/TextArea";
 
-describe("settings/ui/Text", () => {
+describe("options/ui/TextArea", () => {
   let container: HTMLDivElement;
 
   beforeEach(() => {
@@ -19,31 +19,38 @@ describe("settings/ui/Text", () => {
     document.body.removeChild(container);
   });
 
-  it("renders text input", () => {
+  it("renders textarea", () => {
     ReactTestUtils.act(() => {
       ReactDOM.render(
-        <Text name="myname" label="myfield" value="myvalue" />,
+        <TextArea
+          name="myname"
+          label="myfield"
+          value="myvalue"
+          error="myerror"
+        />,
         container
       );
     });
 
     const label = document.querySelector("label")!;
-    const input = document.querySelector("input")!;
-    expect(label.textContent?.includes("myfield")).toBeTruthy;
-    expect(input.type).toEqual("text");
-    expect(input.name).toEqual("myname");
-    expect(input.value).toEqual("myvalue");
+    const textarea = document.querySelector("textarea")!;
+    const error = document.querySelector("[role=alert]")!;
+    expect(label.textContent).toEqual("myfield");
+    expect(textarea.nodeName).toEqual("TEXTAREA");
+    expect(textarea.name).toEqual("myname");
+    expect(textarea.value).toEqual("myvalue");
+    expect(error.textContent).toEqual("myerror");
   });
 
   it("invoke onChange", (done) => {
     ReactTestUtils.act(() => {
       ReactDOM.render(
-        <Text
+        <TextArea
           name="myname"
           label="myfield"
           value="myvalue"
           onChange={(e) => {
-            expect((e.target as HTMLInputElement).value).toEqual("newvalue");
+            expect((e.target as HTMLTextAreaElement).value).toEqual("newvalue");
             done();
           }}
         />,
@@ -51,7 +58,7 @@ describe("settings/ui/Text", () => {
       );
     });
 
-    const input = document.querySelector("input")!;
+    const input = document.querySelector("textarea")!;
     input.value = "newvalue";
     ReactTestUtils.Simulate.change(input);
   });
