@@ -16,9 +16,6 @@ jobs:
     - uses: ueokande/setup-firefox@latest
       with:
         firefox-version: 78.3.0esr
-    - uses: ueokande/setup-geckodriver@latest
-      with:
-        geckodriver-version: 0.28.0
     - run: yarn install --immutable
     - run: yarn tsc
     - run: yarn lint
@@ -37,9 +34,6 @@ jobs:
     - uses: ueokande/setup-firefox@latest
       with:
         firefox-version: 78.3.0esr
-    - uses: ueokande/setup-geckodriver@latest
-      with:
-        geckodriver-version: 0.28.0
     - name: Install xsel
       run: sudo apt-get install -y --no-install-recommends xsel
     - run: yarn install --immutable
@@ -49,10 +43,7 @@ jobs:
     - name: Run test
       run: |
         export DISPLAY=:99
-
-        geckodriver &
-        sudo Xvfb -ac :99 -screen 0 1280x1024x24 >/dev/null 2>&1 &
-
+        Xvfb -ac :99 -screen 0 1280x1024x24 >/dev/null 2>&1 &
         yarn test:e2e --headed
 
   deploy:
