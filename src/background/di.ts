@@ -19,6 +19,7 @@ import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
 import { ReadyFrameRepositoryImpl } from "./repositories/ReadyFrameRepository";
+import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 
 const container = new Container({ autoBindInjectable: true });
@@ -39,12 +40,11 @@ container.bind("ConsoleClient").to(ConsoleClientImpl);
 container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
 container.bind("OperatorFactory").to(OperatorFactoryImpl);
 container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
-
-const commandRegistryFactory = container.resolve<CommandRegistryFactory>(
-  CommandRegistryFactory
-);
+container
+  .bind("PropertyRegistry")
+  .toConstantValue(new PropertyRegistryFactry().create());
 container
   .bind("CommandRegistry")
-  .toConstantValue(commandRegistryFactory.create());
+  .toConstantValue(container.resolve(CommandRegistryFactory).create());
 
 export { container };

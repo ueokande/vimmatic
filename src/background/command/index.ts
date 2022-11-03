@@ -11,6 +11,7 @@ import SetCommand from "./SetCommand";
 import TabOpenCommand from "./TabOpenCommand";
 import WindowOpenCommand from "./WindowOpenCommand";
 import BufferCommandHelper from "./BufferCommandHelper";
+import PropertyRegistry from "../property/PropertyRegistry";
 import PropertySettings, {
   PropertySettingsImpl,
 } from "../settings/PropertySettings";
@@ -29,11 +30,15 @@ export class CommandRegistryFactory {
 
   private readonly propertySettings: PropertySettings;
 
+  private readonly propertyRegistry: PropertyRegistry;
+
   private readonly searchEngineSettings: SearchEngineSettings;
 
   private readonly bufferCommandHelper: BufferCommandHelper;
 
   constructor(
+    @inject("PropertyRegistry")
+    propertyRegistry: PropertyRegistry,
     @inject("CachedSettingRepository")
     cachedSettingRepository: CachedSettingRepository,
     @inject(ContentMessageClient)
@@ -41,7 +46,9 @@ export class CommandRegistryFactory {
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient
   ) {
+    this.propertyRegistry = propertyRegistry;
     this.propertySettings = new PropertySettingsImpl(
+      propertyRegistry,
       cachedSettingRepository,
       contentMessageClient
     );
@@ -72,7 +79,9 @@ export class CommandRegistryFactory {
     );
     registory.register(new QuitAllCommand());
     registory.register(new QuitCommand());
-    registory.register(new SetCommand(this.propertySettings));
+    registory.register(
+      new SetCommand(this.propertySettings, this.propertyRegistry)
+    );
 
     return registory;
   }

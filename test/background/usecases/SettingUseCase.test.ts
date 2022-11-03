@@ -7,7 +7,7 @@ import Settings, {
   DefaultSetting,
 } from "../../../src/shared/settings/Settings";
 import Notifier from "../../../src/background/presenters/Notifier";
-import Properties from "../../../src/shared/settings/Properties";
+import { PropertyRegistryFactry } from "../../../src/background/property/";
 
 class MockSettingRepository implements SettingRepository {
   load(): Promise<SettingData | null> {
@@ -50,6 +50,7 @@ describe("SettingUseCase", () => {
   let syncSettingRepository: SettingRepository;
   let cachedSettingRepository: CachedSettingRepository;
   let notifier: Notifier;
+  const propertyRegistry = new PropertyRegistryFactry().create();
   let sut: SettingUseCase;
 
   beforeEach(() => {
@@ -61,7 +62,8 @@ describe("SettingUseCase", () => {
       localSettingRepository,
       syncSettingRepository,
       cachedSettingRepository,
-      notifier
+      notifier,
+      propertyRegistry
     );
   });
 
@@ -71,9 +73,9 @@ describe("SettingUseCase", () => {
         keymaps: DefaultSetting.keymaps,
         search: DefaultSetting.search,
         blacklist: DefaultSetting.blacklist,
-        properties: new Properties({
+        properties: {
           hintchars: "abcd1234",
-        }),
+        },
       });
       jest.spyOn(cachedSettingRepository, "get").mockResolvedValue(settings);
 
@@ -89,9 +91,9 @@ describe("SettingUseCase", () => {
           keymaps: DefaultSetting.keymaps,
           search: DefaultSetting.search,
           blacklist: DefaultSetting.blacklist,
-          properties: new Properties({
+          properties: {
             hintchars: "abcd1234",
-          }),
+          },
         });
         const settingData = SettingData.fromJSON({
           source: "json",
@@ -116,9 +118,9 @@ describe("SettingUseCase", () => {
           keymaps: DefaultSetting.keymaps,
           search: DefaultSetting.search,
           blacklist: DefaultSetting.blacklist,
-          properties: new Properties({
+          properties: {
             hintchars: "aaaa1111",
-          }),
+          },
         });
         const settingData = SettingData.fromJSON({
           source: "json",
@@ -148,6 +150,77 @@ describe("SettingUseCase", () => {
         expect(current.properties.hintchars).toEqual(
           DefaultSetting.properties.hintchars
         );
+      });
+    });
+
+    describe("when lack of properties", () => {
+      it("fills default properties", async () => {
+        const settings = new Settings({
+          keymaps: DefaultSetting.keymaps,
+          search: DefaultSetting.search,
+          blacklist: DefaultSetting.blacklist,
+          properties: undefined,
+        });
+        const settingData = SettingData.fromJSON({
+          source: "json",
+          json: JSONTextSettings.fromSettings(settings).toJSONText(),
+        });
+        jest
+          .spyOn(syncSettingRepository, "load")
+          .mockResolvedValue(settingData);
+
+        await sut.reload();
+
+        const got = await cachedSettingRepository.get();
+        expect(got.properties.hintchars).toBe("abcdefghijklmnopqrstuvwxyz");
+        expect(got.properties.smoothscroll).toBe(false);
+      });
+
+      it("fills default property values if not set", async () => {
+        const settings = new Settings({
+          keymaps: DefaultSetting.keymaps,
+          search: DefaultSetting.search,
+          blacklist: DefaultSetting.blacklist,
+          properties: {
+            hintchars: "abcd1234",
+          },
+        });
+        const settingData = SettingData.fromJSON({
+          source: "json",
+          json: JSONTextSettings.fromSettings(settings).toJSONText(),
+        });
+        jest
+          .spyOn(syncSettingRepository, "load")
+          .mockResolvedValue(settingData);
+
+        await sut.reload();
+
+        const got = await cachedSettingRepository.get();
+        expect(got.properties.hintchars).toBe("abcd1234");
+        expect(got.properties.smoothscroll).toBe(false);
+      });
+
+      it("fills default property values if invalid", async () => {
+        const settings = new Settings({
+          keymaps: DefaultSetting.keymaps,
+          search: DefaultSetting.search,
+          blacklist: DefaultSetting.blacklist,
+          properties: {
+            complete: "xyz",
+          },
+        });
+        const settingData = SettingData.fromJSON({
+          source: "json",
+          json: JSONTextSettings.fromSettings(settings).toJSONText(),
+        });
+        jest
+          .spyOn(syncSettingRepository, "load")
+          .mockResolvedValue(settingData);
+
+        await sut.reload();
+
+        const got = await cachedSettingRepository.get();
+        expect(got.properties.complete).toBe("sbh");
       });
     });
   });

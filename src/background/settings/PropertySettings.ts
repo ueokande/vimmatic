@@ -1,6 +1,6 @@
-import type { PropertyName } from "../../shared/settings/Properties";
 import ContentMessageClient from "../infrastructures/ContentMessageClient";
 import CachedSettingRepository from "../repositories/CachedSettingRepository";
+import PropertyRegistry from "../property/PropertyRegistry";
 
 export default interface PropertySettings {
   setProperty(name: string, value: string | number | boolean): Promise<void>;
@@ -10,6 +10,7 @@ export default interface PropertySettings {
 
 export class PropertySettingsImpl {
   constructor(
+    private readonly propertyRegistry: PropertyRegistry,
     private readonly cachedSettingRepository: CachedSettingRepository,
     private readonly contentMessageClient: ContentMessageClient
   ) {}
@@ -25,13 +26,19 @@ export class PropertySettingsImpl {
 
   async getProperty(name: string): Promise<string | number | boolean> {
     const settings = await this.cachedSettingRepository.get();
-    const value = settings.properties[name as PropertyName];
-    if (
-      typeof value !== "string" &&
-      typeof value !== "number" &&
-      typeof value !== "boolean"
-    ) {
-      throw new Error(`unexpected property type of ${name}: ${typeof value}`);
+    const value = settings.properties[name];
+    const prop = this.propertyRegistry.getProperty(name);
+    if (typeof prop === "undefined") {
+      throw new Error(`Unknown property: ${name}`);
+    }
+    if (typeof value === "undefined") {
+      return prop.defaultValue();
+    }
+    try {
+      prop.validate && prop.validate(value);
+    } catch (e) {
+      console.warn(`Property ${name} has invalid value: ${e.message}`);
+      return prop.defaultValue();
     }
     return value;
   }

@@ -6,7 +6,6 @@ import Radio from "./ui/Radio";
 import SearchForm from "./form/SearchForm";
 import KeymapsForm from "./form/KeymapsForm";
 import BlacklistForm from "./form/BlacklistForm";
-import PropertiesForm from "./form/PropertiesForm";
 import PartialBlacklistForm from "./form/PartialBlacklistForm";
 import * as settingActions from "../../settings/actions/setting";
 import SettingData, {
@@ -16,7 +15,6 @@ import SettingData, {
   JSONTextSettings,
 } from "../../shared/SettingData";
 import { State as AppState } from "../reducers/setting";
-import Properties from "../../shared/settings/Properties";
 import Blacklist from "../../shared/settings/Blacklist";
 
 const Container = styled.form`
@@ -95,15 +93,20 @@ class SettingsComponent extends React.Component<Props> {
             onBlur={this.save.bind(this)}
           />
         </Fieldset>
-        <Fieldset>
-          <Legend>Properties</Legend>
-          <PropertiesForm
+        {
+          // FIXME support properties in form settings
+          /*
+          <Fieldset>
+            <Legend>Properties</Legend>
+            <PropertiesForm
             types={Properties.types()}
             value={form.properties.toJSON()}
             onChange={this.bindPropertiesForm.bind(this)}
             onBlur={this.save.bind(this)}
           />
-        </Fieldset>
+          </Fieldset>
+           */
+        }
       </div>
     );
   }
@@ -184,6 +187,7 @@ class SettingsComponent extends React.Component<Props> {
     this.props.dispatch(settingActions.set(data));
   }
 
+  /*
   bindPropertiesForm(value: any) {
     const data = new SettingData({
       source: this.props.source,
@@ -193,6 +197,7 @@ class SettingsComponent extends React.Component<Props> {
     });
     this.props.dispatch(settingActions.set(data));
   }
+   */
 
   bindJson(_name: string, value: string) {
     const data = new SettingData({

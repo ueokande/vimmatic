@@ -1,4 +1,5 @@
 import SetCommand from "../../../src/background/command/SetCommand";
+import { PropertyRegistryFactry } from "../../../src/background/property";
 import PropertySettings from "../../../src/background/settings/PropertySettings";
 
 class MockPropertySettings implements PropertySettings {
@@ -13,6 +14,7 @@ class MockPropertySettings implements PropertySettings {
 
 describe("SetCommand", () => {
   const propertySettings = new MockPropertySettings();
+  const propertyRegistry = new PropertyRegistryFactry().create();
 
   describe("exec", () => {
     const mockSetProperty = jest.spyOn(propertySettings, "setProperty");
@@ -24,14 +26,14 @@ describe("SetCommand", () => {
     });
 
     it("saves string property", async () => {
-      const cmd = new SetCommand(propertySettings);
+      const cmd = new SetCommand(propertySettings, propertyRegistry);
       await cmd.exec(false, "hintchars=abcdef");
 
       expect(mockSetProperty).toHaveBeenCalledWith("hintchars", "abcdef");
     });
 
     it("saves boolean property", async () => {
-      const cmd = new SetCommand(propertySettings);
+      const cmd = new SetCommand(propertySettings, propertyRegistry);
 
       await cmd.exec(false, "smoothscroll");
       expect(mockSetProperty).toHaveBeenCalledWith("smoothscroll", true);
@@ -43,7 +45,7 @@ describe("SetCommand", () => {
 
   describe("getCompletions", () => {
     it("returns all properties", async () => {
-      const cmd = new SetCommand(propertySettings);
+      const cmd = new SetCommand(propertySettings, propertyRegistry);
       const completions = await cmd.getCompletions(false, "");
       expect(completions).toHaveLength(1);
       expect(completions[0].items).toMatchObject([
@@ -56,7 +58,7 @@ describe("SetCommand", () => {
     });
 
     it("returns properties matched with a prefix", async () => {
-      const cmd = new SetCommand(propertySettings);
+      const cmd = new SetCommand(propertySettings, propertyRegistry);
       const completions = await cmd.getCompletions(false, "c");
       expect(completions).toHaveLength(1);
       expect(completions[0].items).toMatchObject([

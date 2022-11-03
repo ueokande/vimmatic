@@ -2,7 +2,7 @@ import * as operations from "./operations";
 import Settings, { DefaultSettingJSONText } from "./settings/Settings";
 import Keymaps from "./settings/Keymaps";
 import Search from "./settings/Search";
-import Properties from "./settings/Properties";
+import Properties, { PropertiesJSON } from "./settings/Properties";
 import Blacklist from "./settings/Blacklist";
 
 export class FormKeymaps {
@@ -194,7 +194,7 @@ export class FormSettings {
     return Settings.fromJSON({
       keymaps: this.keymaps.toKeymaps().toJSON(),
       search: this.search.toSearchSettings().toJSON(),
-      properties: this.properties.toJSON(),
+      properties: this.properties,
       blacklist: this.blacklist.toJSON(),
     });
   }
@@ -202,13 +202,13 @@ export class FormSettings {
   toJSON(): {
     keymaps: ReturnType<FormKeymaps["toJSON"]>;
     search: ReturnType<FormSearch["toJSON"]>;
-    properties: ReturnType<Properties["toJSON"]>;
+    properties: PropertiesJSON;
     blacklist: ReturnType<Blacklist["toJSON"]>;
   } {
     return {
       keymaps: this.keymaps.toJSON(),
       search: this.search.toJSON(),
-      properties: this.properties.toJSON(),
+      properties: this.properties,
       blacklist: this.blacklist.toJSON(),
     };
   }
@@ -222,7 +222,7 @@ export class FormSettings {
     return new FormSettings(
       FormKeymaps.fromJSON(o.keymaps),
       FormSearch.fromJSON(o.search),
-      Properties.fromJSON(o.properties),
+      o.properties,
       Blacklist.fromJSON(o.blacklist)
     );
   }
@@ -294,7 +294,6 @@ export default class SettingData {
           form: (this.form as FormSettings).toJSON(),
         };
     }
-    throw new Error(`unknown settings source: ${this.source}`);
   }
 
   toSettings(): Settings {
@@ -304,7 +303,6 @@ export default class SettingData {
       case SettingSource.Form:
         return this.getForm().toSettings();
     }
-    throw new Error(`unknown settings source: ${this.source}`);
   }
 
   static fromJSON(o: {

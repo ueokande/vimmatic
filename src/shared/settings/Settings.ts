@@ -62,7 +62,7 @@ export default class Settings {
       settings.search = Search.fromJSON(obj.search);
     }
     if (obj.properties) {
-      settings.properties = Properties.fromJSON(obj.properties);
+      settings.properties = obj.properties;
     }
     if (obj.blacklist) {
       settings.blacklist = Blacklist.fromJSON(obj.blacklist);
@@ -74,7 +74,7 @@ export default class Settings {
     return {
       keymaps: this.keymaps.toJSON(),
       search: this.search.toJSON(),
-      properties: this.properties.toJSON(),
+      properties: this.properties,
       blacklist: this.blacklist.toJSON(),
     };
   }

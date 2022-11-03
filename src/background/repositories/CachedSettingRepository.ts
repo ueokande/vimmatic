@@ -1,8 +1,7 @@
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 import Settings from "../../shared/settings/Settings";
-import Properties from "../../shared/settings/Properties";
-import ColorScheme from "../../shared/ColorScheme";
+import PropertyRegistry from "../property/PropertyRegistry";
 
 const CACHED_SETTING_KEY = "setting";
 
@@ -18,6 +17,11 @@ export default interface CachedSettingRepository {
 export class CachedSettingRepositoryImpl implements CachedSettingRepository {
   private readonly cache = new MemoryStorage();
 
+  constructor(
+    @inject("PropertyRegistry")
+    private readonly propertyRegistry: PropertyRegistry
+  ) {}
+
   get(): Promise<Settings> {
     const data = this.cache.get(CACHED_SETTING_KEY);
     return Promise.resolve(Settings.fromJSON(data));
@@ -32,41 +36,21 @@ export class CachedSettingRepositoryImpl implements CachedSettingRepository {
     name: string,
     value: string | number | boolean
   ): Promise<void> {
-    const def = Properties.def(name);
-    if (!def) {
+    const prop = this.propertyRegistry.getProperty(name);
+    if (!prop) {
       throw new Error("unknown property: " + name);
     }
-    if (typeof value !== def.type) {
+    if (typeof value !== prop.type()) {
       throw new TypeError(`property type of ${name} mismatch: ${typeof value}`);
     }
-    let newValue = value;
-    if (typeof value === "string" && value === "") {
-      newValue = def.defaultValue;
+    if (prop.validate) {
+      prop.validate(value);
     }
 
     const current = await this.get();
-    switch (name) {
-      case "hintchars":
-        current.properties.hintchars = newValue as string;
-        break;
-      case "smoothscroll":
-        current.properties.smoothscroll = newValue as boolean;
-        break;
-      case "complete":
-        current.properties.complete = newValue as string;
-        break;
-      case "colorscheme": {
-        switch (newValue) {
-          case ColorScheme.Light:
-          case ColorScheme.Dark:
-          case ColorScheme.System:
-            current.properties.colorscheme = newValue as ColorScheme;
-            break;
-          default:
-            throw new Error(`Unsupported colorscheme: ${newValue}`);
-        }
-        break;
-      }
+    current.properties[name] = value;
+    if (typeof value === "string" && value === "") {
+      current.properties[name] = prop.defaultValue();
     }
     await this.update(current);
   }

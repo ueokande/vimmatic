@@ -5,7 +5,6 @@ import SettingData, {
 } from "../../src/shared/SettingData";
 import Settings from "../../src/shared/settings/Settings";
 import Keymaps from "../../src/shared/settings/Keymaps";
-import ColorScheme from "../../src/shared/ColorScheme";
 
 describe("shared/SettingData", () => {
   describe("FormKeymaps", () => {
@@ -105,7 +104,7 @@ describe("shared/SettingData", () => {
             hintchars: "abcdefghijklmnopqrstuvwxyz",
             smoothscroll: false,
             complete: "sbh",
-            colorscheme: ColorScheme.System,
+            colorscheme: "system",
           },
           blacklist: [],
         };
@@ -150,7 +149,7 @@ describe("shared/SettingData", () => {
             hintchars: "abcdefghijklmnopqrstuvwxyz",
             smoothscroll: false,
             complete: "sbh",
-            colorscheme: ColorScheme.System,
+            colorscheme: "system",
           },
           blacklist: [],
         });
@@ -218,7 +217,7 @@ describe("shared/SettingData", () => {
               hintchars: "abcdefghijklmnopqrstuvwxyz",
               smoothscroll: false,
               complete: "sbh",
-              colorscheme: ColorScheme.System,
+              colorscheme: "system",
             },
             blacklist: [],
           },
