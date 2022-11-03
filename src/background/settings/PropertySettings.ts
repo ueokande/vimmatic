@@ -35,7 +35,7 @@ export class PropertySettingsImpl {
       return prop.defaultValue();
     }
     try {
-      prop.validate && prop.validate(value);
+      prop.validate(value);
     } catch (e) {
       console.warn(`Property ${name} has invalid value: ${e.message}`);
       return prop.defaultValue();

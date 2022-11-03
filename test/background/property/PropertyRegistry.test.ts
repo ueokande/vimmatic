@@ -9,18 +9,21 @@ describe("CommandRegistryImpl", () => {
         description: () => "my prop 1",
         type: () => "string",
         defaultValue: () => "default",
+        validate: () => true,
       },
       {
         name: () => "prop2",
         description: () => "my prop 2",
         type: () => "number",
         defaultValue: () => 10,
+        validate: () => true,
       },
       {
         name: () => "prop3",
         description: () => "my prop 3",
         type: () => "boolean",
         defaultValue: () => true,
+        validate: () => true,
       },
     ];
 
@@ -53,12 +56,14 @@ describe("CommandRegistryImpl", () => {
       description: () => "my first property",
       type: () => "string",
       defaultValue: () => "default",
+      validate: () => true,
     };
     const p2: Property = {
       name: () => "myprop",
       description: () => "my second property",
       type: () => "number",
       defaultValue: () => 100,
+      validate: () => true,
     };
     const r = new PropertyRegistryImpl();
     r.register(p1);
@@ -76,6 +81,7 @@ describe("CommandRegistryImpl", () => {
       description: () => "my prop",
       type: () => "string",
       defaultValue: () => 100,
+      validate: () => true,
     };
     expect(() => r.register(p1)).toThrowError(
       "Property prop is a string value, but the default value is a number"
@@ -86,6 +92,7 @@ describe("CommandRegistryImpl", () => {
       description: () => "my prop",
       type: () => "boolean",
       defaultValue: () => "false",
+      validate: () => true,
     };
     expect(() => r.register(p2)).toThrowError(
       "Property prop is a boolean value, but the default value is a string"

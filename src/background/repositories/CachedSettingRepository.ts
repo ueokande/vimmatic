@@ -40,12 +40,7 @@ export class CachedSettingRepositoryImpl implements CachedSettingRepository {
     if (!prop) {
       throw new Error("unknown property: " + name);
     }
-    if (typeof value !== prop.type()) {
-      throw new TypeError(`property type of ${name} mismatch: ${typeof value}`);
-    }
-    if (prop.validate) {
-      prop.validate(value);
-    }
+    prop.validate(value);
 
     const current = await this.get();
     current.properties[name] = value;

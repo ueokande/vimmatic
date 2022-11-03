@@ -1,4 +1,5 @@
 import type Property from "./Property";
+import type { PropertyType } from "./Property";
 
 export default class SmoothScrollProperty implements Property {
   name() {
@@ -15,5 +16,11 @@ export default class SmoothScrollProperty implements Property {
 
   defaultValue() {
     return false;
+  }
+
+  validate(value: PropertyType) {
+    if (typeof value !== "boolean") {
+      throw new Error("not a boolean");
+    }
   }
 }

@@ -10,5 +10,5 @@ export default interface Property {
 
   defaultValue(): PropertyType;
 
-  validate?: (value: PropertyType) => void;
+  validate(value: PropertyType): void;
 }

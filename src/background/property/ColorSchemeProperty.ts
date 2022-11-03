@@ -33,6 +33,6 @@ export default class ColorSchemeProperty implements Property {
       return;
     }
 
-    throw new Error(`Invalid value for colorscheme property: ${value}`);
+    throw new Error(`invalid color scheme: ${value}`);
   }
 }

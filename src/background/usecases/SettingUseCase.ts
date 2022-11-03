@@ -77,7 +77,7 @@ export default class SettingUseCase {
         return;
       }
       try {
-        prop.validate && prop.validate(currentValue);
+        prop.validate(currentValue);
       } catch (e) {
         console.warn(`Property ${prop.name()} has invalid value: ${e.message}`);
         settings.properties[prop.name()] = prop.defaultValue();

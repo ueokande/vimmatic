@@ -25,6 +25,9 @@ export default class CompleteProperty implements Property {
   }
 
   validate(value: PropertyType) {
+    if (typeof value !== "string") {
+      throw new Error("not a string");
+    }
     Array.from(value as string).forEach((ch) => {
       if (
         ch !== Complete.SearchEngines &&
