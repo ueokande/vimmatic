@@ -1,11 +1,6 @@
 /* eslint-disable max-len */
 
-import {
-  LocalSettingRepository,
-  SyncSettingRepository,
-} from "./repositories/SettingRepository";
 import { NotifierImpl } from "./presenters/Notifier";
-import { CachedSettingRepositoryImpl } from "./repositories/CachedSettingRepository";
 import { Container } from "inversify";
 import { TabPresenterImpl } from "./presenters/TabPresenter";
 import { OperatorFactoryImpl } from "./operators/impls/OperatorFactoryImpl";
@@ -19,14 +14,14 @@ import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
 import { ReadyFrameRepositoryImpl } from "./repositories/ReadyFrameRepository";
+import { PropertySettingsImpl } from "./settings/PropertySettings";
+import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
+import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 
 const container = new Container({ autoBindInjectable: true });
 
-container.bind("LocalSettingRepository").to(LocalSettingRepository);
-container.bind("SyncSettingRepository").to(SyncSettingRepository);
-container.bind("CachedSettingRepository").to(CachedSettingRepositoryImpl);
 container.bind("Notifier").to(NotifierImpl);
 container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
@@ -40,6 +35,12 @@ container.bind("ConsoleClient").to(ConsoleClientImpl);
 container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
 container.bind("OperatorFactory").to(OperatorFactoryImpl);
 container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
+container.bind("PropertySettings").to(PropertySettingsImpl);
+container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
+container
+  .bind("SettingsRepository")
+  .to(TransientSettingsRepotiory)
+  .inSingletonScope();
 container
   .bind("PropertyRegistry")
   .toConstantValue(new PropertyRegistryFactry().create());

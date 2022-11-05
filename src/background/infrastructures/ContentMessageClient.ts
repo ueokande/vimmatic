@@ -3,18 +3,6 @@ import * as messages from "../../shared/messages";
 
 @injectable()
 export default class ContentMessageClient {
-  async broadcastSettingsChanged(): Promise<void> {
-    const tabs = await browser.tabs.query({});
-    for (const tab of tabs) {
-      if (!tab.id || (tab.url && tab.url.startsWith("about:"))) {
-        continue;
-      }
-      browser.tabs.sendMessage(tab.id, {
-        type: messages.SETTINGS_CHANGED,
-      });
-    }
-  }
-
   async getAddonEnabled(tabId: number): Promise<boolean> {
     const enabled = await browser.tabs.sendMessage(tabId, {
       type: messages.ADDON_ENABLED_QUERY,
@@ -33,6 +21,12 @@ export default class ContentMessageClient {
       type: messages.TAB_SCROLL_TO,
       x,
       y,
+    });
+  }
+
+  async settingsChanged(tabId: number): Promise<void> {
+    await browser.tabs.sendMessage(tabId, {
+      type: messages.SETTINGS_CHANGED,
     });
   }
 }

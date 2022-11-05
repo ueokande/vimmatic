@@ -1,7 +1,6 @@
 import { test, expect } from "./lib/fixture";
 import { newNopServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
-import Settings from "../src/shared/settings/Settings";
 
 const server = newNopServer();
 
@@ -92,11 +91,9 @@ test('should display only specified items in "complete" property by setting', as
   page,
   api,
 }) => {
-  await new SettingRepository(api).saveJSON(
-    Settings.fromJSON({
-      properties: { complete: "bss" },
-    })
-  );
+  await new SettingRepository(api).save({
+    properties: { complete: "bss" },
+  });
 
   await page.reload();
   await page.console.show();

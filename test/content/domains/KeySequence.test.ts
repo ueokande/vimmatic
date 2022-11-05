@@ -1,12 +1,12 @@
 import KeySequence from "../../../src/content/domains/KeySequence";
-import Key from "../../../src/shared/settings/Key";
+import Key, { fromKeymap } from "../../../src/shared/Key";
 
 describe("KeySequence", () => {
   describe("#push", () => {
     it("append a key to the sequence", () => {
       const seq = new KeySequence([]);
-      seq.push(Key.fromMapKey("g"));
-      seq.push(Key.fromMapKey("<S-U>"));
+      seq.push(fromKeymap("g"));
+      seq.push(fromKeymap("<S-U>"));
 
       expect(seq.keys[0].key).toEqual("g");
       expect(seq.keys[1].key).toEqual("U");
@@ -16,35 +16,30 @@ describe("KeySequence", () => {
 
   describe("#startsWith", () => {
     it("returns true if the key sequence starts with param", () => {
-      const seq = new KeySequence([
-        Key.fromMapKey("g"),
-        Key.fromMapKey("<S-U>"),
-      ]);
+      const seq = new KeySequence([fromKeymap("g"), fromKeymap("<S-U>")]);
 
       expect(seq.startsWith(new KeySequence([]))).toBeTruthy;
-      expect(seq.startsWith(new KeySequence([Key.fromMapKey("g")]))).toBeTruthy;
+      expect(seq.startsWith(new KeySequence([fromKeymap("g")]))).toBeTruthy;
       expect(
-        seq.startsWith(
-          new KeySequence([Key.fromMapKey("g"), Key.fromMapKey("<S-U>")])
-        )
+        seq.startsWith(new KeySequence([fromKeymap("g"), fromKeymap("<S-U>")]))
       ).toBeTruthy;
       expect(
         seq.startsWith(
           new KeySequence([
-            Key.fromMapKey("g"),
-            Key.fromMapKey("<S-U>"),
-            Key.fromMapKey("x"),
+            fromKeymap("g"),
+            fromKeymap("<S-U>"),
+            fromKeymap("x"),
           ])
         )
       ).toBeFalsy;
-      expect(seq.startsWith(new KeySequence([Key.fromMapKey("h")]))).toBeFalsy;
+      expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy;
     });
 
     it("returns true if the empty sequence starts with an empty sequence", () => {
       const seq = new KeySequence([]);
 
       expect(seq.startsWith(new KeySequence([]))).toBeTruthy;
-      expect(seq.startsWith(new KeySequence([Key.fromMapKey("h")]))).toBeFalsy;
+      expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy;
     });
   });
 

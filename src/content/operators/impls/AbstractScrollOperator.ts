@@ -4,7 +4,7 @@ export default class AbstractScrollOperator {
   constructor(private readonly settingRepository: SettingRepository) {}
 
   protected getSmoothScroll(): boolean {
-    const settings = this.settingRepository.get();
-    return settings.properties["smoothscroll"] as boolean;
+    const { smoothscroll } = this.settingRepository.getProperties();
+    return smoothscroll as boolean;
   }
 }

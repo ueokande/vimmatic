@@ -22,9 +22,8 @@ export default class FollowMasterUseCase {
   ) {}
 
   startFollow(newTab: boolean, background: boolean): void {
-    const props = this.settingRepository.get().properties;
-    const hintchars = props["hintchars"] as string;
-    this.hintKeyRepository.reset(hintchars);
+    const { hintchars } = this.settingRepository.getProperties();
+    this.hintKeyRepository.reset(hintchars as string);
 
     this.followKeyRepository.clearKeys();
     this.followMasterRepository.setCurrentFollowMode(newTab, background);

@@ -1,27 +1,27 @@
 import { injectable, inject } from "inversify";
+import ContentMessageClient from "./infrastructures/ContentMessageClient";
 import ContentMessageListener from "./infrastructures/ContentMessageListener";
 import FindPortListener from "./infrastructures/FindPortListener";
-import SettingController from "./controllers/SettingController";
 import VersionController from "./controllers/VersionController";
-import SettingRepository from "./repositories/SettingRepository";
 import FindRepositoryImpl from "./repositories/FindRepository";
 import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
+import SettingsRepository from "./settings/SettingsRepository";
 
 @injectable()
 export default class Application {
   constructor(
     @inject(ContentMessageListener)
     private readonly contentMessageListener: ContentMessageListener,
-    @inject(SettingController)
-    private readonly settingController: SettingController,
+    @inject(ContentMessageClient)
+    private readonly contentMessageClient: ContentMessageClient,
     @inject(VersionController)
     private readonly versionController: VersionController,
-    @inject("SyncSettingRepository")
-    private readonly syncSettingRepository: SettingRepository,
     @inject("FindRepository")
     private readonly findRepository: FindRepositoryImpl,
     @inject("ReadyFrameRepository")
-    private readonly frameRepository: ReadyFrameRepository
+    private readonly frameRepository: ReadyFrameRepository,
+    @inject("SettingsRepository")
+    private readonly settingsRepository: SettingsRepository
   ) {}
 
   private readonly findPortListener = new FindPortListener(
@@ -30,8 +30,16 @@ export default class Application {
   );
 
   run() {
-    this.settingController.reload();
-
+    this.settingsRepository.onChanged(async () => {
+      const [tab] = await browser.tabs.query({
+        currentWindow: true,
+        active: true,
+      });
+      this.contentMessageClient.settingsChanged(tab.id!);
+    });
+    browser.tabs.onActivated.addListener(({ tabId }) => {
+      this.contentMessageClient.settingsChanged(tabId);
+    });
     browser.tabs.onUpdated.addListener((tabId: number, info) => {
       if (info.status == "loading") {
         this.findRepository.deleteLocalState(tabId);
@@ -45,9 +53,6 @@ export default class Application {
     });
 
     this.contentMessageListener.run();
-    this.syncSettingRepository.onChange(() => {
-      this.settingController.reload();
-    });
     this.findPortListener.run();
   }
 

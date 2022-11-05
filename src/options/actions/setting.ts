@@ -1,37 +1,46 @@
 import * as actions from "./index";
 import * as storages from "../storage";
-import SettingData, {
-  JSONTextSettings,
-  FormSettings,
-  SettingSource,
-} from "../../shared/SettingData";
+import { SettingsForm, SettingsSource } from "../schema";
+import {
+  settingsFromForm,
+  settingsFromText,
+  settingsToForm,
+  settingsToText,
+} from "../serdes";
 
-const load = async (): Promise<actions.SettingAction> => {
-  const data = await storages.load();
-  return set(data);
-};
-
-const save = async (data: SettingData): Promise<actions.SettingAction> => {
+const saveForm = async (form: SettingsForm): Promise<actions.SettingAction> => {
   try {
-    if (data.getSource() === SettingSource.JSON) {
-      // toSettings exercise validation
-      data.toSettings();
-    }
+    await storages.saveForm(form);
   } catch (e) {
+    console.error(e);
     return {
       type: actions.SETTING_SHOW_ERROR,
       error: e.toString(),
-      json: data.getJSON(),
     };
   }
-  await storages.save(data);
-  return set(data);
+
+  return setForm(form);
 };
 
-const switchToForm = (json: JSONTextSettings): actions.SettingAction => {
+const saveText = async (text: string): Promise<actions.SettingAction> => {
   try {
-    // toSettings exercise validation
-    const form = FormSettings.fromSettings(json.toSettings());
+    await storages.saveText(text);
+  } catch (e) {
+    console.error(e);
+    return {
+      type: actions.SETTING_SHOW_ERROR,
+      error: e.toString(),
+    };
+  }
+
+  return setText(text);
+};
+
+const switchToForm = (text: string): actions.SettingAction => {
+  try {
+    const settings = settingsFromText(text);
+    const form = settingsToForm(settings);
+
     return {
       type: actions.SETTING_SWITCH_TO_FORM,
       form,
@@ -40,36 +49,68 @@ const switchToForm = (json: JSONTextSettings): actions.SettingAction => {
     return {
       type: actions.SETTING_SHOW_ERROR,
       error: e.toString(),
-      json,
     };
   }
 };
 
-const switchToJson = (form: FormSettings): actions.SettingAction => {
-  const json = JSONTextSettings.fromSettings(form.toSettings());
+const switchToText = (form: SettingsForm): actions.SettingAction => {
+  try {
+    const settings = settingsFromForm(form);
+    const text = settingsToText(settings);
+
+    return {
+      type: actions.SETTING_SWITCH_TO_TEXT,
+      text,
+    };
+  } catch (e) {
+    return {
+      type: actions.SETTING_SHOW_ERROR,
+      error: e.toString(),
+    };
+  }
+};
+
+const setText = (text: string): actions.SettingAction => {
   return {
-    type: actions.SETTING_SWITCH_TO_JSON,
-    json,
+    type: actions.SETTING_SET_SETTINGS,
+    source: SettingsSource.Text,
+    text,
   };
 };
 
-const set = (data: SettingData): actions.SettingAction => {
-  const source = data.getSource();
-  switch (source) {
-    case SettingSource.JSON:
-      return {
-        type: actions.SETTING_SET_SETTINGS,
-        source: source,
-        json: data.getJSON(),
-      };
-    case SettingSource.Form:
-      return {
-        type: actions.SETTING_SET_SETTINGS,
-        source: source,
-        form: data.getForm(),
-      };
-  }
-  throw new Error(`unknown source: ${source}`);
+const setForm = (form: SettingsForm): actions.SettingAction => {
+  return {
+    type: actions.SETTING_SET_SETTINGS,
+    source: SettingsSource.Form,
+    form,
+  };
 };
 
-export { load, save, set, switchToForm, switchToJson };
+const load = async (): Promise<actions.SettingAction> => {
+  const source = await storages.loadSettingsSource();
+  if (source === SettingsSource.Form) {
+    const form = await storages.loadForm();
+    return {
+      type: actions.SETTING_SET_SETTINGS,
+      source: SettingsSource.Form,
+      form,
+    };
+  } else {
+    const text = await storages.loadText();
+    return {
+      type: actions.SETTING_SET_SETTINGS,
+      source: SettingsSource.Text,
+      text,
+    };
+  }
+};
+
+export {
+  saveForm,
+  saveText,
+  switchToForm,
+  switchToText,
+  load,
+  setText,
+  setForm,
+};

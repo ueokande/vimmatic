@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import AddButton from "../ui/AddButton";
 import DeleteButton from "../ui/DeleteButton";
-import Blacklist, { BlacklistItem } from "../../../shared/settings/Blacklist";
+import type { PartialBlacklistForm } from "../../schema";
 
 const Grid = styled.div``;
 
@@ -37,14 +37,14 @@ const Input = styled.input`
 `;
 
 interface Props {
-  value: Blacklist;
-  onChange: (value: Blacklist) => void;
+  value: PartialBlacklistForm;
+  onChange: (value: PartialBlacklistForm) => void;
   onBlur: () => void;
 }
 
-class PartialBlacklistForm extends React.Component<Props> {
+class Component extends React.Component<Props> {
   public static defaultProps: Props = {
-    value: new Blacklist([]),
+    value: [],
     onChange: () => {},
     onBlur: () => {},
   };
@@ -57,10 +57,7 @@ class PartialBlacklistForm extends React.Component<Props> {
             <GridCell>URL</GridCell>
             <GridCell>Keys</GridCell>
           </GridHeader>
-          {this.props.value.items.map((item, index) => {
-            if (!item.partial) {
-              return null;
-            }
+          {this.props.value.map((item, index) => {
             return (
               <GridRow key={index} role="listitem">
                 <GridCell>
@@ -113,29 +110,23 @@ class PartialBlacklistForm extends React.Component<Props> {
   bindValue(e: any) {
     const name = e.target.name;
     const index = e.target.getAttribute("data-index");
-    const items = this.props.value.items;
+    const items = this.props.value;
 
     if (name === "url") {
-      const current = items[index];
-      items[index] = new BlacklistItem(e.target.value, true, current.keys);
+      items[index].pattern = e.target.value;
     } else if (name === "keys") {
-      const current = items[index];
-      items[index] = new BlacklistItem(
-        current.pattern,
-        true,
-        e.target.value.split(",")
-      );
+      items[index].keys = e.target.value.split(",");
     } else if (name === "add") {
-      items.push(new BlacklistItem("", true, []));
+      items.push({ pattern: "", keys: [] });
     } else if (name === "delete") {
       items.splice(index, 1);
     }
 
-    this.props.onChange(new Blacklist(items));
+    this.props.onChange(items);
     if (name === "delete") {
       this.props.onBlur();
     }
   }
 }
 
-export default PartialBlacklistForm;
+export default Component;

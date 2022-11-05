@@ -5,17 +5,19 @@ import TextArea from "./ui/TextArea";
 import Radio from "./ui/Radio";
 import SearchForm from "./form/SearchForm";
 import KeymapsForm from "./form/KeymapsForm";
-import BlacklistForm from "./form/BlacklistForm";
+import FullBlacklistForm from "./form/FullBlacklistForm";
 import PartialBlacklistForm from "./form/PartialBlacklistForm";
 import * as settingActions from "../actions/setting";
-import SettingData, {
-  FormKeymaps,
-  FormSearch,
-  FormSettings,
-  JSONTextSettings,
-} from "../../shared/SettingData";
 import { State as AppState } from "../reducers/setting";
-import Blacklist from "../../shared/settings/Blacklist";
+import {
+  SettingsForm,
+  KeymapsForm as KeymapsFormType,
+  SearchEngineForm as SearchEngineFormType,
+  FullBlacklistForm as FullBlacklistFormType,
+  PartialBlacklistForm as PartialBlacklistFormType,
+  PropertiesForm as PropertiesFormType,
+  SettingsSource,
+} from "../schema";
 
 const Container = styled.form`
   padding: 2px;
@@ -58,7 +60,7 @@ class SettingsComponent extends React.Component<Props> {
     this.props.dispatch(settingActions.load());
   }
 
-  renderFormFields(form: FormSettings) {
+  renderFormFields(form: SettingsForm) {
     return (
       <div>
         <Fieldset>
@@ -79,17 +81,17 @@ class SettingsComponent extends React.Component<Props> {
         </Fieldset>
         <Fieldset>
           <Legend>Blacklist</Legend>
-          <BlacklistForm
-            value={form.blacklist}
-            onChange={this.bindBlacklistForm.bind(this)}
+          <FullBlacklistForm
+            value={form.fullBlacklist}
+            onChange={this.bindFullBlacklistForm.bind(this)}
             onBlur={this.save.bind(this)}
           />
         </Fieldset>
         <Fieldset>
           <Legend>Partial blacklist</Legend>
           <PartialBlacklistForm
-            value={form.blacklist}
-            onChange={this.bindBlacklistForm.bind(this)}
+            value={form.partialBlacklist}
+            onChange={this.bindPartialBlacklistForm.bind(this)}
             onBlur={this.save.bind(this)}
           />
         </Fieldset>
@@ -111,17 +113,17 @@ class SettingsComponent extends React.Component<Props> {
     );
   }
 
-  renderJsonFields(json: JSONTextSettings, error: string) {
+  renderTextFields(text: string, error: string) {
     return (
       <div>
         <TextArea
-          name="json"
+          name="text"
           label="Plain JSON"
           spellCheck={false}
           error={error}
-          onValueChange={this.bindJson.bind(this)}
+          onValueChange={this.bindText.bind(this)}
           onBlur={this.save.bind(this)}
-          value={json.toJSONText()}
+          value={text}
         />
       </div>
     );
@@ -132,8 +134,8 @@ class SettingsComponent extends React.Component<Props> {
     const disabled = this.props.error.length > 0;
     if (this.props.source === "form") {
       fields = this.renderFormFields(this.props.form!);
-    } else if (this.props.source === "json") {
-      fields = this.renderJsonFields(this.props.json!, this.props.error);
+    } else if (this.props.source === "text") {
+      fields = this.renderTextFields(this.props.text!, this.props.error);
     }
     return (
       <Container>
@@ -151,8 +153,8 @@ class SettingsComponent extends React.Component<Props> {
         <Radio
           name="source"
           label="Use plain JSON"
-          checked={this.props.source === "json"}
-          value="json"
+          checked={this.props.source === "text"}
+          value="text"
           onValueChange={this.bindSource.bind(this)}
           disabled={disabled}
         />
@@ -161,77 +163,58 @@ class SettingsComponent extends React.Component<Props> {
     );
   }
 
-  bindKeymapsForm(value: FormKeymaps) {
-    const data = new SettingData({
-      source: this.props.source,
-      form: (this.props.form as FormSettings).buildWithKeymaps(value),
-    });
-    this.props.dispatch(settingActions.set(data));
+  bindKeymapsForm(keymaps: KeymapsFormType) {
+    const newValue = { keymaps, ...this.props.form };
+    this.props.dispatch(settingActions.setForm(newValue));
   }
 
-  bindSearchForm(value: any) {
-    const data = new SettingData({
-      source: this.props.source,
-      form: (this.props.form as FormSettings).buildWithSearch(
-        FormSearch.fromJSON(value)
-      ),
-    });
-    this.props.dispatch(settingActions.set(data));
+  bindSearchForm(search: SearchEngineFormType) {
+    const newValue = { search, ...this.props.form };
+    this.props.dispatch(settingActions.setForm(newValue));
   }
 
-  bindBlacklistForm(blacklist: Blacklist) {
-    const data = new SettingData({
-      source: this.props.source,
-      form: (this.props.form as FormSettings).buildWithBlacklist(blacklist),
-    });
-    this.props.dispatch(settingActions.set(data));
+  bindFullBlacklistForm(fullBlacklist: FullBlacklistFormType) {
+    const newValue = { fullBlacklist, ...this.props.form };
+    this.props.dispatch(settingActions.setForm(newValue));
   }
 
-  /*
-  bindPropertiesForm(value: any) {
-    const data = new SettingData({
-      source: this.props.source,
-      form: (this.props.form as FormSettings).buildWithProperties(
-        Properties.fromJSON(value)
-      ),
-    });
-    this.props.dispatch(settingActions.set(data));
+  bindPartialBlacklistForm(partialBlacklist: PartialBlacklistFormType) {
+    const newValue = { partialBlacklist, ...this.props.form };
+    this.props.dispatch(settingActions.setForm(newValue));
   }
-   */
 
-  bindJson(_name: string, value: string) {
-    const data = new SettingData({
-      source: this.props.source,
-      json: JSONTextSettings.fromText(value),
-    });
-    this.props.dispatch(settingActions.set(data));
+  bindPropertiesForm(properties: PropertiesFormType) {
+    const newValue = { properties, ...this.props.form };
+    this.props.dispatch(settingActions.setForm(newValue));
+  }
+
+  bindText(_name: string, text: string) {
+    this.props.dispatch(settingActions.setText(text));
   }
 
   bindSource(_name: string, value: string) {
     const from = this.props.source;
-    if (from === "form" && value === "json") {
-      this.props.dispatch(
-        settingActions.switchToJson(this.props.form as FormSettings)
-      );
+    if (from === "form" && value === "text") {
+      this.props.dispatch(settingActions.switchToText(this.props.form!));
       this.save();
-    } else if (from === "json" && value === "form") {
+    } else if (from === "text" && value === "form") {
       const b = window.confirm(DO_YOU_WANT_TO_CONTINUE);
       if (!b) {
         this.forceUpdate();
         return;
       }
-      this.props.dispatch(
-        settingActions.switchToForm(this.props.json as JSONTextSettings)
-      );
+      this.props.dispatch(settingActions.switchToForm(this.props.text!));
       this.save();
     }
   }
 
   save() {
-    const { source, json, form } = this.props.store.getState();
-    this.props.dispatch(
-      settingActions.save(new SettingData({ source, json, form }))
-    );
+    const { source, text, form } = this.props.store.getState();
+    if (source === SettingsSource.Text) {
+      this.props.dispatch(settingActions.saveText(text));
+    } else {
+      this.props.dispatch(settingActions.saveForm(form));
+    }
   }
 }
 

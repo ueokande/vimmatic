@@ -1,22 +1,16 @@
 import * as actions from "../actions";
-import {
-  JSONTextSettings,
-  FormSettings,
-  SettingSource,
-} from "../../shared/SettingData";
-import { DefaultSetting } from "../../shared/settings/Settings";
+import { SettingsForm, SettingsSource } from "../schema";
 
 export interface State {
-  source: SettingSource;
-  json?: JSONTextSettings;
-  form?: FormSettings;
+  source: SettingsSource;
+  text?: string;
+  form?: SettingsForm;
   error: string;
 }
 
 const defaultState: State = {
-  source: SettingSource.JSON,
-  json: JSONTextSettings.fromText(""),
-  form: FormSettings.fromSettings(DefaultSetting),
+  source: SettingsSource.Text,
+  text: "",
   error: "",
 };
 
@@ -29,25 +23,25 @@ export default function reducer(
       return {
         ...state,
         source: action.source,
-        json: action.json,
+        text: action.text,
         form: action.form,
         error: "",
       };
     case actions.SETTING_SHOW_ERROR:
-      return { ...state, error: action.error, json: action.json };
+      return { ...state, error: action.error };
     case actions.SETTING_SWITCH_TO_FORM:
       return {
         ...state,
         error: "",
-        source: SettingSource.Form,
+        source: SettingsSource.Form,
         form: action.form,
       };
-    case actions.SETTING_SWITCH_TO_JSON:
+    case actions.SETTING_SWITCH_TO_TEXT:
       return {
         ...state,
         error: "",
-        source: SettingSource.JSON,
-        json: action.json,
+        source: SettingsSource.Text,
+        text: action.text,
       };
     default:
       return state;

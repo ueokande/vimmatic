@@ -2,7 +2,7 @@
   "name": "vimmatic",
   "description": "vimmatic",
   "scripts": {
-    "schema": "ajv compile -s src/shared/settings/schema.json -o src/shared/settings/validate.js",
+    "schema": "ajv compile -s src/settings/schema.json -o src/settings/validate.js",
     "start": "nodemon --watch ./src --ext js,jsx,ts,tsx,css,html script/build",
     "build": "script/build",
     "package": "yarn build && script/package",

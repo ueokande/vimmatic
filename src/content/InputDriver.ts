@@ -1,5 +1,5 @@
 import * as dom from "../shared/utils/dom";
-import Key from "../shared/settings/Key";
+import Key from "../shared/Key";
 
 const cancelKey = (e: KeyboardEvent): boolean => {
   if (e.key === "Escape") {

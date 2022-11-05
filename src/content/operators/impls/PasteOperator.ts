@@ -13,7 +13,7 @@ export default class PasteOperator implements Operator {
   ) {}
 
   async run(): Promise<void> {
-    const search = this.settingRepository.get().search;
+    const search = this.settingRepository.getSearch();
     const text = this.repository.read();
     const url = urls.searchUrl(text, search);
 

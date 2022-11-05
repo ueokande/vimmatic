@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Text from "../ui/Text";
 import keymaps from "../../keymaps";
-import { FormKeymaps } from "../../../shared/SettingData";
+import type { KeymapsForm } from "../../schema";
 
 const Grid = styled.div`
   column-count: 3;
@@ -17,20 +17,20 @@ const FieldGroup = styled.div`
 `;
 
 interface Props {
-  value: FormKeymaps;
-  onChange: (e: FormKeymaps) => void;
+  value: KeymapsForm;
+  onChange: (e: KeymapsForm) => void;
   onBlur: () => void;
 }
 
-class KeymapsForm extends React.Component<Props> {
+class Component extends React.Component<Props> {
   public static defaultProps: Props = {
-    value: FormKeymaps.fromJSON({}),
+    value: {},
     onChange: () => {},
     onBlur: () => {},
   };
 
   render() {
-    const values = this.props.value.toJSON();
+    const values = this.props.value;
     return (
       <Grid>
         {keymaps.fields.map((group, index) => {
@@ -58,8 +58,12 @@ class KeymapsForm extends React.Component<Props> {
   }
 
   bindValue(name: string, value: string) {
-    this.props.onChange(this.props.value.buildWithOverride(name, value));
+    const newValue = {
+      ...this.props.value,
+      [name]: value,
+    };
+    this.props.onChange(newValue);
   }
 }
 
-export default KeymapsForm;
+export default Component;

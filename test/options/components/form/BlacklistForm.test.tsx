@@ -7,17 +7,14 @@ import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
 
-import BlacklistForm from "../../../../src/options/components/form/BlacklistForm";
-import Blacklist from "../../../../src/shared/settings/Blacklist";
+import FullBlacklistForm from "../../../../src/options/components/form/FullBlacklistForm";
 import AddButton from "../../../../src/options/components/ui/AddButton";
 
-describe("options/form/BlacklistForm", () => {
+describe("options/form/FullBlacklistForm", () => {
   describe("render", () => {
     it("renders BlacklistForm", () => {
       const root = ReactTestRenderer.create(
-        <BlacklistForm
-          value={Blacklist.fromJSON(["*.slack.com", "www.google.com/maps"])}
-        />
+        <FullBlacklistForm value={["*.slack.com", "www.google.com/maps"]} />
       ).root;
 
       const rows = root
@@ -35,7 +32,7 @@ describe("options/form/BlacklistForm", () => {
     });
 
     it("renders blank value", () => {
-      const root = ReactTestRenderer.create(<BlacklistForm />).root;
+      const root = ReactTestRenderer.create(<FullBlacklistForm />).root;
 
       const rows = root.findAllByProps({
         className: "form-blacklist-form-row",
@@ -59,11 +56,10 @@ describe("options/form/BlacklistForm", () => {
     it("invokes onChange event on edit", (done) => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
-          <BlacklistForm
-            value={Blacklist.fromJSON(["*.slack.com", "www.google.com/maps*"])}
-            onChange={(value) => {
-              const urls = value.items.map((item) => item.pattern);
-              expect(urls).toEqual(["gitter.im", "www.google.com/maps*"]);
+          <FullBlacklistForm
+            value={["*.slack.com", "www.google.com/maps*"]}
+            onChange={(form) => {
+              expect(form).toEqual(["gitter.im", "www.google.com/maps*"]);
               done();
             }}
           />,
@@ -81,11 +77,10 @@ describe("options/form/BlacklistForm", () => {
     it("invokes onChange event on delete", (done) => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
-          <BlacklistForm
-            value={Blacklist.fromJSON(["*.slack.com", "www.google.com/maps*"])}
-            onChange={(value) => {
-              const urls = value.items.map((item) => item.pattern);
-              expect(urls).toEqual(["www.google.com/maps*"]);
+          <FullBlacklistForm
+            value={["*.slack.com", "www.google.com/maps*"]}
+            onChange={(form) => {
+              expect(form).toEqual(["www.google.com/maps*"]);
               done();
             }}
           />,
@@ -100,11 +95,10 @@ describe("options/form/BlacklistForm", () => {
     it("invokes onChange event on add", (done) => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
-          <BlacklistForm
-            value={Blacklist.fromJSON(["*.slack.com"])}
-            onChange={(value) => {
-              const urls = value.items.map((item) => item.pattern);
-              expect(urls).toEqual(["*.slack.com", ""]);
+          <FullBlacklistForm
+            value={["*.slack.com"]}
+            onChange={(form) => {
+              expect(form).toEqual(["*.slack.com", ""]);
               done();
             }}
           />,

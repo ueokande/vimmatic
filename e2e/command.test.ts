@@ -1,11 +1,10 @@
 import { test, expect } from "./lib/fixture";
 import { newNopServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
-import Settings from "../src/shared/settings/Settings";
 
 const server = newNopServer();
 
-const setupTabs = async (api) => {
+const setupTabs = async (api: typeof browser) => {
   const { id: windowId } = await api.windows.getCurrent();
   const tabs = [];
   for (let i = 1; i <= 4; i++) {
@@ -26,18 +25,16 @@ test.afterAll(async () => {
   await server.stop();
 });
 
-const setupSearchEngines = async (api) => {
-  await new SettingRepository(api).saveJSON(
-    Settings.fromJSON({
-      search: {
-        default: "google",
-        engines: {
-          google: server.url("/google") + "?q={}",
-          yahoo: server.url("/yahoo") + "?q={}",
-        },
+const setupSearchEngines = async (api: typeof browser) => {
+  await new SettingRepository(api).save({
+    search: {
+      default: "google",
+      engines: {
+        google: server.url("/google") + "?q={}",
+        yahoo: server.url("/yahoo") + "?q={}",
       },
-    })
-  );
+    },
+  });
 };
 
 test.describe("addbookmark command", () => {

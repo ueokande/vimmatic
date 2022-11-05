@@ -1,6 +1,6 @@
-import ContentMessageClient from "../infrastructures/ContentMessageClient";
-import CachedSettingRepository from "../repositories/CachedSettingRepository";
+import { injectable, inject } from "inversify";
 import PropertyRegistry from "../property/PropertyRegistry";
+import SettingsRepository from "./SettingsRepository";
 
 export default interface PropertySettings {
   setProperty(name: string, value: string | number | boolean): Promise<void>;
@@ -8,38 +8,49 @@ export default interface PropertySettings {
   getProperty(name: string): Promise<string | number | boolean>;
 }
 
+@injectable()
 export class PropertySettingsImpl {
   constructor(
-    private readonly propertyRegistry: PropertyRegistry,
-    private readonly cachedSettingRepository: CachedSettingRepository,
-    private readonly contentMessageClient: ContentMessageClient
+    @inject("SettingsRepository")
+    private readonly settingsRepository: SettingsRepository,
+    @inject("PropertyRegistry")
+    private readonly propertyRegistry: PropertyRegistry
   ) {}
 
   async setProperty(
     name: string,
     value: string | number | boolean
   ): Promise<void> {
-    await this.cachedSettingRepository.setProperty(name, value);
+    const def = this.propertyRegistry.getProperty(name);
+    if (!def) {
+      throw new Error("Unknown property: " + name);
+    }
+    def.validate(value);
 
-    return this.contentMessageClient.broadcastSettingsChanged();
+    const settings = await this.settingsRepository.load();
+    const properties = { ...settings.properties, [name]: value };
+    settings.properties = properties;
+    await this.settingsRepository.save(settings);
   }
 
   async getProperty(name: string): Promise<string | number | boolean> {
-    const settings = await this.cachedSettingRepository.get();
-    const value = settings.properties[name];
-    const prop = this.propertyRegistry.getProperty(name);
-    if (typeof prop === "undefined") {
-      throw new Error(`Unknown property: ${name}`);
+    const def = this.propertyRegistry.getProperty(name);
+    if (!def) {
+      throw new Error("Unknown property: " + name);
     }
+
+    const settings = await this.settingsRepository.load();
+    const value = (settings.properties || {})[name];
     if (typeof value === "undefined") {
-      return prop.defaultValue();
+      return def.defaultValue();
     }
     try {
-      prop.validate(value);
+      def.validate(value);
     } catch (e) {
       console.warn(`Property ${name} has invalid value: ${e.message}`);
-      return prop.defaultValue();
+      return def.defaultValue();
     }
+
     return value;
   }
 }

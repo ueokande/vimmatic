@@ -40,6 +40,7 @@ export const OPEN_URL = "open.url";
 
 export const SETTINGS_CHANGED = "settings.changed";
 export const SETTINGS_QUERY = "settings.query";
+export const SETTINGS_GET_PROPERTY = "settings.get.property";
 
 export const CONSOLE_FRAME_MESSAGE = "console.frame.message";
 
@@ -210,6 +211,11 @@ export interface SettingsQueryMessage {
   type: typeof SETTINGS_QUERY;
 }
 
+export interface SettingsGetProperty {
+  type: typeof SETTINGS_GET_PROPERTY;
+  name: string;
+}
+
 export interface ConsoleFrameMessageMessage {
   type: typeof CONSOLE_FRAME_MESSAGE;
   message: any;
@@ -263,6 +269,7 @@ export type Message =
   | OpenUrlMessage
   | SettingsChangedMessage
   | SettingsQueryMessage
+  | SettingsGetProperty
   | ConsoleFrameMessageMessage
   | NavigateHistoryNextMessage
   | NavigateHistoryPrevMessage
@@ -301,6 +308,7 @@ export const valueOf = (o: any): Message => {
     case OPEN_URL:
     case SETTINGS_CHANGED:
     case SETTINGS_QUERY:
+    case SETTINGS_GET_PROPERTY:
     case CONSOLE_FRAME_MESSAGE:
     case CONSOLE_RESIZE:
     case NAVIGATE_HISTORY_NEXT:

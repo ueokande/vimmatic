@@ -31,34 +31,6 @@ export default class Key {
     this.meta = meta;
   }
 
-  static fromMapKey(str: string): Key {
-    if (str.startsWith("<") && str.endsWith(">")) {
-      const inner = str.slice(1, -1);
-      const shift = inner.includes("S-");
-      let base = inner.slice(inner.lastIndexOf("-") + 1);
-      if (shift && base.length === 1) {
-        base = base.toUpperCase();
-      } else if (!shift && base.length === 1) {
-        base = base.toLowerCase();
-      }
-      return new Key({
-        key: base,
-        shift: shift,
-        ctrl: inner.includes("C-"),
-        alt: inner.includes("A-"),
-        meta: inner.includes("M-"),
-      });
-    }
-
-    return new Key({
-      key: str,
-      shift: str.toLowerCase() !== str,
-      ctrl: false,
-      alt: false,
-      meta: false,
-    });
-  }
-
   isDigit(): boolean {
     return digits.includes(this.key) && !this.ctrl && !this.alt && !this.meta;
   }
@@ -73,3 +45,31 @@ export default class Key {
     );
   }
 }
+
+export const fromKeymap = (str: string): Key => {
+  if (str.startsWith("<") && str.endsWith(">")) {
+    const inner = str.slice(1, -1);
+    const shift = inner.includes("S-");
+    let base = inner.slice(inner.lastIndexOf("-") + 1);
+    if (shift && base.length === 1) {
+      base = base.toUpperCase();
+    } else if (!shift && base.length === 1) {
+      base = base.toLowerCase();
+    }
+    return new Key({
+      key: base,
+      shift: shift,
+      ctrl: inner.includes("C-"),
+      alt: inner.includes("A-"),
+      meta: inner.includes("M-"),
+    });
+  }
+
+  return new Key({
+    key: str,
+    shift: str.toLowerCase() !== str,
+    ctrl: false,
+    alt: false,
+    meta: false,
+  });
+};

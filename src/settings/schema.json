@@ -34,13 +34,19 @@
     },
     "properties": {
       "type": "object",
-      "patternProperties": {
-        ".*": {
-          "anyOf": [
-            { "type": "string" },
-            { "type": "number" },
-            { "type": "boolean" }
-          ]
+      "properties": {
+        "hintchars": {
+          "type": "string"
+        },
+        "smoothscroll": {
+          "type": "boolean"
+        },
+        "complete": {
+          "type": "string"
+        },
+        "colorscheme": {
+          "type": "string",
+          "enum": ["system", "light", "dark"]
         }
       }
     },
@@ -48,7 +54,9 @@
       "type": "array",
       "items": {
         "anyOf": [
-          { "type": "string" },
+          {
+            "type": "string"
+          },
           {
             "type": "object",
             "properties": {

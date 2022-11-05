@@ -7,17 +7,16 @@ import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
 import KeymapsForm from "../../../../src/options/components/form/KeymapsForm";
-import { FormKeymaps } from "../../../../src/shared/SettingData";
 
 describe("options/form/KeymapsForm", () => {
   describe("render", () => {
     it("renders keymap fields", () => {
       const root = ReactTestRenderer.create(
         <KeymapsForm
-          value={FormKeymaps.fromJSON({
+          value={{
             'scroll.vertically?{"count":1}': "j",
             'scroll.vertically?{"count":-1}': "k",
-          })}
+          }}
         />
       ).root;
 
@@ -55,14 +54,14 @@ describe("options/form/KeymapsForm", () => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
           <KeymapsForm
-            value={FormKeymaps.fromJSON({
+            value={{
               'scroll.vertically?{"count":1}': "j",
               'scroll.vertically?{"count":-1}': "k",
-            })}
-            onChange={(value) => {
-              expect(value.toJSON()['scroll.vertically?{"count":1}']).toEqual(
-                "jjj"
-              );
+            }}
+            onChange={(form) => {
+              expect(form).toMatchObject({
+                'scroll.vertically?{"count":1}': "jjj",
+              });
               done();
             }}
           />,

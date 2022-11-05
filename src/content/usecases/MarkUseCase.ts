@@ -45,9 +45,8 @@ export default class MarkUseCase {
   }
 
   scroll(x: number, y: number): void {
-    const props = this.settingRepository.get().properties;
-    const smooth = props["smoothscroll"] as boolean;
-    this.scrollPresenter.scrollTo(x, y, smooth);
+    const { smoothscroll } = this.settingRepository.getProperties();
+    this.scrollPresenter.scrollTo(x, y, smoothscroll as boolean);
   }
 
   private globalKey(key: string) {

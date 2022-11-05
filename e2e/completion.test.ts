@@ -103,5 +103,5 @@ test("selects completion items by <Tab>/<S-Tab> keys", async ({ page }) => {
         ],
       },
     ]);
-  await expect.poll(() => page.console.getCommand(page)).toBe("bdeletes");
+  await expect.poll(() => page.console.getCommand()).toBe("bdeletes");
 });

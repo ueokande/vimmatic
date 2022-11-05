@@ -1,14 +1,11 @@
 import * as parsers from "../../src/shared/urls";
-import Search from "../../src/shared/settings/Search";
+import Search from "../../src/shared/Search";
 
 describe("shared/commands/parsers", () => {
   describe("#searchUrl", () => {
-    const config = Search.fromJSON({
-      default: "google",
-      engines: {
-        google: "https://google.com/search?q={}",
-        yahoo: "https://yahoo.com/search?q={}",
-      },
+    const config = new Search("google", {
+      google: "https://google.com/search?q={}",
+      yahoo: "https://yahoo.com/search?q={}",
     });
 
     it("convertes search url", () => {

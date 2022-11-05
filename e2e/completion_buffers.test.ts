@@ -3,7 +3,7 @@ import { newDynamicTitleServer } from "./lib/servers";
 
 const server = newDynamicTitleServer((req) => `Site ${req.url.slice(1)}`);
 
-const setupTabs = async (api) => {
+const setupTabs = async (api: typeof browser) => {
   const tabs = [];
   for (let i = 0; i < 4; ++i) {
     const url = server.url(`/site_${"abcd"[i]}`);

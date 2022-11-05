@@ -12,49 +12,31 @@ import TabOpenCommand from "./TabOpenCommand";
 import WindowOpenCommand from "./WindowOpenCommand";
 import BufferCommandHelper from "./BufferCommandHelper";
 import PropertyRegistry from "../property/PropertyRegistry";
-import PropertySettings, {
-  PropertySettingsImpl,
-} from "../settings/PropertySettings";
-import SearchEngineSettings, {
-  SearchEngineSettingsImpl,
-} from "../settings/SearchEngineSettings";
+import PropertySettings from "../settings/PropertySettings";
+import SearchEngineSettings from "../settings/SearchEngineSettings";
 import CommandRegistry, { CommandRegistryImpl } from "./CommandRegistry";
 import LastSelectedTab, { LastSelectedTabImpl } from "./LastSelectedTab";
-import CachedSettingRepository from "../repositories/CachedSettingRepository";
-import ContentMessageClient from "../infrastructures/ContentMessageClient";
 import ConsoleClient from "../infrastructures/ConsoleClient";
 
 @injectable()
 export class CommandRegistryFactory {
   private readonly lastSelectedTab: LastSelectedTab = new LastSelectedTabImpl();
 
-  private readonly propertySettings: PropertySettings;
-
   private readonly propertyRegistry: PropertyRegistry;
-
-  private readonly searchEngineSettings: SearchEngineSettings;
 
   private readonly bufferCommandHelper: BufferCommandHelper;
 
   constructor(
     @inject("PropertyRegistry")
     propertyRegistry: PropertyRegistry,
-    @inject("CachedSettingRepository")
-    cachedSettingRepository: CachedSettingRepository,
-    @inject(ContentMessageClient)
-    contentMessageClient: ContentMessageClient,
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
+    @inject("PropertySettings")
+    private readonly propertySettings: PropertySettings,
+    @inject("SearchEngineSettings")
+    private readonly searchEngineSettings: SearchEngineSettings
   ) {
     this.propertyRegistry = propertyRegistry;
-    this.propertySettings = new PropertySettingsImpl(
-      propertyRegistry,
-      cachedSettingRepository,
-      contentMessageClient
-    );
-    this.searchEngineSettings = new SearchEngineSettingsImpl(
-      cachedSettingRepository
-    );
     this.bufferCommandHelper = new BufferCommandHelper(this.lastSelectedTab);
   }
 

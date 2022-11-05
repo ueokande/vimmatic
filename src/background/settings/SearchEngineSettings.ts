@@ -1,17 +1,21 @@
-import Search from "../../shared/settings/Search";
-import CachedSettingRepository from "../repositories/CachedSettingRepository";
+import { injectable, inject } from "inversify";
+import SettingsRepository from "./SettingsRepository";
+import Search from "../../shared/Search";
+import { defaultSettings } from "../../settings";
 
 export default interface SearchEngineSettings {
   get(): Promise<Search>;
 }
 
+@injectable()
 export class SearchEngineSettingsImpl {
   constructor(
-    private readonly cachedSettingRepository: CachedSettingRepository
+    @inject("SettingsRepository")
+    private readonly settingsRepository: SettingsRepository
   ) {}
 
   async get(): Promise<Search> {
-    const settings = await this.cachedSettingRepository.get();
-    return settings.search;
+    const settings = await this.settingsRepository.load();
+    return settings.search || defaultSettings.search!;
   }
 }

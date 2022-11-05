@@ -4,7 +4,7 @@ import FollowPresenter from "../presenters/FollowPresenter";
 import TabsClient from "../client/TabsClient";
 import FollowMasterClient from "../client/FollowMasterClient";
 import { LinkHint, InputHint } from "../presenters/Hint";
-import Key from "../../shared/settings/Key";
+import Key from "../../shared/Key";
 
 interface Size {
   width: number;

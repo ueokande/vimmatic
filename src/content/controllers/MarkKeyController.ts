@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import MarkUseCase from "../usecases/MarkUseCase";
 import MarkKeyUseCase from "../usecases/MarkKeyUseCase";
-import Key from "../../shared/settings/Key";
+import Key from "../../shared/Key";
 
 @injectable()
 export default class MarkKeyController {

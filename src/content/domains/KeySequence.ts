@@ -1,4 +1,4 @@
-import Key from "../../shared/settings/Key";
+import Key, { fromKeymap } from "../../shared/Key";
 
 export default class KeySequence {
   constructor(public readonly keys: Key[]) {}
@@ -80,7 +80,7 @@ export default class KeySequence {
 
       return fromMapKeysRecursive(
         remaining.slice(nextPos),
-        mappedKeys.concat([Key.fromMapKey(remaining.slice(0, nextPos))])
+        mappedKeys.concat([fromKeymap(remaining.slice(0, nextPos))])
       );
     };
 

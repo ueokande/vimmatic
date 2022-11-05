@@ -3,7 +3,7 @@ import { newNopServer } from "./lib/servers";
 
 const server = newNopServer();
 
-const setupTabs = async (api) => {
+const setupTabs = async (api: typeof browser) => {
   const { id: windowId } = await api.windows.getCurrent();
   const tabs = [];
   for (let i = 1; i <= 5; i++) {

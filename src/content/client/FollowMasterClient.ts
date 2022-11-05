@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import * as messages from "../../shared/messages";
-import Key from "../../shared/settings/Key";
+import Key from "../../shared/Key";
 
 export default interface FollowMasterClient {
   startFollow(newTab: boolean, background: boolean): void;

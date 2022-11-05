@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
-import SettingUseCase from "../usecases/SettingUseCase";
+import SettingRepository from "../repositories/SettingRepository";
 import * as messages from "../../shared/messages";
 
 @injectable()
@@ -8,15 +8,18 @@ export default class SettingController {
   constructor(
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,
-    @inject(SettingUseCase)
-    private readonly settingUseCase: SettingUseCase
+    @inject("SettingRepository")
+    private readonly settingRepostory: SettingRepository
   ) {}
 
   async initSettings(): Promise<void> {
     try {
-      const current = await this.settingUseCase.reload();
+      await this.settingRepostory.reload();
+
       const url = new URL(window.location.href);
-      const disabled = current.blacklist.includesEntireBlacklist(url);
+      const disabled = this.settingRepostory
+        .getBlacklist()
+        .includesEntireBlacklist(url);
       if (disabled) {
         await this.addonEnabledUseCase.disable();
       } else {
@@ -30,6 +33,6 @@ export default class SettingController {
   }
 
   async reloadSettings(_message: messages.Message): Promise<void> {
-    await this.settingUseCase.reload();
+    await this.settingRepostory.reload();
   }
 }

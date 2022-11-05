@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import FollowSlaveUseCase from "../usecases/FollowSlaveUseCase";
-import Key from "../../shared/settings/Key";
+import Key from "../../shared/Key";
 
 @injectable()
 export default class FollowKeyController {

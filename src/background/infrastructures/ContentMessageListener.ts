@@ -84,7 +84,9 @@ export default class ContentMessageListener {
           message.height
         );
       case messages.SETTINGS_QUERY:
-        return this.onSettingsQuery();
+        return this.settingController.getSetting();
+      case messages.SETTINGS_GET_PROPERTY:
+        return this.settingController.getProperty(message.name);
       case messages.ADDON_ENABLED_RESPONSE:
         return this.onAddonEnabledResponse(message.enabled);
       case messages.OPEN_URL:
@@ -119,10 +121,6 @@ export default class ContentMessageListener {
     height: number
   ): Promise<void> {
     return this.consoleController.resize(senderTabId, width, height);
-  }
-
-  async onSettingsQuery(): Promise<unknown> {
-    return (await this.settingController.getSetting()).toJSON();
   }
 
   onAddonEnabledResponse(enabled: boolean): Promise<void> {

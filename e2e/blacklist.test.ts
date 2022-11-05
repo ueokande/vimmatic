@@ -1,14 +1,14 @@
 import { test, expect } from "./lib/fixture";
 import { newScrollableServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
-import Settings from "../src/shared/settings/Settings";
 
-const setupBlacklist = async (api, blacklist: unknown) => {
-  await new SettingRepository(api).saveJSON(
-    Settings.fromJSON({
-      blacklist,
-    })
-  );
+const setupBlacklist = async (
+  api: typeof browser,
+  blacklist: Array<string | { url: string; keys: Array<string> }>
+) => {
+  await new SettingRepository(api).save({
+    blacklist,
+  });
 };
 
 const server = newScrollableServer();

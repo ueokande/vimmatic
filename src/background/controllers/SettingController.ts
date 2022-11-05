@@ -1,23 +1,22 @@
 import { injectable, inject } from "inversify";
-import SettingUseCase from "../usecases/SettingUseCase";
-import ContentMessageClient from "../infrastructures/ContentMessageClient";
-import Settings from "../../shared/settings/Settings";
+import { serialize } from "../../settings";
+import SettingsRepository from "../settings/SettingsRepository";
+import PropertySettings from "../settings/PropertySettings";
 
 @injectable()
 export default class SettingController {
   constructor(
-    @inject(SettingUseCase)
-    private readonly settingUseCase: SettingUseCase,
-    @inject(ContentMessageClient)
-    private readonly contentMessageClient: ContentMessageClient
+    @inject("SettingsRepository")
+    private readonly settingsRepository: SettingsRepository,
+    @inject("PropertySettings")
+    private readonly propertySettings: PropertySettings
   ) {}
 
-  getSetting(): Promise<Settings> {
-    return this.settingUseCase.getCached();
+  async getSetting(): Promise<unknown> {
+    return serialize(await this.settingsRepository.load());
   }
 
-  async reload(): Promise<void> {
-    await this.settingUseCase.reload();
-    this.contentMessageClient.broadcastSettingsChanged();
+  async getProperty(name: string): Promise<string | number | boolean> {
+    return this.propertySettings.getProperty(name);
   }
 }

@@ -1,26 +1,23 @@
 import { test, expect } from "./lib/fixture";
 import { newSingleContentServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
-import Settings from "../src/shared/settings/Settings";
 
-const setupHintchars = async (api) => {
-  await new SettingRepository(api).saveJSON(
-    Settings.fromJSON({
-      keymaps: {
-        ":": { type: "command.show" },
-        f: { type: "follow.start", newTab: false },
-        F: { type: "follow.start", newTab: true, background: false },
-        "<C-F>": { type: "follow.start", newTab: true, background: true },
-      },
-      properties: {
-        hintchars: "jk",
-      },
-    })
-  );
+const setupHintchars = async (api: typeof browser) => {
+  await new SettingRepository(api).save({
+    keymaps: {
+      ":": { type: "command.show" },
+      f: { type: "follow.start", newTab: false },
+      F: { type: "follow.start", newTab: true, background: false },
+      "<C-F>": { type: "follow.start", newTab: true, background: true },
+    },
+    properties: {
+      hintchars: "jk",
+    },
+  });
 };
 
-const resetSettings = async (api) => {
-  await new SettingRepository(api).saveJSON(Settings.fromJSON({}));
+const resetSettings = async (api: typeof browser) => {
+  await new SettingRepository(api).save({});
 };
 
 const server = newSingleContentServer(`

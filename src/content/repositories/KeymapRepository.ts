@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import Key from "../../shared/settings/Key";
+import Key from "../../shared/Key";
 import KeySequence from "../domains/KeySequence";
 
 export default interface KeymapRepository {

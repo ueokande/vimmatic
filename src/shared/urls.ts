@@ -1,4 +1,4 @@
-import Search from "./settings/Search";
+import SearchEngine from "./Search";
 
 const trimStart = (str: string): string => {
   // NOTE String.trimStart is available on Firefox 61
@@ -30,7 +30,7 @@ const isMissingHttp = (keywords: string): boolean => {
   return false;
 };
 
-const searchUrl = (keywords: string, search: Search): string => {
+const searchUrl = (keywords: string, search: SearchEngine): string => {
   try {
     const u = new URL(keywords);
     if (SUPPORTED_PROTOCOLS.includes(u.protocol.toLowerCase())) {

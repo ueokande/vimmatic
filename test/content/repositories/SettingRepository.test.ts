@@ -1,12 +1,24 @@
 import { SettingRepositoryImpl } from "../../../src/content/repositories/SettingRepository";
-import Settings from "../../../src/shared/settings/Settings";
+import SettingClient from "../../../src/content/client/SettingClient";
+import Settings from "../../../src/shared/Settings";
+import { deserialize } from "../../../src/settings";
+
+class MockSettingClient implements SettingClient {
+  load(): Promise<Settings> {
+    throw new Error("not implemented");
+  }
+}
 
 describe("SettingRepositoryImpl", () => {
-  it("updates and gets current value", () => {
-    const sut = new SettingRepositoryImpl();
+  const settingClient = new MockSettingClient();
+  const mockLoad = jest.spyOn(settingClient, "load");
 
-    const settings = Settings.fromJSON({
-      keymaps: {},
+  beforeEach(() => {
+    mockLoad.mockClear();
+  });
+
+  it("updates and gets current value", async () => {
+    const settings = deserialize({
       search: {
         default: "google",
         engines: {
@@ -18,12 +30,18 @@ describe("SettingRepositoryImpl", () => {
         smoothscroll: false,
         complete: "sbh",
       },
-      blacklist: [],
     });
 
-    sut.set(settings);
+    mockLoad.mockResolvedValue(settings);
+    const sut = new SettingRepositoryImpl(settingClient);
 
-    const actual = sut.get();
-    expect(actual.properties.hintchars).toEqual("abcd1234");
+    await sut.reload();
+
+    expect(sut.getSearch().defaultEngine).toBe("google");
+    expect(sut.getProperties()).toMatchObject({
+      hintchars: "abcd1234",
+      smoothscroll: false,
+      complete: "sbh",
+    });
   });
 });

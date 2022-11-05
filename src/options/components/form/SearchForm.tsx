@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import AddButton from "../ui/AddButton";
 import DeleteButton from "../ui/DeleteButton";
-import { FormSearch } from "../../../shared/SettingData";
+import type { SearchEngineForm } from "../../schema";
 
 const Grid = styled.div``;
 
@@ -38,20 +38,20 @@ const Input = styled.input`
 `;
 
 interface Props {
-  value: FormSearch;
-  onChange: (value: FormSearch) => void;
+  value: SearchEngineForm;
+  onChange: (value: SearchEngineForm) => void;
   onBlur: () => void;
 }
 
-class SearchForm extends React.Component<Props> {
+class Component extends React.Component<Props> {
   public static defaultProps: Props = {
-    value: FormSearch.fromJSON({ default: "", engines: [] }),
+    value: { default: "", engines: [] },
     onChange: () => {},
     onBlur: () => {},
   };
 
   render() {
-    const value = this.props.value.toJSON();
+    const value = this.props.value;
     return (
       <>
         <Grid role="list">
@@ -60,7 +60,7 @@ class SearchForm extends React.Component<Props> {
             <GridCell>URL</GridCell>
             <GridCell>Default</GridCell>
           </GridHeader>
-          {value.engines.map((engine, index) => {
+          {value.engines.map(({ name, url }, index) => {
             return (
               <GridRow key={index} role="listitem">
                 <GridCell>
@@ -69,7 +69,7 @@ class SearchForm extends React.Component<Props> {
                     type="text"
                     name="name"
                     aria-label="Name"
-                    value={engine[0]}
+                    value={name}
                     onChange={this.bindValue.bind(this)}
                     onBlur={this.props.onBlur}
                   />
@@ -81,7 +81,7 @@ class SearchForm extends React.Component<Props> {
                     name="url"
                     aria-label="URL"
                     placeholder="http://example.com/?q={}"
-                    value={engine[1]}
+                    value={url}
                     onChange={this.bindValue.bind(this)}
                     onBlur={this.props.onBlur}
                   />
@@ -92,7 +92,7 @@ class SearchForm extends React.Component<Props> {
                     type="radio"
                     name="default"
                     aria-label="Default"
-                    checked={value.default === engine[0]}
+                    checked={value.default === name}
                     onChange={this.bindValue.bind(this)}
                   />
                   a
@@ -119,7 +119,7 @@ class SearchForm extends React.Component<Props> {
 
   // eslint-disable-next-line max-statements
   bindValue(e: any) {
-    const value = this.props.value.toJSON();
+    const value = this.props.value;
     const name = e.target.name;
     const index = Number(e.target.getAttribute("data-index"));
     const next: typeof value = {
@@ -128,27 +128,27 @@ class SearchForm extends React.Component<Props> {
     };
 
     if (name === "name") {
-      next.engines[index][0] = e.target.value;
-      next.default = value.engines[index][0];
+      next.engines[index].name = e.target.value;
+      next.default = value.engines[index].name;
     } else if (name === "url") {
-      next.engines[index][1] = e.target.value;
+      next.engines[index].url = e.target.value;
     } else if (name === "default") {
-      next.default = value.engines[index][0];
+      next.default = value.engines[index].name;
     } else if (name === "add") {
-      next.engines.push(["", ""]);
+      next.engines.push({ name: "", url: "" });
     } else if (name === "delete" && value.engines.length > 1) {
       next.engines.splice(index, 1);
-      if (value.engines[index][0] === value.default) {
+      if (value.engines[index].name === value.default) {
         const nextIndex = Math.min(index, next.engines.length - 1);
-        next.default = next.engines[nextIndex][0];
+        next.default = next.engines[nextIndex].name;
       }
     }
 
-    this.props.onChange(FormSearch.fromJSON(next));
+    this.props.onChange(next);
     if (name === "delete" || name === "default") {
       this.props.onBlur();
     }
   }
 }
 
-export default SearchForm;
+export default Component;

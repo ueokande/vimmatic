@@ -7,20 +7,19 @@ import ReactDOM from "react-dom";
 import ReactTestRenderer from "react-test-renderer";
 import ReactTestUtils from "react-dom/test-utils";
 import SearchForm from "../../../../src/options/components/form/SearchForm";
-import { FormSearch } from "../../../../src/shared/SettingData";
 
 describe("options/form/SearchForm", () => {
   describe("render", () => {
     it("renders SearchForm", () => {
       const root = ReactTestRenderer.create(
         <SearchForm
-          value={FormSearch.fromJSON({
+          value={{
             default: "google",
             engines: [
-              ["google", "google.com"],
-              ["yahoo", "yahoo.com"],
+              { name: "google", url: "google.com" },
+              { name: "yahoo", url: "yahoo.com" },
             ],
-          })}
+          }}
         />
       ).root;
 
@@ -56,20 +55,19 @@ describe("options/form/SearchForm", () => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
           <SearchForm
-            value={FormSearch.fromJSON({
+            value={{
               default: "google",
               engines: [
-                ["google", "google.com"],
-                ["yahoo", "yahoo.com"],
+                { name: "google", url: "google.com" },
+                { name: "yahoo", url: "yahoo.com" },
               ],
-            })}
-            onChange={(value) => {
-              const json = value.toJSON();
-              expect(json.default).toEqual("louvre");
-              expect(json.engines).toHaveLength(2);
-              expect(json.engines).toEqual([
-                ["louvre", "google.com"],
-                ["yahoo", "yahoo.com"],
+            }}
+            onChange={(form) => {
+              expect(form.default).toEqual("louvre");
+              expect(form.engines).toHaveLength(2);
+              expect(form.engines).toEqual([
+                { name: "louvre", url: "google.com" },
+                { name: "yahoo", url: "yahoo.com" },
               ]);
               done();
             }}
@@ -95,18 +93,19 @@ describe("options/form/SearchForm", () => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
           <SearchForm
-            value={FormSearch.fromJSON({
+            value={{
               default: "yahoo",
               engines: [
-                ["louvre", "google.com"],
-                ["yahoo", "yahoo.com"],
+                { name: "louvre", url: "google.com" },
+                { name: "yahoo", url: "yahoo.com" },
               ],
-            })}
-            onChange={(value) => {
-              const json = value.toJSON();
-              expect(json.default).toEqual("yahoo");
-              expect(json.engines).toHaveLength(1);
-              expect(json.engines).toEqual([["yahoo", "yahoo.com"]]);
+            }}
+            onChange={(form) => {
+              expect(form.default).toEqual("yahoo");
+              expect(form.engines).toHaveLength(1);
+              expect(form.engines).toEqual([
+                { name: "yahoo", url: "yahoo.com" },
+              ]);
               done();
             }}
           />,
@@ -124,17 +123,16 @@ describe("options/form/SearchForm", () => {
       ReactTestUtils.act(() => {
         ReactDOM.render(
           <SearchForm
-            value={FormSearch.fromJSON({
+            value={{
               default: "yahoo",
-              engines: [["google", "google.com"]],
-            })}
-            onChange={(value) => {
-              const json = value.toJSON();
-              expect(json.default).toEqual("yahoo");
-              expect(json.engines).toHaveLength(2);
-              expect(json.engines).toEqual([
-                ["google", "google.com"],
-                ["", ""],
+              engines: [{ name: "google", url: "google.com" }],
+            }}
+            onChange={(form) => {
+              expect(form.default).toEqual("yahoo");
+              expect(form.engines).toHaveLength(2);
+              expect(form.engines).toEqual([
+                { name: "google", url: "google.com" },
+                { name: "", url: "" },
               ]);
               done();
             }}

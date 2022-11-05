@@ -3,12 +3,12 @@ import KeymapRepository from "../repositories/KeymapRepository";
 import SettingRepository from "../repositories/SettingRepository";
 import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
 import * as operations from "../../shared/operations";
-import Keymaps from "../../shared/settings/Keymaps";
-import Key from "../../shared/settings/Key";
+import Keymaps from "../../shared/Keymaps";
+import Key from "../../shared/Key";
 import KeySequence from "../domains/KeySequence";
 import AddressRepository from "../repositories/AddressRepository";
 
-const reservedKeymaps = Keymaps.fromJSON({
+const reservedKeymaps = new Keymaps({
   "<Esc>": { type: operations.CANCEL },
   "<C-[>": { type: operations.CANCEL },
 });
@@ -72,8 +72,8 @@ export default class KeymapUseCase {
 
   private keymapEntityMap(): [KeySequence, operations.Operation][] {
     const keymaps = this.settingRepository
-      .get()
-      .keymaps.combine(reservedKeymaps);
+      .getKeymaps()
+      .combine(reservedKeymaps);
     let entries = keymaps
       .entries()
       .map(([keys, op]) => [KeySequence.fromMapKeys(keys), op]) as [
@@ -92,7 +92,7 @@ export default class KeymapUseCase {
 
   private blacklistKey(key: Key): boolean {
     const url = this.addressRepository.getCurrentURL();
-    const blacklist = this.settingRepository.get().blacklist;
+    const blacklist = this.settingRepository.getBlacklist();
     return blacklist.includeKey(url, key);
   }
 }

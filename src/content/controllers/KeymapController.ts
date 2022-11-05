@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import KeymapUseCase from "../usecases/KeymapUseCase";
-import Key from "../../shared/settings/Key";
+import Key from "../../shared/Key";
 import OperatorFactory from "../operators/OperatorFactory";
 
 @injectable()
