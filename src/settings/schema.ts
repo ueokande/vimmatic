@@ -1,33 +1,41 @@
-import validate from "./validate";
-import type * as Ajv from "ajv";
+import { z } from "zod";
 
-export type SerializedKeymaps = Record<
-  string,
-  { type: string } & Record<string, string | number | boolean>
+export const SerializedKeymapsSchema = z.record(
+  z
+    .object({ type: z.string() })
+    .and(z.record(z.union([z.string(), z.number(), z.boolean()])))
+);
+export const SerializedSearchEngineSchema = z.object({
+  default: z.string(),
+  engines: z.record(z.string()),
+});
+export const SerializedPropertiesSchema = z.record(
+  z.union([z.string(), z.number(), z.boolean()])
+);
+export const SerializedBlacklistSchema = z
+  .union([z.string(), z.object({ url: z.string(), keys: z.string().array() })])
+  .array();
+export const SerializedSettingsSchema = z.object({
+  keymaps: z.optional(SerializedKeymapsSchema),
+  search: z.optional(SerializedSearchEngineSchema),
+  properties: z.optional(SerializedPropertiesSchema),
+  blacklist: z.optional(SerializedBlacklistSchema),
+});
+
+export type SerializedKeymaps = z.infer<typeof SerializedKeymapsSchema>;
+export type SerializedSearchEngine = z.infer<
+  typeof SerializedSearchEngineSchema
 >;
-export type SerializedSearchEngine = {
-  default: string;
-  engines: Record<string, string>;
-};
-export type SerializedProperties = Record<string, string | number | boolean>;
-export type SerializedBlacklist = Array<
-  string | { url: string; keys: Array<string> }
->;
-export type SerializedSettings = {
-  keymaps?: SerializedKeymaps;
-  search?: SerializedSearchEngine;
-  properties?: SerializedProperties;
-  blacklist?: SerializedBlacklist;
-};
+export type SerializedProperties = z.infer<typeof SerializedPropertiesSchema>;
+export type SerializedBlacklist = z.infer<typeof SerializedBlacklistSchema>;
+export type SerializedSettings = z.infer<typeof SerializedSettingsSchema>;
 
 export const validateSerializedSettings = (json: unknown): void => {
-  const valid = validate(json);
-  if (!valid) {
-    const message = (validate as any)
-      .errors!.map((err: Ajv.ErrorObject) => {
-        return `'${err.instancePath}' ${err.message}`;
-      })
-      .join("; ");
+  const result = SerializedSettingsSchema.safeParse(json);
+  if (!result.success) {
+    const [issue] = result.error.issues;
+    const path = "." + issue.path.join(".");
+    const message = `Invalid settings at "${path}": ${issue.message}`;
 
     throw new TypeError(message);
   }

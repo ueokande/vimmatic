@@ -2,7 +2,6 @@
   "name": "vimmatic",
   "description": "vimmatic",
   "scripts": {
-    "schema": "ajv compile -s src/settings/schema.json -o src/settings/validate.js",
     "start": "nodemon --watch ./src --ext js,jsx,ts,tsx,css,html script/build",
     "build": "script/build",
     "package": "yarn build && script/package",
@@ -39,8 +38,6 @@
     "@types/styled-components": "^5.1.23",
     "@typescript-eslint/eslint-plugin": "3.9.0",
     "@typescript-eslint/parser": "3.10.1",
-    "ajv": "^8.9.0",
-    "ajv-cli": "^5.0.0",
     "esbuild": "^0.14.39",
     "esbuild-jest": "^0.5.0",
     "eslint": "7.32.0",
@@ -69,6 +66,7 @@
     "ts-node": "^10.7.0",
     "typescript": "4.3.5",
     "web-ext-types": "^3.2.1",
-    "webext-agent": "^0.1.0"
+    "webext-agent": "^0.1.0",
+    "zod": "^3.19.1"
   }
 }
