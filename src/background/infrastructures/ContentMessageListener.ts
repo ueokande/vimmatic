@@ -87,6 +87,8 @@ export default class ContentMessageListener {
         return this.settingController.getSetting();
       case messages.SETTINGS_GET_PROPERTY:
         return this.settingController.getProperty(message.name);
+      case messages.SETTINGS_VALIDATE:
+        return this.settingController.validate(message.settings);
       case messages.ADDON_ENABLED_RESPONSE:
         return this.onAddonEnabledResponse(message.enabled);
       case messages.OPEN_URL:

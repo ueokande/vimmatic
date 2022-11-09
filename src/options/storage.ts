@@ -1,9 +1,17 @@
 import { SettingsForm, SettingsSource } from "./schema";
 import { settingsFromForm, settingsFromText, settingsToForm } from "./serdes";
 import { serialize, defaultSettings, defaultJSONSettings } from "../settings";
+import * as messages from "../shared/messages";
 
 export const saveForm = async (form: SettingsForm): Promise<void> => {
   const settings = settingsFromForm(form);
+  const error = await browser.runtime.sendMessage({
+    type: messages.SETTINGS_VALIDATE,
+    settings: serialize(settings),
+  });
+  if (typeof error !== "undefined") {
+    throw new Error(error);
+  }
   return browser.storage.sync.set({
     settings: serialize(settings),
     settings_source: SettingsSource.Form,
@@ -13,6 +21,13 @@ export const saveForm = async (form: SettingsForm): Promise<void> => {
 
 export const saveText = async (text: string): Promise<void> => {
   const settings = settingsFromText(text);
+  const error = await browser.runtime.sendMessage({
+    type: messages.SETTINGS_VALIDATE,
+    settings: serialize(settings),
+  });
+  if (typeof error !== "undefined") {
+    throw new Error(error);
+  }
   return browser.storage.sync.set({
     settings: serialize(settings),
     settings_source: SettingsSource.Text,

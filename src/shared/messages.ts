@@ -41,6 +41,7 @@ export const OPEN_URL = "open.url";
 export const SETTINGS_CHANGED = "settings.changed";
 export const SETTINGS_QUERY = "settings.query";
 export const SETTINGS_GET_PROPERTY = "settings.get.property";
+export const SETTINGS_VALIDATE = "settings.validate";
 
 export const CONSOLE_FRAME_MESSAGE = "console.frame.message";
 
@@ -216,6 +217,11 @@ export interface SettingsGetProperty {
   name: string;
 }
 
+export interface SettingsValidate {
+  type: typeof SETTINGS_VALIDATE;
+  settings: unknown;
+}
+
 export interface ConsoleFrameMessageMessage {
   type: typeof CONSOLE_FRAME_MESSAGE;
   message: any;
@@ -270,6 +276,7 @@ export type Message =
   | SettingsChangedMessage
   | SettingsQueryMessage
   | SettingsGetProperty
+  | SettingsValidate
   | ConsoleFrameMessageMessage
   | NavigateHistoryNextMessage
   | NavigateHistoryPrevMessage
