@@ -2,7 +2,7 @@ import Operator from "../Operator";
 import TabPresenter from "../../presenters/TabPresenter";
 import FindRepository from "../../repositories/FindRepository";
 import FindClient from "../../clients/FindClient";
-import ConsoleClient from "../../infrastructures/ConsoleClient";
+import ConsoleClient from "../../clients/ConsoleClient";
 import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
 
 export default class FindPrevOperator implements Operator {

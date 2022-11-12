@@ -1,5 +1,5 @@
-import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { injectable, inject } from "inversify";
+import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default interface AddonIndicatorClient {
   setEnabled(enabled: boolean): Promise<void>;
@@ -7,10 +7,12 @@ export default interface AddonIndicatorClient {
 
 @injectable()
 export class AddonIndicatorClientImpl implements AddonIndicatorClient {
-  setEnabled(enabled: boolean): Promise<void> {
-    return browser.runtime.sendMessage({
-      type: messages.ADDON_ENABLED_RESPONSE,
-      enabled,
-    });
+  constructor(
+    @inject("BackgroundMessageSender")
+    private readonly sender: BackgroundMessageSender
+  ) {}
+
+  async setEnabled(enabled: boolean): Promise<void> {
+    await this.sender.send("addon.enabled.response", { enabled });
   }
 }

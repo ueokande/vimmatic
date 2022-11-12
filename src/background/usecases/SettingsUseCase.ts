@@ -5,7 +5,7 @@ import PropertySettings from "../settings/PropertySettings";
 import Validator from "../settings/Validator";
 
 @injectable()
-export default class SettingController {
+export default class SettingsUseCase {
   constructor(
     @inject("SettingsRepository")
     private readonly settingsRepository: SettingsRepository,
@@ -15,7 +15,7 @@ export default class SettingController {
     private readonly validator: Validator
   ) {}
 
-  async getSetting(): Promise<unknown> {
+  async getSettings(): Promise<unknown> {
     return serialize(await this.settingsRepository.load());
   }
 
@@ -23,12 +23,12 @@ export default class SettingController {
     return this.propertySettings.getProperty(name);
   }
 
-  async validate(data: unknown): Promise<void | string> {
+  async validate(data: unknown): Promise<string | undefined> {
     try {
       this.validator.validate(deserialize(data));
     } catch (e) {
       return Promise.resolve(e.message);
     }
-    return Promise.resolve();
+    return Promise.resolve(undefined);
   }
 }

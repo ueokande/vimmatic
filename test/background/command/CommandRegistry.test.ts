@@ -4,6 +4,7 @@ const exec = () => {
   throw new Error("not implemented");
 };
 const description = () => "";
+const getCompletions = () => Promise.resolve([]);
 
 describe("CommandRegistryImpl", () => {
   test("register and get command", () => {
@@ -12,12 +13,14 @@ describe("CommandRegistryImpl", () => {
       names: () => ["o", "open"],
       description,
       exec,
+      getCompletions,
     };
     const cmd2 = {
       fullname: () => "tabopen",
       names: () => ["t", "tabopen"],
       description,
       exec,
+      getCompletions,
     };
 
     const r = new CommandRegistryImpl();
@@ -38,6 +41,7 @@ describe("CommandRegistryImpl", () => {
       names: () => ["o", "open"],
       description,
       exec,
+      getCompletions,
     };
 
     const r = new CommandRegistryImpl();
@@ -49,6 +53,7 @@ describe("CommandRegistryImpl", () => {
         names: () => ["o", "orient"],
         description,
         exec,
+        getCompletions,
       })
     ).toThrowError();
   });
@@ -61,6 +66,7 @@ describe("CommandRegistryImpl", () => {
         names: () => ["o"],
         description,
         exec,
+        getCompletions,
       })
     ).toThrowError();
   });

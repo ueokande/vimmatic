@@ -1,5 +1,5 @@
-import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { injectable, inject } from "inversify";
+import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default interface TabsClient {
   openUrl(url: string, newTab: boolean, background?: boolean): Promise<void>;
@@ -7,16 +7,16 @@ export default interface TabsClient {
 
 @injectable()
 export class TabsClientImpl implements TabsClient {
+  constructor(
+    @inject("BackgroundMessageSender")
+    private readonly sender: BackgroundMessageSender
+  ) {}
+
   async openUrl(
     url: string,
     newTab: boolean,
-    background?: boolean
+    background = false
   ): Promise<void> {
-    await browser.runtime.sendMessage({
-      type: messages.OPEN_URL,
-      url,
-      newTab,
-      background,
-    });
+    await this.sender.send("open.url", { url, newTab, background });
   }
 }

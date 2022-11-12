@@ -1,5 +1,5 @@
-import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { injectable, inject } from "inversify";
+import type WindowMessageSender from "./WindowMessageSender";
 
 interface Size {
   width: number;
@@ -25,52 +25,31 @@ export default interface FollowSlaveClient {
 
 @injectable()
 export class FollowSlaveClientImpl implements FollowSlaveClient {
-  private target: Window;
-
-  constructor(target: Window) {
-    this.target = target;
-  }
+  constructor(
+    @inject("WindowMessageSender")
+    private readonly sender: WindowMessageSender
+  ) {}
 
   filterHints(prefix: string): void {
-    this.postMessage({
-      type: messages.FOLLOW_SHOW_HINTS,
-      prefix,
-    });
+    this.sender.send("follow.show.hints", { prefix });
   }
 
   requestHintCount(viewSize: Size, framePosition: Point): void {
-    this.postMessage({
-      type: messages.FOLLOW_REQUEST_COUNT_TARGETS,
+    this.sender.send("follow.request.count.targets", {
       viewSize,
       framePosition,
     });
   }
 
   createHints(viewSize: Size, framePosition: Point, tags: string[]): void {
-    this.postMessage({
-      type: messages.FOLLOW_CREATE_HINTS,
-      viewSize,
-      framePosition,
-      tags,
-    });
+    this.sender.send("follow.create.hints", { viewSize, framePosition, tags });
   }
 
   clearHints(): void {
-    this.postMessage({
-      type: messages.FOLLOW_REMOVE_HINTS,
-    });
+    this.sender.send("follow.remove.hints");
   }
 
   activateIfExists(tag: string, newTab: boolean, background: boolean): void {
-    this.postMessage({
-      type: messages.FOLLOW_ACTIVATE,
-      tag,
-      newTab,
-      background,
-    });
-  }
-
-  private postMessage(msg: messages.Message): void {
-    this.target.postMessage(JSON.stringify(msg), "*");
+    this.sender.send("follow.activate", { tag, newTab, background });
   }
 }

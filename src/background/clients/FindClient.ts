@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { newSender } from "./ContentMessageSender";
 
 export default interface FindClient {
   findNext(tabId: number, frameId: number, keyword: string): Promise<boolean>;
@@ -16,11 +16,8 @@ export class FindClientImpl implements FindClient {
     frameId: number,
     keyword: string
   ): Promise<boolean> {
-    const found = (await browser.tabs.sendMessage(
-      tabId,
-      { type: messages.FIND_NEXT, keyword },
-      { frameId }
-    )) as boolean;
+    const sender = newSender(tabId, frameId);
+    const found = await sender.send("find.next", { keyword });
     return found;
   }
 
@@ -29,19 +26,13 @@ export class FindClientImpl implements FindClient {
     frameId: number,
     keyword: string
   ): Promise<boolean> {
-    const found = (await browser.tabs.sendMessage(
-      tabId,
-      { type: messages.FIND_PREV, keyword },
-      { frameId }
-    )) as boolean;
+    const sender = newSender(tabId, frameId);
+    const found = await sender.send("find.prev", { keyword });
     return found;
   }
 
-  clearSelection(tabId: number, frameId: number): Promise<void> {
-    return browser.tabs.sendMessage(
-      tabId,
-      { type: messages.FIND_CLEAR_SELECTION },
-      { frameId }
-    );
+  async clearSelection(tabId: number, frameId: number): Promise<void> {
+    const sender = newSender(tabId, frameId);
+    await sender.send("find.clear.selection");
   }
 }

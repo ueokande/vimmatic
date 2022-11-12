@@ -1,5 +1,5 @@
-import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { injectable, inject } from "inversify";
+import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default interface ConsoleClient {
   info(text: string): Promise<void>;
@@ -8,21 +8,24 @@ export default interface ConsoleClient {
 
 @injectable()
 export class ConsoleClientImpl implements ConsoleClient {
+  constructor(
+    @inject("BackgroundMessageSender")
+    private readonly sender: BackgroundMessageSender
+  ) {}
+
   async info(text: string): Promise<void> {
-    await browser.runtime.sendMessage({
-      type: messages.CONSOLE_FRAME_MESSAGE,
+    this.sender.send("console.frame.message", {
       message: {
-        type: messages.CONSOLE_SHOW_INFO,
+        type: "console.show.info",
         text,
       },
     });
   }
 
   async error(text: string): Promise<void> {
-    await browser.runtime.sendMessage({
-      type: messages.CONSOLE_FRAME_MESSAGE,
+    this.sender.send("console.frame.message", {
       message: {
-        type: messages.CONSOLE_SHOW_ERROR,
+        type: "console.show.error",
         text,
       },
     });

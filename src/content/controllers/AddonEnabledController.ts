@@ -1,5 +1,4 @@
 import { injectable, inject } from "inversify";
-import * as messages from "../../shared/messages";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
 
 @injectable()
@@ -9,9 +8,12 @@ export default class AddonEnabledController {
     private readonly addonEnabledUseCase: AddonEnabledUseCase
   ) {}
 
-  getAddonEnabled(
-    _message: messages.AddonEnabledQueryMessage
-  ): Promise<boolean> {
+  toggleAddonEnabled(): Promise<void> {
+    this.addonEnabledUseCase.toggle();
+    return Promise.resolve();
+  }
+
+  getAddonEnabled(): Promise<boolean> {
     const enabled = this.addonEnabledUseCase.getEnabled();
     return Promise.resolve(enabled);
   }

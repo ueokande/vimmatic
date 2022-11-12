@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import ConsoleClient from "../infrastructures/ConsoleClient";
+import ConsoleClient from "../clients/ConsoleClient";
 import FindRepositoryImpl from "../repositories/FindRepository";
 import FindClient from "../clients/FindClient";
 import ReadyFrameRepository from "../repositories/ReadyFrameRepository";

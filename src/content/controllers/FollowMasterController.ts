@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import FollowMasterUseCase from "../usecases/FollowMasterUseCase";
-import * as messages from "../../shared/messages";
+import WindowRequestContext from "./WindowRequestContext";
 
 @injectable()
 export default class FollowMasterController {
@@ -9,22 +9,28 @@ export default class FollowMasterController {
     private readonly followMasterUseCase: FollowMasterUseCase
   ) {}
 
-  followStart(m: messages.FollowStartMessage): void {
-    this.followMasterUseCase.startFollow(m.newTab, m.background);
+  followStart(
+    _ctx: WindowRequestContext,
+    { newTab, background }: { newTab: boolean; background: boolean }
+  ): void {
+    this.followMasterUseCase.startFollow(newTab, background);
   }
 
   responseCountTargets(
-    m: messages.FollowResponseCountTargetsMessage,
-    sender: Window
+    ctx: WindowRequestContext,
+    { count }: { count: number }
   ): void {
-    this.followMasterUseCase.createSlaveHints(m.count, sender);
+    this.followMasterUseCase.createSlaveHints(count, ctx.sender);
   }
 
-  keyPress(message: messages.FollowKeyPressMessage): void {
-    if (message.key === "[" && message.ctrlKey) {
+  keyPress(
+    _ctx: WindowRequestContext,
+    { key, ctrlKey }: { key: string; ctrlKey: boolean }
+  ): void {
+    if (key === "[" && ctrlKey) {
       this.followMasterUseCase.cancelFollow();
     } else {
-      this.followMasterUseCase.enqueue(message.key);
+      this.followMasterUseCase.enqueue(key);
     }
   }
 }

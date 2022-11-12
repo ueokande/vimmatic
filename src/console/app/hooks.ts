@@ -1,17 +1,27 @@
 import React from "react";
 import * as actions from "./actions";
 import { AppDispatchContext, AppStateContext } from "./contexts";
-import * as messages from "../../shared/messages";
+import CommandClient from "../clients/CommandClient";
+import { newSender } from "../clients/BackgroundMessageSender";
+import { SimplexSender } from "../../messaging";
+import type {
+  Schema as WindowMessageSchema,
+  Key as WindowMessageKey,
+  Request as WindowMessageRequest,
+} from "../../messaging/schema/window";
+
+const commandClient = new CommandClient(newSender());
+const windowMessageSender = new SimplexSender<WindowMessageSchema>(
+  (type: WindowMessageKey, args: WindowMessageRequest) => {
+    const msg = JSON.stringify({ args, type });
+    window.top.postMessage(msg, "*");
+  }
+);
 
 export const useHide = () => {
   const dispatch = React.useContext(AppDispatchContext);
   const hide = React.useCallback(() => {
-    window.top.postMessage(
-      JSON.stringify({
-        type: messages.CONSOLE_UNFOCUS,
-      }),
-      "*"
-    );
+    windowMessageSender.send("console.unfocus");
     dispatch(actions.hide());
   }, [dispatch]);
 
@@ -93,20 +103,14 @@ export const getInitialInputValue = () => {
 
 export const useExecCommand = () => {
   const execCommand = React.useCallback((text: string) => {
-    browser.runtime.sendMessage({
-      type: messages.CONSOLE_ENTER_COMMAND,
-      text,
-    });
+    commandClient.execCommand(text);
   }, []);
   return execCommand;
 };
 
 export const useExecFind = () => {
   const execFind = React.useCallback((text?: string) => {
-    browser.runtime.sendMessage({
-      type: messages.CONSOLE_ENTER_FIND,
-      keyword: text,
-    });
+    commandClient.execFind(text);
   }, []);
   return execFind;
 };

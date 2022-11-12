@@ -1,6 +1,6 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
-import type ConsoleClient from "../infrastructures/ConsoleClient";
+import type ConsoleClient from "../clients/ConsoleClient";
 
 class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}

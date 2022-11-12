@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import * as operations from "../../shared/operations";
 import OperatorFactory from "../operators/OperatorFactory";
 import RepeatUseCase from "../usecases/RepeatUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class OperationController {
@@ -12,10 +13,19 @@ export default class OperationController {
     private readonly operatorFactory: OperatorFactory
   ) {}
 
-  async exec(repeat: number, op: operations.Operation): Promise<void> {
-    await this.doOperation(repeat, op);
-    if (this.repeatUseCase.isRepeatable(op)) {
-      this.repeatUseCase.storeLastOperation(op);
+  async exec(
+    _ctx: RequestContext,
+    {
+      repeat,
+      operation,
+    }: {
+      repeat: number;
+      operation: operations.Operation;
+    }
+  ): Promise<void> {
+    await this.doOperation(repeat, operation);
+    if (this.repeatUseCase.isRepeatable(operation)) {
+      this.repeatUseCase.storeLastOperation(operation);
     }
   }
 

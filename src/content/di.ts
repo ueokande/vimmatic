@@ -28,12 +28,12 @@ import OperatorFactoryImpl from "./operators/impls/OperatorFactoryImpl";
 import { URLRepositoryImpl } from "./operators/impls/URLRepository";
 import { FindPresenterImpl } from "./presenters/FindPresenter";
 import { Container } from "inversify";
+import { newSender as newBackgroundMessageSender } from "./client/BackgroundMessageSender";
+import { newSender as newWindowMessageSender } from "./client/WindowMessageSender";
 
 const container = new Container({ autoBindInjectable: true });
 
-container
-  .bind("FollowMasterClient")
-  .toConstantValue(new FollowMasterClientImpl(window.top));
+container.bind("FollowMasterClient").to(FollowMasterClientImpl);
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
 container.bind("AddonIndicatorClient").to(AddonIndicatorClientImpl);
 container.bind("AddressRepository").to(AddressRepositoryImpl);
@@ -60,5 +60,11 @@ container.bind("SettingRepository").to(SettingRepositoryImpl);
 container.bind("URLRepository").to(URLRepositoryImpl);
 container.bind("TabsClient").to(TabsClientImpl);
 container.bind("OperatorFactory").to(OperatorFactoryImpl);
+container
+  .bind("BackgroundMessageSender")
+  .toConstantValue(newBackgroundMessageSender());
+container
+  .bind("WindowMessageSender")
+  .toConstantValue(newWindowMessageSender(window.top));
 
 export { container };

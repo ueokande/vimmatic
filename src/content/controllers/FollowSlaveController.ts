@@ -1,7 +1,9 @@
 import { injectable, inject } from "inversify";
-import * as messages from "../../shared/messages";
 import FollowSlaveUseCase from "../usecases/FollowSlaveUseCase";
+import WindowRequestContext from "./WindowRequestContext";
 
+type ViewSize = { width: number; height: number };
+type FramePosition = { x: number; y: number };
 @injectable()
 export default class FollowSlaveController {
   constructor(
@@ -9,23 +11,47 @@ export default class FollowSlaveController {
     private readonly usecase: FollowSlaveUseCase
   ) {}
 
-  countTargets(m: messages.FollowRequestCountTargetsMessage): void {
-    this.usecase.countTargets(m.viewSize, m.framePosition);
+  countTargets(
+    _ctx: WindowRequestContext,
+    {
+      viewSize,
+      framePosition,
+    }: { viewSize: ViewSize; framePosition: FramePosition }
+  ): void {
+    this.usecase.countTargets(viewSize, framePosition);
   }
 
-  createHints(m: messages.FollowCreateHintsMessage): void {
-    this.usecase.createHints(m.viewSize, m.framePosition, m.tags);
+  createHints(
+    _ctx: WindowRequestContext,
+    {
+      viewSize,
+      framePosition,
+      tags,
+    }: { viewSize: ViewSize; framePosition: FramePosition; tags: string[] }
+  ): void {
+    this.usecase.createHints(viewSize, framePosition, tags);
   }
 
-  showHints(m: messages.FollowShowHintsMessage): void {
-    this.usecase.showHints(m.prefix);
+  showHints(_ctx: WindowRequestContext, { prefix }: { prefix: string }): void {
+    this.usecase.showHints(prefix);
   }
 
-  activate(m: messages.FollowActivateMessage): void {
-    this.usecase.activate(m.tag, m.newTab, m.background);
+  activate(
+    _ctx: WindowRequestContext,
+    {
+      tag,
+      newTab,
+      background,
+    }: {
+      tag: string;
+      newTab: boolean;
+      background: boolean;
+    }
+  ): void {
+    this.usecase.activate(tag, newTab, background);
   }
 
-  clear(_m: messages.FollowRemoveHintsMessage) {
+  clear() {
     this.usecase.clear();
   }
 }

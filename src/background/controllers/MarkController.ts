@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import MarkUseCase from "../usecases/MarkUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class MarkController {
@@ -8,11 +9,22 @@ export default class MarkController {
     private readonly markUseCase: MarkUseCase
   ) {}
 
-  setGlobal(key: string, x: number, y: number): Promise<void> {
+  setGlobal(
+    _ctx: RequestContext,
+    {
+      key,
+      x,
+      y,
+    }: {
+      key: string;
+      x: number;
+      y: number;
+    }
+  ): Promise<void> {
     return this.markUseCase.setGlobal(key, x, y);
   }
 
-  jumpGlobal(key: string): Promise<void> {
+  jumpGlobal(_ctx: RequestContext, { key }: { key: string }): Promise<void> {
     return this.markUseCase.jumpGlobal(key);
   }
 }

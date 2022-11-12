@@ -1,6 +1,6 @@
 import Operator from "../Operator";
 import TabPresenter from "../../presenters/TabPresenter";
-import ConsoleClient from "../../infrastructures/ConsoleClient";
+import ConsoleClient from "../../clients/ConsoleClient";
 
 export default class ShowTabOpenCommandOperator implements Operator {
   constructor(

@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class AddonEnabledController {
@@ -8,7 +9,10 @@ export default class AddonEnabledController {
     private readonly addonEnabledUseCase: AddonEnabledUseCase
   ) {}
 
-  indicate(enabled: boolean): Promise<void> {
+  indicate(
+    _ctx: RequestContext,
+    { enabled }: { enabled: boolean }
+  ): Promise<void> {
     return this.addonEnabledUseCase.indicate(enabled);
   }
 }

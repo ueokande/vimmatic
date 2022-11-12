@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import VersionUseCase from "../usecases/VersionUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class VersionController {
@@ -8,7 +9,7 @@ export default class VersionController {
     private readonly versionUseCase: VersionUseCase
   ) {}
 
-  notify(): Promise<void> {
+  notify(_ctx: RequestContext): Promise<void> {
     return this.versionUseCase.notify();
   }
 }

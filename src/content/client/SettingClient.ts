@@ -1,7 +1,7 @@
-import { injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import { deserialize } from "../../settings";
-import * as messages from "../../shared/messages";
 import type Settings from "../../shared/Settings";
+import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default interface SettingClient {
   load(): Promise<Settings>;
@@ -9,10 +9,13 @@ export default interface SettingClient {
 
 @injectable()
 export class SettingClientImpl {
+  constructor(
+    @inject("BackgroundMessageSender")
+    private readonly sender: BackgroundMessageSender
+  ) {}
+
   async load(): Promise<Settings> {
-    const payload = await browser.runtime.sendMessage({
-      type: messages.SETTINGS_QUERY,
-    });
+    const payload = await this.sender.send("settings.query");
     return deserialize(payload);
   }
 }

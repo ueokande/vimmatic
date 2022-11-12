@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import ConsoleUseCase from "../usecases/ConsoleUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class ConsoleController {
@@ -8,7 +9,14 @@ export default class ConsoleController {
     private readonly consoleUseCase: ConsoleUseCase
   ) {}
 
-  resize(senderTabId: number, width: number, height: number) {
-    return this.consoleUseCase.resize(senderTabId, width, height);
+  resize(
+    ctx: RequestContext,
+    { width, height }: { width: number; height: number }
+  ) {
+    const tabId = ctx.sender.tab?.id;
+    if (!tabId) {
+      return;
+    }
+    return this.consoleUseCase.resize(tabId, width, height);
   }
 }

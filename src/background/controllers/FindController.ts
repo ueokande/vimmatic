@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import StartFindUseCase from "../usecases/StartFindUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class FindController {
@@ -8,7 +9,14 @@ export default class FindController {
     private startFindUseCase: StartFindUseCase
   ) {}
 
-  startFind(tabId: number, keyword?: string): Promise<void> {
+  startFind(
+    ctx: RequestContext,
+    { keyword }: { keyword?: string }
+  ): Promise<void> {
+    const tabId = ctx.sender.tab?.id;
+    if (!tabId) {
+      return Promise.resolve();
+    }
     return this.startFindUseCase.startFind(tabId, keyword);
   }
 }

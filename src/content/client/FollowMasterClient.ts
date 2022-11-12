@@ -1,6 +1,6 @@
-import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { injectable, inject } from "inversify";
 import Key from "../../shared/Key";
+import type WindowMessageSender from "./WindowMessageSender";
 
 export default interface FollowMasterClient {
   startFollow(newTab: boolean, background: boolean): void;
@@ -12,36 +12,23 @@ export default interface FollowMasterClient {
 
 @injectable()
 export class FollowMasterClientImpl implements FollowMasterClient {
-  private window: Window;
-
-  constructor(window: Window) {
-    this.window = window;
-  }
+  constructor(
+    @inject("WindowMessageSender")
+    private readonly sender: WindowMessageSender
+  ) {}
 
   startFollow(newTab: boolean, background: boolean): void {
-    this.postMessage({
-      type: messages.FOLLOW_START,
-      newTab,
-      background,
-    });
+    this.sender.send("follow.start", { newTab, background });
   }
 
   responseHintCount(count: number): void {
-    this.postMessage({
-      type: messages.FOLLOW_RESPONSE_COUNT_TARGETS,
-      count,
-    });
+    this.sender.send("follow.response.count.targets", { count });
   }
 
   sendKey(key: Key): void {
-    this.postMessage({
-      type: messages.FOLLOW_KEY_PRESS,
+    this.sender.send("follow.key.press", {
       key: key.key,
       ctrlKey: key.ctrl || false,
     });
-  }
-
-  private postMessage(msg: messages.Message): void {
-    this.window.postMessage(JSON.stringify(msg), "*");
   }
 }

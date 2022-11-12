@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import LinkUseCase from "../usecases/LinkUseCase";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class LinkController {
@@ -8,15 +9,25 @@ export default class LinkController {
     private readonly linkUseCase: LinkUseCase
   ) {}
 
-  openToTab(url: string, tabId: number): Promise<void> {
-    return this.linkUseCase.openToTab(url, tabId);
-  }
-
-  openNewTab(
-    url: string,
-    openerId: number,
-    background: boolean
+  openURL(
+    ctx: RequestContext,
+    {
+      url,
+      newTab,
+      background,
+    }: {
+      url: string;
+      newTab: boolean;
+      background: boolean;
+    }
   ): Promise<void> {
-    return this.linkUseCase.openNewTab(url, openerId, background);
+    const openerId = ctx.sender.tab?.id;
+    if (!openerId) {
+      return Promise.resolve();
+    }
+    if (newTab) {
+      return this.linkUseCase.openNewTab(url, openerId, background);
+    }
+    return this.linkUseCase.openToTab(url, openerId);
   }
 }

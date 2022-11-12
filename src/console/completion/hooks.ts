@@ -2,8 +2,9 @@ import React from "react";
 import * as actions from "./actions";
 import { CompletionStateContext, CompletionDispatchContext } from "./context";
 import CompletionClient from "../clients/CompletionClient";
+import { newSender } from "../clients/BackgroundMessageSender";
 
-const completionClient = new CompletionClient();
+const completionClient = new CompletionClient(newSender());
 
 export const useCompletions = (source: string) => {
   const state = React.useContext(CompletionStateContext);

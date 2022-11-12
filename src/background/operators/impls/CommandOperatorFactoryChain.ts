@@ -8,7 +8,7 @@ import ShowWinOpenCommandOperator from "./ShowWinOpenCommandOperator";
 import ShowBufferCommandOperator from "./ShowBufferCommandOperator";
 import ShowAddBookmarkOperator from "./ShowAddBookmarkOperator";
 import TabPresenter from "../../presenters/TabPresenter";
-import ConsoleClient from "../../infrastructures/ConsoleClient";
+import ConsoleClient from "../../clients/ConsoleClient";
 import * as operations from "../../../shared/operations";
 import StartFindOperator from "./StartFindOperator";
 

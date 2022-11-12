@@ -1,7 +1,7 @@
 import {
   parseCommand,
   onCommandInputting,
-} from "../../../src/background/controllers/parser";
+} from "../../../src/background/usecases/parser";
 
 describe("parseCommand", () => {
   type TestCase = {

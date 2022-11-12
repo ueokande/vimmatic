@@ -4,7 +4,7 @@ import OperatorFactoryChain from "../OperatorFactoryChain";
 import CancelOperator from "./CancelOperator";
 import InternalOpenURLOperator from "./InternalOpenURLOperator";
 import TabPresenter from "../../presenters/TabPresenter";
-import ConsoleClient from "../../infrastructures/ConsoleClient";
+import ConsoleClient from "../../clients/ConsoleClient";
 import WindowPresenter from "../../presenters/WindowPresenter";
 import * as operations from "../../../shared/operations";
 

@@ -1,12 +1,25 @@
 import { SettingsForm, SettingsSource } from "./schema";
 import { settingsFromForm, settingsFromText, settingsToForm } from "./serdes";
 import { serialize, defaultSettings, defaultJSONSettings } from "../settings";
-import * as messages from "../shared/messages";
+import { Sender } from "../messaging";
+import type {
+  Schema as BackgroundMessageSchema,
+  Key as BackgroundMessageKey,
+  Request as BackgroundMessageRequest,
+} from "../messaging/schema/background";
+
+const backgroundMessageSender = new Sender<BackgroundMessageSchema>(
+  (type: BackgroundMessageKey, args: BackgroundMessageRequest) => {
+    return browser.runtime.sendMessage({
+      type,
+      args: args ?? {},
+    });
+  }
+);
 
 export const saveForm = async (form: SettingsForm): Promise<void> => {
   const settings = settingsFromForm(form);
-  const error = await browser.runtime.sendMessage({
-    type: messages.SETTINGS_VALIDATE,
+  const { error } = await backgroundMessageSender.send("settings.validate", {
     settings: serialize(settings),
   });
   if (typeof error !== "undefined") {
@@ -21,8 +34,7 @@ export const saveForm = async (form: SettingsForm): Promise<void> => {
 
 export const saveText = async (text: string): Promise<void> => {
   const settings = settingsFromText(text);
-  const error = await browser.runtime.sendMessage({
-    type: messages.SETTINGS_VALIDATE,
+  const { error } = await backgroundMessageSender.send("settings.validate", {
     settings: serialize(settings),
   });
   if (typeof error !== "undefined") {

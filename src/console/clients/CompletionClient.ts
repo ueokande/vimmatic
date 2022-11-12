@@ -1,13 +1,10 @@
-import * as messages from "../../shared/messages";
-import { ConsoleGetCompletionsResponse } from "../../shared/messages";
 import { Completions } from "../../shared/Completions";
+import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default class CompletionClient {
+  constructor(private readonly sender: BackgroundMessageSender) {}
+
   async getCompletions(query: string): Promise<Completions> {
-    const resp = (await browser.runtime.sendMessage({
-      type: messages.CONSOLE_GET_COMPLETIONS,
-      query,
-    })) as ConsoleGetCompletionsResponse;
-    return resp;
+    return this.sender.send("console.get.completions", { query });
   }
 }

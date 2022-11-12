@@ -8,15 +8,18 @@ export default class FindController {
     private readonly findUseCase: FindUseCase
   ) {}
 
-  findNext(keyword: string): boolean {
-    return this.findUseCase.findNext(keyword);
+  findNext({ keyword }: { keyword: string }): Promise<boolean> {
+    const found = this.findUseCase.findNext(keyword);
+    return Promise.resolve(found);
   }
 
-  findPrev(keyword: string): boolean {
-    return this.findUseCase.findPrev(keyword);
+  findPrev({ keyword }: { keyword: string }): Promise<boolean> {
+    const found = this.findUseCase.findPrev(keyword);
+    return Promise.resolve(found);
   }
 
-  clearSelection() {
-    return this.findUseCase.clearSelection();
+  clearSelection(): Promise<void> {
+    this.findUseCase.clearSelection();
+    return Promise.resolve();
   }
 }

@@ -5,7 +5,7 @@ import { Container } from "inversify";
 import { TabPresenterImpl } from "./presenters/TabPresenter";
 import { OperatorFactoryImpl } from "./operators/impls/OperatorFactoryImpl";
 import { NavigateClientImpl } from "./clients/NavigateClient";
-import { ConsoleClientImpl } from "./infrastructures/ConsoleClient";
+import { ConsoleClientImpl } from "./clients/ConsoleClient";
 import { BrowserSettingRepositoryImpl } from "./repositories/BrowserSettingRepository";
 import { RepeatRepositoryImpl } from "./repositories/RepeatRepository";
 import { ZoomPresenterImpl } from "./presenters/ZoomPresenter";

@@ -7,7 +7,7 @@ import FindNextOperator from "./FindNextOperator";
 import FindPrevOperator from "./FindPrevOperator";
 import FindRepository from "../../repositories/FindRepository";
 import FindClient from "../../clients/FindClient";
-import ConsoleClient from "../../infrastructures/ConsoleClient";
+import ConsoleClient from "../../clients/ConsoleClient";
 import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
 
 @injectable()

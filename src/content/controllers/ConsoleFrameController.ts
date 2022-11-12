@@ -1,6 +1,5 @@
 import { injectable, inject } from "inversify";
 import ConsoleFrameUseCase from "../usecases/ConsoleFrameUseCase";
-import * as messages from "../../shared/messages";
 
 @injectable()
 export default class ConsoleFrameController {
@@ -9,11 +8,11 @@ export default class ConsoleFrameController {
     private readonly consoleFrameUseCase: ConsoleFrameUseCase
   ) {}
 
-  unfocus(_message: messages.Message) {
+  unfocus() {
     this.consoleFrameUseCase.unfocus();
   }
 
-  resize(message: messages.ConsoleResizeMessage) {
-    this.consoleFrameUseCase.resize(message.width, message.height);
+  resize({ width, height }: { width: number; height: number }) {
+    this.consoleFrameUseCase.resize(width, height);
   }
 }

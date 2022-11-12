@@ -1,11 +1,9 @@
-import * as messages from "../../shared/messages";
+import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default class ConsoleFrameClient {
+  constructor(private readonly sender: BackgroundMessageSender) {}
+
   async resize(width: number, height: number): Promise<void> {
-    await browser.runtime.sendMessage({
-      type: messages.CONSOLE_RESIZE,
-      width,
-      height,
-    });
+    this.sender.send("console.resize", { width, height });
   }
 }

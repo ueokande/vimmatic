@@ -16,7 +16,7 @@ import PropertySettings from "../settings/PropertySettings";
 import SearchEngineSettings from "../settings/SearchEngineSettings";
 import CommandRegistry, { CommandRegistryImpl } from "./CommandRegistry";
 import LastSelectedTab, { LastSelectedTabImpl } from "./LastSelectedTab";
-import ConsoleClient from "../infrastructures/ConsoleClient";
+import ConsoleClient from "../clients/ConsoleClient";
 
 @injectable()
 export class CommandRegistryFactory {

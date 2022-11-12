@@ -1,5 +1,6 @@
-import * as messages from "../shared/messages";
 import Console from "./components/Console";
+import { SimplexReceiver } from "../messaging";
+import type { Schema as ConsoleMessageSchema } from "../messaging/schema/console";
 import React from "react";
 import {
   useCommandMode,
@@ -17,32 +18,23 @@ const App: React.FC = () => {
   const { show: showInfo } = useInfoMessage();
 
   React.useEffect(() => {
-    const onMessage = async (message: any): Promise<any> => {
-      const msg = messages.valueOf(message);
-      switch (msg.type) {
-        case messages.CONSOLE_SHOW_COMMAND:
-          showCommand(msg.command);
-          break;
-        case messages.CONSOLE_SHOW_FIND:
-          showFind();
-          break;
-        case messages.CONSOLE_SHOW_ERROR:
-          showError(msg.text);
-          break;
-        case messages.CONSOLE_SHOW_INFO:
-          showInfo(msg.text);
-          break;
-        case messages.CONSOLE_HIDE:
-          hide();
-          break;
-      }
-    };
-
-    browser.runtime.onMessage.addListener(onMessage);
+    const receiver = new SimplexReceiver<ConsoleMessageSchema>();
+    receiver
+      .route("console.show.command")
+      .to(({ command }) => showCommand(command));
+    receiver.route("console.show.find").to(() => showFind());
+    receiver.route("console.show.error").to(({ text }) => showError(text));
+    receiver.route("console.show.info").to(({ text }) => showInfo(text));
+    receiver.route("console.hide").to(() => hide());
+    browser.runtime.onMessage.addListener((message: any) => {
+      receiver.receive(message.type, message.args);
+    });
     const port = browser.runtime.connect(undefined, {
       name: "vimmatic-console",
     });
-    port.onMessage.addListener(onMessage);
+    port.onMessage.addListener((message: any) => {
+      receiver.receive(message.type, message.args);
+    });
   }, []);
 
   return <Console />;

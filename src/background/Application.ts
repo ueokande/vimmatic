@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import ContentMessageClient from "./infrastructures/ContentMessageClient";
-import ContentMessageListener from "./infrastructures/ContentMessageListener";
+import ContentMessageClient from "./clients/ContentMessageClient";
+import BackgroundMessageListener from "./infrastructures/BackgroundMessageListener";
 import FindPortListener from "./infrastructures/FindPortListener";
-import VersionController from "./controllers/VersionController";
+import VersionUseCase from "./usecases/VersionUseCase";
 import FindRepositoryImpl from "./repositories/FindRepository";
 import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
 import SettingsRepository from "./settings/SettingsRepository";
@@ -10,12 +10,12 @@ import SettingsRepository from "./settings/SettingsRepository";
 @injectable()
 export default class Application {
   constructor(
-    @inject(ContentMessageListener)
-    private readonly contentMessageListener: ContentMessageListener,
+    @inject(BackgroundMessageListener)
+    private readonly backgroundMessageListener: BackgroundMessageListener,
     @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
-    @inject(VersionController)
-    private readonly versionController: VersionController,
+    @inject(VersionUseCase)
+    private readonly versionUseCase: VersionUseCase,
     @inject("FindRepository")
     private readonly findRepository: FindRepositoryImpl,
     @inject("ReadyFrameRepository")
@@ -49,10 +49,10 @@ export default class Application {
       if (details.reason !== "install" && details.reason !== "update") {
         return;
       }
-      this.versionController.notify();
+      this.versionUseCase.notify();
     });
 
-    this.contentMessageListener.run();
+    this.backgroundMessageListener.listen();
     this.findPortListener.run();
   }
 

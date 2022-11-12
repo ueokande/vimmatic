@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import IndicatorPresenter from "../presenters/IndicatorPresenter";
 import TabPresenter from "../presenters/TabPresenter";
-import ContentMessageClient from "../infrastructures/ContentMessageClient";
+import ContentMessageClient from "../clients/ContentMessageClient";
 
 @injectable()
 export default class AddonEnabledUseCase {

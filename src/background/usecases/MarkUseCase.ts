@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 import TabPresenter from "../presenters/TabPresenter";
 import MarkRepository from "../repositories/MarkRepository";
-import ContentMessageClient from "../infrastructures/ContentMessageClient";
-import ConsoleClient from "../infrastructures/ConsoleClient";
+import ContentMessageClient from "../clients/ContentMessageClient";
+import ConsoleClient from "../clients/ConsoleClient";
 
 @injectable()
 export default class MarkUseCase {

@@ -1,10 +1,9 @@
 import { injectable, inject } from "inversify";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
 import SettingRepository from "../repositories/SettingRepository";
-import * as messages from "../../shared/messages";
 
 @injectable()
-export default class SettingController {
+export default class SettingsController {
   constructor(
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,
@@ -32,7 +31,7 @@ export default class SettingController {
     }
   }
 
-  async reloadSettings(_message: messages.Message): Promise<void> {
+  async reloadSettings(): Promise<void> {
     await this.settingRepostory.reload();
   }
 }

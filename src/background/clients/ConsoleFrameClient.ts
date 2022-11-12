@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import * as messages from "../../shared/messages";
+import { newSender } from "./ContentMessageSender";
 
 export default interface ConsoleFrameClient {
   resize(tabId: number, width: number, height: number): Promise<void>;
@@ -8,10 +8,7 @@ export default interface ConsoleFrameClient {
 @injectable()
 export class ConsoleFrameClientImpl implements ConsoleFrameClient {
   async resize(tabId: number, width: number, height: number): Promise<void> {
-    await browser.tabs.sendMessage(tabId, {
-      type: messages.CONSOLE_RESIZE,
-      width,
-      height,
-    });
+    const sender = newSender(tabId);
+    sender.send("console.resize", { width, height });
   }
 }
