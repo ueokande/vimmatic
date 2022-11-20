@@ -1,6 +1,5 @@
 import "@abraham/reflection";
 import CommandOperatorFactoryChain from "../../../../src/background/operators/impls/CommandOperatorFactoryChain";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import MockConsoleClient from "../../mock/MockConsoleClient";
 import * as operations from "../../../../src/shared/operations";
 import ShowCommandOperator from "../../../../src/background/operators/impls/ShowCommandOperator";
@@ -13,9 +12,8 @@ import StartFindOperator from "../../../../src/background/operators/impls/StartF
 describe("CommandOperatorFactoryChain", () => {
   describe("#create", () => {
     it("returns a operator for the operation", async () => {
-      const tabPresenter = new MockTabPresenter();
       const consoleClient = new MockConsoleClient();
-      const sut = new CommandOperatorFactoryChain(tabPresenter, consoleClient);
+      const sut = new CommandOperatorFactoryChain(consoleClient);
 
       expect(sut.create({ type: operations.COMMAND_SHOW })).toBeInstanceOf(
         ShowCommandOperator

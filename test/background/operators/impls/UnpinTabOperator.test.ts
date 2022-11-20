@@ -1,24 +1,16 @@
 import UnpinTabOperator from "../../../../src/background/operators/impls/UnpinTabOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("UnpinTabOperator", () => {
   describe("#run", () => {
     it("make unpinned to the current tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/", {
-        active: true,
-        pinned: true,
-      });
-      await tabPresenter.create("https://example.com/", {
-        active: false,
-        pinned: true,
-      });
-      const sut = new UnpinTabOperator(tabPresenter);
+      const mockTabsUpdate = jest
+        .spyOn(browser.tabs, "update")
+        .mockResolvedValue({} as browser.tabs.Tab);
 
+      const sut = new UnpinTabOperator();
       await sut.run();
 
-      const pins = (await tabPresenter.getAll()).map((t) => t.pinned);
-      expect(pins).toEqual([false, true]);
+      expect(mockTabsUpdate).toBeCalledWith({ pinned: false });
     });
   });
 });

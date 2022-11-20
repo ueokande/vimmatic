@@ -1,5 +1,4 @@
 import NavigateHistoryPrevOperator from "../../../../src/background/operators/impls/NavigateHistoryPrevOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import MockNavigateClient from "../../mock/MockNavigateClient";
 
 describe("NavigateHistoryPrevOperator", () => {
@@ -9,15 +8,14 @@ describe("NavigateHistoryPrevOperator", () => {
       const historyNextSpy = jest
         .spyOn(navigateClient, "historyPrev")
         .mockReturnValue(Promise.resolve());
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-      const sut = new NavigateHistoryPrevOperator(tabPresenter, navigateClient);
+      jest
+        .spyOn(browser.tabs, "query")
+        .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
 
+      const sut = new NavigateHistoryPrevOperator(navigateClient);
       await sut.run();
 
-      expect(historyNextSpy).toBeCalledWith(1);
+      expect(historyNextSpy).toBeCalledWith(100);
     });
   });
 });

@@ -1,8 +1,7 @@
-import { inject, injectable } from "inversify";
+import { injectable, inject } from "inversify";
 import OperatorFactoryChain from "../OperatorFactoryChain";
 import * as operations from "../../../shared/operations";
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 import CloseTabOperator from "./CloseTabOperator";
 import CloseTabRightOperator from "./CloseTabRightOperator";
 import ReopenTabOperator from "./ReopenTabOperator";
@@ -17,50 +16,46 @@ import UnpinTabOperator from "./UnpinTabOperator";
 import TogglePinnedTabOperator from "./TogglePinnedTabOperator";
 import DuplicateTabOperator from "./DuplicateTabOperator";
 import ToggleReaderOperator from "./ToggleReaderOperator";
+import LastSelectedTab from "../../tabs/LastSelectedTab";
 
 @injectable()
 export default class TabOperatorFactoryChain implements OperatorFactoryChain {
   constructor(
-    @inject("TabPresenter")
-    private readonly tabPresenter: TabPresenter
+    @inject("LastSelectedTab")
+    private readonly lastSelectedTab: LastSelectedTab
   ) {}
-
   create(op: operations.Operation): Operator | null {
     switch (op.type) {
       case operations.TAB_CLOSE:
-        return new CloseTabOperator(
-          this.tabPresenter,
-          false,
-          op.select === "left"
-        );
+        return new CloseTabOperator(false, op.select === "left");
       case operations.TAB_CLOSE_RIGHT:
-        return new CloseTabRightOperator(this.tabPresenter);
+        return new CloseTabRightOperator();
       case operations.TAB_CLOSE_FORCE:
-        return new CloseTabOperator(this.tabPresenter, true, false);
+        return new CloseTabOperator(true, false);
       case operations.TAB_REOPEN:
-        return new ReopenTabOperator(this.tabPresenter);
+        return new ReopenTabOperator();
       case operations.TAB_PREV:
-        return new SelectTabPrevOperator(this.tabPresenter);
+        return new SelectTabPrevOperator();
       case operations.TAB_NEXT:
-        return new SelectTabNextOperator(this.tabPresenter);
+        return new SelectTabNextOperator();
       case operations.TAB_FIRST:
-        return new SelectFirstTabOperator(this.tabPresenter);
+        return new SelectFirstTabOperator();
       case operations.TAB_LAST:
-        return new SelectLastTabOperator(this.tabPresenter);
+        return new SelectLastTabOperator();
       case operations.TAB_PREV_SEL:
-        return new SelectPreviousSelectedTabOperator(this.tabPresenter);
+        return new SelectPreviousSelectedTabOperator(this.lastSelectedTab);
       case operations.TAB_RELOAD:
-        return new ReloadTabOperator(this.tabPresenter, op.cache);
+        return new ReloadTabOperator(op.cache);
       case operations.TAB_PIN:
-        return new PinTabOperator(this.tabPresenter);
+        return new PinTabOperator();
       case operations.TAB_UNPIN:
-        return new UnpinTabOperator(this.tabPresenter);
+        return new UnpinTabOperator();
       case operations.TAB_TOGGLE_PINNED:
-        return new TogglePinnedTabOperator(this.tabPresenter);
+        return new TogglePinnedTabOperator();
       case operations.TAB_DUPLICATE:
-        return new DuplicateTabOperator(this.tabPresenter);
+        return new DuplicateTabOperator();
       case operations.TAB_TOGGLE_READER:
-        return new ToggleReaderOperator(this.tabPresenter);
+        return new ToggleReaderOperator();
     }
     return null;
   }

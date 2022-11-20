@@ -1,6 +1,5 @@
 import "@abraham/reflection";
 import NavigateOperatorFactoryChain from "../../../../src/background/operators/impls/NavigateOperatorFactoryChain";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import MockNavigateClient from "../../mock/MockNavigateClient";
 import MockBrowserSettingRepository from "../../mock/MockBrowserSettingRepository";
 import NavigateHistoryPrevOperator from "../../../../src/background/operators/impls/NavigateHistoryPrevOperator";
@@ -16,11 +15,9 @@ import * as operations from "../../../../src/shared/operations";
 describe("NavigateOperatorFactoryChain", () => {
   describe("#create", () => {
     it("returns a operator for the operation", async () => {
-      const tabPresenter = new MockTabPresenter();
       const navigateClient = new MockNavigateClient();
       const browserSettingRepository = new MockBrowserSettingRepository([]);
       const sut = new NavigateOperatorFactoryChain(
-        tabPresenter,
         navigateClient,
         browserSettingRepository
       );

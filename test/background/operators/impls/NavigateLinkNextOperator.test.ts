@@ -1,23 +1,22 @@
 import NavigateLinkNextOperator from "../../../../src/background/operators/impls/NavigateLinkNextOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import MockNavigateClient from "../../mock/MockNavigateClient";
 
 describe("NavigateLinkNextOperator", () => {
   describe("#run", () => {
     it("send a message to navigate next page", async () => {
+      jest
+        .spyOn(browser.tabs, "query")
+        .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
+
       const navigateClient = new MockNavigateClient();
       const linkNextSpy = jest
         .spyOn(navigateClient, "linkNext")
         .mockReturnValueOnce(Promise.resolve());
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-      const sut = new NavigateLinkNextOperator(tabPresenter, navigateClient);
 
+      const sut = new NavigateLinkNextOperator(navigateClient);
       await sut.run();
 
-      expect(linkNextSpy).toBeCalledWith(1);
+      expect(linkNextSpy).toBeCalledWith(100);
     });
   });
 });

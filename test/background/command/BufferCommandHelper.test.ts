@@ -1,8 +1,8 @@
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
-import LastSelectedTab from "../../../src/background/command/LastSelectedTab";
+import LastSelectedTab from "../../../src/background/tabs/LastSelectedTab";
 
 class MockLastSelectedTab implements LastSelectedTab {
-  get(): Promise<number | undefined> {
+  get(): number | undefined {
     throw new Error("not implemented");
   }
 }
@@ -28,7 +28,7 @@ describe("BufferCommandHelper", () => {
   beforeEach(() => {
     mockGetLastSelectedTab.mockClear();
     mockTabsQuery.mockClear();
-    mockGetLastSelectedTab.mockResolvedValue(14);
+    mockGetLastSelectedTab.mockReturnValue(14);
     mockTabsQuery.mockResolvedValue(allTabs);
   });
 

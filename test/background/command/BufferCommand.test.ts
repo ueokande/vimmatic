@@ -3,7 +3,7 @@ import BufferCommandHelper from "../../../src/background/command/BufferCommandHe
 
 describe("BufferCommand", () => {
   const lastSelectedTab = {
-    get: (): Promise<number | undefined> => {
+    get: (): number | undefined => {
       throw new Error("not implemented");
     },
   };
@@ -58,7 +58,7 @@ describe("BufferCommand", () => {
 
     it("selects last selected tab by #", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
-      mockGetLastSelectedTab.mockResolvedValue(10);
+      mockGetLastSelectedTab.mockReturnValue(10);
       await sut.exec(false, "#");
 
       expect(mockTabsUpdate).toBeCalledWith(10, { active: true });

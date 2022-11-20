@@ -1,20 +1,24 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 import ConsoleClient from "../../clients/ConsoleClient";
 
 export default class ShowWinOpenCommandOperator implements Operator {
   constructor(
-    private readonly tabPresenter: TabPresenter,
     private readonly consoleClient: ConsoleClient,
     private readonly alter: boolean
   ) {}
 
   async run(): Promise<void> {
-    const tab = await this.tabPresenter.getCurrent();
+    const [tab] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+    if (!tab.id) {
+      return;
+    }
     let command = "winopen ";
     if (this.alter) {
       command += tab.url || "";
     }
-    return this.consoleClient.showCommand(tab.id as number, command);
+    return this.consoleClient.showCommand(tab.id, command);
   }
 }

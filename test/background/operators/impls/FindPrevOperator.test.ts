@@ -1,4 +1,3 @@
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import FindPrevOperator from "../../../../src/background/operators/impls/FindPrevOperator";
 import MockFindRepository from "../../mock/MockFindRepository";
 import MockFindClient from "../../mock/MockFindClient";
@@ -9,13 +8,11 @@ describe("FindPrevOperator", () => {
   const keyword = "hello";
   const frameIds = [0, 100, 101];
 
-  const tabPresenter = new MockTabPresenter();
   const findRepository = new MockFindRepository();
   const findClient = new MockFindClient();
   const consoleClient = new MockConsoleClient();
   const frameRepository = new MockReadyFrameRepository();
   const sut = new FindPrevOperator(
-    tabPresenter,
     findRepository,
     findClient,
     consoleClient,
@@ -25,14 +22,11 @@ describe("FindPrevOperator", () => {
   const findPrevSpy = jest.spyOn(findClient, "findPrev");
   const clearSelectionSpy = jest.spyOn(findClient, "clearSelection");
 
-  let currentTabId: number;
+  jest
+    .spyOn(browser.tabs, "query")
+    .mockResolvedValue([{ id: 10 } as browser.tabs.Tab]);
 
   beforeEach(async () => {
-    const currentTab = await tabPresenter.create("https://example.com/", {
-      active: true,
-    });
-    currentTabId = currentTab.id!;
-
     findPrevSpy.mockClear();
     clearSelectionSpy.mockClear().mockReturnValue(Promise.resolve());
     jest.spyOn(frameRepository, "getFrameIds").mockResolvedValue(frameIds);
@@ -47,10 +41,7 @@ describe("FindPrevOperator", () => {
 
       await sut.run();
 
-      expect(showErrorSpy).toBeCalledWith(
-        currentTabId,
-        "No previous search keywords"
-      );
+      expect(showErrorSpy).toBeCalledWith(10, "No previous search keywords");
     });
 
     it("continues a search on the same frame", async () => {
@@ -63,8 +54,8 @@ describe("FindPrevOperator", () => {
 
       await sut.run();
 
-      expect(findPrevSpy).toBeCalledWith(currentTabId, 100, keyword);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
+      expect(findPrevSpy).toBeCalledWith(10, 100, keyword);
+      expect(setLocalStateSpy).toBeCalledWith(10, {
         keyword,
         frameId: 100,
       });
@@ -83,8 +74,8 @@ describe("FindPrevOperator", () => {
       expect(findPrevSpy).toBeCalledTimes(2);
       expect(findPrevSpy.mock.calls[0][1]).toEqual(100);
       expect(findPrevSpy.mock.calls[1][1]).toEqual(0);
-      expect(clearSelectionSpy).toBeCalledWith(currentTabId, 100);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
+      expect(clearSelectionSpy).toBeCalledWith(10, 100);
+      expect(setLocalStateSpy).toBeCalledWith(10, {
         keyword,
         frameId: 0,
       });
@@ -104,8 +95,8 @@ describe("FindPrevOperator", () => {
       expect(findPrevSpy).toBeCalledTimes(2);
       expect(findPrevSpy.mock.calls[0][1]).toEqual(0);
       expect(findPrevSpy.mock.calls[1][1]).toEqual(101);
-      expect(clearSelectionSpy).toBeCalledWith(currentTabId, 0);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
+      expect(clearSelectionSpy).toBeCalledWith(10, 0);
+      expect(setLocalStateSpy).toBeCalledWith(10, {
         keyword,
         frameId: 101,
       });
@@ -124,8 +115,8 @@ describe("FindPrevOperator", () => {
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(101);
       expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(0);
-      expect(findPrevSpy).toBeCalledWith(currentTabId, 101, keyword);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
+      expect(findPrevSpy).toBeCalledWith(10, 101, keyword);
+      expect(setLocalStateSpy).toBeCalledWith(10, {
         keyword,
         frameId: 101,
       });

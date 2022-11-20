@@ -1,15 +1,14 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 import NavigateClient from "../../clients/NavigateClient";
 
 export default class NavigateLinkPrevOperator implements Operator {
-  constructor(
-    private readonly tabPresenter: TabPresenter,
-    private readonly navigateClient: NavigateClient
-  ) {}
+  constructor(private readonly navigateClient: NavigateClient) {}
 
   async run(): Promise<void> {
-    const tab = await this.tabPresenter.getCurrent();
+    const [tab] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
     await this.navigateClient.linkPrev(tab.id!);
   }
 }

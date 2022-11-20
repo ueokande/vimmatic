@@ -1,34 +1,25 @@
 import ReloadTabOperator from "../../../../src/background/operators/impls/ReloadTabOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("ReloadTabOperator", () => {
+  const reloadSpy = jest.spyOn(browser.tabs, "reload").mockResolvedValue();
+
+  beforeEach(() => {
+    reloadSpy.mockReset();
+  });
+
   describe("#run", () => {
     it("reloads the current tab with cache", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/", { active: true });
-      await tabPresenter.create("https://example.com/", { active: false });
-      const reloadSpy = jest
-        .spyOn(tabPresenter, "reload")
-        .mockReturnValue(Promise.resolve());
-
-      const sut = new ReloadTabOperator(tabPresenter, true);
+      const sut = new ReloadTabOperator(true);
       await sut.run();
 
-      expect(reloadSpy).toBeCalledWith(0, true);
+      expect(reloadSpy).toBeCalledWith({ bypassCache: true });
     });
 
     it("reloads the current tab without cache", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/", { active: true });
-      await tabPresenter.create("https://example.com/", { active: false });
-      const reloadSpy = jest
-        .spyOn(tabPresenter, "reload")
-        .mockReturnValue(Promise.resolve());
-
-      const sut = new ReloadTabOperator(tabPresenter, false);
+      const sut = new ReloadTabOperator(false);
       await sut.run();
 
-      expect(reloadSpy).toBeCalledWith(0, false);
+      expect(reloadSpy).toBeCalledWith({ bypassCache: false });
     });
   });
 });

@@ -1,16 +1,18 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 import ConsoleClient from "../../clients/ConsoleClient";
 
 export default class ShowBufferCommandOperator implements Operator {
-  constructor(
-    private readonly tabPresenter: TabPresenter,
-    private readonly consoleClient: ConsoleClient
-  ) {}
+  constructor(private readonly consoleClient: ConsoleClient) {}
 
   async run(): Promise<void> {
-    const tab = await this.tabPresenter.getCurrent();
+    const [tab] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+    if (!tab.id) {
+      return;
+    }
     const command = "buffer ";
-    return this.consoleClient.showCommand(tab.id as number, command);
+    return this.consoleClient.showCommand(tab.id, command);
   }
 }

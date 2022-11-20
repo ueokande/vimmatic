@@ -7,7 +7,6 @@ import ShowTabOpenCommandOperator from "./ShowTabOpenCommandOperator";
 import ShowWinOpenCommandOperator from "./ShowWinOpenCommandOperator";
 import ShowBufferCommandOperator from "./ShowBufferCommandOperator";
 import ShowAddBookmarkOperator from "./ShowAddBookmarkOperator";
-import TabPresenter from "../../presenters/TabPresenter";
 import ConsoleClient from "../../clients/ConsoleClient";
 import * as operations from "../../../shared/operations";
 import StartFindOperator from "./StartFindOperator";
@@ -17,8 +16,6 @@ export default class CommandOperatorFactoryChain
   implements OperatorFactoryChain
 {
   constructor(
-    @inject("TabPresenter")
-    private readonly tabPresenter: TabPresenter,
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient
   ) {}
@@ -26,38 +23,19 @@ export default class CommandOperatorFactoryChain
   create(op: operations.Operation): Operator | null {
     switch (op.type) {
       case operations.COMMAND_SHOW:
-        return new ShowCommandOperator(this.tabPresenter, this.consoleClient);
+        return new ShowCommandOperator(this.consoleClient);
       case operations.COMMAND_SHOW_OPEN:
-        return new ShowOpenCommandOperator(
-          this.tabPresenter,
-          this.consoleClient,
-          op.alter
-        );
+        return new ShowOpenCommandOperator(this.consoleClient, op.alter);
       case operations.COMMAND_SHOW_TABOPEN:
-        return new ShowTabOpenCommandOperator(
-          this.tabPresenter,
-          this.consoleClient,
-          op.alter
-        );
+        return new ShowTabOpenCommandOperator(this.consoleClient, op.alter);
       case operations.COMMAND_SHOW_WINOPEN:
-        return new ShowWinOpenCommandOperator(
-          this.tabPresenter,
-          this.consoleClient,
-          op.alter
-        );
+        return new ShowWinOpenCommandOperator(this.consoleClient, op.alter);
       case operations.COMMAND_SHOW_BUFFER:
-        return new ShowBufferCommandOperator(
-          this.tabPresenter,
-          this.consoleClient
-        );
+        return new ShowBufferCommandOperator(this.consoleClient);
       case operations.COMMAND_SHOW_ADDBOOKMARK:
-        return new ShowAddBookmarkOperator(
-          this.tabPresenter,
-          this.consoleClient,
-          op.alter
-        );
+        return new ShowAddBookmarkOperator(this.consoleClient, op.alter);
       case operations.FIND_START:
-        return new StartFindOperator(this.tabPresenter, this.consoleClient);
+        return new StartFindOperator(this.consoleClient);
     }
     return null;
   }

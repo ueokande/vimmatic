@@ -1,11 +1,8 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 
 export default class SelectTabNextOperator implements Operator {
-  constructor(private readonly tabPresenter: TabPresenter) {}
-
   async run(): Promise<void> {
-    const tabs = await this.tabPresenter.getAll();
+    const tabs = await browser.tabs.query({ currentWindow: true });
     if (tabs.length < 2) {
       return;
     }
@@ -14,6 +11,6 @@ export default class SelectTabNextOperator implements Operator {
       return;
     }
     const select = (tab.index + 1) % tabs.length;
-    return this.tabPresenter.select(tabs[select].id as number);
+    await browser.tabs.update(tabs[select].id, { active: true });
   }
 }

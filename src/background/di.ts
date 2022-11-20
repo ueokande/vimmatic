@@ -1,15 +1,14 @@
 /* eslint-disable max-len */
 
+import { LastSelectedTabImpl } from "./tabs/LastSelectedTab";
 import { NotifierImpl } from "./presenters/Notifier";
 import { Container } from "inversify";
-import { TabPresenterImpl } from "./presenters/TabPresenter";
 import { OperatorFactoryImpl } from "./operators/impls/OperatorFactoryImpl";
 import { NavigateClientImpl } from "./clients/NavigateClient";
 import { ConsoleClientImpl } from "./clients/ConsoleClient";
 import { BrowserSettingRepositoryImpl } from "./repositories/BrowserSettingRepository";
 import { RepeatRepositoryImpl } from "./repositories/RepeatRepository";
 import { ZoomPresenterImpl } from "./presenters/ZoomPresenter";
-import { WindowPresenterImpl } from "./presenters/WindowPresenter";
 import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
@@ -22,12 +21,11 @@ import { CommandRegistryFactory } from "./command";
 
 const container = new Container({ autoBindInjectable: true });
 
+container.bind("LastSelectedTab").to(LastSelectedTabImpl);
 container.bind("Notifier").to(NotifierImpl);
 container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
 container.bind("ZoomPresenter").to(ZoomPresenterImpl);
-container.bind("TabPresenter").to(TabPresenterImpl);
-container.bind("WindowPresenter").to(WindowPresenterImpl);
 container.bind("FindRepository").to(FindRepositoryImpl);
 container.bind("FindClient").to(FindClientImpl);
 container.bind("NavigateClient").to(NavigateClientImpl);

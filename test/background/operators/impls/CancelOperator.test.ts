@@ -1,22 +1,21 @@
 import CancelOperator from "../../../../src/background/operators/impls/CancelOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import MockConsoleClient from "../../mock/MockConsoleClient";
 
 describe("CancelOperator", () => {
   describe("#run", () => {
     it("hides console", async () => {
-      const tabPresenter = new MockTabPresenter();
-      const currenTab = await tabPresenter.create("https://example.com/");
-
+      jest
+        .spyOn(browser.tabs, "query")
+        .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
       const consoleClient = new MockConsoleClient();
       const spy = jest
         .spyOn(consoleClient, "hide")
         .mockResolvedValueOnce(undefined);
-      const sut = new CancelOperator(tabPresenter, consoleClient);
 
+      const sut = new CancelOperator(consoleClient);
       await sut.run();
 
-      expect(spy).toBeCalledWith(currenTab?.id);
+      expect(spy).toBeCalledWith(100);
     });
   });
 });

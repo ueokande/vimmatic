@@ -1,6 +1,5 @@
 import "@abraham/reflection";
 import TabOperatorFactoryChain from "../../../../src/background/operators/impls/TabOperatorFactoryChain";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import DuplicateTabOperator from "../../../../src/background/operators/impls/DuplicateTabOperator";
 import TogglePinnedTabOperator from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
 import UnpinTabOperator from "../../../../src/background/operators/impls/UnpinTabOperator";
@@ -19,8 +18,13 @@ import * as operations from "../../../../src/shared/operations";
 describe("TabOperatorFactoryChain", () => {
   describe("#create", () => {
     it("returns a operator for the operation", async () => {
-      const tabPresenter = new MockTabPresenter();
-      const sut = new TabOperatorFactoryChain(tabPresenter);
+      const lastSelectedTab = {
+        get() {
+          throw new Error("not implemented");
+        },
+      };
+
+      const sut = new TabOperatorFactoryChain(lastSelectedTab);
 
       expect(sut.create({ type: operations.TAB_CLOSE })).toBeInstanceOf(
         CloseTabOperator

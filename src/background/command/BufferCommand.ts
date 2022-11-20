@@ -1,6 +1,6 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
-import type LastSelectedTab from "./LastSelectedTab";
+import type LastSelectedTab from "../tabs/LastSelectedTab";
 import BufferCommandHelper from "./BufferCommandHelper";
 
 class BufferCommand implements Command {
@@ -47,7 +47,7 @@ class BufferCommand implements Command {
       return;
     } else if (keywords.trim() === "#") {
       // Select last selected window
-      const lastId = await this.lastSelectedTab.get();
+      const lastId = this.lastSelectedTab.get();
       if (typeof lastId === "undefined" || lastId === null) {
         throw new Error("No last selected tab");
       }

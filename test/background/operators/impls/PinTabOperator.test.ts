@@ -1,24 +1,16 @@
 import PinTabOperator from "../../../../src/background/operators/impls/PinTabOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("PinTabOperator", () => {
   describe("#run", () => {
     it("make pinned to the current tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/", {
-        active: true,
-        pinned: false,
-      });
-      await tabPresenter.create("https://example.com/", {
-        active: false,
-        pinned: false,
-      });
-      const sut = new PinTabOperator(tabPresenter);
+      const mockTabsUpdate = jest
+        .spyOn(browser.tabs, "update")
+        .mockResolvedValue({} as browser.tabs.Tab);
 
+      const sut = new PinTabOperator();
       await sut.run();
 
-      const pins = (await tabPresenter.getAll()).map((t) => t.pinned);
-      expect(pins).toEqual([true, false]);
+      expect(mockTabsUpdate).toBeCalledWith({ pinned: true });
     });
   });
 });

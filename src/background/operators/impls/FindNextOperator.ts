@@ -1,5 +1,4 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 import FindRepository from "../../repositories/FindRepository";
 import FindClient from "../../clients/FindClient";
 import ConsoleClient from "../../clients/ConsoleClient";
@@ -7,7 +6,6 @@ import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
 
 export default class FindNextOperator implements Operator {
   constructor(
-    private readonly tabPresenter: TabPresenter,
     private readonly findRepository: FindRepository,
     private readonly findClient: FindClient,
     private readonly consoleClient: ConsoleClient,
@@ -15,7 +13,10 @@ export default class FindNextOperator implements Operator {
   ) {}
 
   async run(): Promise<void> {
-    const tab = await this.tabPresenter.getCurrent();
+    const [tab] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
     const tabId = tab?.id;
     if (tabId == null) {
       return;

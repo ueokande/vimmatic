@@ -13,38 +13,24 @@ export default interface ZoomPresenter {
 @injectable()
 export class ZoomPresenterImpl implements ZoomPresenter {
   async zoomIn(): Promise<void> {
-    const tab = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const tabId = tab[0].id as number;
-    const current = await browser.tabs.getZoom(tabId);
+    const current = await browser.tabs.getZoom();
     const factor = ZOOM_SETTINGS.find((f) => f > current);
     if (factor) {
-      return browser.tabs.setZoom(tabId, factor);
+      return browser.tabs.setZoom(factor);
     }
   }
 
   async zoomOut(): Promise<void> {
-    const tab = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const tabId = tab[0].id as number;
-    const current = await browser.tabs.getZoom(tabId);
+    const current = await browser.tabs.getZoom();
     const factor = ZOOM_SETTINGS.slice(0)
       .reverse()
       .find((f) => f < current);
     if (factor) {
-      return browser.tabs.setZoom(tabId, factor);
+      return browser.tabs.setZoom(factor);
     }
   }
 
   async resetZoom(): Promise<void> {
-    const tab = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    return browser.tabs.setZoom(tab[0].id, 1);
+    return browser.tabs.setZoom(1);
   }
 }

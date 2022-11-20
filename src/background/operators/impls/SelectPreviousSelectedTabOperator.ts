@@ -1,14 +1,14 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
+import LastSelectedTab from "../../tabs/LastSelectedTab";
 
 export default class SelectPreviousSelectedTabOperator implements Operator {
-  constructor(private readonly tabPresenter: TabPresenter) {}
+  constructor(private readonly lastSelectedTab: LastSelectedTab) {}
 
   async run(): Promise<void> {
-    const tabId = await this.tabPresenter.getLastSelectedId();
-    if (tabId === null || typeof tabId === "undefined") {
-      return Promise.resolve();
+    const lastTabId = this.lastSelectedTab.get();
+    if (!lastTabId) {
+      return;
     }
-    return this.tabPresenter.select(tabId);
+    await browser.tabs.update(lastTabId, { active: true });
   }
 }

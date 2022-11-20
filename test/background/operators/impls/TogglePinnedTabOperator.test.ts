@@ -1,31 +1,19 @@
 import TogglePinnedTabOperator from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("TogglePinnedTabOperator", () => {
+  const mockTabsUpdate = jest
+    .spyOn(browser.tabs, "update")
+    .mockResolvedValue({} as browser.tabs.Tab);
+  jest
+    .spyOn(browser.tabs, "query")
+    .mockResolvedValue([{ id: 100, pinned: true } as browser.tabs.Tab]);
+
   describe("#run", () => {
     it("toggle pinned to the current tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/", {
-        active: true,
-        pinned: false,
-      });
-      await tabPresenter.create("https://example.com/", {
-        active: false,
-        pinned: false,
-      });
-      const sut = new TogglePinnedTabOperator(tabPresenter);
-
+      const sut = new TogglePinnedTabOperator();
       await sut.run();
-      expect((await tabPresenter.getAll()).map((t) => t.pinned)).toEqual([
-        true,
-        false,
-      ]);
 
-      await sut.run();
-      expect((await tabPresenter.getAll()).map((t) => t.pinned)).toEqual([
-        false,
-        false,
-      ]);
+      expect(mockTabsUpdate).toBeCalledWith(100, { pinned: false });
     });
   });
 });

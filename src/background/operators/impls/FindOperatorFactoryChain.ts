@@ -1,7 +1,6 @@
 import { inject, injectable } from "inversify";
 import Operator from "../Operator";
 import OperatorFactoryChain from "../OperatorFactoryChain";
-import TabPresenter from "../../presenters/TabPresenter";
 import * as operations from "../../../shared/operations";
 import FindNextOperator from "./FindNextOperator";
 import FindPrevOperator from "./FindPrevOperator";
@@ -13,8 +12,6 @@ import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
 @injectable()
 export default class FindOperatorFactoryChain implements OperatorFactoryChain {
   constructor(
-    @inject("TabPresenter")
-    private readonly tabPresenter: TabPresenter,
     @inject("FindRepository")
     private readonly findRepository: FindRepository,
     @inject("FindClient")
@@ -29,7 +26,6 @@ export default class FindOperatorFactoryChain implements OperatorFactoryChain {
     switch (op.type) {
       case operations.FIND_NEXT:
         return new FindNextOperator(
-          this.tabPresenter,
           this.findRepository,
           this.findClient,
           this.consoleClient,
@@ -37,7 +33,6 @@ export default class FindOperatorFactoryChain implements OperatorFactoryChain {
         );
       case operations.FIND_PREV:
         return new FindPrevOperator(
-          this.tabPresenter,
           this.findRepository,
           this.findClient,
           this.consoleClient,

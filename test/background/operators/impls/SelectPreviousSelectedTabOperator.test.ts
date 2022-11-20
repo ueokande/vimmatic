@@ -1,36 +1,43 @@
-import MockTabPresenter from "../../mock/MockTabPresenter";
 import SelectPreviousSelectedTabOperator from "../../../../src/background/operators/impls/SelectPreviousSelectedTabOperator";
+import LastSelectedTab from "../../../../src/background/tabs/LastSelectedTab";
+
+class MockLastSelectedTab implements LastSelectedTab {
+  get(): number | undefined {
+    throw new Error("not implemented");
+  }
+}
 
 describe("SelectPreviousSelectedTabOperator", () => {
+  const lastSelectedtab = new MockLastSelectedTab();
+  const mockTabsUpdate = jest
+    .spyOn(browser.tabs, "update")
+    .mockResolvedValue({} as browser.tabs.Tab);
+
+  jest
+    .spyOn(browser.tabs, "query")
+    .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
+
+  beforeEach(() => {
+    mockTabsUpdate.mockClear();
+  });
+
   describe("#run", () => {
     it("select the last-selected tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-      jest.spyOn(tabPresenter, "getLastSelectedId").mockResolvedValue(0);
+      jest.spyOn(lastSelectedtab, "get").mockReturnValue(101);
 
-      const sut = new SelectPreviousSelectedTabOperator(tabPresenter);
+      const sut = new SelectPreviousSelectedTabOperator(lastSelectedtab);
       await sut.run();
 
-      const url = (await tabPresenter.getCurrent()).url;
-      expect(url).toEqual("https://example.com/1");
+      expect(mockTabsUpdate).toBeCalledWith(101, { active: true });
     });
 
     it("do nothing if no last-selected tabs", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-      jest
-        .spyOn(tabPresenter, "getLastSelectedId")
-        .mockResolvedValue(undefined);
-      const selectSpy = jest.spyOn(tabPresenter, "select");
+      jest.spyOn(lastSelectedtab, "get").mockReturnValue(undefined);
 
-      const sut = new SelectPreviousSelectedTabOperator(tabPresenter);
+      const sut = new SelectPreviousSelectedTabOperator(lastSelectedtab);
       await sut.run();
 
-      expect(selectSpy).not.toBeCalled();
+      expect(mockTabsUpdate).not.toBeCalled();
     });
   });
 });

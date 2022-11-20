@@ -1,20 +1,21 @@
 import OpenSourceOperator from "../../../../src/background/operators/impls/OpenSourceOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("OpenSourceOperator", () => {
   describe("#run", () => {
-    it("opens view-source URL of the current tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/");
-      const sut = new OpenSourceOperator(tabPresenter);
+    const mockTabsCreate = jest
+      .spyOn(browser.tabs, "create")
+      .mockResolvedValue({} as browser.tabs.Tab);
+    jest
+      .spyOn(browser.tabs, "query")
+      .mockResolvedValue([{ url: "https://example.com/" } as browser.tabs.Tab]);
 
+    it("opens view-source URL of the current tab", async () => {
+      const sut = new OpenSourceOperator();
       await sut.run();
 
-      const urls = (await tabPresenter.getAll()).map((t) => t.url);
-      expect(urls).toEqual([
-        "https://example.com/",
-        "view-source:https://example.com/",
-      ]);
+      expect(mockTabsCreate).toBeCalledWith({
+        url: "view-source:https://example.com/",
+      });
     });
   });
 });

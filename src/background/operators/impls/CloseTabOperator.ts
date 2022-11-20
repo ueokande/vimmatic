@@ -1,22 +1,26 @@
 import Operator from "../Operator";
-import TabPresenter from "../../presenters/TabPresenter";
 
 export default class CloseTabOperator implements Operator {
   constructor(
-    private readonly tabPresenter: TabPresenter,
     private readonly force: boolean = false,
     private readonly selectLeft: boolean = false
   ) {}
 
   async run(): Promise<void> {
-    const tab = await this.tabPresenter.getCurrent();
+    const [tab] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+    if (!tab.id) {
+      return;
+    }
     if (!this.force && tab.pinned) {
-      return Promise.resolve();
+      return;
     }
     if (this.selectLeft && tab.index > 0) {
-      const tabs = await this.tabPresenter.getAll();
-      await this.tabPresenter.select(tabs[tab.index - 1].id as number);
+      const tabs = await browser.tabs.query({ windowId: tab.windowId });
+      await browser.tabs.update(tabs[tab.index - 1].id, { active: true });
     }
-    return this.tabPresenter.remove([tab.id as number]);
+    return browser.tabs.remove(tab.id);
   }
 }

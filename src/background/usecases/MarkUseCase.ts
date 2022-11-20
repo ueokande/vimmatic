@@ -1,5 +1,4 @@
 import { inject, injectable } from "inversify";
-import TabPresenter from "../presenters/TabPresenter";
 import MarkRepository from "../repositories/MarkRepository";
 import ContentMessageClient from "../clients/ContentMessageClient";
 import ConsoleClient from "../clients/ConsoleClient";
@@ -7,8 +6,6 @@ import ConsoleClient from "../clients/ConsoleClient";
 @injectable()
 export default class MarkUseCase {
   constructor(
-    @inject("TabPresenter")
-    private readonly tabPresenter: TabPresenter,
     @inject(MarkRepository)
     private readonly markRepository: MarkRepository,
     @inject("ConsoleClient")
@@ -18,26 +15,32 @@ export default class MarkUseCase {
   ) {}
 
   async setGlobal(key: string, x: number, y: number): Promise<void> {
-    const tab = await this.tabPresenter.getCurrent();
+    const [tab] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
     const mark = { tabId: tab.id as number, url: tab.url as string, x, y };
     return this.markRepository.setMark(key, mark);
   }
 
   async jumpGlobal(key: string): Promise<void> {
-    const current = await this.tabPresenter.getCurrent();
-
+    const [current] = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+    if (!current.id) {
+      return;
+    }
     const mark = await this.markRepository.getMark(key);
     if (!mark) {
-      return this.consoleClient.showError(
-        current.id as number,
-        "Mark is not set"
-      );
+      return this.consoleClient.showError(current.id, "Mark is not set");
     }
     try {
       await this.contentMessageClient.scrollTo(mark.tabId, mark.x, mark.y);
-      return this.tabPresenter.select(mark.tabId);
+      await browser.tabs.update(current.id, { active: true });
+      return;
     } catch (e) {
-      const tab = await this.tabPresenter.create(mark.url);
+      const tab = await browser.tabs.create({ url: mark.url });
       return this.markRepository.setMark(key, {
         tabId: tab.id as number,
         url: mark.url,

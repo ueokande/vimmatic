@@ -1,19 +1,27 @@
 import SelectLastTabOperator from "../../../../src/background/operators/impls/SelectLastTabOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("SelectLastTabOperator", () => {
+  const props = {
+    highlighted: false,
+    incognito: false,
+    pinned: false,
+  };
+  jest.spyOn(browser.tabs, "query").mockResolvedValue([
+    { ...props, id: 101, index: 0, active: false },
+    { ...props, id: 102, index: 1, active: true },
+    { ...props, id: 103, index: 2, active: false },
+  ]);
+
+  const mockTabsUpdate = jest
+    .spyOn(browser.tabs, "update")
+    .mockResolvedValue({} as any);
+
   describe("#run", () => {
     it("select the rightmost tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-
-      const sut = new SelectLastTabOperator(tabPresenter);
+      const sut = new SelectLastTabOperator();
       await sut.run();
 
-      const url = (await tabPresenter.getCurrent()).url;
-      expect(url).toEqual("https://example.com/3");
+      expect(mockTabsUpdate).toBeCalledWith(103, { active: true });
     });
   });
 });

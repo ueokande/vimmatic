@@ -1,60 +1,74 @@
 import CloseTabOperator from "../../../../src/background/operators/impls/CloseTabOperator";
-import MockTabPresenter from "../../mock/MockTabPresenter";
 
 describe("CloseTabOperator", () => {
+  const tab = {
+    highlighted: false,
+    active: true,
+    incognito: false,
+  };
+  const mockTabsRemove = jest.spyOn(browser.tabs, "remove");
+  const mockTabsUpdate = jest.spyOn(browser.tabs, "update");
+
+  mockTabsRemove.mockResolvedValue();
+  mockTabsUpdate.mockResolvedValue({} as any);
+
+  beforeEach(() => {
+    mockTabsRemove.mockClear();
+    mockTabsUpdate.mockClear();
+  });
+
   describe("#run", () => {
     it("close a current tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-      const sut = new CloseTabOperator(tabPresenter);
+      jest.spyOn(browser.tabs, "query").mockResolvedValue([
+        {
+          ...tab,
+          id: 100,
+          index: 0,
+          pinned: false,
+        },
+      ]);
 
+      const sut = new CloseTabOperator();
       await sut.run();
 
-      const tabs = await tabPresenter.getAll();
-      expect(tabs.map((t) => t.url)).toEqual([
-        "https://example.com/1",
-        "https://example.com/3",
-      ]);
+      expect(mockTabsRemove).toBeCalledWith(100);
     });
 
     it("close a current tab forcely", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", {
-        pinned: true,
-        active: false,
-      });
-      await tabPresenter.create("https://example.com/2", {
-        pinned: true,
-        active: true,
-      });
-      await tabPresenter.create("https://example.com/3", {
-        pinned: true,
-        active: false,
-      });
-      const sut = new CloseTabOperator(tabPresenter, true);
+      jest.spyOn(browser.tabs, "query").mockResolvedValue([
+        {
+          ...tab,
+          id: 100,
+          index: 0,
+          pinned: true,
+        },
+      ]);
 
+      const sut = new CloseTabOperator(true);
       await sut.run();
 
-      const tabs = await tabPresenter.getAll();
-      expect(tabs.map((t) => t.url)).toEqual([
-        "https://example.com/1",
-        "https://example.com/3",
-      ]);
+      expect(mockTabsRemove).toBeCalledWith(100);
     });
 
     it("close a current tab and select left of the closed tab", async () => {
-      const tabPresenter = new MockTabPresenter();
-      await tabPresenter.create("https://example.com/1", { active: false });
-      await tabPresenter.create("https://example.com/2", { active: true });
-      await tabPresenter.create("https://example.com/3", { active: false });
-      const sut = new CloseTabOperator(tabPresenter, false, true);
+      const tabs = [
+        { ...tab, id: 101, index: 0, pinned: false, active: false },
+        { ...tab, id: 102, index: 1, pinned: false, active: true },
+        { ...tab, id: 103, index: 2, pinned: false, active: false },
+      ];
+      jest.spyOn(browser.tabs, "query").mockImplementation(({ active }) => {
+        if (active) {
+          return Promise.resolve([tabs[1]]);
+        } else {
+          return Promise.resolve(tabs);
+        }
+      });
 
+      const sut = new CloseTabOperator(false, true);
       await sut.run();
 
-      const tab = await tabPresenter.getCurrent();
-      expect(tab.url).toEqual("https://example.com/1");
+      expect(mockTabsRemove).toBeCalledWith(102);
+      expect(mockTabsUpdate).toBeCalledWith(101, { active: true });
     });
   });
 });
