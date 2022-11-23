@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import RequestContext from "../infrastructures/RequestContext";
 
 type PropsSchema = ReturnType<typeof z.object>;
 
@@ -9,7 +10,7 @@ interface Operator {
 
   schema(): PropsSchema | void;
 
-  run(props: Props): Promise<void>;
+  run(ctx: RequestContext, props: Props): Promise<void>;
 }
 
 export default Operator;

@@ -5,13 +5,15 @@ describe("OpenSourceOperator", () => {
     const mockTabsCreate = jest
       .spyOn(browser.tabs, "create")
       .mockResolvedValue({} as browser.tabs.Tab);
-    jest
-      .spyOn(browser.tabs, "query")
-      .mockResolvedValue([{ url: "https://example.com/" } as browser.tabs.Tab]);
 
     it("opens view-source URL of the current tab", async () => {
+      const ctx = {
+        sender: {
+          tab: { id: 100, url: "https://example.com/" } as browser.tabs.Tab,
+        },
+      };
       const sut = new OpenSourceOperator();
-      await sut.run();
+      await sut.run(ctx);
 
       expect(mockTabsCreate).toBeCalledWith({
         url: "view-source:https://example.com/",

@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import Operator from "../Operator";
 import ZoomHelper from "./ZoomHelper";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class ZoomInOperator implements Operator {
@@ -12,7 +13,10 @@ export default class ZoomInOperator implements Operator {
 
   schema() {}
 
-  run(): Promise<void> {
-    return this.zoomHelper.zoomIn();
+  async run({ sender }: RequestContext): Promise<void> {
+    if (!sender?.tab?.id) {
+      return;
+    }
+    await this.zoomHelper.zoomIn(sender.tab.id);
   }
 }

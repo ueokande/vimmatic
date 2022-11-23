@@ -6,20 +6,19 @@ describe("NavigateRootOperator", () => {
       const mockTabsUpdate = jest
         .spyOn(browser.tabs, "update")
         .mockResolvedValue({} as browser.tabs.Tab);
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          id: 100,
-          url: "https://example.com/search?q=apple#top",
-        } as browser.tabs.Tab,
-      ]);
 
+      const ctx = {
+        sender: {
+          tab: {
+            id: 100,
+            url: "https://example.com/fruits/yellow/banana",
+          } as browser.tabs.Tab,
+        },
+      };
       const sut = new NavigateRootOperator();
+      await sut.run(ctx);
 
-      await sut.run();
-
-      expect(mockTabsUpdate).toBeCalledWith(100, {
-        url: "https://example.com",
-      });
+      expect(mockTabsUpdate).toBeCalledWith({ url: "https://example.com" });
     });
   });
 });

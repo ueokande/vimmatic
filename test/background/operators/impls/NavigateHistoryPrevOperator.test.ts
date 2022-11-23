@@ -8,12 +8,10 @@ describe("NavigateHistoryPrevOperator", () => {
       const historyNextSpy = jest
         .spyOn(navigateClient, "historyPrev")
         .mockReturnValue(Promise.resolve());
-      jest
-        .spyOn(browser.tabs, "query")
-        .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
 
+      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new NavigateHistoryPrevOperator(navigateClient);
-      await sut.run();
+      await sut.run(ctx);
 
       expect(historyNextSpy).toBeCalledWith(100);
     });

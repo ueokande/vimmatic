@@ -19,33 +19,21 @@ describe("CloseTabOperator", () => {
 
   describe("#run", () => {
     it("close a current tab", async () => {
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          ...tab,
-          id: 100,
-          index: 0,
-          pinned: false,
-        },
-      ]);
-
+      const ctx = {
+        sender: { tab: { ...tab, id: 100, index: 0, pinned: false } },
+      };
       const sut = new CloseTabOperator();
-      await sut.run({});
+      await sut.run(ctx, {});
 
       expect(mockTabsRemove).toBeCalledWith(100);
     });
 
     it("close a current tab forcely", async () => {
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          ...tab,
-          id: 100,
-          index: 0,
-          pinned: true,
-        },
-      ]);
-
+      const ctx = {
+        sender: { tab: { ...tab, id: 100, index: 0, pinned: true } },
+      };
       const sut = new CloseTabOperator();
-      await sut.run({ force: true });
+      await sut.run(ctx, { force: true });
 
       expect(mockTabsRemove).toBeCalledWith(100);
     });
@@ -56,16 +44,11 @@ describe("CloseTabOperator", () => {
         { ...tab, id: 102, index: 1, pinned: false, active: true },
         { ...tab, id: 103, index: 2, pinned: false, active: false },
       ];
-      jest.spyOn(browser.tabs, "query").mockImplementation(({ active }) => {
-        if (active) {
-          return Promise.resolve([tabs[1]]);
-        } else {
-          return Promise.resolve(tabs);
-        }
-      });
+      jest.spyOn(browser.tabs, "query").mockResolvedValue(tabs);
 
+      const ctx = { sender: { tab: tabs[1] } };
       const sut = new CloseTabOperator();
-      await sut.run({ force: true, select: "left" });
+      await sut.run(ctx, { force: true, select: "left" });
 
       expect(mockTabsRemove).toBeCalledWith(102);
       expect(mockTabsUpdate).toBeCalledWith(101, { active: true });

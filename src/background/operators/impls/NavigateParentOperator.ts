@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import Operator from "../Operator";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class NavigateParentOperator implements Operator {
@@ -9,15 +10,11 @@ export default class NavigateParentOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab.id || !tab.url) {
+  async run({ sender }: RequestContext): Promise<void> {
+    if (!sender?.tab?.url) {
       return;
     }
-    const url = new URL(tab.url);
+    const url = new URL(sender.tab.url);
     if (url.hash.length > 0) {
       url.hash = "";
     } else if (url.search.length > 0) {
@@ -31,6 +28,6 @@ export default class NavigateParentOperator implements Operator {
         url.pathname = url.pathname.replace(lastDirPattern, "/");
       }
     }
-    await browser.tabs.update(tab.id, { url: url.href });
+    await browser.tabs.update({ url: url.href });
   }
 }

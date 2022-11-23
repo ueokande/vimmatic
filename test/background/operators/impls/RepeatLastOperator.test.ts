@@ -21,6 +21,7 @@ describe("RepeatLastOperator", () => {
     schema: todo,
     run: todo,
   };
+  const ctx = { sender: {} };
   const sut = new RepeatLastOperator(operatorRegistory, repeatRepository);
 
   const mockRun = jest.spyOn(operator, "run").mockResolvedValue();
@@ -37,9 +38,9 @@ describe("RepeatLastOperator", () => {
       });
       jest.spyOn(operatorRegistory, "getOperator").mockReturnValue(operator);
 
-      await sut.run();
+      await sut.run(ctx);
 
-      expect(mockRun).toBeCalledWith({ name: "alice" });
+      expect(mockRun).toBeCalledWith(ctx, { name: "alice" });
     });
 
     it("does nothing if no last operations", async () => {
@@ -47,7 +48,7 @@ describe("RepeatLastOperator", () => {
         .spyOn(repeatRepository, "getLastOperation")
         .mockReturnValue(undefined);
 
-      await sut.run();
+      await sut.run(ctx);
 
       expect(mockRun).not.toBeCalled();
     });
@@ -58,7 +59,7 @@ describe("RepeatLastOperator", () => {
       });
       jest.spyOn(operatorRegistory, "getOperator").mockReturnValue(undefined);
 
-      expect(() => sut.run()).toThrowError();
+      expect(() => sut.run(ctx)).toThrowError();
     });
   });
 });

@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
-import RequestContext from "./RequestContext";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class AddonEnabledController {

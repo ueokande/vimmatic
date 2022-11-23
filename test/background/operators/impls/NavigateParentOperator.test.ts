@@ -11,65 +11,69 @@ describe("NavigateParentOperator", () => {
 
   describe("#run", () => {
     it("opens a parent directory of the file in the URL", async () => {
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          id: 100,
-          url: "https://example.com/fruits/yellow/banana",
-        } as browser.tabs.Tab,
-      ]);
-
+      const ctx = {
+        sender: {
+          tab: {
+            id: 100,
+            url: "https://example.com/fruits/yellow/banana",
+          } as browser.tabs.Tab,
+        },
+      };
       const sut = new NavigateParentOperator();
-      await sut.run();
+      await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith(100, {
+      expect(mockTabsUpdate).toBeCalledWith({
         url: "https://example.com/fruits/yellow/",
       });
     });
 
-    it("opens a parent directory of the directoryin the URL", async () => {
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          id: 100,
-          url: "https://example.com/fruits/yellow/",
-        } as browser.tabs.Tab,
-      ]);
-
+    it("opens a parent directory of the directory in the URL", async () => {
+      const ctx = {
+        sender: {
+          tab: {
+            id: 100,
+            url: "https://example.com/fruits/yellow/",
+          } as browser.tabs.Tab,
+        },
+      };
       const sut = new NavigateParentOperator();
-      await sut.run();
+      await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith(100, {
+      expect(mockTabsUpdate).toBeCalledWith({
         url: "https://example.com/fruits/",
       });
     });
 
     it("removes a hash in the URL", async () => {
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          id: 100,
-          url: "https://example.com/fruits/yellow/#top",
-        } as browser.tabs.Tab,
-      ]);
-
+      const ctx = {
+        sender: {
+          tab: {
+            id: 100,
+            url: "https://example.com/fruits/yellow/#top",
+          } as browser.tabs.Tab,
+        },
+      };
       const sut = new NavigateParentOperator();
-      await sut.run();
+      await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith(100, {
+      expect(mockTabsUpdate).toBeCalledWith({
         url: "https://example.com/fruits/yellow/",
       });
     });
 
     it("removes query parameters in the URL", async () => {
-      jest.spyOn(browser.tabs, "query").mockResolvedValue([
-        {
-          id: 100,
-          url: "https://example.com/search?q=apple",
-        } as browser.tabs.Tab,
-      ]);
-
+      const ctx = {
+        sender: {
+          tab: {
+            id: 100,
+            url: "https://example.com/search?q=apple",
+          } as browser.tabs.Tab,
+        },
+      };
       const sut = new NavigateParentOperator();
-      await sut.run();
+      await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith(100, {
+      expect(mockTabsUpdate).toBeCalledWith({
         url: "https://example.com/search",
       });
     });

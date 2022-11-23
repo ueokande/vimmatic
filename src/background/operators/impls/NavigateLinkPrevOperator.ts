@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 import Operator from "../Operator";
 import NavigateClient from "../../clients/NavigateClient";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class NavigateLinkPrevOperator implements Operator {
@@ -15,11 +16,10 @@ export default class NavigateLinkPrevOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    await this.navigateClient.linkPrev(tab.id!);
+  async run({ sender }: RequestContext): Promise<void> {
+    if (!sender?.tab?.id) {
+      return;
+    }
+    await this.navigateClient.linkPrev(sender.tab.id!);
   }
 }

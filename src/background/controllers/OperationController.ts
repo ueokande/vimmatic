@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import RequestContext from "./RequestContext";
 import OperationUseCase from "../usecases/OperationUseCase";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class OperationController {
@@ -10,7 +10,7 @@ export default class OperationController {
   ) {}
 
   async exec(
-    _ctx: RequestContext,
+    ctx: RequestContext,
     {
       repeat,
       name,
@@ -21,6 +21,6 @@ export default class OperationController {
       props: Record<string, string | number | boolean>;
     }
   ): Promise<void> {
-    this.operationUseCase.run(name, props, repeat);
+    this.operationUseCase.run(ctx, name, props, repeat);
   }
 }

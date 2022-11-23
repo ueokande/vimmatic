@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
 import BrowserSettingRepository from "../../repositories/BrowserSettingRepository";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class OpenHomeOperator implements Operator {
@@ -20,9 +21,10 @@ export default class OpenHomeOperator implements Operator {
     });
   }
 
-  async run({
-    newTab,
-  }: z.infer<ReturnType<OpenHomeOperator["schema"]>>): Promise<void> {
+  async run(
+    _ctx: RequestContext,
+    { newTab }: z.infer<ReturnType<OpenHomeOperator["schema"]>>
+  ): Promise<void> {
     const urls = await this.browserSettingRepository.getHomepageUrls();
     if (urls.length === 1 && urls[0] === "about:home") {
       // eslint-disable-next-line max-len

@@ -14,9 +14,10 @@ describe("OpenHomeOperator", () => {
       const browserSettingRepository = new MockBrowserSettingRepository([
         "https://example.net/",
       ]);
-      const sut = new OpenHomeOperator(browserSettingRepository);
 
-      await sut.run({ newTab: false });
+      const ctx = { sender: {} };
+      const sut = new OpenHomeOperator(browserSettingRepository);
+      await sut.run(ctx, { newTab: false });
 
       expect(mockTabsUpdate).toBeCalledWith({
         url: "https://example.net/",
@@ -27,9 +28,10 @@ describe("OpenHomeOperator", () => {
       const browserSettingRepository = new MockBrowserSettingRepository([
         "https://example.net/",
       ]);
-      const sut = new OpenHomeOperator(browserSettingRepository);
 
-      await sut.run({ newTab: true });
+      const ctx = { sender: {} };
+      const sut = new OpenHomeOperator(browserSettingRepository);
+      await sut.run(ctx, { newTab: true });
 
       expect(mockTabsCreate).toBeCalledWith({ url: "https://example.net/" });
     });
@@ -39,9 +41,10 @@ describe("OpenHomeOperator", () => {
         "https://example.net/",
         "https://example.org/",
       ]);
-      const sut = new OpenHomeOperator(browserSettingRepository);
 
-      await sut.run({ newTab: false });
+      const ctx = { sender: {} };
+      const sut = new OpenHomeOperator(browserSettingRepository);
+      await sut.run(ctx, { newTab: false });
 
       expect(mockTabsCreate).toBeCalledWith({ url: "https://example.net/" });
       expect(mockTabsCreate).toBeCalledWith({ url: "https://example.org/" });

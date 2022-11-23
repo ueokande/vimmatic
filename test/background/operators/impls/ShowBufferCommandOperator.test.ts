@@ -2,9 +2,6 @@ import ShowBufferCommandOperator from "../../../../src/background/operators/impl
 import MockConsoleClient from "../../mock/MockConsoleClient";
 
 describe("ShowBufferCommandOperator", () => {
-  jest
-    .spyOn(browser.tabs, "query")
-    .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
   const consoleClient = new MockConsoleClient();
   const showCommandSpy = jest
     .spyOn(consoleClient, "showCommand")
@@ -12,8 +9,9 @@ describe("ShowBufferCommandOperator", () => {
 
   describe("#run", () => {
     it("show command with buffer command", async () => {
+      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new ShowBufferCommandOperator(consoleClient);
-      await sut.run();
+      await sut.run(ctx);
 
       expect(showCommandSpy).toBeCalledWith(100, "buffer ");
     });

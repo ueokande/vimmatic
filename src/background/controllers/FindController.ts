@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import StartFindUseCase from "../usecases/StartFindUseCase";
-import RequestContext from "./RequestContext";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class FindController {

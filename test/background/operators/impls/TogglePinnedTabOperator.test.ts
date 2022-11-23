@@ -4,16 +4,16 @@ describe("TogglePinnedTabOperator", () => {
   const mockTabsUpdate = jest
     .spyOn(browser.tabs, "update")
     .mockResolvedValue({} as browser.tabs.Tab);
-  jest
-    .spyOn(browser.tabs, "query")
-    .mockResolvedValue([{ id: 100, pinned: true } as browser.tabs.Tab]);
 
   describe("#run", () => {
     it("toggle pinned to the current tab", async () => {
+      const ctx = {
+        sender: { tab: { id: 100, pinned: true } as browser.tabs.Tab },
+      };
       const sut = new TogglePinnedTabOperator();
-      await sut.run();
+      await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith(100, { pinned: false });
+      expect(mockTabsUpdate).toBeCalledWith({ pinned: false });
     });
   });
 });

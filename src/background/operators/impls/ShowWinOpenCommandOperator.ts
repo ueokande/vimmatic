@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
 import ConsoleClient from "../../clients/ConsoleClient";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class ShowWinOpenCommandOperator implements Operator {
@@ -20,20 +21,17 @@ export default class ShowWinOpenCommandOperator implements Operator {
     });
   }
 
-  async run({
-    alter,
-  }: z.infer<ReturnType<ShowWinOpenCommandOperator["schema"]>>): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab.id) {
+  async run(
+    { sender }: RequestContext,
+    { alter }: z.infer<ReturnType<ShowWinOpenCommandOperator["schema"]>>
+  ): Promise<void> {
+    if (!sender?.tab?.id) {
       return;
     }
     let command = "winopen ";
     if (alter) {
-      command += tab.url || "";
+      command += sender.tab?.url || "";
     }
-    return this.consoleClient.showCommand(tab.id, command);
+    return this.consoleClient.showCommand(sender.tab.id, command);
   }
 }

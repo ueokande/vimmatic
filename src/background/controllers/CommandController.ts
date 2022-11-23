@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { Completions } from "../../shared/Completions";
 import CommandUseCase from "../usecases/CommandUseCase";
-import RequestContext from "./RequestContext";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class CommandController {

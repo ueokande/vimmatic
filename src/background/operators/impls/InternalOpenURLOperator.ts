@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class InternalOpenURLOperator implements Operator {
@@ -16,11 +17,14 @@ export default class InternalOpenURLOperator implements Operator {
     });
   }
 
-  async run({
-    url,
-    newTab,
-    newWindow,
-  }: z.infer<ReturnType<InternalOpenURLOperator["schema"]>>): Promise<void> {
+  async run(
+    _ctx: RequestContext,
+    {
+      url,
+      newTab,
+      newWindow,
+    }: z.infer<ReturnType<InternalOpenURLOperator["schema"]>>
+  ): Promise<void> {
     if (newWindow) {
       await browser.windows.create({ url: url });
     } else if (newTab) {

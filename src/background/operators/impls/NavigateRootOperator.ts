@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import Operator from "../Operator";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class NavigateRootOperator implements Operator {
@@ -9,15 +10,11 @@ export default class NavigateRootOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab.id || !tab.url) {
+  async run({ sender }: RequestContext): Promise<void> {
+    if (!sender?.tab?.id || !sender?.tab?.url) {
       return;
     }
-    const url = new URL(tab.url);
-    await browser.tabs.update(tab.id, { url: url.origin });
+    const url = new URL(sender.tab.url);
+    await browser.tabs.update({ url: url.origin });
   }
 }

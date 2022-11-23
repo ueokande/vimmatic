@@ -9,7 +9,7 @@ import ConsoleController from "../controllers/ConsoleController";
 import FindController from "../controllers/FindController";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
-import RequestContext from "../controllers/RequestContext";
+import RequestContext from "./RequestContext";
 
 @injectable()
 export default class BackgroundMessageListener {

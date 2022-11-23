@@ -3,12 +3,7 @@ const ZOOM_SETTINGS = [
 ] as const;
 
 class ZoomPresenter {
-  async zoomIn(): Promise<void> {
-    const tab = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const tabId = tab[0].id as number;
+  async zoomIn(tabId: number): Promise<void> {
     const current = await browser.tabs.getZoom(tabId);
     const factor = ZOOM_SETTINGS.find((f) => f > current);
     if (factor) {
@@ -16,12 +11,7 @@ class ZoomPresenter {
     }
   }
 
-  async zoomOut(): Promise<void> {
-    const tab = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const tabId = tab[0].id as number;
+  async zoomOut(tabId: number): Promise<void> {
     const current = await browser.tabs.getZoom(tabId);
     const factor = ZOOM_SETTINGS.slice(0)
       .reverse()

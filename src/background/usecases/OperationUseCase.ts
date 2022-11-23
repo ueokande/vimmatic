@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import type { Props } from "../operators/Operator";
 import OperatorRegistory from "../operators/OperatorRegistory";
 import RepeatRepository from "../repositories/RepeatRepository";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class OperationUseCase {
@@ -12,7 +13,12 @@ export default class OperationUseCase {
     private readonly repeatRepository: RepeatRepository
   ) {}
 
-  async run(name: string, props: Props, repeat: number): Promise<void> {
+  async run(
+    ctx: RequestContext,
+    name: string,
+    props: Props,
+    repeat: number
+  ): Promise<void> {
     if (this.isRepeatable(name)) {
       this.repeatRepository.setLastOperation({ type: name, ...props });
     }
@@ -22,7 +28,7 @@ export default class OperationUseCase {
     }
 
     for (let i = 0; i < repeat; ++i) {
-      await op.run(props);
+      await op.run(ctx, props);
     }
   }
 

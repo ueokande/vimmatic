@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class CloseTabOperator implements Operator {
@@ -15,24 +16,22 @@ export default class CloseTabOperator implements Operator {
     });
   }
 
-  async run({
-    force,
-    select,
-  }: z.infer<ReturnType<CloseTabOperator["schema"]>>): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab.id) {
+  async run(
+    { sender }: RequestContext,
+    { force, select }: z.infer<ReturnType<CloseTabOperator["schema"]>>
+  ): Promise<void> {
+    if (!sender?.tab?.id) {
       return;
     }
-    if (!force && tab.pinned) {
+    if (!force && sender.tab.pinned) {
       return;
     }
-    if (select === "left" && tab.index > 0) {
-      const tabs = await browser.tabs.query({ windowId: tab.windowId });
-      await browser.tabs.update(tabs[tab.index - 1].id, { active: true });
+    if (select === "left" && sender.tab.index > 0) {
+      const tabs = await browser.tabs.query({ windowId: sender.tab.windowId });
+      await browser.tabs.update(tabs[sender.tab.index - 1].id, {
+        active: true,
+      });
     }
-    return browser.tabs.remove(tab.id);
+    return browser.tabs.remove(sender.tab.id);
   }
 }

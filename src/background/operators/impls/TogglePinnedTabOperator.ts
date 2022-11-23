@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import Operator from "../Operator";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class TogglePinnedTabOperator implements Operator {
@@ -9,11 +10,10 @@ export default class TogglePinnedTabOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    await browser.tabs.update(tab.id, { pinned: !tab.pinned });
+  async run({ sender }: RequestContext): Promise<void> {
+    if (!sender.tab) {
+      return;
+    }
+    await browser.tabs.update({ pinned: !sender.tab.pinned });
   }
 }

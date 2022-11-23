@@ -4,17 +4,14 @@ import MockNavigateClient from "../../mock/MockNavigateClient";
 describe("NavigateLinkPrevOperator", () => {
   describe("#run", () => {
     it("send a message to navigate next page", async () => {
-      jest
-        .spyOn(browser.tabs, "query")
-        .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
-
       const navigateClient = new MockNavigateClient();
       const linkPrevSpy = jest
         .spyOn(navigateClient, "linkPrev")
         .mockReturnValueOnce(Promise.resolve());
 
+      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new NavigateLinkPrevOperator(navigateClient);
-      await sut.run();
+      await sut.run(ctx);
 
       expect(linkPrevSpy).toBeCalledWith(100);
     });

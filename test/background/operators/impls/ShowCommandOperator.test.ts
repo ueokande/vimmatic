@@ -2,9 +2,6 @@ import ShowCommandOperator from "../../../../src/background/operators/impls/Show
 import MockConsoleClient from "../../mock/MockConsoleClient";
 
 describe("ShowCommandOperator", () => {
-  jest
-    .spyOn(browser.tabs, "query")
-    .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
   const consoleClient = new MockConsoleClient();
   const showCommandSpy = jest
     .spyOn(consoleClient, "showCommand")
@@ -16,8 +13,9 @@ describe("ShowCommandOperator", () => {
 
   describe("#run", () => {
     it("show command with addbookmark command", async () => {
+      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new ShowCommandOperator(consoleClient);
-      await sut.run();
+      await sut.run(ctx);
 
       expect(showCommandSpy).toBeCalledWith(100, "");
     });
