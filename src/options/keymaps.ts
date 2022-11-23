@@ -45,9 +45,9 @@ const fields = [
     ["navigate.link.prev", "Open previous link"],
     ["navigate.parent", "Go to parent directory"],
     ["navigate.root", "Go to root directory"],
-    ["page.source", "Open page source"],
-    ['page.home?{"newTab":false}', "Open start page to current tab"],
-    ['page.home?{"newTab":true}', "Open start page in new tab"],
+    ["navigate.source", "Open page source"],
+    ['navigate.home?{"newTab":false}', "Open start page to current tab"],
+    ['navigate.home?{"newTab":true}', "Open start page in new tab"],
     ["focus.input", "Focus input"],
   ],
   [
@@ -74,7 +74,7 @@ const fields = [
     ["zoom.in", "Zoom-in"],
     ["zoom.out", "Zoom-out"],
     ["zoom.neutral", "Reset zoom level"],
-    ["repeat.last", "Repeat last change"],
+    ["repeat", "Repeat last change"],
   ],
 ];
 

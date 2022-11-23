@@ -1,6 +1,14 @@
+import { injectable } from "inversify";
 import Operator from "../Operator";
 
+@injectable()
 export default class ReopenTabOperator implements Operator {
+  name() {
+    return "tabs.reopen";
+  }
+
+  schema() {}
+
   async run(): Promise<void> {
     const window = await browser.windows.getCurrent();
     const sessions = await browser.sessions.getRecentlyClosed();

@@ -1,18 +1,34 @@
+import { injectable, inject } from "inversify";
 import Operator from "../Operator";
 import RepeatRepository from "../../repositories/RepeatRepository";
-import OperatorFactory from "../OperatorFactory";
+import OperatorRegistory from "../../operators/OperatorRegistory";
+import { extractOperation } from "../../../shared/operations2";
 
+@injectable()
 export default class RepeatLastOperator implements Operator {
   constructor(
-    private readonly repeatRepository: RepeatRepository,
-    private readonly operatorFactory: OperatorFactory
+    @inject("OperatorRegistory")
+    private readonly operatorRegistory: OperatorRegistory,
+    @inject("RepeatRepository")
+    private readonly repeatRepository: RepeatRepository
   ) {}
 
+  name() {
+    return "repeat";
+  }
+
+  schema() {}
+
   run(): Promise<void> {
-    const op = this.repeatRepository.getLastOperation();
-    if (typeof op === "undefined") {
+    const lastOp = this.repeatRepository.getLastOperation();
+    if (typeof lastOp === "undefined") {
       return Promise.resolve();
     }
-    return this.operatorFactory.create(op).run();
+    const { name, props } = extractOperation(lastOp);
+    const op = this.operatorRegistory.getOperator(name);
+    if (typeof op === "undefined") {
+      throw new Error("unknown operation: " + name);
+    }
+    return op.run(props);
   }
 }

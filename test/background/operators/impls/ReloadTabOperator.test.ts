@@ -9,15 +9,15 @@ describe("ReloadTabOperator", () => {
 
   describe("#run", () => {
     it("reloads the current tab with cache", async () => {
-      const sut = new ReloadTabOperator(true);
-      await sut.run();
+      const sut = new ReloadTabOperator();
+      await sut.run({ cache: true });
 
       expect(reloadSpy).toBeCalledWith({ bypassCache: true });
     });
 
     it("reloads the current tab without cache", async () => {
-      const sut = new ReloadTabOperator(false);
-      await sut.run();
+      const sut = new ReloadTabOperator();
+      await sut.run({ cache: false });
 
       expect(reloadSpy).toBeCalledWith({ bypassCache: false });
     });

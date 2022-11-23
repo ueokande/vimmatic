@@ -1,19 +1,32 @@
+import { injectable } from "inversify";
+import { z } from "zod";
 import Operator from "../Operator";
 
+@injectable()
 export default class InternalOpenURLOperator implements Operator {
-  constructor(
-    private readonly url: string,
-    private readonly newTab?: boolean,
-    private readonly newWindow?: boolean
-  ) {}
+  name() {
+    return "internal.open.url";
+  }
 
-  async run(): Promise<void> {
-    if (this.newWindow) {
-      await browser.windows.create({ url: this.url });
-    } else if (this.newTab) {
-      await browser.tabs.create({ url: this.url });
+  schema() {
+    return z.object({
+      url: z.string(),
+      newTab: z.boolean().default(false),
+      newWindow: z.boolean().default(false),
+    });
+  }
+
+  async run({
+    url,
+    newTab,
+    newWindow,
+  }: z.infer<ReturnType<InternalOpenURLOperator["schema"]>>): Promise<void> {
+    if (newWindow) {
+      await browser.windows.create({ url: url });
+    } else if (newTab) {
+      await browser.tabs.create({ url: url });
     } else {
-      await browser.tabs.update({ url: this.url });
+      await browser.tabs.update({ url: url });
     }
   }
 }

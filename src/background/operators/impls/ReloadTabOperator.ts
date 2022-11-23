@@ -1,9 +1,22 @@
+import { injectable } from "inversify";
+import { z } from "zod";
 import Operator from "../Operator";
 
+@injectable()
 export default class ReloadTabOperator implements Operator {
-  constructor(private readonly cache: boolean) {}
+  name() {
+    return "tabs.reload";
+  }
 
-  async run(): Promise<void> {
-    await browser.tabs.reload({ bypassCache: this.cache });
+  schema() {
+    return z.object({
+      cache: z.boolean().default(false),
+    });
+  }
+
+  async run({
+    cache,
+  }: z.infer<ReturnType<ReloadTabOperator["schema"]>>): Promise<void> {
+    await browser.tabs.reload({ bypassCache: cache });
   }
 }

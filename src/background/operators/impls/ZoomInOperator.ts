@@ -1,10 +1,18 @@
+import { injectable } from "inversify";
 import Operator from "../Operator";
-import ZoomPresenter from "../../presenters/ZoomPresenter";
+import ZoomHelper from "./ZoomHelper";
 
+@injectable()
 export default class ZoomInOperator implements Operator {
-  constructor(private readonly zoomPresenter: ZoomPresenter) {}
+  private readonly zoomHelper = new ZoomHelper();
+
+  name() {
+    return "zoom.in";
+  }
+
+  schema() {}
 
   run(): Promise<void> {
-    return this.zoomPresenter.zoomIn();
+    return this.zoomHelper.zoomIn();
   }
 }

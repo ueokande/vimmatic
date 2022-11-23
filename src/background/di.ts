@@ -3,12 +3,10 @@
 import { LastSelectedTabImpl } from "./tabs/LastSelectedTab";
 import { NotifierImpl } from "./presenters/Notifier";
 import { Container } from "inversify";
-import { OperatorFactoryImpl } from "./operators/impls/OperatorFactoryImpl";
 import { NavigateClientImpl } from "./clients/NavigateClient";
 import { ConsoleClientImpl } from "./clients/ConsoleClient";
 import { BrowserSettingRepositoryImpl } from "./repositories/BrowserSettingRepository";
 import { RepeatRepositoryImpl } from "./repositories/RepeatRepository";
-import { ZoomPresenterImpl } from "./presenters/ZoomPresenter";
 import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
@@ -18,6 +16,7 @@ import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
 import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
+import { OperatorRegistoryFactory } from "./operators";
 
 const container = new Container({ autoBindInjectable: true });
 
@@ -25,13 +24,11 @@ container.bind("LastSelectedTab").to(LastSelectedTabImpl);
 container.bind("Notifier").to(NotifierImpl);
 container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
-container.bind("ZoomPresenter").to(ZoomPresenterImpl);
 container.bind("FindRepository").to(FindRepositoryImpl);
 container.bind("FindClient").to(FindClientImpl);
 container.bind("NavigateClient").to(NavigateClientImpl);
 container.bind("ConsoleClient").to(ConsoleClientImpl);
 container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
-container.bind("OperatorFactory").to(OperatorFactoryImpl);
 container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
 container.bind("PropertySettings").to(PropertySettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
@@ -45,5 +42,8 @@ container
 container
   .bind("CommandRegistry")
   .toConstantValue(container.resolve(CommandRegistryFactory).create());
+container
+  .bind("OperatorRegistory")
+  .toConstantValue(container.resolve(OperatorRegistoryFactory).create());
 
 export { container };

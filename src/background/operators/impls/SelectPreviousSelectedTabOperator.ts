@@ -1,8 +1,19 @@
+import { inject, injectable } from "inversify";
 import Operator from "../Operator";
 import LastSelectedTab from "../../tabs/LastSelectedTab";
 
+@injectable()
 export default class SelectPreviousSelectedTabOperator implements Operator {
-  constructor(private readonly lastSelectedTab: LastSelectedTab) {}
+  constructor(
+    @inject("LastSelectedTab")
+    private readonly lastSelectedTab: LastSelectedTab
+  ) {}
+
+  name() {
+    return "tabs.prevsel";
+  }
+
+  schema() {}
 
   async run(): Promise<void> {
     const lastTabId = this.lastSelectedTab.get();

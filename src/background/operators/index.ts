@@ -1,0 +1,170 @@
+import { inject, injectable } from "inversify";
+import type OperatorRegistory from "./OperatorRegistory";
+import CancelOperator from "./impls/CancelOperator";
+import CloseTabOperator from "./impls/CloseTabOperator";
+import CloseTabRightOperator from "./impls/CloseTabRightOperator";
+import DuplicateTabOperator from "./impls/DuplicateTabOperator";
+import FindNextOperator from "./impls/FindNextOperator";
+import FindPrevOperator from "./impls/FindPrevOperator";
+import InternalOpenURLOperator from "./impls/InternalOpenURLOperator";
+import NavigateHistoryNextOperator from "./impls/NavigateHistoryNextOperator";
+import NavigateHistoryPrevOperator from "./impls/NavigateHistoryPrevOperator";
+import NavigateLinkNextOperator from "./impls/NavigateLinkNextOperator";
+import NavigateLinkPrevOperator from "./impls/NavigateLinkPrevOperator";
+import NavigateParentOperator from "./impls/NavigateParentOperator";
+import NavigateRootOperator from "./impls/NavigateRootOperator";
+import OpenHomeOperator from "./impls/OpenHomeOperator";
+import OpenSourceOperator from "./impls/OpenSourceOperator";
+import PinTabOperator from "./impls/PinTabOperator";
+import ReloadTabOperator from "./impls/ReloadTabOperator";
+import ReopenTabOperator from "./impls/ReopenTabOperator";
+import RepeatLastOperator from "./impls/RepeatLastOperator";
+import SelectFirstTabOperator from "./impls/SelectFirstTabOperator";
+import SelectLastTabOperator from "./impls/SelectLastTabOperator";
+import SelectPreviousSelectedTabOperator from "./impls/SelectPreviousSelectedTabOperator";
+import SelectTabNextOperator from "./impls/SelectTabNextOperator";
+import SelectTabPrevOperator from "./impls/SelectTabPrevOperator";
+import ShowAddBookmarkOperator from "./impls/ShowAddBookmarkOperator";
+import ShowBufferCommandOperator from "./impls/ShowBufferCommandOperator";
+import ShowCommandOperator from "./impls/ShowCommandOperator";
+import ShowOpenCommandOperator from "./impls/ShowOpenCommandOperator";
+import ShowTabOpenCommandOperator from "./impls/ShowTabOpenCommandOperator";
+import ShowWinOpenCommandOperator from "./impls/ShowWinOpenCommandOperator";
+import StartFindOperator from "./impls/StartFindOperator";
+import TogglePinnedTabOperator from "./impls/TogglePinnedTabOperator";
+import ToggleReaderOperator from "./impls/ToggleReaderOperator";
+import UnpinTabOperator from "./impls/UnpinTabOperator";
+import ZoomInOperator from "./impls/ZoomInOperator";
+import ZoomOutOperator from "./impls/ZoomOutOperator";
+import ZoomResetOperator from "./impls/ZoomResetOperator";
+import RepeatRepository from "../repositories/RepeatRepository";
+import { OperatorRegistryImpl } from "./OperatorRegistory";
+
+@injectable()
+export class OperatorRegistoryFactory {
+  constructor(
+    @inject(CancelOperator)
+    private readonly cancelOperator: CancelOperator,
+    @inject(CloseTabOperator)
+    private readonly closeTabOperator: CloseTabOperator,
+    @inject(CloseTabRightOperator)
+    private readonly closeTabRightOperator: CloseTabRightOperator,
+    @inject(DuplicateTabOperator)
+    private readonly duplicateTabOperator: DuplicateTabOperator,
+    @inject(FindNextOperator)
+    private readonly findNextOperator: FindNextOperator,
+    @inject(FindPrevOperator)
+    private readonly findPrevOperator: FindPrevOperator,
+    @inject(InternalOpenURLOperator)
+    private readonly internalOpenURLOperator: InternalOpenURLOperator,
+    @inject(NavigateHistoryNextOperator)
+    private readonly navigateHistoryNextOperator: NavigateHistoryNextOperator,
+    @inject(NavigateHistoryPrevOperator)
+    private readonly navigateHistoryPrevOperator: NavigateHistoryPrevOperator,
+    @inject(NavigateLinkNextOperator)
+    private readonly navigateLinkNextOperator: NavigateLinkNextOperator,
+    @inject(NavigateLinkPrevOperator)
+    private readonly navigateLinkPrevOperator: NavigateLinkPrevOperator,
+    @inject(NavigateParentOperator)
+    private readonly navigateParentOperator: NavigateParentOperator,
+    @inject(NavigateRootOperator)
+    private readonly navigateRootOperator: NavigateRootOperator,
+    @inject(OpenHomeOperator)
+    private readonly openHomeOperator: OpenHomeOperator,
+    @inject(OpenSourceOperator)
+    private readonly openSourceOperator: OpenSourceOperator,
+    @inject(PinTabOperator)
+    private readonly pinTabOperator: PinTabOperator,
+    @inject(ReloadTabOperator)
+    private readonly reloadTabOperator: ReloadTabOperator,
+    @inject(ReopenTabOperator)
+    private readonly reopenTabOperator: ReopenTabOperator,
+    @inject(SelectFirstTabOperator)
+    private readonly selectFirstTabOperator: SelectFirstTabOperator,
+    @inject(SelectLastTabOperator)
+    private readonly selectLastTabOperator: SelectLastTabOperator,
+    @inject(SelectPreviousSelectedTabOperator)
+    private readonly selectPreviousSelectedTabOperator: SelectPreviousSelectedTabOperator,
+    @inject(SelectTabNextOperator)
+    private readonly selectTabNextOperator: SelectTabNextOperator,
+    @inject(SelectTabPrevOperator)
+    private readonly selectTabPrevOperator: SelectTabPrevOperator,
+    @inject(ShowAddBookmarkOperator)
+    private readonly showAddBookmarkOperator: ShowAddBookmarkOperator,
+    @inject(ShowBufferCommandOperator)
+    private readonly showBufferCommandOperator: ShowBufferCommandOperator,
+    @inject(ShowCommandOperator)
+    private readonly showCommandOperator: ShowCommandOperator,
+    @inject(ShowOpenCommandOperator)
+    private readonly showOpenCommandOperator: ShowOpenCommandOperator,
+    @inject(ShowTabOpenCommandOperator)
+    private readonly showTabOpenCommandOperator: ShowTabOpenCommandOperator,
+    @inject(ShowWinOpenCommandOperator)
+    private readonly showWinOpenCommandOperator: ShowWinOpenCommandOperator,
+    @inject(StartFindOperator)
+    private readonly startFindOperator: StartFindOperator,
+    @inject(TogglePinnedTabOperator)
+    private readonly togglePinnedTabOperator: TogglePinnedTabOperator,
+    @inject(ToggleReaderOperator)
+    private readonly toggleReaderOperator: ToggleReaderOperator,
+    @inject(UnpinTabOperator)
+    private readonly unpinTabOperator: UnpinTabOperator,
+    @inject(ZoomInOperator)
+    private readonly zoomInOperator: ZoomInOperator,
+    @inject(ZoomOutOperator)
+    private readonly zoomOutOperator: ZoomOutOperator,
+    @inject(ZoomResetOperator)
+    private readonly zoomResetOperator: ZoomResetOperator,
+    @inject("RepeatRepository")
+    private readonly repeatRepository: RepeatRepository
+  ) {}
+
+  create(): OperatorRegistory {
+    const r = new OperatorRegistryImpl();
+    r.register(this.cancelOperator);
+    r.register(this.closeTabOperator);
+    r.register(this.closeTabRightOperator);
+    r.register(this.duplicateTabOperator);
+    r.register(this.findNextOperator);
+    r.register(this.findPrevOperator);
+    r.register(this.internalOpenURLOperator);
+    r.register(this.navigateHistoryNextOperator);
+    r.register(this.navigateHistoryPrevOperator);
+    r.register(this.navigateLinkNextOperator);
+    r.register(this.navigateLinkPrevOperator);
+    r.register(this.navigateParentOperator);
+    r.register(this.navigateRootOperator);
+    r.register(this.openHomeOperator);
+    r.register(this.openSourceOperator);
+    r.register(this.pinTabOperator);
+    r.register(this.reloadTabOperator);
+    r.register(this.reopenTabOperator);
+    r.register(this.selectFirstTabOperator);
+    r.register(this.selectLastTabOperator);
+    r.register(this.selectPreviousSelectedTabOperator);
+    r.register(this.selectTabNextOperator);
+    r.register(this.selectTabPrevOperator);
+    r.register(this.showAddBookmarkOperator);
+    r.register(this.showBufferCommandOperator);
+    r.register(this.showCommandOperator);
+    r.register(this.showOpenCommandOperator);
+    r.register(this.showTabOpenCommandOperator);
+    r.register(this.showWinOpenCommandOperator);
+    r.register(this.startFindOperator);
+    r.register(this.togglePinnedTabOperator);
+    r.register(this.toggleReaderOperator);
+    r.register(this.unpinTabOperator);
+    r.register(this.zoomInOperator);
+    r.register(this.zoomOutOperator);
+    r.register(this.zoomResetOperator);
+
+    // resolve circular dependency
+    const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(
+      r,
+      this.repeatRepository
+    );
+
+    r.register(repeatLastOperator);
+    return r;
+  }
+}

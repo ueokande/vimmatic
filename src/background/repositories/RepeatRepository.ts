@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { Operation } from "../../shared/operations";
 import MemoryStorage from "../infrastructures/MemoryStorage";
+import { Operation } from "../../shared/operations2";
 
 const REPEAT_KEY = "repeat";
 

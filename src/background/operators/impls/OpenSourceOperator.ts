@@ -1,6 +1,14 @@
+import { injectable } from "inversify";
 import Operator from "../Operator";
 
+@injectable()
 export default class OpenSourceOperator implements Operator {
+  name() {
+    return "navigate.source";
+  }
+
+  schema() {}
+
   async run(): Promise<void> {
     const [tab] = await browser.tabs.query({
       active: true,

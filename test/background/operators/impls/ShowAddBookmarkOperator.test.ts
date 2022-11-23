@@ -23,15 +23,15 @@ describe("ShowAddBookmarkOperator", () => {
 
   describe("#run", () => {
     it("show command with addbookmark command", async () => {
-      const sut = new ShowAddBookmarkOperator(consoleClient, false);
-      await sut.run();
+      const sut = new ShowAddBookmarkOperator(consoleClient);
+      await sut.run({ alter: false });
 
       expect(showCommandSpy).toBeCalledWith(100, "addbookmark ");
     });
 
     it("show command with addbookmark command and an URL of the current tab", async () => {
-      const sut = new ShowAddBookmarkOperator(consoleClient, true);
-      await sut.run();
+      const sut = new ShowAddBookmarkOperator(consoleClient);
+      await sut.run({ alter: true });
 
       expect(showCommandSpy).toBeCalledWith(100, "addbookmark welcome, world");
     });

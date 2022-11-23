@@ -1,8 +1,19 @@
+import { inject, injectable } from "inversify";
 import Operator from "../Operator";
 import ConsoleClient from "../../clients/ConsoleClient";
 
+@injectable()
 export default class ShowCommandOperator implements Operator {
-  constructor(private readonly consoleClient: ConsoleClient) {}
+  constructor(
+    @inject("ConsoleClient")
+    private readonly consoleClient: ConsoleClient
+  ) {}
+
+  name() {
+    return "command.show";
+  }
+
+  schema() {}
 
   async run(): Promise<void> {
     const [tab] = await browser.tabs.query({

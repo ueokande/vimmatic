@@ -18,15 +18,15 @@ describe("ShowWinOpenCommandOperator", () => {
 
   describe("#run", () => {
     it("show command with winopen command", async () => {
-      const sut = new ShowWinOpenCommandOperator(consoleClient, false);
-      await sut.run();
+      const sut = new ShowWinOpenCommandOperator(consoleClient);
+      await sut.run({ alter: false });
 
       expect(showCommandSpy).toBeCalledWith(100, "winopen ");
     });
 
     it("show command with winopen command and an URL of the current tab", async () => {
-      const sut = new ShowWinOpenCommandOperator(consoleClient, true);
-      await sut.run();
+      const sut = new ShowWinOpenCommandOperator(consoleClient);
+      await sut.run({ alter: true });
 
       expect(showCommandSpy).toBeCalledWith(
         100,

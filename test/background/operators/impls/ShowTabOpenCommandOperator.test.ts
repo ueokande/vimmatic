@@ -18,15 +18,15 @@ describe("ShowTabOpenCommandOperator", () => {
 
   describe("#run", () => {
     it("show command with tabopen command", async () => {
-      const sut = new ShowTabOpenCommandOperator(consoleClient, false);
-      await sut.run();
+      const sut = new ShowTabOpenCommandOperator(consoleClient);
+      await sut.run({ alter: false });
 
       expect(showCommandSpy).toBeCalledWith(100, "tabopen ");
     });
 
     it("show command with tabopen command and an URL of the current tab", async () => {
-      const sut = new ShowTabOpenCommandOperator(consoleClient, true);
-      await sut.run();
+      const sut = new ShowTabOpenCommandOperator(consoleClient);
+      await sut.run({ alter: true });
 
       expect(showCommandSpy).toBeCalledWith(
         100,

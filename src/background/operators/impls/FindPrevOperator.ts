@@ -1,16 +1,28 @@
+import { inject, injectable } from "inversify";
 import Operator from "../Operator";
 import FindRepository from "../../repositories/FindRepository";
 import FindClient from "../../clients/FindClient";
 import ConsoleClient from "../../clients/ConsoleClient";
 import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
 
+@injectable()
 export default class FindPrevOperator implements Operator {
   constructor(
+    @inject("FindRepository")
     private readonly findRepository: FindRepository,
+    @inject("FindClient")
     private readonly findClient: FindClient,
+    @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,
+    @inject("ReadyFrameRepository")
     private readonly frameRepository: ReadyFrameRepository
   ) {}
+
+  name(): string {
+    return "find.prev";
+  }
+
+  schema() {}
 
   async run(): Promise<void> {
     const [tab] = await browser.tabs.query({

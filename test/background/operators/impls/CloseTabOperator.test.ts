@@ -29,7 +29,7 @@ describe("CloseTabOperator", () => {
       ]);
 
       const sut = new CloseTabOperator();
-      await sut.run();
+      await sut.run({});
 
       expect(mockTabsRemove).toBeCalledWith(100);
     });
@@ -44,8 +44,8 @@ describe("CloseTabOperator", () => {
         },
       ]);
 
-      const sut = new CloseTabOperator(true);
-      await sut.run();
+      const sut = new CloseTabOperator();
+      await sut.run({ force: true });
 
       expect(mockTabsRemove).toBeCalledWith(100);
     });
@@ -64,8 +64,8 @@ describe("CloseTabOperator", () => {
         }
       });
 
-      const sut = new CloseTabOperator(false, true);
-      await sut.run();
+      const sut = new CloseTabOperator();
+      await sut.run({ force: true, select: "left" });
 
       expect(mockTabsRemove).toBeCalledWith(102);
       expect(mockTabsUpdate).toBeCalledWith(101, { active: true });

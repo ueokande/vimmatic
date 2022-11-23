@@ -12,6 +12,8 @@ global.browser = {
     remove: todo,
     duplicate: todo,
     reload: todo,
+    getZoom: todo,
+    setZoom: todo,
   },
   history: {
     search: todo,

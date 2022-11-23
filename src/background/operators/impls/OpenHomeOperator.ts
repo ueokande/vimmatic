@@ -1,13 +1,28 @@
+import { inject, injectable } from "inversify";
+import { z } from "zod";
 import Operator from "../Operator";
 import BrowserSettingRepository from "../../repositories/BrowserSettingRepository";
 
+@injectable()
 export default class OpenHomeOperator implements Operator {
   constructor(
-    private readonly browserSettingRepository: BrowserSettingRepository,
-    private readonly newTab: boolean
+    @inject("BrowserSettingRepository")
+    private readonly browserSettingRepository: BrowserSettingRepository
   ) {}
 
-  async run(): Promise<void> {
+  name() {
+    return "navigate.home";
+  }
+
+  schema() {
+    return z.object({
+      newTab: z.boolean().default(false),
+    });
+  }
+
+  async run({
+    newTab,
+  }: z.infer<ReturnType<OpenHomeOperator["schema"]>>): Promise<void> {
     const urls = await this.browserSettingRepository.getHomepageUrls();
     if (urls.length === 1 && urls[0] === "about:home") {
       // eslint-disable-next-line max-len
@@ -15,7 +30,7 @@ export default class OpenHomeOperator implements Operator {
         "Cannot open Firefox Home (about:home) by WebExtensions, set your custom URLs"
       );
     }
-    if (urls.length === 1 && !this.newTab) {
+    if (urls.length === 1 && !newTab) {
       await browser.tabs.update({ url: urls[0] });
       return;
     }

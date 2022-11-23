@@ -1,6 +1,14 @@
+import { injectable } from "inversify";
 import Operator from "../Operator";
 
+@injectable()
 export default class SelectTabNextOperator implements Operator {
+  name() {
+    return "tabs.next";
+  }
+
+  schema() {}
+
   async run(): Promise<void> {
     const tabs = await browser.tabs.query({ currentWindow: true });
     if (tabs.length < 2) {

@@ -1,12 +1,24 @@
+import { injectable } from "inversify";
+import { z } from "zod";
 import Operator from "../Operator";
 
+@injectable()
 export default class CloseTabOperator implements Operator {
-  constructor(
-    private readonly force: boolean = false,
-    private readonly selectLeft: boolean = false
-  ) {}
+  name() {
+    return "tabs.close";
+  }
 
-  async run(): Promise<void> {
+  schema() {
+    return z.object({
+      select: z.union([z.literal("left"), z.literal("right")]).default("right"),
+      force: z.boolean().default(false),
+    });
+  }
+
+  async run({
+    force,
+    select,
+  }: z.infer<ReturnType<CloseTabOperator["schema"]>>): Promise<void> {
     const [tab] = await browser.tabs.query({
       active: true,
       currentWindow: true,
@@ -14,10 +26,10 @@ export default class CloseTabOperator implements Operator {
     if (!tab.id) {
       return;
     }
-    if (!this.force && tab.pinned) {
+    if (!force && tab.pinned) {
       return;
     }
-    if (this.selectLeft && tab.index > 0) {
+    if (select === "left" && tab.index > 0) {
       const tabs = await browser.tabs.query({ windowId: tab.windowId });
       await browser.tabs.update(tabs[tab.index - 1].id, { active: true });
     }
