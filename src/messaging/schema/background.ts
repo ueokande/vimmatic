@@ -1,5 +1,4 @@
 import { MessageKey, MessageRequest, MessageResponse } from "./helper";
-import * as operations from "../../shared/operations";
 import type { Completions } from "../../shared/Completions";
 import { Duplex } from "../types";
 
@@ -10,7 +9,8 @@ export type Schema = {
   "mark.jump.global": Duplex<{ key: string }>;
   "background.operation": Duplex<{
     repeat: number;
-    operation: operations.Operation;
+    name: string;
+    props: Record<string, string | number | boolean>;
   }>;
   "settings.query": Duplex<undefined, unknown>;
   "open.url": Duplex<{ url: string; newTab: boolean; background: boolean }>;

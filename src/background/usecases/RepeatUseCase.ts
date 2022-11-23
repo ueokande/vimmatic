@@ -2,8 +2,6 @@ import { inject, injectable } from "inversify";
 import * as operations from "../../shared/operations";
 import RepeatRepository from "../repositories/RepeatRepository";
 
-type Operation = operations.Operation;
-
 @injectable()
 export default class RepeatUseCase {
   constructor(
@@ -11,8 +9,11 @@ export default class RepeatUseCase {
     private readonly repeatRepository: RepeatRepository
   ) {}
 
-  storeLastOperation(op: Operation): void {
-    this.repeatRepository.setLastOperation(op);
+  storeLastOperation(
+    _name: string,
+    _params: Record<string, string | number | boolean>
+  ): void {
+    // this.repeatRepository.setLastOperation(op);
   }
 
   getLastOperation(): operations.Operation | undefined {
@@ -20,8 +21,8 @@ export default class RepeatUseCase {
   }
 
   // eslint-disable-next-line complexity
-  isRepeatable(op: Operation): boolean {
-    switch (op.type) {
+  isRepeatable(name: string): boolean {
+    switch (name) {
       case operations.NAVIGATE_HISTORY_PREV:
       case operations.NAVIGATE_HISTORY_NEXT:
       case operations.NAVIGATE_LINK_PREV:

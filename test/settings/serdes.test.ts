@@ -125,11 +125,6 @@ describe("deserializeSettings", () => {
       expect(settings.keymaps).not.toBeUndefined();
       expect(settings.keymaps.entries()).toHaveLength(0);
     });
-    test("it throws a TypeError by invalid settings", () => {
-      const keymaps = { k: { type: "invalid.operation" } };
-
-      expect(() => deserializeSettings({ keymaps })).toThrow(TypeError);
-    });
   });
 
   describe("search", () => {

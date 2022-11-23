@@ -15,11 +15,10 @@ describe("PasteOperator", () => {
       const sut = new PasteOperator(
         clipboardRepository,
         settingRepository,
-        operationClient,
-        false
+        operationClient
       );
 
-      await sut.run();
+      await sut.run({ newTab: false });
 
       expect(internalOpenUrlSpy).toBeCalledWith(
         "https://google.com/search?q=apple",
@@ -39,11 +38,10 @@ describe("PasteOperator", () => {
       const sut = new PasteOperator(
         clipboardRepository,
         settingRepository,
-        operationClient,
-        false
+        operationClient
       );
 
-      await sut.run();
+      await sut.run({ newTab: false });
 
       expect(internalOpenUrlSpy).toBeCalledWith("https://example.com/", false);
     });

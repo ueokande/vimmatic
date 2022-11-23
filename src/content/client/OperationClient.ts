@@ -1,9 +1,12 @@
 import { injectable, inject } from "inversify";
-import * as operations from "../../shared/operations";
 import type BackgroundMessageSender from "./BackgroundMessageSender";
 
 export default interface OperationClient {
-  execBackgroundOp(repeat: number, op: operations.Operation): Promise<void>;
+  execBackgroundOp(
+    name: string,
+    props: Record<string, string | number | boolean>,
+    repeat: number
+  ): Promise<void>;
 
   internalOpenUrl(
     url: string,
@@ -20,10 +23,11 @@ export class OperationClientImpl implements OperationClient {
   ) {}
 
   async execBackgroundOp(
-    repeat: number,
-    operation: operations.Operation
+    name: string,
+    props: Record<string, string | number | boolean>,
+    repeat: number
   ): Promise<void> {
-    await this.sender.send("background.operation", { repeat, operation });
+    await this.sender.send("background.operation", { name, props, repeat });
   }
 
   async internalOpenUrl(
@@ -31,14 +35,17 @@ export class OperationClientImpl implements OperationClient {
     newTab?: boolean,
     background?: boolean
   ): Promise<void> {
+    const props: Record<string, string | number | boolean> = { url };
+    if (typeof newTab !== "undefined") {
+      props.newTab = newTab;
+    }
+    if (typeof background !== "undefined") {
+      props.background = background;
+    }
     await this.sender.send("background.operation", {
+      name: "internal.open.url",
+      props,
       repeat: 1,
-      operation: {
-        type: "internal.open.url",
-        url,
-        newTab,
-        background,
-      },
     });
   }
 }

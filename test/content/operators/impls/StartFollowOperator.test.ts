@@ -8,9 +8,9 @@ describe("StartFollowOperator", () => {
       const startFollowSpy = jest
         .spyOn(client, "startFollow")
         .mockReturnValue();
-      const sut = new StartFollowOperator(client, true, false);
+      const sut = new StartFollowOperator(client);
 
-      await sut.run();
+      await sut.run({ newTab: true, background: false });
 
       expect(startFollowSpy).toBeCalledWith(true, false);
     });

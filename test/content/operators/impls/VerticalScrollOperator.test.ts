@@ -7,19 +7,9 @@ describe("VerticalScrollOperator", () => {
     it("scroll vertically", async () => {
       const presenter = new MockScrollPresenter();
       const settingRepository = new MockSettingRepository();
-      const sut = new VerticalScrollOperator(presenter, settingRepository, 1);
+      const sut = new VerticalScrollOperator(presenter, settingRepository);
 
-      await sut.run();
-
-      expect(presenter.getScroll()).toEqual({ x: 0, y: 1 });
-    });
-
-    it("scroll vertically with repeats", async () => {
-      const presenter = new MockScrollPresenter();
-      const settingRepository = new MockSettingRepository();
-      const sut = new VerticalScrollOperator(presenter, settingRepository, 5);
-
-      await sut.run();
+      await sut.run({ count: 5 });
 
       expect(presenter.getScroll()).toEqual({ x: 0, y: 5 });
     });

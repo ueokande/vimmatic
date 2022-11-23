@@ -1,7 +1,7 @@
-import * as operations from "./operations";
+import { Operation } from "./operations2";
 
 export default class Keymaps {
-  constructor(private readonly data: { [key: string]: operations.Operation }) {}
+  constructor(private readonly data: { [key: string]: Operation }) {}
 
   combine(other: Keymaps): Keymaps {
     return new Keymaps({
@@ -10,7 +10,7 @@ export default class Keymaps {
     });
   }
 
-  entries(): [string, operations.Operation][] {
+  entries(): [string, Operation][] {
     return Object.entries(this.data);
   }
 }

@@ -12,7 +12,6 @@ import Search from "../shared/Search";
 import Properties from "../shared/Properties";
 import Blacklist from "../shared/Blacklist";
 import { BlacklistItem } from "../shared/Blacklist";
-import * as operations from "../shared/operations";
 import { serialize, deserialize } from "../settings";
 
 const keymapsToForm = (keymaps: Keymaps): KeymapsForm => {
@@ -35,7 +34,7 @@ const keymapsFromForm = (form: KeymapsForm): Keymaps => {
       if (argStr) {
         args = JSON.parse(argStr);
       }
-      return [keys, operations.valueOf({ type, ...args })];
+      return [keys, { type, ...args }];
     })
   );
   return new Keymaps(keymaps);

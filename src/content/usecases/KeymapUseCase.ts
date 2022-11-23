@@ -2,21 +2,18 @@ import { injectable, inject } from "inversify";
 import KeymapRepository from "../repositories/KeymapRepository";
 import SettingRepository from "../repositories/SettingRepository";
 import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
-import * as operations from "../../shared/operations";
 import Keymaps from "../../shared/Keymaps";
 import Key from "../../shared/Key";
+import { extractOperation, Props, Operation } from "../../shared/operations2";
 import KeySequence from "../domains/KeySequence";
 import AddressRepository from "../repositories/AddressRepository";
 
 const reservedKeymaps = new Keymaps({
-  "<Esc>": { type: operations.CANCEL },
-  "<C-[>": { type: operations.CANCEL },
+  "<Esc>": { type: "cancel" },
+  "<C-[>": { type: "cancel" },
 });
 
-const enableAddonOps = [
-  operations.ADDON_ENABLE,
-  operations.ADDON_TOGGLE_ENABLED,
-];
+const enableAddonOps = ["addon.enable", "addon.toggle.enabled"];
 
 @injectable()
 export default class KeymapUseCase {
@@ -32,7 +29,7 @@ export default class KeymapUseCase {
   ) {}
 
   // eslint-disable-next-line max-statements
-  nextOps(key: Key): { repeat: number; op: operations.Operation } | null {
+  nextOps(key: Key): { repeat: number; name: string; props: Props } | null {
     const sequence = this.repository.enqueueKey(key);
     const baseSequence = sequence.trimNumericPrefix();
     const keymaps = this.keymapEntityMap();
@@ -48,14 +45,20 @@ export default class KeymapUseCase {
     if (matched.length === 1 && sequence.length() === matched[0][0].length()) {
       // keys are matched with an operation
       this.repository.clear();
-      return { repeat: 1, op: matched[0][1] };
+      const { name, props } = extractOperation(matched[0][1]);
+      return { repeat: 1, name, props };
     } else if (
       baseMatched.length === 1 &&
       baseSequence.length() === baseMatched[0][0].length()
     ) {
       // keys are matched with an operation with a numeric prefix
       this.repository.clear();
-      return { repeat: sequence.repeatCount(), op: baseMatched[0][1] };
+      const { name, props } = extractOperation(baseMatched[0][1]);
+      return {
+        repeat: sequence.repeatCount(),
+        name,
+        props,
+      };
     } else if (matched.length >= 1 || baseMatched.length >= 1) {
       // keys are matched with an operation's prefix
       return null;
@@ -70,7 +73,7 @@ export default class KeymapUseCase {
     this.repository.clear();
   }
 
-  private keymapEntityMap(): [KeySequence, operations.Operation][] {
+  private keymapEntityMap(): [KeySequence, Operation][] {
     const keymaps = this.settingRepository
       .getKeymaps()
       .combine(reservedKeymaps);
@@ -78,10 +81,10 @@ export default class KeymapUseCase {
       .entries()
       .map(([keys, op]) => [KeySequence.fromMapKeys(keys), op]) as [
       KeySequence,
-      operations.Operation
+      Operation
     ][];
     if (!this.addonEnabledRepository.get()) {
-      // available keymaps are only ADDON_ENABLE and ADDON_TOGGLE_ENABLED if
+      // available keymaps are only "addon.enable" and "addon.toggle.enabled" if
       // the addon disabled
       entries = entries.filter(([_seq, { type }]) =>
         enableAddonOps.includes(type)

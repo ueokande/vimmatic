@@ -7,19 +7,9 @@ describe("HorizontalScrollOperator", () => {
     it("scroll horizontally", async () => {
       const presenter = new MockScrollPresenter();
       const settingRepository = new MockSettingRepository();
-      const sut = new HorizontalScrollOperator(presenter, settingRepository, 1);
+      const sut = new HorizontalScrollOperator(presenter, settingRepository);
 
-      await sut.run();
-
-      expect(presenter.getScroll()).toEqual({ x: 1, y: 0 });
-    });
-
-    it("scroll horizontally with repeats", async () => {
-      const presenter = new MockScrollPresenter();
-      const settingRepository = new MockSettingRepository();
-      const sut = new HorizontalScrollOperator(presenter, settingRepository, 5);
-
-      await sut.run();
+      await sut.run({ count: 5 });
 
       expect(presenter.getScroll()).toEqual({ x: 5, y: 0 });
     });

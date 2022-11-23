@@ -6,13 +6,13 @@ import type {
   SerializedSearchEngine,
 } from "./schema";
 import { validateSerializedSettings } from "./schema";
+import { Operation } from "../shared/operations2";
 import Settings from "../shared/Settings";
 import Keymaps from "../shared/Keymaps";
 import Search from "../shared/Search";
 import Properties from "../shared/Properties";
 import Blacklist from "../shared/Blacklist";
 import { BlacklistItem } from "../shared/Blacklist";
-import * as operations from "../shared/operations";
 
 const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
   const obj: SerializedKeymaps = {};
@@ -23,9 +23,9 @@ const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
 };
 
 const deserializeKeymaps = (json: SerializedKeymaps): Keymaps => {
-  const entries: { [key: string]: operations.Operation } = {};
+  const entries: { [key: string]: Operation } = {};
   for (const [key, op] of Object.entries(json)) {
-    entries[key] = operations.valueOf(op);
+    entries[key] = op;
   }
   return new Keymaps(entries);
 };

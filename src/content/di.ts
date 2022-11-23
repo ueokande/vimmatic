@@ -24,7 +24,7 @@ import { ScrollPresenterImpl } from "./presenters/ScrollPresenter";
 import { SettingClientImpl } from "./client/SettingClient";
 import { SettingRepositoryImpl } from "./repositories/SettingRepository";
 import { TabsClientImpl } from "./client/TabsClient";
-import OperatorFactoryImpl from "./operators/impls/OperatorFactoryImpl";
+import { OperatorRegistoryFactory } from "./operators";
 import { URLRepositoryImpl } from "./operators/impls/URLRepository";
 import { FindPresenterImpl } from "./presenters/FindPresenter";
 import { Container } from "inversify";
@@ -59,12 +59,14 @@ container.bind("SettingClient").to(SettingClientImpl);
 container.bind("SettingRepository").to(SettingRepositoryImpl);
 container.bind("URLRepository").to(URLRepositoryImpl);
 container.bind("TabsClient").to(TabsClientImpl);
-container.bind("OperatorFactory").to(OperatorFactoryImpl);
 container
   .bind("BackgroundMessageSender")
   .toConstantValue(newBackgroundMessageSender());
 container
   .bind("WindowMessageSender")
   .toConstantValue(newWindowMessageSender(window.top));
+container
+  .bind("OperatorRegistory")
+  .toConstantValue(container.resolve(OperatorRegistoryFactory).create());
 
 export { container };

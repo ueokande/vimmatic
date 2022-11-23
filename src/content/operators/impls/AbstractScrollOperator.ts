@@ -1,5 +1,7 @@
+import { injectable } from "inversify";
 import SettingRepository from "../../repositories/SettingRepository";
 
+@injectable()
 export default class AbstractScrollOperator {
   constructor(private readonly settingRepository: SettingRepository) {}
 
