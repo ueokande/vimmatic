@@ -1,21 +1,20 @@
 import { injectable, inject } from "inversify";
-import AbstractScrollOperator from "./AbstractScrollOperator";
 import Operator from "../Operator";
 import ScrollPresenter from "../../presenters/ScrollPresenter";
 import SettingRepository from "../../repositories/SettingRepository";
 
 @injectable()
-export default class ScrollToBottomOperator
-  extends AbstractScrollOperator
-  implements Operator
-{
+export default class ScrollToBottomOperator implements Operator {
+  private readonly smoothscroll: boolean;
+
   constructor(
     @inject("ScrollPresenter")
     private readonly presenter: ScrollPresenter,
     @inject("SettingRepository")
     settingRepository: SettingRepository
   ) {
-    super(settingRepository);
+    const { smoothscroll } = settingRepository.getProperties();
+    this.smoothscroll = smoothscroll as boolean;
   }
 
   name() {
@@ -25,7 +24,6 @@ export default class ScrollToBottomOperator
   schema() {}
 
   async run(): Promise<void> {
-    const smooth = this.getSmoothScroll();
-    this.presenter.scrollToBottom(smooth);
+    this.presenter.scrollToBottom(this.smoothscroll);
   }
 }

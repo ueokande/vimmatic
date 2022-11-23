@@ -1,22 +1,21 @@
 import { injectable, inject } from "inversify";
 import { z } from "zod";
-import AbstractScrollOperator from "./AbstractScrollOperator";
 import Operator from "../Operator";
 import ScrollPresenter from "../../presenters/ScrollPresenter";
 import SettingRepository from "../../repositories/SettingRepository";
 
 @injectable()
-export default class PageScrollOperator
-  extends AbstractScrollOperator
-  implements Operator
-{
+export default class PageScrollOperator implements Operator {
+  private readonly smoothscroll: boolean;
+
   constructor(
     @inject("ScrollPresenter")
     private readonly presenter: ScrollPresenter,
     @inject("SettingRepository")
     settingRepository: SettingRepository
   ) {
-    super(settingRepository);
+    const { smoothscroll } = settingRepository.getProperties();
+    this.smoothscroll = smoothscroll as boolean;
   }
 
   name() {
@@ -32,7 +31,6 @@ export default class PageScrollOperator
   async run({
     count,
   }: z.infer<ReturnType<PageScrollOperator["schema"]>>): Promise<void> {
-    const smooth = this.getSmoothScroll();
-    this.presenter.scrollPages(count, smooth);
+    this.presenter.scrollPages(count, this.smoothscroll);
   }
 }
