@@ -1,0 +1,38 @@
+import { injectable, inject } from "inversify";
+import ScrollPresenter from "../presenters/ScrollPresenter";
+
+@injectable()
+export default class ScrollController {
+  constructor(
+    @inject("ScrollPresenter")
+    private readonly scrollPresenter: ScrollPresenter
+  ) {}
+
+  scrollVertically({ amount, smooth }: { amount: number; smooth: boolean }) {
+    this.scrollPresenter.scrollVertically(amount, smooth);
+  }
+
+  scrollHorizonally({ amount, smooth }: { amount: number; smooth: boolean }) {
+    this.scrollPresenter.scrollHorizonally(amount, smooth);
+  }
+
+  scrollPages({ amount, smooth }: { amount: number; smooth: boolean }) {
+    this.scrollPresenter.scrollPages(amount, smooth);
+  }
+
+  scrollToTop({ smooth }: { smooth: boolean }) {
+    this.scrollPresenter.scrollToTop(smooth);
+  }
+
+  scrollToBottom({ smooth }: { smooth: boolean }) {
+    this.scrollPresenter.scrollToBottom(smooth);
+  }
+
+  scrollToHome({ smooth }: { smooth: boolean }) {
+    this.scrollPresenter.scrollToHome(smooth);
+  }
+
+  scrollToEnd({ smooth }: { smooth: boolean }) {
+    this.scrollPresenter.scrollToEnd(smooth);
+  }
+}

@@ -37,6 +37,13 @@ import UnpinTabOperator from "./impls/UnpinTabOperator";
 import ZoomInOperator from "./impls/ZoomInOperator";
 import ZoomOutOperator from "./impls/ZoomOutOperator";
 import ZoomResetOperator from "./impls/ZoomResetOperator";
+import HorizontalScrollOperator from "./impls/HorizontalScrollOperator";
+import ScrollToBottomOperator from "./impls/ScrollToBottomOperator";
+import ScrollToEndOperator from "./impls/ScrollToEndOperator";
+import ScrollToHomeOperator from "./impls/ScrollToHomeOperator";
+import ScrollToTopOperator from "./impls/ScrollToTopOperator";
+import VerticalScrollOperator from "./impls/VerticalScrollOperator";
+import PageScrollOperator from "./impls/PageScrollOperator";
 import RepeatRepository from "../repositories/RepeatRepository";
 import { OperatorRegistryImpl } from "./OperatorRegistory";
 
@@ -115,6 +122,20 @@ export class OperatorRegistoryFactory {
     private readonly zoomOutOperator: ZoomOutOperator,
     @inject(ZoomResetOperator)
     private readonly zoomResetOperator: ZoomResetOperator,
+    @inject(HorizontalScrollOperator)
+    private readonly horizontalScrollOperator: HorizontalScrollOperator,
+    @inject(ScrollToBottomOperator)
+    private readonly scrollToBottomOperator: ScrollToBottomOperator,
+    @inject(ScrollToEndOperator)
+    private readonly scrollToEndOperator: ScrollToEndOperator,
+    @inject(ScrollToHomeOperator)
+    private readonly scrollToHomeOperator: ScrollToHomeOperator,
+    @inject(ScrollToTopOperator)
+    private readonly scrollToTopOperator: ScrollToTopOperator,
+    @inject(VerticalScrollOperator)
+    private readonly verticalScrollOperator: VerticalScrollOperator,
+    @inject(PageScrollOperator)
+    private readonly pageScrollOperator: PageScrollOperator,
     @inject("RepeatRepository")
     private readonly repeatRepository: RepeatRepository
   ) {}
@@ -157,6 +178,14 @@ export class OperatorRegistoryFactory {
     r.register(this.zoomInOperator);
     r.register(this.zoomOutOperator);
     r.register(this.zoomResetOperator);
+
+    r.register(this.horizontalScrollOperator);
+    r.register(this.scrollToBottomOperator);
+    r.register(this.scrollToEndOperator);
+    r.register(this.scrollToHomeOperator);
+    r.register(this.scrollToTopOperator);
+    r.register(this.verticalScrollOperator);
+    r.register(this.pageScrollOperator);
 
     // resolve circular dependency
     const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(

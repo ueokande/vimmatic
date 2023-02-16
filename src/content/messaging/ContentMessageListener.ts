@@ -7,6 +7,7 @@ import SettingsController from "../controllers/SettingsController";
 import ConsoleFrameController from "../controllers/ConsoleFrameController";
 import NavigateController from "../controllers/NavigateController";
 import FindController from "../controllers/FindController";
+import ScrollController from "../controllers/ScrollController";
 
 @injectable()
 export default class ContentMessageListener {
@@ -24,7 +25,9 @@ export default class ContentMessageListener {
     @inject(NavigateController)
     navigateController: NavigateController,
     @inject(FindController)
-    findController: FindController
+    findController: FindController,
+    @inject(ScrollController)
+    scrollController: ScrollController
   ) {
     this.receiver
       .route("settings.changed")
@@ -60,9 +63,28 @@ export default class ContentMessageListener {
       .to(findController.findPrev.bind(findController));
     this.receiver
       .route("find.clear.selection")
-      .to(
-        findController.clearSelection.bind(findController).bind(findController)
-      );
+      .to(findController.clearSelection.bind(findController));
+    this.receiver
+      .route("scroll.vertically")
+      .to(scrollController.scrollVertically.bind(scrollController));
+    this.receiver
+      .route("scroll.horizonally")
+      .to(scrollController.scrollHorizonally.bind(scrollController));
+    this.receiver
+      .route("scroll.pages")
+      .to(scrollController.scrollPages.bind(scrollController));
+    this.receiver
+      .route("scroll.top")
+      .to(scrollController.scrollToTop.bind(scrollController));
+    this.receiver
+      .route("scroll.bottom")
+      .to(scrollController.scrollToBottom.bind(scrollController));
+    this.receiver
+      .route("scroll.home")
+      .to(scrollController.scrollToHome.bind(scrollController));
+    this.receiver
+      .route("scroll.end")
+      .to(scrollController.scrollToEnd.bind(scrollController));
 
     if (window.self === window.top) {
       this.receiver

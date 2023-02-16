@@ -15,6 +15,13 @@ export type Schema = {
   "navigate.link.prev": Duplex;
   "tab.scroll.to": Duplex<{ x: number; y: number }>;
   "settings.changed": Duplex;
+  "scroll.vertically": Duplex<{ amount: number; smooth: boolean }>;
+  "scroll.horizonally": Duplex<{ amount: number; smooth: boolean }>;
+  "scroll.pages": Duplex<{ amount: number; smooth: boolean }>;
+  "scroll.top": Duplex<{ smooth: boolean }>;
+  "scroll.bottom": Duplex<{ smooth: boolean }>;
+  "scroll.home": Duplex<{ smooth: boolean }>;
+  "scroll.end": Duplex<{ smooth: boolean }>;
 };
 
 export type Key = MessageKey<Schema>;
