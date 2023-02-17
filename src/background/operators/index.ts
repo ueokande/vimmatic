@@ -44,6 +44,7 @@ import ScrollToHomeOperator from "./impls/ScrollToHomeOperator";
 import ScrollToTopOperator from "./impls/ScrollToTopOperator";
 import VerticalScrollOperator from "./impls/VerticalScrollOperator";
 import PageScrollOperator from "./impls/PageScrollOperator";
+import FocusOperator from "./impls/FocusOperator";
 import RepeatRepository from "../repositories/RepeatRepository";
 import { OperatorRegistryImpl } from "./OperatorRegistory";
 
@@ -136,6 +137,8 @@ export class OperatorRegistoryFactory {
     private readonly verticalScrollOperator: VerticalScrollOperator,
     @inject(PageScrollOperator)
     private readonly pageScrollOperator: PageScrollOperator,
+    @inject(FocusOperator)
+    private readonly focusOperator: FocusOperator,
     @inject("RepeatRepository")
     private readonly repeatRepository: RepeatRepository
   ) {}
@@ -186,6 +189,8 @@ export class OperatorRegistoryFactory {
     r.register(this.scrollToTopOperator);
     r.register(this.verticalScrollOperator);
     r.register(this.pageScrollOperator);
+
+    r.register(this.focusOperator);
 
     // resolve circular dependency
     const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(

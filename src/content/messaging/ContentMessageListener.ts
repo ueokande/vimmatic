@@ -8,6 +8,7 @@ import ConsoleFrameController from "../controllers/ConsoleFrameController";
 import NavigateController from "../controllers/NavigateController";
 import FindController from "../controllers/FindController";
 import ScrollController from "../controllers/ScrollController";
+import FocusController from "../controllers/FocusController";
 
 @injectable()
 export default class ContentMessageListener {
@@ -27,7 +28,9 @@ export default class ContentMessageListener {
     @inject(FindController)
     findController: FindController,
     @inject(ScrollController)
-    scrollController: ScrollController
+    scrollController: ScrollController,
+    @inject(FocusController)
+    focusController: FocusController
   ) {
     this.receiver
       .route("settings.changed")
@@ -85,6 +88,9 @@ export default class ContentMessageListener {
     this.receiver
       .route("scroll.end")
       .to(scrollController.scrollToEnd.bind(scrollController));
+    this.receiver
+      .route("focus.input")
+      .to(focusController.focusFirstElement.bind(focusController));
 
     if (window.self === window.top) {
       this.receiver

@@ -22,6 +22,7 @@ export type Schema = {
   "scroll.bottom": Duplex<{ smooth: boolean }>;
   "scroll.home": Duplex<{ smooth: boolean }>;
   "scroll.end": Duplex<{ smooth: boolean }>;
+  "focus.input": Duplex;
 };
 
 export type Key = MessageKey<Schema>;

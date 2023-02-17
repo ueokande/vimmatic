@@ -70,4 +70,9 @@ export default class ContentMessageClient {
     const sender = newSender(tabId);
     await sender.send("scroll.top", { smooth });
   }
+
+  async focusFirstInput(tabId: number): Promise<void> {
+    const sender = newSender(tabId);
+    await sender.send("focus.input");
+  }
 }
