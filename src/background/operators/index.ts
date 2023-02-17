@@ -6,7 +6,6 @@ import CloseTabRightOperator from "./impls/CloseTabRightOperator";
 import DuplicateTabOperator from "./impls/DuplicateTabOperator";
 import FindNextOperator from "./impls/FindNextOperator";
 import FindPrevOperator from "./impls/FindPrevOperator";
-import InternalOpenURLOperator from "./impls/InternalOpenURLOperator";
 import NavigateHistoryNextOperator from "./impls/NavigateHistoryNextOperator";
 import NavigateHistoryPrevOperator from "./impls/NavigateHistoryPrevOperator";
 import NavigateLinkNextOperator from "./impls/NavigateLinkNextOperator";
@@ -65,8 +64,6 @@ export class OperatorRegistoryFactory {
     private readonly findNextOperator: FindNextOperator,
     @inject(FindPrevOperator)
     private readonly findPrevOperator: FindPrevOperator,
-    @inject(InternalOpenURLOperator)
-    private readonly internalOpenURLOperator: InternalOpenURLOperator,
     @inject(NavigateHistoryNextOperator)
     private readonly navigateHistoryNextOperator: NavigateHistoryNextOperator,
     @inject(NavigateHistoryPrevOperator)
@@ -157,7 +154,6 @@ export class OperatorRegistoryFactory {
     r.register(this.duplicateTabOperator);
     r.register(this.findNextOperator);
     r.register(this.findPrevOperator);
-    r.register(this.internalOpenURLOperator);
     r.register(this.navigateHistoryNextOperator);
     r.register(this.navigateHistoryPrevOperator);
     r.register(this.navigateLinkNextOperator);

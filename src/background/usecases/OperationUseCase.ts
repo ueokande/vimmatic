@@ -53,7 +53,6 @@ export default class OperationUseCase {
       case "zoom.in":
       case "zoom.out":
       case "zoom.reset":
-      case "internal.open.url":
         return true;
     }
     return false;

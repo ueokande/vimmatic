@@ -15,7 +15,6 @@ describe("OperationUseCase", () => {
   };
   const operationClient: OperationClient = {
     execBackgroundOp: todo,
-    internalOpenUrl: todo,
   };
   const operator: Operator = {
     name: todo,
