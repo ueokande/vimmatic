@@ -5,10 +5,8 @@ import DisableAddonOperator from "./impls/DisableAddonOperator";
 import EnableAddonOperator from "./impls/EnableAddonOperator";
 import EnableJumpMarkOperator from "./impls/EnableJumpMarkOperator";
 import EnableSetMarkOperator from "./impls/EnableSetMarkOperator";
-import PasteOperator from "./impls/PasteOperator";
 import StartFollowOperator from "./impls/StartFollowOperator";
 import ToggleAddonOperator from "./impls/ToggleAddonOperator";
-import YankURLOperator from "./impls/YankURLOperator";
 
 @injectable()
 export class OperatorRegistoryFactory {
@@ -23,12 +21,8 @@ export class OperatorRegistoryFactory {
     private readonly enableJumpMarkOperator: EnableJumpMarkOperator,
     @inject(EnableSetMarkOperator)
     private readonly enableSetMarkOperator: EnableSetMarkOperator,
-    @inject(PasteOperator)
-    private readonly pasteOperator: PasteOperator,
     @inject(StartFollowOperator)
-    private readonly startFollowOperator: StartFollowOperator,
-    @inject(YankURLOperator)
-    private readonly yankURLOperator: YankURLOperator
+    private readonly startFollowOperator: StartFollowOperator
   ) {}
 
   create(): OperatorRegistory {
@@ -38,9 +32,7 @@ export class OperatorRegistoryFactory {
     r.register(this.toggleAddonOperator);
     r.register(this.enableJumpMarkOperator);
     r.register(this.enableSetMarkOperator);
-    r.register(this.pasteOperator);
     r.register(this.startFollowOperator);
-    r.register(this.yankURLOperator);
     return r;
   }
 }
