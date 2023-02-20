@@ -55,12 +55,6 @@ export default class BackgroundMessageListener {
       .route("console.resize")
       .to(consoleController.resize.bind(consoleController));
     this.receiver
-      .route("mark.jump.global")
-      .to(markController.jumpGlobal.bind(markController));
-    this.receiver
-      .route("mark.set.global")
-      .to(markController.setGlobal.bind(markController));
-    this.receiver
       .route("open.url")
       .to(linkController.openURL.bind(linkController));
     this.receiver
@@ -75,6 +69,9 @@ export default class BackgroundMessageListener {
     this.receiver
       .route("console.frame.message")
       .to(this.onConsoleFrameMessage.bind(this));
+    this.receiver
+      .route("press.key")
+      .to(markController.pressKey.bind(markController));
   }
 
   listen() {

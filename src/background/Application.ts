@@ -12,7 +12,7 @@ export default class Application {
   constructor(
     @inject(BackgroundMessageListener)
     private readonly backgroundMessageListener: BackgroundMessageListener,
-    @inject(ContentMessageClient)
+    @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject(VersionUseCase)
     private readonly versionUseCase: VersionUseCase,

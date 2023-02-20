@@ -1,8 +1,32 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
+export default interface ContentMessageClient {
+  getAddonEnabled(tabId: number): Promise<boolean>;
+  toggleAddonEnabled(tabId: number): Promise<void>;
+  scrollTo(tabId: number, x: number, y: number, smooth: boolean): Promise<void>;
+  getScroll(tabId: number): Promise<{ x: number; y: number }>;
+  settingsChanged(tabId: number): Promise<void>;
+  scrollVertically(
+    tabId: number,
+    amount: number,
+    smooth: boolean
+  ): Promise<void>;
+  scrollHorizonally(
+    tabId: number,
+    amount: number,
+    smooth: boolean
+  ): Promise<void>;
+  scrollPages(tabId: number, amount: number, smooth: boolean): Promise<void>;
+  scrollToBottom(tabId: number, smooth: boolean): Promise<void>;
+  scrollToEnd(tabId: number, smooth: boolean): Promise<void>;
+  scrollToHome(tabId: number, smooth: boolean): Promise<void>;
+  scrollToTop(tabId: number, smooth: boolean): Promise<void>;
+  focusFirstInput(tabId: number): Promise<void>;
+}
+
 @injectable()
-export default class ContentMessageClient {
+export class ContentMessageClientImpl implements ContentMessageClient {
   async getAddonEnabled(tabId: number): Promise<boolean> {
     const sender = newSender(tabId);
     const enabled = await sender.send("addon.enabled.query");
@@ -14,9 +38,19 @@ export default class ContentMessageClient {
     await sender.send("addon.toggle.enabled");
   }
 
-  async scrollTo(tabId: number, x: number, y: number): Promise<void> {
+  async scrollTo(
+    tabId: number,
+    x: number,
+    y: number,
+    smooth: boolean
+  ): Promise<void> {
     const sender = newSender(tabId);
-    await sender.send("tab.scroll.to", { x, y });
+    await sender.send("scroll.to", { x, y, smooth });
+  }
+
+  async getScroll(tabId: number): Promise<{ x: number; y: number }> {
+    const sender = newSender(tabId);
+    return sender.send("get.scroll");
   }
 
   async settingsChanged(tabId: number): Promise<void> {

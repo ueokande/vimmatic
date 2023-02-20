@@ -5,7 +5,7 @@ import ContentMessageClient from "../../clients/ContentMessageClient";
 @injectable()
 export default class CancelOperator implements Operator {
   constructor(
-    @inject(ContentMessageClient)
+    @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient
   ) {}
 

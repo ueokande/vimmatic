@@ -8,7 +8,7 @@ import RequestContext from "../../infrastructures/RequestContext";
 @injectable()
 export default class PageScrollOperator implements Operator {
   constructor(
-    @inject(ContentMessageClient)
+    @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject("PropertySettings")
     private readonly propertySettings: PropertySettings

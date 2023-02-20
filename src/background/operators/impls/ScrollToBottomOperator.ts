@@ -7,7 +7,7 @@ import RequestContext from "../../infrastructures/RequestContext";
 @injectable()
 export default class ScrollToBottomOperator implements Operator {
   constructor(
-    @inject(ContentMessageClient)
+    @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject("PropertySettings")
     private readonly propertySettings: PropertySettings

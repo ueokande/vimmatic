@@ -1,7 +1,6 @@
 import { injectable, inject } from "inversify";
 import { Receiver } from "../../messaging";
 import type { Schema } from "../../messaging/schema/content";
-import MarkController from "../controllers/MarkController";
 import AddonEnabledController from "../controllers/AddonEnabledController";
 import SettingsController from "../controllers/SettingsController";
 import ConsoleFrameController from "../controllers/ConsoleFrameController";
@@ -9,14 +8,13 @@ import NavigateController from "../controllers/NavigateController";
 import FindController from "../controllers/FindController";
 import ScrollController from "../controllers/ScrollController";
 import FocusController from "../controllers/FocusController";
+import BackgroundKeyController from "../controllers/BackgroundKeyController";
 
 @injectable()
 export default class ContentMessageListener {
   private readonly receiver: Receiver<Schema> = new Receiver();
 
   constructor(
-    @inject(MarkController)
-    markController: MarkController,
     @inject(AddonEnabledController)
     addonEnabledController: AddonEnabledController,
     @inject(SettingsController)
@@ -30,7 +28,9 @@ export default class ContentMessageListener {
     @inject(ScrollController)
     scrollController: ScrollController,
     @inject(FocusController)
-    focusController: FocusController
+    focusController: FocusController,
+    @inject(BackgroundKeyController)
+    backgroundKeyController: BackgroundKeyController
   ) {
     this.receiver
       .route("settings.changed")
@@ -91,6 +91,18 @@ export default class ContentMessageListener {
     this.receiver
       .route("focus.input")
       .to(focusController.focusFirstElement.bind(focusController));
+    this.receiver
+      .route("enable.key.capture")
+      .to(backgroundKeyController.enableCapture.bind(backgroundKeyController));
+    this.receiver
+      .route("disable.key.capture")
+      .to(backgroundKeyController.disableCapture.bind(backgroundKeyController));
+    this.receiver
+      .route("get.scroll")
+      .to(scrollController.getScroll.bind(scrollController));
+    this.receiver
+      .route("scroll.to")
+      .to(scrollController.scrollTo.bind(scrollController));
 
     if (window.self === window.top) {
       this.receiver
@@ -98,9 +110,6 @@ export default class ContentMessageListener {
         .to(
           addonEnabledController.getAddonEnabled.bind(addonEnabledController)
         );
-      this.receiver
-        .route("tab.scroll.to")
-        .to(markController.scrollTo.bind(markController));
     }
   }
 

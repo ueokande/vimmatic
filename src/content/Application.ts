@@ -2,8 +2,8 @@ import { injectable, inject } from "inversify";
 import WindowMessageListener from "./messaging/WindowMessageListener";
 import ContentMessageListener from "./messaging/ContentMessageListener";
 import FollowKeyController from "./controllers/FollowKeyController";
-import MarkKeyController from "./controllers/MarkKeyController";
 import KeymapController from "./controllers/KeymapController";
+import BackgroundKeyController from "./controllers/BackgroundKeyController";
 import SettingsController from "./controllers/SettingsController";
 import InputDriver from "./InputDriver";
 
@@ -17,10 +17,10 @@ export default class Application {
     private readonly contentMessageListener: ContentMessageListener,
     @inject(FollowKeyController)
     private readonly followKeyController: FollowKeyController,
-    @inject(MarkKeyController)
-    private readonly markKeyController: MarkKeyController,
     @inject(KeymapController)
     private readonly keymapController: KeymapController,
+    @inject(BackgroundKeyController)
+    private readonly backgroundKeyController: BackgroundKeyController,
     @inject(SettingsController)
     private readonly settingsController: SettingsController
   ) {}
@@ -58,7 +58,7 @@ export default class Application {
   private routeKeymaps() {
     const inputDriver = new InputDriver(window.document.body);
     inputDriver.onKey((key) => this.followKeyController.press(key));
-    inputDriver.onKey((key) => this.markKeyController.press(key));
+    inputDriver.onKey((key) => this.backgroundKeyController.press(key));
     inputDriver.onKey((key) => this.keymapController.press(key));
   }
 }

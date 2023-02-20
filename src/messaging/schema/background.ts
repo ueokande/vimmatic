@@ -5,8 +5,6 @@ import { Duplex } from "../types";
 export type Schema = {
   "addon.enabled.response": Duplex<{ enabled: boolean }>;
   "console.frame.message": Duplex<{ message: any }>;
-  "mark.set.global": Duplex<{ key: string; x: number; y: number }>;
-  "mark.jump.global": Duplex<{ key: string }>;
   "background.operation": Duplex<{
     repeat: number;
     name: string;
@@ -20,6 +18,7 @@ export type Schema = {
   "console.resize": Duplex<{ width: number; height: number }>;
   "settings.get.property": Duplex<{ name: string }, string | number | boolean>;
   "settings.validate": Duplex<{ settings: unknown }, { error?: string }>;
+  "press.key": Duplex<{ key: string }>;
 };
 
 export type Key = MessageKey<Schema>;

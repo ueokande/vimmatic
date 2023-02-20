@@ -7,7 +7,7 @@ export default class AddonEnabledUseCase {
   constructor(
     @inject(IndicatorPresenter)
     private readonly indicatorPresentor: IndicatorPresenter,
-    @inject(ContentMessageClient)
+    @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient
   ) {
     this.indicatorPresentor.onClick((tab) => {

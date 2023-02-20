@@ -35,4 +35,12 @@ export default class ScrollController {
   scrollToEnd({ smooth }: { smooth: boolean }) {
     this.scrollPresenter.scrollToEnd(smooth);
   }
+
+  scrollTo({ x, y, smooth }: { x: number; y: number; smooth: boolean }) {
+    this.scrollPresenter.scrollTo(x, y, smooth);
+  }
+
+  getScroll(): Promise<{ x: number; y: number }> {
+    return Promise.resolve(this.scrollPresenter.getScroll());
+  }
 }

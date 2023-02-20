@@ -1,8 +1,9 @@
 /* eslint-disable max-len */
 
+import { Container } from "inversify";
 import { LastSelectedTabImpl } from "./tabs/LastSelectedTab";
 import { NotifierImpl } from "./presenters/Notifier";
-import { Container } from "inversify";
+import { ContentMessageClientImpl } from "./clients/ContentMessageClient";
 import { NavigateClientImpl } from "./clients/NavigateClient";
 import { ConsoleClientImpl } from "./clients/ConsoleClient";
 import { BrowserSettingRepositoryImpl } from "./repositories/BrowserSettingRepository";
@@ -15,6 +16,9 @@ import { ClipboardRepositoryImpl } from "./repositories/ClipboardRepository";
 import { PropertySettingsImpl } from "./settings/PropertySettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
 import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
+import { KeyCaptureClientImpl } from "./clients/KeyCaptureClient";
+import { MarkRepositoryImpl } from "./repositories/MarkRepository";
+import { MarkModeRepositoryImpl } from "./repositories/MarkModeRepository";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 import { OperatorRegistoryFactory } from "./operators";
@@ -27,6 +31,7 @@ container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
 container.bind("FindRepository").to(FindRepositoryImpl);
 container.bind("FindClient").to(FindClientImpl);
+container.bind("ContentMessageClient").to(ContentMessageClientImpl);
 container.bind("NavigateClient").to(NavigateClientImpl);
 container.bind("ConsoleClient").to(ConsoleClientImpl);
 container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
@@ -34,6 +39,9 @@ container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
 container.bind("ClipboardRepository").to(ClipboardRepositoryImpl);
 container.bind("PropertySettings").to(PropertySettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
+container.bind("KeyCaptureClient").to(KeyCaptureClientImpl);
+container.bind("MarkRepository").to(MarkRepositoryImpl);
+container.bind("MarkModeRepository").to(MarkModeRepositoryImpl);
 container
   .bind("SettingsRepository")
   .to(TransientSettingsRepotiory)

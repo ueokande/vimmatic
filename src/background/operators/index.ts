@@ -46,6 +46,8 @@ import PageScrollOperator from "./impls/PageScrollOperator";
 import FocusOperator from "./impls/FocusOperator";
 import YankOperator from "./impls/YankOperator";
 import PasteOperator from "./impls/PasteOperator";
+import StartSetMarkOperator from "./impls/StartSetMarkOperator";
+import StartJumpMarkOperator from "./impls/StartJumpMarkOperator";
 import RepeatRepository from "../repositories/RepeatRepository";
 import { OperatorRegistryImpl } from "./OperatorRegistory";
 
@@ -142,6 +144,10 @@ export class OperatorRegistoryFactory {
     private readonly yankOperator: YankOperator,
     @inject(PasteOperator)
     private readonly pasteOperator: PasteOperator,
+    @inject(StartSetMarkOperator)
+    private readonly startSetMarkOperator: StartSetMarkOperator,
+    @inject(StartJumpMarkOperator)
+    private readonly startJumpMarkOperator: StartJumpMarkOperator,
     @inject("RepeatRepository")
     private readonly repeatRepository: RepeatRepository
   ) {}
@@ -195,6 +201,8 @@ export class OperatorRegistoryFactory {
     r.register(this.focusOperator);
     r.register(this.yankOperator);
     r.register(this.pasteOperator);
+    r.register(this.startSetMarkOperator);
+    r.register(this.startJumpMarkOperator);
 
     // resolve circular dependency
     const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(

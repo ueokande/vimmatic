@@ -1,17 +1,7 @@
 import OpenCommandHelper from "../../../src/background/command/OpenCommandHelper";
-import PropertySettings from "../../../src/background/settings/PropertySettings";
 import SearchEngineSettings from "../../../src/background/settings/SearchEngineSettings";
-import Search from "../../../src/shared/settings/Search";
-
-class MockPropertySettings implements PropertySettings {
-  setProperty(_name: string, _value: string | number | boolean): Promise<void> {
-    throw new Error("not implemented");
-  }
-
-  getProperty(_name: string): Promise<string | number | boolean> {
-    throw new Error("not implemented");
-  }
-}
+import Search from "../../../src/shared/Search";
+import MockPropertySettings from "../mock/MockPropertySettings";
 
 class MockSearchEngineSettings implements SearchEngineSettings {
   get(): Promise<Search> {

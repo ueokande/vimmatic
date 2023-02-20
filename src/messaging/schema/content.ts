@@ -13,7 +13,6 @@ export type Schema = {
   "navigate.history.prev": Duplex;
   "navigate.link.next": Duplex;
   "navigate.link.prev": Duplex;
-  "tab.scroll.to": Duplex<{ x: number; y: number }>;
   "settings.changed": Duplex;
   "scroll.vertically": Duplex<{ amount: number; smooth: boolean }>;
   "scroll.horizonally": Duplex<{ amount: number; smooth: boolean }>;
@@ -22,7 +21,11 @@ export type Schema = {
   "scroll.bottom": Duplex<{ smooth: boolean }>;
   "scroll.home": Duplex<{ smooth: boolean }>;
   "scroll.end": Duplex<{ smooth: boolean }>;
+  "scroll.to": Duplex<{ x: number; y: number; smooth: boolean }>;
+  "get.scroll": Duplex<undefined, { x: number; y: number }>;
   "focus.input": Duplex;
+  "enable.key.capture": Duplex;
+  "disable.key.capture": Duplex;
 };
 
 export type Key = MessageKey<Schema>;

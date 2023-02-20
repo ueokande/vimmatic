@@ -1,30 +1,26 @@
 import { injectable, inject } from "inversify";
-import MarkUseCase from "../usecases/MarkUseCase";
 import RequestContext from "../infrastructures/RequestContext";
+import MarkJumpUseCase from "../usecases/MarkJumpUseCase";
+import MarkSetUseCase from "../usecases/MarkSetUseCase";
+import MarkModeUseCase from "../usecases/MarkModeUseCase";
 
 @injectable()
 export default class MarkController {
   constructor(
-    @inject(MarkUseCase)
-    private readonly markUseCase: MarkUseCase
+    @inject(MarkSetUseCase)
+    private readonly markSetUseCase: MarkSetUseCase,
+    @inject(MarkJumpUseCase)
+    private readonly markJumpUseCase: MarkJumpUseCase,
+    @inject(MarkModeUseCase)
+    private readonly markModeUseCase: MarkModeUseCase
   ) {}
 
-  setGlobal(
-    _ctx: RequestContext,
-    {
-      key,
-      x,
-      y,
-    }: {
-      key: string;
-      x: number;
-      y: number;
+  async pressKey(ctx: RequestContext, { key }: { key: string }) {
+    if (await this.markModeUseCase.isSetMode()) {
+      await this.markSetUseCase.setMark(key);
+    } else if (await this.markModeUseCase.isJumpMode()) {
+      await this.markJumpUseCase.jumpToMark(key);
     }
-  ): Promise<void> {
-    return this.markUseCase.setGlobal(key, x, y);
-  }
-
-  jumpGlobal(_ctx: RequestContext, { key }: { key: string }): Promise<void> {
-    return this.markUseCase.jumpGlobal(key);
+    await this.markModeUseCase.clearMarkMode(ctx);
   }
 }
