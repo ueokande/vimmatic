@@ -26,6 +26,32 @@ export type Schema = {
   "focus.input": Duplex;
   "enable.key.capture": Duplex;
   "disable.key.capture": Duplex;
+  "notify.frame.id": Duplex<{ frameId: number }>;
+
+  "get.window.viewport": Duplex<undefined, { width: number; height: number }>;
+  "get.frame.position": Duplex<
+    { frameId: number },
+    { x: number; y: number } | undefined
+  >;
+  "follow.count.hints": Duplex<
+    {
+      viewSize: { width: number; height: number };
+      framePosition: { x: number; y: number };
+    },
+    number
+  >;
+  "follow.create.hints": Duplex<{
+    viewSize: { width: number; height: number };
+    framePosition: { x: number; y: number };
+    hints: string[];
+  }>;
+  "follow.filter.hints": Duplex<{ prefix: string }>;
+  "follow.remove.hints": Duplex;
+  "follow.activate": Duplex<{
+    hint: string;
+    newTab: boolean;
+    background: boolean;
+  }>;
 };
 
 export type Key = MessageKey<Schema>;

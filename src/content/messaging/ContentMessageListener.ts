@@ -9,6 +9,9 @@ import FindController from "../controllers/FindController";
 import ScrollController from "../controllers/ScrollController";
 import FocusController from "../controllers/FocusController";
 import BackgroundKeyController from "../controllers/BackgroundKeyController";
+import FrameController from "../controllers/FrameController";
+import TopFrameController from "../controllers/TopFrameController";
+import FollowController from "../controllers/FollowController";
 
 @injectable()
 export default class ContentMessageListener {
@@ -30,7 +33,13 @@ export default class ContentMessageListener {
     @inject(FocusController)
     focusController: FocusController,
     @inject(BackgroundKeyController)
-    backgroundKeyController: BackgroundKeyController
+    backgroundKeyController: BackgroundKeyController,
+    @inject(FrameController)
+    frameController: FrameController,
+    @inject(TopFrameController)
+    topFrameController: TopFrameController,
+    @inject(FollowController)
+    followController: FollowController
   ) {
     this.receiver
       .route("settings.changed")
@@ -103,6 +112,30 @@ export default class ContentMessageListener {
     this.receiver
       .route("scroll.to")
       .to(scrollController.scrollTo.bind(scrollController));
+    this.receiver
+      .route("notify.frame.id")
+      .to(frameController.notifyToParent.bind(frameController));
+    this.receiver
+      .route("get.window.viewport")
+      .to(topFrameController.getWindowViewport.bind(topFrameController));
+    this.receiver
+      .route("get.frame.position")
+      .to(topFrameController.getFramePosition.bind(topFrameController));
+    this.receiver
+      .route("follow.count.hints")
+      .to(followController.countHints.bind(followController));
+    this.receiver
+      .route("follow.create.hints")
+      .to(followController.createHints.bind(followController));
+    this.receiver
+      .route("follow.filter.hints")
+      .to(followController.filterHints.bind(followController));
+    this.receiver
+      .route("follow.remove.hints")
+      .to(followController.remove.bind(followController));
+    this.receiver
+      .route("follow.activate")
+      .to(followController.activateIfExists.bind(followController));
 
     if (window.self === window.top) {
       this.receiver

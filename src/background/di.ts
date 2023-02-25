@@ -19,6 +19,10 @@ import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
 import { KeyCaptureClientImpl } from "./clients/KeyCaptureClient";
 import { MarkRepositoryImpl } from "./repositories/MarkRepository";
 import { MarkModeRepositoryImpl } from "./repositories/MarkModeRepository";
+import { FollowClientImpl } from "./clients/FollowClient";
+import { FollowRepositoryImpl } from "./repositories/FollowRepository";
+import { FrameClientImpl } from "./clients/FrameClient";
+import { TopFrameClientImpl } from "./clients/TopFrameClient";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 import { OperatorRegistoryFactory } from "./operators";
@@ -42,6 +46,10 @@ container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
 container.bind("KeyCaptureClient").to(KeyCaptureClientImpl);
 container.bind("MarkRepository").to(MarkRepositoryImpl);
 container.bind("MarkModeRepository").to(MarkModeRepositoryImpl);
+container.bind("FollowClient").to(FollowClientImpl);
+container.bind("FollowRepository").to(FollowRepositoryImpl);
+container.bind("FrameClient").to(FrameClientImpl);
+container.bind("TopFrameClient").to(TopFrameClientImpl);
 container
   .bind("SettingsRepository")
   .to(TransientSettingsRepotiory)

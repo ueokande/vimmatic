@@ -1,9 +1,8 @@
 import { injectable, inject } from "inversify";
 import { SimplexReceiverWithContext } from "../../messaging";
 import type { Schema as WindowMessageSchema } from "../../messaging/schema/window";
-import FollowMasterController from "../controllers/FollowMasterController";
-import FollowSlaveController from "../controllers/FollowSlaveController";
 import ConsoleFrameController from "../controllers/ConsoleFrameController";
+import TopFrameController from "../controllers/TopFrameController";
 import WindowRequestContext from "../controllers/WindowRequestContext";
 
 @injectable()
@@ -14,46 +13,18 @@ export default class WindowMessageListener {
   > = new SimplexReceiverWithContext();
 
   constructor(
-    @inject(FollowMasterController)
-    followMasterController: FollowMasterController,
-    @inject(FollowSlaveController)
-    followSlaveController: FollowSlaveController,
     @inject(ConsoleFrameController)
-    consoleFrameController: ConsoleFrameController
+    consoleFrameController: ConsoleFrameController,
+    @inject(TopFrameController)
+    topFrameController: TopFrameController
   ) {
-    this.receiver
-      .route("follow.request.count.targets")
-      .to(followSlaveController.countTargets.bind(followSlaveController));
-    this.receiver
-      .route("follow.create.hints")
-      .to(followSlaveController.createHints.bind(followSlaveController));
-    this.receiver
-      .route("follow.show.hints")
-      .to(followSlaveController.showHints.bind(followSlaveController));
-    this.receiver
-      .route("follow.activate")
-      .to(followSlaveController.activate.bind(followSlaveController));
-    this.receiver
-      .route("follow.remove.hints")
-      .to(followSlaveController.clear.bind(followSlaveController));
-
     if (window === window.top) {
       this.receiver
         .route("console.unfocus")
         .to(consoleFrameController.unfocus.bind(consoleFrameController));
       this.receiver
-        .route("follow.start")
-        .to(followMasterController.followStart.bind(followMasterController));
-      this.receiver
-        .route("follow.response.count.targets")
-        .to(
-          followMasterController.responseCountTargets.bind(
-            followMasterController
-          )
-        );
-      this.receiver
-        .route("follow.key.press")
-        .to(followMasterController.keyPress.bind(followMasterController));
+        .route("notify.frame.id")
+        .to(topFrameController.saveChildFrame.bind(topFrameController));
     }
   }
 

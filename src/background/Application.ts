@@ -6,6 +6,7 @@ import VersionUseCase from "./usecases/VersionUseCase";
 import FindRepositoryImpl from "./repositories/FindRepository";
 import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
 import SettingsRepository from "./settings/SettingsRepository";
+import FrameClient from "./clients/FrameClient";
 
 @injectable()
 export default class Application {
@@ -21,7 +22,9 @@ export default class Application {
     @inject("ReadyFrameRepository")
     private readonly frameRepository: ReadyFrameRepository,
     @inject("SettingsRepository")
-    private readonly settingsRepository: SettingsRepository
+    private readonly settingsRepository: SettingsRepository,
+    @inject("FrameClient")
+    private readonly frameClient: FrameClient
   ) {}
 
   private readonly findPortListener = new FindPortListener(
@@ -63,6 +66,7 @@ export default class Application {
       return;
     }
 
+    this.frameClient.notifyFrameId(tabId, frameId);
     this.frameRepository.addFrameId(tabId, frameId);
   }
 

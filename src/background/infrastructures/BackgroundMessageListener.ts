@@ -4,7 +4,7 @@ import SettingsController from "../controllers/SettingsController";
 import AddonEnabledController from "../controllers/AddonEnabledController";
 import LinkController from "../controllers/LinkController";
 import OperationController from "../controllers/OperationController";
-import MarkController from "../controllers/MarkController";
+import KeyController from "../controllers/KeyController";
 import ConsoleController from "../controllers/ConsoleController";
 import FindController from "../controllers/FindController";
 import { ReceiverWithContext } from "../../messaging";
@@ -29,8 +29,8 @@ export default class BackgroundMessageListener {
     linkController: LinkController,
     @inject(OperationController)
     operationController: OperationController,
-    @inject(MarkController)
-    markController: MarkController,
+    @inject(KeyController)
+    keyController: KeyController,
     @inject(ConsoleController)
     consoleController: ConsoleController,
     @inject(FindController)
@@ -71,7 +71,7 @@ export default class BackgroundMessageListener {
       .to(this.onConsoleFrameMessage.bind(this));
     this.receiver
       .route("press.key")
-      .to(markController.pressKey.bind(markController));
+      .to(keyController.pressKey.bind(keyController));
   }
 
   listen() {
