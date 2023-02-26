@@ -3,18 +3,18 @@ import { MarkModeRepositoryImpl } from "../../../src/background/repositories/Mar
 describe("MarkModeRepositoryImpl", () => {
   const sut = new MarkModeRepositoryImpl();
 
-  it("transits state", async () => {
-    await expect(sut.isSetMode()).resolves.toBeFalsy();
-    await expect(sut.isJumpMode()).resolves.toBeFalsy();
+  it("transits state", () => {
+    expect(sut.isSetMode()).toBeFalsy();
+    expect(sut.isJumpMode()).toBeFalsy();
 
-    await sut.enableSetMode();
-    await expect(sut.isSetMode()).resolves.toBeTruthy();
+    sut.enableSetMode();
+    expect(sut.isSetMode()).toBeTruthy();
 
-    await sut.enableJumpMode();
-    await expect(sut.isJumpMode()).resolves.toBeTruthy();
+    sut.enableJumpMode();
+    expect(sut.isJumpMode()).toBeTruthy();
 
-    await sut.clearMode();
-    await expect(sut.isSetMode()).resolves.toBeFalsy();
-    await expect(sut.isJumpMode()).resolves.toBeFalsy();
+    sut.clearMode();
+    expect(sut.isSetMode()).toBeFalsy();
+    expect(sut.isJumpMode()).toBeFalsy();
   });
 });

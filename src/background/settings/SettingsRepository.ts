@@ -2,6 +2,7 @@ import { injectable, inject } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 import { defaultSettings, serialize, deserialize } from "../../settings";
 import Settings from "../../shared/Settings";
+import { SerializedSettings } from "../../settings/schema";
 
 type OnChangeListener = (value: Settings) => unknown;
 
@@ -14,22 +15,25 @@ export default interface SettingsRepository {
 }
 
 class SettingsCache {
-  private readonly cache = new MemoryStorage();
+  private readonly cache = new MemoryStorage<SerializedSettings | null>(
+    SettingsCache.name,
+    null
+  );
 
   load(): Settings | null {
-    const cache = this.cache.get("settings") as unknown;
-    if (!cache) {
+    const cache = this.cache.get();
+    if (cache === null) {
       return null;
     }
     return deserialize(cache);
   }
 
   save(value: Settings): void {
-    this.cache.set("settings", serialize(value));
+    this.cache.set(serialize(value));
   }
 
   invalidate() {
-    this.cache.set("settings", null);
+    this.cache.set(null);
   }
 }
 

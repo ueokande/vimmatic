@@ -6,26 +6,23 @@ export default class MockFindRepository implements FindRepository {
   private globalKeyword: string | undefined;
   private localStates: { [tabId: number]: FindState } = {};
 
-  getGlobalKeyword(): Promise<string | undefined> {
-    return Promise.resolve(this.globalKeyword);
+  getGlobalKeyword(): string | undefined {
+    return this.globalKeyword;
   }
 
-  setGlobalKeyword(keyword: string): Promise<void> {
+  setGlobalKeyword(keyword: string): void {
     this.globalKeyword = keyword;
-    return Promise.resolve();
   }
 
-  getLocalState(tabId: number): Promise<FindState | undefined> {
-    return Promise.resolve(this.localStates[tabId]);
+  getLocalState(tabId: number): FindState | undefined {
+    return this.localStates[tabId];
   }
 
-  setLocalState(tabId: number, state: FindState): Promise<void> {
+  setLocalState(tabId: number, state: FindState): void {
     this.localStates[tabId] = state;
-    return Promise.resolve();
   }
 
-  deleteLocalState(tabId: number): Promise<void> {
+  deleteLocalState(tabId: number): void {
     delete this.localStates[tabId];
-    return Promise.resolve();
   }
 }

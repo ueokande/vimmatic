@@ -1,19 +1,21 @@
 const db: { [key: string]: any } = {};
 
-export default class MemoryStorage {
-  set(name: string, value: any): void {
+export default class MemoryStorage<T> {
+  constructor(private readonly key: string, initValue: T) {
+    if (!(key in db)) {
+      this.set(initValue);
+    }
+  }
+
+  set(value: T): void {
     const data = JSON.stringify(value);
     if (typeof data === "undefined") {
       throw new Error("value is not serializable");
     }
-    db[name] = data;
+    db[this.key] = data;
   }
 
-  get(name: string): any {
-    const data = db[name];
-    if (!data) {
-      return undefined;
-    }
-    return JSON.parse(data);
+  get(): T {
+    return JSON.parse(db[this.key]);
   }
 }

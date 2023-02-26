@@ -35,7 +35,7 @@ export default class FollowModeUseCaes {
       return;
     }
 
-    const frameIds = await this.frameRepository.getFrameIds(tabId);
+    const frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       return;
     }
@@ -71,7 +71,7 @@ export default class FollowModeUseCaes {
       );
     }
 
-    await this.followRepository.startFollowMode({ newTab, background }, hints);
+    this.followRepository.startFollowMode({ newTab, background }, hints);
     await this.keyCaptureClient.enableKeyCapture(tabId);
   }
 
@@ -81,11 +81,11 @@ export default class FollowModeUseCaes {
     }
     const tabId = ctx.sender.tab?.id;
     await this.followClient.clearHints(tabId);
-    await this.followRepository.stopFollowMode();
+    this.followRepository.stopFollowMode();
     await this.keyCaptureClient.disableKeyCapture(tabId);
   }
 
   isFollowMode(): Promise<boolean> {
-    return this.followRepository.isEnabled();
+    return Promise.resolve(this.followRepository.isEnabled());
   }
 }

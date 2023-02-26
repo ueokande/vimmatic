@@ -1,68 +1,58 @@
 import { injectable } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 
-const FIND_GLOBAL_KEYWORD_KEY = "find-global-keyword";
-const FIND_LOCAL_KEYWORD_KEY = "find-local-keyword";
-
 export type FindState = {
   keyword: string;
   frameId: number;
 };
 
+type State = {
+  global?: string;
+  local: { [tabId: number]: FindState };
+};
+
 export default interface FindRepository {
-  getGlobalKeyword(): Promise<string | undefined>;
+  getGlobalKeyword(): string | undefined;
 
-  setGlobalKeyword(keyword: string): Promise<void>;
+  setGlobalKeyword(keyword: string): void;
 
-  getLocalState(tabId: number): Promise<undefined | FindState>;
+  getLocalState(tabId: number): undefined | FindState;
 
-  setLocalState(tabId: number, state: FindState): Promise<void>;
+  setLocalState(tabId: number, state: FindState): void;
 
-  deleteLocalState(tabId: number): Promise<void>;
+  deleteLocalState(tabId: number): void;
 }
 
 @injectable()
 export class FindRepositoryImpl implements FindRepository {
-  private cache: MemoryStorage;
+  private readonly cache = new MemoryStorage<State>(FindRepositoryImpl.name, {
+    local: {},
+  });
 
-  constructor() {
-    this.cache = new MemoryStorage();
+  getGlobalKeyword(): string | undefined {
+    return this.cache.get().global;
   }
 
-  getGlobalKeyword(): Promise<string | undefined> {
-    return Promise.resolve(this.cache.get(FIND_GLOBAL_KEYWORD_KEY));
+  setGlobalKeyword(keyword: string): void {
+    const state = this.cache.get();
+    state.global = keyword;
+    this.cache.set(state);
   }
 
-  setGlobalKeyword(keyword: string): Promise<void> {
-    this.cache.set(FIND_GLOBAL_KEYWORD_KEY, keyword);
-    return Promise.resolve();
+  getLocalState(tabId: number): FindState | undefined {
+    const state = this.cache.get();
+    return state.local[tabId];
   }
 
-  getLocalState(tabId: number): Promise<FindState | undefined> {
-    let states = this.cache.get(FIND_LOCAL_KEYWORD_KEY);
-    if (typeof states === "undefined") {
-      states = {};
-    }
-    return Promise.resolve(states[tabId]);
+  setLocalState(tabId: number, state: FindState): void {
+    const db = this.cache.get();
+    db.local[tabId] = state;
+    this.cache.set(db);
   }
 
-  setLocalState(tabId: number, state: FindState): Promise<void> {
-    let states = this.cache.get(FIND_LOCAL_KEYWORD_KEY);
-    if (typeof states === "undefined") {
-      states = {};
-    }
-    states[tabId] = state;
-    this.cache.set(FIND_LOCAL_KEYWORD_KEY, states);
-    return Promise.resolve();
-  }
-
-  deleteLocalState(tabId: number): Promise<void> {
-    const states = this.cache.get(FIND_LOCAL_KEYWORD_KEY);
-    if (typeof states === "undefined") {
-      return Promise.resolve();
-    }
-    delete states[tabId];
-    this.cache.set(FIND_LOCAL_KEYWORD_KEY, states);
-    return Promise.resolve();
+  deleteLocalState(tabId: number): void {
+    const states = this.cache.get();
+    delete states.local[tabId];
+    this.cache.set(states);
   }
 }

@@ -44,9 +44,7 @@ describe("RepeatLastOperator", () => {
     });
 
     it("does nothing if no last operations", async () => {
-      jest
-        .spyOn(repeatRepository, "getLastOperation")
-        .mockReturnValue(undefined);
+      jest.spyOn(repeatRepository, "getLastOperation").mockReturnValue(null);
 
       await sut.run(ctx);
 

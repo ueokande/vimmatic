@@ -22,7 +22,7 @@ export default class RepeatLastOperator implements Operator {
 
   run(ctx: RequestContext): Promise<void> {
     const lastOp = this.repeatRepository.getLastOperation();
-    if (typeof lastOp === "undefined") {
+    if (lastOp === null) {
       return Promise.resolve();
     }
     const { name, props } = extractOperation(lastOp);

@@ -22,14 +22,14 @@ describe("StartFindUseCase", () => {
 
   const getFrameIdsSpy = jest
     .spyOn(frameRepository, "getFrameIds")
-    .mockResolvedValue(frameIds);
+    .mockReturnValue(frameIds);
   const clearSelectionSpy = jest
     .spyOn(findClient, "clearSelection")
-    .mockReturnValue(Promise.resolve());
+    .mockResolvedValue();
   const findNextSpy = jest.spyOn(findClient, "findNext");
   const setLocalStateSpy = jest
     .spyOn(findRepository, "setLocalState")
-    .mockReturnValue(Promise.resolve());
+    .mockReturnValue();
 
   beforeEach(async () => {
     getFrameIdsSpy.mockClear();
@@ -68,7 +68,7 @@ describe("StartFindUseCase", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const getLocalStateSpy = jest
         .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 0 });
+        .mockReturnValue({ keyword, frameId: 0 });
       const showInfoSpy = jest
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
@@ -97,8 +97,8 @@ describe("StartFindUseCase", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const getLocalStateSpy = jest
         .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue(undefined);
-      jest.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
+        .mockReturnValue(undefined);
+      jest.spyOn(findRepository, "getGlobalKeyword").mockReturnValue(keyword);
       const showInfoSpy = jest
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
@@ -143,10 +143,8 @@ describe("StartFindUseCase", () => {
     });
 
     it("shows an error when no last keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
-      jest
-        .spyOn(findRepository, "getGlobalKeyword")
-        .mockResolvedValue(undefined);
+      jest.spyOn(findRepository, "getLocalState").mockReturnValue(undefined);
+      jest.spyOn(findRepository, "getGlobalKeyword").mockReturnValue(undefined);
 
       const showErrorSpy = jest
         .spyOn(consoleClient, "showError")

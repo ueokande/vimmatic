@@ -15,15 +15,15 @@ describe("FollowKeyUseCaes", () => {
 
     const mockPushKey = jest
       .spyOn(followRepository, "pushKey")
-      .mockResolvedValue();
+      .mockReturnValue();
     const mockFilterHints = jest
       .spyOn(followClient, "filterHints")
       .mockResolvedValue();
 
-    jest.spyOn(followRepository, "getKeys").mockResolvedValue("a");
+    jest.spyOn(followRepository, "getKeys").mockReturnValue("a");
     jest
       .spyOn(followRepository, "getMatchedHints")
-      .mockResolvedValue(["a", "aa", "ab"]);
+      .mockReturnValue(["a", "aa", "ab"]);
     const cont = await sut.pressKey({ sender: { tab } }, "a");
 
     expect(cont).toBeTruthy();
@@ -38,15 +38,15 @@ describe("FollowKeyUseCaes", () => {
 
     const mockPushKey = jest
       .spyOn(followRepository, "pushKey")
-      .mockResolvedValue();
+      .mockReturnValue();
     const mockFilterHints = jest
       .spyOn(followClient, "filterHints")
       .mockResolvedValue();
 
-    jest.spyOn(followRepository, "getKeys").mockResolvedValue("ab");
+    jest.spyOn(followRepository, "getKeys").mockReturnValue("ab");
     jest
       .spyOn(followRepository, "getMatchedHints")
-      .mockResolvedValue(["ab", "aba", "abb"]);
+      .mockReturnValue(["ab", "aba", "abb"]);
     const cont = await sut.pressKey({ sender: { tab } }, "b");
 
     expect(cont).toBeTruthy();
@@ -61,16 +61,16 @@ describe("FollowKeyUseCaes", () => {
 
     const mockPushKey = jest
       .spyOn(followRepository, "pushKey")
-      .mockResolvedValue();
+      .mockReturnValue();
     jest
       .spyOn(followRepository, "getOption")
-      .mockResolvedValue({ newTab: true, background: false });
+      .mockReturnValue({ newTab: true, background: false });
     const mockActivateIfExists = jest
       .spyOn(followClient, "activateIfExists")
       .mockResolvedValue();
 
-    jest.spyOn(followRepository, "getKeys").mockResolvedValue("ab");
-    jest.spyOn(followRepository, "getMatchedHints").mockResolvedValue(["ab"]);
+    jest.spyOn(followRepository, "getKeys").mockReturnValue("ab");
+    jest.spyOn(followRepository, "getMatchedHints").mockReturnValue(["ab"]);
     const cont = await sut.pressKey({ sender: { tab } }, "b");
 
     expect(cont).toBeFalsy();
@@ -85,15 +85,15 @@ describe("FollowKeyUseCaes", () => {
 
     jest
       .spyOn(followRepository, "getOption")
-      .mockResolvedValue({ newTab: true, background: false });
+      .mockReturnValue({ newTab: true, background: false });
     const mockActivateIfExists = jest
       .spyOn(followClient, "activateIfExists")
       .mockResolvedValue();
 
-    jest.spyOn(followRepository, "getKeys").mockResolvedValue("ab");
+    jest.spyOn(followRepository, "getKeys").mockReturnValue("ab");
     jest
       .spyOn(followRepository, "getMatchedHints")
-      .mockResolvedValue(["ab", "aba", "abb"]);
+      .mockReturnValue(["ab", "aba", "abb"]);
     const cont = await sut.pressKey({ sender: { tab } }, "Enter");
 
     expect(cont).toBeFalsy();
@@ -105,17 +105,15 @@ describe("FollowKeyUseCaes", () => {
     const followRepository = new MockFollowRepository();
     const sut = new FollowKeyUseCaes(followClient, followRepository);
 
-    const mockPopKey = jest
-      .spyOn(followRepository, "popKey")
-      .mockResolvedValue();
+    const mockPopKey = jest.spyOn(followRepository, "popKey").mockReturnValue();
     const mockFilterHints = jest
       .spyOn(followClient, "filterHints")
       .mockResolvedValue();
 
-    jest.spyOn(followRepository, "getKeys").mockResolvedValue("ab");
+    jest.spyOn(followRepository, "getKeys").mockReturnValue("ab");
     jest
       .spyOn(followRepository, "getMatchedHints")
-      .mockResolvedValue(["ab", "aba", "abb"]);
+      .mockReturnValue(["ab", "aba", "abb"]);
     const cont = await sut.pressKey({ sender: { tab } }, "Backspace");
 
     expect(cont).toBeTruthy();

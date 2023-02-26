@@ -37,7 +37,7 @@ describe("MarkJumpUseCase", () => {
   it("scrolls to global marks", async () => {
     const mockGetGlobalMark = jest
       .spyOn(markRepository, "getGlobalMark")
-      .mockResolvedValue({
+      .mockReturnValue({
         tabId: 100,
         url: "https://example.com/",
         x: 10,
@@ -60,7 +60,7 @@ describe("MarkJumpUseCase", () => {
   it("reopens tabs when the tab of the global mark is gone", async () => {
     const mockGetGlobalMark = jest
       .spyOn(markRepository, "getGlobalMark")
-      .mockResolvedValue({
+      .mockReturnValue({
         tabId: 200,
         url: "https://example.com/",
         x: 10,
@@ -68,7 +68,7 @@ describe("MarkJumpUseCase", () => {
       });
     const mockSetGlobalMark = jest
       .spyOn(markRepository, "setGlobalMark")
-      .mockResolvedValue();
+      .mockReturnValue();
     const mockScrollTo = jest
       .spyOn(contentMessageClient, "scrollTo")
       .mockRejectedValue("tab not found");
@@ -97,7 +97,7 @@ describe("MarkJumpUseCase", () => {
   it("jumps to local marks", async () => {
     const mockGetLocalMark = jest
       .spyOn(markRepository, "getLocalMark")
-      .mockResolvedValue({
+      .mockReturnValue({
         x: 10,
         y: 20,
       });
@@ -115,7 +115,7 @@ describe("MarkJumpUseCase", () => {
     const mockShowError = jest
       .spyOn(consoleClient, "showError")
       .mockResolvedValue(undefined);
-    jest.spyOn(markRepository, "getGlobalMark").mockResolvedValue(undefined);
+    jest.spyOn(markRepository, "getGlobalMark").mockReturnValue(undefined);
 
     await sut.jumpToMark("A");
 
@@ -126,7 +126,7 @@ describe("MarkJumpUseCase", () => {
     const mockShowError = jest
       .spyOn(consoleClient, "showError")
       .mockResolvedValue(undefined);
-    jest.spyOn(markRepository, "getLocalMark").mockResolvedValue(undefined);
+    jest.spyOn(markRepository, "getLocalMark").mockReturnValue(undefined);
 
     await sut.jumpToMark("A");
 

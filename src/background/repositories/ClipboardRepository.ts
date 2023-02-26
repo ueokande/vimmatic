@@ -9,7 +9,7 @@ export default interface ClipboardRepository {
 @injectable()
 export class ClipboardRepositoryImpl implements ClipboardRepository {
   async read(): Promise<string> {
-    const value = navigator.clipboard.readText();
+    const value = await navigator.clipboard.readText();
     return value;
   }
 

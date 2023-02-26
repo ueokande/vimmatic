@@ -30,7 +30,7 @@ describe("MarkSetUseCase", () => {
       .mockResolvedValue({ x: 10, y: 20 });
     const mockSetGlobalMark = jest
       .spyOn(markRepository, "setGlobalMark")
-      .mockResolvedValue();
+      .mockReturnValue();
     const mockShowInfo = jest
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
@@ -52,7 +52,7 @@ describe("MarkSetUseCase", () => {
       .mockResolvedValue({ x: 10, y: 20 });
     const mockSetGlobalMark = jest
       .spyOn(markRepository, "setLocalMark")
-      .mockResolvedValue();
+      .mockReturnValue();
     const mockShowInfo = jest
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);

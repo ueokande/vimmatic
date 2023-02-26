@@ -36,7 +36,7 @@ export default class MarkJumpUseCase {
   }
 
   private async jumpToGlobalMark(tabId: number, key: string): Promise<void> {
-    const mark = await this.markRepository.getGlobalMark(key);
+    const mark = this.markRepository.getGlobalMark(key);
     if (!mark) {
       return this.consoleClient.showError(tabId, "Mark is not set");
     }
@@ -57,7 +57,7 @@ export default class MarkJumpUseCase {
       if (!tab.id) {
         return;
       }
-      return this.markRepository.setGlobalMark(key, {
+      this.markRepository.setGlobalMark(key, {
         tabId: tab.id,
         url: mark.url,
         x: mark.x,
@@ -67,7 +67,7 @@ export default class MarkJumpUseCase {
   }
 
   private async jumpToLocalMark(tabId: number, key: string): Promise<void> {
-    const mark = await this.markRepository.getLocalMark(tabId, key);
+    const mark = this.markRepository.getLocalMark(tabId, key);
     if (!mark) {
       return this.consoleClient.showError(tabId, "Mark is not set");
     }

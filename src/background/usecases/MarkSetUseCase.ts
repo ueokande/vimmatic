@@ -42,7 +42,7 @@ export default class MarkSetUseCase {
     key: string,
     mark: GlobalMark
   ): Promise<void> {
-    await this.markRepository.setGlobalMark(key, mark);
+    this.markRepository.setGlobalMark(key, mark);
     await this.consoleClient.showInfo(tabId, `Set global mark to '${key}'`);
   }
 
@@ -51,7 +51,7 @@ export default class MarkSetUseCase {
     key: string,
     mark: LocalMark
   ): Promise<void> {
-    await this.markRepository.setLocalMark(tabId, key, mark);
+    this.markRepository.setLocalMark(tabId, key, mark);
     await this.consoleClient.showInfo(tabId, `Set local mark to '${key}'`);
   }
 }

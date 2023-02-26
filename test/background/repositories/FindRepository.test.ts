@@ -8,30 +8,30 @@ describe("background/repositories/FindRepositoryImpl", () => {
   });
 
   describe("global keyword", () => {
-    it("get and set a keyword", async () => {
-      expect(await sut.getGlobalKeyword()).toBeUndefined;
+    it("get and set a keyword", () => {
+      expect(sut.getGlobalKeyword()).toBeUndefined;
 
-      await sut.setGlobalKeyword("Hello, world");
+      sut.setGlobalKeyword("Hello, world");
 
-      const keyword = await sut.getGlobalKeyword();
+      const keyword = sut.getGlobalKeyword();
       expect(keyword).toEqual("Hello, world");
     });
   });
 
   describe("local state", () => {
-    it("get and set a keyword", async () => {
-      expect(await sut.getLocalState(10)).toBeUndefined;
+    it("get and set a keyword", () => {
+      expect(sut.getLocalState(10)).toBeUndefined;
 
-      await sut.setLocalState(10, {
+      sut.setLocalState(10, {
         keyword: "Hello, world",
         frameId: 11,
       });
 
-      const state = await sut.getLocalState(10);
+      const state = sut.getLocalState(10);
       expect(state?.keyword).toEqual("Hello, world");
       expect(state?.frameId).toEqual(11);
 
-      expect(await sut.getLocalState(20)).toBeUndefined;
+      expect(sut.getLocalState(20)).toBeUndefined;
     });
   });
 });

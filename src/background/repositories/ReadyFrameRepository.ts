@@ -1,46 +1,42 @@
 import { injectable } from "inversify";
 import MemoryStorage from "../infrastructures/MemoryStorage";
 
-const REPOSITORY_KEY = "readyFrameRepository";
-
 type State = { [tabId: number]: { [frameId: number]: number } };
 
 export default interface ReadyFrameRepository {
-  addFrameId(tabId: number, frameId: number): Promise<void>;
+  addFrameId(tabId: number, frameId: number): void;
 
-  removeFrameId(tabId: number, frameId: number): Promise<void>;
+  removeFrameId(tabId: number, frameId: number): void;
 
-  getFrameIds(tabId: number): Promise<number[] | undefined>;
+  getFrameIds(tabId: number): number[] | undefined;
 }
 
 @injectable()
 export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
-  private cache: MemoryStorage;
+  private readonly cache = new MemoryStorage<State>(
+    ReadyFrameRepositoryImpl.name,
+    {}
+  );
 
-  constructor() {
-    this.cache = new MemoryStorage();
-  }
-
-  addFrameId(tabId: number, frameId: number): Promise<void> {
-    let state: State | undefined = this.cache.get(REPOSITORY_KEY);
+  addFrameId(tabId: number, frameId: number): void {
+    let state: State | undefined = this.cache.get();
     if (typeof state === "undefined") {
       state = {};
     }
     const tab = state[tabId] || {};
     tab[frameId] = (tab[frameId] || 0) + 1;
     state[tabId] = tab;
-    this.cache.set(REPOSITORY_KEY, state);
-    return Promise.resolve();
+    this.cache.set(state);
   }
 
-  removeFrameId(tabId: number, frameId: number): Promise<void> {
-    const state: State | undefined = this.cache.get(REPOSITORY_KEY);
+  removeFrameId(tabId: number, frameId: number): void {
+    const state: State | undefined = this.cache.get();
     if (typeof state === "undefined") {
-      return Promise.resolve();
+      return;
     }
     const ids = state[tabId];
     if (typeof ids === "undefined") {
-      return Promise.resolve();
+      return;
     }
     const tab = state[tabId] || {};
     tab[frameId] = (tab[frameId] || 0) - 1;
@@ -51,22 +47,21 @@ export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
       delete state[tabId];
     }
 
-    this.cache.set(REPOSITORY_KEY, state);
-    return Promise.resolve();
+    this.cache.set(state);
   }
 
-  getFrameIds(tabId: number): Promise<number[] | undefined> {
-    const state: State | undefined = this.cache.get(REPOSITORY_KEY);
+  getFrameIds(tabId: number): number[] | undefined {
+    const state: State | undefined = this.cache.get();
     if (typeof state === "undefined") {
-      return Promise.resolve(undefined);
+      return undefined;
     }
     const tab = state[tabId];
     if (typeof tab === "undefined") {
-      return Promise.resolve(undefined);
+      return undefined;
     }
     const frameIds = Object.keys(tab)
       .map((v) => Number(v))
       .sort();
-    return Promise.resolve(frameIds);
+    return frameIds;
   }
 }

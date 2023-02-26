@@ -18,7 +18,7 @@ export default class MarkModeUseCase {
       return;
     }
     await this.keyCaptureClient.enableKeyCapture(tabId);
-    await this.markModeRepository.enableSetMode();
+    this.markModeRepository.enableSetMode();
   }
 
   async enableMarkJumpMode(ctx: RequestContext) {
@@ -27,7 +27,7 @@ export default class MarkModeUseCase {
       return;
     }
     await this.keyCaptureClient.enableKeyCapture(tabId);
-    await this.markModeRepository.enableJumpMode();
+    this.markModeRepository.enableJumpMode();
   }
 
   async clearMarkMode(ctx: RequestContext) {
@@ -36,14 +36,14 @@ export default class MarkModeUseCase {
       return;
     }
     await this.keyCaptureClient.disableKeyCapture(tabId);
-    await this.markModeRepository.clearMode();
+    this.markModeRepository.clearMode();
   }
 
-  async isSetMode(): Promise<boolean> {
-    return this.markModeRepository.isSetMode();
+  isSetMode(): Promise<boolean> {
+    return Promise.resolve(this.markModeRepository.isSetMode());
   }
 
-  async isJumpMode(): Promise<boolean> {
-    return this.markModeRepository.isJumpMode();
+  isJumpMode(): Promise<boolean> {
+    return Promise.resolve(this.markModeRepository.isJumpMode());
   }
 }

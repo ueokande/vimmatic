@@ -19,10 +19,10 @@ export default class StartFindUseCase {
 
   async startFind(tabId: number, keyword?: string): Promise<void> {
     if (typeof keyword === "undefined") {
-      keyword = (await this.findRepository.getLocalState(tabId))?.keyword;
+      keyword = this.findRepository.getLocalState(tabId)?.keyword;
     }
     if (typeof keyword === "undefined") {
-      keyword = await this.findRepository.getGlobalKeyword();
+      keyword = this.findRepository.getGlobalKeyword();
     }
     if (typeof keyword === "undefined") {
       await this.consoleClient.showError(tabId, "No previous search keywords");
@@ -31,7 +31,7 @@ export default class StartFindUseCase {
 
     this.findRepository.setGlobalKeyword(keyword);
 
-    const frameIds = await this.frameRepository.getFrameIds(tabId);
+    const frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       // No frames are ready
       return;
@@ -43,7 +43,7 @@ export default class StartFindUseCase {
     for (const frameId of frameIds) {
       const found = await this.findClient.findNext(tabId, frameId, keyword);
       if (found) {
-        await this.findRepository.setLocalState(tabId, {
+        this.findRepository.setLocalState(tabId, {
           frameId,
           keyword,
         });

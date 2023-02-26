@@ -34,13 +34,13 @@ export default class FindNextOperator implements Operator {
       return;
     }
 
-    const frameIds = await this.frameRepository.getFrameIds(tabId);
+    const frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       // No frames are ready
       return;
     }
 
-    const state = await this.findRepository.getLocalState(tabId);
+    const state = this.findRepository.getLocalState(tabId);
     if (state) {
       const framePos = frameIds.indexOf(state.frameId);
       if (framePos !== -1) {
@@ -82,7 +82,7 @@ export default class FindNextOperator implements Operator {
       }
     }
 
-    const keyword = await this.findRepository.getGlobalKeyword();
+    const keyword = this.findRepository.getGlobalKeyword();
     if (keyword) {
       for (const frameId of frameIds) {
         await this.findClient.clearSelection(tabId, frameId);
@@ -91,7 +91,7 @@ export default class FindNextOperator implements Operator {
       for (const frameId of frameIds) {
         const found = await this.findClient.findNext(tabId, frameId, keyword);
         if (found) {
-          await this.findRepository.setLocalState(tabId, { frameId, keyword });
+          this.findRepository.setLocalState(tabId, { frameId, keyword });
           await this.consoleClient.showInfo(tabId, "Pattern found: " + keyword);
           return;
         }

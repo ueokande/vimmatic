@@ -34,14 +34,14 @@ export default class FindPrevOperator implements Operator {
       return;
     }
 
-    let frameIds = await this.frameRepository.getFrameIds(tabId);
+    let frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       // No frames are ready
       return;
     }
     frameIds = frameIds.slice(0).reverse();
 
-    const state = await this.findRepository.getLocalState(tabId);
+    const state = this.findRepository.getLocalState(tabId);
     if (state) {
       const framePos = frameIds.indexOf(state.frameId);
       if (framePos !== -1) {
@@ -83,7 +83,7 @@ export default class FindPrevOperator implements Operator {
       }
     }
 
-    const keyword = await this.findRepository.getGlobalKeyword();
+    const keyword = this.findRepository.getGlobalKeyword();
     if (keyword) {
       for (const frameId of frameIds) {
         await this.findClient.clearSelection(tabId, frameId);
@@ -92,7 +92,7 @@ export default class FindPrevOperator implements Operator {
       for (const frameId of frameIds) {
         const found = await this.findClient.findPrev(tabId, frameId, keyword);
         if (found) {
-          await this.findRepository.setLocalState(tabId, { frameId, keyword });
+          this.findRepository.setLocalState(tabId, { frameId, keyword });
           await this.consoleClient.showInfo(tabId, "Pattern found: " + keyword);
           return;
         }

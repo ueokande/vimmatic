@@ -3,62 +3,51 @@ import MemoryStorage from "../infrastructures/MemoryStorage";
 import GlobalMark from "../domains/GlobalMark";
 import LocalMark from "../domains/LocalMark";
 
-const MARK_KEY = "mark";
-
 type MarkData = {
   globals: { [key: string]: GlobalMark };
   locals: { [tabId: number]: { [key: string]: LocalMark } };
 };
 
 export default interface MarkRepository {
-  getGlobalMark(key: string): Promise<GlobalMark | undefined>;
+  getGlobalMark(key: string): GlobalMark | undefined;
 
-  setGlobalMark(key: string, mark: GlobalMark): Promise<void>;
+  setGlobalMark(key: string, mark: GlobalMark): void;
 
-  getLocalMark(tabId: number, key: string): Promise<LocalMark | undefined>;
+  getLocalMark(tabId: number, key: string): LocalMark | undefined;
 
-  setLocalMark(tabId: number, key: string, mark: LocalMark): Promise<void>;
+  setLocalMark(tabId: number, key: string, mark: LocalMark): void;
 }
 
 @injectable()
-export class MarkRepositoryImpl {
-  private cache: MemoryStorage;
+export class MarkRepositoryImpl implements MarkRepository {
+  private readonly cache = new MemoryStorage<MarkData>(
+    MarkRepositoryImpl.name,
+    { globals: {}, locals: {} }
+  );
 
-  constructor() {
-    this.cache = new MemoryStorage();
+  getGlobalMark(key: string): GlobalMark | undefined {
+    const { globals } = this.cache.get();
+    return globals[key];
   }
 
-  getGlobalMark(key: string): Promise<GlobalMark | undefined> {
-    const { globals } = this.getOrDefault();
-    return Promise.resolve(globals[key]);
-  }
-
-  setGlobalMark(key: string, mark: GlobalMark): Promise<void> {
-    const data = this.getOrDefault();
+  setGlobalMark(key: string, mark: GlobalMark): void {
+    const data = this.cache.get();
     data.globals[key] = mark;
-    this.cache.set(MARK_KEY, data);
-
-    return Promise.resolve();
+    this.cache.set(data);
   }
 
-  getLocalMark(tabId: number, key: string): Promise<LocalMark | undefined> {
-    const { locals } = this.getOrDefault();
+  getLocalMark(tabId: number, key: string): LocalMark | undefined {
+    const { locals } = this.cache.get();
     const marks = locals[tabId];
     if (!marks) {
-      return Promise.resolve(undefined);
+      return undefined;
     }
-    return Promise.resolve(marks[key]);
+    return marks[key];
   }
 
-  setLocalMark(tabId: number, key: string, mark: LocalMark): Promise<void> {
-    const data = this.getOrDefault();
+  setLocalMark(tabId: number, key: string, mark: LocalMark): void {
+    const data = this.cache.get();
     data.locals[tabId] = { ...data.locals[tabId], [key]: mark };
-    this.cache.set(MARK_KEY, data);
-
-    return Promise.resolve();
-  }
-
-  private getOrDefault(): MarkData {
-    return this.cache.get(MARK_KEY) || { globals: {}, locals: {} };
+    this.cache.set(data);
   }
 }

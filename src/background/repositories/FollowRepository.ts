@@ -5,24 +5,23 @@ export default interface FollowRepository {
   startFollowMode(
     opts: { newTab: boolean; background: boolean },
     hints: string[]
-  ): Promise<void>;
+  ): void;
 
-  stopFollowMode(): Promise<void>;
+  stopFollowMode(): void;
 
-  isEnabled(): Promise<boolean>;
+  isEnabled(): boolean;
 
-  getOption(): Promise<{ newTab: boolean; background: boolean }>;
+  getOption(): { newTab: boolean; background: boolean };
 
-  pushKey(key: string): Promise<void>;
+  pushKey(key: string): void;
 
-  popKey(): Promise<void>;
+  popKey(): void;
 
-  getMatchedHints(): Promise<string[]>;
+  getMatchedHints(): string[];
 
-  getKeys(): Promise<string>;
+  getKeys(): string;
 }
 
-const FOLLOW_REPOSITORY_KEY = "follow.repository";
 type Option = {
   newTab: boolean;
   background: boolean;
@@ -36,70 +35,62 @@ type State = {
 };
 
 @injectable()
-export class FollowRepositoryImpl {
-  private cache: MemoryStorage = new MemoryStorage();
+export class FollowRepositoryImpl implements FollowRepository {
+  private readonly cache = new MemoryStorage<State>(FollowRepositoryImpl.name, {
+    enabled: false,
+    option: { newTab: false, background: false },
+    hints: [],
+    keys: [],
+  });
 
-  async startFollowMode(
+  startFollowMode(
     option: { newTab: boolean; background: boolean },
     hints: string[]
-  ): Promise<void> {
+  ): void {
     const state: State = {
       enabled: true,
       option,
       hints,
       keys: [],
     };
-    this.cache.set(FOLLOW_REPOSITORY_KEY, state);
+    this.cache.set(state);
   }
 
-  async stopFollowMode(): Promise<void> {
-    const state = this.getOrDefault();
+  stopFollowMode(): void {
+    const state = this.cache.get();
     state.enabled = false;
-    this.cache.set(FOLLOW_REPOSITORY_KEY, state);
+    this.cache.set(state);
   }
 
-  async isEnabled(): Promise<boolean> {
-    const { enabled } = this.getOrDefault();
+  isEnabled(): boolean {
+    const { enabled } = this.cache.get();
     return enabled;
   }
 
-  async getOption(): Promise<{ newTab: boolean; background: boolean }> {
-    const { option } = this.getOrDefault();
+  getOption(): { newTab: boolean; background: boolean } {
+    const { option } = this.cache.get();
     return option;
   }
-  async pushKey(key: string): Promise<void> {
-    const state = this.getOrDefault();
+  pushKey(key: string): void {
+    const state = this.cache.get();
     state.keys.push(key);
-    this.cache.set(FOLLOW_REPOSITORY_KEY, state);
+    this.cache.set(state);
   }
 
-  async popKey(): Promise<void> {
-    const state = this.getOrDefault();
+  popKey(): void {
+    const state = this.cache.get();
     state.keys.pop();
-    this.cache.set(FOLLOW_REPOSITORY_KEY, state);
+    this.cache.set(state);
   }
 
-  async getMatchedHints(): Promise<string[]> {
-    const state = this.getOrDefault();
+  getMatchedHints(): string[] {
+    const state = this.cache.get();
     const prefix = state.keys.join("");
     return state.hints.filter((t) => t.startsWith(prefix));
   }
 
-  async getKeys(): Promise<string> {
-    const { keys } = this.getOrDefault();
+  getKeys(): string {
+    const { keys } = this.cache.get();
     return keys.join("");
-  }
-
-  private getOrDefault(): State {
-    const state = this.cache.get(FOLLOW_REPOSITORY_KEY);
-    if (state) {
-      return state;
-    }
-    return {
-      enabled: false,
-      option: { newTab: false, background: false },
-      hints: [],
-      keys: [],
-    };
   }
 }
