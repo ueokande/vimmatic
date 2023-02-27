@@ -1,35 +1,61 @@
 import { inject, injectable } from "inversify";
-import IndicatorPresenter from "../presenters/IndicatorPresenter";
-import ContentMessageClient from "../clients/ContentMessageClient";
+import ToolbarPresenter from "../presenters/ToolbarPresenter";
+import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
+import AddonEnabledClient from "../clients/AddonEnabledClient";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class AddonEnabledUseCase {
   constructor(
-    @inject(IndicatorPresenter)
-    private readonly indicatorPresentor: IndicatorPresenter,
-    @inject("ContentMessageClient")
-    private readonly contentMessageClient: ContentMessageClient
-  ) {
-    this.indicatorPresentor.onClick((tab) => {
-      if (tab.id) {
-        this.onIndicatorClick(tab.id);
-      }
-    });
-    browser.tabs.onActivated.addListener((info) =>
-      this.onTabSelected(info.tabId)
-    );
+    @inject("ToolbarPresenter")
+    private readonly toolbarPresenter: ToolbarPresenter,
+    @inject("AddonEnabledRepository")
+    private readonly addonEnabledRepository: AddonEnabledRepository,
+    @inject("AddonEnabledClient")
+    private readonly addonEnabledClient: AddonEnabledClient
+  ) {}
+
+  async enable(ctx: RequestContext): Promise<void> {
+    if (!ctx.sender.tab?.id) {
+      return;
+    }
+    const tabId = ctx.sender?.tab?.id;
+    this.addonEnabledRepository.enable();
+    await this.addonEnabledClient.enable(tabId);
+    await this.toolbarPresenter.setEnabled(true);
   }
 
-  indicate(enabled: boolean): Promise<void> {
-    return this.indicatorPresentor.indicate(enabled);
+  async disable(ctx: RequestContext): Promise<void> {
+    if (!ctx.sender.tab?.id) {
+      return;
+    }
+    const tabId = ctx.sender?.tab?.id;
+    this.addonEnabledRepository.disable();
+    await this.addonEnabledClient.disable(tabId);
+    await this.toolbarPresenter.setEnabled(false);
   }
 
-  private onIndicatorClick(tabId: number): Promise<void> {
-    return this.contentMessageClient.toggleAddonEnabled(tabId);
+  async toggle(ctx: RequestContext): Promise<void> {
+    if (!ctx.sender.tab?.id) {
+      return;
+    }
+    const tabId = ctx.sender?.tab?.id;
+
+    const enabled = this.addonEnabledRepository.toggle();
+    await this.toolbarPresenter.setEnabled(enabled);
+    if (enabled) {
+      await this.addonEnabledClient.enable(tabId);
+    } else {
+      await this.addonEnabledClient.disable(tabId);
+    }
   }
 
-  async onTabSelected(tabId: number): Promise<void> {
-    const enabled = await this.contentMessageClient.getAddonEnabled(tabId);
-    return this.indicatorPresentor.indicate(enabled);
+  async updateTabEnabled(tabId: number): Promise<void> {
+    const enabled = this.addonEnabledRepository.isEnabled();
+    if (enabled) {
+      await this.addonEnabledClient.enable(tabId);
+    } else {
+      await this.addonEnabledClient.disable(tabId);
+    }
   }
 }

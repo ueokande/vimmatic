@@ -1,8 +1,14 @@
 import { injectable } from "inversify";
 
+export default interface ToolbarPresenter {
+  setEnabled(enabled: boolean): Promise<void>;
+
+  onClick(listener: (arg: browser.tabs.Tab) => void): void;
+}
+
 @injectable()
-export default class IndicatorPresenter {
-  indicate(enabled: boolean): Promise<void> {
+export class ToolbarPresenterImpl {
+  setEnabled(enabled: boolean): Promise<void> {
     const path = enabled
       ? "resources/enabled_32x32.png"
       : "resources/disabled_32x32.png";

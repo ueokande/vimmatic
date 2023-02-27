@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 
 import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepository";
-import { AddonIndicatorClientImpl } from "./client/AddonIndicatorClient";
 import { AddressRepositoryImpl } from "./repositories/AddressRepository";
 import { ClipboardRepositoryImpl } from "./repositories/ClipboardRepository";
 import { ConsoleClientImpl } from "./client/ConsoleClient";
@@ -15,7 +14,6 @@ import { ScrollPresenterImpl } from "./presenters/ScrollPresenter";
 import { SettingClientImpl } from "./client/SettingClient";
 import { SettingRepositoryImpl } from "./repositories/SettingRepository";
 import { TabsClientImpl } from "./client/TabsClient";
-import { OperatorRegistoryFactory } from "./operators";
 import { FindPresenterImpl } from "./presenters/FindPresenter";
 import { BackgroundKeyClientImpl } from "./client/BackgroundKeyClient";
 import { KeyCaptureModeRepositoryImpl } from "./repositories/KeyCaptureModeRepository";
@@ -28,7 +26,6 @@ import { newSender as newWindowMessageSender } from "./client/WindowMessageSende
 const container = new Container({ autoBindInjectable: true });
 
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
-container.bind("AddonIndicatorClient").to(AddonIndicatorClientImpl);
 container.bind("AddressRepository").to(AddressRepositoryImpl);
 container.bind("ClipboardRepository").to(ClipboardRepositoryImpl);
 container.bind("ConsoleClient").to(ConsoleClientImpl);
@@ -53,8 +50,5 @@ container
 container
   .bind("WindowMessageSender")
   .toConstantValue(newWindowMessageSender(window.top));
-container
-  .bind("OperatorRegistory")
-  .toConstantValue(container.resolve(OperatorRegistoryFactory).create());
 
 export { container };

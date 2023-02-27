@@ -3,17 +3,17 @@ import AddonEnabledRepository from "../../../src/content/repositories/AddonEnabl
 export default class MockAddonEnabledRepository
   implements AddonEnabledRepository
 {
-  public enabled: boolean;
+  constructor(public enabled: boolean) {}
 
-  constructor(initialValue = false) {
-    this.enabled = initialValue;
+  enable(): void {
+    this.enabled = true;
   }
 
-  get(): boolean {
+  disable(): void {
+    this.enabled = false;
+  }
+
+  isEnabled(): boolean {
     return this.enabled;
-  }
-
-  set(on: boolean): void {
-    this.enabled = on;
   }
 }

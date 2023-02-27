@@ -1,7 +1,6 @@
 import { injectable, inject } from "inversify";
 import CommandController from "../controllers/CommandController";
 import SettingsController from "../controllers/SettingsController";
-import AddonEnabledController from "../controllers/AddonEnabledController";
 import LinkController from "../controllers/LinkController";
 import OperationController from "../controllers/OperationController";
 import KeyController from "../controllers/KeyController";
@@ -23,8 +22,6 @@ export default class BackgroundMessageListener {
     settingsController: SettingsController,
     @inject(CommandController)
     commandController: CommandController,
-    @inject(AddonEnabledController)
-    addonEnabledController: AddonEnabledController,
     @inject(LinkController)
     linkController: LinkController,
     @inject(OperationController)
@@ -36,9 +33,6 @@ export default class BackgroundMessageListener {
     @inject(FindController)
     findController: FindController
   ) {
-    this.receiver
-      .route("addon.enabled.response")
-      .to(addonEnabledController.indicate.bind(addonEnabledController));
     this.receiver
       .route("background.operation")
       .to(operationController.exec.bind(operationController));

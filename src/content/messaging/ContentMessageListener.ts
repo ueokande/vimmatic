@@ -42,13 +42,14 @@ export default class ContentMessageListener {
     followController: FollowController
   ) {
     this.receiver
+      .route("addon.enable")
+      .to(addonEnabledController.enable.bind(addonEnabledController));
+    this.receiver
+      .route("addon.disable")
+      .to(addonEnabledController.disable.bind(addonEnabledController));
+    this.receiver
       .route("settings.changed")
       .to(settingsController.reloadSettings.bind(settingsController));
-    this.receiver
-      .route("addon.toggle.enabled")
-      .to(
-        addonEnabledController.toggleAddonEnabled.bind(addonEnabledController)
-      );
     this.receiver
       .route("navigate.link.next")
       .to(navigateController.openLinkNext.bind(navigateController));
@@ -136,14 +137,6 @@ export default class ContentMessageListener {
     this.receiver
       .route("follow.activate")
       .to(followController.activateIfExists.bind(followController));
-
-    if (window.self === window.top) {
-      this.receiver
-        .route("addon.enabled.query")
-        .to(
-          addonEnabledController.getAddonEnabled.bind(addonEnabledController)
-        );
-    }
   }
 
   listen() {

@@ -3,7 +3,7 @@ import type { Completions } from "../../shared/Completions";
 import { Duplex } from "../types";
 
 export type Schema = {
-  "addon.enabled.response": Duplex<{ enabled: boolean }>;
+  "typeof addon.enabled.response": Duplex<{ enabled: boolean }>;
   "console.frame.message": Duplex<{ message: any }>;
   "background.operation": Duplex<{
     repeat: number;

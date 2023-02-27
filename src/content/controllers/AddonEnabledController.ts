@@ -8,13 +8,11 @@ export default class AddonEnabledController {
     private readonly addonEnabledUseCase: AddonEnabledUseCase
   ) {}
 
-  toggleAddonEnabled(): Promise<void> {
-    this.addonEnabledUseCase.toggle();
-    return Promise.resolve();
+  async enable(): Promise<void> {
+    this.addonEnabledUseCase.enable();
   }
 
-  getAddonEnabled(): Promise<boolean> {
-    const enabled = this.addonEnabledUseCase.getEnabled();
-    return Promise.resolve(enabled);
+  async disable(): Promise<void> {
+    this.addonEnabledUseCase.disable();
   }
 }

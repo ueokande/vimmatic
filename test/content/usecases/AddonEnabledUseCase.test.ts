@@ -1,96 +1,54 @@
-import AddonEnabledRepository from "../../../src/content/repositories/AddonEnabledRepository";
 import AddonEnabledUseCase from "../../../src/content/usecases/AddonEnabledUseCase";
-import AddonIndicatorClient from "../../../src/content/client/AddonIndicatorClient";
-import MockConsoleFramePresenter from "../operators/impls/MockConsoleFramePresenter";
-
-class MockAddonEnabledRepository implements AddonEnabledRepository {
-  private enabled: boolean;
-
-  constructor(init: boolean) {
-    this.enabled = init;
-  }
-
-  set(on: boolean): void {
-    this.enabled = on;
-  }
-
-  get(): boolean {
-    return this.enabled;
-  }
-}
-
-class MockAddonIndicatorClient implements AddonIndicatorClient {
-  public enabled: boolean;
-
-  constructor(init: boolean) {
-    this.enabled = init;
-  }
-
-  async setEnabled(enabled: boolean): Promise<void> {
-    this.enabled = enabled;
-    return;
-  }
-}
+import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
+import MockConsoleFramePresenter from "../mock/MockConsoleFramePresenter";
 
 describe("AddonEnabledUseCase", () => {
-  let repository: MockAddonEnabledRepository;
-  let indicator: MockAddonIndicatorClient;
-  let presenter: MockConsoleFramePresenter;
-  let sut: AddonEnabledUseCase;
-
-  beforeEach(() => {
-    repository = new MockAddonEnabledRepository(false);
-    indicator = new MockAddonIndicatorClient(false);
-    presenter = new MockConsoleFramePresenter(false);
-    sut = new AddonEnabledUseCase(indicator, repository, presenter);
-  });
-
   describe("#enable", () => {
     it("store and indicate as enabled", async () => {
-      await sut.enable();
+      const addonEnabledRepository = new MockAddonEnabledRepository(false);
+      const consoleFramePresenter = new MockConsoleFramePresenter(false);
+      const sut = new AddonEnabledUseCase(
+        addonEnabledRepository,
+        consoleFramePresenter
+      );
 
-      expect(repository.get()).toBeTruthy;
-      expect(indicator.enabled).toBeTruthy;
-      expect(presenter.attached).toBeTruthy;
+      sut.enable();
+
+      expect(addonEnabledRepository.isEnabled()).toBeTruthy();
+      expect(consoleFramePresenter.attached).toBeTruthy();
     });
   });
 
   describe("#disable", () => {
     it("store and indicate as disabled", async () => {
-      await sut.disable();
+      const addonEnabledRepository = new MockAddonEnabledRepository(true);
+      const consoleFramePresenter = new MockConsoleFramePresenter(true);
+      const sut = new AddonEnabledUseCase(
+        addonEnabledRepository,
+        consoleFramePresenter
+      );
 
-      expect(repository.get()).toBeFalsy;
-      expect(indicator.enabled).toBeFalsy;
-      expect(presenter.attached).toBeFalsy;
+      sut.disable();
+
+      expect(addonEnabledRepository.isEnabled()).toBeFalsy();
+      expect(consoleFramePresenter.attached).toBeFalsy();
     });
   });
 
-  describe("#toggle", () => {
-    it("toggled enabled and disabled", async () => {
-      repository.set(true);
-      await sut.toggle();
-
-      expect(repository.get()).toBeFalsy;
-      expect(indicator.enabled).toBeFalsy;
-      expect(presenter.attached).toBeFalsy;
-
-      repository.set(false);
-
-      await sut.toggle();
-
-      expect(repository.get()).toBeTruthy;
-      expect(indicator.enabled).toBeTruthy;
-      expect(presenter.attached).toBeTruthy;
-    });
-  });
-
-  describe("#getEnabled", () => {
+  describe("#isEnabled", () => {
     it("returns current addon enabled", () => {
-      repository.set(true);
-      expect(sut.getEnabled()).toBeTruthy;
+      const addonEnabledRepository = new MockAddonEnabledRepository(true);
+      const consoleFramePresenter = new MockConsoleFramePresenter(true);
+      const sut = new AddonEnabledUseCase(
+        addonEnabledRepository,
+        consoleFramePresenter
+      );
 
-      repository.set(false);
-      expect(sut.getEnabled()).toBeFalsy;
+      addonEnabledRepository.enable();
+      expect(sut.isEnabled()).toBeTruthy();
+
+      addonEnabledRepository.disable();
+      expect(sut.isEnabled()).toBeFalsy();
     });
   });
 });

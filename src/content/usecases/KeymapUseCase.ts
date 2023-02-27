@@ -83,7 +83,7 @@ export default class KeymapUseCase {
       KeySequence,
       Operation
     ][];
-    if (!this.addonEnabledRepository.get()) {
+    if (!this.addonEnabledRepository.isEnabled()) {
       // available keymaps are only "addon.enable" and "addon.toggle.enabled" if
       // the addon disabled
       entries = entries.filter(([_seq, { type }]) =>

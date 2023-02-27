@@ -2,8 +2,8 @@ import { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import { Duplex } from "../types";
 
 export type Schema = {
-  "addon.enabled.query": Duplex<undefined, boolean>;
-  "addon.toggle.enabled": Duplex;
+  "addon.enable": Duplex;
+  "addon.disable": Duplex;
   "console.hide": Duplex;
   "console.resize": Duplex<{ width: number; height: number }>;
   "find.next": Duplex<{ keyword: string }, boolean>;

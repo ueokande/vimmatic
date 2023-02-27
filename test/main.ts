@@ -14,6 +14,9 @@ global.browser = {
     reload: todo,
     getZoom: todo,
     setZoom: todo,
+    onActivated: {
+      addListener: todo,
+    },
   },
   history: {
     search: todo,

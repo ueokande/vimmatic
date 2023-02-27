@@ -1,5 +1,8 @@
 import { inject, injectable } from "inversify";
 import type OperatorRegistory from "./OperatorRegistory";
+import EnableAddonOperator from "./impls/EnableAddonOperator";
+import DisableAddonOperator from "./impls/DisableAddonOperator";
+import ToggleAddonOperator from "./impls/ToggleAddonOperator";
 import CancelOperator from "./impls/CancelOperator";
 import CloseTabOperator from "./impls/CloseTabOperator";
 import CloseTabRightOperator from "./impls/CloseTabRightOperator";
@@ -55,6 +58,12 @@ import { OperatorRegistryImpl } from "./OperatorRegistory";
 @injectable()
 export class OperatorRegistoryFactory {
   constructor(
+    @inject(EnableAddonOperator)
+    private readonly enableAddonOperator: EnableAddonOperator,
+    @inject(DisableAddonOperator)
+    private readonly disableAddonOperator: DisableAddonOperator,
+    @inject(ToggleAddonOperator)
+    private readonly toggleAddonOperator: ToggleAddonOperator,
     @inject(CancelOperator)
     private readonly cancelOperator: CancelOperator,
     @inject(CloseTabOperator)
@@ -157,6 +166,9 @@ export class OperatorRegistoryFactory {
 
   create(): OperatorRegistory {
     const r = new OperatorRegistryImpl();
+    r.register(this.enableAddonOperator);
+    r.register(this.disableAddonOperator);
+    r.register(this.toggleAddonOperator);
     r.register(this.cancelOperator);
     r.register(this.closeTabOperator);
     r.register(this.closeTabRightOperator);

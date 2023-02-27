@@ -23,6 +23,9 @@ import { FollowClientImpl } from "./clients/FollowClient";
 import { FollowRepositoryImpl } from "./repositories/FollowRepository";
 import { FrameClientImpl } from "./clients/FrameClient";
 import { TopFrameClientImpl } from "./clients/TopFrameClient";
+import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepository";
+import { AddonEnabledClientImpl } from "./clients/AddonEnabledClient";
+import { ToolbarPresenterImpl } from "./presenters/ToolbarPresenter";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 import { OperatorRegistoryFactory } from "./operators";
@@ -50,6 +53,9 @@ container.bind("FollowClient").to(FollowClientImpl);
 container.bind("FollowRepository").to(FollowRepositoryImpl);
 container.bind("FrameClient").to(FrameClientImpl);
 container.bind("TopFrameClient").to(TopFrameClientImpl);
+container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
+container.bind("AddonEnabledClient").to(AddonEnabledClientImpl);
+container.bind("ToolbarPresenter").to(ToolbarPresenterImpl);
 container
   .bind("SettingsRepository")
   .to(TransientSettingsRepotiory)

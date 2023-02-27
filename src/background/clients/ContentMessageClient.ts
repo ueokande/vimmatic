@@ -2,8 +2,6 @@ import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
 export default interface ContentMessageClient {
-  getAddonEnabled(tabId: number): Promise<boolean>;
-  toggleAddonEnabled(tabId: number): Promise<void>;
   scrollTo(tabId: number, x: number, y: number, smooth: boolean): Promise<void>;
   getScroll(tabId: number): Promise<{ x: number; y: number }>;
   settingsChanged(tabId: number): Promise<void>;
@@ -27,17 +25,6 @@ export default interface ContentMessageClient {
 
 @injectable()
 export class ContentMessageClientImpl implements ContentMessageClient {
-  async getAddonEnabled(tabId: number): Promise<boolean> {
-    const sender = newSender(tabId);
-    const enabled = await sender.send("addon.enabled.query");
-    return enabled;
-  }
-
-  async toggleAddonEnabled(tabId: number): Promise<void> {
-    const sender = newSender(tabId);
-    await sender.send("addon.toggle.enabled");
-  }
-
   async scrollTo(
     tabId: number,
     x: number,

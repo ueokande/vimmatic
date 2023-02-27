@@ -1,23 +1,11 @@
 import "@abraham/reflection";
 import KeymapUseCase from "../../../src/content/usecases/KeymapUseCase";
-import AddonEnabledRepository from "../../../src/content/repositories/AddonEnabledRepository";
 import { KeymapRepositoryImpl } from "../../../src/content/repositories/KeymapRepository";
 import { fromKeymap } from "../../../src/shared/Key";
 import { deserialize } from "../../../src/settings";
 import AddressRepository from "../../../src/content/repositories/AddressRepository";
+import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
 import MockSettingRepository from "../mock/MockSettingRepository";
-
-class MockAddonEnabledRepository implements AddonEnabledRepository {
-  constructor(private readonly enabled: boolean) {}
-
-  get(): boolean {
-    return this.enabled;
-  }
-
-  set(_on: boolean): void {
-    throw new Error("TODO");
-  }
-}
 
 class MockAddressRepository implements AddressRepository {
   constructor(private url: URL) {}

@@ -7,6 +7,8 @@ import FindRepositoryImpl from "./repositories/FindRepository";
 import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
 import SettingsRepository from "./settings/SettingsRepository";
 import FrameClient from "./clients/FrameClient";
+import ToolbarPresenter from "./presenters/ToolbarPresenter";
+import AddonEnabledUseCase from "./usecases/AddonEnabledUseCase";
 
 @injectable()
 export default class Application {
@@ -24,7 +26,11 @@ export default class Application {
     @inject("SettingsRepository")
     private readonly settingsRepository: SettingsRepository,
     @inject("FrameClient")
-    private readonly frameClient: FrameClient
+    private readonly frameClient: FrameClient,
+    @inject("ToolbarPresenter")
+    private readonly toolbarPresenter: ToolbarPresenter,
+    @inject(AddonEnabledUseCase)
+    private readonly addonEnabledUseCase: AddonEnabledUseCase
   ) {}
 
   private readonly findPortListener = new FindPortListener(
@@ -57,6 +63,13 @@ export default class Application {
 
     this.backgroundMessageListener.listen();
     this.findPortListener.run();
+
+    this.toolbarPresenter.onClick((tab: browser.tabs.Tab) => {
+      return this.addonEnabledUseCase.toggle({ sender: { tab } });
+    });
+    browser.tabs.onActivated.addListener((info) =>
+      this.addonEnabledUseCase.updateTabEnabled(info.tabId)
+    );
   }
 
   private onFindPortConnect(port: browser.runtime.Port) {
