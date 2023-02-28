@@ -20,7 +20,11 @@ describe("CloseTabOperator", () => {
   describe("#run", () => {
     it("close a current tab", async () => {
       const ctx = {
-        sender: { tab: { ...tab, id: 100, index: 0, pinned: false } },
+        sender: {
+          tabId: 100,
+          frameId: 0,
+          tab: { ...tab, id: 100, index: 0, pinned: false },
+        },
       };
       const sut = new CloseTabOperator();
       await sut.run(ctx, {});
@@ -30,7 +34,11 @@ describe("CloseTabOperator", () => {
 
     it("close a current tab forcely", async () => {
       const ctx = {
-        sender: { tab: { ...tab, id: 100, index: 0, pinned: true } },
+        sender: {
+          tabId: 100,
+          frameId: 0,
+          tab: { ...tab, id: 100, index: 0, pinned: true },
+        },
       };
       const sut = new CloseTabOperator();
       await sut.run(ctx, { force: true });
@@ -46,7 +54,13 @@ describe("CloseTabOperator", () => {
       ];
       jest.spyOn(browser.tabs, "query").mockResolvedValue(tabs);
 
-      const ctx = { sender: { tab: tabs[1] } };
+      const ctx = {
+        sender: {
+          tabId: 102,
+          frameId: 0,
+          tab: tabs[1],
+        },
+      };
       const sut = new CloseTabOperator();
       await sut.run(ctx, { force: true, select: "left" });
 

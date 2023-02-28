@@ -1,5 +1,6 @@
 import NavigateHistoryPrevOperator from "../../../../src/background/operators/impls/NavigateHistoryPrevOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("NavigateHistoryPrevOperator", () => {
   describe("#run", () => {
@@ -9,8 +10,8 @@ describe("NavigateHistoryPrevOperator", () => {
         .spyOn(navigateClient, "historyPrev")
         .mockReturnValue(Promise.resolve());
 
-      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new NavigateHistoryPrevOperator(navigateClient);
+      const ctx = { sender: { tabId: 100 } } as RequestContext;
       await sut.run(ctx);
 
       expect(historyNextSpy).toBeCalledWith(100);

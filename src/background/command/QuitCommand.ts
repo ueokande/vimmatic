@@ -1,5 +1,6 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
+import type RequestContext from "../infrastructures/RequestContext";
 
 class QuitCommand implements Command {
   names(): string[] {
@@ -18,18 +19,15 @@ class QuitCommand implements Command {
     return Promise.resolve([]);
   }
 
-  async exec(force: boolean, _args: string): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      currentWindow: true,
-      active: true,
-    });
-    if (!tab.id) {
-      return;
-    }
-    if (tab.pinned && !force) {
+  async exec(
+    { sender }: RequestContext,
+    force: boolean,
+    _args: string
+  ): Promise<void> {
+    if (sender.tab.pinned && !force) {
       throw new Error("Cannot close due to tab is pinned");
     }
-    await browser.tabs.remove(tab.id);
+    await browser.tabs.remove(sender.tabId);
   }
 }
 

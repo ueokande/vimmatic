@@ -20,18 +20,17 @@ export default class CloseTabOperator implements Operator {
     { sender }: RequestContext,
     { force, select }: z.infer<ReturnType<CloseTabOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
     if (!force && sender.tab.pinned) {
       return;
     }
     if (select === "left" && sender.tab.index > 0) {
-      const tabs = await browser.tabs.query({ windowId: sender.tab.windowId });
+      const tabs = await browser.tabs.query({
+        windowId: sender.tab.windowId,
+      });
       await browser.tabs.update(tabs[sender.tab.index - 1].id, {
         active: true,
       });
     }
-    return browser.tabs.remove(sender.tab.id);
+    return browser.tabs.remove(sender.tabId);
   }
 }

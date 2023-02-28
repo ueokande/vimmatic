@@ -14,9 +14,6 @@ export default class ZoomOutOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-    await this.zoomHelper.zoomOut(sender.tab.id);
+    await this.zoomHelper.zoomOut(sender.tabId);
   }
 }

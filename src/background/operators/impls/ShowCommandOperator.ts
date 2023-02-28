@@ -17,9 +17,6 @@ export default class ShowCommandOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-    return this.consoleClient.showCommand(sender.tab.id, "");
+    return this.consoleClient.showCommand(sender.tabId, "");
   }
 }

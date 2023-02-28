@@ -1,5 +1,6 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
+import type RequestContext from "../infrastructures/RequestContext";
 
 const url = "https://ueokande.github.io/vimmatic/";
 
@@ -20,7 +21,11 @@ class HelpCommand implements Command {
     return Promise.resolve([]);
   }
 
-  async exec(_force: boolean, _args: string): Promise<void> {
+  async exec(
+    _ctx: RequestContext,
+    _force: boolean,
+    _args: string
+  ): Promise<void> {
     await browser.tabs.create({ url, active: true });
   }
 }

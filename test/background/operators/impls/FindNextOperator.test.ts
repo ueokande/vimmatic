@@ -3,6 +3,7 @@ import MockFindRepository from "../../mock/MockFindRepository";
 import MockFindClient from "../../mock/MockFindClient";
 import MockConsoleClient from "../../mock/MockConsoleClient";
 import MockReadyFrameRepository from "../../mock/MockReadyFrameRepository";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("FindNextOperator", () => {
   const keyword = "hello";
@@ -18,13 +19,9 @@ describe("FindNextOperator", () => {
     consoleClient,
     frameRepository
   );
-
+  const ctx = { sender: { tabId: 10 } } as RequestContext;
   const findNextSpy = jest.spyOn(findClient, "findNext");
   const clearSelectionSpy = jest.spyOn(findClient, "clearSelection");
-
-  jest
-    .spyOn(browser.tabs, "query")
-    .mockResolvedValue([{ id: 10 } as browser.tabs.Tab]);
 
   beforeEach(async () => {
     findNextSpy.mockClear();
@@ -39,7 +36,7 @@ describe("FindNextOperator", () => {
         .spyOn(consoleClient, "showError")
         .mockReturnValue(Promise.resolve());
 
-      await sut.run();
+      await sut.run(ctx);
 
       expect(showErrorSpy).toBeCalledWith(10, "No previous search keywords");
     });
@@ -51,7 +48,7 @@ describe("FindNextOperator", () => {
       findNextSpy.mockResolvedValue(true);
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
 
-      await sut.run();
+      await sut.run(ctx);
 
       expect(findNextSpy).toBeCalledWith(10, 100, keyword);
       expect(setLocalStateSpy).toBeCalledWith(10, { keyword, frameId: 100 });
@@ -65,7 +62,7 @@ describe("FindNextOperator", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
 
-      await sut.run();
+      await sut.run(ctx);
 
       expect(findNextSpy).toBeCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(100);
@@ -82,7 +79,7 @@ describe("FindNextOperator", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
 
-      await sut.run();
+      await sut.run(ctx);
 
       expect(findNextSpy).toBeCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(101);
@@ -98,7 +95,7 @@ describe("FindNextOperator", () => {
 
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
 
-      await sut.run();
+      await sut.run(ctx);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);

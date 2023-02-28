@@ -13,10 +13,6 @@ export default class FindController {
     ctx: RequestContext,
     { keyword }: { keyword?: string }
   ): Promise<void> {
-    const tabId = ctx.sender.tab?.id;
-    if (!tabId) {
-      return Promise.resolve();
-    }
-    return this.startFindUseCase.startFind(tabId, keyword);
+    return this.startFindUseCase.startFind(ctx, keyword);
   }
 }

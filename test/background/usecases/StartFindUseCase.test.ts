@@ -5,7 +5,7 @@ import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
 import StartFindUseCase from "../../../src/background/usecases/StartFindUseCase";
 
 describe("StartFindUseCase", () => {
-  const currentTabId = 100;
+  const tabId = 100;
   const frameIds = [0, 100, 101];
   const keyword = "hello";
 
@@ -19,6 +19,21 @@ describe("StartFindUseCase", () => {
     consoleClient,
     frameRepository
   );
+  const ctx = {
+    sender: {
+      tabId,
+      frameId: 0,
+      tab: {
+        id: tabId,
+        url: "https://example.com/",
+        active: true,
+        highlighted: false,
+        pinned: false,
+        incognito: false,
+        index: 0,
+      },
+    },
+  };
 
   const getFrameIdsSpy = jest
     .spyOn(frameRepository, "getFrameIds")
@@ -45,7 +60,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(currentTabId, keyword);
+      await sut.startFind(ctx, keyword);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -54,14 +69,8 @@ describe("StartFindUseCase", () => {
       expect(findNextSpy).toBeCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
-        keyword,
-        frameId: 100,
-      });
-      expect(showInfoSpy).toBeCalledWith(
-        currentTabId,
-        "Pattern found: " + keyword
-      );
+      expect(setLocalStateSpy).toBeCalledWith(tabId, { keyword, frameId: 100 });
+      expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
     });
 
     it("starts a find with last local state", async () => {
@@ -73,7 +82,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(currentTabId, undefined);
+      await sut.startFind(ctx, undefined);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -82,15 +91,9 @@ describe("StartFindUseCase", () => {
       expect(findNextSpy).toBeCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-      expect(getLocalStateSpy).toBeCalledWith(currentTabId);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
-        keyword,
-        frameId: 100,
-      });
-      expect(showInfoSpy).toBeCalledWith(
-        currentTabId,
-        "Pattern found: " + keyword
-      );
+      expect(getLocalStateSpy).toBeCalledWith(tabId);
+      expect(setLocalStateSpy).toBeCalledWith(tabId, { keyword, frameId: 100 });
+      expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
     });
 
     it("starts a find with last global state", async () => {
@@ -103,7 +106,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(currentTabId, undefined);
+      await sut.startFind(ctx, undefined);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -112,15 +115,9 @@ describe("StartFindUseCase", () => {
       expect(findNextSpy).toBeCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-      expect(getLocalStateSpy).toBeCalledWith(currentTabId);
-      expect(setLocalStateSpy).toBeCalledWith(currentTabId, {
-        keyword,
-        frameId: 100,
-      });
-      expect(showInfoSpy).toBeCalledWith(
-        currentTabId,
-        "Pattern found: " + keyword
-      );
+      expect(getLocalStateSpy).toBeCalledWith(tabId);
+      expect(setLocalStateSpy).toBeCalledWith(tabId, { keyword, frameId: 100 });
+      expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
     });
 
     it("shows an error when pattern not found", async () => {
@@ -129,7 +126,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showError")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(currentTabId, keyword);
+      await sut.startFind(ctx, keyword);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -137,7 +134,7 @@ describe("StartFindUseCase", () => {
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
       expect(setLocalStateSpy).not.toBeCalled();
       expect(showErrorSpy).toBeCalledWith(
-        currentTabId,
+        tabId,
         "Pattern not found: " + keyword
       );
     });
@@ -150,12 +147,9 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showError")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(currentTabId, undefined);
+      await sut.startFind(ctx, undefined);
 
-      expect(showErrorSpy).toBeCalledWith(
-        currentTabId,
-        "No previous search keywords"
-      );
+      expect(showErrorSpy).toBeCalledWith(tabId, "No previous search keywords");
     });
   });
 });

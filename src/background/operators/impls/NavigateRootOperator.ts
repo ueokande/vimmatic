@@ -11,7 +11,7 @@ export default class NavigateRootOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id || !sender?.tab?.url) {
+    if (typeof sender.tab.url === "undefined") {
       return;
     }
     const url = new URL(sender.tab.url);

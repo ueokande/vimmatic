@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify";
 import ConsoleFrameClient from "../clients/ConsoleFrameClient";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class ConsoleUseCase {
@@ -8,7 +9,12 @@ export default class ConsoleUseCase {
     private readonly consoleFrameClient: ConsoleFrameClient
   ) {}
 
-  async resize(tabId: number, width: number, height: number): Promise<void> {
+  async resize(
+    ctx: RequestContext,
+    width: number,
+    height: number
+  ): Promise<void> {
+    const { tabId } = ctx.sender;
     return this.consoleFrameClient.resize(tabId, width, height);
   }
 }

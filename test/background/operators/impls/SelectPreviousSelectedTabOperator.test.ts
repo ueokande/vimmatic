@@ -13,10 +13,6 @@ describe("SelectPreviousSelectedTabOperator", () => {
     .spyOn(browser.tabs, "update")
     .mockResolvedValue({} as browser.tabs.Tab);
 
-  jest
-    .spyOn(browser.tabs, "query")
-    .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
-
   beforeEach(() => {
     mockTabsUpdate.mockClear();
   });

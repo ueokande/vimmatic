@@ -71,7 +71,21 @@ export default class BackgroundMessageListener {
   listen() {
     browser.runtime.onMessage.addListener(
       (message: unknown, sender: browser.runtime.MessageSender) => {
-        const ctx = { sender };
+        if (
+          typeof sender.tab?.id == "undefined" ||
+          typeof sender.frameId == "undefined"
+        ) {
+          // ignore messages excluding from tab
+          return;
+        }
+
+        const ctx = {
+          sender: {
+            tabId: sender.tab.id,
+            frameId: sender.frameId,
+            tab: sender.tab,
+          },
+        };
         if (typeof message !== "object" && message !== null) {
           console.warn("unexpected message format:", message);
           return;
@@ -116,12 +130,11 @@ export default class BackgroundMessageListener {
     }
   }
 
-  private onConsoleFrameMessage(ctx: RequestContext, message: any): void {
-    const tabId = ctx.sender.tab?.id;
-    if (!tabId) {
-      return;
-    }
-    const port = this.consolePorts[tabId];
+  private onConsoleFrameMessage(
+    { sender }: RequestContext,
+    message: any
+  ): void {
+    const port = this.consolePorts[sender.tabId];
     if (!port) {
       return;
     }

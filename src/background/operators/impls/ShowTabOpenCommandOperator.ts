@@ -25,13 +25,10 @@ export default class ShowTabOpenCommandOperator implements Operator {
     { sender }: RequestContext,
     { alter }: z.infer<ReturnType<ShowTabOpenCommandOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
     let command = "tabopen ";
     if (alter) {
       command += sender.tab?.url || "";
     }
-    return this.consoleClient.showCommand(sender.tab.id, command);
+    return this.consoleClient.showCommand(sender.tabId, command);
   }
 }

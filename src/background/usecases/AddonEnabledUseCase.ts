@@ -16,31 +16,21 @@ export default class AddonEnabledUseCase {
   ) {}
 
   async enable(ctx: RequestContext): Promise<void> {
-    if (!ctx.sender.tab?.id) {
-      return;
-    }
-    const tabId = ctx.sender?.tab?.id;
+    const { tabId } = ctx.sender;
     this.addonEnabledRepository.enable();
     await this.addonEnabledClient.enable(tabId);
     await this.toolbarPresenter.setEnabled(true);
   }
 
   async disable(ctx: RequestContext): Promise<void> {
-    if (!ctx.sender.tab?.id) {
-      return;
-    }
-    const tabId = ctx.sender?.tab?.id;
+    const { tabId } = ctx.sender;
     this.addonEnabledRepository.disable();
     await this.addonEnabledClient.disable(tabId);
     await this.toolbarPresenter.setEnabled(false);
   }
 
   async toggle(ctx: RequestContext): Promise<void> {
-    if (!ctx.sender.tab?.id) {
-      return;
-    }
-    const tabId = ctx.sender?.tab?.id;
-
+    const { tabId } = ctx.sender;
     const enabled = this.addonEnabledRepository.toggle();
     await this.toolbarPresenter.setEnabled(enabled);
     if (enabled) {

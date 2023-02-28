@@ -1,5 +1,6 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
+import type RequestContext from "../infrastructures/RequestContext";
 
 class QuitAllCommand implements Command {
   names(): string[] {
@@ -18,7 +19,11 @@ class QuitAllCommand implements Command {
     return Promise.resolve([]);
   }
 
-  async exec(force: boolean, _args: string): Promise<void> {
+  async exec(
+    _ctx: RequestContext,
+    force: boolean,
+    _args: string
+  ): Promise<void> {
     let tabs = await browser.tabs.query({ currentWindow: true });
     if (!force) {
       tabs = tabs.filter((tab) => !tab.pinned);

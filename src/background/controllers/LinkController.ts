@@ -21,10 +21,7 @@ export default class LinkController {
       background: boolean;
     }
   ): Promise<void> {
-    const openerId = ctx.sender.tab?.id;
-    if (!openerId) {
-      return Promise.resolve();
-    }
+    const openerId = ctx.sender.tabId;
     if (newTab) {
       return this.linkUseCase.openNewTab(url, openerId, background);
     }

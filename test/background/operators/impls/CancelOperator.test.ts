@@ -1,19 +1,18 @@
 import CancelOperator from "../../../../src/background/operators/impls/CancelOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("CancelOperator", () => {
   describe("#run", () => {
     it("hides console", async () => {
-      jest
-        .spyOn(browser.tabs, "query")
-        .mockResolvedValue([{ id: 100 } as browser.tabs.Tab]);
       const consoleClient = new MockConsoleClient();
       const spy = jest
         .spyOn(consoleClient, "hide")
         .mockResolvedValueOnce(undefined);
 
       const sut = new CancelOperator(consoleClient);
-      await sut.run();
+      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      await sut.run(ctx);
 
       expect(spy).toBeCalledWith(100);
     });

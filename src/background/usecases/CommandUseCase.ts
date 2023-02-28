@@ -2,6 +2,7 @@ import { Completions } from "../../shared/Completions";
 import { injectable, inject } from "inversify";
 import CommandRegistry from "../command/CommandRegistry";
 import { parseCommand, onCommandInputting } from "./parser";
+import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class CommandUseCase {
@@ -10,7 +11,7 @@ export default class CommandUseCase {
     private readonly commandRegistry: CommandRegistry
   ) {}
 
-  async exec(text: string): Promise<void> {
+  async exec(ctx: RequestContext, text: string): Promise<void> {
     const { name, force, args } = parseCommand(text);
     if (name.length === 0) {
       return Promise.resolve();
@@ -20,7 +21,7 @@ export default class CommandUseCase {
     if (typeof cmd === "undefined") {
       throw new Error(`${name} command is not defined`);
     }
-    await cmd.exec(force, args);
+    await cmd.exec(ctx, force, args);
   }
 
   async getCompletions(query: string): Promise<Completions> {

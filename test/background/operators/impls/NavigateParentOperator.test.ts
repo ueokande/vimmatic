@@ -1,4 +1,5 @@
 import NavigateParentOperator from "../../../../src/background/operators/impls/NavigateParentOperator";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("NavigateParentOperator", () => {
   const mockTabsUpdate = jest
@@ -16,9 +17,9 @@ describe("NavigateParentOperator", () => {
           tab: {
             id: 100,
             url: "https://example.com/fruits/yellow/banana",
-          } as browser.tabs.Tab,
+          },
         },
-      };
+      } as RequestContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
@@ -33,9 +34,9 @@ describe("NavigateParentOperator", () => {
           tab: {
             id: 100,
             url: "https://example.com/fruits/yellow/",
-          } as browser.tabs.Tab,
+          },
         },
-      };
+      } as RequestContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
@@ -50,9 +51,9 @@ describe("NavigateParentOperator", () => {
           tab: {
             id: 100,
             url: "https://example.com/fruits/yellow/#top",
-          } as browser.tabs.Tab,
+          },
         },
-      };
+      } as RequestContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
@@ -67,9 +68,9 @@ describe("NavigateParentOperator", () => {
           tab: {
             id: 100,
             url: "https://example.com/search?q=apple",
-          } as browser.tabs.Tab,
+          },
         },
-      };
+      } as RequestContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 

@@ -1,6 +1,7 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
 import type ConsoleClient from "../clients/ConsoleClient";
+import type RequestContext from "../infrastructures/RequestContext";
 
 class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}
@@ -21,11 +22,12 @@ class AddBookmarkCommand implements Command {
     return Promise.resolve([]);
   }
 
-  async exec(_force: boolean, args: string): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
+  async exec(
+    { sender }: RequestContext,
+    _force: boolean,
+    args: string
+  ): Promise<void> {
+    const { tab } = sender;
     let title = args.trim();
     if (title.length === 0) {
       if (tab.title && tab.title.length > 0) {
@@ -44,7 +46,7 @@ class AddBookmarkCommand implements Command {
     }
 
     const message = "Saved current page: " + item.url;
-    return this.consoleClient.showInfo(tab.id as number, message);
+    return this.consoleClient.showInfo(sender.tabId, message);
   }
 }
 

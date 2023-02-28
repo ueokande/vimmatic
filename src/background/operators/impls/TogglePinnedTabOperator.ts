@@ -11,9 +11,6 @@ export default class TogglePinnedTabOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender.tab) {
-      return;
-    }
     await browser.tabs.update({ pinned: !sender.tab.pinned });
   }
 }

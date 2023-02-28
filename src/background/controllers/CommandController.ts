@@ -10,8 +10,8 @@ export default class CommandController {
     private readonly commandUseCase: CommandUseCase
   ) {}
 
-  async exec(_ctx: RequestContext, { text }: { text: string }): Promise<void> {
-    return this.commandUseCase.exec(text);
+  async exec(ctx: RequestContext, { text }: { text: string }): Promise<void> {
+    return this.commandUseCase.exec(ctx, text);
   }
 
   async getCompletions(

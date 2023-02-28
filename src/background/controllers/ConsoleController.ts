@@ -13,10 +13,6 @@ export default class ConsoleController {
     ctx: RequestContext,
     { width, height }: { width: number; height: number }
   ) {
-    const tabId = ctx.sender.tab?.id;
-    if (!tabId) {
-      return;
-    }
-    return this.consoleUseCase.resize(tabId, width, height);
+    return this.consoleUseCase.resize(ctx, width, height);
   }
 }

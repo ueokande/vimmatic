@@ -28,13 +28,10 @@ export default class HorizontalScrollOperator implements Operator {
     { sender }: RequestContext,
     { count }: z.infer<ReturnType<HorizontalScrollOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollHorizonally(
-      sender.tab.id,
+      sender.tabId,
+      sender.frameId,
       count,
       smooth as boolean
     );

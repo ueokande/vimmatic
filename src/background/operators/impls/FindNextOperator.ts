@@ -4,6 +4,7 @@ import FindRepository from "../../repositories/FindRepository";
 import FindClient from "../../clients/FindClient";
 import ConsoleClient from "../../clients/ConsoleClient";
 import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class FindNextOperator implements Operator {
@@ -24,16 +25,8 @@ export default class FindNextOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    const tabId = tab?.id;
-    if (tabId == null) {
-      return;
-    }
-
+  async run(ctx: RequestContext): Promise<void> {
+    const { tabId } = ctx.sender;
     const frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       // No frames are ready

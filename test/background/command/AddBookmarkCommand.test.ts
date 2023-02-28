@@ -2,7 +2,6 @@ import AddBookmarkCommand from "../../../src/background/command/AddBookmarkComma
 import MockConsoleClient from "../mock/MockConsoleClient";
 
 describe("AddBookmarkCommand", () => {
-  const mockTabsQuery = jest.spyOn(browser.tabs, "query");
   const mockBookmarkCreate = jest.spyOn(browser.bookmarks, "create");
   const consoleClient = new MockConsoleClient();
   const mockShowInfo = jest.spyOn(consoleClient, "showInfo");
@@ -17,7 +16,6 @@ describe("AddBookmarkCommand", () => {
   };
 
   beforeEach(() => {
-    mockTabsQuery.mockClear();
     mockBookmarkCreate.mockClear();
     mockShowInfo.mockClear();
 
@@ -29,16 +27,19 @@ describe("AddBookmarkCommand", () => {
   });
 
   it("adds a bookmark with specific title", async () => {
-    mockTabsQuery.mockResolvedValue([
-      {
-        title: "example",
-        url: "https://example.com",
-        ...defaultTabProps,
+    const ctx = {
+      sender: {
+        tabId: 10,
+        frameId: 0,
+        tab: {
+          title: "example",
+          url: "https://example.com",
+          ...defaultTabProps,
+        },
       },
-    ]);
-
+    };
     const cmd = new AddBookmarkCommand(consoleClient);
-    await cmd.exec(false, "my title");
+    await cmd.exec(ctx, false, "my title");
 
     expect(mockBookmarkCreate).toHaveBeenCalledWith({
       type: "bookmark",
@@ -49,16 +50,19 @@ describe("AddBookmarkCommand", () => {
   });
 
   it("adds a bookmark with the tab title", async () => {
-    mockTabsQuery.mockResolvedValue([
-      {
-        title: "example",
-        url: "https://example.com",
-        ...defaultTabProps,
+    const ctx = {
+      sender: {
+        tabId: 10,
+        frameId: 0,
+        tab: {
+          title: "example",
+          url: "https://example.com",
+          ...defaultTabProps,
+        },
       },
-    ]);
-
+    };
     const cmd = new AddBookmarkCommand(consoleClient);
-    await cmd.exec(false, "");
+    await cmd.exec(ctx, false, "");
 
     expect(mockBookmarkCreate).toHaveBeenCalledWith({
       type: "bookmark",
@@ -69,15 +73,19 @@ describe("AddBookmarkCommand", () => {
   });
 
   it("adds a bookmark with the tab url", async () => {
-    mockTabsQuery.mockResolvedValue([
-      {
-        url: "https://example.com",
-        ...defaultTabProps,
+    const ctx = {
+      sender: {
+        tabId: 10,
+        frameId: 0,
+        tab: {
+          url: "https://example.com",
+          ...defaultTabProps,
+        },
       },
-    ]);
+    };
 
     const cmd = new AddBookmarkCommand(consoleClient);
-    await cmd.exec(false, "");
+    await cmd.exec(ctx, false, "");
 
     expect(mockBookmarkCreate).toHaveBeenCalledWith({
       type: "bookmark",

@@ -1,4 +1,5 @@
 import NavigateRootOperator from "../../../../src/background/operators/impls/NavigateRootOperator";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("NavigateRootOperator", () => {
   describe("#run", () => {
@@ -12,9 +13,9 @@ describe("NavigateRootOperator", () => {
           tab: {
             id: 100,
             url: "https://example.com/fruits/yellow/banana",
-          } as browser.tabs.Tab,
+          },
         },
-      };
+      } as RequestContext;
       const sut = new NavigateRootOperator();
       await sut.run(ctx);
 

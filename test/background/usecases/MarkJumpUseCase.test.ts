@@ -53,7 +53,7 @@ describe("MarkJumpUseCase", () => {
     await sut.jumpToMark("A");
 
     expect(mockGetGlobalMark).toHaveBeenCalledWith("A");
-    expect(mockScrollTo).toHaveBeenCalledWith(100, 10, 20, true);
+    expect(mockScrollTo).toHaveBeenCalledWith(100, 0, 10, 20, true);
     expect(mockTabsUpdate).toHaveBeenCalledWith(100, { active: true });
   });
 
@@ -82,7 +82,7 @@ describe("MarkJumpUseCase", () => {
     await sut.jumpToMark("A");
 
     expect(mockGetGlobalMark).toHaveBeenCalledWith("A");
-    expect(mockScrollTo).toHaveBeenCalledWith(200, 10, 20, true);
+    expect(mockScrollTo).toHaveBeenCalledWith(200, 0, 10, 20, true);
     expect(mockTabsCreate).toHaveBeenCalledWith({
       url: "https://example.com/",
     });
@@ -108,7 +108,7 @@ describe("MarkJumpUseCase", () => {
     await sut.jumpToMark("a");
 
     expect(mockGetLocalMark).toHaveBeenCalledWith(100, "a");
-    expect(mockScrollTo).toHaveBeenCalledWith(100, 10, 20, true);
+    expect(mockScrollTo).toHaveBeenCalledWith(100, 0, 10, 20, true);
   });
 
   it("show errors when global mark is not set", async () => {

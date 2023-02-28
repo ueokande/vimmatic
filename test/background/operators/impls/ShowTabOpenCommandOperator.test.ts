@@ -1,5 +1,6 @@
 import ShowTabOpenCommandOperator from "../../../../src/background/operators/impls/ShowTabOpenCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("ShowTabOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -8,9 +9,10 @@ describe("ShowTabOpenCommandOperator", () => {
     .mockReturnValue(Promise.resolve());
   const ctx = {
     sender: {
-      tab: { id: 100, url: "https://example.com/" } as browser.tabs.Tab,
+      tabId: 100,
+      tab: { id: 100, url: "https://example.com/" },
     },
-  };
+  } as RequestContext;
 
   beforeEach(() => {
     showCommandSpy.mockReset();

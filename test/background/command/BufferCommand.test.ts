@@ -29,6 +29,7 @@ describe("BufferCommand", () => {
   const tab4 = { id: 13, index: 3, ...props };
   const tab5 = { id: 14, index: 4, ...props };
   const allTabs = [tab1, tab2, tab3, tab4, tab5];
+  const ctx = { sender: { tabId: 10, frameId: 0, tab: tab1 } };
 
   beforeEach(() => {
     mockGetLastSelectedTab.mockClear();
@@ -42,7 +43,7 @@ describe("BufferCommand", () => {
   describe("exec", () => {
     it("selects a tab by number", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
-      await sut.exec(false, "3");
+      await sut.exec(ctx, false, "3");
 
       expect(mockTabsUpdate).toBeCalledWith(12, { active: true });
     });
@@ -50,8 +51,8 @@ describe("BufferCommand", () => {
     it("throws an error when the number is out of range", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
 
-      await expect(sut.exec(false, "0")).rejects.toThrow(RangeError);
-      await expect(sut.exec(false, "6")).rejects.toThrow(RangeError);
+      await expect(sut.exec(ctx, false, "0")).rejects.toThrow(RangeError);
+      await expect(sut.exec(ctx, false, "6")).rejects.toThrow(RangeError);
 
       expect(mockTabsUpdate).toBeCalledTimes(0);
     });
@@ -59,14 +60,14 @@ describe("BufferCommand", () => {
     it("selects last selected tab by #", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
       mockGetLastSelectedTab.mockReturnValue(10);
-      await sut.exec(false, "#");
+      await sut.exec(ctx, false, "#");
 
       expect(mockTabsUpdate).toBeCalledWith(10, { active: true });
     });
 
     it("do nothing by %", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
-      await sut.exec(false, "%");
+      await sut.exec(ctx, false, "%");
 
       expect(mockTabsUpdate).toBeCalledTimes(0);
     });
@@ -80,7 +81,7 @@ describe("BufferCommand", () => {
       });
       mockHelperQueryTabs.mockResolvedValue([tab3, tab4, tab5]);
 
-      await sut.exec(false, "any");
+      await sut.exec(ctx, false, "any");
 
       expect(mockTabsUpdate).toBeCalledWith(tab3.id, { active: true });
     });
@@ -94,7 +95,7 @@ describe("BufferCommand", () => {
       });
       mockHelperQueryTabs.mockResolvedValue([tab3, tab4, tab5]);
 
-      await sut.exec(false, "any");
+      await sut.exec(ctx, false, "any");
 
       expect(mockTabsUpdate).toBeCalledWith(tab4.id, { active: true });
     });
@@ -108,7 +109,7 @@ describe("BufferCommand", () => {
       });
       mockHelperQueryTabs.mockResolvedValue([tab3, tab4, tab5]);
 
-      await sut.exec(false, "any");
+      await sut.exec(ctx, false, "any");
 
       expect(mockTabsUpdate).toBeCalledWith(tab3.id, { active: true });
     });
@@ -116,7 +117,7 @@ describe("BufferCommand", () => {
     it("throws an error when no maching tabs", async () => {
       mockHelperQueryTabs.mockResolvedValue([]);
 
-      await expect(sut.exec(false, "any")).rejects.toThrow(RangeError);
+      await expect(sut.exec(ctx, false, "any")).rejects.toThrow(RangeError);
     });
   });
 });

@@ -31,7 +31,8 @@ describe("QuitCommand", () => {
   it("removes unpinned tab", async () => {
     mockTabsQuery.mockResolvedValue([unpinned]);
     const cmd = new QuitCommand();
-    await cmd.exec(false, "");
+    const ctx = { sender: { tabId: 10, frameId: 0, tab: unpinned } };
+    await cmd.exec(ctx, false, "");
 
     expect(mockTabsRemove).toHaveBeenCalledTimes(1);
     expect(mockTabsRemove).toHaveBeenCalledWith(10);
@@ -39,16 +40,18 @@ describe("QuitCommand", () => {
 
   it("fails to remove pinned tab", async () => {
     mockTabsQuery.mockResolvedValue([pinned]);
+    const ctx = { sender: { tabId: 10, frameId: 0, tab: pinned } };
     const cmd = new QuitCommand();
 
-    await expect(cmd.exec(false, "")).rejects.toThrowError("Cannot close");
+    await expect(cmd.exec(ctx, false, "")).rejects.toThrowError("Cannot close");
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
   });
 
   it("removes pinned tab forcely", async () => {
     mockTabsQuery.mockResolvedValue([pinned]);
     const cmd = new QuitCommand();
-    await cmd.exec(true, "");
+    const ctx = { sender: { tabId: 10, frameId: 0, tab: pinned } };
+    await cmd.exec(ctx, true, "");
 
     expect(mockTabsRemove).toHaveBeenCalledTimes(1);
     expect(mockTabsRemove).toHaveBeenCalledWith(10);

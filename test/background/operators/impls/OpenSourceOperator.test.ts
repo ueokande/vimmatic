@@ -1,4 +1,5 @@
 import OpenSourceOperator from "../../../../src/background/operators/impls/OpenSourceOperator";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("OpenSourceOperator", () => {
   describe("#run", () => {
@@ -11,7 +12,7 @@ describe("OpenSourceOperator", () => {
         sender: {
           tab: { id: 100, url: "https://example.com/" } as browser.tabs.Tab,
         },
-      };
+      } as RequestContext;
       const sut = new OpenSourceOperator();
       await sut.run(ctx);
 

@@ -1,7 +1,8 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
-import PropertySettings from "../settings/PropertySettings";
-import PropertyRegistry from "../property/PropertyRegistry";
+import type PropertySettings from "../settings/PropertySettings";
+import type PropertyRegistry from "../property/PropertyRegistry";
+import type RequestContext from "../infrastructures/RequestContext";
 
 const mustNumber = (v: any): number => {
   const num = Number(v);
@@ -64,7 +65,11 @@ class SetCommand implements Command {
     ]);
   }
 
-  async exec(_force: boolean, args: string): Promise<void> {
+  async exec(
+    _ctx: RequestContext,
+    _force: boolean,
+    args: string
+  ): Promise<void> {
     if (args.length === 0) {
       return;
     }

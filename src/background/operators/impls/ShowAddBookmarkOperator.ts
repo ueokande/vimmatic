@@ -25,13 +25,10 @@ export default class ShowAddBookmarkOperator implements Operator {
     { sender }: RequestContext,
     { alter }: z.infer<ReturnType<ShowAddBookmarkOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
     let command = "addbookmark ";
     if (alter) {
-      command += sender.tab?.title || "";
+      command += sender.tab.title || "";
     }
-    return this.consoleClient.showCommand(sender.tab.id, command);
+    return this.consoleClient.showCommand(sender.tabId, command);
   }
 }

@@ -65,7 +65,12 @@ export default class Application {
     this.findPortListener.run();
 
     this.toolbarPresenter.onClick((tab: browser.tabs.Tab) => {
-      return this.addonEnabledUseCase.toggle({ sender: { tab } });
+      if (typeof tab.id === "undefined") {
+        return;
+      }
+      return this.addonEnabledUseCase.toggle({
+        sender: { tab, tabId: tab.id, frameId: 0 },
+      });
     });
     browser.tabs.onActivated.addListener((info) =>
       this.addonEnabledUseCase.updateTabEnabled(info.tabId)

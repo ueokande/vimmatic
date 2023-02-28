@@ -3,6 +3,7 @@ import type {
   CompletionGroup as CompletionGroupType,
   CompletionItem as CompletionItemType,
 } from "../../shared/Completions";
+import RequestContext from "../infrastructures/RequestContext";
 
 export type Completions = CompletionsType;
 export type CompletionGroup = CompletionGroupType;
@@ -17,7 +18,7 @@ interface Command {
 
   getCompletions(force: boolean, query: string): Promise<Completions>;
 
-  exec(force: boolean, args: string): Promise<void>;
+  exec(ctx: RequestContext, force: boolean, args: string): Promise<void>;
 }
 
 export default Command;

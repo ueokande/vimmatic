@@ -11,7 +11,7 @@ describe("HelpCommand", () => {
     mockTabsCreate.mockResolvedValue({} as any);
 
     const cmd = new HelpCommand();
-    await cmd.exec(false, "");
+    await cmd.exec({} as any, false, "");
 
     expect(mockTabsCreate).toHaveBeenCalledWith({
       url: "https://ueokande.github.io/vimmatic/",

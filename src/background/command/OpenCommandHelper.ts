@@ -1,7 +1,7 @@
 import type { Completions, CompletionItem } from "./Command";
 import * as filters from "./filters";
-import SearchEngineSettings from "../settings/SearchEngineSettings";
-import PropertySettings from "../settings/PropertySettings";
+import type SearchEngineSettings from "../settings/SearchEngineSettings";
+import type PropertySettings from "../settings/PropertySettings";
 
 const COMPLETION_ITEM_LIMIT = 10;
 

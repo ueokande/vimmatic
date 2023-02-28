@@ -21,6 +21,13 @@ describe("BufferDeletesCommand", () => {
     url: "https://example.com",
     incognito: false,
   };
+  const ctx = {
+    sender: {
+      tabId: 10,
+      frameId: 0,
+      tab: { id: 10, pinned: true, ...defaultTabProps },
+    },
+  };
 
   beforeEach(() => {
     mockTabsQuery.mockClear();
@@ -37,7 +44,7 @@ describe("BufferDeletesCommand", () => {
       { id: 13, pinned: false, ...defaultTabProps },
     ]);
 
-    await sut.exec(false, "");
+    await sut.exec(ctx, false, "");
 
     expect(mockTabsRemove).toHaveBeenCalledWith([11, 13]);
   });
@@ -50,7 +57,7 @@ describe("BufferDeletesCommand", () => {
       { id: 13, pinned: false, ...defaultTabProps },
     ]);
 
-    await sut.exec(true, "");
+    await sut.exec(ctx, true, "");
 
     expect(mockTabsRemove).toHaveBeenCalledWith([10, 11, 12, 13]);
   });
@@ -61,7 +68,7 @@ describe("BufferDeletesCommand", () => {
       { id: 11, pinned: true, ...defaultTabProps },
     ]);
 
-    await expect(sut.exec(false, "")).rejects.toThrowError(
+    await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
       "No matching buffer"
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);

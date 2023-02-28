@@ -1,5 +1,6 @@
 import BufferDeleteCommand from "../../../src/background/command/BufferDeleteCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
+import RequestContext from "../../../src/background/infrastructures/RequestContext";
 
 describe("BufferDeleteCommand", () => {
   const lastSelectedTab = {
@@ -21,6 +22,7 @@ describe("BufferDeleteCommand", () => {
     url: "https://example.com",
     incognito: false,
   };
+  const ctx = {} as RequestContext;
 
   beforeEach(() => {
     mockTabsQuery.mockClear();
@@ -35,7 +37,7 @@ describe("BufferDeleteCommand", () => {
       { id: 11, pinned: false, ...defaultTabProps },
     ]);
 
-    await sut.exec(false, "");
+    await sut.exec(ctx, false, "");
 
     expect(mockTabsRemove).toHaveBeenCalledWith(11);
   });
@@ -45,7 +47,7 @@ describe("BufferDeleteCommand", () => {
       { id: 10, pinned: true, ...defaultTabProps },
     ]);
 
-    await sut.exec(true, "");
+    await sut.exec(ctx, true, "");
 
     expect(mockTabsRemove).toHaveBeenCalledWith(10);
   });
@@ -56,7 +58,7 @@ describe("BufferDeleteCommand", () => {
       { id: 11, pinned: false, ...defaultTabProps },
     ]);
 
-    await expect(sut.exec(false, "")).rejects.toThrowError(
+    await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
       "More than one match"
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
@@ -67,7 +69,7 @@ describe("BufferDeleteCommand", () => {
       { id: 10, pinned: true, ...defaultTabProps },
     ]);
 
-    await expect(sut.exec(false, "")).rejects.toThrowError(
+    await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
       "No matching buffer"
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);

@@ -23,7 +23,7 @@ export default class KeyController {
 
   async pressKey(ctx: RequestContext, { key }: { key: string }) {
     if (await this.markModeUseCase.isSetMode()) {
-      await this.markSetUseCase.setMark(key);
+      await this.markSetUseCase.setMark(ctx, key);
       await this.markModeUseCase.clearMarkMode(ctx);
     } else if (await this.markModeUseCase.isJumpMode()) {
       await this.markJumpUseCase.jumpToMark(key);

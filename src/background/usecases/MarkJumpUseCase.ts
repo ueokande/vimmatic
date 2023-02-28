@@ -46,6 +46,7 @@ export default class MarkJumpUseCase {
     try {
       await this.contentMessageClient.scrollTo(
         mark.tabId,
+        0,
         mark.x,
         mark.y,
         smooth
@@ -74,6 +75,6 @@ export default class MarkJumpUseCase {
     const smooth = (await this.propertySettings.getProperty(
       "smoothscroll"
     )) as boolean;
-    await this.contentMessageClient.scrollTo(tabId, mark.x, mark.y, smooth);
+    await this.contentMessageClient.scrollTo(tabId, 0, mark.x, mark.y, smooth);
   }
 }

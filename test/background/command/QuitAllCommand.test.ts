@@ -10,6 +10,17 @@ describe("QuitAllCommand", () => {
     active: true,
     incognito: false,
   };
+  const ctx = {
+    sender: {
+      tabId: 10,
+      frameId: 0,
+      tab: {
+        id: 10,
+        pinned: true,
+        ...defaultTabProps,
+      },
+    },
+  };
 
   beforeEach(() => {
     mockTabsQuery.mockClear();
@@ -27,7 +38,7 @@ describe("QuitAllCommand", () => {
     ]);
 
     const cmd = new QuitAllCommand();
-    await cmd.exec(false, "");
+    await cmd.exec(ctx, false, "");
 
     expect(mockTabsRemove).toHaveBeenCalledWith([10, 12]);
   });
@@ -41,7 +52,7 @@ describe("QuitAllCommand", () => {
     ]);
 
     const cmd = new QuitAllCommand();
-    await cmd.exec(true, "");
+    await cmd.exec(ctx, true, "");
 
     expect(mockTabsRemove).toHaveBeenCalledWith([10, 11, 12, 13]);
   });

@@ -1,5 +1,9 @@
 type RequestContext = {
-  sender: browser.runtime.MessageSender;
+  sender: {
+    tabId: number;
+    frameId: number;
+    tab: browser.tabs.Tab;
+  };
 };
 
 export default RequestContext;

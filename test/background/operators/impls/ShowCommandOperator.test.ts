@@ -1,5 +1,6 @@
 import ShowCommandOperator from "../../../../src/background/operators/impls/ShowCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("ShowCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -13,7 +14,7 @@ describe("ShowCommandOperator", () => {
 
   describe("#run", () => {
     it("show command with addbookmark command", async () => {
-      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
+      const ctx = { sender: { tabId: 100 } } as RequestContext;
       const sut = new ShowCommandOperator(consoleClient);
       await sut.run(ctx);
 

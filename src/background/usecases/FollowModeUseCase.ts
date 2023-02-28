@@ -30,11 +30,7 @@ export default class FollowModeUseCaes {
     newTab: boolean,
     background: boolean
   ): Promise<void> {
-    const tabId = ctx.sender.tab?.id;
-    if (!tabId) {
-      return;
-    }
-
+    const { tabId } = ctx.sender;
     const frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       return;
@@ -76,10 +72,7 @@ export default class FollowModeUseCaes {
   }
 
   async stop(ctx: RequestContext): Promise<void> {
-    if (!ctx.sender.tab?.id) {
-      return;
-    }
-    const tabId = ctx.sender.tab?.id;
+    const { tabId } = ctx.sender;
     await this.followClient.clearHints(tabId);
     this.followRepository.stopFollowMode();
     await this.keyCaptureClient.disableKeyCapture(tabId);

@@ -17,7 +17,7 @@ describe("SetCommand", () => {
 
     it("saves string property", async () => {
       const cmd = new SetCommand(propertySettings, propertyRegistry);
-      await cmd.exec(false, "hintchars=abcdef");
+      await cmd.exec({} as any, false, "hintchars=abcdef");
 
       expect(mockSetProperty).toHaveBeenCalledWith("hintchars", "abcdef");
     });
@@ -25,10 +25,10 @@ describe("SetCommand", () => {
     it("saves boolean property", async () => {
       const cmd = new SetCommand(propertySettings, propertyRegistry);
 
-      await cmd.exec(false, "smoothscroll");
+      await cmd.exec({} as any, false, "smoothscroll");
       expect(mockSetProperty).toHaveBeenCalledWith("smoothscroll", true);
 
-      await cmd.exec(false, "nosmoothscroll");
+      await cmd.exec({} as any, false, "nosmoothscroll");
       expect(mockSetProperty).toHaveBeenCalledWith("smoothscroll", false);
     });
   });

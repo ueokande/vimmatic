@@ -26,13 +26,9 @@ export default class PasteOperator implements Operator {
   }
 
   async run(
-    { sender }: RequestContext,
+    _ctx: RequestContext,
     { newTab }: z.infer<ReturnType<PasteOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-
     const text = await this.clipboard.read();
     const search = await this.searchEngineSettings.get();
     const url = urls.searchUrl(text, search);

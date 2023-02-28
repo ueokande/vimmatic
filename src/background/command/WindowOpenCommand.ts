@@ -1,8 +1,9 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
 import * as urls from "../../shared/urls";
-import SearchEngineSettings from "../settings/SearchEngineSettings";
-import PropertySettings from "../settings/PropertySettings";
+import type SearchEngineSettings from "../settings/SearchEngineSettings";
+import type PropertySettings from "../settings/PropertySettings";
+import type RequestContext from "../infrastructures/RequestContext";
 import OpenCommandHelper from "./OpenCommandHelper";
 
 class WindowOpenCommand implements Command {
@@ -31,7 +32,11 @@ class WindowOpenCommand implements Command {
     return this.openCommandHelper.getCompletions(query);
   }
 
-  async exec(_force: boolean, args: string): Promise<void> {
+  async exec(
+    _ctx: RequestContext,
+    _force: boolean,
+    args: string
+  ): Promise<void> {
     const search = await this.searchEngineSettings.get();
     const url = urls.searchUrl(args, search);
     await browser.windows.create({ url });

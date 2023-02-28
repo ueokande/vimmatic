@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import Operator from "../Operator";
+import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class DuplicateTabOperator implements Operator {
@@ -9,14 +10,7 @@ export default class DuplicateTabOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    const [tab] = await browser.tabs.query({
-      active: true,
-      currentWindow: true,
-    });
-    if (!tab.id) {
-      return;
-    }
-    await browser.tabs.duplicate(tab.id);
+  async run({ sender }: RequestContext): Promise<void> {
+    await browser.tabs.duplicate(sender.tabId);
   }
 }

@@ -17,9 +17,6 @@ export default class NavigateHistoryNextOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-    await this.navigateClient.historyNext(sender.tab.id);
+    await this.navigateClient.historyNext(sender.tabId);
   }
 }

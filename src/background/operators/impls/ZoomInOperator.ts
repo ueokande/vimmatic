@@ -14,9 +14,6 @@ export default class ZoomInOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-    await this.zoomHelper.zoomIn(sender.tab.id);
+    await this.zoomHelper.zoomIn(sender.tabId);
   }
 }

@@ -1,5 +1,6 @@
 import NavigateLinkPrevOperator from "../../../../src/background/operators/impls/NavigateLinkPrevOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("NavigateLinkPrevOperator", () => {
   describe("#run", () => {
@@ -9,8 +10,8 @@ describe("NavigateLinkPrevOperator", () => {
         .spyOn(navigateClient, "linkPrev")
         .mockReturnValueOnce(Promise.resolve());
 
-      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new NavigateLinkPrevOperator(navigateClient);
+      const ctx = { sender: { tabId: 100 } } as RequestContext;
       await sut.run(ctx);
 
       expect(linkPrevSpy).toBeCalledWith(100);

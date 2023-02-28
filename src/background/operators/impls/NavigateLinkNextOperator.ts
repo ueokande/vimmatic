@@ -17,9 +17,6 @@ export default class NavigateLinkNextOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-    await this.navigateClient.linkNext(sender.tab.id);
+    await this.navigateClient.linkNext(sender.tabId);
   }
 }

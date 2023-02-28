@@ -7,6 +7,22 @@ import MockKeyCaptureClient from "../mock/MockKeyCaptureClient";
 import MockFollowRepository from "../mock/MockFollowRepository";
 
 describe("FollowModeUseCaes", () => {
+  const ctx = {
+    sender: {
+      tabId: 10,
+      frameId: 0,
+      tab: {
+        id: 10,
+        url: "https://example.com/",
+        index: 0,
+        highlighted: false,
+        incognito: false,
+        active: true,
+        pinned: false,
+      },
+    },
+  };
+
   it("starts follow mode", async () => {
     const topFrameClient = new MockTopFrameClient();
     const followClient = new MockFollowClient();
@@ -22,11 +38,6 @@ describe("FollowModeUseCaes", () => {
       keyCaptureClient,
       followRepository
     );
-
-    const tab = {
-      id: 10,
-      url: "https://example.com/",
-    } as browser.tabs.Tab;
 
     const mockGetFrameIds = jest
       .spyOn(frameRepository, "getFrameIds")
@@ -71,7 +82,7 @@ describe("FollowModeUseCaes", () => {
       .spyOn(keyCaptureClient, "enableKeyCapture")
       .mockResolvedValue(undefined);
 
-    await sut.start({ sender: { tab } }, false, false);
+    await sut.start(ctx, false, false);
 
     expect(mockGetFrameIds).toHaveBeenCalledWith(10);
     expect(mockGetProperty).toHaveBeenCalledWith("hintchars");
@@ -141,11 +152,6 @@ describe("FollowModeUseCaes", () => {
       followRepository
     );
 
-    const tab = {
-      id: 10,
-      url: "https://example.com/",
-    } as browser.tabs.Tab;
-
     const mockClearHints = jest
       .spyOn(followClient, "clearHints")
       .mockResolvedValue();
@@ -156,7 +162,7 @@ describe("FollowModeUseCaes", () => {
       .spyOn(keyCaptureClient, "disableKeyCapture")
       .mockResolvedValue();
 
-    await sut.stop({ sender: { tab } });
+    await sut.stop(ctx);
 
     expect(mockClearHints).toHaveBeenCalledWith(10);
     expect(mockStopFollowMode).toHaveBeenCalled();

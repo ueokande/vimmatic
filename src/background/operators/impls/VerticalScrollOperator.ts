@@ -28,13 +28,10 @@ export default class VerticalScrollOperator implements Operator {
     { sender }: RequestContext,
     { count }: z.infer<ReturnType<VerticalScrollOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollVertically(
-      sender.tab.id,
+      sender.tabId,
+      sender.frameId,
       count,
       smooth as boolean
     );

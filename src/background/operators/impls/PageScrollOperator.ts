@@ -28,13 +28,10 @@ export default class PageScrollOperator implements Operator {
     { sender }: RequestContext,
     { count }: z.infer<ReturnType<PageScrollOperator["schema"]>>
   ): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollPages(
-      sender.tab.id,
+      sender.tabId,
+      sender.frameId,
       count,
       smooth as boolean
     );

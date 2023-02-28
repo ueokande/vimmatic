@@ -15,14 +15,21 @@ describe("MarkSetUseCase", () => {
     contentMessageClient,
     markHelper
   );
-
-  beforeAll(() => {
-    jest
-      .spyOn(browser.tabs, "query")
-      .mockResolvedValue([
-        { id: 100, url: "https://example.com/" } as browser.tabs.Tab,
-      ]);
-  });
+  const ctx = {
+    sender: {
+      tabId: 100,
+      frameId: 0,
+      tab: {
+        tabId: 100,
+        url: "https://example.com/",
+        index: 0,
+        highlighted: false,
+        incognito: false,
+        active: true,
+        pinned: false,
+      },
+    },
+  };
 
   it("sets global marks", async () => {
     jest
@@ -35,7 +42,7 @@ describe("MarkSetUseCase", () => {
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
 
-    await sut.setMark("A");
+    await sut.setMark(ctx, "A");
 
     expect(mockSetGlobalMark).toHaveBeenCalledWith("A", {
       tabId: 100,
@@ -57,7 +64,7 @@ describe("MarkSetUseCase", () => {
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
 
-    await sut.setMark("a");
+    await sut.setMark(ctx, "a");
 
     expect(mockSetGlobalMark).toHaveBeenCalledWith(100, "a", {
       x: 10,

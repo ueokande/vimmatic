@@ -1,6 +1,7 @@
 import type Command from "./Command";
 import type { Completions } from "./Command";
 import type BufferCommandHelper from "./BufferCommandHelper";
+import type RequestContext from "../infrastructures/RequestContext";
 
 class BufferDeleteCommand implements Command {
   constructor(private readonly bufferCommandHelper: BufferCommandHelper) {}
@@ -21,7 +22,11 @@ class BufferDeleteCommand implements Command {
     return this.bufferCommandHelper.getCompletions(force, query);
   }
 
-  async exec(force: boolean, args: string): Promise<void> {
+  async exec(
+    _ctx: RequestContext,
+    force: boolean,
+    args: string
+  ): Promise<void> {
     const keywords = args.trim();
     const tabs = await this.bufferCommandHelper.queryTabs(force, keywords);
     if (tabs.length === 0) {

@@ -13,10 +13,7 @@ export default class FollowKeyUseCase {
   ) {}
 
   async pressKey(ctx: RequestContext, key: string): Promise<boolean> {
-    if (!ctx.sender.tab?.id) {
-      return false;
-    }
-    const tabId = ctx.sender.tab.id;
+    const { tabId } = ctx.sender;
     switch (key) {
       case "Enter":
         await this.activate(tabId, this.followRepository.getKeys());

@@ -1,5 +1,6 @@
 import OpenHomeOperator from "../../../../src/background/operators/impls/OpenHomeOperator";
 import MockBrowserSettingRepository from "../../mock/MockBrowserSettingRepository";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("OpenHomeOperator", () => {
   describe("#run", () => {
@@ -9,13 +10,13 @@ describe("OpenHomeOperator", () => {
     const mockTabsUpdate = jest
       .spyOn(browser.tabs, "update")
       .mockResolvedValue({} as browser.tabs.Tab);
+    const ctx = {} as RequestContext;
 
     it("opens a home page of the browser into the current tab", async () => {
       const browserSettingRepository = new MockBrowserSettingRepository([
         "https://example.net/",
       ]);
 
-      const ctx = { sender: {} };
       const sut = new OpenHomeOperator(browserSettingRepository);
       await sut.run(ctx, { newTab: false });
 
@@ -29,7 +30,6 @@ describe("OpenHomeOperator", () => {
         "https://example.net/",
       ]);
 
-      const ctx = { sender: {} };
       const sut = new OpenHomeOperator(browserSettingRepository);
       await sut.run(ctx, { newTab: true });
 
@@ -42,7 +42,6 @@ describe("OpenHomeOperator", () => {
         "https://example.org/",
       ]);
 
-      const ctx = { sender: {} };
       const sut = new OpenHomeOperator(browserSettingRepository);
       await sut.run(ctx, { newTab: false });
 

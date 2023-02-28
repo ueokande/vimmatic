@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import type KeyCaptureClient from "../clients/KeyCaptureClient";
 import type MarkModeRepository from "../repositories/MarkModeRepository";
-import RequestContext from "../infrastructures/RequestContext";
+import type RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class MarkModeUseCase {
@@ -13,28 +13,19 @@ export default class MarkModeUseCase {
   ) {}
 
   async enableMarkSetMode(ctx: RequestContext) {
-    const tabId = ctx.sender?.tab?.id;
-    if (!tabId) {
-      return;
-    }
+    const { tabId } = ctx.sender;
     await this.keyCaptureClient.enableKeyCapture(tabId);
     this.markModeRepository.enableSetMode();
   }
 
   async enableMarkJumpMode(ctx: RequestContext) {
-    const tabId = ctx.sender?.tab?.id;
-    if (!tabId) {
-      return;
-    }
+    const { tabId } = ctx.sender;
     await this.keyCaptureClient.enableKeyCapture(tabId);
     this.markModeRepository.enableJumpMode();
   }
 
   async clearMarkMode(ctx: RequestContext) {
-    const tabId = ctx.sender?.tab?.id;
-    if (!tabId) {
-      return;
-    }
+    const { tabId } = ctx.sender;
     await this.keyCaptureClient.disableKeyCapture(tabId);
     this.markModeRepository.clearMode();
   }

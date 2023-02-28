@@ -5,6 +5,21 @@ import MockAddonEnabledClient from "../mock/MockAddonEnabledClient";
 
 describe("AddonEnabledUseCase", () => {
   jest.spyOn(browser.tabs.onActivated, "addListener").mockReturnValue();
+  const ctx = {
+    sender: {
+      tabId: 100,
+      frameId: 0,
+      tab: {
+        id: 100,
+        url: "https://example.com/",
+        index: 0,
+        highlighted: false,
+        incognito: false,
+        active: true,
+        pinned: false,
+      },
+    },
+  };
 
   describe("#enable", () => {
     it("set enabled on tab and toolbar", async () => {
@@ -26,12 +41,10 @@ describe("AddonEnabledUseCase", () => {
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
-      const tab = { id: 10 } as browser.tabs.Tab;
-
-      await sut.enable({ sender: { tab } });
+      await sut.enable(ctx);
 
       expect(mockRepositoryEnable).toBeCalledWith();
-      expect(mockClientEnable).toBeCalledWith(10);
+      expect(mockClientEnable).toBeCalledWith(100);
       expect(mockToolbarSetEnabled).toBeCalledWith(true);
     });
   });
@@ -56,12 +69,10 @@ describe("AddonEnabledUseCase", () => {
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
-      const tab = { id: 10 } as browser.tabs.Tab;
-
-      await sut.disable({ sender: { tab } });
+      await sut.disable(ctx);
 
       expect(mockRepositoryDisable).toBeCalledWith();
-      expect(mockClientDisable).toBeCalledWith(10);
+      expect(mockClientDisable).toBeCalledWith(100);
       expect(mockToolbarSetEnabled).toBeCalledWith(false);
     });
   });

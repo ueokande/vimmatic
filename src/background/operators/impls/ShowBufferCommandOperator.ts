@@ -17,10 +17,7 @@ export default class ShowBufferCommandOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
     const command = "buffer ";
-    return this.consoleClient.showCommand(sender.tab.id, command);
+    return this.consoleClient.showCommand(sender.tabId, command);
   }
 }

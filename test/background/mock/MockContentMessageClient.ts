@@ -1,7 +1,7 @@
 import ContentMessageClient from "../../../src/background/clients/ContentMessageClient";
 
 export default class MockContentMessageClient implements ContentMessageClient {
-  getAddonEnabled(_tabId: number): Promise<boolean> {
+  getAddonEnabled(_tabId: number, _frameId: number): Promise<boolean> {
     throw new Error("not implemented");
   }
 
@@ -11,6 +11,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
 
   scrollTo(
     _tabId: number,
+    _frameId: number,
     _x: number,
     _y: number,
     _smooth: boolean
@@ -18,7 +19,10 @@ export default class MockContentMessageClient implements ContentMessageClient {
     throw new Error("not implemented");
   }
 
-  getScroll(_tabId: number): Promise<{ x: number; y: number }> {
+  getScroll(
+    _tabId: number,
+    _frameId: number
+  ): Promise<{ x: number; y: number }> {
     throw new Error("not implemented");
   }
 
@@ -28,6 +32,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
 
   scrollVertically(
     _tabId: number,
+    _frameId: number,
     _amount: number,
     _smooth: boolean
   ): Promise<void> {
@@ -36,6 +41,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
 
   scrollHorizonally(
     _tabId: number,
+    _frameId: number,
     _amount: number,
     _smooth: boolean
   ): Promise<void> {
@@ -44,25 +50,42 @@ export default class MockContentMessageClient implements ContentMessageClient {
 
   scrollPages(
     _tabId: number,
+    _frameId: number,
     _amount: number,
     _smooth: boolean
   ): Promise<void> {
     throw new Error("not implemented");
   }
 
-  scrollToBottom(_tabId: number, _smooth: boolean): Promise<void> {
+  scrollToBottom(
+    _tabId: number,
+    _frameId: number,
+    _smooth: boolean
+  ): Promise<void> {
     throw new Error("not implemented");
   }
 
-  scrollToEnd(_tabId: number, _smooth: boolean): Promise<void> {
+  scrollToEnd(
+    _tabId: number,
+    _frameId: number,
+    _smooth: boolean
+  ): Promise<void> {
     throw new Error("not implemented");
   }
 
-  scrollToHome(_tabId: number, _smooth: boolean): Promise<void> {
+  scrollToHome(
+    _tabId: number,
+    _frameId: number,
+    _smooth: boolean
+  ): Promise<void> {
     throw new Error("not implemented");
   }
 
-  scrollToTop(_tabId: number, _smooth: boolean): Promise<void> {
+  scrollToTop(
+    _tabId: number,
+    _frameId: number,
+    _smooth: boolean
+  ): Promise<void> {
     throw new Error("not implemented");
   }
 

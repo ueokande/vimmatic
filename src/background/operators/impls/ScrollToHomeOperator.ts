@@ -20,13 +20,10 @@ export default class ScrollToHomeOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id) {
-      return;
-    }
-
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollToHome(
-      sender.tab.id,
+      sender.tabId,
+      sender.frameId,
       smooth as boolean
     );
   }

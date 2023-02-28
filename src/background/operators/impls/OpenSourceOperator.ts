@@ -11,10 +11,10 @@ export default class OpenSourceOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.url) {
+    if (typeof sender.tab.url === "undefined") {
       return;
     }
-    const url = "view-source:" + sender?.tab?.url;
+    const url = "view-source:" + sender.tab.url;
     await browser.tabs.create({ url });
   }
 }

@@ -1,4 +1,5 @@
 import ZoomOutOperator from "../../../../src/background/operators/impls/ZoomOutOperator";
+import RequestContext from "../../../../src/background/infrastructures/RequestContext";
 
 describe("ZoomOutOperator", () => {
   describe("#run", () => {
@@ -8,8 +9,8 @@ describe("ZoomOutOperator", () => {
         .spyOn(browser.tabs, "setZoom")
         .mockResolvedValue();
 
-      const ctx = { sender: { tab: { id: 100 } as browser.tabs.Tab } };
       const sut = new ZoomOutOperator();
+      const ctx = { sender: { tabId: 100 } } as RequestContext;
       await sut.run(ctx);
 
       expect(mockSetZoom).toBeCalledWith(100, 0.9);

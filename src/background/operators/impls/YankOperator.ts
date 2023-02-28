@@ -20,10 +20,10 @@ export default class YankOperator implements Operator {
   schema() {}
 
   async run({ sender }: RequestContext): Promise<void> {
-    if (!sender?.tab?.id || !sender?.url) {
+    if (typeof sender.tab.url === "undefined") {
       return;
     }
-    await this.clipboard.write(sender.url);
-    await this.consoleClient.showInfo(sender.tab.id, "Yanked " + sender.url);
+    await this.clipboard.write(sender.tab.url);
+    await this.consoleClient.showInfo(sender.tabId, "Yanked " + sender.tab.url);
   }
 }
