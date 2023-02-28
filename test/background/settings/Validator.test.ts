@@ -1,13 +1,29 @@
 import Validator from "../../../src/background/settings/Validator";
 import { PropertyRegistryFactry } from "../../../src/background/property";
+import { OperatorRegistryImpl } from "../../../src/background/operators/OperatorRegistory";
+import CloseTabOperator from "../../../src/background/operators/impls/CloseTabOperator";
+import DuplicateTabOperator from "../../../src/background/operators/impls/DuplicateTabOperator";
+import Keymaps from "../../../src/shared/Keymaps";
 import Search from "../../../src/shared/Search";
 
 describe("Validator", () => {
-  const sut = new Validator(new PropertyRegistryFactry().create());
+  const operatorRegistory = new OperatorRegistryImpl();
+  operatorRegistory.register(new CloseTabOperator());
+  operatorRegistory.register(new DuplicateTabOperator());
+
+  const sut = new Validator(
+    new PropertyRegistryFactry().create(),
+    operatorRegistory
+  );
 
   test("it do nothing on valid settings", () => {
     sut.validate({});
     sut.validate({
+      keymaps: new Keymaps({
+        d: { type: "tabs.close" },
+        D: { type: "tabs.close", select: "left" },
+        zd: { type: "tabs.duplicate" },
+      }),
       search: new Search("google", {
         google: "https://google.com/search?q={}",
         yahoo: "https://search.yahoo.com/search?p={}",
@@ -19,7 +35,7 @@ describe("Validator", () => {
     });
   });
 
-  test("it throws an error on invalid settings", () => {
+  test("it throws an error on invalid property", () => {
     expect(() => {
       sut.validate({
         properties: {
@@ -43,5 +59,25 @@ describe("Validator", () => {
         },
       });
     }).toThrowError("Unknown property: filetype");
+  });
+
+  test("it throws an error on invalid keymaps", () => {
+    expect(() => {
+      sut.validate({
+        keymaps: new Keymaps({
+          d: { type: "harakiri" },
+        }),
+      });
+    }).toThrowError("Unknown keymap: harakiri");
+
+    expect(() => {
+      sut.validate({
+        keymaps: new Keymaps({
+          D: { type: "tabs.close", force: "1" },
+        }),
+      });
+    }).toThrowError(
+      "Invalid property 'force' on keymap 'D': Expected boolean, received string"
+    );
   });
 });

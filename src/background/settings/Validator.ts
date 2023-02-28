@@ -1,12 +1,15 @@
 import { injectable, inject } from "inversify";
 import Settings from "../../shared/Settings";
 import PropertyRegistry from "../property/PropertyRegistry";
+import OperatorRegistory from "../operators/OperatorRegistory";
 
 @injectable()
 export default class Validator {
   constructor(
     @inject("PropertyRegistry")
-    private readonly propertyRegistry: PropertyRegistry
+    private readonly propertyRegistry: PropertyRegistry,
+    @inject("OperatorRegistory")
+    private readonly operatorRegistory: OperatorRegistory
   ) {}
 
   validate(settings: Settings) {
@@ -20,6 +23,25 @@ export default class Validator {
         prop.validate(value);
       } catch (e) {
         throw new TypeError(`Invalid ${name} property: ${e.message}`);
+      }
+    });
+
+    const keymapEntries = settings.keymaps?.entries() || [];
+    keymapEntries.forEach(([key, { type, ...props }]) => {
+      const op = this.operatorRegistory.getOperator(type);
+      if (typeof op === "undefined") {
+        throw new Error("Unknown keymap: " + type);
+      }
+      const validator = op.schema();
+      if (typeof validator === "undefined") {
+        return;
+      }
+      const result = validator.safeParse(props);
+      if (!result.success) {
+        const [issue] = result.error.issues;
+        const path = issue.path.join(".");
+        const message = `Invalid property '${path}' on keymap '${key}': ${issue.message}`;
+        throw new TypeError(message);
       }
     });
   }
