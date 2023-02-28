@@ -31,7 +31,11 @@ export default class WindowMessageListener {
   listen() {
     window.addEventListener("message", (event: MessageEvent) => {
       const sender = event.source;
-      if (!(sender instanceof Window)) {
+      if (
+        sender === null ||
+        sender instanceof MessagePort ||
+        sender instanceof ServiceWorker
+      ) {
         return;
       }
       let message: unknown;

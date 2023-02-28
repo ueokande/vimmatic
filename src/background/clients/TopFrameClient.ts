@@ -20,12 +20,12 @@ export default interface TopFrameClient {
 @injectable()
 export class TopFrameClientImpl implements TopFrameClient {
   getWindowViewport(tabId: number): Promise<Rect> {
-    const sender = newSender(tabId);
+    const sender = newSender(tabId, 0);
     return sender.send("get.window.viewport");
   }
 
   getFramePosition(tabId: number, frameId: number): Promise<Point | undefined> {
-    const sender = newSender(tabId);
+    const sender = newSender(tabId, 0);
     return sender.send("get.frame.position", { frameId });
   }
 }

@@ -8,7 +8,7 @@ export default interface FrameClient {
 @injectable()
 export class FrameClientImpl implements FrameClient {
   async notifyFrameId(tabId: number, frameId: number): Promise<void> {
-    const sender = newSender(tabId);
+    const sender = newSender(tabId, frameId);
     await sender.send("notify.frame.id", { frameId });
   }
 }
