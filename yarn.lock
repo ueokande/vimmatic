@@ -6712,11 +6712,6 @@ walker@~1.0.5:
   dependencies:
     makeerror "1.0.12"
 
-web-ext-types@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.npmjs.org/web-ext-types/-/web-ext-types-3.2.1.tgz"
-  integrity sha512-oQZYDU3W8X867h8Jmt3129kRVKklz70db40Y6OzoTTuzOJpF/dB2KULJUf0txVPyUUXuyzV8GmT3nVvRHoG+Ew==
-
 webext-agent@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/webext-agent/-/webext-agent-0.1.0.tgz#b16c22a3b586dea3fb272c9c05714f6382a21067"
