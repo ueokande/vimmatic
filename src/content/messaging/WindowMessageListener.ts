@@ -32,7 +32,9 @@ export default class WindowMessageListener {
       if (
         sender === null ||
         sender instanceof MessagePort ||
-        sender instanceof ServiceWorker
+        // ServiceWorker is not defined on about:blank
+        (typeof ServiceWorker !== "undefined" &&
+          sender instanceof ServiceWorker)
       ) {
         return;
       }
@@ -58,7 +60,7 @@ export default class WindowMessageListener {
         return;
       }
 
-      const ctx = { sender };
+      const ctx = { sender: sender as Window };
       try {
         this.receiver.receive(ctx, type, args);
       } catch (e) {
