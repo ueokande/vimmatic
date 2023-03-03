@@ -18,14 +18,12 @@ export default class WindowMessageListener {
     @inject(TopFrameController)
     topFrameController: TopFrameController
   ) {
-    if (window === window.top) {
-      this.receiver
-        .route("console.unfocus")
-        .to(consoleFrameController.unfocus.bind(consoleFrameController));
-      this.receiver
-        .route("notify.frame.id")
-        .to(topFrameController.saveChildFrame.bind(topFrameController));
-    }
+    this.receiver
+      .route("console.unfocus")
+      .to(consoleFrameController.unfocus.bind(consoleFrameController));
+    this.receiver
+      .route("notify.frame.id")
+      .to(topFrameController.saveChildFrame.bind(topFrameController));
   }
 
   listen() {

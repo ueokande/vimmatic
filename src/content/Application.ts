@@ -23,7 +23,9 @@ export default class Application {
   ) {}
 
   init(): Promise<void> {
-    this.windowMessageListener.listen();
+    if (window === window.top) {
+      this.windowMessageListener.listen();
+    }
     this.contentMessageListener.listen();
     this.routeFocusEvents();
     // Make sure the background script sends a message to the content script by
