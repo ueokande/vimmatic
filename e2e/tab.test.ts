@@ -1,27 +1,16 @@
 import { test, expect } from "./lib/fixture";
-import { newNopServer } from "./lib/servers";
-
-const server = newNopServer();
 
 const setupTabs = async (api: typeof browser) => {
   const { id: windowId } = await api.windows.getCurrent();
-  const tabs = [];
-  for (let i = 1; i <= 5; i++) {
-    const url = server.url(`/${i}`);
-    const active = i === 3;
-    const tab = await api.tabs.create({ windowId, url, active });
-    tabs.push(tab);
+  for (const i of [0, 1, 3, 4]) {
+    await api.tabs.create({
+      windowId,
+      url: `about:blank#${i}`,
+      active: false,
+      index: i,
+    });
   }
-  return tabs;
 };
-
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
 
 test("deletes tab and selects right by d", async ({ page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
@@ -31,11 +20,10 @@ test("deletes tab and selects right by d", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/4"), active: true },
-      { url: server.url("/5") },
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
+      { url: "about:blank#3", active: true },
+      { url: "about:blank#4" },
     ]);
 });
 
@@ -47,11 +35,10 @@ test("deletes tab and selects left by D", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2"), active: true },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#0" },
+      { url: "about:blank#1", active: true },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 });
 
@@ -64,10 +51,9 @@ test("deletes all tabs to the right by x$", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3"), active: true },
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
+      { url: "about:blank", active: true },
     ]);
 });
 
@@ -110,26 +96,23 @@ test("selects previous tab by K", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1", active: true },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2"), active: true },
-      { url: server.url("/3") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 
-  await page.keyboard.press("Shift+K");
   await page.keyboard.press("Shift+K");
   await page.keyboard.press("Shift+K");
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4") },
-      { url: server.url("/5"), active: true },
+      { url: "about:blank#3" },
+      { url: "about:blank#4", active: true },
     ]);
 });
 
@@ -141,12 +124,11 @@ test("selects next tab by J", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4"), active: true },
-      { url: server.url("/5") },
+      { url: "about:blank#3", active: true },
+      { url: "about:blank#4" },
     ]);
 
   await page.keyboard.press("Shift+J");
@@ -154,12 +136,11 @@ test("selects next tab by J", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank", active: true },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#0", active: true },
+      { url: "about:blank#1" },
+      { url: "about:blank" },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 });
 
@@ -172,12 +153,11 @@ test("selects first tab by g0 and last tab by g$", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank", active: true },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#0", active: true },
+      { url: "about:blank#1" },
+      { url: "about:blank" },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 
   await page.keyboard.press("g");
@@ -185,12 +165,11 @@ test("selects first tab by g0 and last tab by g$", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4") },
-      { url: server.url("/5"), active: true },
+      { url: "about:blank#3" },
+      { url: "about:blank#4", active: true },
     ]);
 });
 
@@ -202,72 +181,67 @@ test("selects last selected tab by Control+6", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4"), active: true },
-      { url: server.url("/5") },
+      { url: "about:blank#3", active: true },
+      { url: "about:blank#4" },
     ]);
 
   await page.keyboard.press("Control+6");
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3"), active: true },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
+      { url: "about:blank", active: true },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 });
 
-test.fixme("reopen tab by u", async ({ page, api }) => {
+test("reopen tab by u", async ({ page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
   await setupTabs(api);
-  await page.keyboard.press("d");
+
+  const tabs = await api.tabs.query({ windowId });
+  await api.tabs.remove(tabs[4].id);
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#3" },
     ]);
 
   await page.keyboard.press("u");
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
       { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/3") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 });
 
 test("does not delete pinned tab by !d", async ({ page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
-  const tabs = await setupTabs(api);
-  await api.tabs.update(tabs[2].id, {
-    pinned: true,
-    active: true,
-  });
+  await setupTabs(api);
+  const tabs = await api.tabs.query({ windowId });
+  await api.tabs.update(tabs[2].id, { pinned: true });
 
   await page.keyboard.press("d");
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: server.url("/3"), pinned: true },
-      { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank", pinned: true, active: true },
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 
   await page.keyboard.press("!");
@@ -275,11 +249,10 @@ test("does not delete pinned tab by !d", async ({ page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
-      { url: "about:blank" },
-      { url: server.url("/1") },
-      { url: server.url("/2") },
-      { url: server.url("/4") },
-      { url: server.url("/5") },
+      { url: "about:blank#0" },
+      { url: "about:blank#1" },
+      { url: "about:blank#3" },
+      { url: "about:blank#4" },
     ]);
 });
 
