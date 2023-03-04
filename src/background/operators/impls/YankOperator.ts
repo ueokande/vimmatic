@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import Operator from "../Operator";
-import RequestContext from "../../infrastructures/RequestContext";
+import { OperatorContext } from "../Operator";
 import ClipboardRepository from "../../repositories/ClipboardRepository";
 import ConsoleClient from "../../clients/ConsoleClient";
 
@@ -19,7 +19,7 @@ export default class YankOperator implements Operator {
 
   schema() {}
 
-  async run({ sender }: RequestContext): Promise<void> {
+  async run({ sender }: OperatorContext): Promise<void> {
     if (typeof sender.tab.url === "undefined") {
       return;
     }

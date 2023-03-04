@@ -1,6 +1,6 @@
 import ShowBufferCommandOperator from "../../../../src/background/operators/impls/ShowBufferCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("ShowBufferCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -11,7 +11,7 @@ describe("ShowBufferCommandOperator", () => {
   describe("#run", () => {
     it("show command with buffer command", async () => {
       const sut = new ShowBufferCommandOperator(consoleClient);
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(showCommandSpy).toBeCalledWith(100, "buffer ");

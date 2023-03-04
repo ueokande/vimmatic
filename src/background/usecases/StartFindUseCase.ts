@@ -3,7 +3,6 @@ import ConsoleClient from "../clients/ConsoleClient";
 import FindRepositoryImpl from "../repositories/FindRepository";
 import FindClient from "../clients/FindClient";
 import ReadyFrameRepository from "../repositories/ReadyFrameRepository";
-import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class StartFindUseCase {
@@ -18,8 +17,7 @@ export default class StartFindUseCase {
     private readonly frameRepository: ReadyFrameRepository
   ) {}
 
-  async startFind(ctx: RequestContext, keyword?: string): Promise<void> {
-    const { tabId } = ctx.sender;
+  async startFind(tabId: number, keyword?: string): Promise<void> {
     if (typeof keyword === "undefined") {
       keyword = this.findRepository.getLocalState(tabId)?.keyword;
     }

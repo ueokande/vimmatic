@@ -1,6 +1,5 @@
 import { injectable, inject } from "inversify";
 import ReadyFrameRepository from "../repositories/ReadyFrameRepository";
-import RequestContext from "../infrastructures/RequestContext";
 import PropertySettings from "../settings/PropertySettings";
 import TopFrameClient from "../clients/TopFrameClient";
 import FollowTagProducer from "./FollowTagProducer";
@@ -26,11 +25,10 @@ export default class FollowModeUseCaes {
   ) {}
 
   async start(
-    ctx: RequestContext,
+    tabId: number,
     newTab: boolean,
     background: boolean
   ): Promise<void> {
-    const { tabId } = ctx.sender;
     const frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       return;
@@ -71,8 +69,7 @@ export default class FollowModeUseCaes {
     await this.keyCaptureClient.enableKeyCapture(tabId);
   }
 
-  async stop(ctx: RequestContext): Promise<void> {
-    const { tabId } = ctx.sender;
+  async stop(tabId: number): Promise<void> {
     await this.followClient.clearHints(tabId);
     this.followRepository.stopFollowMode();
     await this.keyCaptureClient.disableKeyCapture(tabId);

@@ -10,9 +10,12 @@ export default class FindController {
   ) {}
 
   startFind(
-    ctx: RequestContext,
+    { sender }: RequestContext,
     { keyword }: { keyword?: string }
   ): Promise<void> {
-    return this.startFindUseCase.startFind(ctx, keyword);
+    if (typeof sender.tab?.id === "undefined") {
+      return Promise.resolve();
+    }
+    return this.startFindUseCase.startFind(sender.tab.id, keyword);
   }
 }

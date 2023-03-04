@@ -1,5 +1,5 @@
 import TogglePinnedTabOperator from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("TogglePinnedTabOperator", () => {
   const mockTabsUpdate = jest
@@ -11,7 +11,7 @@ describe("TogglePinnedTabOperator", () => {
       const sut = new TogglePinnedTabOperator();
       const ctx = {
         sender: { tab: { id: 100, pinned: true } },
-      } as RequestContext;
+      } as OperatorContext;
       await sut.run(ctx);
 
       expect(mockTabsUpdate).toBeCalledWith({ pinned: false });

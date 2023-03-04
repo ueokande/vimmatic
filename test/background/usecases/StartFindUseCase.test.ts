@@ -19,22 +19,6 @@ describe("StartFindUseCase", () => {
     consoleClient,
     frameRepository
   );
-  const ctx = {
-    sender: {
-      tabId,
-      frameId: 0,
-      tab: {
-        id: tabId,
-        url: "https://example.com/",
-        active: true,
-        highlighted: false,
-        pinned: false,
-        incognito: false,
-        index: 0,
-      },
-    },
-  };
-
   const getFrameIdsSpy = jest
     .spyOn(frameRepository, "getFrameIds")
     .mockReturnValue(frameIds);
@@ -60,7 +44,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(ctx, keyword);
+      await sut.startFind(tabId, keyword);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -82,7 +66,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(ctx, undefined);
+      await sut.startFind(tabId, undefined);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -106,7 +90,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showInfo")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(ctx, undefined);
+      await sut.startFind(tabId, undefined);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -126,7 +110,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showError")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(ctx, keyword);
+      await sut.startFind(tabId, keyword);
 
       expect(clearSelectionSpy).toBeCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
@@ -147,7 +131,7 @@ describe("StartFindUseCase", () => {
         .spyOn(consoleClient, "showError")
         .mockReturnValue(Promise.resolve());
 
-      await sut.startFind(ctx, undefined);
+      await sut.startFind(tabId, undefined);
 
       expect(showErrorSpy).toBeCalledWith(tabId, "No previous search keywords");
     });

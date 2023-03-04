@@ -1,6 +1,6 @@
 import NavigateLinkNextOperator from "../../../../src/background/operators/impls/NavigateLinkNextOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("NavigateLinkNextOperator", () => {
   describe("#run", () => {
@@ -11,7 +11,7 @@ describe("NavigateLinkNextOperator", () => {
         .mockReturnValueOnce(Promise.resolve());
 
       const sut = new NavigateLinkNextOperator(navigateClient);
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(linkNextSpy).toBeCalledWith(100);

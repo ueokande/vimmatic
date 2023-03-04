@@ -1,7 +1,7 @@
 import type Command from "./Command";
+import type { CommandContext } from "./Command";
 import type { Completions } from "./Command";
 import type LastSelectedTab from "../tabs/LastSelectedTab";
-import type RequestContext from "../infrastructures/RequestContext";
 import BufferCommandHelper from "./BufferCommandHelper";
 
 class BufferCommand implements Command {
@@ -30,7 +30,7 @@ class BufferCommand implements Command {
 
   // eslint-disable-next-line max-statements
   async exec(
-    _ctx: RequestContext,
+    _ctx: CommandContext,
     _force: boolean,
     args: string
   ): Promise<void> {

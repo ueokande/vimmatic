@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import RepeatRepository from "../../repositories/RepeatRepository";
 import OperatorRegistory from "../../operators/OperatorRegistory";
 import { extractOperation } from "../../../shared/operations2";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class RepeatLastOperator implements Operator {
@@ -20,7 +20,7 @@ export default class RepeatLastOperator implements Operator {
 
   schema() {}
 
-  run(ctx: RequestContext): Promise<void> {
+  run(ctx: OperatorContext): Promise<void> {
     const lastOp = this.repeatRepository.getLastOperation();
     if (lastOp === null) {
       return Promise.resolve();

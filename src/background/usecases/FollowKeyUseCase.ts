@@ -1,5 +1,4 @@
 import { injectable, inject } from "inversify";
-import RequestContext from "../infrastructures/RequestContext";
 import FollowClient from "../clients/FollowClient";
 import FollowRepository from "../repositories/FollowRepository";
 
@@ -12,8 +11,7 @@ export default class FollowKeyUseCase {
     private readonly followRepository: FollowRepository
   ) {}
 
-  async pressKey(ctx: RequestContext, key: string): Promise<boolean> {
-    const { tabId } = ctx.sender;
+  async pressKey(tabId: number, key: string): Promise<boolean> {
     switch (key) {
       case "Enter":
         await this.activate(tabId, this.followRepository.getKeys());

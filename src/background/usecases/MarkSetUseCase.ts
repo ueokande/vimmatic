@@ -5,7 +5,6 @@ import ConsoleClient from "../clients/ConsoleClient";
 import GlobalMark from "../domains/GlobalMark";
 import LocalMark from "../domains/LocalMark";
 import MarkHelper from "./MarkHelper";
-import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class MarkSetUseCase {
@@ -20,12 +19,11 @@ export default class MarkSetUseCase {
     private readonly markHelper: MarkHelper
   ) {}
 
-  async setMark(ctx: RequestContext, key: string): Promise<void> {
-    const { tabId } = ctx.sender;
-    if (typeof ctx.sender.tab.url === "undefined") {
+  async setMark(tab: browser.tabs.Tab, key: string): Promise<void> {
+    if (typeof tab.id === "undefined" || typeof tab.url === "undefined") {
       return;
     }
-    const url = ctx.sender.tab.url;
+    const { id: tabId, url } = tab;
     const { x, y } = await this.contentMessageClient.getScroll(tabId, 0);
     if (this.markHelper.isGlobalKey(key)) {
       const mark: GlobalMark = { tabId, url, x, y };

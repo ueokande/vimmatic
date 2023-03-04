@@ -1,6 +1,6 @@
 import ShowOpenCommandOperator from "../../../../src/background/operators/impls/ShowOpenCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("ShowOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -12,7 +12,7 @@ describe("ShowOpenCommandOperator", () => {
       tabId: 100,
       tab: { id: 100, url: "https://example.com/" },
     },
-  } as RequestContext;
+  } as OperatorContext;
 
   beforeEach(() => {
     showCommandSpy.mockReset();

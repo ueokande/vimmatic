@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import type { Props } from "../operators/Operator";
+import type { Props, OperatorContext } from "../operators/Operator";
 import OperatorRegistory from "../operators/OperatorRegistory";
 import RepeatRepository from "../repositories/RepeatRepository";
 import RequestContext from "../infrastructures/RequestContext";
@@ -19,6 +19,20 @@ export default class OperationUseCase {
     props: Props,
     repeat: number
   ): Promise<void> {
+    if (
+      typeof ctx.sender.tab?.id === "undefined" ||
+      typeof ctx.sender.frameId === "undefined"
+    ) {
+      return;
+    }
+    const opCtx: OperatorContext = {
+      sender: {
+        tabId: ctx.sender.tab.id,
+        frameId: ctx.sender.frameId,
+        tab: ctx.sender.tab,
+      },
+    };
+
     if (this.isRepeatable(name)) {
       this.repeatRepository.setLastOperation({ type: name, ...props });
     }
@@ -28,7 +42,7 @@ export default class OperationUseCase {
     }
 
     for (let i = 0; i < repeat; ++i) {
-      await op.run(ctx, props);
+      await op.run(opCtx, props);
     }
   }
 

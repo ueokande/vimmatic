@@ -7,22 +7,6 @@ import MockKeyCaptureClient from "../mock/MockKeyCaptureClient";
 import MockFollowRepository from "../mock/MockFollowRepository";
 
 describe("FollowModeUseCaes", () => {
-  const ctx = {
-    sender: {
-      tabId: 10,
-      frameId: 0,
-      tab: {
-        id: 10,
-        url: "https://example.com/",
-        index: 0,
-        highlighted: false,
-        incognito: false,
-        active: true,
-        pinned: false,
-      },
-    },
-  };
-
   it("starts follow mode", async () => {
     const topFrameClient = new MockTopFrameClient();
     const followClient = new MockFollowClient();
@@ -82,7 +66,7 @@ describe("FollowModeUseCaes", () => {
       .spyOn(keyCaptureClient, "enableKeyCapture")
       .mockResolvedValue(undefined);
 
-    await sut.start(ctx, false, false);
+    await sut.start(10, false, false);
 
     expect(mockGetFrameIds).toHaveBeenCalledWith(10);
     expect(mockGetProperty).toHaveBeenCalledWith("hintchars");
@@ -162,7 +146,7 @@ describe("FollowModeUseCaes", () => {
       .spyOn(keyCaptureClient, "disableKeyCapture")
       .mockResolvedValue();
 
-    await sut.stop(ctx);
+    await sut.stop(10);
 
     expect(mockClearHints).toHaveBeenCalledWith(10);
     expect(mockStopFollowMode).toHaveBeenCalled();

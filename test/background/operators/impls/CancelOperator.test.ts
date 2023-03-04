@@ -1,6 +1,6 @@
 import CancelOperator from "../../../../src/background/operators/impls/CancelOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("CancelOperator", () => {
   describe("#run", () => {
@@ -11,7 +11,7 @@ describe("CancelOperator", () => {
         .mockResolvedValueOnce(undefined);
 
       const sut = new CancelOperator(consoleClient);
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(spy).toBeCalledWith(100);

@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
-import RequestContext from "../../infrastructures/RequestContext";
+import { OperatorContext } from "../Operator";
 import ClipboardRepository from "../../repositories/ClipboardRepository";
 import SearchEngineSettings from "../../settings/SearchEngineSettings";
 import * as urls from "../../../shared/urls";
@@ -26,7 +26,7 @@ export default class PasteOperator implements Operator {
   }
 
   async run(
-    _ctx: RequestContext,
+    _ctx: OperatorContext,
     { newTab }: z.infer<ReturnType<PasteOperator["schema"]>>
   ): Promise<void> {
     const text = await this.clipboard.read();

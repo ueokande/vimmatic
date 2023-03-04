@@ -1,6 +1,6 @@
 import BufferDeleteCommand from "../../../src/background/command/BufferDeleteCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
-import RequestContext from "../../../src/background/infrastructures/RequestContext";
+import { CommandContext } from "../../../src/background/command/Command";
 
 describe("BufferDeleteCommand", () => {
   const lastSelectedTab = {
@@ -22,7 +22,7 @@ describe("BufferDeleteCommand", () => {
     url: "https://example.com",
     incognito: false,
   };
-  const ctx = {} as RequestContext;
+  const ctx = {} as CommandContext;
 
   beforeEach(() => {
     mockTabsQuery.mockClear();

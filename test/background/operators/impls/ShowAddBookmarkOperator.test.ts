@@ -1,6 +1,6 @@
 import ShowAddBookmarkOperator from "../../../../src/background/operators/impls/ShowAddBookmarkOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("ShowAddBookmarkOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -13,7 +13,7 @@ describe("ShowAddBookmarkOperator", () => {
       frameId: 0,
       tab: { id: 100, title: "welcome, world" } as browser.tabs.Tab,
     },
-  } as RequestContext;
+  } as OperatorContext;
 
   beforeEach(() => {
     showCommandSpy.mockReset();

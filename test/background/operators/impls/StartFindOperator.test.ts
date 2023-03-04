@@ -1,6 +1,6 @@
 import StartFindOperator from "../../../../src/background/operators/impls/StartFindOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("StartFindOperator", () => {
   jest
@@ -16,7 +16,7 @@ describe("StartFindOperator", () => {
   describe("#run", () => {
     it("show find console", async () => {
       const sut = new StartFindOperator(consoleClient);
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(showFindSpy).toBeCalledWith(100);

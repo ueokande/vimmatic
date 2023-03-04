@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import NavigateClient from "../../clients/NavigateClient";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class NavigateHistoryPrevOperator implements Operator {
@@ -16,7 +16,7 @@ export default class NavigateHistoryPrevOperator implements Operator {
 
   schema() {}
 
-  async run({ sender }: RequestContext): Promise<void> {
+  async run({ sender }: OperatorContext): Promise<void> {
     await this.navigateClient.historyPrev(sender.tabId);
   }
 }

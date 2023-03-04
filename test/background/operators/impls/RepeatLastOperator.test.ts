@@ -2,7 +2,7 @@ import RepeatLastOperator from "../../../../src/background/operators/impls/Repea
 import OperatorRegistory from "../../../../src/background/operators/OperatorRegistory";
 import RepeatRepository from "../../../../src/background/repositories/RepeatRepository";
 import Operator from "../../../../src/background/operators/Operator";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 const todo = () => {
   throw new Error(`not implemented`);
@@ -22,7 +22,7 @@ describe("RepeatLastOperator", () => {
     schema: todo,
     run: todo,
   };
-  const ctx = {} as RequestContext;
+  const ctx = {} as OperatorContext;
   const sut = new RepeatLastOperator(operatorRegistory, repeatRepository);
 
   const mockRun = jest.spyOn(operator, "run").mockResolvedValue();

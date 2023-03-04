@@ -21,19 +21,22 @@ export default class KeyController {
     private readonly followKeyUseCase: FollowKeyUseCase
   ) {}
 
-  async pressKey(ctx: RequestContext, { key }: { key: string }) {
+  async pressKey({ sender }: RequestContext, { key }: { key: string }) {
+    if (typeof sender.tab?.id === "undefined") {
+      return;
+    }
     if (await this.markModeUseCase.isSetMode()) {
-      await this.markSetUseCase.setMark(ctx, key);
-      await this.markModeUseCase.clearMarkMode(ctx);
+      await this.markSetUseCase.setMark(sender.tab, key);
+      await this.markModeUseCase.clearMarkMode(sender.tab.id);
     } else if (await this.markModeUseCase.isJumpMode()) {
       await this.markJumpUseCase.jumpToMark(key);
-      await this.markModeUseCase.clearMarkMode(ctx);
+      await this.markModeUseCase.clearMarkMode(sender.tab.id);
     }
 
     if (await this.followModeUseCaes.isFollowMode()) {
-      const cont = await this.followKeyUseCase.pressKey(ctx, key);
+      const cont = await this.followKeyUseCase.pressKey(sender.tab.id, key);
       if (!cont) {
-        await this.followModeUseCaes.stop(ctx);
+        await this.followModeUseCaes.stop(sender.tab.id);
       }
     }
   }

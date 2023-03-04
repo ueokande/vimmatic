@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import Operator from "../Operator";
-import RequestContext from "../../infrastructures/RequestContext";
+import { OperatorContext } from "../Operator";
 import MarkModeUseCase from "../../usecases/MarkModeUseCase";
 
 @injectable()
@@ -16,7 +16,7 @@ export default class StartJumpMarkOperator implements Operator {
 
   schema() {}
 
-  run(ctx: RequestContext): Promise<void> {
-    return this.markModeUseCase.enableMarkJumpMode(ctx);
+  run({ sender }: OperatorContext): Promise<void> {
+    return this.markModeUseCase.enableMarkJumpMode(sender.tabId);
   }
 }

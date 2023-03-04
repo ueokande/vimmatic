@@ -1,5 +1,5 @@
 import ZoomInOperator from "../../../../src/background/operators/impls/ZoomInOperator";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("ZoomInOperator", () => {
   describe("#run", () => {
@@ -10,7 +10,7 @@ describe("ZoomInOperator", () => {
         .mockResolvedValue();
 
       const sut = new ZoomInOperator();
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(mockSetZoom).toBeCalledWith(100, 1.1);

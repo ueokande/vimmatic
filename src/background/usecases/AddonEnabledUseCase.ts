@@ -2,7 +2,6 @@ import { inject, injectable } from "inversify";
 import ToolbarPresenter from "../presenters/ToolbarPresenter";
 import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
 import AddonEnabledClient from "../clients/AddonEnabledClient";
-import RequestContext from "../infrastructures/RequestContext";
 
 @injectable()
 export default class AddonEnabledUseCase {
@@ -15,22 +14,19 @@ export default class AddonEnabledUseCase {
     private readonly addonEnabledClient: AddonEnabledClient
   ) {}
 
-  async enable(ctx: RequestContext): Promise<void> {
-    const { tabId } = ctx.sender;
+  async enable(tabId: number): Promise<void> {
     this.addonEnabledRepository.enable();
     await this.addonEnabledClient.enable(tabId);
     await this.toolbarPresenter.setEnabled(true);
   }
 
-  async disable(ctx: RequestContext): Promise<void> {
-    const { tabId } = ctx.sender;
+  async disable(tabId: number): Promise<void> {
     this.addonEnabledRepository.disable();
     await this.addonEnabledClient.disable(tabId);
     await this.toolbarPresenter.setEnabled(false);
   }
 
-  async toggle(ctx: RequestContext): Promise<void> {
-    const { tabId } = ctx.sender;
+  async toggle(tabId: number): Promise<void> {
     const enabled = this.addonEnabledRepository.toggle();
     await this.toolbarPresenter.setEnabled(enabled);
     if (enabled) {

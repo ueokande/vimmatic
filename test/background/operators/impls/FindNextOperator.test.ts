@@ -3,7 +3,7 @@ import MockFindRepository from "../../mock/MockFindRepository";
 import MockFindClient from "../../mock/MockFindClient";
 import MockConsoleClient from "../../mock/MockConsoleClient";
 import MockReadyFrameRepository from "../../mock/MockReadyFrameRepository";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("FindNextOperator", () => {
   const keyword = "hello";
@@ -19,7 +19,7 @@ describe("FindNextOperator", () => {
     consoleClient,
     frameRepository
   );
-  const ctx = { sender: { tabId: 10 } } as RequestContext;
+  const ctx = { sender: { tabId: 10 } } as OperatorContext;
   const findNextSpy = jest.spyOn(findClient, "findNext");
   const clearSelectionSpy = jest.spyOn(findClient, "clearSelection");
 

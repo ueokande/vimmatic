@@ -1,6 +1,6 @@
 import NavigateHistoryPrevOperator from "../../../../src/background/operators/impls/NavigateHistoryPrevOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("NavigateHistoryPrevOperator", () => {
   describe("#run", () => {
@@ -11,7 +11,7 @@ describe("NavigateHistoryPrevOperator", () => {
         .mockReturnValue(Promise.resolve());
 
       const sut = new NavigateHistoryPrevOperator(navigateClient);
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(historyNextSpy).toBeCalledWith(100);

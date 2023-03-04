@@ -5,22 +5,6 @@ import MockAddonEnabledClient from "../mock/MockAddonEnabledClient";
 
 describe("AddonEnabledUseCase", () => {
   jest.spyOn(browser.tabs.onActivated, "addListener").mockReturnValue();
-  const ctx = {
-    sender: {
-      tabId: 100,
-      frameId: 0,
-      tab: {
-        id: 100,
-        url: "https://example.com/",
-        index: 0,
-        highlighted: false,
-        incognito: false,
-        active: true,
-        pinned: false,
-      },
-    },
-  };
-
   describe("#enable", () => {
     it("set enabled on tab and toolbar", async () => {
       const addonEnabledRepository = new MockAddonEnabledRepository();
@@ -41,7 +25,7 @@ describe("AddonEnabledUseCase", () => {
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
-      await sut.enable(ctx);
+      await sut.enable(100);
 
       expect(mockRepositoryEnable).toBeCalledWith();
       expect(mockClientEnable).toBeCalledWith(100);
@@ -69,7 +53,7 @@ describe("AddonEnabledUseCase", () => {
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
-      await sut.disable(ctx);
+      await sut.disable(100);
 
       expect(mockRepositoryDisable).toBeCalledWith();
       expect(mockClientDisable).toBeCalledWith(100);

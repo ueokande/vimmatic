@@ -1,9 +1,8 @@
 import type Command from "./Command";
-import type { Completions } from "./Command";
+import type { CommandContext, Completions } from "./Command";
 import * as urls from "../../shared/urls";
 import type SearchEngineSettings from "../settings/SearchEngineSettings";
 import type PropertySettings from "../settings/PropertySettings";
-import type RequestContext from "../infrastructures/RequestContext";
 import OpenCommandHelper from "./OpenCommandHelper";
 
 class TabOpenCommand implements Command {
@@ -33,7 +32,7 @@ class TabOpenCommand implements Command {
   }
 
   async exec(
-    _ctx: RequestContext,
+    _ctx: CommandContext,
     _force: boolean,
     args: string
   ): Promise<void> {

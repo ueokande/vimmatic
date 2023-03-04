@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import ContentMessageClient from "../../clients/ContentMessageClient";
 import PropertySettings from "../../settings/PropertySettings";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class ScrollToTopOperator implements Operator {
@@ -19,7 +19,7 @@ export default class ScrollToTopOperator implements Operator {
 
   schema() {}
 
-  async run({ sender }: RequestContext): Promise<void> {
+  async run({ sender }: OperatorContext): Promise<void> {
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollToTop(
       sender.tabId,

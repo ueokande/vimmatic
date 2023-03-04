@@ -1,7 +1,7 @@
 import type Command from "./Command";
+import type { CommandContext } from "./Command";
 import type { Completions } from "./Command";
 import type BufferCommandHelper from "./BufferCommandHelper";
-import type RequestContext from "../infrastructures/RequestContext";
 
 class BDeletesCommand implements Command {
   constructor(private readonly bufferCommandHelper: BufferCommandHelper) {}
@@ -23,7 +23,7 @@ class BDeletesCommand implements Command {
   }
 
   async exec(
-    _ctx: RequestContext,
+    _ctx: CommandContext,
     force: boolean,
     args: string
   ): Promise<void> {

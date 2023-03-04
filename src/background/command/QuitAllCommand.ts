@@ -1,6 +1,5 @@
 import type Command from "./Command";
-import type { Completions } from "./Command";
-import type RequestContext from "../infrastructures/RequestContext";
+import type { CommandContext, Completions } from "./Command";
 
 class QuitAllCommand implements Command {
   names(): string[] {
@@ -20,7 +19,7 @@ class QuitAllCommand implements Command {
   }
 
   async exec(
-    _ctx: RequestContext,
+    _ctx: CommandContext,
     force: boolean,
     _args: string
   ): Promise<void> {

@@ -1,5 +1,5 @@
 import NavigateParentOperator from "../../../../src/background/operators/impls/NavigateParentOperator";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("NavigateParentOperator", () => {
   const mockTabsUpdate = jest
@@ -19,7 +19,7 @@ describe("NavigateParentOperator", () => {
             url: "https://example.com/fruits/yellow/banana",
           },
         },
-      } as RequestContext;
+      } as OperatorContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
@@ -36,7 +36,7 @@ describe("NavigateParentOperator", () => {
             url: "https://example.com/fruits/yellow/",
           },
         },
-      } as RequestContext;
+      } as OperatorContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
@@ -53,7 +53,7 @@ describe("NavigateParentOperator", () => {
             url: "https://example.com/fruits/yellow/#top",
           },
         },
-      } as RequestContext;
+      } as OperatorContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
@@ -70,7 +70,7 @@ describe("NavigateParentOperator", () => {
             url: "https://example.com/search?q=apple",
           },
         },
-      } as RequestContext;
+      } as OperatorContext;
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 

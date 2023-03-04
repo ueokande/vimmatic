@@ -68,9 +68,7 @@ export default class Application {
       if (typeof tab.id === "undefined") {
         return;
       }
-      return this.addonEnabledUseCase.toggle({
-        sender: { tab, tabId: tab.id, frameId: 0 },
-      });
+      return this.addonEnabledUseCase.toggle(tab.id);
     });
     browser.tabs.onActivated.addListener((info) =>
       this.addonEnabledUseCase.updateTabEnabled(info.tabId)

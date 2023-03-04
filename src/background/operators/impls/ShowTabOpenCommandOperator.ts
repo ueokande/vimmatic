@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import ConsoleClient from "../../clients/ConsoleClient";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class ShowTabOpenCommandOperator implements Operator {
@@ -22,7 +22,7 @@ export default class ShowTabOpenCommandOperator implements Operator {
   }
 
   async run(
-    { sender }: RequestContext,
+    { sender }: OperatorContext,
     { alter }: z.infer<ReturnType<ShowTabOpenCommandOperator["schema"]>>
   ): Promise<void> {
     let command = "tabopen ";

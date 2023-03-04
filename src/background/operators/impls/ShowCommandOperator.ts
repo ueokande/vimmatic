@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import ConsoleClient from "../../clients/ConsoleClient";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class ShowCommandOperator implements Operator {
@@ -16,7 +16,7 @@ export default class ShowCommandOperator implements Operator {
 
   schema() {}
 
-  async run({ sender }: RequestContext): Promise<void> {
+  async run({ sender }: OperatorContext): Promise<void> {
     return this.consoleClient.showCommand(sender.tabId, "");
   }
 }

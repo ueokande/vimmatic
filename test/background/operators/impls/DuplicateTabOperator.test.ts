@@ -1,5 +1,5 @@
 import DuplicateTabOperator from "../../../../src/background/operators/impls/DuplicateTabOperator";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("DuplicateTabOperator", () => {
   describe("#run", () => {
@@ -9,7 +9,7 @@ describe("DuplicateTabOperator", () => {
         .mockResolvedValue({} as browser.tabs.Tab);
 
       const sut = new DuplicateTabOperator();
-      const ctx = { sender: { tabId: 100 } } as RequestContext;
+      const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
       expect(mockTabsDuplicate).toBeCalledWith(100);

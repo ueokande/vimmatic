@@ -1,5 +1,5 @@
 import NavigateRootOperator from "../../../../src/background/operators/impls/NavigateRootOperator";
-import RequestContext from "../../../../src/background/infrastructures/RequestContext";
+import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("NavigateRootOperator", () => {
   describe("#run", () => {
@@ -15,7 +15,7 @@ describe("NavigateRootOperator", () => {
             url: "https://example.com/fruits/yellow/banana",
           },
         },
-      } as RequestContext;
+      } as OperatorContext;
       const sut = new NavigateRootOperator();
       await sut.run(ctx);
 

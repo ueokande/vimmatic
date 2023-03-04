@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
-import RequestContext from "../../infrastructures/RequestContext";
+import { OperatorContext } from "../Operator";
 
 @injectable()
 export default class CloseTabOperator implements Operator {
@@ -17,7 +17,7 @@ export default class CloseTabOperator implements Operator {
   }
 
   async run(
-    { sender }: RequestContext,
+    { sender }: OperatorContext,
     { force, select }: z.infer<ReturnType<CloseTabOperator["schema"]>>
   ): Promise<void> {
     if (!force && sender.tab.pinned) {

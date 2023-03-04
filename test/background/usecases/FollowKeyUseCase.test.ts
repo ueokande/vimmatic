@@ -3,22 +3,6 @@ import MockFollowClient from "../mock/MockFollowClient";
 import MockFollowRepository from "../mock/MockFollowRepository";
 
 describe("FollowKeyUseCaes", () => {
-  const ctx = {
-    sender: {
-      tabId: 10,
-      frameId: 0,
-      tab: {
-        id: 10,
-        url: "https://example.com/",
-        index: 0,
-        highlighted: false,
-        incognito: false,
-        active: true,
-        pinned: false,
-      },
-    },
-  };
-
   it("filters pressed key 1", async () => {
     const followClient = new MockFollowClient();
     const followRepository = new MockFollowRepository();
@@ -35,7 +19,7 @@ describe("FollowKeyUseCaes", () => {
     jest
       .spyOn(followRepository, "getMatchedHints")
       .mockReturnValue(["a", "aa", "ab"]);
-    const cont = await sut.pressKey(ctx, "a");
+    const cont = await sut.pressKey(10, "a");
 
     expect(cont).toBeTruthy();
     expect(mockPushKey).toBeCalledWith("a");
@@ -58,7 +42,7 @@ describe("FollowKeyUseCaes", () => {
     jest
       .spyOn(followRepository, "getMatchedHints")
       .mockReturnValue(["ab", "aba", "abb"]);
-    const cont = await sut.pressKey(ctx, "b");
+    const cont = await sut.pressKey(10, "b");
 
     expect(cont).toBeTruthy();
     expect(mockPushKey).toBeCalledWith("b");
@@ -82,7 +66,7 @@ describe("FollowKeyUseCaes", () => {
 
     jest.spyOn(followRepository, "getKeys").mockReturnValue("ab");
     jest.spyOn(followRepository, "getMatchedHints").mockReturnValue(["ab"]);
-    const cont = await sut.pressKey(ctx, "b");
+    const cont = await sut.pressKey(10, "b");
 
     expect(cont).toBeFalsy();
     expect(mockPushKey).toBeCalledWith("b");
@@ -105,7 +89,7 @@ describe("FollowKeyUseCaes", () => {
     jest
       .spyOn(followRepository, "getMatchedHints")
       .mockReturnValue(["ab", "aba", "abb"]);
-    const cont = await sut.pressKey(ctx, "Enter");
+    const cont = await sut.pressKey(10, "Enter");
 
     expect(cont).toBeFalsy();
     expect(mockActivateIfExists).toBeCalledWith(10, "ab", true, false);
@@ -125,7 +109,7 @@ describe("FollowKeyUseCaes", () => {
     jest
       .spyOn(followRepository, "getMatchedHints")
       .mockReturnValue(["ab", "aba", "abb"]);
-    const cont = await sut.pressKey(ctx, "Backspace");
+    const cont = await sut.pressKey(10, "Backspace");
 
     expect(cont).toBeTruthy();
     expect(mockPopKey).toBeCalled();

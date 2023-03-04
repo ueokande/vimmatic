@@ -1,7 +1,7 @@
 import type Command from "./Command";
+import type { CommandContext } from "./Command";
 import type { Completions } from "./Command";
 import type ConsoleClient from "../clients/ConsoleClient";
-import type RequestContext from "../infrastructures/RequestContext";
 
 class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}
@@ -23,11 +23,14 @@ class AddBookmarkCommand implements Command {
   }
 
   async exec(
-    { sender }: RequestContext,
+    { sender }: CommandContext,
     _force: boolean,
     args: string
   ): Promise<void> {
     const { tab } = sender;
+    if (typeof tab === "undefined" || typeof tab.id === "undefined") {
+      return;
+    }
     let title = args.trim();
     if (title.length === 0) {
       if (tab.title && tab.title.length > 0) {

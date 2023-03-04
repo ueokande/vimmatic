@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import FindRepository from "../../repositories/FindRepository";
 import FindClient from "../../clients/FindClient";
 import ConsoleClient from "../../clients/ConsoleClient";
 import ReadyFrameRepository from "../../repositories/ReadyFrameRepository";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class FindPrevOperator implements Operator {
@@ -25,7 +25,7 @@ export default class FindPrevOperator implements Operator {
 
   schema() {}
 
-  async run(ctx: RequestContext): Promise<void> {
+  async run(ctx: OperatorContext): Promise<void> {
     const { tabId } = ctx.sender;
     let frameIds = this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {

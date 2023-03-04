@@ -3,6 +3,7 @@ import { injectable, inject } from "inversify";
 import CommandRegistry from "../command/CommandRegistry";
 import { parseCommand, onCommandInputting } from "./parser";
 import RequestContext from "../infrastructures/RequestContext";
+import { CommandContext } from "../command/Command";
 
 @injectable()
 export default class CommandUseCase {
@@ -12,6 +13,20 @@ export default class CommandUseCase {
   ) {}
 
   async exec(ctx: RequestContext, text: string): Promise<void> {
+    if (
+      typeof ctx.sender.tab?.id === "undefined" ||
+      typeof ctx.sender.frameId === "undefined"
+    ) {
+      return;
+    }
+    const cmdCtx: CommandContext = {
+      sender: {
+        tabId: ctx.sender.tab.id,
+        frameId: ctx.sender.frameId,
+        tab: ctx.sender.tab,
+      },
+    };
+
     const { name, force, args } = parseCommand(text);
     if (name.length === 0) {
       return Promise.resolve();
@@ -21,7 +36,7 @@ export default class CommandUseCase {
     if (typeof cmd === "undefined") {
       throw new Error(`${name} command is not defined`);
     }
-    await cmd.exec(ctx, force, args);
+    await cmd.exec(cmdCtx, force, args);
   }
 
   async getCompletions(query: string): Promise<Completions> {

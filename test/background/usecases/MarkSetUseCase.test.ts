@@ -15,20 +15,14 @@ describe("MarkSetUseCase", () => {
     contentMessageClient,
     markHelper
   );
-  const ctx = {
-    sender: {
-      tabId: 100,
-      frameId: 0,
-      tab: {
-        tabId: 100,
-        url: "https://example.com/",
-        index: 0,
-        highlighted: false,
-        incognito: false,
-        active: true,
-        pinned: false,
-      },
-    },
+  const tab = {
+    id: 100,
+    url: "https://example.com/",
+    index: 0,
+    highlighted: false,
+    incognito: false,
+    active: true,
+    pinned: false,
   };
 
   it("sets global marks", async () => {
@@ -42,7 +36,7 @@ describe("MarkSetUseCase", () => {
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
 
-    await sut.setMark(ctx, "A");
+    await sut.setMark(tab, "A");
 
     expect(mockSetGlobalMark).toHaveBeenCalledWith("A", {
       tabId: 100,
@@ -64,7 +58,7 @@ describe("MarkSetUseCase", () => {
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
 
-    await sut.setMark(ctx, "a");
+    await sut.setMark(tab, "a");
 
     expect(mockSetGlobalMark).toHaveBeenCalledWith(100, "a", {
       x: 10,

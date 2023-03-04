@@ -1,6 +1,6 @@
 import type Command from "./Command";
+import type { CommandContext } from "./Command";
 import type { Completions } from "./Command";
-import type RequestContext from "../infrastructures/RequestContext";
 
 const url = "https://ueokande.github.io/vimmatic/";
 
@@ -22,7 +22,7 @@ class HelpCommand implements Command {
   }
 
   async exec(
-    _ctx: RequestContext,
+    _ctx: CommandContext,
     _force: boolean,
     _args: string
   ): Promise<void> {

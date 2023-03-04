@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
+import { OperatorContext } from "../Operator";
 import ContentMessageClient from "../../clients/ContentMessageClient";
 import PropertySettings from "../../settings/PropertySettings";
-import RequestContext from "../../infrastructures/RequestContext";
 
 @injectable()
 export default class VerticalScrollOperator implements Operator {
@@ -25,7 +25,7 @@ export default class VerticalScrollOperator implements Operator {
   }
 
   async run(
-    { sender }: RequestContext,
+    { sender }: OperatorContext,
     { count }: z.infer<ReturnType<VerticalScrollOperator["schema"]>>
   ): Promise<void> {
     const smooth = await this.propertySettings.getProperty("smoothscroll");

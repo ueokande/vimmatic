@@ -10,9 +10,12 @@ export default class ConsoleController {
   ) {}
 
   resize(
-    ctx: RequestContext,
+    { sender }: RequestContext,
     { width, height }: { width: number; height: number }
   ) {
-    return this.consoleUseCase.resize(ctx, width, height);
+    if (typeof sender.tab?.id === "undefined") {
+      return;
+    }
+    return this.consoleUseCase.resize(sender.tab.id, width, height);
   }
 }
