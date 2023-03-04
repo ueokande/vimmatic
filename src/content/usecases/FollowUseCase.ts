@@ -36,7 +36,6 @@ export default class FollowUseCase {
   }
 
   async activateIfExists(tag: string, newTab: boolean, background: boolean) {
-    console.log("activate", tag);
     const hint = this.presenter.getHint(tag);
     if (!hint) {
       return;
