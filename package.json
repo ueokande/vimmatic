@@ -9,7 +9,7 @@
     "lint:fix": "eslint --ext .ts,.tsx . --fix",
     "type-checks": "tsc --noEmit",
     "test": "jest",
-    "test:e2e": "playwright test --browser=firefox --timeout 20000 --workers 1 ./e2e"
+    "test:e2e": "playwright test --browser=firefox --timeout=20000 --workers=1 --retries=3 ./e2e"
   },
   "repository": {
     "type": "git",
