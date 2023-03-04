@@ -5,6 +5,7 @@ const Li = styled.li<{ shown: boolean }>`
   display: ${({ shown }) => (shown ? "display" : "none")};
   background-color: ${({ theme }) => theme.completionTitleBackground};
   color: ${({ theme }) => theme.completionTitleForeground};
+  list-style: none;
   font-weight: bold;
   margin: 0;
   padding: 0;

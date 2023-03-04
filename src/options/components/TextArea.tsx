@@ -5,6 +5,7 @@ const TextArea = styled.textarea`
   font-family: monospace;
   width: 100%;
   min-height: 64ex;
+  min-width: 128ex;
   resize: vertical;
 `;
 
