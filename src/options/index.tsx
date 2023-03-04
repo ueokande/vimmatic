@@ -1,19 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SettingsComponent from "./components";
-import reducer from "./reducers/setting";
-import { Provider } from "react-redux";
-import promise from "redux-promise";
-import { createStore, applyMiddleware } from "redux";
-
-const store = createStore(reducer, applyMiddleware(promise));
+import App from "./App";
 
 document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.getElementById("vimmatic-settings");
-  ReactDOM.render(
-    <Provider store={store}>
-      <SettingsComponent store={store} />
-    </Provider>,
-    wrapper
-  );
+  ReactDOM.render(<App />, wrapper);
 });
