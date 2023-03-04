@@ -14,9 +14,9 @@ test.afterAll(async () => {
 test("should set a local mark and jump to it", async ({ page }) => {
   await page.goto(server.url());
   await page.evaluate(() => window.scrollBy(0, 200));
-  await page.keyboard.type("ma");
+  await page.keyboard.type("ma", { delay: 10 });
   await page.evaluate(() => window.scrollBy(0, 500));
-  await page.keyboard.type("'a");
+  await page.keyboard.type("'a", { delay: 10 });
 
   await expect.poll(() => page.evaluate(() => window.pageYOffset)).toBe(200);
 });

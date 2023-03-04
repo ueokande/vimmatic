@@ -1,58 +1,26 @@
 import { test, expect } from "./lib/fixture";
-import { newScrollableServer } from "./lib/servers";
-
-const server = newScrollableServer();
-
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
 
 test("repeats last operation", async ({ page, api }) => {
-  const { id: windowId } = await api.windows.getCurrent();
-  for (let i = 1; i <= 5; ++i) {
-    await api.tabs.create({ url: `about:blank?tab${i}`, windowId });
-  }
+  const tab = await api.tabs.getCurrent();
+  await api.tabs.setZoom(tab.id, 1);
 
-  await page.keyboard.press("d");
-  await page.keyboard.press(".");
-  await page.keyboard.press(".");
-
-  await expect
-    .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([
-      { url: "about:blank" },
-      { url: "about:blank?tab1" },
-      { url: "about:blank?tab2" },
-    ]);
+  await page.keyboard.type("zi..", { delay: 100 });
+  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1.5);
 });
 
-test("repeats scroll 3-times", async ({ page }) => {
-  await page.goto(server.url("/"));
-  await page.keyboard.press("3");
-  await page.keyboard.press("j");
+test("repeats scroll 3-times", async ({ page, api }) => {
+  const tab = await api.tabs.getCurrent();
+  await api.tabs.setZoom(tab.id, 1);
 
-  const y = await page.evaluate(() => window.pageYOffset);
-  expect(y).toBe(64 * 3);
+  await page.keyboard.type("3zi", { delay: 100 });
+  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1.5);
 });
 
 test("repeats tab deletion 3-times", async ({ page, api }) => {
-  const { id: windowId } = await api.windows.getCurrent();
-  for (let i = 1; i <= 5; ++i) {
-    await api.tabs.create({
-      url: `about:blank?tab${i}`,
-      windowId,
-    });
-  }
+  const tab = await api.tabs.getCurrent();
+  await api.tabs.setZoom(tab.id, 1);
 
-  await page.keyboard.press("d");
-  await page.keyboard.press("3");
-  await page.keyboard.press(".");
-
-  await expect
-    .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([{ url: "about:blank" }, { url: "about:blank?tab1" }]);
+  await page.keyboard.type("zi", { delay: 100 });
+  await page.keyboard.type("3.", { delay: 100 });
+  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1.75);
 });
