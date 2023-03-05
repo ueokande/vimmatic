@@ -20,14 +20,14 @@ export default class SettingsController {
         .getBlacklist()
         .includesEntireBlacklist(url);
       if (disabled) {
-        await this.addonEnabledUseCase.disable();
+        this.addonEnabledUseCase.disable();
       } else {
-        await this.addonEnabledUseCase.enable();
+        this.addonEnabledUseCase.enable();
       }
     } catch (e) {
       // Sometime sendMessage fails when background script is not ready.
       console.warn(e);
-      setTimeout(() => this.initSettings(), 500);
+      setTimeout(() => this.initSettings(), 1000);
     }
   }
 

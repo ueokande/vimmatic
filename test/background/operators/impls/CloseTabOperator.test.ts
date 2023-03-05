@@ -1,13 +1,9 @@
 import CloseTabOperator from "../../../../src/background/operators/impls/CloseTabOperator";
+import defaultTab from "../../mock/defaultTab";
 
 describe("CloseTabOperator", () => {
-  const tab = {
-    highlighted: false,
-    active: true,
-    incognito: false,
-  };
-  const mockTabsRemove = jest.spyOn(browser.tabs, "remove");
-  const mockTabsUpdate = jest.spyOn(browser.tabs, "update");
+  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
+  const mockTabsUpdate = jest.spyOn(chrome.tabs, "update");
 
   mockTabsRemove.mockResolvedValue();
   mockTabsUpdate.mockResolvedValue({} as any);
@@ -23,7 +19,7 @@ describe("CloseTabOperator", () => {
         sender: {
           tabId: 100,
           frameId: 0,
-          tab: { ...tab, id: 100, index: 0, pinned: false },
+          tab: { ...defaultTab, id: 100, index: 0, pinned: false },
         },
       };
       const sut = new CloseTabOperator();
@@ -37,7 +33,7 @@ describe("CloseTabOperator", () => {
         sender: {
           tabId: 100,
           frameId: 0,
-          tab: { ...tab, id: 100, index: 0, pinned: true },
+          tab: { ...defaultTab, id: 100, index: 0, pinned: true },
         },
       };
       const sut = new CloseTabOperator();
@@ -48,11 +44,11 @@ describe("CloseTabOperator", () => {
 
     it("close a current tab and select left of the closed tab", async () => {
       const tabs = [
-        { ...tab, id: 101, index: 0, pinned: false, active: false },
-        { ...tab, id: 102, index: 1, pinned: false, active: true },
-        { ...tab, id: 103, index: 2, pinned: false, active: false },
+        { ...defaultTab, id: 101, index: 0, pinned: false, active: false },
+        { ...defaultTab, id: 102, index: 1, pinned: false, active: true },
+        { ...defaultTab, id: 103, index: 2, pinned: false, active: false },
       ];
-      jest.spyOn(browser.tabs, "query").mockResolvedValue(tabs);
+      jest.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
 
       const ctx = {
         sender: {

@@ -4,20 +4,20 @@ const ZOOM_SETTINGS = [
 
 class ZoomPresenter {
   async zoomIn(tabId: number): Promise<void> {
-    const current = await browser.tabs.getZoom(tabId);
+    const current = await chrome.tabs.getZoom(tabId);
     const factor = ZOOM_SETTINGS.find((f) => f > current);
     if (factor) {
-      return browser.tabs.setZoom(tabId, factor);
+      return chrome.tabs.setZoom(tabId, factor);
     }
   }
 
   async zoomOut(tabId: number): Promise<void> {
-    const current = await browser.tabs.getZoom(tabId);
+    const current = await chrome.tabs.getZoom(tabId);
     const factor = ZOOM_SETTINGS.slice(0)
       .reverse()
       .find((f) => f < current);
     if (factor) {
-      return browser.tabs.setZoom(tabId, factor);
+      return chrome.tabs.setZoom(tabId, factor);
     }
   }
 }

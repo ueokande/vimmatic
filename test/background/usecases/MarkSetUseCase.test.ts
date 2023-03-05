@@ -3,6 +3,7 @@ import MockConsoleClient from "../mock/MockConsoleClient";
 import MockContentMessageClient from "../mock/MockContentMessageClient";
 import MockMarkRepository from "../mock/MockMarkRepository";
 import MarkHelper from "../../../src/background/usecases/MarkHelper";
+import defaultTab from "../mock/defaultTab";
 
 describe("MarkSetUseCase", () => {
   const markRepository = new MockMarkRepository();
@@ -15,15 +16,7 @@ describe("MarkSetUseCase", () => {
     contentMessageClient,
     markHelper
   );
-  const tab = {
-    id: 100,
-    url: "https://example.com/",
-    index: 0,
-    highlighted: false,
-    incognito: false,
-    active: true,
-    pinned: false,
-  };
+  const tab = { ...defaultTab, id: 100, url: "https://example.com/" };
 
   it("sets global marks", async () => {
     jest

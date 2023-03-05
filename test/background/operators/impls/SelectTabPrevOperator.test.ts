@@ -1,13 +1,9 @@
 import SelectTabPrevOperator from "../../../../src/background/operators/impls/SelectTabPrevOperator";
+import defaultTab from "../../mock/defaultTab";
 
 describe("SelectTabPrevOperator", () => {
-  const props = {
-    highlighted: false,
-    incognito: false,
-    pinned: false,
-  };
   const mockTabsUpdate = jest
-    .spyOn(browser.tabs, "update")
+    .spyOn(chrome.tabs, "update")
     .mockResolvedValue({} as any);
 
   beforeEach(() => {
@@ -17,11 +13,11 @@ describe("SelectTabPrevOperator", () => {
   describe("#run", () => {
     it("select a left tab of the current tab", async () => {
       const tabs = [
-        { ...props, id: 101, index: 0, active: false },
-        { ...props, id: 102, index: 1, active: true },
-        { ...props, id: 103, index: 2, active: false },
+        { ...defaultTab, id: 101, index: 0, active: false },
+        { ...defaultTab, id: 102, index: 1, active: true },
+        { ...defaultTab, id: 103, index: 2, active: false },
       ];
-      jest.spyOn(browser.tabs, "query").mockImplementation(({ active }) => {
+      jest.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
         if (active) {
           return Promise.resolve([tabs[1]]);
         } else {
@@ -39,11 +35,11 @@ describe("SelectTabPrevOperator", () => {
   describe("#run", () => {
     it("select a left tab of the current tab in rotation", async () => {
       const tabs = [
-        { ...props, id: 101, index: 0, active: true },
-        { ...props, id: 102, index: 1, active: false },
-        { ...props, id: 103, index: 2, active: false },
+        { ...defaultTab, id: 101, index: 0, active: true },
+        { ...defaultTab, id: 102, index: 1, active: false },
+        { ...defaultTab, id: 103, index: 2, active: false },
       ];
-      jest.spyOn(browser.tabs, "query").mockImplementation(({ active }) => {
+      jest.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
         if (active) {
           return Promise.resolve([tabs[0]]);
         } else {

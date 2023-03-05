@@ -5,7 +5,7 @@ type BackgroundMessageSender = Sender<Schema>;
 
 export const newSender = () => {
   const sender = new Sender<Schema>((type: Key, args: Request) => {
-    return browser.runtime.sendMessage({
+    return chrome.runtime.sendMessage({
       type,
       args: args ?? {},
     });

@@ -10,6 +10,6 @@ export default class PinTabOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    await browser.tabs.update({ pinned: true });
+    await chrome.tabs.update({ pinned: true });
   }
 }

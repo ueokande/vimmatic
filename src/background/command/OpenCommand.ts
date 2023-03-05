@@ -38,7 +38,7 @@ class OpenCommand implements Command {
   ): Promise<void> {
     const search = await this.searchEngineSettings.get();
     const url = urls.searchUrl(args, search);
-    await browser.tabs.update({ url });
+    await chrome.tabs.update({ url });
   }
 }
 

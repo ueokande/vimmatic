@@ -20,6 +20,6 @@ export default class SelectPreviousSelectedTabOperator implements Operator {
     if (!lastTabId) {
       return;
     }
-    await browser.tabs.update(lastTabId, { active: true });
+    await chrome.tabs.update(lastTabId, { active: true });
   }
 }

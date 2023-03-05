@@ -40,21 +40,21 @@ export default class Application {
 
   run() {
     this.settingsRepository.onChanged(async () => {
-      const [tab] = await browser.tabs.query({
+      const [tab] = await chrome.tabs.query({
         currentWindow: true,
         active: true,
       });
       this.contentMessageClient.settingsChanged(tab.id!);
     });
-    browser.tabs.onActivated.addListener(({ tabId }) => {
+    chrome.tabs.onActivated.addListener(({ tabId }) => {
       this.contentMessageClient.settingsChanged(tabId);
     });
-    browser.tabs.onUpdated.addListener((tabId: number, info) => {
+    chrome.tabs.onUpdated.addListener((tabId: number, info) => {
       if (info.status == "loading") {
         this.findRepository.deleteLocalState(tabId);
       }
     });
-    browser.runtime.onInstalled.addListener((details) => {
+    chrome.runtime.onInstalled.addListener((details) => {
       if (details.reason !== "install" && details.reason !== "update") {
         return;
       }
@@ -64,18 +64,18 @@ export default class Application {
     this.backgroundMessageListener.listen();
     this.findPortListener.run();
 
-    this.toolbarPresenter.onClick((tab: browser.tabs.Tab) => {
+    this.toolbarPresenter.onClick((tab: chrome.tabs.Tab) => {
       if (typeof tab.id === "undefined") {
         return;
       }
       return this.addonEnabledUseCase.toggle(tab.id);
     });
-    browser.tabs.onActivated.addListener((info) =>
+    chrome.tabs.onActivated.addListener((info) =>
       this.addonEnabledUseCase.updateTabEnabled(info.tabId)
     );
   }
 
-  private onFindPortConnect(port: browser.runtime.Port) {
+  private onFindPortConnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
     if (typeof tabId === "undefined" || typeof frameId === "undefined") {
@@ -86,7 +86,7 @@ export default class Application {
     this.frameRepository.addFrameId(tabId, frameId);
   }
 
-  private onFindPortDisconnect(port: browser.runtime.Port) {
+  private onFindPortDisconnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
     if (typeof tabId === "undefined" || typeof frameId === "undefined") {

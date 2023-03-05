@@ -19,7 +19,7 @@ export default class MarkSetUseCase {
     private readonly markHelper: MarkHelper
   ) {}
 
-  async setMark(tab: browser.tabs.Tab, key: string): Promise<void> {
+  async setMark(tab: chrome.tabs.Tab, key: string): Promise<void> {
     if (typeof tab.id === "undefined" || typeof tab.url === "undefined") {
       return;
     }

@@ -11,6 +11,6 @@ export default class DuplicateTabOperator implements Operator {
   schema() {}
 
   async run({ sender }: OperatorContext): Promise<void> {
-    await browser.tabs.duplicate(sender.tabId);
+    await chrome.tabs.duplicate(sender.tabId);
   }
 }

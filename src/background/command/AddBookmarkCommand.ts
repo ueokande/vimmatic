@@ -39,8 +39,7 @@ class AddBookmarkCommand implements Command {
         title = tab.url;
       }
     }
-    const item = await browser.bookmarks.create({
-      type: "bookmark",
+    const item = await chrome.bookmarks.create({
       title,
       url: tab.url,
     });

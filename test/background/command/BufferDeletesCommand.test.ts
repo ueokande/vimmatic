@@ -1,5 +1,6 @@
 import BufferDeletesCommand from "../../../src/background/command/BufferDeletesCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
+import defaultTab from "../mock/defaultTab";
 
 describe("BufferDeletesCommand", () => {
   const lastSelectedTab = {
@@ -10,22 +11,14 @@ describe("BufferDeletesCommand", () => {
   const bufferCommandHelper = new BufferCommandHelper(lastSelectedTab);
   const sut = new BufferDeletesCommand(bufferCommandHelper);
 
-  const mockTabsQuery = jest.spyOn(browser.tabs, "query");
-  const mockTabsRemove = jest.spyOn(browser.tabs, "remove");
+  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
+  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
 
-  const defaultTabProps = {
-    index: 0,
-    highlighted: false,
-    active: true,
-    title: "title",
-    url: "https://example.com",
-    incognito: false,
-  };
   const ctx = {
     sender: {
       tabId: 10,
       frameId: 0,
-      tab: { id: 10, pinned: true, ...defaultTabProps },
+      tab: { ...defaultTab, id: 10, pinned: true },
     },
   };
 
@@ -38,10 +31,10 @@ describe("BufferDeletesCommand", () => {
 
   it("removes unpinned tabs", async () => {
     mockTabsQuery.mockResolvedValue([
-      { id: 10, pinned: true, ...defaultTabProps },
-      { id: 11, pinned: false, ...defaultTabProps },
-      { id: 12, pinned: true, ...defaultTabProps },
-      { id: 13, pinned: false, ...defaultTabProps },
+      { ...defaultTab, id: 10, pinned: true },
+      { ...defaultTab, id: 11, pinned: false },
+      { ...defaultTab, id: 12, pinned: true },
+      { ...defaultTab, id: 13, pinned: false },
     ]);
 
     await sut.exec(ctx, false, "");
@@ -51,10 +44,10 @@ describe("BufferDeletesCommand", () => {
 
   it("removes pinned tabs forcely", async () => {
     mockTabsQuery.mockResolvedValue([
-      { id: 10, pinned: true, ...defaultTabProps },
-      { id: 11, pinned: false, ...defaultTabProps },
-      { id: 12, pinned: true, ...defaultTabProps },
-      { id: 13, pinned: false, ...defaultTabProps },
+      { ...defaultTab, id: 10, pinned: true },
+      { ...defaultTab, id: 11, pinned: false },
+      { ...defaultTab, id: 12, pinned: true },
+      { ...defaultTab, id: 13, pinned: false },
     ]);
 
     await sut.exec(ctx, true, "");
@@ -64,8 +57,8 @@ describe("BufferDeletesCommand", () => {
 
   it("fails no matching tabs", async () => {
     mockTabsQuery.mockResolvedValue([
-      { id: 10, pinned: true, ...defaultTabProps },
-      { id: 11, pinned: true, ...defaultTabProps },
+      { ...defaultTab, id: 10, pinned: true },
+      { ...defaultTab, id: 11, pinned: true },
     ]);
 
     await expect(sut.exec(ctx, false, "")).rejects.toThrowError(

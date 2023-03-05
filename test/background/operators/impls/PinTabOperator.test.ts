@@ -4,8 +4,8 @@ describe("PinTabOperator", () => {
   describe("#run", () => {
     it("make pinned to the current tab", async () => {
       const mockTabsUpdate = jest
-        .spyOn(browser.tabs, "update")
-        .mockResolvedValue({} as browser.tabs.Tab);
+        .spyOn(chrome.tabs, "update")
+        .mockResolvedValue({} as chrome.tabs.Tab);
 
       const sut = new PinTabOperator();
       await sut.run();

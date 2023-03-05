@@ -33,7 +33,7 @@ class BDeletesCommand implements Command {
       throw new Error("No matching buffer for " + keywords);
     }
     const ids = tabs.map((tab) => tab.id as number);
-    await browser.tabs.remove(ids);
+    await chrome.tabs.remove(ids);
   }
 }
 

@@ -1,5 +1,6 @@
 import BufferCommand from "../../../src/background/command/BufferCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
+import defaultTab from "../mock/defaultTab";
 
 describe("BufferCommand", () => {
   const lastSelectedTab = {
@@ -11,23 +12,15 @@ describe("BufferCommand", () => {
   const sut = new BufferCommand(lastSelectedTab, bufferCommandHelper);
 
   const mockGetLastSelectedTab = jest.spyOn(lastSelectedTab, "get");
-  const mockTabsQuery = jest.spyOn(browser.tabs, "query");
-  const mockTabsUpdate = jest.spyOn(browser.tabs, "update");
+  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
+  const mockTabsUpdate = jest.spyOn(chrome.tabs, "update");
   const mockHelperQueryTabs = jest.spyOn(bufferCommandHelper, "queryTabs");
 
-  const props = {
-    highlighted: false,
-    active: false,
-    incognito: false,
-    pinned: false,
-    title: "title",
-    url: "https://example.com/",
-  };
-  const tab1 = { id: 10, index: 0, ...props };
-  const tab2 = { id: 11, index: 1, ...props };
-  const tab3 = { id: 12, index: 2, ...props };
-  const tab4 = { id: 13, index: 3, ...props };
-  const tab5 = { id: 14, index: 4, ...props };
+  const tab1 = { ...defaultTab, id: 10, index: 0 };
+  const tab2 = { ...defaultTab, id: 11, index: 1 };
+  const tab3 = { ...defaultTab, id: 12, index: 2 };
+  const tab4 = { ...defaultTab, id: 13, index: 3 };
+  const tab5 = { ...defaultTab, id: 14, index: 4 };
   const allTabs = [tab1, tab2, tab3, tab4, tab5];
   const ctx = { sender: { tabId: 10, frameId: 0, tab: tab1 } };
 

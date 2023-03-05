@@ -24,13 +24,15 @@ export default class CloseTabOperator implements Operator {
       return;
     }
     if (select === "left" && sender.tab.index > 0) {
-      const tabs = await browser.tabs.query({
+      const tabs = await chrome.tabs.query({
         windowId: sender.tab.windowId,
       });
-      await browser.tabs.update(tabs[sender.tab.index - 1].id, {
-        active: true,
-      });
+      const tabId = tabs[sender.tab.index - 1].id;
+      if (typeof tabId === "undefined") {
+        throw new Error(`tab ${tabs[sender.tab.index - 1].index} has not id`);
+      }
+      await chrome.tabs.update(tabId, { active: true });
     }
-    return browser.tabs.remove(sender.tabId);
+    return chrome.tabs.remove(sender.tabId);
   }
 }

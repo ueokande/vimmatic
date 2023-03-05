@@ -1,23 +1,17 @@
 import QuitCommand from "../../../src/background/command/QuitCommand";
+import defaultTab from "../mock/defaultTab";
 
 describe("QuitCommand", () => {
-  const mockTabsQuery = jest.spyOn(browser.tabs, "query");
-  const mockTabsRemove = jest.spyOn(browser.tabs, "remove");
+  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
+  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
 
   const pinned = {
+    ...defaultTab,
     id: 10,
-    index: 0,
-    highlighted: false,
-    active: true,
-    incognito: false,
     pinned: true,
   };
   const unpinned = {
     id: 10,
-    index: 0,
-    highlighted: false,
-    active: true,
-    incognito: false,
     pinned: false,
   };
 

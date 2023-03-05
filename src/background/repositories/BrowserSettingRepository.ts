@@ -8,7 +8,7 @@ export default interface BrowserSettingRepository {
 @injectable()
 export class BrowserSettingRepositoryImpl implements BrowserSettingRepository {
   async getHomepageUrls(): Promise<string[]> {
-    const { value } = await browser.browserSettings.homepageOverride.get({});
+    const { value } = await chrome.browserSettings.homepageOverride.get({});
     return value.split("|").map(urls.normalizeUrl);
   }
 }

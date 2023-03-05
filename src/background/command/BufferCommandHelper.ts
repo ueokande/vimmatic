@@ -8,7 +8,7 @@ export default class BufferCommandHelper {
     const lastTabId = this.lastSelectedTab.get();
     const allTabs = await this.getAllTabs(force);
     const num = parseInt(query, 10);
-    let tabs: browser.tabs.Tab[] = [];
+    let tabs: chrome.tabs.Tab[] = [];
     if (!isNaN(num)) {
       const tab = allTabs.find((t) => t.index === num - 1);
       if (tab) {
@@ -47,8 +47,8 @@ export default class BufferCommandHelper {
     return [{ name: "Buffers", items }];
   }
 
-  async queryTabs(force: boolean, query: string): Promise<browser.tabs.Tab[]> {
-    const tabs = await browser.tabs.query({ currentWindow: true });
+  async queryTabs(force: boolean, query: string): Promise<chrome.tabs.Tab[]> {
+    const tabs = await chrome.tabs.query({ currentWindow: true });
     const matched = tabs
       .filter((t) => {
         return (
@@ -64,8 +64,8 @@ export default class BufferCommandHelper {
     return matched.filter((tab) => !tab.pinned);
   }
 
-  private async getAllTabs(force: boolean): Promise<browser.tabs.Tab[]> {
-    const tabs = await browser.tabs.query({ currentWindow: true });
+  private async getAllTabs(force: boolean): Promise<chrome.tabs.Tab[]> {
+    const tabs = await chrome.tabs.query({ currentWindow: true });
     if (force) {
       return tabs;
     }

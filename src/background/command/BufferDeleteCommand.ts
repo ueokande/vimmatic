@@ -34,7 +34,7 @@ class BufferDeleteCommand implements Command {
     } else if (tabs.length > 1) {
       throw new Error("More than one match for " + keywords);
     }
-    return browser.tabs.remove(tabs[0].id!);
+    return chrome.tabs.remove(tabs[0].id!);
   }
 }
 

@@ -23,7 +23,7 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
     }
 
     const iframe = document.createElement("iframe");
-    iframe.src = browser.runtime.getURL("dist/console.html");
+    iframe.src = chrome.runtime.getURL("lib/console.html");
     iframe.id = ConsoleFramePresenterImpl.IframeId;
     iframe.className = "vimmatic-console-frame";
     iframe.name = "vimmatic-console-frame";

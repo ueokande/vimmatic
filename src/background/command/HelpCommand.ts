@@ -26,7 +26,7 @@ class HelpCommand implements Command {
     _force: boolean,
     _args: string
   ): Promise<void> {
-    await browser.tabs.create({ url, active: true });
+    await chrome.tabs.create({ url, active: true });
   }
 }
 

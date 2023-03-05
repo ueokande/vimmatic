@@ -34,13 +34,13 @@ export default class Application {
     // a message "Could not establish connection."
     //
     // The port is never used, and the messages are delivered via
-    // `browser.tabs.sendMessage` API because sending a message via port cannot
+    // `chrome.tabs.sendMessage` API because sending a message via port cannot
     // receive returned value.
     //
     // /* on background script */
     // port.sendMessage({ type: "do something" });  <- returns void
     //
-    browser.runtime.connect(undefined, { name: "vimmatic-find" });
+    chrome.runtime.connect({ name: "vimmatic-find" });
 
     this.routeKeymaps();
     this.settingsController.initSettings();

@@ -10,6 +10,6 @@ export default class ToggleReaderOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    await browser.tabs.toggleReaderMode();
+    await chrome.tabs.toggleReaderMode();
   }
 }

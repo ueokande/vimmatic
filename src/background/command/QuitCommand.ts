@@ -26,7 +26,7 @@ class QuitCommand implements Command {
     if (sender.tab.pinned && !force) {
       throw new Error("Cannot close due to tab is pinned");
     }
-    await browser.tabs.remove(sender.tabId);
+    await chrome.tabs.remove(sender.tabId);
   }
 }
 

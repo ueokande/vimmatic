@@ -1,5 +1,6 @@
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
 import LastSelectedTab from "../../../src/background/tabs/LastSelectedTab";
+import defaultTab from "../mock/defaultTab";
 
 class MockLastSelectedTab implements LastSelectedTab {
   get(): number | undefined {
@@ -12,17 +13,16 @@ describe("BufferCommandHelper", () => {
   const sut = new BufferCommandHelper(lastSelectedTab);
 
   const mockGetLastSelectedTab = jest.spyOn(lastSelectedTab, "get");
-  const mockTabsQuery = jest.spyOn(browser.tabs, "query");
+  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
 
   const allTabs = Array.from(Array(5).keys()).map((i) => ({
+    ...defaultTab,
     id: 10 + i,
     index: i,
     pinned: i <= 1,
     active: i == 2,
     title: `tab${i + 1}`,
     url: `https://example.com/${i + 1}`,
-    highlighted: false,
-    incognito: false,
   }));
 
   beforeEach(() => {

@@ -1,8 +1,8 @@
-declare namespace browser.tabs {
+declare namespace chrome.tabs {
   function toggleReaderMode(tabId?: number): Promise<void>;
 }
 
-declare namespace browser.browserSettings.homepageOverride {
+declare namespace chrome.browserSettings.homepageOverride {
   type BrowserSettings = {
     value: string;
     levelOfControl: LevelOfControlType;
@@ -15,4 +15,13 @@ declare namespace browser.browserSettings.homepageOverride {
     | "controlled_by_this_extension";
 
   function get(param: { [key: string]: string }): Promise<BrowserSettings>;
+}
+
+declare namespace chrome.sessions {
+  function getRecentlyClosed(
+    filter?: browser.sessions.Filter,
+    callback?: function
+  ): Promise<chrome.sessions.Session[]>;
+
+  function restore(sessionId?: string): Promise<chrome.sessions.Session>;
 }

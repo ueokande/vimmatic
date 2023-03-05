@@ -28,9 +28,9 @@ describe("MarkJumpUseCase", () => {
 
   beforeAll(() => {
     jest
-      .spyOn(browser.tabs, "query")
+      .spyOn(chrome.tabs, "query")
       .mockResolvedValue([
-        { id: 100, url: "https://example.com/" } as browser.tabs.Tab,
+        { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
       ]);
   });
 
@@ -47,7 +47,7 @@ describe("MarkJumpUseCase", () => {
       .spyOn(contentMessageClient, "scrollTo")
       .mockResolvedValue();
     const mockTabsUpdate = jest
-      .spyOn(browser.tabs, "update")
+      .spyOn(chrome.tabs, "update")
       .mockResolvedValue({} as any);
 
     await sut.jumpToMark("A");
@@ -72,12 +72,10 @@ describe("MarkJumpUseCase", () => {
     const mockScrollTo = jest
       .spyOn(contentMessageClient, "scrollTo")
       .mockRejectedValue("tab not found");
-    const mockTabsCreate = jest
-      .spyOn(browser.tabs, "create")
-      .mockResolvedValue({
-        id: 201,
-        url: "https://example.com/",
-      } as browser.tabs.Tab);
+    const mockTabsCreate = jest.spyOn(chrome.tabs, "create").mockResolvedValue({
+      id: 201,
+      url: "https://example.com/",
+    } as chrome.tabs.Tab);
 
     await sut.jumpToMark("A");
 

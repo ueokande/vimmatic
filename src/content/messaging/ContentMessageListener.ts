@@ -140,8 +140,8 @@ export default class ContentMessageListener {
   }
 
   listen() {
-    browser.runtime.onMessage.addListener(
-      (message: unknown): Promise<unknown> | void => {
+    chrome.runtime.onMessage.addListener(
+      (message: unknown, _sender, sendResponse) => {
         if (typeof message !== "object" && message !== null) {
           console.warn("unexpected message format:", message);
           return;
@@ -155,13 +155,12 @@ export default class ContentMessageListener {
           return;
         }
 
-        try {
-          const ret = this.receiver.receive(type, args);
-          return Promise.resolve(ret);
-        } catch (e) {
-          console.error(e);
-          return;
-        }
+        const ret = this.receiver.receive(type, args);
+        Promise.resolve(ret)
+          .then(sendResponse)
+          .catch((err) => {
+            console.error(err);
+          });
       }
     );
   }

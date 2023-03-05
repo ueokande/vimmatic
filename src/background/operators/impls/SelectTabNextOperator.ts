@@ -10,7 +10,7 @@ export default class SelectTabNextOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    const tabs = await browser.tabs.query({ currentWindow: true });
+    const tabs = await chrome.tabs.query({ currentWindow: true });
     if (tabs.length < 2) {
       return;
     }
@@ -19,6 +19,10 @@ export default class SelectTabNextOperator implements Operator {
       return;
     }
     const select = (tab.index + 1) % tabs.length;
-    await browser.tabs.update(tabs[select].id, { active: true });
+    const tabId = tabs[select].id;
+    if (typeof tabId === "undefined") {
+      throw new Error(`tab ${tabs[select].index} has not id`);
+    }
+    await chrome.tabs.update(tabId, { active: true });
   }
 }

@@ -6,10 +6,10 @@ export default class VersionUseCase {
   constructor(@inject("Notifier") private notifier: Notifier) {}
 
   notify(): Promise<void> {
-    const manifest = browser.runtime.getManifest();
+    const manifest = chrome.runtime.getManifest();
     const url = this.releaseNoteUrl(manifest.version);
     return this.notifier.notifyUpdated(manifest.version, () => {
-      browser.tabs.create({ url });
+      chrome.tabs.create({ url });
     });
   }
 

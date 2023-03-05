@@ -11,7 +11,7 @@ describe("ShowAddBookmarkOperator", () => {
     sender: {
       tabId: 100,
       frameId: 0,
-      tab: { id: 100, title: "welcome, world" } as browser.tabs.Tab,
+      tab: { id: 100, title: "welcome, world" } as chrome.tabs.Tab,
     },
   } as OperatorContext;
 

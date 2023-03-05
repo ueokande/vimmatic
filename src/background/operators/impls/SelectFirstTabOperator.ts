@@ -10,7 +10,11 @@ export default class SelectFirstTabOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    const tabs = await browser.tabs.query({ currentWindow: true });
-    await browser.tabs.update(tabs[0].id, { active: true });
+    const tabs = await chrome.tabs.query({ currentWindow: true });
+    const tab = tabs[0];
+    if (typeof tab.id === "undefined") {
+      throw new Error(`tab ${tab.index} has not id`);
+    }
+    await chrome.tabs.update(tab.id, { active: true });
   }
 }

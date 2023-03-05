@@ -4,7 +4,8 @@ import MockToolbarPresenter from "../mock/MockToolbarPresenter";
 import MockAddonEnabledClient from "../mock/MockAddonEnabledClient";
 
 describe("AddonEnabledUseCase", () => {
-  jest.spyOn(browser.tabs.onActivated, "addListener").mockReturnValue();
+  jest.spyOn(chrome.tabs.onActivated, "addListener").mockReturnValue();
+
   describe("#enable", () => {
     it("set enabled on tab and toolbar", async () => {
       const addonEnabledRepository = new MockAddonEnabledRepository();

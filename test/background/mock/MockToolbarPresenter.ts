@@ -4,5 +4,5 @@ export default class MockToolbarPresenter implements ToolbarPresenter {
     throw new Error("not implemented");
   }
 
-  onClick(_listener: (arg: browser.tabs.Tab) => void): void {}
+  onClick(_listener: (arg: chrome.tabs.Tab) => void): void {}
 }

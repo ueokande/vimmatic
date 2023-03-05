@@ -40,12 +40,16 @@ class BufferCommand implements Command {
     }
 
     if (!isNaN(Number(keywords))) {
-      const tabs = await browser.tabs.query({ currentWindow: true });
+      const tabs = await chrome.tabs.query({ currentWindow: true });
       const index = parseInt(keywords, 10) - 1;
       if (index < 0 || tabs.length <= index) {
         throw new RangeError(`tab ${index + 1} does not exist`);
       }
-      await browser.tabs.update(tabs[index].id, { active: true });
+      const tabId = tabs[index].id;
+      if (typeof tabId === "undefined") {
+        throw new Error(`tab ${index + 1} has not id`);
+      }
+      await chrome.tabs.update(tabId, { active: true });
       return;
     } else if (keywords.trim() === "%") {
       // Select current window
@@ -56,11 +60,11 @@ class BufferCommand implements Command {
       if (typeof lastId === "undefined" || lastId === null) {
         throw new Error("No last selected tab");
       }
-      await browser.tabs.update(lastId, { active: true });
+      await chrome.tabs.update(lastId, { active: true });
       return;
     }
 
-    const [current] = await browser.tabs.query({
+    const [current] = await chrome.tabs.query({
       currentWindow: true,
       active: true,
     });
@@ -70,11 +74,18 @@ class BufferCommand implements Command {
     }
     for (const tab of tabs) {
       if (tab.index > current.index) {
-        await browser.tabs.update(tab.id, { active: true });
+        if (typeof tab.id === "undefined") {
+          throw new Error(`tab ${tab.index} has not id`);
+        }
+        await chrome.tabs.update(tab.id, { active: true });
         return;
       }
     }
-    await browser.tabs.update(tabs[0].id, { active: true });
+    const tabId = tabs[0].id;
+    if (typeof tabId === "undefined") {
+      throw new Error(`tab ${tabs[0].index} has not id`);
+    }
+    await chrome.tabs.update(tabId, { active: true });
   }
 }
 
