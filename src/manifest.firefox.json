@@ -1,13 +1,12 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Vimmatic",
   "description": "Vimmatic",
-  "version": "0.0.1",
   "icons": {
     "48": "resources/icon_48x48.png",
     "96": "resources/icon_96x96.png"
   },
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
       "id": "vimmatic@i-beam.org"
     }
@@ -15,16 +14,14 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "matches": [ "<all_urls>" ],
-      "js": [ "dist/content.js" ],
+      "matches": ["<all_urls>"],
+      "js": ["lib/content.js"],
       "run_at": "document_start",
       "match_about_blank": true
     }
   ],
   "background": {
-    "scripts": [
-      "dist/background.js"
-    ]
+    "scripts": ["lib/background.js"]
   },
   "permissions": [
     "history",
@@ -38,14 +35,15 @@
     "browserSettings"
   ],
   "web_accessible_resources": [
-    "dist/console.html",
-    "dist/console.css",
-    "dist/console.js"
+    {
+      "resources": ["lib/console.html", "lib/console.css", "lib/console.js"],
+      "matches": ["<all_urls>"]
+    }
   ],
   "options_ui": {
-    "page": "dist/options.html"
+    "page": "lib/options.html"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "32": "resources/enabled_32x32.png"
     },
