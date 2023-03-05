@@ -63,6 +63,9 @@ export class PersistentSettingsRepository implements SettingsRepository {
       if (area !== "sync") {
         return;
       }
+      if (typeof changes.settings === "undefined") {
+        return;
+      }
 
       let settings: Settings;
       try {

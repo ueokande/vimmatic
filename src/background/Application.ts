@@ -1,36 +1,30 @@
 import { injectable, inject } from "inversify";
-import ContentMessageClient from "./clients/ContentMessageClient";
 import BackgroundMessageListener from "./infrastructures/BackgroundMessageListener";
 import FindPortListener from "./infrastructures/FindPortListener";
 import VersionUseCase from "./usecases/VersionUseCase";
 import FindRepositoryImpl from "./repositories/FindRepository";
 import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
-import SettingsRepository from "./settings/SettingsRepository";
+import SettingsEventUseCase from "./usecases/SettingsEventUseCase";
 import FrameClient from "./clients/FrameClient";
-import ToolbarPresenter from "./presenters/ToolbarPresenter";
-import AddonEnabledUseCase from "./usecases/AddonEnabledUseCase";
+import AddonEnabledEventUseCase from "./usecases/AddonEnabledEventUseCase";
 
 @injectable()
 export default class Application {
   constructor(
     @inject(BackgroundMessageListener)
     private readonly backgroundMessageListener: BackgroundMessageListener,
-    @inject("ContentMessageClient")
-    private readonly contentMessageClient: ContentMessageClient,
     @inject(VersionUseCase)
     private readonly versionUseCase: VersionUseCase,
     @inject("FindRepository")
     private readonly findRepository: FindRepositoryImpl,
     @inject("ReadyFrameRepository")
     private readonly frameRepository: ReadyFrameRepository,
-    @inject("SettingsRepository")
-    private readonly settingsRepository: SettingsRepository,
+    @inject(SettingsEventUseCase)
+    private readonly settingsEventUseCase: SettingsEventUseCase,
     @inject("FrameClient")
     private readonly frameClient: FrameClient,
-    @inject("ToolbarPresenter")
-    private readonly toolbarPresenter: ToolbarPresenter,
-    @inject(AddonEnabledUseCase)
-    private readonly addonEnabledUseCase: AddonEnabledUseCase
+    @inject(AddonEnabledEventUseCase)
+    private readonly addonEnabledEventUseCase: AddonEnabledEventUseCase
   ) {}
 
   private readonly findPortListener = new FindPortListener(
@@ -39,16 +33,9 @@ export default class Application {
   );
 
   run() {
-    this.settingsRepository.onChanged(async () => {
-      const [tab] = await chrome.tabs.query({
-        currentWindow: true,
-        active: true,
-      });
-      this.contentMessageClient.settingsChanged(tab.id!);
-    });
-    chrome.tabs.onActivated.addListener(({ tabId }) => {
-      this.contentMessageClient.settingsChanged(tabId);
-    });
+    this.settingsEventUseCase.registerEvents();
+    this.addonEnabledEventUseCase.registerEvents();
+
     chrome.tabs.onUpdated.addListener((tabId: number, info) => {
       if (info.status == "loading") {
         this.findRepository.deleteLocalState(tabId);
@@ -63,16 +50,6 @@ export default class Application {
 
     this.backgroundMessageListener.listen();
     this.findPortListener.run();
-
-    this.toolbarPresenter.onClick((tab: chrome.tabs.Tab) => {
-      if (typeof tab.id === "undefined") {
-        return;
-      }
-      return this.addonEnabledUseCase.toggle(tab.id);
-    });
-    chrome.tabs.onActivated.addListener((info) =>
-      this.addonEnabledUseCase.updateTabEnabled(info.tabId)
-    );
   }
 
   private onFindPortConnect(port: chrome.runtime.Port) {

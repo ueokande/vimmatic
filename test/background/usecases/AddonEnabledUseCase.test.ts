@@ -1,63 +1,72 @@
 import AddonEnabledUseCase from "../../../src/background/usecases/AddonEnabledUseCase";
 import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
 import MockToolbarPresenter from "../mock/MockToolbarPresenter";
-import MockAddonEnabledClient from "../mock/MockAddonEnabledClient";
 
 describe("AddonEnabledUseCase", () => {
   jest.spyOn(chrome.tabs.onActivated, "addListener").mockReturnValue();
 
   describe("#enable", () => {
-    it("set enabled on tab and toolbar", async () => {
+    it("sets enabled and updates toolbar", async () => {
       const addonEnabledRepository = new MockAddonEnabledRepository();
       const toolbarPresenter = new MockToolbarPresenter();
-      const addonEnabledClient = new MockAddonEnabledClient();
       const sut = new AddonEnabledUseCase(
         toolbarPresenter,
-        addonEnabledRepository,
-        addonEnabledClient
+        addonEnabledRepository
       );
       const mockRepositoryEnable = jest
         .spyOn(addonEnabledRepository, "enable")
         .mockReturnValue();
-      const mockClientEnable = jest
-        .spyOn(addonEnabledClient, "enable")
-        .mockResolvedValue();
       const mockToolbarSetEnabled = jest
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
-      await sut.enable(100);
+      await sut.enable();
 
       expect(mockRepositoryEnable).toBeCalledWith();
-      expect(mockClientEnable).toBeCalledWith(100);
       expect(mockToolbarSetEnabled).toBeCalledWith(true);
     });
   });
 
   describe("#disable", () => {
-    it("set disabled on tab and toolbar", async () => {
+    it("sets disabled and updates toolbar", async () => {
       const addonEnabledRepository = new MockAddonEnabledRepository();
       const toolbarPresenter = new MockToolbarPresenter();
-      const addonEnabledClient = new MockAddonEnabledClient();
       const sut = new AddonEnabledUseCase(
         toolbarPresenter,
-        addonEnabledRepository,
-        addonEnabledClient
+        addonEnabledRepository
       );
       const mockRepositoryDisable = jest
         .spyOn(addonEnabledRepository, "disable")
         .mockReturnValue();
-      const mockClientDisable = jest
-        .spyOn(addonEnabledClient, "disable")
-        .mockResolvedValue();
       const mockToolbarSetEnabled = jest
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
-      await sut.disable(100);
+      await sut.disable();
 
       expect(mockRepositoryDisable).toBeCalledWith();
-      expect(mockClientDisable).toBeCalledWith(100);
+      expect(mockToolbarSetEnabled).toBeCalledWith(false);
+    });
+  });
+
+  describe("#toggle", () => {
+    it("toggles enabled and updates toolbar", async () => {
+      const addonEnabledRepository = new MockAddonEnabledRepository();
+      const toolbarPresenter = new MockToolbarPresenter();
+      const sut = new AddonEnabledUseCase(
+        toolbarPresenter,
+        addonEnabledRepository
+      );
+      const mockRepositoryToggle = jest
+        .spyOn(addonEnabledRepository, "toggle")
+        .mockReturnValue(false);
+      const mockToolbarSetEnabled = jest
+        .spyOn(toolbarPresenter, "setEnabled")
+        .mockResolvedValue();
+
+      await sut.toggle();
+
+      expect(mockRepositoryToggle).toBeCalledWith();
       expect(mockToolbarSetEnabled).toBeCalledWith(false);
     });
   });
