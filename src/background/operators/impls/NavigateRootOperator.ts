@@ -15,6 +15,6 @@ export default class NavigateRootOperator implements Operator {
       return;
     }
     const url = new URL(sender.tab.url);
-    await browser.tabs.update({ url: url.origin });
+    await chrome.tabs.update({ url: url.origin });
   }
 }

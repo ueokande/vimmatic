@@ -1,8 +1,9 @@
 {
   "name": "vimmatic",
   "description": "vimmatic",
+  "version": "0.0.1",
   "scripts": {
-    "start": "nodemon --watch ./src --ext js,jsx,ts,tsx,css,html script/build",
+    "start": "nodemon --watch ./src --ext js,jsx,ts,tsx,css,html,json script/build",
     "build": "script/build",
     "package": "yarn build && script/package",
     "lint": "eslint --ext .ts,.tsx .",
@@ -25,8 +26,8 @@
     "@abraham/reflection": "^0.10.0",
     "@playwright/test": "1.26.0",
     "@types/assert": "^1.4.6",
+    "@types/chrome": "^0.0.219",
     "@types/express": "^4.17.13",
-    "@types/firefox-webext-browser": "^94.0.1",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.18",
     "@types/prop-types": "^15.7.4",
@@ -60,7 +61,6 @@
     "styled-components": "^5.3.0",
     "ts-node": "^10.7.0",
     "typescript": "4.3.5",
-    "web-ext-types": "^3.2.1",
     "webext-agent": "^0.1.0",
     "zod": "^3.19.1"
   }

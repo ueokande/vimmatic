@@ -28,6 +28,6 @@ export default class NavigateParentOperator implements Operator {
         url.pathname = url.pathname.replace(lastDirPattern, "/");
       }
     }
-    await browser.tabs.update({ url: url.href });
+    await chrome.tabs.update({ url: url.href });
   }
 }

@@ -28,7 +28,7 @@ const useLoad = (): [string, Error | undefined] => {
   const [jsonText, setJsonText] = React.useState(defaultJSONSettings);
   React.useEffect(() => {
     (async () => {
-      const { settings_json } = await browser.storage.sync.get("settings_json");
+      const { settings_json } = await chrome.storage.sync.get("settings_json");
       if (typeof settings_json === "undefined") {
         return;
       }
@@ -46,7 +46,7 @@ const useSave = (): [SaveFn, Error | undefined] => {
     (newJsonText: string) => {
       (async () => {
         const settings = await validate(newJsonText);
-        await browser.storage.sync.set({
+        await chrome.storage.sync.set({
           settings: serialize(settings),
           settings_json: newJsonText,
         });

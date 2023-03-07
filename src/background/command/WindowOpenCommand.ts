@@ -38,7 +38,7 @@ class WindowOpenCommand implements Command {
   ): Promise<void> {
     const search = await this.searchEngineSettings.get();
     const url = urls.searchUrl(args, search);
-    await browser.windows.create({ url });
+    await chrome.windows.create({ url });
   }
 }
 

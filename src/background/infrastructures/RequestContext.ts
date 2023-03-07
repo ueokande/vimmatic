@@ -1,5 +1,5 @@
 type RequestContext = {
-  sender: browser.runtime.MessageSender;
+  sender: chrome.runtime.MessageSender;
 };
 
 export default RequestContext;

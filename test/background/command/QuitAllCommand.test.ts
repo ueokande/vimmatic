@@ -1,23 +1,18 @@
 import QuitAllCommand from "../../../src/background/command/QuitAllCommand";
+import defaultTab from "../mock/defaultTab";
 
 describe("QuitAllCommand", () => {
-  const mockTabsQuery = jest.spyOn(browser.tabs, "query");
-  const mockTabsRemove = jest.spyOn(browser.tabs, "remove");
+  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
+  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
 
-  const defaultTabProps = {
-    index: 0,
-    highlighted: false,
-    active: true,
-    incognito: false,
-  };
   const ctx = {
     sender: {
       tabId: 10,
       frameId: 0,
       tab: {
+        ...defaultTab,
         id: 10,
         pinned: true,
-        ...defaultTabProps,
       },
     },
   };
@@ -31,10 +26,10 @@ describe("QuitAllCommand", () => {
 
   it("removes unpinned tabs", async () => {
     mockTabsQuery.mockResolvedValue([
-      { id: 10, pinned: false, ...defaultTabProps },
-      { id: 11, pinned: true, ...defaultTabProps },
-      { id: 12, pinned: false, ...defaultTabProps },
-      { id: 13, pinned: true, ...defaultTabProps },
+      { ...defaultTab, id: 10, pinned: false },
+      { ...defaultTab, id: 11, pinned: true },
+      { ...defaultTab, id: 12, pinned: false },
+      { ...defaultTab, id: 13, pinned: true },
     ]);
 
     const cmd = new QuitAllCommand();
@@ -45,10 +40,10 @@ describe("QuitAllCommand", () => {
 
   it("removes pinned tabs forcely", async () => {
     mockTabsQuery.mockResolvedValue([
-      { id: 10, pinned: false, ...defaultTabProps },
-      { id: 11, pinned: true, ...defaultTabProps },
-      { id: 12, pinned: false, ...defaultTabProps },
-      { id: 13, pinned: true, ...defaultTabProps },
+      { ...defaultTab, id: 10, pinned: false },
+      { ...defaultTab, id: 11, pinned: true },
+      { ...defaultTab, id: 12, pinned: false },
+      { ...defaultTab, id: 13, pinned: true },
     ]);
 
     const cmd = new QuitAllCommand();

@@ -15,6 +15,6 @@ export default class OpenSourceOperator implements Operator {
       return;
     }
     const url = "view-source:" + sender.tab.url;
-    await browser.tabs.create({ url });
+    await chrome.tabs.create({ url });
   }
 }

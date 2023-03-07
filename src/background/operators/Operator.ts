@@ -6,7 +6,7 @@ export type OperatorContext = {
   sender: {
     tabId: number;
     frameId: number;
-    tab: browser.tabs.Tab;
+    tab: chrome.tabs.Tab;
   };
 };
 

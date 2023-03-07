@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 
-type OnConnectFunc = (port: browser.runtime.Port) => void;
-type OnDisconnectFunc = (port: browser.runtime.Port) => void;
+type OnConnectFunc = (port: chrome.runtime.Port) => void;
+type OnDisconnectFunc = (port: chrome.runtime.Port) => void;
 
 @injectable()
 export default class FindPortListener {
@@ -11,7 +11,7 @@ export default class FindPortListener {
   ) {}
 
   run(): void {
-    browser.runtime.onConnect.addListener((port) => {
+    chrome.runtime.onConnect.addListener((port) => {
       if (port.name !== "vimmatic-find") {
         return;
       }

@@ -51,10 +51,10 @@ export default class OpenCommandHelper {
   }
 
   private async queryBookmarks(query: string): Promise<CompletionItem[]> {
-    const items = await browser.bookmarks.search({ query });
+    const items = await chrome.bookmarks.search({ query });
     return items
       .filter((item) => item.title.length > 0)
-      .filter((item) => item.type === "bookmark" && item.url)
+      .filter((item) => typeof item.url !== "undefined")
       .filter((item) => {
         let url = undefined;
         try {
@@ -73,7 +73,7 @@ export default class OpenCommandHelper {
   }
 
   async queryHistories(query: string): Promise<CompletionItem[]> {
-    const items = await browser.history.search({
+    const items = await chrome.history.search({
       text: query,
       startTime: 0,
     });

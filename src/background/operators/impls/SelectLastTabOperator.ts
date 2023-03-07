@@ -10,7 +10,11 @@ export default class SelectLastTabOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    const tabs = await browser.tabs.query({ currentWindow: true });
-    await browser.tabs.update(tabs[tabs.length - 1].id, { active: true });
+    const tabs = await chrome.tabs.query({ currentWindow: true });
+    const tab = tabs[tabs.length - 1];
+    if (typeof tab.id === "undefined") {
+      throw new Error(`tab ${tab.index} has not id`);
+    }
+    await chrome.tabs.update(tab.id, { active: true });
   }
 }

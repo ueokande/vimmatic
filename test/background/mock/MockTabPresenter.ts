@@ -1,7 +1,7 @@
 import TabPresenter from "../../../src/background/presenters/TabPresenter";
 
 export default class MockTabPresenter implements TabPresenter {
-  private readonly tabs: browser.tabs.Tab[] = [];
+  private readonly tabs: chrome.tabs.Tab[] = [];
   private readonly zooms: number[] = [];
   private nextid = 0;
 
@@ -29,7 +29,7 @@ export default class MockTabPresenter implements TabPresenter {
       pinned?: boolean;
       windowId?: number;
     }
-  ): Promise<browser.tabs.Tab> {
+  ): Promise<chrome.tabs.Tab> {
     const tab = {
       ...MockTabPresenter.defaultTabOptions,
       ...opts,
@@ -48,7 +48,7 @@ export default class MockTabPresenter implements TabPresenter {
     return Promise.resolve(tab);
   }
 
-  duplicate(id: number): Promise<browser.tabs.Tab> {
+  duplicate(id: number): Promise<chrome.tabs.Tab> {
     const src = this.tabs.find((t) => t.id === id);
     if (!src) {
       throw new Error(`tab ${id} not found`);
@@ -61,14 +61,14 @@ export default class MockTabPresenter implements TabPresenter {
     return Promise.resolve(tab);
   }
 
-  getAll(): Promise<browser.tabs.Tab[]> {
+  getAll(): Promise<chrome.tabs.Tab[]> {
     return Promise.resolve([...this.tabs]);
   }
 
   getByKeyword(
     keyword: string,
     excludePinned: boolean
-  ): Promise<browser.tabs.Tab[]> {
+  ): Promise<chrome.tabs.Tab[]> {
     const tabs = this.tabs
 
       .filter((t) => {
@@ -83,7 +83,7 @@ export default class MockTabPresenter implements TabPresenter {
     return Promise.resolve(tabs);
   }
 
-  getCurrent(): Promise<browser.tabs.Tab> {
+  getCurrent(): Promise<chrome.tabs.Tab> {
     const tab = this.tabs.find((t) => t.active);
     if (!tab) {
       throw new Error("active tab not found");
@@ -109,7 +109,7 @@ export default class MockTabPresenter implements TabPresenter {
     throw new Error("not implemented");
   }
 
-  open(url: string, tabId?: number): Promise<browser.tabs.Tab> {
+  open(url: string, tabId?: number): Promise<chrome.tabs.Tab> {
     let tab = this.tabs.find((t) => t.active);
     if (!tab) {
       throw new Error(`active tab not found`);

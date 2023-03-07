@@ -2,7 +2,7 @@ import ReloadTabOperator from "../../../../src/background/operators/impls/Reload
 import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("ReloadTabOperator", () => {
-  const reloadSpy = jest.spyOn(browser.tabs, "reload").mockResolvedValue();
+  const reloadSpy = jest.spyOn(chrome.tabs, "reload").mockResolvedValue();
   const ctx = {} as OperatorContext;
 
   beforeEach(() => {

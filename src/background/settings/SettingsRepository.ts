@@ -40,7 +40,7 @@ class SettingsCache {
 @injectable()
 export class PersistentSettingsRepository implements SettingsRepository {
   async load(): Promise<Settings> {
-    const { settings } = await browser.storage.sync.get("settings");
+    const { settings } = await chrome.storage.sync.get("settings");
     if (!settings) {
       return defaultSettings;
     }
@@ -59,8 +59,11 @@ export class PersistentSettingsRepository implements SettingsRepository {
   }
 
   onChanged(f: OnChangeListener): void {
-    browser.storage.onChanged.addListener((changes, area) => {
+    chrome.storage.onChanged.addListener((changes, area) => {
       if (area !== "sync") {
+        return;
+      }
+      if (typeof changes.settings === "undefined") {
         return;
       }
 

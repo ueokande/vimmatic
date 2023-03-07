@@ -10,6 +10,6 @@ export default class UnpinTabOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    await browser.tabs.update({ pinned: false });
+    await chrome.tabs.update({ pinned: false });
   }
 }

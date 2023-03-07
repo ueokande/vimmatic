@@ -21,7 +21,7 @@ export default class MarkJumpUseCase {
   ) {}
 
   async jumpToMark(key: string): Promise<void> {
-    const [tab] = await browser.tabs.query({
+    const [tab] = await chrome.tabs.query({
       active: true,
       currentWindow: true,
     });
@@ -51,10 +51,10 @@ export default class MarkJumpUseCase {
         mark.y,
         smooth
       );
-      await browser.tabs.update(tabId, { active: true });
+      await chrome.tabs.update(tabId, { active: true });
       return;
     } catch (e) {
-      const tab = await browser.tabs.create({ url: mark.url });
+      const tab = await chrome.tabs.create({ url: mark.url });
       if (!tab.id) {
         return;
       }

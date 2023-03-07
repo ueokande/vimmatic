@@ -1,31 +1,49 @@
 #!/usr/bin/env node
 
-const fs = require('node:fs/promises');
-const { build } = require('esbuild')
+const fs = require("node:fs/promises");
+const version = require("../package.json").version;
+const { build } = require("esbuild");
+const targets = {
+  firefox: "firefox91",
+  chrome: "chrome100",
+};
 
-const buildScripts = async () => {
+const buildScripts = async (browser) => {
   await build({
     entryPoints: {
-      console: 'src/console/index.tsx',
-      content: 'src/content/index.ts',
-      background: 'src/background/index.ts',
-      options: 'src/options/index.tsx',
+      console: "src/console/index.tsx",
+      content: "src/content/index.ts",
+      background: "src/background/index.ts",
+      options: "src/options/index.tsx",
     },
-    outdir: './dist',
+    outdir: `./dist/${browser}/lib`,
     bundle: true,
-    target: 'firefox91',
-    sourcemap: 'inline',
-    platform: 'browser',
-  })
-}
+    target: targets[browser],
+    sourcemap: "inline",
+    platform: "browser",
+  });
+};
 
-const buildAssets = async () => {
-  await fs.copyFile('src/console/index.css', 'dist/console.css');
-  await fs.copyFile('src/console/index.html', 'dist/console.html');
-  await fs.copyFile('src/options/index.html', 'dist/options.html');
-}
+const buildAssets = async (browser) => {
+  await fs.cp("resources/", `dist/${browser}/resources/`, { recursive: true });
+  await fs.copyFile(`src/console/index.css`, `dist/${browser}/lib/console.css`);
+  await fs.copyFile(
+    `src/console/index.html`,
+    `dist/${browser}/lib/console.html`
+  );
+  await fs.copyFile(
+    `src/options/index.html`,
+    `dist/${browser}/lib/options.html`
+  );
 
-(async() => {
-  await buildScripts();
-  await buildAssets();
-})()
+  const manifest = require(`../src/manifest.${browser}.json`);
+  manifest.version = version;
+  fs.writeFile(`dist/${browser}/manifest.json`, JSON.stringify(manifest));
+};
+
+(async () => {
+  for (const browser of ["firefox", "chrome"]) {
+    await buildScripts(browser);
+    await buildAssets(browser);
+  }
+})();

@@ -11,7 +11,7 @@ export const useMessageClient = (): Sender<BackgroundMessageSchema> => {
     () =>
       new Sender<BackgroundMessageSchema>(
         (type: BackgroundMessageKey, args: BackgroundMessageRequest) => {
-          return browser.runtime.sendMessage({
+          return chrome.runtime.sendMessage({
             type,
             args: args ?? {},
           });

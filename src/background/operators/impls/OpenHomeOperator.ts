@@ -33,11 +33,11 @@ export default class OpenHomeOperator implements Operator {
       );
     }
     if (urls.length === 1 && !newTab) {
-      await browser.tabs.update({ url: urls[0] });
+      await chrome.tabs.update({ url: urls[0] });
       return;
     }
     for (const url of urls) {
-      await browser.tabs.create({ url });
+      await chrome.tabs.create({ url });
     }
   }
 }

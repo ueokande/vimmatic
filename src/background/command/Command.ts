@@ -12,7 +12,7 @@ export type CommandContext = {
   sender: {
     tabId: number;
     frameId: number;
-    tab: browser.tabs.Tab;
+    tab: chrome.tabs.Tab;
   };
 };
 

@@ -1,4 +1,4 @@
-type Item = browser.history.HistoryItem;
+type Item = chrome.history.HistoryItem;
 
 const filterHttp = (items: Item[]): Item[] => {
   const httpsHosts = items

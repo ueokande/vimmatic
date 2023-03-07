@@ -26,12 +26,10 @@ const App: React.FC = () => {
     receiver.route("console.show.error").to(({ text }) => showError(text));
     receiver.route("console.show.info").to(({ text }) => showInfo(text));
     receiver.route("console.hide").to(() => hide());
-    browser.runtime.onMessage.addListener((message: any) => {
+    chrome.runtime.onMessage.addListener((message: any) => {
       receiver.receive(message.type, message.args);
     });
-    const port = browser.runtime.connect(undefined, {
-      name: "vimmatic-console",
-    });
+    const port = chrome.runtime.connect({ name: "vimmatic-console" });
     port.onMessage.addListener((message: any) => {
       receiver.receive(message.type, message.args);
     });

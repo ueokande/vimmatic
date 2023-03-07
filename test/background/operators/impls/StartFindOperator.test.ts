@@ -4,9 +4,9 @@ import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("StartFindOperator", () => {
   jest
-    .spyOn(browser.tabs, "query")
+    .spyOn(chrome.tabs, "query")
     .mockResolvedValue([
-      { id: 100, url: "https://example.com/" } as browser.tabs.Tab,
+      { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
     ]);
   const consoleClient = new MockConsoleClient();
   const showFindSpy = jest

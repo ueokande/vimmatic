@@ -20,13 +20,13 @@ export class NotifierImpl implements NotifierImpl {
         return;
       }
       onclick();
-      browser.notifications.onClicked.removeListener(listener);
+      chrome.notifications.onClicked.removeListener(listener);
     };
-    browser.notifications.onClicked.addListener(listener);
+    chrome.notifications.onClicked.addListener(listener);
 
-    await browser.notifications.create(NOTIFICATION_ID_UPDATE, {
+    chrome.notifications.create(NOTIFICATION_ID_UPDATE, {
       type: "basic",
-      iconUrl: browser.extension.getURL("resources/icon_48x48.png"),
+      iconUrl: chrome.runtime.getURL("resources/icon_48x48.png"),
       title,
       message,
     });
@@ -45,13 +45,13 @@ export class NotifierImpl implements NotifierImpl {
         return;
       }
       onclick();
-      browser.notifications.onClicked.removeListener(listener);
+      chrome.notifications.onClicked.removeListener(listener);
     };
-    browser.notifications.onClicked.addListener(listener);
+    chrome.notifications.onClicked.addListener(listener);
 
-    await browser.notifications.create(NOTIFICATION_ID_INVALID_SETTINGS, {
+    chrome.notifications.create(NOTIFICATION_ID_INVALID_SETTINGS, {
       type: "basic",
-      iconUrl: browser.extension.getURL("resources/icon_48x48.png"),
+      iconUrl: chrome.extension.getURL("resources/icon_48x48.png"),
       title,
       message,
     });

@@ -1,19 +1,11 @@
 import AddBookmarkCommand from "../../../src/background/command/AddBookmarkCommand";
 import MockConsoleClient from "../mock/MockConsoleClient";
+import defaultTab from "../mock/defaultTab";
 
 describe("AddBookmarkCommand", () => {
-  const mockBookmarkCreate = jest.spyOn(browser.bookmarks, "create");
+  const mockBookmarkCreate = jest.spyOn(chrome.bookmarks, "create");
   const consoleClient = new MockConsoleClient();
   const mockShowInfo = jest.spyOn(consoleClient, "showInfo");
-
-  const defaultTabProps = {
-    id: 10,
-    index: 0,
-    highlighted: false,
-    active: true,
-    pinned: false,
-    incognito: false,
-  };
 
   beforeEach(() => {
     mockBookmarkCreate.mockClear();
@@ -32,9 +24,10 @@ describe("AddBookmarkCommand", () => {
         tabId: 10,
         frameId: 0,
         tab: {
+          ...defaultTab,
+          id: 10,
           title: "example",
           url: "https://example.com",
-          ...defaultTabProps,
         },
       },
     };
@@ -42,7 +35,6 @@ describe("AddBookmarkCommand", () => {
     await cmd.exec(ctx, false, "my title");
 
     expect(mockBookmarkCreate).toHaveBeenCalledWith({
-      type: "bookmark",
       title: "my title",
       url: "https://example.com",
     });
@@ -55,9 +47,10 @@ describe("AddBookmarkCommand", () => {
         tabId: 10,
         frameId: 0,
         tab: {
+          ...defaultTab,
+          id: 10,
           title: "example",
           url: "https://example.com",
-          ...defaultTabProps,
         },
       },
     };
@@ -65,7 +58,6 @@ describe("AddBookmarkCommand", () => {
     await cmd.exec(ctx, false, "");
 
     expect(mockBookmarkCreate).toHaveBeenCalledWith({
-      type: "bookmark",
       title: "example",
       url: "https://example.com",
     });
@@ -78,8 +70,10 @@ describe("AddBookmarkCommand", () => {
         tabId: 10,
         frameId: 0,
         tab: {
+          ...defaultTab,
+          id: 10,
+          title: undefined,
           url: "https://example.com",
-          ...defaultTabProps,
         },
       },
     };
@@ -88,7 +82,6 @@ describe("AddBookmarkCommand", () => {
     await cmd.exec(ctx, false, "");
 
     expect(mockBookmarkCreate).toHaveBeenCalledWith({
-      type: "bookmark",
       title: "https://example.com",
       url: "https://example.com",
     });

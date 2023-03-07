@@ -38,7 +38,7 @@ class TabOpenCommand implements Command {
   ): Promise<void> {
     const search = await this.searchEngineSettings.get();
     const url = urls.searchUrl(args, search);
-    await browser.tabs.create({ url });
+    await chrome.tabs.create({ url });
   }
 }
 

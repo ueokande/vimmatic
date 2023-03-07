@@ -34,9 +34,9 @@ export default class PasteOperator implements Operator {
     const url = urls.searchUrl(text, search);
 
     if (newTab) {
-      await browser.tabs.create({ url });
+      await chrome.tabs.create({ url });
     } else {
-      await browser.tabs.update({ url });
+      await chrome.tabs.update({ url });
     }
   }
 }

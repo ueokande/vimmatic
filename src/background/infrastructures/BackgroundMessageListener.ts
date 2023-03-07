@@ -15,7 +15,7 @@ export default class BackgroundMessageListener {
   private readonly receiver: ReceiverWithContext<Schema, RequestContext> =
     new ReceiverWithContext();
 
-  private readonly consolePorts: { [tabId: number]: browser.runtime.Port } = {};
+  private readonly consolePorts: { [tabId: number]: chrome.runtime.Port } = {};
 
   constructor(
     @inject(SettingsController)
@@ -69,8 +69,12 @@ export default class BackgroundMessageListener {
   }
 
   listen() {
-    browser.runtime.onMessage.addListener(
-      (message: unknown, sender: browser.runtime.MessageSender) => {
+    chrome.runtime.onMessage.addListener(
+      (
+        message: unknown,
+        sender: chrome.runtime.MessageSender,
+        sendResponse
+      ) => {
         const ctx: RequestContext = { sender };
         if (typeof message !== "object" && message !== null) {
           console.warn("unexpected message format:", message);
@@ -85,27 +89,26 @@ export default class BackgroundMessageListener {
           return;
         }
 
-        try {
-          const ret = this.receiver.receive(ctx, type, args);
-          if (!(ret instanceof Promise)) {
-            return Promise.resolve({});
-          }
-          return ret.catch((e) => {
-            console.error(e);
+        const ret = this.receiver.receive(ctx, type, args);
+        Promise.resolve(ret)
+          .then(sendResponse)
+          .catch((err) => {
+            console.error(err);
             if (!sender.tab || !sender.tab.id) {
               return;
             }
-            return this.errorHandler(sender, e);
+            chrome.tabs.sendMessage(sender.tab.id, {
+              type: "console.show.error",
+              text: err.message,
+            });
           });
-        } catch (e) {
-          return this.errorHandler(sender, e);
-        }
+        return true;
       }
     );
-    browser.runtime.onConnect.addListener(this.onConnected.bind(this));
+    chrome.runtime.onConnect.addListener(this.onConnected.bind(this));
   }
 
-  private onConnected(port: browser.runtime.Port): void {
+  private onConnected(port: chrome.runtime.Port): void {
     if (port.name !== "vimmatic-console") {
       return;
     }
@@ -128,19 +131,5 @@ export default class BackgroundMessageListener {
       return;
     }
     port.postMessage(message);
-  }
-
-  private errorHandler(
-    sender: browser.runtime.MessageSender,
-    err: Error
-  ): Promise<void> | void {
-    console.error(err);
-    if (!sender.tab || !sender.tab.id) {
-      return;
-    }
-    return browser.tabs.sendMessage(sender.tab.id, {
-      type: "console.show.error",
-      text: err.message,
-    });
   }
 }

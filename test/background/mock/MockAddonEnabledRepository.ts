@@ -18,4 +18,8 @@ export default class MockAddonEnabledRepository
   isEnabled(): boolean {
     throw new Error("not implemented");
   }
+
+  onChange(_listener: unknown): void {
+    throw new Error("not implemented");
+  }
 }

@@ -23,12 +23,12 @@ class QuitAllCommand implements Command {
     force: boolean,
     _args: string
   ): Promise<void> {
-    let tabs = await browser.tabs.query({ currentWindow: true });
+    let tabs = await chrome.tabs.query({ currentWindow: true });
     if (!force) {
       tabs = tabs.filter((tab) => !tab.pinned);
     }
     const ids = tabs.map((tab) => tab.id as number);
-    await browser.tabs.remove(ids);
+    await chrome.tabs.remove(ids);
   }
 }
 

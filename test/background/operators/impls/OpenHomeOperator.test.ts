@@ -5,11 +5,11 @@ import { OperatorContext } from "../../../../src/background/operators/Operator";
 describe("OpenHomeOperator", () => {
   describe("#run", () => {
     const mockTabsCreate = jest
-      .spyOn(browser.tabs, "create")
-      .mockResolvedValue({} as browser.tabs.Tab);
+      .spyOn(chrome.tabs, "create")
+      .mockResolvedValue({} as chrome.tabs.Tab);
     const mockTabsUpdate = jest
-      .spyOn(browser.tabs, "update")
-      .mockResolvedValue({} as browser.tabs.Tab);
+      .spyOn(chrome.tabs, "update")
+      .mockResolvedValue({} as chrome.tabs.Tab);
     const ctx = {} as OperatorContext;
 
     it("opens a home page of the browser into the current tab", async () => {

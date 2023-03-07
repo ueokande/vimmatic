@@ -16,7 +16,7 @@ export class LastSelectedTabImpl implements LastSelectedTab {
 }
 
 if (!registered) {
-  browser.tabs.onActivated.addListener(({ tabId }) => {
+  chrome.tabs.onActivated.addListener(({ tabId }) => {
     lastSelectedTabId = currentSelectedTabId;
     currentSelectedTabId = tabId;
   });

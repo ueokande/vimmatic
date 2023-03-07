@@ -16,8 +16,8 @@ describe("OpenCommandHelper", () => {
 
   const mockGetProperty = jest.spyOn(propertySettings, "getProperty");
   const mockGetSearchEngines = jest.spyOn(searchEngineSettings, "get");
-  const mockHistorySearch = jest.spyOn(browser.history, "search");
-  const mockBookmarksSearch = jest.spyOn(browser.bookmarks, "search");
+  const mockHistorySearch = jest.spyOn(chrome.history, "search");
+  const mockBookmarksSearch = jest.spyOn(chrome.bookmarks, "search");
 
   beforeEach(() => {
     mockHistorySearch.mockClear();
@@ -68,9 +68,9 @@ describe("OpenCommandHelper", () => {
   describe("bookmarks", () => {
     it("returns bookmarks", async () => {
       mockBookmarksSearch.mockResolvedValue([
-        { id: "0", type: "bookmark", title: "com", url: "https://example.com" },
-        { id: "1", type: "bookmark", title: "net", url: "https://example.net" },
-        { id: "2", type: "bookmark", title: "org", url: "https://example.org" },
+        { id: "0", title: "com", url: "https://example.com" },
+        { id: "1", title: "net", url: "https://example.net" },
+        { id: "2", title: "org", url: "https://example.org" },
       ]);
 
       const completions = await sut.getCompletions("");
@@ -84,10 +84,10 @@ describe("OpenCommandHelper", () => {
 
     it("filters empty bookmarks", async () => {
       mockBookmarksSearch.mockResolvedValue([
-        { id: "0", type: "folder", title: "my bookmarks" },
-        { id: "1", type: "bookmark", title: "", url: "https://example.com" },
-        { id: "3", type: "bookmark", title: "invalid url", url: "********" },
-        { id: "4", type: "bookmark", title: "empty url" },
+        { id: "0", title: "my bookmarks" },
+        { id: "1", title: "", url: "https://example.com" },
+        { id: "3", title: "invalid url", url: "********" },
+        { id: "4", title: "empty url" },
       ]);
 
       const completions = await sut.getCompletions("");
@@ -99,7 +99,6 @@ describe("OpenCommandHelper", () => {
       mockBookmarksSearch.mockResolvedValue(
         Array(30).fill({
           id: "0",
-          type: "bookmark",
           title: "com",
           url: "https://example.com",
         })

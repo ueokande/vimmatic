@@ -1,39 +1,47 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const manifest = require('../manifest');
-const JSZip = require('jszip');
+const fs = require("node:fs");
+const path = require("node:path");
+const JSZip = require("jszip");
+const version = require("../package.json").version;
 
-const resources = () => {
-  return [
-    'manifest.json',
-    'resources/disabled_32x32.png',
-    'resources/enabled_32x32.png',
-    manifest.options_ui.page,
-    'dist/options.js',
-  ].concat(
-    Object.values(manifest.icons),
-    manifest.background.scripts,
-    manifest.content_scripts.map(cs => cs.js).reduce((a1, a2) => a1.concat(a2), []),
-    manifest.web_accessible_resources,
-  ).sort();
-};
-
-const output = `vimmatic-${manifest.version}.zip`
-
-let basedir = path.join(__dirname, '..');
-let zip = new JSZip();
-
-for (let r of resources()) {
-  console.log(`  adding: ${r}`)
-  let data = fs.readFileSync(path.join(basedir, r));
-  zip.file(r, data);
+async function* tree(dir) {
+  const dirents = await fs.promises.readdir(dir, { withFileTypes: true });
+  for (const dirent of dirents) {
+    const r = path.resolve(dir, dirent.name);
+    if (dirent.isDirectory()) {
+      yield* tree(r);
+    } else {
+      yield r;
+    }
+  }
 }
 
-zip
-  .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
-  .pipe(fs.createWriteStream(output))
-  .on('finish', function () {
-    console.log(`${output} created`);
+const zipPackage = async (browser) => {
+  const root = path.join(__dirname, "..", "dist", browser);
+  const output = `vimmatic_v${version}_${browser}.zip`;
+
+  const zip = new JSZip();
+
+  for await (const f of tree(root)) {
+    const relative = path.relative(root, f);
+    console.error(`  adding: ${relative}`);
+    const data = fs.readFileSync(f);
+    zip.file(relative, data);
+  }
+
+  await new Promise((resolve, reject) => {
+    zip
+      .generateNodeStream({ type: "nodebuffer", streamFiles: true })
+      .pipe(fs.createWriteStream(output))
+      .on("finish", resolve)
+      .on("error", reject);
   });
+  console.error(`${output} created`);
+};
+
+(async () => {
+  for (const browser of ["firefox", "chrome"]) {
+    await zipPackage(browser);
+  }
+})();

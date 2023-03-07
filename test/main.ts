@@ -4,7 +4,7 @@ const todo = () => {
   throw new Error("not implemented");
 };
 
-global.browser = {
+global.chrome = {
   tabs: {
     query: todo,
     create: todo,
@@ -35,4 +35,4 @@ global.browser = {
     getRecentlyClosed: todo,
     restore: todo,
   },
-} as unknown as typeof browser;
+} as unknown as typeof chrome;

@@ -4,9 +4,9 @@ import { OperatorContext } from "../../../../src/background/operators/Operator";
 describe("ZoomInOperator", () => {
   describe("#run", () => {
     it("zoom-out the current tab", async () => {
-      jest.spyOn(browser.tabs, "getZoom").mockResolvedValue(1);
+      jest.spyOn(chrome.tabs, "getZoom").mockResolvedValue(1);
       const mockSetZoom = jest
-        .spyOn(browser.tabs, "setZoom")
+        .spyOn(chrome.tabs, "setZoom")
         .mockResolvedValue();
 
       const sut = new ZoomInOperator();

@@ -1,6 +1,5 @@
 import { inject, injectable } from "inversify";
 import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
 import AddonEnabledUseCase from "../../usecases/AddonEnabledUseCase";
 
 @injectable()
@@ -16,7 +15,7 @@ export default class DisableAddonOperator implements Operator {
 
   schema() {}
 
-  async run(ctx: OperatorContext): Promise<void> {
-    await this.addonEnabledUseCase.toggle(ctx.sender.tabId);
+  async run(): Promise<void> {
+    await this.addonEnabledUseCase.enable();
   }
 }

@@ -3,8 +3,8 @@ import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("NavigateParentOperator", () => {
   const mockTabsUpdate = jest
-    .spyOn(browser.tabs, "update")
-    .mockResolvedValue({} as browser.tabs.Tab);
+    .spyOn(chrome.tabs, "update")
+    .mockResolvedValue({} as chrome.tabs.Tab);
 
   beforeEach(() => {
     mockTabsUpdate.mockClear();
