@@ -25,7 +25,7 @@
   "devDependencies": {
     "@abraham/reflection": "^0.10.0",
     "@playwright/test": "1.26.0",
-    "@types/assert": "^1.4.6",
+    "@types/assert": "^1.5.6",
     "@types/chrome": "^0.0.219",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.0",
