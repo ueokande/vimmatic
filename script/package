@@ -19,7 +19,7 @@ async function* tree(dir) {
 
 const zipPackage = async (browser) => {
   const root = path.join(__dirname, "..", "dist", browser);
-  const output = `vimmatic_v${version}_${browser}.zip`;
+  const output = path.join("dist", `vimmatic_v${version}_${browser}.zip`);
 
   const zip = new JSZip();
 
