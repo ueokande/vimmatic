@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../infrastructures/MemoryStorage";
+import MemoryStorage from "../db/MemoryStorage";
 import { Operation } from "../../shared/operations2";
 
 export default interface RepeatRepository {

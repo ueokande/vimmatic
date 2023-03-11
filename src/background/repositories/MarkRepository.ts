@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../infrastructures/MemoryStorage";
+import MemoryStorage from "../db/MemoryStorage";
 import GlobalMark from "../domains/GlobalMark";
 import LocalMark from "../domains/LocalMark";
 

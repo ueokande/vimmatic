@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import MemoryStorage from "../infrastructures/MemoryStorage";
+import MemoryStorage from "../db/MemoryStorage";
 import { defaultSettings, serialize, deserialize } from "../../settings";
 import Settings from "../../shared/Settings";
 import { SerializedSettings } from "../../settings/schema";

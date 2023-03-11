@@ -1,4 +1,4 @@
-import ConsoleClient from "../../../src/background/infrastructures/ConsoleClient";
+import ConsoleClient from "../../../src/background/clients/ConsoleClient";
 
 export default class MockConsoleClient implements ConsoleClient {
   hide(_tabId: number): Promise<any> {

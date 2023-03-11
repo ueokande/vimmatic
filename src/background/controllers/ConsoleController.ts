@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import ConsoleUseCase from "../usecases/ConsoleUseCase";
-import RequestContext from "../infrastructures/RequestContext";
+import RequestContext from "../messaging/RequestContext";
 
 @injectable()
 export default class ConsoleController {

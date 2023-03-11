@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import LinkUseCase from "../usecases/LinkUseCase";
-import RequestContext from "../infrastructures/RequestContext";
+import RequestContext from "../messaging/RequestContext";
 
 @injectable()
 export default class LinkController {
