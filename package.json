@@ -3,8 +3,11 @@
   "description": "vimmatic",
   "version": "0.0.1",
   "scripts": {
-    "start": "nodemon --watch ./src --ext js,jsx,ts,tsx,css,html,json script/build",
+    "start": "NODE_ENV=development nodemon --watch ./src --ext js,jsx,ts,tsx,css,html,json script/build",
+    "clean": "rm -rf ./dist",
+    "prebuild": "yarn clean",
     "build": "script/build",
+    "prepackage": "yarn build",
     "package": "yarn build && script/package",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --ext .ts,.tsx . --fix",

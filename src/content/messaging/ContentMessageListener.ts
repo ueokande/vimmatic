@@ -155,6 +155,11 @@ export default class ContentMessageListener {
           return;
         }
 
+        if (process.env.NODE_ENV === "development") {
+          const style = "background-color: purple; color: white; padding: 4px;";
+          console.debug("%cRECEIVE%c %s %o", style, "", type, args);
+        }
+
         const ret = this.receiver.receive(type, args);
         Promise.resolve(ret)
           .then(sendResponse)
