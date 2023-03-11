@@ -161,6 +161,7 @@ export default class ContentMessageListener {
           .catch((err) => {
             console.error(err);
           });
+        return true;
       }
     );
   }
