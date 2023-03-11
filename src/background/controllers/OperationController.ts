@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import OperationUseCase from "../usecases/OperationUseCase";
-import RequestContext from "../infrastructures/RequestContext";
+import RequestContext from "../messaging/RequestContext";
 
 @injectable()
 export default class OperationController {

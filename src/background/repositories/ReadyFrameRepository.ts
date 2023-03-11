@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../infrastructures/MemoryStorage";
+import MemoryStorage from "../db/MemoryStorage";
 
 type State = { [tabId: number]: { [frameId: number]: number } };
 

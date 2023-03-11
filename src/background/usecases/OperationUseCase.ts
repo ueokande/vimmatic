@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import type { Props, OperatorContext } from "../operators/Operator";
 import OperatorRegistory from "../operators/OperatorRegistory";
 import RepeatRepository from "../repositories/RepeatRepository";
-import RequestContext from "../infrastructures/RequestContext";
+import RequestContext from "../messaging/RequestContext";
 
 @injectable()
 export default class OperationUseCase {

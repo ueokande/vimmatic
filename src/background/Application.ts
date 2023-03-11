@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import BackgroundMessageListener from "./infrastructures/BackgroundMessageListener";
-import FindPortListener from "./infrastructures/FindPortListener";
+import BackgroundMessageListener from "./messaging/BackgroundMessageListener";
+import FindPortListener from "./messaging/FindPortListener";
 import VersionUseCase from "./usecases/VersionUseCase";
 import FindRepositoryImpl from "./repositories/FindRepository";
 import ReadyFrameRepository from "./repositories/ReadyFrameRepository";

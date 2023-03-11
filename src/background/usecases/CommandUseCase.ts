@@ -2,7 +2,7 @@ import { Completions } from "../../shared/Completions";
 import { injectable, inject } from "inversify";
 import CommandRegistry from "../command/CommandRegistry";
 import { parseCommand, onCommandInputting } from "./parser";
-import RequestContext from "../infrastructures/RequestContext";
+import RequestContext from "../messaging/RequestContext";
 import { CommandContext } from "../command/Command";
 
 @injectable()

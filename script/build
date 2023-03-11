@@ -10,6 +10,9 @@ const targets = {
 
 const buildScripts = async (browser) => {
   await build({
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    },
     entryPoints: {
       console: "src/console/index.tsx",
       content: "src/content/index.ts",
