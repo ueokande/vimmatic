@@ -55,6 +55,6 @@ You can see completed commands on [Console commands](./console_commands.md).
 
 ## Copyright
 
-Copyright © 2017-2019 by Shin'ya Ueoka
+Copyright © Shin'ya Ueoka and contributors
 
 [AMO]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/
