@@ -13,10 +13,12 @@ since it uses the WebExtensions API.
 
 ### Install Vimmatic
 
-Vimmatic is supported on Firefox 68 ESR.  Please install the latest version of stable ESR
-from the [download page](https://www.mozilla.org/en-US/firefox/).
-You can install Vimmatic from [Firefox add-ons (addons.mozilla.org)][AMO], and
-manage installed add-ons on Firefox preferences `about:preferences`.
+Vimmatic works on Firefox and Chrome.  You can install Vimmatic from Firefox
+add-ons (for Firefox users) or chrome web store (for chrome users).
+
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Get an addon][Get for firefox]                                                                                                                                                                                   | [Get an extension][Get for chrome]                                                                                                                                                                                                |
 
 ### Quick start
 
