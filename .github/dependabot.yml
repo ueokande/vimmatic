@@ -2,6 +2,8 @@ version: 2
 updates:
 - package-ecosystem: npm
   directory: "/"
+  schedule:
+    interval: daily
   versioning-strategy: increase
   commit-message:
     prefix: "fix(deps)"
