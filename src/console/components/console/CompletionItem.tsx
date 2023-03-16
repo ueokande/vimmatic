@@ -3,10 +3,11 @@ import styled from "../../colorscheme/styled";
 
 const Container = styled.li<{
   shown: boolean;
-  icon: string;
+  icon?: string;
   highlight: boolean;
 }>`
-  background-image: ${({ icon }) => "url(" + icon + ")"};
+  background-image: ${({ icon }) =>
+    typeof icon !== "undefined" ? "url(" + icon + ")" : "unset"};
   background-color: ${({ highlight, theme }) =>
     highlight
       ? theme.completionSelectedBackground
@@ -15,7 +16,7 @@ const Container = styled.li<{
     highlight
       ? theme.completionSelectedForeground
       : theme.completionItemForeground};
-  display: ${({ shown }) => (shown ? "display" : "none")};
+  display: ${({ shown }) => (shown ? "block" : "none")};
   padding-left: 1.8rem;
   background-position: 0 center;
   background-size: contain;
@@ -47,11 +48,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 }
 
 const CompletionItem: React.FC<Props> = (props) => (
-  <Container
-    icon={props.icon || ""}
-    aria-labelledby={`completion-item-${props.primary}`}
-    {...props}
-  >
+  <Container aria-labelledby={`completion-item-${props.primary}`} {...props}>
     <Primary id={`completion-item-${props.primary}`}>{props.primary}</Primary>
     <Secondary>{props.secondary}</Secondary>
   </Container>
