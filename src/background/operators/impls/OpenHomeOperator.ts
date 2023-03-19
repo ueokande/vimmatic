@@ -26,12 +26,6 @@ export default class OpenHomeOperator implements Operator {
     { newTab }: z.infer<ReturnType<OpenHomeOperator["schema"]>>
   ): Promise<void> {
     const urls = await this.browserSettingRepository.getHomepageUrls();
-    if (urls.length === 1 && urls[0] === "about:home") {
-      // eslint-disable-next-line max-len
-      throw new Error(
-        "Cannot open Firefox Home (about:home) by WebExtensions, set your custom URLs"
-      );
-    }
     if (urls.length === 1 && !newTab) {
       await chrome.tabs.update({ url: urls[0] });
       return;
