@@ -6,6 +6,7 @@ import OperationController from "../controllers/OperationController";
 import KeyController from "../controllers/KeyController";
 import ConsoleController from "../controllers/ConsoleController";
 import FindController from "../controllers/FindController";
+import ConsoleClient from "../clients/ConsoleClient";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
 import RequestContext from "./RequestContext";
@@ -31,7 +32,9 @@ export default class BackgroundMessageListener {
     @inject(ConsoleController)
     consoleController: ConsoleController,
     @inject(FindController)
-    findController: FindController
+    findController: FindController,
+    @inject("ConsoleClient")
+    private readonly consoleClient: ConsoleClient
   ) {
     this.receiver
       .route("background.operation")
@@ -93,18 +96,19 @@ export default class BackgroundMessageListener {
           const style = "background-color: purple; color: white; padding: 4px;";
           console.debug("%cRECEIVE%c %s %o", style, "", type, args);
         }
-        const ret = this.receiver.receive(ctx, type, args);
-        Promise.resolve(ret)
+
+        Promise.resolve()
+          .then(() => this.receiver.receive(ctx, type, args))
           .then(sendResponse)
           .catch((err) => {
             console.error(err);
             if (!sender.tab || !sender.tab.id) {
               return;
             }
-            chrome.tabs.sendMessage(sender.tab.id, {
-              type: "console.show.error",
-              text: err.message,
-            });
+            if (typeof err.message !== "string") {
+              return;
+            }
+            this.consoleClient.showError(sender.tab.id, err.message);
           });
         return true;
       }

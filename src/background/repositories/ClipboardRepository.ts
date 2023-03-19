@@ -7,7 +7,7 @@ export default interface ClipboardRepository {
 }
 
 @injectable()
-export class ClipboardRepositoryImpl implements ClipboardRepository {
+export class FirefoxClipboardRepositoryImpl implements ClipboardRepository {
   async read(): Promise<string> {
     const value = await navigator.clipboard.readText();
     return value;
@@ -15,5 +15,16 @@ export class ClipboardRepositoryImpl implements ClipboardRepository {
 
   async write(value: string): Promise<void> {
     await navigator.clipboard.writeText(value);
+  }
+}
+
+@injectable()
+export class ChromeClipboardRepositoryImpl implements ClipboardRepository {
+  async read(): Promise<string> {
+    throw new Error("Chrome does not support clipboard access");
+  }
+
+  async write(_value: string): Promise<void> {
+    throw new Error("Chrome does not support clipboard access");
   }
 }

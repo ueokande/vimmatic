@@ -23,8 +23,6 @@
     "sessions",
     "storage",
     "tabs",
-    "clipboardRead",
-    "clipboardWrite",
     "notifications",
     "bookmarks"
   ],

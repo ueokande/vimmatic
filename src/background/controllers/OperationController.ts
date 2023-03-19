@@ -21,6 +21,6 @@ export default class OperationController {
       props: Record<string, string | number | boolean>;
     }
   ): Promise<void> {
-    this.operationUseCase.run(ctx, name, props, repeat);
+    await this.operationUseCase.run(ctx, name, props, repeat);
   }
 }

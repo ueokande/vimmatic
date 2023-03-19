@@ -12,7 +12,10 @@ import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
 import { ReadyFrameRepositoryImpl } from "./repositories/ReadyFrameRepository";
-import { ClipboardRepositoryImpl } from "./repositories/ClipboardRepository";
+import {
+  FirefoxClipboardRepositoryImpl,
+  ChromeClipboardRepositoryImpl,
+} from "./repositories/ClipboardRepository";
 import { PropertySettingsImpl } from "./settings/PropertySettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
 import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
@@ -43,7 +46,11 @@ container.bind("NavigateClient").to(NavigateClientImpl);
 container.bind("ConsoleClient").to(ConsoleClientImpl);
 container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
 container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
-container.bind("ClipboardRepository").to(ClipboardRepositoryImpl);
+if (process.env.BROWSER === "firefox") {
+  container.bind("ClipboardRepository").to(FirefoxClipboardRepositoryImpl);
+} else {
+  container.bind("ClipboardRepository").to(ChromeClipboardRepositoryImpl);
+}
 container.bind("PropertySettings").to(PropertySettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
 container.bind("KeyCaptureClient").to(KeyCaptureClientImpl);
