@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import { Container } from "inversify";
-import { LastSelectedTabImpl } from "./tabs/LastSelectedTab";
+import { LastSelectedTabRepositoryImpl } from "./repositories/LastSelectedTabRepository";
 import { NotifierImpl } from "./presenters/Notifier";
 import { ContentMessageClientImpl } from "./clients/ContentMessageClient";
 import { NavigateClientImpl } from "./clients/NavigateClient";
@@ -35,7 +35,7 @@ import { OperatorRegistoryFactory } from "./operators";
 
 const container = new Container({ autoBindInjectable: true });
 
-container.bind("LastSelectedTab").to(LastSelectedTabImpl);
+container.bind("LastSelectedTabRepository").to(LastSelectedTabRepositoryImpl);
 container.bind("Notifier").to(NotifierImpl);
 container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);

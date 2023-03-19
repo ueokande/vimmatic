@@ -15,7 +15,7 @@ import PropertyRegistry from "../property/PropertyRegistry";
 import PropertySettings from "../settings/PropertySettings";
 import SearchEngineSettings from "../settings/SearchEngineSettings";
 import CommandRegistry, { CommandRegistryImpl } from "./CommandRegistry";
-import LastSelectedTab from "../tabs/LastSelectedTab";
+import LastSelectedTabRepository from "../repositories/LastSelectedTabRepository";
 import ConsoleClient from "../clients/ConsoleClient";
 
 @injectable()
@@ -33,11 +33,13 @@ export class CommandRegistryFactory {
     private readonly propertySettings: PropertySettings,
     @inject("SearchEngineSettings")
     private readonly searchEngineSettings: SearchEngineSettings,
-    @inject("LastSelectedTab")
-    private readonly lastSelectedTab: LastSelectedTab
+    @inject("LastSelectedTabRepository")
+    private readonly lastSelectedTabRepository: LastSelectedTabRepository
   ) {
     this.propertyRegistry = propertyRegistry;
-    this.bufferCommandHelper = new BufferCommandHelper(this.lastSelectedTab);
+    this.bufferCommandHelper = new BufferCommandHelper(
+      this.lastSelectedTabRepository
+    );
   }
 
   create(): CommandRegistry {
@@ -45,7 +47,10 @@ export class CommandRegistryFactory {
 
     registory.register(new AddBookmarkCommand(this.consoleClient));
     registory.register(
-      new BufferCommand(this.lastSelectedTab, this.bufferCommandHelper)
+      new BufferCommand(
+        this.lastSelectedTabRepository,
+        this.bufferCommandHelper
+      )
     );
     registory.register(new BufferDeleteCommand(this.bufferCommandHelper));
     registory.register(new BufferDeletesCommand(this.bufferCommandHelper));
