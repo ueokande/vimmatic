@@ -12,6 +12,7 @@ const buildScripts = async (browser) => {
   await build({
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.BROWSER': JSON.stringify(browser),
     },
     entryPoints: {
       console: "src/console/index.tsx",
