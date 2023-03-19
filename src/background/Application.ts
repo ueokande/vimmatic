@@ -52,24 +52,24 @@ export default class Application {
     this.findPortListener.run();
   }
 
-  private onFindPortConnect(port: chrome.runtime.Port) {
+  private async onFindPortConnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
     if (typeof tabId === "undefined" || typeof frameId === "undefined") {
       return;
     }
 
-    this.frameClient.notifyFrameId(tabId, frameId);
-    this.frameRepository.addFrameId(tabId, frameId);
+    await this.frameClient.notifyFrameId(tabId, frameId);
+    await this.frameRepository.addFrameId(tabId, frameId);
   }
 
-  private onFindPortDisconnect(port: chrome.runtime.Port) {
+  private async onFindPortDisconnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
     if (typeof tabId === "undefined" || typeof frameId === "undefined") {
       return;
     }
 
-    this.frameRepository.removeFrameId(tabId, frameId);
+    await this.frameRepository.removeFrameId(tabId, frameId);
   }
 }

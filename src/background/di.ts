@@ -18,7 +18,7 @@ import {
 } from "./repositories/ClipboardRepository";
 import { PropertySettingsImpl } from "./settings/PropertySettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
-import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
+import { SettingsRepositoryImpl } from "./settings/SettingsRepository";
 import { KeyCaptureClientImpl } from "./clients/KeyCaptureClient";
 import { MarkRepositoryImpl } from "./repositories/MarkRepository";
 import { MarkModeRepositoryImpl } from "./repositories/MarkModeRepository";
@@ -63,10 +63,7 @@ container.bind("TopFrameClient").to(TopFrameClientImpl);
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
 container.bind("AddonEnabledClient").to(AddonEnabledClientImpl);
 container.bind("ToolbarPresenter").to(ToolbarPresenterImpl);
-container
-  .bind("SettingsRepository")
-  .to(TransientSettingsRepotiory)
-  .inSingletonScope();
+container.bind("SettingsRepository").to(SettingsRepositoryImpl);
 container
   .bind("PropertyRegistry")
   .toConstantValue(new PropertyRegistryFactry().create());

@@ -14,21 +14,21 @@ export default class FollowKeyUseCase {
   async pressKey(tabId: number, key: string): Promise<boolean> {
     switch (key) {
       case "Enter":
-        await this.activate(tabId, this.followRepository.getKeys());
+        await this.activate(tabId, await this.followRepository.getKeys());
         return false;
       case "Esc":
         return false;
       case "Backspace":
       case "Delete":
-        this.followRepository.popKey();
-        await this.filter(tabId, this.followRepository.getKeys());
+        await this.followRepository.popKey();
+        await this.filter(tabId, await this.followRepository.getKeys());
         return true;
     }
 
-    this.followRepository.pushKey(key);
+    await this.followRepository.pushKey(key);
 
-    const prefix = this.followRepository.getKeys();
-    const matched = this.followRepository.getMatchedHints();
+    const prefix = await this.followRepository.getKeys();
+    const matched = await this.followRepository.getMatchedHints();
     if (matched.length === 0) {
       return false;
     } else if (matched.length === 1) {
@@ -41,7 +41,7 @@ export default class FollowKeyUseCase {
   }
 
   private async activate(tabId: number, tag: string): Promise<void> {
-    const { newTab, background } = this.followRepository.getOption();
+    const { newTab, background } = await this.followRepository.getOption();
     await this.followClient.activateIfExists(tabId, tag, newTab, background);
   }
 

@@ -25,7 +25,7 @@ describe("FollowModeUseCaes", () => {
 
     const mockGetFrameIds = jest
       .spyOn(frameRepository, "getFrameIds")
-      .mockReturnValue([100, 101, 102]);
+      .mockResolvedValue([100, 101, 102]);
     const mockGetProperty = jest
       .spyOn(propertySettings, "getProperty")
       .mockResolvedValue("abc");
@@ -61,7 +61,7 @@ describe("FollowModeUseCaes", () => {
       .mockResolvedValue();
     const mockStartFollowMode = jest
       .spyOn(followRepository, "startFollowMode")
-      .mockReturnValue(undefined);
+      .mockResolvedValue(undefined);
     const mockEnableKeyCapture = jest
       .spyOn(keyCaptureClient, "enableKeyCapture")
       .mockResolvedValue(undefined);
@@ -141,7 +141,7 @@ describe("FollowModeUseCaes", () => {
       .mockResolvedValue();
     const mockStopFollowMode = jest
       .spyOn(followRepository, "stopFollowMode")
-      .mockReturnValue();
+      .mockResolvedValue();
     const mockDisableKeyCapture = jest
       .spyOn(keyCaptureClient, "disableKeyCapture")
       .mockResolvedValue();

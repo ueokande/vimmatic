@@ -13,17 +13,17 @@ export default class MarkModeUseCase {
 
   async enableMarkSetMode(tabId: number) {
     await this.keyCaptureClient.enableKeyCapture(tabId);
-    this.markModeRepository.enableSetMode();
+    await this.markModeRepository.enableSetMode();
   }
 
   async enableMarkJumpMode(tabId: number) {
     await this.keyCaptureClient.enableKeyCapture(tabId);
-    this.markModeRepository.enableJumpMode();
+    await this.markModeRepository.enableJumpMode();
   }
 
   async clearMarkMode(tabId: number) {
     await this.keyCaptureClient.disableKeyCapture(tabId);
-    this.markModeRepository.clearMode();
+    await this.markModeRepository.clearMode();
   }
 
   isSetMode(): Promise<boolean> {

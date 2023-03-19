@@ -1,39 +1,35 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
 type State = { [tabId: number]: { [frameId: number]: number } };
 
 export default interface ReadyFrameRepository {
-  addFrameId(tabId: number, frameId: number): void;
+  addFrameId(tabId: number, frameId: number): Promise<void>;
 
-  removeFrameId(tabId: number, frameId: number): void;
+  removeFrameId(tabId: number, frameId: number): Promise<void>;
 
-  getFrameIds(tabId: number): number[] | undefined;
+  getFrameIds(tabId: number): Promise<number[] | undefined>;
 }
 
 @injectable()
 export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
-  private readonly cache = new MemoryStorage<State>(
-    ReadyFrameRepositoryImpl.name,
-    {}
-  );
+  constructor(
+    private readonly cache: LocalCache<State> = new LocalCacheImpl(
+      ReadyFrameRepositoryImpl.name,
+      {}
+    )
+  ) {}
 
-  addFrameId(tabId: number, frameId: number): void {
-    let state: State | undefined = this.cache.get();
-    if (typeof state === "undefined") {
-      state = {};
-    }
+  async addFrameId(tabId: number, frameId: number): Promise<void> {
+    const state = await this.cache.getValue();
     const tab = state[tabId] || {};
     tab[frameId] = (tab[frameId] || 0) + 1;
     state[tabId] = tab;
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  removeFrameId(tabId: number, frameId: number): void {
-    const state: State | undefined = this.cache.get();
-    if (typeof state === "undefined") {
-      return;
-    }
+  async removeFrameId(tabId: number, frameId: number): Promise<void> {
+    const state = await this.cache.getValue();
     const ids = state[tabId];
     if (typeof ids === "undefined") {
       return;
@@ -47,14 +43,11 @@ export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
       delete state[tabId];
     }
 
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  getFrameIds(tabId: number): number[] | undefined {
-    const state: State | undefined = this.cache.get();
-    if (typeof state === "undefined") {
-      return undefined;
-    }
+  async getFrameIds(tabId: number): Promise<number[] | undefined> {
+    const state = await this.cache.getValue();
     const tab = state[tabId];
     if (typeof tab === "undefined") {
       return undefined;
