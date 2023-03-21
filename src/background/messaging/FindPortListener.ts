@@ -12,7 +12,7 @@ export default class FindPortListener {
 
   run(): void {
     chrome.runtime.onConnect.addListener((port) => {
-      if (port.name !== "vimmatic-find") {
+      if (port.name !== "vimmatic-port") {
         return;
       }
 

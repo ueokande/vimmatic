@@ -28,22 +28,16 @@ export default class Application {
     }
     this.contentMessageListener.listen();
     this.routeFocusEvents();
-    // Make sure the background script sends a message to the content script by
-    // establishing a connection.  If the background script tries to send a
-    // message to a frame on which cannot run the content script, it fails with
-    // a message "Could not establish connection."
-    //
-    // The port is never used, and the messages are delivered via
-    // `chrome.tabs.sendMessage` API because sending a message via port cannot
-    // receive returned value.
-    //
-    // /* on background script */
-    // port.sendMessage({ type: "do something" });  <- returns void
-    //
-    chrome.runtime.connect({ name: "vimmatic-find" });
-
     this.routeKeymaps();
     this.settingsController.initSettings();
+
+    // Ping to background script and notify content script is ready with its
+    // frame id.  Background script gathers frame ids on the tab and use them
+    // when it communicate with each frames.
+    //
+    // The port is never used, and the messages are delivered via
+    // `chrome.tabs.sendMessage` API with a frame ID.
+    chrome.runtime.connect({ name: "vimmatic-port" });
 
     return Promise.resolve();
   }
