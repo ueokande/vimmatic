@@ -1,25 +1,27 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 import { Operation } from "../../shared/operations2";
 
 export default interface RepeatRepository {
-  getLastOperation(): Operation | null;
+  getLastOperation(): Promise<Operation | null>;
 
-  setLastOperation(op: Operation): void;
+  setLastOperation(op: Operation): Promise<void>;
 }
 
 @injectable()
 export class RepeatRepositoryImpl implements RepeatRepository {
-  private cache = new MemoryStorage<Operation | null>(
-    RepeatRepositoryImpl.name,
-    null
-  );
+  constructor(
+    private readonly cache: LocalCache<Operation | null> = new LocalCacheImpl(
+      RepeatRepositoryImpl.name,
+      null
+    )
+  ) {}
 
-  getLastOperation(): Operation | null {
-    return this.cache.get();
+  getLastOperation(): Promise<Operation | null> {
+    return this.cache.getValue();
   }
 
-  setLastOperation(op: Operation): void {
-    this.cache.set(op);
+  setLastOperation(op: Operation): Promise<void> {
+    return this.cache.setValue(op);
   }
 }

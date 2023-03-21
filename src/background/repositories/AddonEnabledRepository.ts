@@ -1,14 +1,14 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
 export default interface AddonEnabledRepository {
-  enable(): void;
+  enable(): Promise<void>;
 
-  disable(): void;
+  disable(): Promise<void>;
 
-  toggle(): boolean;
+  toggle(): Promise<boolean>;
 
-  isEnabled(): boolean;
+  isEnabled(): Promise<boolean>;
 
   onChange(listener: OnChangeListener): void;
 }
@@ -21,32 +21,34 @@ const listeners: OnChangeListener[] = [];
 
 @injectable()
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
-  private readonly cache = new MemoryStorage<boolean>(
-    AddonEnabledRepositoryImpl.name,
-    true
-  );
+  constructor(
+    private readonly cache: LocalCache<boolean> = new LocalCacheImpl<boolean>(
+      AddonEnabledRepositoryImpl.name,
+      true
+    )
+  ) {}
 
-  enable(): void {
-    const current = this.cache.get();
-    this.cache.set(true);
+  async enable(): Promise<void> {
+    const current = await this.cache.getValue();
+    await this.cache.setValue(true);
     this.afterUpdate(current, true);
   }
 
-  disable(): void {
-    const current = this.cache.get();
-    this.cache.set(false);
+  async disable(): Promise<void> {
+    const current = await this.cache.getValue();
+    await this.cache.setValue(false);
     this.afterUpdate(current, false);
   }
 
-  toggle(): boolean {
-    const current = this.cache.get();
-    this.cache.set(!current);
+  async toggle(): Promise<boolean> {
+    const current = await this.cache.getValue();
+    await this.cache.setValue(!current);
     this.afterUpdate(current, !current);
     return !current;
   }
 
-  isEnabled(): boolean {
-    return this.cache.get();
+  isEnabled(): Promise<boolean> {
+    return this.cache.getValue();
   }
 
   onChange(listener: OnChangeListener): void {

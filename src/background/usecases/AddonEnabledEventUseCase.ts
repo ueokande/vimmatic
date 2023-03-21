@@ -46,7 +46,7 @@ export default class AddonEnabledEventUseCase {
   }
 
   private async syncTabEnabled(tabId: number): Promise<void> {
-    const enabled = this.addonEnabledRepository.isEnabled();
+    const enabled = await this.addonEnabledRepository.isEnabled();
     if (enabled) {
       await this.addonEnabledClient.enable(tabId);
     } else {

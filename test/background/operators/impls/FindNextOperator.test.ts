@@ -25,16 +25,16 @@ describe("FindNextOperator", () => {
 
   beforeEach(async () => {
     findNextSpy.mockClear();
-    clearSelectionSpy.mockClear().mockReturnValue(Promise.resolve());
-    jest.spyOn(frameRepository, "getFrameIds").mockReturnValue(frameIds);
+    clearSelectionSpy.mockClear().mockResolvedValue(undefined);
+    jest.spyOn(frameRepository, "getFrameIds").mockResolvedValue(frameIds);
   });
 
   describe("#run", () => {
     it("shows errors if no previous keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockReturnValue(undefined);
+      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
       const showErrorSpy = jest
         .spyOn(consoleClient, "showError")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue(undefined);
 
       await sut.run(ctx);
 
@@ -44,7 +44,7 @@ describe("FindNextOperator", () => {
     it("continues a search on the same frame", async () => {
       jest
         .spyOn(findRepository, "getLocalState")
-        .mockReturnValue({ keyword, frameId: 100 });
+        .mockResolvedValue({ keyword, frameId: 100 });
       findNextSpy.mockResolvedValue(true);
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
 
@@ -57,7 +57,7 @@ describe("FindNextOperator", () => {
     it("continues a search on next frame", async () => {
       jest
         .spyOn(findRepository, "getLocalState")
-        .mockReturnValue({ keyword, frameId: 100 });
+        .mockResolvedValue({ keyword, frameId: 100 });
 
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
@@ -74,7 +74,7 @@ describe("FindNextOperator", () => {
     it("exercise a wrap-search", async () => {
       jest
         .spyOn(findRepository, "getLocalState")
-        .mockReturnValue({ keyword, frameId: 101 });
+        .mockResolvedValue({ keyword, frameId: 101 });
 
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
@@ -89,9 +89,9 @@ describe("FindNextOperator", () => {
     });
 
     it("starts a search with last keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockReturnValue(undefined);
-      jest.spyOn(findRepository, "getGlobalKeyword").mockReturnValue(keyword);
-      jest.spyOn(consoleClient, "showInfo").mockReturnValue(Promise.resolve());
+      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      jest.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
+      jest.spyOn(consoleClient, "showInfo").mockResolvedValue(undefined);
 
       const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
 

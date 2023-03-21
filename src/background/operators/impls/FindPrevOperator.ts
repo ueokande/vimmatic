@@ -27,14 +27,14 @@ export default class FindPrevOperator implements Operator {
 
   async run(ctx: OperatorContext): Promise<void> {
     const { tabId } = ctx.sender;
-    let frameIds = this.frameRepository.getFrameIds(tabId);
+    let frameIds = await this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       // No frames are ready
       return;
     }
     frameIds = frameIds.slice(0).reverse();
 
-    const state = this.findRepository.getLocalState(tabId);
+    const state = await this.findRepository.getLocalState(tabId);
     if (state) {
       const framePos = frameIds.indexOf(state.frameId);
       if (framePos !== -1) {
@@ -58,7 +58,7 @@ export default class FindPrevOperator implements Operator {
             state.keyword
           );
           if (found) {
-            this.findRepository.setLocalState(tabId, {
+            await this.findRepository.setLocalState(tabId, {
               keyword: state.keyword,
               frameId,
             });
@@ -76,7 +76,7 @@ export default class FindPrevOperator implements Operator {
       }
     }
 
-    const keyword = this.findRepository.getGlobalKeyword();
+    const keyword = await this.findRepository.getGlobalKeyword();
     if (keyword) {
       for (const frameId of frameIds) {
         await this.findClient.clearSelection(tabId, frameId);
@@ -85,7 +85,7 @@ export default class FindPrevOperator implements Operator {
       for (const frameId of frameIds) {
         const found = await this.findClient.findPrev(tabId, frameId, keyword);
         if (found) {
-          this.findRepository.setLocalState(tabId, { frameId, keyword });
+          await this.findRepository.setLocalState(tabId, { frameId, keyword });
           await this.consoleClient.showInfo(tabId, "Pattern found: " + keyword);
           return;
         }

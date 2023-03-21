@@ -1,25 +1,25 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
 export default interface FollowRepository {
   startFollowMode(
     opts: { newTab: boolean; background: boolean },
     hints: string[]
-  ): void;
+  ): Promise<void>;
 
-  stopFollowMode(): void;
+  stopFollowMode(): Promise<void>;
 
-  isEnabled(): boolean;
+  isEnabled(): Promise<boolean>;
 
-  getOption(): { newTab: boolean; background: boolean };
+  getOption(): Promise<{ newTab: boolean; background: boolean }>;
 
-  pushKey(key: string): void;
+  pushKey(key: string): Promise<void>;
 
-  popKey(): void;
+  popKey(): Promise<void>;
 
-  getMatchedHints(): string[];
+  getMatchedHints(): Promise<string[]>;
 
-  getKeys(): string;
+  getKeys(): Promise<string>;
 }
 
 type Option = {
@@ -36,61 +36,67 @@ type State = {
 
 @injectable()
 export class FollowRepositoryImpl implements FollowRepository {
-  private readonly cache = new MemoryStorage<State>(FollowRepositoryImpl.name, {
-    enabled: false,
-    option: { newTab: false, background: false },
-    hints: [],
-    keys: [],
-  });
+  constructor(
+    private readonly cache: LocalCache<State> = new LocalCacheImpl(
+      FollowRepositoryImpl.name,
+      {
+        enabled: false,
+        option: { newTab: false, background: false },
+        hints: [],
+        keys: [],
+      }
+    )
+  ) {}
 
   startFollowMode(
     option: { newTab: boolean; background: boolean },
     hints: string[]
-  ): void {
+  ): Promise<void> {
     const state: State = {
       enabled: true,
       option,
       hints,
       keys: [],
     };
-    this.cache.set(state);
+    return this.cache.setValue(state);
   }
 
-  stopFollowMode(): void {
-    const state = this.cache.get();
+  async stopFollowMode(): Promise<void> {
+    const state = await this.cache.getValue();
     state.enabled = false;
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  isEnabled(): boolean {
-    const { enabled } = this.cache.get();
+  async isEnabled(): Promise<boolean> {
+    const { enabled } = await this.cache.getValue();
     return enabled;
   }
 
-  getOption(): { newTab: boolean; background: boolean } {
-    const { option } = this.cache.get();
+  async getOption(): Promise<{ newTab: boolean; background: boolean }> {
+    const { option } = await this.cache.getValue();
     return option;
   }
-  pushKey(key: string): void {
-    const state = this.cache.get();
+
+  async pushKey(key: string): Promise<void> {
+    const state = await this.cache.getValue();
     state.keys.push(key);
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  popKey(): void {
-    const state = this.cache.get();
+  async popKey(): Promise<void> {
+    const state = await this.cache.getValue();
     state.keys.pop();
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  getMatchedHints(): string[] {
-    const state = this.cache.get();
+  async getMatchedHints(): Promise<string[]> {
+    const state = await this.cache.getValue();
     const prefix = state.keys.join("");
     return state.hints.filter((t) => t.startsWith(prefix));
   }
 
-  getKeys(): string {
-    const { keys } = this.cache.get();
+  async getKeys(): Promise<string> {
+    const { keys } = await this.cache.getValue();
     return keys.join("");
   }
 }

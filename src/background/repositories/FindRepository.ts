@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
 export type FindState = {
   keyword: string;
@@ -12,47 +12,51 @@ type State = {
 };
 
 export default interface FindRepository {
-  getGlobalKeyword(): string | undefined;
+  getGlobalKeyword(): Promise<string | undefined>;
 
-  setGlobalKeyword(keyword: string): void;
+  setGlobalKeyword(keyword: string): Promise<void>;
 
-  getLocalState(tabId: number): undefined | FindState;
+  getLocalState(tabId: number): Promise<undefined | FindState>;
 
-  setLocalState(tabId: number, state: FindState): void;
+  setLocalState(tabId: number, state: FindState): Promise<void>;
 
-  deleteLocalState(tabId: number): void;
+  deleteLocalState(tabId: number): Promise<void>;
 }
 
 @injectable()
 export class FindRepositoryImpl implements FindRepository {
-  private readonly cache = new MemoryStorage<State>(FindRepositoryImpl.name, {
-    local: {},
-  });
+  constructor(
+    private readonly cache: LocalCache<State> = new LocalCacheImpl(
+      FindRepositoryImpl.name,
+      { local: {} }
+    )
+  ) {}
 
-  getGlobalKeyword(): string | undefined {
-    return this.cache.get().global;
+  async getGlobalKeyword(): Promise<string | undefined> {
+    const state = await this.cache.getValue();
+    return state.global;
   }
 
-  setGlobalKeyword(keyword: string): void {
-    const state = this.cache.get();
+  async setGlobalKeyword(keyword: string): Promise<void> {
+    const state = await this.cache.getValue();
     state.global = keyword;
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  getLocalState(tabId: number): FindState | undefined {
-    const state = this.cache.get();
+  async getLocalState(tabId: number): Promise<FindState | undefined> {
+    const state = await this.cache.getValue();
     return state.local[tabId];
   }
 
-  setLocalState(tabId: number, state: FindState): void {
-    const db = this.cache.get();
+  async setLocalState(tabId: number, state: FindState): Promise<void> {
+    const db = await this.cache.getValue();
     db.local[tabId] = state;
-    this.cache.set(db);
+    await this.cache.setValue(db);
   }
 
-  deleteLocalState(tabId: number): void {
-    const states = this.cache.get();
+  async deleteLocalState(tabId: number): Promise<void> {
+    const states = await this.cache.getValue();
     delete states.local[tabId];
-    this.cache.set(states);
+    await this.cache.setValue(states);
   }
 }

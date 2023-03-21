@@ -34,7 +34,7 @@ export default class OperationUseCase {
     };
 
     if (this.isRepeatable(name)) {
-      this.repeatRepository.setLastOperation({ type: name, ...props });
+      await this.repeatRepository.setLastOperation({ type: name, ...props });
     }
     const op = this.operatorRegistory.getOperator(name);
     if (typeof op === "undefined") {

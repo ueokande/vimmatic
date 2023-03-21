@@ -3,23 +3,23 @@ import AddonEnabledRepository from "../../../src/background/repositories/AddonEn
 export default class MockAddonEnabledRepository
   implements AddonEnabledRepository
 {
-  enable(): void {
+  enable(): Promise<void> {
     throw new Error("not implemented");
   }
 
-  disable(): void {
+  disable(): Promise<void> {
     throw new Error("not implemented");
   }
 
-  toggle(): boolean {
+  toggle(): Promise<boolean> {
     throw new Error("not implemented");
   }
 
-  isEnabled(): boolean {
+  isEnabled(): Promise<boolean> {
     throw new Error("not implemented");
   }
 
-  onChange(_listener: unknown): void {
+  onChange(_listener: unknown): Promise<void> {
     throw new Error("not implemented");
   }
 }

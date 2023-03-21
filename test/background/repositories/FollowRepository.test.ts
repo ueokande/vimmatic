@@ -1,42 +1,61 @@
 import { FollowRepositoryImpl } from "../../../src/background/repositories/FollowRepository";
+import MockLocalStorage from "../mock/MockLocalStorage";
 
 describe("FollowRepositoryImpl", () => {
-  it("enable and disable followings", () => {
-    const sut = new FollowRepositoryImpl();
+  it("enable and disable followings", async () => {
+    const sut = new FollowRepositoryImpl(
+      new MockLocalStorage({
+        enabled: false,
+        option: { newTab: false, background: false },
+        hints: [],
+        keys: [],
+      })
+    );
 
-    expect(sut.isEnabled()).toBeFalsy();
+    expect(await sut.isEnabled()).toBeFalsy();
 
-    sut.startFollowMode({ newTab: true, background: false }, ["a", "b", "c"]);
+    await sut.startFollowMode({ newTab: true, background: false }, [
+      "a",
+      "b",
+      "c",
+    ]);
 
-    expect(sut.isEnabled()).toBeTruthy();
-    expect(sut.getOption()).toEqual({ newTab: true, background: false });
+    expect(await sut.isEnabled()).toBeTruthy();
+    expect(await sut.getOption()).toEqual({ newTab: true, background: false });
 
-    sut.stopFollowMode();
-    expect(sut.isEnabled()).toBeFalsy();
+    await sut.stopFollowMode();
+    expect(await sut.isEnabled()).toBeFalsy();
   });
 
-  it("push and pop keys", () => {
-    const sut = new FollowRepositoryImpl();
+  it("push and pop keys", async () => {
+    const sut = new FollowRepositoryImpl(
+      new MockLocalStorage({
+        enabled: false,
+        option: { newTab: false, background: false },
+        hints: [],
+        keys: [],
+      })
+    );
     const hints = ["a", "b", "c", "aa", "ab", "ac", "ba", "bb", "bc"];
 
-    sut.startFollowMode({ newTab: true, background: false }, hints);
-    expect(sut.getKeys()).toEqual("");
-    expect(sut.getMatchedHints()).toEqual(hints);
+    await sut.startFollowMode({ newTab: true, background: false }, hints);
+    expect(await sut.getKeys()).toEqual("");
+    expect(await sut.getMatchedHints()).toEqual(hints);
 
-    sut.pushKey("a");
-    expect(sut.getKeys()).toEqual("a");
-    expect(sut.getMatchedHints()).toEqual(["a", "aa", "ab", "ac"]);
+    await sut.pushKey("a");
+    expect(await sut.getKeys()).toEqual("a");
+    expect(await sut.getMatchedHints()).toEqual(["a", "aa", "ab", "ac"]);
 
-    sut.popKey();
-    expect(sut.getKeys()).toEqual("");
-    expect(sut.getMatchedHints()).toEqual(hints);
+    await sut.popKey();
+    expect(await sut.getKeys()).toEqual("");
+    expect(await sut.getMatchedHints()).toEqual(hints);
 
-    sut.pushKey("b");
-    expect(sut.getKeys()).toEqual("b");
-    expect(sut.getMatchedHints()).toEqual(["b", "ba", "bb", "bc"]);
+    await sut.pushKey("b");
+    expect(await sut.getKeys()).toEqual("b");
+    expect(await sut.getMatchedHints()).toEqual(["b", "ba", "bb", "bc"]);
 
-    sut.pushKey("b");
-    expect(sut.getKeys()).toEqual("bb");
-    expect(sut.getMatchedHints()).toEqual(["bb"]);
+    await sut.pushKey("b");
+    expect(await sut.getKeys()).toEqual("bb");
+    expect(await sut.getMatchedHints()).toEqual(["bb"]);
   });
 });

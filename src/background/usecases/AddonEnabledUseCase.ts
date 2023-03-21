@@ -12,17 +12,17 @@ export default class AddonEnabledUseCase {
   ) {}
 
   async enable(): Promise<void> {
-    this.addonEnabledRepository.enable();
+    await this.addonEnabledRepository.enable();
     await this.toolbarPresenter.setEnabled(true);
   }
 
   async disable(): Promise<void> {
-    this.addonEnabledRepository.disable();
+    await this.addonEnabledRepository.disable();
     await this.toolbarPresenter.setEnabled(false);
   }
 
   async toggle(): Promise<void> {
-    const newValue = this.addonEnabledRepository.toggle();
+    const newValue = await this.addonEnabledRepository.toggle();
     await this.toolbarPresenter.setEnabled(newValue);
   }
 }

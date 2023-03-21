@@ -21,14 +21,14 @@ describe("StartFindUseCase", () => {
   );
   const getFrameIdsSpy = jest
     .spyOn(frameRepository, "getFrameIds")
-    .mockReturnValue(frameIds);
+    .mockResolvedValue(frameIds);
   const clearSelectionSpy = jest
     .spyOn(findClient, "clearSelection")
     .mockResolvedValue();
   const findNextSpy = jest.spyOn(findClient, "findNext");
   const setLocalStateSpy = jest
     .spyOn(findRepository, "setLocalState")
-    .mockReturnValue();
+    .mockResolvedValue();
 
   beforeEach(async () => {
     getFrameIdsSpy.mockClear();
@@ -42,7 +42,7 @@ describe("StartFindUseCase", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const showInfoSpy = jest
         .spyOn(consoleClient, "showInfo")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue(undefined);
 
       await sut.startFind(tabId, keyword);
 
@@ -61,10 +61,10 @@ describe("StartFindUseCase", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const getLocalStateSpy = jest
         .spyOn(findRepository, "getLocalState")
-        .mockReturnValue({ keyword, frameId: 0 });
+        .mockResolvedValue({ keyword, frameId: 0 });
       const showInfoSpy = jest
         .spyOn(consoleClient, "showInfo")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue(undefined);
 
       await sut.startFind(tabId, undefined);
 
@@ -84,11 +84,11 @@ describe("StartFindUseCase", () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
       const getLocalStateSpy = jest
         .spyOn(findRepository, "getLocalState")
-        .mockReturnValue(undefined);
-      jest.spyOn(findRepository, "getGlobalKeyword").mockReturnValue(keyword);
+        .mockResolvedValue(undefined);
+      jest.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
       const showInfoSpy = jest
         .spyOn(consoleClient, "showInfo")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue(undefined);
 
       await sut.startFind(tabId, undefined);
 
@@ -108,7 +108,7 @@ describe("StartFindUseCase", () => {
       findNextSpy.mockResolvedValue(false);
       const showErrorSpy = jest
         .spyOn(consoleClient, "showError")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue(undefined);
 
       await sut.startFind(tabId, keyword);
 
@@ -124,12 +124,14 @@ describe("StartFindUseCase", () => {
     });
 
     it("shows an error when no last keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockReturnValue(undefined);
-      jest.spyOn(findRepository, "getGlobalKeyword").mockReturnValue(undefined);
+      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      jest
+        .spyOn(findRepository, "getGlobalKeyword")
+        .mockResolvedValue(undefined);
 
       const showErrorSpy = jest
         .spyOn(consoleClient, "showError")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue(undefined);
 
       await sut.startFind(tabId, undefined);
 

@@ -1,11 +1,14 @@
 import { Completions } from "../../shared/Completions";
-import LastSelectedTab from "../tabs/LastSelectedTab";
+import LastSelectedTabRepository from "../repositories/LastSelectedTabRepository";
 
 export default class BufferCommandHelper {
-  constructor(private readonly lastSelectedTab: LastSelectedTab) {}
+  constructor(
+    private readonly lastSelectedTabRepository: LastSelectedTabRepository
+  ) {}
 
   async getCompletions(force: boolean, query: string): Promise<Completions> {
-    const lastTabId = this.lastSelectedTab.get();
+    const lastTabId =
+      await this.lastSelectedTabRepository.getLastSelectedTabId();
     const allTabs = await this.getAllTabs(force);
     const num = parseInt(query, 10);
     let tabs: chrome.tabs.Tab[] = [];

@@ -1,67 +1,70 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
-type State = { [tabId: number]: { [frameId: number]: number } };
+type State = { [tabId: number]: number[] };
 
 export default interface ReadyFrameRepository {
-  addFrameId(tabId: number, frameId: number): void;
+  addFrameId(tabId: number, frameId: number): Promise<void>;
 
-  removeFrameId(tabId: number, frameId: number): void;
+  removeFrameId(tabId: number, frameId: number): Promise<void>;
 
-  getFrameIds(tabId: number): number[] | undefined;
+  getFrameIds(tabId: number): Promise<number[] | undefined>;
 }
 
 @injectable()
 export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
-  private readonly cache = new MemoryStorage<State>(
-    ReadyFrameRepositoryImpl.name,
-    {}
-  );
+  constructor(
+    private readonly cache: LocalCache<State> = new LocalCacheImpl(
+      ReadyFrameRepositoryImpl.name,
+      {}
+    )
+  ) {}
 
-  addFrameId(tabId: number, frameId: number): void {
-    let state: State | undefined = this.cache.get();
-    if (typeof state === "undefined") {
-      state = {};
+  async addFrameId(tabId: number, frameId: number): Promise<void> {
+    const state = await this.cache.getValue();
+
+    if (frameId === 0) {
+      // top frame is reloaded, flush frame IDs
+      state[tabId] = [frameId];
+    } else {
+      const s = new Set(state[tabId]);
+      s.add(frameId);
+      state[tabId] = Array.from(s);
     }
-    const tab = state[tabId] || {};
-    tab[frameId] = (tab[frameId] || 0) + 1;
-    state[tabId] = tab;
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  removeFrameId(tabId: number, frameId: number): void {
-    const state: State | undefined = this.cache.get();
-    if (typeof state === "undefined") {
-      return;
-    }
+  async removeFrameId(tabId: number, frameId: number): Promise<void> {
+    const state = await this.cache.getValue();
     const ids = state[tabId];
     if (typeof ids === "undefined") {
       return;
     }
-    const tab = state[tabId] || {};
-    tab[frameId] = (tab[frameId] || 0) - 1;
-    if (tab[frameId] == 0) {
-      delete tab[frameId];
-    }
-    if (Object.keys(tab).length === 0) {
+
+    if (frameId === 0) {
+      // top frame is closed, flush frame IDs
       delete state[tabId];
+    } else {
+      const s = new Set(ids);
+      s.delete(frameId);
+
+      if (s.size === 0) {
+        delete state[frameId];
+      } else {
+        state[tabId] = Array.from(s);
+      }
     }
 
-    this.cache.set(state);
+    await this.cache.setValue(state);
   }
 
-  getFrameIds(tabId: number): number[] | undefined {
-    const state: State | undefined = this.cache.get();
-    if (typeof state === "undefined") {
+  async getFrameIds(tabId: number): Promise<number[] | undefined> {
+    const state = await this.cache.getValue();
+    const frameIds = state[tabId];
+    if (typeof frameIds === "undefined") {
       return undefined;
     }
-    const tab = state[tabId];
-    if (typeof tab === "undefined") {
-      return undefined;
-    }
-    const frameIds = Object.keys(tab)
-      .map((v) => Number(v))
-      .sort();
-    return frameIds;
+
+    return frameIds.sort();
   }
 }

@@ -1,18 +1,15 @@
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
-import LastSelectedTab from "../../../src/background/tabs/LastSelectedTab";
+import MockLastSelectedTabRepository from "../mock/MockLastSelectedTabRepository";
 import defaultTab from "../mock/defaultTab";
 
-class MockLastSelectedTab implements LastSelectedTab {
-  get(): number | undefined {
-    throw new Error("not implemented");
-  }
-}
-
 describe("BufferCommandHelper", () => {
-  const lastSelectedTab = new MockLastSelectedTab();
-  const sut = new BufferCommandHelper(lastSelectedTab);
+  const lastSelectedTabRepository = new MockLastSelectedTabRepository();
+  const sut = new BufferCommandHelper(lastSelectedTabRepository);
 
-  const mockGetLastSelectedTab = jest.spyOn(lastSelectedTab, "get");
+  const mockGetLastSelectedTab = jest.spyOn(
+    lastSelectedTabRepository,
+    "getLastSelectedTabId"
+  );
   const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
 
   const allTabs = Array.from(Array(5).keys()).map((i) => ({
@@ -28,7 +25,7 @@ describe("BufferCommandHelper", () => {
   beforeEach(() => {
     mockGetLastSelectedTab.mockClear();
     mockTabsQuery.mockClear();
-    mockGetLastSelectedTab.mockReturnValue(14);
+    mockGetLastSelectedTab.mockResolvedValue(14);
     mockTabsQuery.mockResolvedValue(allTabs);
   });
 

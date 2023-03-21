@@ -20,8 +20,8 @@ export default class RepeatLastOperator implements Operator {
 
   schema() {}
 
-  run(ctx: OperatorContext): Promise<void> {
-    const lastOp = this.repeatRepository.getLastOperation();
+  async run(ctx: OperatorContext): Promise<void> {
+    const lastOp = await this.repeatRepository.getLastOperation();
     if (lastOp === null) {
       return Promise.resolve();
     }

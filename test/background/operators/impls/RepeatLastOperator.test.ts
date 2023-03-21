@@ -33,7 +33,7 @@ describe("RepeatLastOperator", () => {
 
   describe("#run", () => {
     it("repeat last operation", async () => {
-      jest.spyOn(repeatRepository, "getLastOperation").mockReturnValue({
+      jest.spyOn(repeatRepository, "getLastOperation").mockResolvedValue({
         type: "greeting",
         name: "alice",
       });
@@ -53,12 +53,12 @@ describe("RepeatLastOperator", () => {
     });
 
     it("throw an error on unknown operation is stored", async () => {
-      jest.spyOn(repeatRepository, "getLastOperation").mockReturnValue({
+      jest.spyOn(repeatRepository, "getLastOperation").mockResolvedValue({
         type: "unknown",
       });
       jest.spyOn(operatorRegistory, "getOperator").mockReturnValue(undefined);
 
-      expect(() => sut.run(ctx)).toThrowError();
+      await expect(() => sut.run(ctx)).rejects.toThrowError();
     });
   });
 });

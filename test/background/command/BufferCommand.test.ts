@@ -1,17 +1,19 @@
 import BufferCommand from "../../../src/background/command/BufferCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
+import MockLastSelectedTabRepository from "../mock/MockLastSelectedTabRepository";
 import defaultTab from "../mock/defaultTab";
 
 describe("BufferCommand", () => {
-  const lastSelectedTab = {
-    get: (): number | undefined => {
-      throw new Error("not implemented");
-    },
-  };
-  const bufferCommandHelper = new BufferCommandHelper(lastSelectedTab);
-  const sut = new BufferCommand(lastSelectedTab, bufferCommandHelper);
+  const lastSelectedTabRepository = new MockLastSelectedTabRepository();
+  const bufferCommandHelper = new BufferCommandHelper(
+    lastSelectedTabRepository
+  );
+  const sut = new BufferCommand(lastSelectedTabRepository, bufferCommandHelper);
 
-  const mockGetLastSelectedTab = jest.spyOn(lastSelectedTab, "get");
+  const mockGetLastSelectedTab = jest.spyOn(
+    lastSelectedTabRepository,
+    "getLastSelectedTabId"
+  );
   const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
   const mockTabsUpdate = jest.spyOn(chrome.tabs, "update");
   const mockHelperQueryTabs = jest.spyOn(bufferCommandHelper, "queryTabs");
@@ -52,7 +54,7 @@ describe("BufferCommand", () => {
 
     it("selects last selected tab by #", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
-      mockGetLastSelectedTab.mockReturnValue(10);
+      mockGetLastSelectedTab.mockResolvedValue(10);
       await sut.exec(ctx, false, "#");
 
       expect(mockTabsUpdate).toBeCalledWith(10, { active: true });

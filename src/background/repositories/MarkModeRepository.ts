@@ -1,38 +1,39 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
 export default interface MarkModeRepository {
-  enableSetMode(): void;
-  enableJumpMode(): void;
-  isSetMode(): boolean;
-  isJumpMode(): boolean;
-  clearMode(): void;
+  enableSetMode(): Promise<void>;
+  enableJumpMode(): Promise<void>;
+  isSetMode(): Promise<boolean>;
+  isJumpMode(): Promise<boolean>;
+  clearMode(): Promise<void>;
 }
 
 @injectable()
 export class MarkModeRepositoryImpl implements MarkModeRepository {
-  private readonly cache = new MemoryStorage<"set" | "jump" | null>(
-    MarkModeRepositoryImpl.name,
-    null
-  );
+  constructor(
+    private readonly cache: LocalCache<
+      "set" | "jump" | null
+    > = new LocalCacheImpl(MarkModeRepositoryImpl.name, null)
+  ) {}
 
-  enableSetMode(): void {
-    this.cache.set("set");
+  enableSetMode(): Promise<void> {
+    return this.cache.setValue("set");
   }
 
-  enableJumpMode(): void {
-    this.cache.set("jump");
+  enableJumpMode(): Promise<void> {
+    return this.cache.setValue("jump");
   }
 
-  isSetMode(): boolean {
-    return this.cache.get() === "set";
+  async isSetMode(): Promise<boolean> {
+    return (await this.cache.getValue()) === "set";
   }
 
-  isJumpMode(): boolean {
-    return this.cache.get() === "jump";
+  async isJumpMode(): Promise<boolean> {
+    return (await this.cache.getValue()) === "jump";
   }
 
-  clearMode(): void {
-    this.cache.set(null);
+  clearMode(): Promise<void> {
+    return this.cache.setValue(null);
   }
 }

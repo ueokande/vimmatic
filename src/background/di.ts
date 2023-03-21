@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import { Container } from "inversify";
-import { LastSelectedTabImpl } from "./tabs/LastSelectedTab";
+import { LastSelectedTabRepositoryImpl } from "./repositories/LastSelectedTabRepository";
 import { NotifierImpl } from "./presenters/Notifier";
 import { ContentMessageClientImpl } from "./clients/ContentMessageClient";
 import { NavigateClientImpl } from "./clients/NavigateClient";
@@ -18,7 +18,7 @@ import {
 } from "./repositories/ClipboardRepository";
 import { PropertySettingsImpl } from "./settings/PropertySettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
-import { TransientSettingsRepotiory } from "./settings/SettingsRepository";
+import { SettingsRepositoryImpl } from "./settings/SettingsRepository";
 import { KeyCaptureClientImpl } from "./clients/KeyCaptureClient";
 import { MarkRepositoryImpl } from "./repositories/MarkRepository";
 import { MarkModeRepositoryImpl } from "./repositories/MarkModeRepository";
@@ -35,7 +35,7 @@ import { OperatorRegistoryFactory } from "./operators";
 
 const container = new Container({ autoBindInjectable: true });
 
-container.bind("LastSelectedTab").to(LastSelectedTabImpl);
+container.bind("LastSelectedTabRepository").to(LastSelectedTabRepositoryImpl);
 container.bind("Notifier").to(NotifierImpl);
 container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
@@ -63,10 +63,7 @@ container.bind("TopFrameClient").to(TopFrameClientImpl);
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
 container.bind("AddonEnabledClient").to(AddonEnabledClientImpl);
 container.bind("ToolbarPresenter").to(ToolbarPresenterImpl);
-container
-  .bind("SettingsRepository")
-  .to(TransientSettingsRepotiory)
-  .inSingletonScope();
+container.bind("SettingsRepository").to(SettingsRepositoryImpl);
 container
   .bind("PropertyRegistry")
   .toConstantValue(new PropertyRegistryFactry().create());

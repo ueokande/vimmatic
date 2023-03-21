@@ -7,6 +7,7 @@ import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
 import SettingsEventUseCase from "./usecases/SettingsEventUseCase";
 import FrameClient from "./clients/FrameClient";
 import AddonEnabledEventUseCase from "./usecases/AddonEnabledEventUseCase";
+import LastSelectedTabRepository from "./repositories/LastSelectedTabRepository";
 
 @injectable()
 export default class Application {
@@ -19,6 +20,8 @@ export default class Application {
     private readonly findRepository: FindRepositoryImpl,
     @inject("ReadyFrameRepository")
     private readonly frameRepository: ReadyFrameRepository,
+    @inject("LastSelectedTabRepository")
+    private readonly lastSelectedTabRepository: LastSelectedTabRepository,
     @inject(SettingsEventUseCase)
     private readonly settingsEventUseCase: SettingsEventUseCase,
     @inject("FrameClient")
@@ -41,35 +44,41 @@ export default class Application {
         this.findRepository.deleteLocalState(tabId);
       }
     });
+    chrome.runtime.onStartup.addListener(() => {
+      browser.storage.local.clear();
+    });
     chrome.runtime.onInstalled.addListener((details) => {
       if (details.reason !== "install" && details.reason !== "update") {
         return;
       }
       this.versionUseCase.notify();
     });
+    chrome.tabs.onActivated.addListener(({ tabId }) => {
+      this.lastSelectedTabRepository.setCurrentTabId(tabId);
+    });
 
     this.backgroundMessageListener.listen();
     this.findPortListener.run();
   }
 
-  private onFindPortConnect(port: chrome.runtime.Port) {
+  private async onFindPortConnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
     if (typeof tabId === "undefined" || typeof frameId === "undefined") {
       return;
     }
 
-    this.frameClient.notifyFrameId(tabId, frameId);
-    this.frameRepository.addFrameId(tabId, frameId);
+    await this.frameClient.notifyFrameId(tabId, frameId);
+    await this.frameRepository.addFrameId(tabId, frameId);
   }
 
-  private onFindPortDisconnect(port: chrome.runtime.Port) {
+  private async onFindPortDisconnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
     if (typeof tabId === "undefined" || typeof frameId === "undefined") {
       return;
     }
 
-    this.frameRepository.removeFrameId(tabId, frameId);
+    await this.frameRepository.removeFrameId(tabId, frameId);
   }
 }

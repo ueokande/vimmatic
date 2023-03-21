@@ -29,7 +29,7 @@ export default class FollowModeUseCaes {
     newTab: boolean,
     background: boolean
   ): Promise<void> {
-    const frameIds = this.frameRepository.getFrameIds(tabId);
+    const frameIds = await this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       return;
     }
@@ -65,13 +65,13 @@ export default class FollowModeUseCaes {
       );
     }
 
-    this.followRepository.startFollowMode({ newTab, background }, hints);
+    await this.followRepository.startFollowMode({ newTab, background }, hints);
     await this.keyCaptureClient.enableKeyCapture(tabId);
   }
 
   async stop(tabId: number): Promise<void> {
     await this.followClient.clearHints(tabId);
-    this.followRepository.stopFollowMode();
+    await this.followRepository.stopFollowMode();
     await this.keyCaptureClient.disableKeyCapture(tabId);
   }
 

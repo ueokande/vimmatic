@@ -4,35 +4,35 @@ export default class MockFollowRepository implements FollowRepository {
   startFollowMode(
     _opts: { newTab: boolean; background: boolean },
     _hints: string[]
-  ): void {
+  ): Promise<void> {
     throw new Error("not implemented");
   }
 
-  stopFollowMode(): void {
+  stopFollowMode(): Promise<void> {
     throw new Error("not implemented");
   }
 
-  isEnabled(): boolean {
+  isEnabled(): Promise<boolean> {
     throw new Error("not implemented");
   }
 
-  getOption(): { newTab: boolean; background: boolean } {
+  getOption(): Promise<{ newTab: boolean; background: boolean }> {
     throw new Error("not implemented");
   }
 
-  pushKey(_key: string): void {
+  pushKey(_key: string): Promise<void> {
     throw new Error("not implemented");
   }
 
-  popKey(): void {
+  popKey(): Promise<void> {
     throw new Error("not implemented");
   }
 
-  getMatchedHints(): string[] {
+  getMatchedHints(): Promise<string[]> {
     throw new Error("not implemented");
   }
 
-  getKeys(): string {
+  getKeys(): Promise<string> {
     throw new Error("not implemented");
   }
 }

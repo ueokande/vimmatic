@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import MemoryStorage from "../db/MemoryStorage";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 import GlobalMark from "../domains/GlobalMark";
 import LocalMark from "../domains/LocalMark";
 
@@ -9,35 +9,40 @@ type MarkData = {
 };
 
 export default interface MarkRepository {
-  getGlobalMark(key: string): GlobalMark | undefined;
+  getGlobalMark(key: string): Promise<GlobalMark | undefined>;
 
-  setGlobalMark(key: string, mark: GlobalMark): void;
+  setGlobalMark(key: string, mark: GlobalMark): Promise<void>;
 
-  getLocalMark(tabId: number, key: string): LocalMark | undefined;
+  getLocalMark(tabId: number, key: string): Promise<LocalMark | undefined>;
 
-  setLocalMark(tabId: number, key: string, mark: LocalMark): void;
+  setLocalMark(tabId: number, key: string, mark: LocalMark): Promise<void>;
 }
 
 @injectable()
 export class MarkRepositoryImpl implements MarkRepository {
-  private readonly cache = new MemoryStorage<MarkData>(
-    MarkRepositoryImpl.name,
-    { globals: {}, locals: {} }
-  );
+  constructor(
+    private readonly cache: LocalCache<MarkData> = new LocalCacheImpl(
+      MarkRepositoryImpl.name,
+      { globals: {}, locals: {} }
+    )
+  ) {}
 
-  getGlobalMark(key: string): GlobalMark | undefined {
-    const { globals } = this.cache.get();
+  async getGlobalMark(key: string): Promise<GlobalMark | undefined> {
+    const { globals } = await this.cache.getValue();
     return globals[key];
   }
 
-  setGlobalMark(key: string, mark: GlobalMark): void {
-    const data = this.cache.get();
+  async setGlobalMark(key: string, mark: GlobalMark): Promise<void> {
+    const data = await this.cache.getValue();
     data.globals[key] = mark;
-    this.cache.set(data);
+    return this.cache.setValue(data);
   }
 
-  getLocalMark(tabId: number, key: string): LocalMark | undefined {
-    const { locals } = this.cache.get();
+  async getLocalMark(
+    tabId: number,
+    key: string
+  ): Promise<LocalMark | undefined> {
+    const { locals } = await this.cache.getValue();
     const marks = locals[tabId];
     if (!marks) {
       return undefined;
@@ -45,9 +50,13 @@ export class MarkRepositoryImpl implements MarkRepository {
     return marks[key];
   }
 
-  setLocalMark(tabId: number, key: string, mark: LocalMark): void {
-    const data = this.cache.get();
+  async setLocalMark(
+    tabId: number,
+    key: string,
+    mark: LocalMark
+  ): Promise<void> {
+    const data = await this.cache.getValue();
     data.locals[tabId] = { ...data.locals[tabId], [key]: mark };
-    this.cache.set(data);
+    return this.cache.setValue(data);
   }
 }
