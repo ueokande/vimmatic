@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from "react";
 import ReactTestRenderer from "react-test-renderer";
 import ErrorMessage from "../../../src/console/components/ErrorMessage";
