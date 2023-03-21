@@ -1,0 +1,43 @@
+name: 🐞 Bug report
+description: Report a bug or issue on Vimmatic
+labels: [bug]
+body:
+- type: checkboxes
+  attributes:
+    label: The issue is already reported or known issue?
+    description: Please [search here](https://github.com/ueokande/vimmatic/issues) or update extensions on you browser.
+    options:
+    - label: I have searched the existing issues on github
+    - label: I am using the latest version
+
+- type: textarea
+  attributes:
+    label: Current behavior
+    description: Describe the current behavior
+
+- type: textarea
+  attributes:
+    label: Expected behavior
+    description: Describe your expectation
+
+- type: textarea
+  attributes:
+    label: Steps to reproduce
+    description: Describe steps to reproduce the behavior you found.
+    value: |
+      1. Open page ...
+      2. Press key ...
+      3. The extension show an error '...'
+
+- type: textarea
+  attributes:
+    label: Environment
+    description: |
+      Describe your environment like the following:
+        - **OS**: Ubuntu 20.04
+        - **Browser**: Firefox 111.0
+        - **Vimmatic version**: 1.0.0
+    value: |
+        - OS:
+        - Browser: 
+        - Vimmatic version:
