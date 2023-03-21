@@ -9,8 +9,11 @@ const useAutoResize = () => {
   const [prevHeight, setPrevHeight] = React.useState(-1);
 
   React.useLayoutEffect(() => {
-    const { scrollWidth: width, scrollHeight: height } =
-      document.getElementById("vimmatic-console")!;
+    const element = document.getElementById("vimmatic-console");
+    if (element === null) {
+      return
+    }
+    const { scrollWidth: width, scrollHeight: height } = element;
     consoleFrameClient.resize(width, height);
 
     if (width === prevWidth && height === prevHeight) {
