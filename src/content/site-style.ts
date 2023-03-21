@@ -4,6 +4,7 @@ export default `
   padding: 0;
   bottom: 0;
   left: 0;
+  height: 0;
   width: 100%;
   position: fixed;
   z-index: 2147483647;

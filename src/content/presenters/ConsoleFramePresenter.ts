@@ -44,6 +44,7 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
       return;
     }
     ele.blur();
+    ele.style.height = "";
   }
 
   resize(_width: number, height: number): void {
