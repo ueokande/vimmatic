@@ -1,0 +1,21 @@
+name: 💡 Feature request
+description: Propose a new feature
+labels: [enhancement]
+body:
+- type: checkboxes
+  attributes:
+    label: The issue is already reported or known issue?
+    description: Please [search here](https://github.com/ueokande/vimmatic/issues) or update extensions on you browser.
+    options:
+    - label: I have searched the existing issues on github
+    - label: I am using the latest version
+
+- type: textarea
+  attributes:
+    label: Description
+    description: Describe your proposal
+
+- type: textarea
+  attributes:
+    label: Other details
+    description: Describe any other relevant details, URLs, other product examples etc.
