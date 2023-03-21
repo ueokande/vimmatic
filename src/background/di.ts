@@ -6,7 +6,10 @@ import { NotifierImpl } from "./presenters/Notifier";
 import { ContentMessageClientImpl } from "./clients/ContentMessageClient";
 import { NavigateClientImpl } from "./clients/NavigateClient";
 import { ConsoleClientImpl } from "./clients/ConsoleClient";
-import { BrowserSettingRepositoryImpl } from "./repositories/BrowserSettingRepository";
+import {
+  FirefoxBrowserSettingRepositoryImpl,
+  ChromeBrowserSettingRepositoryImpl,
+} from "./repositories/BrowserSettingRepository";
 import { RepeatRepositoryImpl } from "./repositories/RepeatRepository";
 import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
@@ -37,7 +40,6 @@ const container = new Container({ autoBindInjectable: true });
 
 container.bind("LastSelectedTabRepository").to(LastSelectedTabRepositoryImpl);
 container.bind("Notifier").to(NotifierImpl);
-container.bind("BrowserSettingRepository").to(BrowserSettingRepositoryImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
 container.bind("FindRepository").to(FindRepositoryImpl);
 container.bind("FindClient").to(FindClientImpl);
@@ -48,8 +50,14 @@ container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
 container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
 if (process.env.BROWSER === "firefox") {
   container.bind("ClipboardRepository").to(FirefoxClipboardRepositoryImpl);
+  container
+    .bind("BrowserSettingRepository")
+    .to(FirefoxBrowserSettingRepositoryImpl);
 } else {
   container.bind("ClipboardRepository").to(ChromeClipboardRepositoryImpl);
+  container
+    .bind("BrowserSettingRepository")
+    .to(ChromeBrowserSettingRepositoryImpl);
 }
 container.bind("PropertySettings").to(PropertySettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);

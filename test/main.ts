@@ -35,4 +35,9 @@ global.chrome = {
     getRecentlyClosed: todo,
     restore: todo,
   },
+  browserSettings: {
+    homepageOverride: {
+      get: todo,
+    },
+  },
 } as unknown as typeof chrome;
