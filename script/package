@@ -32,7 +32,11 @@ const zipPackage = async (browser) => {
 
   await new Promise((resolve, reject) => {
     zip
-      .generateNodeStream({ type: "nodebuffer", streamFiles: true })
+      .generateNodeStream({
+        type: "nodebuffer",
+        streamFiles: true,
+        compression: "DEFLATE",
+      })
       .pipe(fs.createWriteStream(output))
       .on("finish", resolve)
       .on("error", reject);
