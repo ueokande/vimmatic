@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@abraham/reflection@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@abraham/reflection/-/reflection-0.10.0.tgz#0028ab6b36f760f3ec9e90a4960bbe5766766a51"
-  integrity sha512-ltEjxbZn3B5CzPhUND30YJiondgOTH3m52edgshMxcuHTEjO2lRyL+EoO7H11yYzt1FIS5CfnMcACSP52WKrLA==
+"@abraham/reflection@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@abraham/reflection/-/reflection-0.12.0.tgz#b40bffc95f63d181f89f44bd53c7235ec120bccc"
+  integrity sha512-OoLlgBE5u18mc61pJNamEh2OtFpHjtvDi1pV4ojnnH77juCvQw/Z3YlHF8TJiorU7/V6UuGApFzsi+bieug7fg==
 
 "@ampproject/remapping@^2.1.0":
   version "2.1.2"
