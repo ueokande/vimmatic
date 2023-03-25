@@ -40,4 +40,12 @@ global.chrome = {
       get: todo,
     },
   },
+  storage: {
+    sync: {
+      get: todo,
+      onChanged: {
+        addListener: todo,
+      },
+    },
+  },
 } as unknown as typeof chrome;
