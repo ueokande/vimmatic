@@ -6,7 +6,7 @@ import EventUseCaseHelper from "./EventUseCaseHelper";
 @injectable()
 export default class SettingsUseCase {
   constructor(
-    @inject("SettingsRepository")
+    @inject("PermanentSettingsRepository")
     private readonly settingsRepository: SettingsRepository,
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,

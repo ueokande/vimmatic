@@ -1,6 +1,8 @@
-import { injectable } from "inversify";
-import { defaultSettings, deserialize } from "../../settings";
+import { injectable, inject } from "inversify";
+import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 import Settings from "../../shared/Settings";
+import { defaultSettings, serialize, deserialize } from "../../settings";
+import { SerializedSettings } from "../../settings/schema";
 
 type OnChangeListener = (value: Settings) => unknown;
 
@@ -13,7 +15,7 @@ export default interface SettingsRepository {
 }
 
 @injectable()
-export class SettingsRepositoryImpl implements SettingsRepository {
+export class PermanentSettingsRepository implements SettingsRepository {
   async load(): Promise<Settings> {
     const { settings } = await chrome.storage.sync.get("settings");
     if (!settings) {
@@ -29,7 +31,7 @@ export class SettingsRepositoryImpl implements SettingsRepository {
     }
   }
 
-  save(_value: Settings): Promise<void> {
+  async save(_value: Settings): Promise<void> {
     throw new Error("unsupported operation");
   }
 
@@ -54,5 +56,41 @@ export class SettingsRepositoryImpl implements SettingsRepository {
 
       f(settings);
     });
+  }
+}
+
+@injectable()
+export class TransientSettingsRepository implements SettingsRepository {
+  constructor(
+    @inject("PermanentSettingsRepository")
+    private readonly permanent: SettingsRepository,
+    private readonly cache: LocalCache<
+      SerializedSettings | undefined
+    > = new LocalCacheImpl(TransientSettingsRepository.name, undefined)
+  ) {
+    this.permanent.onChanged(this.sync.bind(this));
+  }
+
+  async load(): Promise<Settings> {
+    const cached = await this.cache.getValue();
+    if (typeof cached !== "undefined") {
+      return deserialize(cached);
+    }
+
+    const settings = await this.permanent.load();
+    await this.cache.setValue(serialize(settings));
+    return settings;
+  }
+
+  save(value: Settings): Promise<void> {
+    return this.cache.setValue(serialize(value));
+  }
+
+  onChanged(_f: OnChangeListener): void {
+    throw new Error("unsupported operation");
+  }
+
+  private async sync(newValue: Settings) {
+    await this.cache.setValue(serialize(newValue));
   }
 }
