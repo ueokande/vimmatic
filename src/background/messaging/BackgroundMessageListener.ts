@@ -40,14 +40,14 @@ export default class BackgroundMessageListener {
       .route("background.operation")
       .to(operationController.exec.bind(operationController));
     this.receiver
-      .route("console.enter.command")
+      .route("console.command.enter")
       .to(commandController.exec.bind(commandController));
     this.receiver
-      .route("console.enter.find")
-      .to(findController.startFind.bind(findController));
-    this.receiver
-      .route("console.get.completions")
+      .route("console.command.completions")
       .to(commandController.getCompletions.bind(commandController));
+    this.receiver
+      .route("console.find.enter")
+      .to(findController.startFind.bind(findController));
     this.receiver
       .route("console.resize")
       .to(consoleController.resize.bind(consoleController));

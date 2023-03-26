@@ -3,17 +3,19 @@ import Prompt from "./Prompt";
 import InfoMessage from "./InfoMessage";
 import ErrorMessage from "./ErrorMessage";
 import { useConsoleMode } from "../app/hooks";
-import { useExecCommand, useExecFind, useVisibility } from "../app/hooks";
-import CompletionClient from "../clients/CompletionClient";
-import { newSender } from "../clients/BackgroundMessageSender";
-
-const completionClient = new CompletionClient(newSender());
+import {
+  useExecCommand,
+  useExecFind,
+  useGetCommandCompletion,
+  useVisibility,
+} from "../app/hooks";
 
 const Console: React.FC = () => {
   const { hide } = useVisibility();
   const { state } = useConsoleMode();
   const execCommand = useExecCommand();
   const execFind = useExecFind();
+  const getCompletions = useGetCommandCompletion();
 
   const onExec = React.useCallback(
     (cmd: string) => {
@@ -35,7 +37,7 @@ const Console: React.FC = () => {
         return Promise.resolve([]);
       }
       if (state.promptMode === "command") {
-        return completionClient.getCompletions(query);
+        return getCompletions(query);
       }
       return Promise.resolve([]);
     },

@@ -87,3 +87,10 @@ export const useExecFind = () => {
   }, []);
   return execFind;
 };
+
+export const useGetCommandCompletion = () => {
+  const getCompletions = React.useCallback((text: string) => {
+    return commandClient.getCompletions(text);
+  }, []);
+  return getCompletions;
+};
