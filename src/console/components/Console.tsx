@@ -31,19 +31,6 @@ const Console: React.FC = () => {
     [execCommand, execFind, state]
   );
 
-  const queryCompletions = React.useCallback(
-    (query: string) => {
-      if (state.mode !== "prompt") {
-        return Promise.resolve([]);
-      }
-      if (state.promptMode === "command") {
-        return getCompletions(query);
-      }
-      return Promise.resolve([]);
-    },
-    [execCommand, execFind, state]
-  );
-
   if (state.mode === "prompt") {
     if (state.promptMode === "command") {
       return (
@@ -51,7 +38,7 @@ const Console: React.FC = () => {
           prefix={":"}
           onBlur={hide}
           onExec={onExec}
-          queryCompletions={queryCompletions}
+          queryCompletions={getCompletions}
           initValue={state.initValue}
         />
       );
