@@ -1,6 +1,5 @@
 import {
   HIDE,
-  HIDE_COMMAND,
   SHOW_COMMAND,
   SHOW_ERROR,
   SHOW_FIND,
@@ -40,12 +39,6 @@ export default function reducer(
       return { ...state, mode: "error", messageText: action.text };
     case SHOW_INFO:
       return { ...state, mode: "info", messageText: action.text };
-    case HIDE_COMMAND:
-      return {
-        ...state,
-        mode:
-          state.mode === "command" || state.mode === "find" ? "" : state.mode,
-      };
     default:
       return state;
   }

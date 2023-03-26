@@ -1,7 +1,6 @@
 import reducer, { defaultState, State } from "../../../src/console/app/recuer";
 import {
   hide,
-  hideCommand,
   showCommand,
   showError,
   showFind,
@@ -53,32 +52,6 @@ describe("app reducer", () => {
 
       expect(nextState.mode).toEqual("info");
       expect(nextState.messageText).toEqual("what's up");
-    });
-  });
-
-  describe("hideCommand", () => {
-    describe("when command mode", () => {
-      it("switches to none mode", () => {
-        const initialState: State = {
-          ...defaultState,
-          mode: "command",
-        };
-        const nextState = reducer(initialState, hideCommand());
-
-        expect(nextState.mode).toHaveLength(0);
-      });
-    });
-
-    describe("when info message mode", () => {
-      it("does nothing", () => {
-        const initialState: State = {
-          ...defaultState,
-          mode: "info",
-        };
-        const nextState = reducer(initialState, hideCommand());
-
-        expect(nextState.mode).toEqual("info");
-      });
     });
   });
 });

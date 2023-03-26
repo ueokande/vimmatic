@@ -1,7 +1,6 @@
 export const SHOW_COMMAND = "show.command";
 export const SHOW_ERROR = "show.error";
 export const SHOW_INFO = "show.info";
-export const HIDE_COMMAND = "hide.command";
 export const SHOW_FIND = "show.find";
 export const HIDE = "hide";
 
@@ -28,17 +27,12 @@ export interface ShowInfoAction {
   text: string;
 }
 
-export interface HideCommandAction {
-  type: typeof HIDE_COMMAND;
-}
-
 export type AppAction =
   | HideAction
   | ShowCommand
   | ShowFindAction
   | ShowErrorAction
-  | ShowInfoAction
-  | HideCommandAction;
+  | ShowInfoAction;
 
 const hide = (): HideAction => {
   return {
@@ -73,10 +67,4 @@ const showInfo = (text: string): ShowInfoAction => {
   };
 };
 
-const hideCommand = (): HideCommandAction => {
-  return {
-    type: HIDE_COMMAND,
-  };
-};
-
-export { hide, showCommand, showFind, showError, showInfo, hideCommand };
+export { hide, showCommand, showFind, showError, showInfo };

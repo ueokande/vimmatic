@@ -1,7 +1,6 @@
 import * as consoleActions from "../../../src/console/app/actions";
 import {
   HIDE,
-  HIDE_COMMAND,
   SHOW_COMMAND,
   SHOW_ERROR,
   SHOW_FIND,
@@ -43,13 +42,6 @@ describe("console actions", () => {
       const action = consoleActions.showInfo("an info");
       expect(action.type).toEqual(SHOW_INFO);
       expect(action.text).toEqual("an info");
-    });
-  });
-
-  describe("hideCommand", () => {
-    it("create CONSOLE_HIDE_COMMAND action", () => {
-      const action = consoleActions.hideCommand();
-      expect(action.type).toEqual(HIDE_COMMAND);
     });
   });
 });

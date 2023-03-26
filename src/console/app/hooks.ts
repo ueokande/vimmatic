@@ -96,11 +96,6 @@ export const useErrorMessage = () => {
   };
 };
 
-export const getInitialInputValue = () => {
-  const state = React.useContext(AppStateContext);
-  return state.consoleText;
-};
-
 export const useExecCommand = () => {
   const execCommand = React.useCallback((text: string) => {
     commandClient.execCommand(text);
