@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from "react";
-import styled from "../../colorscheme/styled";
+import styled from "../colorscheme/styled";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.commandBackground};
@@ -19,18 +19,19 @@ const InputInner = styled.input`
 `;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  prompt: string;
+  prefix: string;
 }
 
-const Input: React.FC<Props> = (props) => {
-  const input = React.useRef<HTMLInputElement>(null);
-
+const PromptInput: React.FC<Props> = React.forwardRef(function PromptInput(
+  props,
+  ref: React.Ref<HTMLInputElement>
+) {
   return (
     <Container>
-      <Prompt>{props.prompt}</Prompt>
-      <InputInner ref={input} {...props} />
+      <Prompt>{props.prefix}</Prompt>
+      <InputInner ref={ref} {...props} />
     </Container>
   );
-};
+});
 
-export default Input;
+export default PromptInput;

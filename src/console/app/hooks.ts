@@ -18,71 +18,47 @@ const windowMessageSender = new SimplexSender<WindowMessageSchema>(
   }
 );
 
-export const useHide = () => {
+export const useVisibility = () => {
   const dispatch = React.useContext(AppDispatchContext);
+  const state = React.useContext(AppStateContext);
+  const visible = React.useMemo(
+    () => typeof state.mode !== "undefined",
+    [state]
+  );
   const hide = React.useCallback(() => {
     windowMessageSender.send("console.unfocus");
     dispatch(actions.hide());
   }, [dispatch]);
 
-  return hide;
+  return {
+    visible,
+    hide,
+  };
 };
 
-export const useCommandMode = () => {
+export const useConsoleMode = () => {
   const state = React.useContext(AppStateContext);
   const dispatch = React.useContext(AppDispatchContext);
 
-  const show = React.useCallback(
+  const showCommandPrompt = React.useCallback(
     (initialInputValue: string) => {
       dispatch(actions.showCommand(initialInputValue));
     },
     [dispatch]
   );
 
-  return {
-    visible: state.mode === "command",
-    initialInputValue: state.consoleText,
-    show,
-  };
-};
-
-export const useFindMode = () => {
-  const state = React.useContext(AppStateContext);
-  const dispatch = React.useContext(AppDispatchContext);
-
-  const show = React.useCallback(() => {
+  const showFindPrompt = React.useCallback(() => {
     dispatch(actions.showFind());
   }, [dispatch]);
 
-  return {
-    visible: state.mode === "find",
-    show,
-  };
-};
-
-export const useInfoMessage = () => {
-  const state = React.useContext(AppStateContext);
-  const dispatch = React.useContext(AppDispatchContext);
-
-  const show = React.useCallback(
+  const showInfoMessage = React.useCallback(
     (message: string) => {
       dispatch(actions.showInfo(message));
     },
     [dispatch]
   );
 
-  return {
-    visible: state.mode === "info",
-    message: state.mode === "info" ? state.messageText : "",
-    show,
-  };
-};
-
-export const useErrorMessage = () => {
-  const state = React.useContext(AppStateContext);
-  const dispatch = React.useContext(AppDispatchContext);
-
-  const show = React.useCallback(
+  const showErrorMessage = React.useCallback(
     (message: string) => {
       dispatch(actions.showError(message));
     },
@@ -90,9 +66,11 @@ export const useErrorMessage = () => {
   );
 
   return {
-    visible: state.mode === "error",
-    message: state.mode === "error" ? state.messageText : "",
-    show,
+    state,
+    showCommandPrompt,
+    showFindPrompt,
+    showInfoMessage,
+    showErrorMessage,
   };
 };
 

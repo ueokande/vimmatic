@@ -1,11 +1,10 @@
 import Completions from "../Completions";
-import {
-  SET_COMPLETION_SOURCE,
-  SET_COMPLETIONS,
-  COMPLETION_NEXT,
-  COMPLETION_PREV,
-  CompletionAction,
-} from "./actions";
+
+type Action =
+  | { type: "set.completion.source"; completionSource: string }
+  | { type: "set.completions"; completions: Completions }
+  | { type: "select.next.completion" }
+  | { type: "select.prev.completion" };
 
 export interface State {
   completionSource: string;
@@ -51,28 +50,28 @@ const prevSelection = (state: State): number => {
 // eslint-disable-next-line max-lines-per-function
 export default function reducer(
   state: State = defaultState,
-  action: CompletionAction
+  action: Action
 ): State {
   switch (action.type) {
-    case SET_COMPLETION_SOURCE:
+    case "set.completion.source":
       return {
         ...state,
         completionSource: action.completionSource,
         select: -1,
       };
-    case SET_COMPLETIONS:
+    case "set.completions":
       return {
         ...state,
         completions: action.completions,
       };
-    case COMPLETION_NEXT: {
+    case "select.next.completion": {
       const select = nextSelection(state);
       return {
         ...state,
         select: select,
       };
     }
-    case COMPLETION_PREV: {
+    case "select.prev.completion": {
       const select = prevSelection(state);
       return {
         ...state,

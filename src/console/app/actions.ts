@@ -19,12 +19,12 @@ export interface ShowFindAction {
 
 export interface ShowErrorAction {
   type: typeof SHOW_ERROR;
-  text: string;
+  message: string;
 }
 
 export interface ShowInfoAction {
   type: typeof SHOW_INFO;
-  text: string;
+  message: string;
 }
 
 export type AppAction =
@@ -53,18 +53,12 @@ const showFind = (): ShowFindAction => {
   };
 };
 
-const showError = (text: string): ShowErrorAction => {
-  return {
-    type: SHOW_ERROR,
-    text: text,
-  };
+const showError = (message: string): ShowErrorAction => {
+  return { type: SHOW_ERROR, message };
 };
 
-const showInfo = (text: string): ShowInfoAction => {
-  return {
-    type: SHOW_INFO,
-    text: text,
-  };
+const showInfo = (message: string): ShowInfoAction => {
+  return { type: SHOW_INFO, message };
 };
 
 export { hide, showCommand, showFind, showError, showInfo };

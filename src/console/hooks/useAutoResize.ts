@@ -14,12 +14,11 @@ const useAutoResize = () => {
       return;
     }
     const { scrollWidth: width, scrollHeight: height } = element;
-    consoleFrameClient.resize(width, height);
-
     if (width === prevWidth && height === prevHeight) {
       return;
     }
 
+    consoleFrameClient.resize(width, height);
     setPrevWidth(width);
     setPrevHeight(height);
   });

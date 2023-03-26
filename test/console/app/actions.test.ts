@@ -16,7 +16,7 @@ describe("console actions", () => {
   });
   describe("showCommand", () => {
     it("create CONSOLE_SHOW_COMMAND action", async () => {
-      const action = await consoleActions.showCommand("hello");
+      const action = consoleActions.showCommand("hello");
       expect(action.type).toEqual(SHOW_COMMAND);
       expect(action.text).toEqual("hello");
     });
@@ -33,7 +33,7 @@ describe("console actions", () => {
     it("create CONSOLE_SHOW_ERROR action", () => {
       const action = consoleActions.showError("an error");
       expect(action.type).toEqual(SHOW_ERROR);
-      expect(action.text).toEqual("an error");
+      expect(action.message).toEqual("an error");
     });
   });
 
@@ -41,7 +41,7 @@ describe("console actions", () => {
     it("create CONSOLE_SHOW_INFO action", () => {
       const action = consoleActions.showInfo("an info");
       expect(action.type).toEqual(SHOW_INFO);
-      expect(action.text).toEqual("an info");
+      expect(action.message).toEqual("an info");
     });
   });
 });

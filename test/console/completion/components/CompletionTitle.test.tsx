@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTestRenderer from "react-test-renderer";
-import CompletionTitle from "../../../../src/console/components/console/CompletionTitle";
+import CompletionTitle from "../../../../src/console/completion/components/CompletionTitle";
 
 describe("console/components/console/completion/CompletionTitle", () => {
   it("renders a CompletionTitle", () => {

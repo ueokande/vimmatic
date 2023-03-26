@@ -1,10 +1,10 @@
 import React from "react";
-import Completion from "../../../../src/console/components/console/Completion";
 import ReactTestRenderer from "react-test-renderer";
-import CompletionTitle from "../../../../src/console/components/console/CompletionTitle";
-import CompletionItem from "../../../../src/console/components/console/CompletionItem";
+import CompletionList from "../../../../src/console/completion/components/CompletionList";
+import CompletionTitle from "../../../../src/console/completion/components/CompletionTitle";
+import CompletionItem from "../../../../src/console/completion/components/CompletionItem";
 
-describe("console/components/console/completion/Completion", () => {
+describe("CompletionList", () => {
   const completions = [
     {
       name: "Fruit",
@@ -26,7 +26,7 @@ describe("console/components/console/completion/Completion", () => {
 
   it("renders Completion component", () => {
     const root = ReactTestRenderer.create(
-      <Completion completions={completions} size={30} select={-1} />
+      <CompletionList completions={completions} size={30} select={-1} />
     ).root;
 
     const groups = root.findAllByProps({ role: "group" });
@@ -46,7 +46,7 @@ describe("console/components/console/completion/Completion", () => {
 
   it("highlight current item", () => {
     const root = ReactTestRenderer.create(
-      <Completion completions={completions} size={30} select={3} />
+      <CompletionList completions={completions} size={30} select={3} />
     ).root;
 
     const items = root.findAllByType(CompletionItem);
@@ -55,7 +55,7 @@ describe("console/components/console/completion/Completion", () => {
 
   it("does not highlight any items", () => {
     const root = ReactTestRenderer.create(
-      <Completion completions={completions} size={30} select={-1} />
+      <CompletionList completions={completions} size={30} select={-1} />
     ).root;
 
     const items = root.findAllByType(CompletionItem);
@@ -64,7 +64,7 @@ describe("console/components/console/completion/Completion", () => {
 
   it("limits completion items", () => {
     let root = ReactTestRenderer.create(
-      <Completion completions={completions} size={3} select={-1} />
+      <CompletionList completions={completions} size={3} select={-1} />
     ).root;
 
     const showns = root
@@ -89,7 +89,7 @@ describe("console/components/console/completion/Completion", () => {
     ]);
 
     root = ReactTestRenderer.create(
-      <Completion completions={completions} size={3} select={0} />
+      <CompletionList completions={completions} size={3} select={0} />
     ).root;
 
     const items = root
@@ -103,7 +103,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component = ReactTestRenderer.create(
-        <Completion completions={completions} size={3} select={1} />
+        <CompletionList completions={completions} size={3} select={1} />
       );
     });
 
@@ -132,7 +132,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <Completion completions={completions} size={3} select={2} />
+        <CompletionList completions={completions} size={3} select={2} />
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -159,7 +159,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <Completion completions={completions} size={3} select={3} />
+        <CompletionList completions={completions} size={3} select={3} />
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -190,7 +190,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component = ReactTestRenderer.create(
-        <Completion completions={completions} size={3} select={5} />
+        <CompletionList completions={completions} size={3} select={5} />
       );
     });
     const root = component!.root;
@@ -220,7 +220,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <Completion completions={completions} size={3} select={4} />
+        <CompletionList completions={completions} size={3} select={4} />
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -247,7 +247,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <Completion completions={completions} size={3} select={3} />
+        <CompletionList completions={completions} size={3} select={3} />
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -274,7 +274,7 @@ describe("console/components/console/completion/Completion", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <Completion completions={completions} size={3} select={2} />
+        <CompletionList completions={completions} size={3} select={2} />
       );
     });
     items = root.findAllByType(CompletionItem);

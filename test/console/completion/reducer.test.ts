@@ -2,17 +2,14 @@ import reducer, {
   defaultState,
   State,
 } from "../../../src/console/completion/reducer";
-import {
-  selectNext,
-  selectPrev,
-  setCompletions,
-  setCompletionSource,
-} from "../../../src/console/completion/actions";
 
 describe("completion reducer", () => {
   describe("setCompletionSource", () => {
     it("sets a completion source", () => {
-      const nextState = reducer(defaultState, setCompletionSource("open "));
+      const nextState = reducer(defaultState, {
+        type: "set.completion.source",
+        completionSource: "open ",
+      });
 
       expect(nextState.completionSource).toEqual("open ");
     });
@@ -20,9 +17,9 @@ describe("completion reducer", () => {
 
   describe("setCompletions", () => {
     it("sets completions", () => {
-      const nextState = reducer(
-        defaultState,
-        setCompletions([
+      const nextState = reducer(defaultState, {
+        type: "set.completions",
+        completions: [
           {
             name: "Apple",
             items: [{}, {}],
@@ -31,8 +28,8 @@ describe("completion reducer", () => {
             name: "Banana",
             items: [{}],
           },
-        ])
-      );
+        ],
+      });
 
       expect(nextState.completions).toEqual([
         {
@@ -50,7 +47,9 @@ describe("completion reducer", () => {
   describe("selectNext", () => {
     describe("when no completion groups", () => {
       it("does nothing", () => {
-        const nextState = reducer(defaultState, selectNext());
+        const nextState = reducer(defaultState, {
+          type: "select.next.completion",
+        });
         expect(nextState.select).toEqual(-1);
       });
     });
@@ -61,7 +60,9 @@ describe("completion reducer", () => {
           ...defaultState,
           completions: [{ name: "apple", items: [] }],
         };
-        const nextState = reducer(state, selectNext());
+        const nextState = reducer(state, {
+          type: "select.next.completion",
+        });
         expect(nextState.select).toEqual(-1);
       });
     });
@@ -83,16 +84,16 @@ describe("completion reducer", () => {
           ],
         };
 
-        state = reducer(state, selectNext());
+        state = reducer(state, { type: "select.next.completion" });
         expect(state.select).toEqual(0);
 
-        state = reducer(state, selectNext());
+        state = reducer(state, { type: "select.next.completion" });
         expect(state.select).toEqual(1);
 
-        state = reducer(state, selectNext());
+        state = reducer(state, { type: "select.next.completion" });
         expect(state.select).toEqual(2);
 
-        state = reducer(state, selectNext());
+        state = reducer(state, { type: "select.next.completion" });
         expect(state.select).toEqual(-1);
       });
     });
@@ -101,7 +102,9 @@ describe("completion reducer", () => {
   describe("selectPrev", () => {
     describe("when no completion groups", () => {
       it("does nothing", () => {
-        const nextState = reducer(defaultState, selectPrev());
+        const nextState = reducer(defaultState, {
+          type: "select.prev.completion",
+        });
         expect(nextState.select).toEqual(-1);
       });
 
@@ -111,7 +114,9 @@ describe("completion reducer", () => {
             ...defaultState,
             completions: [{ name: "apple", items: [] }],
           };
-          const nextState = reducer(state, selectPrev());
+          const nextState = reducer(state, {
+            type: "select.prev.completion",
+          });
           expect(nextState.select).toEqual(-1);
         });
       });
@@ -134,16 +139,16 @@ describe("completion reducer", () => {
           ],
         };
 
-        state = reducer(state, selectPrev());
+        state = reducer(state, { type: "select.prev.completion" });
         expect(state).toHaveProperty("select", 2);
 
-        state = reducer(state, selectPrev());
+        state = reducer(state, { type: "select.prev.completion" });
         expect(state).toHaveProperty("select", 1);
 
-        state = reducer(state, selectPrev());
+        state = reducer(state, { type: "select.prev.completion" });
         expect(state).toHaveProperty("select", 0);
 
-        state = reducer(state, selectPrev());
+        state = reducer(state, { type: "select.prev.completion" });
         expect(state).toHaveProperty("select", -1);
       });
     });
