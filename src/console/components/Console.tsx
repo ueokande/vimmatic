@@ -11,6 +11,10 @@ import {
   useVisibility,
 } from "../app/hooks";
 
+// (10item + 1title) * sbc
+const COMMAND_COMPLETION_MAX_ITEMS = 33;
+const FIND_COMPLETION_MAX_ITEMS = 11;
+
 const Console: React.FC = () => {
   const { hide } = useVisibility();
   const { state } = useConsoleMode();
@@ -29,6 +33,7 @@ const Console: React.FC = () => {
       } else if (state.promptMode === "find") {
         execFind(cmd);
       }
+      hide();
     },
     [execCommand, execFind, state]
   );
@@ -38,20 +43,22 @@ const Console: React.FC = () => {
       return (
         <Prompt
           prefix={":"}
-          onBlur={hide}
+          maxLineHeight={COMMAND_COMPLETION_MAX_ITEMS}
           onExec={onExec}
           queryCompletions={getCommandCompletions}
           initValue={state.initValue}
+          onBlur={hide}
         />
       );
     } else if (state.promptMode === "find") {
       return (
         <Prompt
           prefix={"/"}
-          onBlur={hide}
+          maxLineHeight={FIND_COMPLETION_MAX_ITEMS}
           onExec={onExec}
           queryCompletions={getFindCompletions}
           initValue={state.initValue}
+          onBlur={hide}
         />
       );
     }
