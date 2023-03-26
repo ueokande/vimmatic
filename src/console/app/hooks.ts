@@ -2,6 +2,7 @@ import React from "react";
 import * as actions from "./actions";
 import { AppDispatchContext, AppStateContext } from "./contexts";
 import CommandClient from "../clients/CommandClient";
+import FindClient from "../clients/FindClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 import { SimplexSender } from "../../messaging";
 import type {
@@ -10,7 +11,9 @@ import type {
   Request as WindowMessageRequest,
 } from "../../messaging/schema/window";
 
-const commandClient = new CommandClient(newSender());
+const sender = newSender();
+const commandClient = new CommandClient(sender);
+const findClient = new FindClient(sender);
 const windowMessageSender = new SimplexSender<WindowMessageSchema>(
   (type: WindowMessageKey, args: WindowMessageRequest) => {
     const msg = JSON.stringify({ args, type });
@@ -81,16 +84,23 @@ export const useExecCommand = () => {
   return execCommand;
 };
 
-export const useExecFind = () => {
-  const execFind = React.useCallback((text?: string) => {
-    commandClient.execFind(text);
-  }, []);
-  return execFind;
-};
-
 export const useGetCommandCompletion = () => {
   const getCompletions = React.useCallback((text: string) => {
     return commandClient.getCompletions(text);
   }, []);
   return getCompletions;
+};
+
+export const useExecFind = () => {
+  const execFind = React.useCallback((text?: string) => {
+    findClient.execFind(text);
+  }, []);
+  return execFind;
+};
+
+export const useGetFindCompletion = () => {
+  const execFind = React.useCallback((text: string) => {
+    return findClient.getCompletions(text);
+  }, []);
+  return execFind;
 };

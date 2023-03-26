@@ -59,4 +59,8 @@ export default class StartFindUseCase {
     }
     this.consoleClient.showError(tabId, "Pattern not found: " + keyword);
   }
+
+  async getHistories(prefix: string): Promise<string[]> {
+    return this.findHistoryRepository.query(prefix);
+  }
 }

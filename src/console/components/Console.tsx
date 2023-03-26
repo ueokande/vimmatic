@@ -5,8 +5,9 @@ import ErrorMessage from "./ErrorMessage";
 import { useConsoleMode } from "../app/hooks";
 import {
   useExecCommand,
-  useExecFind,
   useGetCommandCompletion,
+  useExecFind,
+  useGetFindCompletion,
   useVisibility,
 } from "../app/hooks";
 
@@ -15,7 +16,8 @@ const Console: React.FC = () => {
   const { state } = useConsoleMode();
   const execCommand = useExecCommand();
   const execFind = useExecFind();
-  const getCompletions = useGetCommandCompletion();
+  const getCommandCompletions = useGetCommandCompletion();
+  const getFindCompletions = useGetFindCompletion();
 
   const onExec = React.useCallback(
     (cmd: string) => {
@@ -38,13 +40,19 @@ const Console: React.FC = () => {
           prefix={":"}
           onBlur={hide}
           onExec={onExec}
-          queryCompletions={getCompletions}
+          queryCompletions={getCommandCompletions}
           initValue={state.initValue}
         />
       );
     } else if (state.promptMode === "find") {
       return (
-        <Prompt prefix={"/"} onBlur={hide} onExec={onExec} initValue={""} />
+        <Prompt
+          prefix={"/"}
+          onBlur={hide}
+          onExec={onExec}
+          queryCompletions={getFindCompletions}
+          initValue={state.initValue}
+        />
       );
     }
   } else if (state.mode === "info_message") {

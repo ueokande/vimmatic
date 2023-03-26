@@ -47,7 +47,10 @@ export default class BackgroundMessageListener {
       .to(commandController.getCompletions.bind(commandController));
     this.receiver
       .route("console.find.enter")
-      .to(findController.startFind.bind(findController));
+      .to(findController.exec.bind(findController));
+    this.receiver
+      .route("console.find.completions")
+      .to(findController.getCompletions.bind(findController));
     this.receiver
       .route("console.resize")
       .to(consoleController.resize.bind(consoleController));
