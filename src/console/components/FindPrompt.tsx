@@ -47,6 +47,7 @@ const FindPrompt: React.FC = () => {
     <ConsoleWrapper>
       <Input
         prompt={"/"}
+        autoFocus={true}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         onChange={onChange}

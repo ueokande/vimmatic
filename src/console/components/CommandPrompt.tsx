@@ -114,6 +114,7 @@ const CommandPromptInner: React.FC<Props> = ({ initialInputValue }) => {
       />
       <Input
         prompt={":"}
+        autoFocus={true}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         onChange={onChange}
