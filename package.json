@@ -29,8 +29,8 @@
     "@abraham/reflection": "^0.12.0",
     "esbuild": "^0.14.39",
     "inversify": "^6.0.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "styled-components": "^5.3.9",
     "typescript": "4.3.5",
     "zod": "^3.19.1"
@@ -39,7 +39,7 @@
     "@playwright/test": "1.26.0",
     "@types/chrome": "^0.0.219",
     "@types/jest": "^27.4.0",
-    "@types/react": "^17.0.38",
+    "@types/react": "^18.0.29",
     "@types/react-dom": "^17.0.11",
     "@types/react-test-renderer": "^17.0.0",
     "@types/styled-components": "^5.1.26",
@@ -60,7 +60,7 @@
     "playwright-webextext": "^0.0.3",
     "prettier": "2.5.1",
     "prettier-eslint": "13.0.0",
-    "react-test-renderer": "17.0.2",
+    "react-test-renderer": "18.2.0",
     "request-promise-native": "^1.0.8",
     "ts-node": "^10.7.0",
     "webext-agent": "^0.1.0"
