@@ -1,21 +1,24 @@
 import MockFindClient from "../mock/MockFindClient";
+import MockFindHistoryRepository from "../mock/MockFindHistoryRepository";
 import MockFindRepository from "../mock/MockFindRepository";
 import MockConsoleClient from "../mock/MockConsoleClient";
 import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
-import StartFindUseCase from "../../../src/background/usecases/StartFindUseCase";
+import FindUseCase from "../../../src/background/usecases/FindUseCase";
 
-describe("StartFindUseCase", () => {
+describe("FindUseCase", () => {
   const tabId = 100;
   const frameIds = [0, 100, 101];
   const keyword = "hello";
 
   const findClient = new MockFindClient();
   const findRepository = new MockFindRepository();
+  const findHistoryRepository = new MockFindHistoryRepository();
   const consoleClient = new MockConsoleClient();
   const frameRepository = new MockReadyFrameRepository();
-  const sut = new StartFindUseCase(
+  const sut = new FindUseCase(
     findClient,
     findRepository,
+    findHistoryRepository,
     consoleClient,
     frameRepository
   );
@@ -29,12 +32,18 @@ describe("StartFindUseCase", () => {
   const setLocalStateSpy = jest
     .spyOn(findRepository, "setLocalState")
     .mockResolvedValue();
+  const setGlobalKeywordSpy = jest.spyOn(findRepository, "setGlobalKeyword");
+  const appendHistorySpy = jest
+    .spyOn(findHistoryRepository, "append")
+    .mockResolvedValue();
 
   beforeEach(async () => {
     getFrameIdsSpy.mockClear();
     clearSelectionSpy.mockClear();
     findNextSpy.mockClear();
     setLocalStateSpy.mockClear();
+    setGlobalKeywordSpy.mockClear();
+    appendHistorySpy.mockClear();
   });
 
   describe("startFind", () => {
@@ -53,7 +62,12 @@ describe("StartFindUseCase", () => {
       expect(findNextSpy).toBeCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-      expect(setLocalStateSpy).toBeCalledWith(tabId, { keyword, frameId: 100 });
+      expect(setLocalStateSpy).toBeCalledWith(tabId, {
+        keyword,
+        frameId: 100,
+      });
+      expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
+      expect(appendHistorySpy).toBeCalledWith(keyword);
       expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
     });
 
@@ -76,7 +90,12 @@ describe("StartFindUseCase", () => {
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
       expect(getLocalStateSpy).toBeCalledWith(tabId);
-      expect(setLocalStateSpy).toBeCalledWith(tabId, { keyword, frameId: 100 });
+      expect(setLocalStateSpy).toBeCalledWith(tabId, {
+        keyword,
+        frameId: 100,
+      });
+      expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
+      expect(appendHistorySpy).toBeCalledWith(keyword);
       expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
     });
 
@@ -100,7 +119,12 @@ describe("StartFindUseCase", () => {
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
       expect(getLocalStateSpy).toBeCalledWith(tabId);
-      expect(setLocalStateSpy).toBeCalledWith(tabId, { keyword, frameId: 100 });
+      expect(setLocalStateSpy).toBeCalledWith(tabId, {
+        keyword,
+        frameId: 100,
+      });
+      expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
+      expect(appendHistorySpy).toBeCalledWith(keyword);
       expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
     });
 
@@ -117,6 +141,8 @@ describe("StartFindUseCase", () => {
       expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
       expect(setLocalStateSpy).not.toBeCalled();
+      expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
+      expect(appendHistorySpy).toBeCalledWith(keyword);
       expect(showErrorSpy).toBeCalledWith(
         tabId,
         "Pattern not found: " + keyword
