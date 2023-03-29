@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.26.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/chrome": "^0.0.219",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.38",
