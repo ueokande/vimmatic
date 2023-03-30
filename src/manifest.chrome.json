@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Vimmatic",
-  "description": "Vimmatic",
+  "description": "Vimmatic enables Vim-like key binds in your web browser for easier and faster navigation.",
   "icons": {
     "48": "resources/icon_48x48.png",
     "96": "resources/icon_96x96.png"
