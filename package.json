@@ -59,7 +59,7 @@
     "nodemon": "^2.0.18",
     "playwright": "1.26.0",
     "playwright-webextext": "^0.0.3",
-    "prettier": "2.5.1",
+    "prettier": "2.8.7",
     "prettier-eslint": "13.0.0",
     "react-test-renderer": "17.0.2",
     "request-promise-native": "^1.0.8",
