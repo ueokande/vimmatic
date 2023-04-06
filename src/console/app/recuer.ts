@@ -1,6 +1,5 @@
 import {
   HIDE,
-  HIDE_COMMAND,
   SHOW_COMMAND,
   SHOW_ERROR,
   SHOW_FIND,
@@ -8,17 +7,14 @@ import {
   AppAction,
 } from "./actions";
 
-export interface State {
-  mode: string;
-  messageText: string;
-  consoleText: string;
-}
+export type State =
+  | { mode: undefined }
+  | { mode: "prompt"; promptMode: "command"; initValue: string }
+  | { mode: "prompt"; promptMode: "find"; initValue: string }
+  | { mode: "info_message"; message: string }
+  | { mode: "error_message"; message: string };
 
-export const defaultState = {
-  mode: "",
-  messageText: "",
-  consoleText: "",
-};
+export const defaultState: State = { mode: undefined };
 
 // eslint-disable-next-line max-lines-per-function
 export default function reducer(
@@ -27,25 +23,19 @@ export default function reducer(
 ): State {
   switch (action.type) {
     case HIDE:
-      return { ...state, mode: "" };
+      return { mode: undefined };
     case SHOW_COMMAND:
       return {
-        ...state,
-        mode: "command",
-        consoleText: action.text,
+        mode: "prompt",
+        promptMode: "command",
+        initValue: action.text,
       };
     case SHOW_FIND:
-      return { ...state, mode: "find", consoleText: "" };
+      return { mode: "prompt", promptMode: "find", initValue: "" };
     case SHOW_ERROR:
-      return { ...state, mode: "error", messageText: action.text };
+      return { ...state, mode: "error_message", message: action.message };
     case SHOW_INFO:
-      return { ...state, mode: "info", messageText: action.text };
-    case HIDE_COMMAND:
-      return {
-        ...state,
-        mode:
-          state.mode === "command" || state.mode === "find" ? "" : state.mode,
-      };
+      return { ...state, mode: "info_message", message: action.message };
     default:
       return state;
   }

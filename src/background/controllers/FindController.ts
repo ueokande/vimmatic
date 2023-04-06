@@ -1,21 +1,39 @@
 import { injectable, inject } from "inversify";
-import StartFindUseCase from "../usecases/StartFindUseCase";
+import { Completions } from "../../shared/Completions";
+import FindUseCase from "../usecases/FindUseCase";
 import RequestContext from "../messaging/RequestContext";
 
 @injectable()
 export default class FindController {
   constructor(
-    @inject(StartFindUseCase)
-    private startFindUseCase: StartFindUseCase
+    @inject(FindUseCase)
+    private findUseCase: FindUseCase
   ) {}
 
-  startFind(
+  exec(
     { sender }: RequestContext,
     { keyword }: { keyword?: string }
   ): Promise<void> {
     if (typeof sender.tab?.id === "undefined") {
       return Promise.resolve();
     }
-    return this.startFindUseCase.startFind(sender.tab.id, keyword);
+    return this.findUseCase.startFind(sender.tab.id, keyword);
+  }
+
+  async getCompletions(
+    _ctx: RequestContext,
+    { query }: { query: string }
+  ): Promise<Completions> {
+    const histories = await this.findUseCase.getHistories(query);
+    const items = histories.map((hist) => ({
+      primary: hist,
+      value: hist,
+    }));
+    return [
+      {
+        name: "Find History",
+        items,
+      },
+    ];
   }
 }

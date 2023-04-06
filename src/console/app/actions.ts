@@ -1,7 +1,6 @@
 export const SHOW_COMMAND = "show.command";
 export const SHOW_ERROR = "show.error";
 export const SHOW_INFO = "show.info";
-export const HIDE_COMMAND = "hide.command";
 export const SHOW_FIND = "show.find";
 export const HIDE = "hide";
 
@@ -20,16 +19,12 @@ export interface ShowFindAction {
 
 export interface ShowErrorAction {
   type: typeof SHOW_ERROR;
-  text: string;
+  message: string;
 }
 
 export interface ShowInfoAction {
   type: typeof SHOW_INFO;
-  text: string;
-}
-
-export interface HideCommandAction {
-  type: typeof HIDE_COMMAND;
+  message: string;
 }
 
 export type AppAction =
@@ -37,8 +32,7 @@ export type AppAction =
   | ShowCommand
   | ShowFindAction
   | ShowErrorAction
-  | ShowInfoAction
-  | HideCommandAction;
+  | ShowInfoAction;
 
 const hide = (): HideAction => {
   return {
@@ -59,24 +53,12 @@ const showFind = (): ShowFindAction => {
   };
 };
 
-const showError = (text: string): ShowErrorAction => {
-  return {
-    type: SHOW_ERROR,
-    text: text,
-  };
+const showError = (message: string): ShowErrorAction => {
+  return { type: SHOW_ERROR, message };
 };
 
-const showInfo = (text: string): ShowInfoAction => {
-  return {
-    type: SHOW_INFO,
-    text: text,
-  };
+const showInfo = (message: string): ShowInfoAction => {
+  return { type: SHOW_INFO, message };
 };
 
-const hideCommand = (): HideCommandAction => {
-  return {
-    type: HIDE_COMMAND,
-  };
-};
-
-export { hide, showCommand, showFind, showError, showInfo, hideCommand };
+export { hide, showCommand, showFind, showError, showInfo };

@@ -1,6 +1,8 @@
 import { inject, injectable } from "inversify";
 import ConsoleClient from "../clients/ConsoleClient";
-import FindRepositoryImpl from "../repositories/FindRepository";
+import FindRepository from "../repositories/FindRepository";
+import FindHistoryRepository from "../repositories/FindHistoryRepository";
+
 import FindClient from "../clients/FindClient";
 import ReadyFrameRepository from "../repositories/ReadyFrameRepository";
 
@@ -10,7 +12,9 @@ export default class StartFindUseCase {
     @inject("FindClient")
     private readonly findClient: FindClient,
     @inject("FindRepository")
-    private readonly findRepository: FindRepositoryImpl,
+    private readonly findRepository: FindRepository,
+    @inject("FindHistoryRepository")
+    private readonly findHistoryRepository: FindHistoryRepository,
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,
     @inject("ReadyFrameRepository")
@@ -30,6 +34,7 @@ export default class StartFindUseCase {
       return;
     }
 
+    await this.findHistoryRepository.append(keyword);
     await this.findRepository.setGlobalKeyword(keyword);
 
     const frameIds = await this.frameRepository.getFrameIds(tabId);
@@ -53,5 +58,9 @@ export default class StartFindUseCase {
       }
     }
     this.consoleClient.showError(tabId, "Pattern not found: " + keyword);
+  }
+
+  async getHistories(prefix: string): Promise<string[]> {
+    return this.findHistoryRepository.query(prefix);
   }
 }

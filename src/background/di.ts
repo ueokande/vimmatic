@@ -14,6 +14,7 @@ import { RepeatRepositoryImpl } from "./repositories/RepeatRepository";
 import { FindClientImpl } from "./clients/FindClient";
 import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
 import { FindRepositoryImpl } from "./repositories/FindRepository";
+import { FindHistoryRepositoryImpl } from "./repositories/FindHistoryRepository";
 import { ReadyFrameRepositoryImpl } from "./repositories/ReadyFrameRepository";
 import {
   FirefoxClipboardRepositoryImpl,
@@ -45,6 +46,7 @@ container.bind("LastSelectedTabRepository").to(LastSelectedTabRepositoryImpl);
 container.bind("Notifier").to(NotifierImpl);
 container.bind("RepeatRepository").to(RepeatRepositoryImpl);
 container.bind("FindRepository").to(FindRepositoryImpl);
+container.bind("FindHistoryRepository").to(FindHistoryRepositoryImpl);
 container.bind("FindClient").to(FindClientImpl);
 container.bind("ContentMessageClient").to(ContentMessageClientImpl);
 container.bind("NavigateClient").to(NavigateClientImpl);

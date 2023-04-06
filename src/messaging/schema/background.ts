@@ -12,9 +12,10 @@ export type Schema = {
   }>;
   "settings.query": Duplex<undefined, unknown>;
   "open.url": Duplex<{ url: string; newTab: boolean; background: boolean }>;
-  "console.enter.command": Duplex<{ text: string }>;
-  "console.enter.find": Duplex<{ keyword?: string }>;
-  "console.get.completions": Duplex<{ query: string }, Completions>;
+  "console.command.enter": Duplex<{ text: string }>;
+  "console.command.completions": Duplex<{ query: string }, Completions>;
+  "console.find.enter": Duplex<{ keyword?: string }>;
+  "console.find.completions": Duplex<{ query: string }, Completions>;
   "console.resize": Duplex<{ width: number; height: number }>;
   "settings.get.property": Duplex<{ name: string }, string | number | boolean>;
   "settings.validate": Duplex<{ settings: unknown }, { error?: string }>;

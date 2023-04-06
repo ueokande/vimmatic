@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTestRenderer from "react-test-renderer";
-import CompletionItem from "../../../../src/console/components/console/CompletionItem";
+import CompletionItem from "../../../../src/console/completion/components/CompletionItem";
 
 describe("console/components/console/completion/CompletionItem", () => {
   it("renders a CompletionItem", () => {

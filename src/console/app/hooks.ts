@@ -2,6 +2,7 @@ import React from "react";
 import * as actions from "./actions";
 import { AppDispatchContext, AppStateContext } from "./contexts";
 import CommandClient from "../clients/CommandClient";
+import FindClient from "../clients/FindClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 import { SimplexSender } from "../../messaging";
 import type {
@@ -10,7 +11,9 @@ import type {
   Request as WindowMessageRequest,
 } from "../../messaging/schema/window";
 
-const commandClient = new CommandClient(newSender());
+const sender = newSender();
+const commandClient = new CommandClient(sender);
+const findClient = new FindClient(sender);
 const windowMessageSender = new SimplexSender<WindowMessageSchema>(
   (type: WindowMessageKey, args: WindowMessageRequest) => {
     const msg = JSON.stringify({ args, type });
@@ -18,71 +21,47 @@ const windowMessageSender = new SimplexSender<WindowMessageSchema>(
   }
 );
 
-export const useHide = () => {
+export const useVisibility = () => {
   const dispatch = React.useContext(AppDispatchContext);
+  const state = React.useContext(AppStateContext);
+  const visible = React.useMemo(
+    () => typeof state.mode !== "undefined",
+    [state]
+  );
   const hide = React.useCallback(() => {
     windowMessageSender.send("console.unfocus");
     dispatch(actions.hide());
   }, [dispatch]);
 
-  return hide;
+  return {
+    visible,
+    hide,
+  };
 };
 
-export const useCommandMode = () => {
+export const useConsoleMode = () => {
   const state = React.useContext(AppStateContext);
   const dispatch = React.useContext(AppDispatchContext);
 
-  const show = React.useCallback(
+  const showCommandPrompt = React.useCallback(
     (initialInputValue: string) => {
       dispatch(actions.showCommand(initialInputValue));
     },
     [dispatch]
   );
 
-  return {
-    visible: state.mode === "command",
-    initialInputValue: state.consoleText,
-    show,
-  };
-};
-
-export const useFindMode = () => {
-  const state = React.useContext(AppStateContext);
-  const dispatch = React.useContext(AppDispatchContext);
-
-  const show = React.useCallback(() => {
+  const showFindPrompt = React.useCallback(() => {
     dispatch(actions.showFind());
   }, [dispatch]);
 
-  return {
-    visible: state.mode === "find",
-    show,
-  };
-};
-
-export const useInfoMessage = () => {
-  const state = React.useContext(AppStateContext);
-  const dispatch = React.useContext(AppDispatchContext);
-
-  const show = React.useCallback(
+  const showInfoMessage = React.useCallback(
     (message: string) => {
       dispatch(actions.showInfo(message));
     },
     [dispatch]
   );
 
-  return {
-    visible: state.mode === "info",
-    message: state.mode === "info" ? state.messageText : "",
-    show,
-  };
-};
-
-export const useErrorMessage = () => {
-  const state = React.useContext(AppStateContext);
-  const dispatch = React.useContext(AppDispatchContext);
-
-  const show = React.useCallback(
+  const showErrorMessage = React.useCallback(
     (message: string) => {
       dispatch(actions.showError(message));
     },
@@ -90,15 +69,12 @@ export const useErrorMessage = () => {
   );
 
   return {
-    visible: state.mode === "error",
-    message: state.mode === "error" ? state.messageText : "",
-    show,
+    state,
+    showCommandPrompt,
+    showFindPrompt,
+    showInfoMessage,
+    showErrorMessage,
   };
-};
-
-export const getInitialInputValue = () => {
-  const state = React.useContext(AppStateContext);
-  return state.consoleText;
 };
 
 export const useExecCommand = () => {
@@ -108,9 +84,23 @@ export const useExecCommand = () => {
   return execCommand;
 };
 
+export const useGetCommandCompletion = () => {
+  const getCompletions = React.useCallback((text: string) => {
+    return commandClient.getCompletions(text);
+  }, []);
+  return getCompletions;
+};
+
 export const useExecFind = () => {
   const execFind = React.useCallback((text?: string) => {
-    commandClient.execFind(text);
+    findClient.execFind(text);
+  }, []);
+  return execFind;
+};
+
+export const useGetFindCompletion = () => {
+  const execFind = React.useCallback((text: string) => {
+    return findClient.getCompletions(text);
   }, []);
   return execFind;
 };
