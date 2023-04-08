@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/ueokande/vimmatic/compare/v0.1.1...v0.2.0) (2023-04-08)
+
+
+### Features
+
+* find history ([#116](https://github.com/ueokande/vimmatic/issues/116)) ([2aee24f](https://github.com/ueokande/vimmatic/commit/2aee24fa9d20b0a6074ec63fe61e90409109ce83))
+
+
+### Bug Fixes
+
+* **deps:** bump @abraham/reflection from 0.10.0 to 0.12.0 ([#107](https://github.com/ueokande/vimmatic/issues/107)) ([b175b0b](https://github.com/ueokande/vimmatic/commit/b175b0b2732a53a556484beb2bc50e1b59bea1cf))
+* **deps:** bump styled-components and @types/styled-components ([#106](https://github.com/ueokande/vimmatic/issues/106)) ([08e972b](https://github.com/ueokande/vimmatic/commit/08e972b290b044a49e7fccf43a9b0f0859e62e7d))
+* unable to load persistent settings ([#120](https://github.com/ueokande/vimmatic/issues/120)) ([2544af3](https://github.com/ueokande/vimmatic/commit/2544af3699a700c42228fbb208115c6ebc65e84a))
+
 ## [0.1.1](https://github.com/ueokande/vimmatic/compare/v0.1.0...v0.1.1) (2023-03-21)
 
 
