@@ -5,6 +5,9 @@ const todo = () => {
 };
 
 global.chrome = {
+  runtime: {
+    sendMessage: todo,
+  },
   tabs: {
     query: todo,
     create: todo,
@@ -43,6 +46,7 @@ global.chrome = {
   storage: {
     sync: {
       get: todo,
+      set: todo,
       onChanged: {
         addListener: todo,
       },
