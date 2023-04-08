@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useStorage } from "./hooks/storage";
+import { useLoadSettings, useSaveSettings } from "./hooks/storage";
 import TextArea from "./components/TextArea";
 import ErrorMessage from "./components/ErrorMessage";
 
@@ -10,17 +10,29 @@ const Container = styled.form`
 `;
 
 const App: React.FC = () => {
-  const [currentValue, error, save] = useStorage();
-  const [jsonText, setJson] = React.useState(currentValue);
+  const { data: loadedValue, loading, error: loadError } = useLoadSettings();
+  const { save, error: saveError } = useSaveSettings();
+  const [jsonText, setJsonText] = React.useState("");
   const onChange = React.useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setJson(e.target.value);
+      setJsonText(e.target.value);
     },
-    [setJson]
+    [setJsonText]
   );
+
   const onBlur = React.useCallback(() => {
     save(jsonText);
   }, [jsonText, save]);
+
+  React.useEffect(() => {
+    if (typeof loadedValue !== "undefined") {
+      setJsonText(loadedValue);
+    }
+  }, [loadedValue]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <Container>
@@ -44,7 +56,7 @@ const App: React.FC = () => {
           onBlur={onBlur}
           value={jsonText}
         />
-        <ErrorMessage error={error} />
+        <ErrorMessage error={loadError || saveError} />
       </div>
     </Container>
   );

@@ -23,27 +23,42 @@ const useValidate = () => {
   return validate;
 };
 
-const useLoad = (): [string, Error | undefined] => {
+export const useLoadSettings = (): {
+  data?: string;
+  loading: boolean;
+  error?: Error;
+} => {
   const [error, setError] = React.useState<Error>();
-  const [jsonText, setJsonText] = React.useState(defaultJSONSettings);
+  const [loading, setLoading] = React.useState(true);
+  const [jsonText, setJsonText] = React.useState<string>();
   React.useEffect(() => {
     (async () => {
       const { settings_json } = await chrome.storage.sync.get("settings_json");
-      if (typeof settings_json === "undefined") {
-        return;
-      }
-      setJsonText(settings_json);
+      setJsonText(settings_json ?? defaultJSONSettings);
       setError(undefined);
-    })().catch(setError);
+    })()
+      .catch((err) => {
+        setJsonText(undefined);
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [setJsonText]);
-  return [jsonText, error];
+  return { data: jsonText, loading, error };
 };
 
-const useSave = (): [SaveFn, Error | undefined] => {
+export const useSaveSettings = (): {
+  loading: boolean;
+  error?: Error;
+  save: SaveFn;
+} => {
   const [error, setError] = React.useState<Error>();
+  const [loading, setLoading] = React.useState(false);
   const validate = useValidate();
   const save = React.useCallback(
     (newJsonText: string) => {
+      setLoading(true);
       (async () => {
         const settings = await validate(newJsonText);
         await chrome.storage.sync.set({
@@ -51,20 +66,15 @@ const useSave = (): [SaveFn, Error | undefined] => {
           settings_json: newJsonText,
         });
         setError(undefined);
-      })().catch(setError);
+      })()
+        .catch((err) => {
+          setError(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     },
     [validate, setError]
   );
-  return [save, error];
-};
-
-export const useStorage = (): [string, Error | undefined, SaveFn] => {
-  const [jsonText, loadError] = useLoad();
-  const [save, saveError] = useSave();
-  const error = React.useMemo(
-    () => loadError || saveError,
-    [loadError, saveError]
-  );
-
-  return [jsonText, error, save];
+  return { save, error, loading };
 };
