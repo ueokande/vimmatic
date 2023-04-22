@@ -21,6 +21,10 @@ describe("shared/commands/parsers", () => {
       ["localhost:80nan", "https://google.com/search?q=localhost%3A80nan"],
       ["localhost 8080", "https://google.com/search?q=localhost%208080"],
       ["localhost:80/build", "http://localhost:80/build"],
+      ["http://127.0.0.1", "http://127.0.0.1/"],
+      ["http://127.0.0.1:8080", "http://127.0.0.1:8080/"],
+      ["http://[::1]", "http://[::1]/"],
+      ["http://[::1]:8080", "http://[::1]:8080/"],
     ])("converts URL '%s'", (src, expected) => {
       expect(parsers.searchUrl(src, config)).toEqual(expected);
     });
