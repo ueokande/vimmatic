@@ -8,25 +8,24 @@ describe("shared/commands/parsers", () => {
       yahoo: "https://yahoo.com/search?q={}",
     });
 
-    it("convertes search url", () => {
-      expect(parsers.searchUrl("google.com", config)).toEqual(
-        "http://google.com"
-      );
-      expect(parsers.searchUrl("google apple", config)).toEqual(
-        "https://google.com/search?q=apple"
-      );
-      expect(parsers.searchUrl("yahoo apple", config)).toEqual(
-        "https://yahoo.com/search?q=apple"
-      );
-      expect(parsers.searchUrl("google apple banana", config)).toEqual(
-        "https://google.com/search?q=apple%20banana"
-      );
-      expect(parsers.searchUrl("yahoo C++CLI", config)).toEqual(
-        "https://yahoo.com/search?q=C%2B%2BCLI"
-      );
+    it.each([
+      ["http://google.com", "http://google.com/"],
+      ["google.com", "http://google.com"],
+      ["google apple", "https://google.com/search?q=apple"],
+      ["yahoo apple", "https://yahoo.com/search?q=apple"],
+      ["google apple banana", "https://google.com/search?q=apple%20banana"],
+      ["yahoo C++CLI", "https://yahoo.com/search?q=C%2B%2BCLI"],
+      ["localhost", "http://localhost"],
+      ["http://localhost", "http://localhost/"],
+      ["localhost:8080", "http://localhost:8080"],
+      ["localhost:80nan", "https://google.com/search?q=localhost%3A80nan"],
+      ["localhost 8080", "https://google.com/search?q=localhost%208080"],
+      ["localhost:80/build", "http://localhost:80/build"],
+    ])("converts URL '%s'", (src, expected) => {
+      expect(parsers.searchUrl(src, config)).toEqual(expected);
     });
 
-    it("user default  search engine", () => {
+    it("user default search engine", () => {
       expect(parsers.searchUrl("apple banana", config)).toEqual(
         "https://google.com/search?q=apple%20banana"
       );
@@ -38,27 +37,6 @@ describe("shared/commands/parsers", () => {
       );
       expect(parsers.searchUrl("std::vector", config)).toEqual(
         "https://google.com/search?q=std%3A%3Avector"
-      );
-    });
-
-    it("localhost urls", () => {
-      expect(parsers.searchUrl("localhost", config)).toEqual(
-        "http://localhost"
-      );
-      expect(parsers.searchUrl("http://localhost", config)).toEqual(
-        "http://localhost/"
-      );
-      expect(parsers.searchUrl("localhost:8080", config)).toEqual(
-        "http://localhost:8080"
-      );
-      expect(parsers.searchUrl("localhost:80nan", config)).toEqual(
-        "https://google.com/search?q=localhost%3A80nan"
-      );
-      expect(parsers.searchUrl("localhost 8080", config)).toEqual(
-        "https://google.com/search?q=localhost%208080"
-      );
-      expect(parsers.searchUrl("localhost:80/build", config)).toEqual(
-        "http://localhost:80/build"
       );
     });
   });
