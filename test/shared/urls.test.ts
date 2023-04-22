@@ -10,23 +10,29 @@ describe("shared/commands/parsers", () => {
 
     it.each([
       ["http://google.com", "http://google.com/"],
-      ["google.com", "http://google.com"],
+      ["google.com", "http://google.com/"],
       ["google apple", "https://google.com/search?q=apple"],
       ["yahoo apple", "https://yahoo.com/search?q=apple"],
       ["google apple banana", "https://google.com/search?q=apple%20banana"],
       ["yahoo C++CLI", "https://yahoo.com/search?q=C%2B%2BCLI"],
-      ["localhost", "http://localhost"],
+      ["localhost", "http://localhost/"],
       ["http://localhost", "http://localhost/"],
-      ["localhost:8080", "http://localhost:8080"],
+      ["localhost:8080", "http://localhost:8080/"],
       ["localhost:80nan", "https://google.com/search?q=localhost%3A80nan"],
       ["localhost 8080", "https://google.com/search?q=localhost%208080"],
-      ["localhost:80/build", "http://localhost:80/build"],
+      ["localhost:80/build", "http://localhost/build"],
       ["http://127.0.0.1", "http://127.0.0.1/"],
       ["http://127.0.0.1:8080", "http://127.0.0.1:8080/"],
       ["http://[::1]", "http://[::1]/"],
       ["http://[::1]:8080", "http://[::1]:8080/"],
     ])("converts URL '%s'", (src, expected) => {
       expect(parsers.searchUrl(src, config)).toEqual(expected);
+    });
+
+    it("throws an error on unsupported protocols", () => {
+      expect(() =>
+        parsers.searchUrl("file:///tmp/table.csv", config)
+      ).toThrowError("forbidden");
     });
 
     it("user default search engine", () => {

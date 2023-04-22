@@ -6,42 +6,50 @@ const trimStart = (str: string): string => {
 };
 
 const SUPPORTED_PROTOCOLS = ["http:", "https:", "ftp:", "mailto:", "about:"];
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/create
+const UNSUPPORTED_PROTOCOLS = ["chrome:", "javascript:", "data:", "file:"];
 
-const isLocalhost = (url: string): boolean => {
-  if (url === "localhost") {
-    return true;
-  }
-
-  const [host, port] = url.split(":", 2);
-  return host === "localhost" && !isNaN(Number(port));
+const isHostname = (src: string): boolean => {
+  return src === "localhost" || (src.includes(".") && !src.includes(" "));
 };
 
-const isMissingHttp = (keywords: string): boolean => {
-  if (keywords.includes(".") && !keywords.includes(" ")) {
-    return true;
+const isHost = (src: string): boolean => {
+  if (!src.includes(":")) {
+    return isHostname(src);
   }
-
-  try {
-    const u = new URL("http://" + keywords);
-    return isLocalhost(u.host);
-  } catch (e) {
-    // fallthrough
-  }
-  return false;
+  const [hostname, port] = src.split(":", 2);
+  return isHostname(hostname) && !isNaN(Number(port));
 };
 
 const searchUrl = (keywords: string, search: SearchEngine): string => {
+  let url: URL | undefined;
   try {
-    const u = new URL(keywords);
-    if (SUPPORTED_PROTOCOLS.includes(u.protocol.toLowerCase())) {
-      return u.href;
+    url = new URL(keywords);
+    if (SUPPORTED_PROTOCOLS.includes(url.protocol)) {
+      return url.href;
     }
   } catch (e) {
     // fallthrough
   }
 
-  if (isMissingHttp(keywords)) {
-    return "http://" + keywords;
+  // URL parser recognize example.com:12345 as a valid URL which has a
+  // protocol 'example.com'.
+  if (
+    typeof url !== "undefined" &&
+    UNSUPPORTED_PROTOCOLS.includes(url.protocol)
+  ) {
+    throw new Error(
+      `Opening protocol '${url.protocol}' is forbidden for security reasons`
+    );
+  }
+
+  try {
+    const urlWithHttp = new URL("http://" + keywords);
+    if (isHost(urlWithHttp.host)) {
+      return urlWithHttp.href;
+    }
+  } catch (e) {
+    // fallthrough
   }
 
   let template = search.engines[search.defaultEngine];
