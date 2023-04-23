@@ -21,35 +21,33 @@ const isHost = (src: string): boolean => {
   return isHostname(hostname) && !isNaN(Number(port));
 };
 
-const searchUrl = (keywords: string, search: SearchEngine): string => {
-  let url: URL | undefined;
+const parseURL = (src: string): URL | undefined => {
   try {
-    url = new URL(keywords);
+    return new URL(src);
+  } catch (e) {
+    // fallthrough
+  }
+  return undefined;
+};
+
+const searchUrl = (keywords: string, search: SearchEngine): string => {
+  const url = parseURL(keywords);
+  if (typeof url !== "undefined") {
+    // URL parser recognize example.com:12345 as a valid URL which has a
+    // protocol 'example.com'.
+
     if (SUPPORTED_PROTOCOLS.includes(url.protocol)) {
       return url.href;
+    } else if (UNSUPPORTED_PROTOCOLS.includes(url.protocol)) {
+      throw new Error(
+        `Opening protocol '${url.protocol}' is forbidden for security reasons`
+      );
     }
-  } catch (e) {
-    // fallthrough
   }
 
-  // URL parser recognize example.com:12345 as a valid URL which has a
-  // protocol 'example.com'.
-  if (
-    typeof url !== "undefined" &&
-    UNSUPPORTED_PROTOCOLS.includes(url.protocol)
-  ) {
-    throw new Error(
-      `Opening protocol '${url.protocol}' is forbidden for security reasons`
-    );
-  }
-
-  try {
-    const urlWithHttp = new URL("http://" + keywords);
-    if (isHost(urlWithHttp.host)) {
-      return urlWithHttp.href;
-    }
-  } catch (e) {
-    // fallthrough
+  const urlWithHttp = parseURL("http://" + keywords);
+  if (typeof urlWithHttp !== "undefined" && isHost(urlWithHttp.host)) {
+    return urlWithHttp.href;
   }
 
   let template = search.engines[search.defaultEngine];
