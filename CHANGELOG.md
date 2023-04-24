@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/ueokande/vimmatic/compare/v0.2.0...v0.2.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* forbid opening file:// ([#128](https://github.com/ueokande/vimmatic/issues/128)) ([00bbc2b](https://github.com/ueokande/vimmatic/commit/00bbc2b0ae42aa313b2966f2b563d1985bad91f4))
+
 ## [0.2.0](https://github.com/ueokande/vimmatic/compare/v0.1.1...v0.2.0) (2023-04-08)
 
 
