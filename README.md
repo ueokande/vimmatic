@@ -27,7 +27,7 @@ Feel free to contact us at [github repository][].
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Get an add-on][get_firefox]                                                                                                                                                                                      | [Get an extension][get_chrome]                                                                                                                                                                                |
+| [Firefox Add-ons][firefox_addons]                                                                                                                                                                                 | [Chrome Web Store][chrome_web_store]                                                                                                                                                                                |
 
 
 ## Documentation
@@ -42,7 +42,7 @@ Copyright © Shin'ya Ueoka and contributors
 
 MIT
 
-[get_firefox]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/
-[get_chrome]: https://chrome.google.com/webstore/detail/vimmatic/pghmfgnakhjiphmlcnhfpgopkcjhiedc
+[firefox_addons]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/
+[chrome_web_store]: https://chrome.google.com/webstore/detail/vimmatic/pghmfgnakhjiphmlcnhfpgopkcjhiedc
 [documentation]: https://ueokande.github.io/vimmatic/
 [github repository]: https://github.com/ueokande/vimmatic
