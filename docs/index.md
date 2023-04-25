@@ -20,7 +20,10 @@ Setting keymaps by a JSON-format configuration.
 
 For usage and more detailed information, check out our [documentation][].
 The development of Vimmatic is publically available as open-source software.
-Feel free to contact us at [github repository][github_repository].
+Feel free to contact us at [github repository][].
+
+[documentation]: https://ueokande.github.io/vimmatic/
+[github repository]: https://github.com/ueokande/vimmatic
 
 ## Getting started
 
@@ -28,7 +31,7 @@ Feel free to contact us at [github repository][github_repository].
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Not published yet                                                                                                                                                                                                 | [Get an extension][Get_chrome]                                                                                                                                                                                                |
+| [Firefox Add-ons][firefox_addons]                                                                                                                                                                                 | [Chrome Web Store][chrome_web_store]                                                                                                                                                                                |
 
 ### Quick start
 
@@ -69,5 +72,5 @@ You can see completed commands on [Console commands](./console_commands.md).
 
 Copyright © Shin'ya Ueoka and contributors
 
-[Get_firefox]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/
-[Get_chrome]: https://chrome.google.com/webstore/detail/vimmatic/pghmfgnakhjiphmlcnhfpgopkcjhiedc
+[firefox_addons]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/
+[chrome_web_store]: https://chrome.google.com/webstore/detail/vimmatic/pghmfgnakhjiphmlcnhfpgopkcjhiedc
