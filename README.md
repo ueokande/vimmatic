@@ -18,7 +18,7 @@ Opening a page from bookmarks and histories.
 Custom search engined
 Setting keymaps by a JSON-format configuration.
 
-For usage and more detailed information, check out our [documentations][].
+For usage and more detailed information, check out our [documentation][].
 The development of Vimmatic is publically available as open-source software.
 Feel free to contact us at [github repository][].
 
@@ -28,6 +28,11 @@ Feel free to contact us at [github repository][].
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br/>Chrome |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Get an add-on][get_firefox]                                                                                                                                                                                      | [Get an extension (experimental support)][get_chrome]                                                                                                                                                         |
+
+
+## Documentation
+
+You can find the documentation [on the website][documentation].
 
 ## Copyright
 
@@ -39,5 +44,5 @@ MIT
 
 [get_firefox]: https://addons.mozilla.org/en-US/firefox/addon/vimmatic/
 [get_chrome]: https://chrome.google.com/webstore/detail/vimmatic/pghmfgnakhjiphmlcnhfpgopkcjhiedc
-[documentations]: https://ueokande.github.io/vimmatic/
+[documentation]: https://ueokande.github.io/vimmatic/
 [github repository]: https://github.com/ueokande/vimmatic
