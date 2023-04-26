@@ -66,7 +66,9 @@ or search keywords with search engine (such as Google) like:
 :open How to use Vim
 ```
 
-You can see completed commands on [Console commands](./console_commands.md).
+The console completes commands by your input.  Press <kbd>Tab</kbd> and <kbd>
+Shift</kbd>+<kbd>Tab</kbd> to select next and previous items, respectively.
+You can see all commands on [Console commands](./console_commands.md).
 
 ## Copyright
 
