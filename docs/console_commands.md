@@ -5,6 +5,8 @@ title: Console commands
 # Console commands
 
 Vimmatic provides a console for `ex`-style commands, similar to Vimperator.
+The console completes commands by your input.  Press <kbd>Tab</kbd> and <kbd>
+Shift</kbd>+<kbd>Tab</kbd> to select next and previous items, respectively.
 
 Open the console with <kbd>:</kbd>. Or populate it with initial values using
 <kbd>o</kbd>/<kbd>O</kbd>, <kbd>t</kbd>/<kbd>T</kbd>, or
