@@ -38,7 +38,7 @@ describe("MarkJumpUseCase", () => {
     const mockGetGlobalMark = jest
       .spyOn(markRepository, "getGlobalMark")
       .mockResolvedValue({
-        tabId: 100,
+        tabId: 101,
         url: "https://example.com/",
         x: 10,
         y: 20,
@@ -53,8 +53,8 @@ describe("MarkJumpUseCase", () => {
     await sut.jumpToMark("A");
 
     expect(mockGetGlobalMark).toHaveBeenCalledWith("A");
-    expect(mockScrollTo).toHaveBeenCalledWith(100, 0, 10, 20, true);
-    expect(mockTabsUpdate).toHaveBeenCalledWith(100, { active: true });
+    expect(mockScrollTo).toHaveBeenCalledWith(101, 0, 10, 20, true);
+    expect(mockTabsUpdate).toHaveBeenCalledWith(101, { active: true });
   });
 
   it("reopens tabs when the tab of the global mark is gone", async () => {

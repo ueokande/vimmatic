@@ -43,6 +43,7 @@ export default class MarkJumpUseCase {
     const smooth = (await this.propertySettings.getProperty(
       "smoothscroll"
     )) as boolean;
+
     try {
       await this.contentMessageClient.scrollTo(
         mark.tabId,
@@ -51,7 +52,7 @@ export default class MarkJumpUseCase {
         mark.y,
         smooth
       );
-      await chrome.tabs.update(tabId, { active: true });
+      await chrome.tabs.update(mark.tabId, { active: true });
       return;
     } catch (e) {
       const tab = await chrome.tabs.create({ url: mark.url });
