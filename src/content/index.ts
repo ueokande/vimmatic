@@ -1,7 +1,6 @@
 import "@abraham/reflection";
 import Application from "./Application";
 import Bootstrap from "./Bootstrap";
-import consoleFrameStyle from "./site-style";
 import { container } from "./di";
 
 const initDom = () => {
@@ -13,10 +12,6 @@ const initDom = () => {
       console.error(e);
     }
   })();
-
-  const style = window.document.createElement("style");
-  style.textContent = consoleFrameStyle;
-  window.document.head.appendChild(style);
 };
 
 const bootstrap = new Bootstrap();
