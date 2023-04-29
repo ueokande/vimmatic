@@ -21,7 +21,7 @@ describe("Hint", () => {
       const link = document.getElementById("test-link")!;
       new Hint(link, "abc", css);
 
-      const elem = document.querySelector(".vimmatic-hint");
+      const elem = document.querySelector("span");
       expect(elem!.textContent!.trim()).toEqual("abc");
     });
 
@@ -29,7 +29,7 @@ describe("Hint", () => {
       const link = document.getElementById("test-link")!;
       new Hint(link, "abc", { position: "relative" });
 
-      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
+      const elem = document.querySelector("span") as HTMLElement;
       expect(elem.style.position).toEqual("absolute");
     });
   });
@@ -41,7 +41,7 @@ describe("Hint", () => {
       hint.hide();
       hint.show();
 
-      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
+      const elem = document.querySelector("span") as HTMLElement;
       expect(elem.style.display).not.toEqual("none");
     });
   });
@@ -52,7 +52,7 @@ describe("Hint", () => {
       const hint = new Hint(link, "abc", css);
       hint.hide();
 
-      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
+      const elem = document.querySelector("span") as HTMLElement;
       expect(elem.style.display).toEqual("none");
     });
   });
@@ -62,7 +62,7 @@ describe("Hint", () => {
       const link = document.getElementById("test-link")!;
       const hint = new Hint(link, "abc", css);
 
-      const elem = document.querySelector(".vimmatic-hint")!;
+      const elem = document.querySelector("span")!;
       expect(elem.parentElement).not.toBeNull;
       hint.remove();
       expect(elem.parentElement).toBeNull;

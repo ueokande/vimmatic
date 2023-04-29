@@ -37,7 +37,6 @@ export default abstract class Hint {
     const { scrollX, scrollY } = window;
 
     const hint = doc.createElement("span");
-    hint.className = "vimmatic-hint";
     hint.textContent = tag;
     for (const [key, value] of Object.entries(style)) {
       hint.style.setProperty(key, value);
