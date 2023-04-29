@@ -12,15 +12,4 @@ export default `
   background-color: unset !important;
   pointer-events:none;
 }
-
-.vimmatic-hint {
-  background-color: yellow;
-  border: 1px solid gold;
-  font-weight: bold;
-  position: absolute;
-  text-transform: uppercase;
-  z-index: 2147483647;
-  font-size: 12px;
-  color: black;
-}
 `;

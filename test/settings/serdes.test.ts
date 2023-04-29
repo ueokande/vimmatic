@@ -100,6 +100,32 @@ describe("serializeSettings", () => {
       expect(ser).toMatchObject({ properties: {} });
     });
   });
+
+  describe("styles", () => {
+    it("serializes property settings", () => {
+      const styles = {
+        hint: {
+          "background-color": "yellow",
+        },
+      };
+      const ser = serializeSettings({ styles });
+
+      expect(ser).toMatchObject({
+        styles: {
+          hint: {
+            "background-color": "yellow",
+          },
+        },
+      });
+    });
+
+    it("serializes empty property settings", () => {
+      const styles = {};
+      const ser = serializeSettings({ styles });
+
+      expect(ser).toMatchObject({ styles: {} });
+    });
+  });
 });
 
 describe("deserializeSettings", () => {
@@ -235,6 +261,28 @@ describe("deserializeSettings", () => {
       const settings = deserializeSettings({ properties });
 
       expect(settings.properties).toEqual({});
+    });
+  });
+
+  describe("styles", () => {
+    test("it deserialize styles settings", () => {
+      const styles = {
+        hint: {
+          "background-color": "yellow",
+        },
+      };
+      const settings = deserializeSettings({ styles });
+
+      expect(settings.styles.hint).toMatchObject({
+        "background-color": "yellow",
+      });
+    });
+
+    test("it deserialize empty styles settings", () => {
+      const styles = {};
+      const settings = deserializeSettings({ styles });
+
+      expect(settings.styles).toEqual({});
     });
   });
 });

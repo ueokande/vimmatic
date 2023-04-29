@@ -82,5 +82,14 @@ export const defaultJSONSettings = `{
     "colorscheme": "system"
   },
   "blacklist": [
-  ]
+  ],
+  "styles": {
+    "hint": {
+      "background-color": "yellow",
+      "border": "1px solid gold",
+      "font-weight": "bold",
+      "font-size": "12px",
+      "color": "black"
+    }
+  }
 }`;

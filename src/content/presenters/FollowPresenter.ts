@@ -1,4 +1,5 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import SettingRepository from "../repositories/SettingRepository";
 import Hint, { InputHint, LinkHint } from "./Hint";
 import * as doms from "../../shared/utils/dom";
 
@@ -83,6 +84,11 @@ export default interface FollowPresenter {
 
 @injectable()
 export class FollowPresenterImpl implements FollowPresenter {
+  constructor(
+    @inject("SettingRepository")
+    private readonly settingRepository: SettingRepository
+  ) {}
+
   private hints: Hint[] = [];
 
   getTargetCount(viewSize: Size, framePosition: Point): number {
@@ -91,17 +97,19 @@ export class FollowPresenterImpl implements FollowPresenter {
   }
 
   createHints(viewSize: Size, framePosition: Point, tags: string[]): void {
+    const style = this.settingRepository.getStyle("hint");
     const targets = this.getTargets(viewSize, framePosition);
     const min = Math.min(targets.length, tags.length);
+
     for (let i = 0; i < min; ++i) {
       const target = targets[i];
       if (
         target instanceof HTMLAnchorElement ||
         target instanceof HTMLAreaElement
       ) {
-        this.hints.push(new LinkHint(target, tags[i]));
+        this.hints.push(new LinkHint(target, tags[i], style));
       } else {
-        this.hints.push(new InputHint(target, tags[i]));
+        this.hints.push(new InputHint(target, tags[i], style));
       }
     }
   }
