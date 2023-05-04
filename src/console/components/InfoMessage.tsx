@@ -4,8 +4,8 @@ import useAutoResize from "../hooks/useAutoResize";
 
 const Wrapper = styled.p`
   border-top: 1px solid gray;
-  background-color: ${({ theme }) => theme.consoleInfoBackground};
-  color: ${({ theme }) => theme.consoleInfoForeground};
+  background-color: ${({ theme }) => theme.info?.background};
+  color: ${({ theme }) => theme.info?.foreground};
   font-weight: normal;
 `;
 

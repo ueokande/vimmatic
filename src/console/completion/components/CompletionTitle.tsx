@@ -3,8 +3,8 @@ import styled from "../../colorscheme/styled";
 
 const Li = styled.li<{ shown: boolean }>`
   display: ${({ shown }) => (shown ? "display" : "none")};
-  background-color: ${({ theme }) => theme.completionTitleBackground};
-  color: ${({ theme }) => theme.completionTitleForeground};
+  background-color: ${({ theme }) => theme.title?.background};
+  color: ${({ theme }) => theme.title?.foreground};
   list-style: none;
   font-weight: bold;
   margin: 0;

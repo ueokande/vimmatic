@@ -9,13 +9,9 @@ const Container = styled.li<{
   background-image: ${({ icon }) =>
     typeof icon !== "undefined" ? "url(" + icon + ")" : "unset"};
   background-color: ${({ highlight, theme }) =>
-    highlight
-      ? theme.completionSelectedBackground
-      : theme.completionItemBackground};
+    highlight ? theme.select?.background : theme.background};
   color: ${({ highlight, theme }) =>
-    highlight
-      ? theme.completionSelectedForeground
-      : theme.completionItemForeground};
+    highlight ? theme.select?.foreground : theme.foreground};
   display: ${({ shown }) => (shown ? "block" : "none")};
   padding-left: 1.8rem;
   background-position: 0 center;
@@ -33,7 +29,7 @@ const Primary = styled.span`
 
 const Secondary = styled.span`
   display: inline-block;
-  color: ${({ theme }) => theme.completionItemDescriptionForeground};
+  color: ${({ theme }) => theme.secondaryForeground};
   width: 60%;
   text-overflow: ellipsis;
   overflow: hidden;

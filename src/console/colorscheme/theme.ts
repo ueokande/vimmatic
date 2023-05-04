@@ -1,47 +1,77 @@
 export type ThemeProperties = {
-  completionTitleBackground: string;
-  completionTitleForeground: string;
-  completionItemBackground: string;
-  completionItemForeground: string;
-  completionItemDescriptionForeground: string;
-  completionSelectedBackground: string;
-  completionSelectedForeground: string;
-  commandBackground: string;
-  commandForeground: string;
-  consoleErrorBackground: string;
-  consoleErrorForeground: string;
-  consoleInfoBackground: string;
-  consoleInfoForeground: string;
+  background: string;
+  foreground: string;
+  secondaryForeground: string;
+  command: {
+    background: string;
+    foreground: string;
+  };
+  title: {
+    background: string;
+    foreground: string;
+  };
+  select: {
+    background: string;
+    foreground: string;
+  };
+  info: {
+    background: string;
+    foreground: string;
+  };
+  error: {
+    background: string;
+    foreground: string;
+  };
 };
 
 export const LightTheme: ThemeProperties = {
-  completionTitleBackground: "lightgray",
-  completionTitleForeground: "#000000",
-  completionItemBackground: "#ffffff",
-  completionItemForeground: "#000000",
-  completionItemDescriptionForeground: "#008000",
-  completionSelectedBackground: "#ffff00",
-  completionSelectedForeground: "#000000",
-  commandBackground: "#ffffff",
-  commandForeground: "#000000",
-  consoleErrorBackground: "#ff0000",
-  consoleErrorForeground: "#ffffff",
-  consoleInfoBackground: "#ffffff",
-  consoleInfoForeground: "#018786",
+  background: "#ffffff",
+  foreground: "#000000",
+  secondaryForeground: "#008000",
+  command: {
+    background: "#ffffff",
+    foreground: "#000000",
+  },
+  title: {
+    background: "lightgray",
+    foreground: "#000000",
+  },
+  select: {
+    background: "#ffff00",
+    foreground: "#000000",
+  },
+  info: {
+    background: "#ffffff",
+    foreground: "#018786",
+  },
+  error: {
+    background: "#ff0000",
+    foreground: "#ffffff",
+  },
 };
 
 export const DarkTheme: ThemeProperties = {
-  completionTitleBackground: "#052027",
-  completionTitleForeground: "white",
-  completionItemBackground: "#2f474f",
-  completionItemForeground: "white",
-  completionItemDescriptionForeground: "#86fab0",
-  completionSelectedBackground: "#eeff41",
-  completionSelectedForeground: "#000000",
-  commandBackground: "#052027",
-  commandForeground: "white",
-  consoleErrorBackground: "red",
-  consoleErrorForeground: "white",
-  consoleInfoBackground: "#052027",
-  consoleInfoForeground: "#ffffff",
+  background: "#2f474f",
+  foreground: "white",
+  secondaryForeground: "#86fab0",
+  command: {
+    background: "#052027",
+    foreground: "white",
+  },
+  title: {
+    background: "#052027",
+    foreground: "white",
+  },
+  select: {
+    background: "#eeff41",
+    foreground: "#000000",
+  },
+  info: {
+    background: "#052027",
+    foreground: "#ffffff",
+  },
+  error: {
+    background: "red",
+    foreground: "white",
+  },
 };
