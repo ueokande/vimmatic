@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from "react";
-import styled from "../colorscheme/styled";
+import styled from "../styles/styled";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.command.background};

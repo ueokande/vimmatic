@@ -4,7 +4,7 @@ import { ColorSchemeContext, ColorSchemeUpdateContext } from "./contexts";
 import { ThemeProvider } from "styled-components";
 
 export const ColorSchemeProvider: React.FC = ({ children }) => {
-  const [colorscheme, setColorScheme] = React.useState("system");
+  const [colorscheme, setColorScheme] = React.useState("");
   const theme = React.useMemo(() => {
     if (colorscheme === "system") {
       if (

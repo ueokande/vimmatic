@@ -12,7 +12,7 @@ import {
   useExecFind,
   useGetFindCompletion,
 } from "./app/hooks";
-import { useColorSchemeRefresh } from "./colorscheme/hooks";
+import { useColorSchemeRefresh } from "./styles/hooks";
 
 // (10item + 1title) * sbc
 const COMMAND_COMPLETION_MAX_ITEMS = 33;

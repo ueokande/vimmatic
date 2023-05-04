@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "../../colorscheme/styled";
+import styled from "../../styles/styled";
 
 const Li = styled.li<{ shown: boolean }>`
   display: ${({ shown }) => (shown ? "display" : "none")};

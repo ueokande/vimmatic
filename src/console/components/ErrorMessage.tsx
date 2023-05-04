@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "../colorscheme/styled";
+import styled from "../styles/styled";
 import useAutoResize from "../hooks/useAutoResize";
 
 const Wrapper = styled.p`
