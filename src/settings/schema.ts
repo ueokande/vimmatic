@@ -17,6 +17,7 @@ export const SerializedBlacklistSchema = z
   .array();
 export const SerializedStyles = z.object({
   hint: z.record(z.string()).optional(),
+  console: z.record(z.string()).optional(),
 });
 export const SerializedSettingsSchema = z.object({
   keymaps: z.optional(SerializedKeymapsSchema),

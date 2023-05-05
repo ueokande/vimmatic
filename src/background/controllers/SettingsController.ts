@@ -24,6 +24,17 @@ export default class SettingsController {
     return this.settingsUseCase.getProperty(name);
   }
 
+  async getStyle(
+    _ctx: RequestContext,
+    {
+      name,
+    }: {
+      name: string;
+    }
+  ): Promise<Record<string, string>> {
+    return this.settingsUseCase.getStyle(name);
+  }
+
   async validate(
     _ctx: RequestContext,
     { settings }: { settings: unknown }

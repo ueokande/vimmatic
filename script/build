@@ -30,7 +30,6 @@ const buildScripts = async (browser) => {
 
 const buildAssets = async (browser) => {
   await fs.cp("resources/", `dist/${browser}/resources/`, { recursive: true });
-  await fs.copyFile(`src/console/index.css`, `dist/${browser}/lib/console.css`);
   await fs.copyFile(
     `src/console/index.html`,
     `dist/${browser}/lib/console.html`

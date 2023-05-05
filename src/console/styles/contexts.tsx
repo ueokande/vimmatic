@@ -1,7 +1,10 @@
 import React from "react";
 
-export const ColorSchemeContext = React.createContext<string>("system");
+export type Style = {
+  colorscheme: string;
+  css: Record<string, string>;
+};
 
-export const ColorSchemeUpdateContext = React.createContext<
-  (colorscheme: string) => void
->(() => {});
+export const UpdateStyleContext = React.createContext<(style: Style) => void>(
+  () => {}
+);

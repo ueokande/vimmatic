@@ -12,14 +12,14 @@ import {
   useExecFind,
   useGetFindCompletion,
 } from "./app/hooks";
-import { useColorSchemeRefresh } from "./styles/hooks";
+import { useInvalidateStyle } from "./styles/hooks";
 
 // (10item + 1title) * sbc
 const COMMAND_COMPLETION_MAX_ITEMS = 33;
 const FIND_COMPLETION_MAX_ITEMS = 11;
 
 const App: React.FC = () => {
-  const refreshColorScheme = useColorSchemeRefresh();
+  const refreshColorScheme = useInvalidateStyle();
   const { hide, visible } = useVisibility();
   const {
     state,

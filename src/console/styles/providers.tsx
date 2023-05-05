@@ -1,30 +1,33 @@
 import React from "react";
 import { DarkTheme, LightTheme } from "./theme";
-import { ColorSchemeContext, ColorSchemeUpdateContext } from "./contexts";
+import { Style, UpdateStyleContext } from "./contexts";
+import GlobalStyle from "./global";
 import { ThemeProvider } from "styled-components";
 
-export const ColorSchemeProvider: React.FC = ({ children }) => {
-  const [colorscheme, setColorScheme] = React.useState("");
+export const StyleProvider: React.FC = ({ children }) => {
+  const [style, setStyle] = React.useState<Style>({
+    colorscheme: "system",
+    css: {},
+  });
   const theme = React.useMemo(() => {
-    if (colorscheme === "system") {
+    if (style.colorscheme === "system") {
       if (
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches
       ) {
         return DarkTheme;
       }
-    } else if (colorscheme === "dark") {
+    } else if (style.colorscheme === "dark") {
       return DarkTheme;
     }
     return LightTheme;
-  }, [colorscheme]);
+  }, [style.colorscheme]);
 
   return (
-    <ColorSchemeContext.Provider value={colorscheme}>
-      <ColorSchemeUpdateContext.Provider value={setColorScheme}>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </ColorSchemeUpdateContext.Provider>
-    </ColorSchemeContext.Provider>
+    <UpdateStyleContext.Provider value={setStyle}>
+      <GlobalStyle {...style.css} />
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </UpdateStyleContext.Provider>
   );
 };
-export default ColorSchemeProvider;
+export default StyleProvider;

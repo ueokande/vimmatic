@@ -45,7 +45,7 @@ describe("SettingRepositoryImpl", () => {
     });
   });
 
-  it.only("returns default values", async () => {
+  it("returns default values", async () => {
     const settings = deserialize({});
 
     mockLoad.mockResolvedValue(settings);

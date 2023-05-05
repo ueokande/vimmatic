@@ -9,4 +9,11 @@ export default class SettingClient {
     });
     return value as string;
   }
+
+  async getConsoleStyle(): Promise<Record<string, string>> {
+    const value = await this.sender.send("settings.get.style", {
+      name: "console",
+    });
+    return value as Record<string, string>;
+  }
 }

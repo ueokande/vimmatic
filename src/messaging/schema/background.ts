@@ -18,6 +18,7 @@ export type Schema = {
   "console.find.completions": Duplex<{ query: string }, Completions>;
   "console.resize": Duplex<{ width: number; height: number }>;
   "settings.get.property": Duplex<{ name: string }, string | number | boolean>;
+  "settings.get.style": Duplex<{ name: string }, Record<string, string>>;
   "settings.validate": Duplex<{ settings: unknown }, { error?: string }>;
   "press.key": Duplex<{ key: string }>;
 };

@@ -61,6 +61,9 @@ export default class BackgroundMessageListener {
       .route("settings.get.property")
       .to(settingsController.getProperty.bind(settingsController));
     this.receiver
+      .route("settings.get.style")
+      .to(settingsController.getStyle.bind(settingsController));
+    this.receiver
       .route("settings.query")
       .to(settingsController.getSettings.bind(settingsController));
     this.receiver

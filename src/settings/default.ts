@@ -90,6 +90,10 @@ export const defaultJSONSettings = `{
       "font-weight": "bold",
       "font-size": "12px",
       "color": "black"
+    },
+    "console": {
+      "font-family": "monospace",
+      "font-size": "12px"
     }
   }
 }`;
