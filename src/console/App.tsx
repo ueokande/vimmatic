@@ -1,19 +1,51 @@
-import Console from "./components/Console";
+import React from "react";
+import Prompt from "./components/Prompt";
+import InfoMessage from "./components/InfoMessage";
+import ErrorMessage from "./components/ErrorMessage";
 import { SimplexReceiver } from "../messaging";
 import type { Schema as ConsoleMessageSchema } from "../messaging/schema/console";
-import React from "react";
-import { useConsoleMode, useVisibility } from "./app/hooks";
-import { useColorSchemeRefresh } from "./colorscheme/hooks";
+import {
+  useConsoleMode,
+  useVisibility,
+  useExecCommand,
+  useGetCommandCompletion,
+  useExecFind,
+  useGetFindCompletion,
+} from "./app/hooks";
+import { useInvalidateStyle } from "./styles/hooks";
+
+// (10item + 1title) * sbc
+const COMMAND_COMPLETION_MAX_ITEMS = 33;
+const FIND_COMPLETION_MAX_ITEMS = 11;
 
 const App: React.FC = () => {
-  const refreshColorScheme = useColorSchemeRefresh();
+  const refreshColorScheme = useInvalidateStyle();
   const { hide, visible } = useVisibility();
   const {
+    state,
     showCommandPrompt,
     showFindPrompt,
     showInfoMessage,
     showErrorMessage,
   } = useConsoleMode();
+  const execCommand = useExecCommand();
+  const execFind = useExecFind();
+  const getCommandCompletions = useGetCommandCompletion();
+  const getFindCompletions = useGetFindCompletion();
+  const onExec = React.useCallback(
+    (cmd: string) => {
+      if (state.mode !== "prompt") {
+        return;
+      }
+      if (state.promptMode === "command") {
+        execCommand(cmd);
+      } else if (state.promptMode === "find") {
+        execFind(cmd);
+      }
+      hide();
+    },
+    [execCommand, execFind, state]
+  );
 
   React.useEffect(() => {
     if (visible) {
@@ -41,7 +73,36 @@ const App: React.FC = () => {
     });
   }, []);
 
-  return <Console />;
+  if (state.mode === "prompt") {
+    if (state.promptMode === "command") {
+      return (
+        <Prompt
+          prefix={":"}
+          maxLineHeight={COMMAND_COMPLETION_MAX_ITEMS}
+          onExec={onExec}
+          queryCompletions={getCommandCompletions}
+          initValue={state.initValue}
+          onBlur={hide}
+        />
+      );
+    } else if (state.promptMode === "find") {
+      return (
+        <Prompt
+          prefix={"/"}
+          maxLineHeight={FIND_COMPLETION_MAX_ITEMS}
+          onExec={onExec}
+          queryCompletions={getFindCompletions}
+          initValue={state.initValue}
+          onBlur={hide}
+        />
+      );
+    }
+  } else if (state.mode === "info_message") {
+    return <InfoMessage>{state.message}</InfoMessage>;
+  } else if (state.mode === "error_message") {
+    return <ErrorMessage>{state.message}</ErrorMessage>;
+  }
+  return null;
 };
 
 export default App;

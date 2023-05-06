@@ -5,6 +5,8 @@ interface Point {
   y: number;
 }
 
+type Style = Record<string, string>;
+
 const hintPosition = (element: Element): Point => {
   const { left, top, right, bottom } = doms.viewportRect(element);
 
@@ -23,7 +25,7 @@ export default abstract class Hint {
 
   private tag: string;
 
-  constructor(target: HTMLElement, tag: string) {
+  constructor(target: HTMLElement, tag: string, style: Style) {
     this.tag = tag;
 
     const doc = target.ownerDocument;
@@ -35,8 +37,13 @@ export default abstract class Hint {
     const { scrollX, scrollY } = window;
 
     const hint = doc.createElement("span");
-    hint.className = "vimmatic-hint";
     hint.textContent = tag;
+    for (const [key, value] of Object.entries(style)) {
+      hint.style.setProperty(key, value);
+    }
+    hint.style.position = "absolute";
+    hint.style.textTransform = "uppercase";
+    hint.style.zIndex = "2147483647";
     hint.style.left = x + scrollX + "px";
     hint.style.top = y + scrollY + "px";
 
@@ -66,8 +73,12 @@ export default abstract class Hint {
 export class LinkHint extends Hint {
   private target: HTMLAnchorElement | HTMLAreaElement;
 
-  constructor(target: HTMLAnchorElement | HTMLAreaElement, tag: string) {
-    super(target, tag);
+  constructor(
+    target: HTMLAnchorElement | HTMLAreaElement,
+    tag: string,
+    style: Style
+  ) {
+    super(target, tag, style);
 
     this.target = target;
   }
@@ -88,8 +99,8 @@ export class LinkHint extends Hint {
 export class InputHint extends Hint {
   private target: HTMLElement;
 
-  constructor(target: HTMLElement, tag: string) {
-    super(target, tag);
+  constructor(target: HTMLElement, tag: string, style: Style) {
+    super(target, tag, style);
 
     this.target = target;
   }

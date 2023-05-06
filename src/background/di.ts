@@ -21,6 +21,7 @@ import {
   ChromeClipboardRepositoryImpl,
 } from "./repositories/ClipboardRepository";
 import { PropertySettingsImpl } from "./settings/PropertySettings";
+import { StyleSettingsImpl } from "./settings/StyleSettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
 import {
   TransientSettingsRepository,
@@ -65,6 +66,7 @@ if (process.env.BROWSER === "firefox") {
     .to(ChromeBrowserSettingRepositoryImpl);
 }
 container.bind("PropertySettings").to(PropertySettingsImpl);
+container.bind("StyleSettings").to(StyleSettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
 container.bind("KeyCaptureClient").to(KeyCaptureClientImpl);
 container.bind("MarkRepository").to(MarkRepositoryImpl);

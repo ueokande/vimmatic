@@ -12,6 +12,20 @@ export default interface ConsoleFramePresenter {
   isTopWindow(): boolean;
 }
 
+const FRAME_STYLES = {
+  margin: "0",
+  padding: "0",
+  bottom: "0",
+  left: "0",
+  height: "0",
+  width: "100%",
+  position: "fixed",
+  "z-index": "2147483647",
+  border: "none",
+  "background-color": "unset",
+  "pointer-events": "none",
+} as const;
+
 @injectable()
 export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
   private static readonly IframeId = "vimmatic-console-frame" as const;
@@ -25,8 +39,10 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
     const iframe = document.createElement("iframe");
     iframe.src = chrome.runtime.getURL("lib/console.html");
     iframe.id = ConsoleFramePresenterImpl.IframeId;
-    iframe.className = "vimmatic-console-frame";
     iframe.name = "vimmatic-console-frame";
+    for (const [name, value] of Object.entries(FRAME_STYLES)) {
+      iframe.style.setProperty(name, value, "important");
+    }
     document.body.append(iframe);
   }
 

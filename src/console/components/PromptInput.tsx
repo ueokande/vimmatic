@@ -1,9 +1,9 @@
 import React, { InputHTMLAttributes } from "react";
-import styled from "../colorscheme/styled";
+import styled from "../styles/styled";
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.commandBackground};
-  color: ${({ theme }) => theme.commandForeground};
+  background-color: ${({ theme }) => theme.command.background};
+  color: ${({ theme }) => theme.command.foreground};
   display: flex;
 `;
 
@@ -14,8 +14,8 @@ const Prompt = styled.i`
 const InputInner = styled.input`
   border: none;
   flex-grow: 1;
-  background-color: ${({ theme }) => theme.commandBackground};
-  color: ${({ theme }) => theme.commandForeground};
+  background-color: ${({ theme }) => theme.command.background};
+  color: ${({ theme }) => theme.command.foreground};
 `;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {

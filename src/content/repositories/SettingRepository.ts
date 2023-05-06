@@ -3,6 +3,7 @@ import Blacklist from "../../shared/Blacklist";
 import Keymaps from "../../shared/Keymaps";
 import Properties from "../../shared/Properties";
 import Search from "../../shared/Search";
+import { ComponentName, CSS } from "../../shared/Styles";
 import SettingClient from "../client/SettingClient";
 import { defaultSettings } from "../../settings";
 import Settings from "../../shared/Settings";
@@ -19,6 +20,8 @@ export default interface SettingRepository {
   getSearch(): Search;
 
   getProperties(): Properties;
+
+  getStyle(component: ComponentName): CSS;
 }
 
 @injectable()
@@ -49,5 +52,12 @@ export class SettingRepositoryImpl implements SettingRepository {
       ...defaultSettings.properties!,
       ...current.properties,
     };
+  }
+
+  getStyle(component: ComponentName): CSS {
+    return (
+      (current.styles && current.styles[component]) ||
+      defaultSettings.styles![component]!
+    );
   }
 }

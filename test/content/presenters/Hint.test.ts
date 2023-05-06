@@ -9,6 +9,8 @@ import AbstractHint, {
 
 class Hint extends AbstractHint {}
 
+const css = {};
+
 describe("Hint", () => {
   beforeEach(() => {
     document.body.innerHTML = `<a id='test-link' href='#'>link</a>`;
@@ -17,21 +19,29 @@ describe("Hint", () => {
   describe("#constructor", () => {
     it("creates a hint element with tag name", () => {
       const link = document.getElementById("test-link")!;
-      new Hint(link, "abc");
+      new Hint(link, "abc", css);
 
-      const elem = document.querySelector(".vimmatic-hint");
+      const elem = document.querySelector("span");
       expect(elem!.textContent!.trim()).toEqual("abc");
+    });
+
+    it("sets reserved styles", () => {
+      const link = document.getElementById("test-link")!;
+      new Hint(link, "abc", { position: "relative" });
+
+      const elem = document.querySelector("span") as HTMLElement;
+      expect(elem.style.position).toEqual("absolute");
     });
   });
 
   describe("#show", () => {
     it("shows an element", () => {
       const link = document.getElementById("test-link")!;
-      const hint = new Hint(link, "abc");
+      const hint = new Hint(link, "abc", css);
       hint.hide();
       hint.show();
 
-      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
+      const elem = document.querySelector("span") as HTMLElement;
       expect(elem.style.display).not.toEqual("none");
     });
   });
@@ -39,10 +49,10 @@ describe("Hint", () => {
   describe("#hide", () => {
     it("hides an element", () => {
       const link = document.getElementById("test-link") as HTMLElement;
-      const hint = new Hint(link, "abc");
+      const hint = new Hint(link, "abc", css);
       hint.hide();
 
-      const elem = document.querySelector(".vimmatic-hint") as HTMLElement;
+      const elem = document.querySelector("span") as HTMLElement;
       expect(elem.style.display).toEqual("none");
     });
   });
@@ -50,9 +60,9 @@ describe("Hint", () => {
   describe("#remove", () => {
     it("removes an element", () => {
       const link = document.getElementById("test-link")!;
-      const hint = new Hint(link, "abc");
+      const hint = new Hint(link, "abc", css);
 
-      const elem = document.querySelector(".vimmatic-hint")!;
+      const elem = document.querySelector("span")!;
       expect(elem.parentElement).not.toBeNull;
       hint.remove();
       expect(elem.parentElement).toBeNull;
@@ -72,7 +82,7 @@ describe("LinkHint", () => {
   describe("#getLink()", () => {
     it('returns value of "href" attribute', () => {
       const link = document.getElementById("test-link1") as HTMLAnchorElement;
-      const hint = new LinkHint(link, "abc");
+      const hint = new LinkHint(link, "abc", css);
 
       expect(hint.getLink()).toEqual("https://google.com/");
     });
@@ -81,12 +91,12 @@ describe("LinkHint", () => {
   describe("#getLinkTarget()", () => {
     it('returns value of "target" attribute', () => {
       let link = document.getElementById("test-link1") as HTMLAnchorElement;
-      let hint = new LinkHint(link, "abc");
+      let hint = new LinkHint(link, "abc", css);
 
       expect(hint.getLinkTarget()).toBeNull;
 
       link = document.getElementById("test-link2") as HTMLAnchorElement;
-      hint = new LinkHint(link, "abc");
+      hint = new LinkHint(link, "abc", css);
 
       expect(hint.getLinkTarget()).toEqual("_blank");
     });
@@ -95,7 +105,7 @@ describe("LinkHint", () => {
   describe("#click()", () => {
     it("clicks a element", (done) => {
       const link = document.getElementById("test-link3") as HTMLAnchorElement;
-      const hint = new LinkHint(link, "abc");
+      const hint = new LinkHint(link, "abc", css);
       link.onclick = () => {
         done();
       };
@@ -114,7 +124,7 @@ describe("InputHint", () => {
 
       it("focuses to the input", () => {
         const input = document.getElementById("test-input") as HTMLInputElement;
-        const hint = new InputHint(input, "abc");
+        const hint = new InputHint(input, "abc", css);
         hint.activate();
 
         expect(document.activeElement).toEqual(input);
@@ -128,7 +138,7 @@ describe("InputHint", () => {
 
       it("checks and focuses to the input", () => {
         const input = document.getElementById("test-input") as HTMLInputElement;
-        const hint = new InputHint(input, "abc");
+        const hint = new InputHint(input, "abc", css);
         hint.activate();
 
         expect(input.checked).toBeTruthy;
@@ -143,7 +153,7 @@ describe("InputHint", () => {
         const textarea = document.getElementById(
           "test-textarea"
         ) as HTMLTextAreaElement;
-        const hint = new InputHint(textarea, "abc");
+        const hint = new InputHint(textarea, "abc", css);
         hint.activate();
 
         expect(document.activeElement).toEqual(textarea);
@@ -163,7 +173,7 @@ describe("InputHint", () => {
           done();
         };
 
-        const hint = new InputHint(button, "abc");
+        const hint = new InputHint(button, "abc", css);
         hint.activate();
       });
     });

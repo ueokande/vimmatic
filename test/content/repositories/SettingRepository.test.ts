@@ -44,4 +44,25 @@ describe("SettingRepositoryImpl", () => {
       complete: "sbh",
     });
   });
+
+  it("returns default values", async () => {
+    const settings = deserialize({});
+
+    mockLoad.mockResolvedValue(settings);
+    const sut = new SettingRepositoryImpl(settingClient);
+
+    await sut.reload();
+
+    expect(sut.getKeymaps().entries().length).not.toBe(0);
+    expect(sut.getBlacklist().items.length).toBe(0);
+    expect(sut.getSearch().defaultEngine).toBe("google");
+    expect(sut.getProperties()).toMatchObject({
+      hintchars: "abcdefghijklmnopqrstuvwxyz",
+      smoothscroll: false,
+      complete: "sbh",
+    });
+    expect(sut.getStyle("hint")).toMatchObject({
+      "background-color": "yellow",
+    });
+  });
 });

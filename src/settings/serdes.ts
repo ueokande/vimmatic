@@ -4,6 +4,7 @@ import type {
   SerializedBlacklist,
   SerializedProperties,
   SerializedSearchEngine,
+  SerializedStyles,
 } from "./schema";
 import { validateSerializedSettings } from "./schema";
 import { Operation } from "../shared/operations2";
@@ -12,6 +13,7 @@ import Keymaps from "../shared/Keymaps";
 import Search from "../shared/Search";
 import Properties from "../shared/Properties";
 import Blacklist from "../shared/Blacklist";
+import Styles from "../shared/Styles";
 import { BlacklistItem } from "../shared/Blacklist";
 
 const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
@@ -72,12 +74,22 @@ const deserializeBlacklist = (json: SerializedBlacklist): Blacklist => {
   return new Blacklist(items);
 };
 
+const serializeStyles = (styles: Styles): SerializedStyles => {
+  const obj: SerializedStyles = styles;
+  return obj;
+};
+
+const deserializeStyles = (json: SerializedStyles): Styles => {
+  return json;
+};
+
 export const serializeSettings = (settings: Settings): SerializedSettings => {
   return {
     keymaps: settings.keymaps && serializeKeymaps(settings.keymaps),
     search: settings.search && serializeSearch(settings.search),
     properties: settings.properties && serializeProperties(settings.properties),
     blacklist: settings.blacklist && serializeBlacklist(settings.blacklist),
+    styles: settings.styles && serializeStyles(settings.styles),
   };
 };
 
@@ -91,5 +103,6 @@ export const deserializeSettings = (json: unknown): Settings => {
       serialized.properties && deserializeProperties(serialized.properties),
     blacklist:
       serialized.blacklist && deserializeBlacklist(serialized.blacklist),
+    styles: serialized.styles && deserializeStyles(serialized.styles),
   };
 };
