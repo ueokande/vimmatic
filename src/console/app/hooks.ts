@@ -17,7 +17,7 @@ const findClient = new FindClient(sender);
 const windowMessageSender = new SimplexSender<WindowMessageSchema>(
   (type: WindowMessageKey, args: WindowMessageRequest) => {
     const msg = JSON.stringify({ args, type });
-    window.top.postMessage(msg, "*");
+    window.top?.postMessage(msg, "*");
   }
 );
 

@@ -2,7 +2,7 @@ import { Duplex } from "../types";
 
 type HandlerWithContext<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
-  Context extends unknown
+  Context
 > = (
   ctx: Context,
   args: Schema[keyof Schema]["Request"]
@@ -11,7 +11,7 @@ type HandlerWithContext<
 type SingleHandlerWithContext<
   Key extends keyof Schema,
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
-  Context extends unknown
+  Context
 > = (
   ctx: Context,
   args: Schema[Key]["Request"]
@@ -20,7 +20,7 @@ type SingleHandlerWithContext<
 export class RouterWithContext<
   Key extends keyof Schema,
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
-  Context extends unknown
+  Context
 > {
   constructor(
     private readonly type: Key,
@@ -37,7 +37,7 @@ export class RouterWithContext<
 
 export default class ReceiverWithContext<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
-  Context extends unknown
+  Context
 > {
   private readonly routes: Map<
     keyof Schema,
@@ -48,7 +48,7 @@ export default class ReceiverWithContext<
     type: Key
   ): RouterWithContext<Key, Schema, Context> {
     if (this.routes.has(type)) {
-      throw new Error(`The route on "${type}" is already exists`);
+      throw new Error(`The route on "${String(type)}" is already exists`);
     }
     return new RouterWithContext<Key, Schema, Context>(type, this.routes);
   }

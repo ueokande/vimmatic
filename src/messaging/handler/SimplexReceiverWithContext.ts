@@ -2,19 +2,19 @@ import { Simplex } from "../types";
 
 type SimplexHandlerWithContext<
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },
-  Context extends unknown
+  Context
 > = (ctx: Context, args: Schema[keyof Schema]["Request"]) => void;
 
 type SimplexSingleHandlerWithContext<
   Key extends keyof Schema,
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },
-  Context extends unknown
+  Context
 > = (ctx: Context, args: Schema[Key]["Request"]) => void;
 
 export class SimplexRouterWithContext<
   Key extends keyof Schema,
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },
-  Context extends unknown
+  Context
 > {
   constructor(
     private readonly type: Key,
@@ -31,7 +31,7 @@ export class SimplexRouterWithContext<
 
 export default class SimplexReceiverWithContext<
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },
-  Context extends unknown
+  Context
 > {
   private readonly routes: Map<
     keyof Schema,
@@ -42,7 +42,7 @@ export default class SimplexReceiverWithContext<
     type: Key
   ): SimplexRouterWithContext<Key, Schema, Context> {
     if (this.routes.has(type)) {
-      throw new Error(`The route on "${type}" is already exists`);
+      throw new Error(`The route on "${String(type)}" is already exists`);
     }
     return new SimplexRouterWithContext<Key, Schema, Context>(
       type,

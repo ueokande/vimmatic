@@ -29,8 +29,8 @@ export default class TopFrameUseCase {
     height: number;
   } {
     return {
-      width: window.top.innerWidth,
-      height: window.top.innerHeight,
+      width: window.top!.innerWidth,
+      height: window.top!.innerHeight,
     };
   }
 

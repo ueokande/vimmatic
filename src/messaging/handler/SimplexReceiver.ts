@@ -31,7 +31,7 @@ export default class SimplexReceiver<
 
   route<Key extends keyof Schema>(type: Key): SimplexRouter<Key, Schema> {
     if (this.routes.has(type)) {
-      throw new Error(`The route on "${type}" is already exists`);
+      throw new Error(`The route on "${String(type)}" is already exists`);
     }
     return new SimplexRouter<Key, Schema>(type, this.routes);
   }
