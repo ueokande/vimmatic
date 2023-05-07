@@ -11,7 +11,7 @@ const targets = {
 const buildScripts = async (browser) => {
   await build({
     define: {
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? ""),
       'process.env.BROWSER': JSON.stringify(browser),
     },
     entryPoints: {
