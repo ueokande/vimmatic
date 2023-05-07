@@ -7,6 +7,7 @@ const Wrapper = styled.p`
   background-color: ${({ theme }) => theme.info?.background};
   color: ${({ theme }) => theme.info?.foreground};
   font-weight: normal;
+  white-space: pre-wrap;
 `;
 
 const InfoMessage: React.FC = ({ children }) => {

@@ -67,7 +67,11 @@ export class CommandRegistryFactory {
     registory.register(new QuitAllCommand());
     registory.register(new QuitCommand());
     registory.register(
-      new SetCommand(this.propertySettings, this.propertyRegistry)
+      new SetCommand(
+        this.propertySettings,
+        this.propertyRegistry,
+        this.consoleClient
+      )
     );
 
     return registory;
