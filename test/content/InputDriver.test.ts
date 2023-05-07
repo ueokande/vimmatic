@@ -5,7 +5,7 @@
 import InputDriver, {
   keyFromKeyboardEvent,
 } from "../../src/content/InputDriver";
-import Key from "../../src/shared/settings/Key";
+import Key from "../../src/shared/Key";
 
 describe("InputDriver", () => {
   let target: HTMLElement;
@@ -109,12 +109,15 @@ describe("InputDriver", () => {
   });
 
   it("ignores events from input elements", () => {
-    ["input", "textarea", "select"].forEach((name) => {
+    ["input", "textarea", "select", "my-input"].forEach((name) => {
+      const hack = {
+        match: () => true,
+        fromInput: (e: Element) => e.tagName === "MY-INPUT",
+      };
       const input = window.document.createElement(name);
-      const driver = new InputDriver(input);
+      const driver = new InputDriver(input, hack);
       driver.onKey((_key: Key): boolean => {
         throw new Error("unexpected reach");
-        return false;
       });
       input.dispatchEvent(new KeyboardEvent("keydown", { key: "x" }));
     });
@@ -125,7 +128,6 @@ describe("InputDriver", () => {
     const driver = new InputDriver(div);
     driver.onKey((_key: Key): boolean => {
       throw new Error("unexpected reach");
-      return false;
     });
 
     div.setAttribute("contenteditable", "");

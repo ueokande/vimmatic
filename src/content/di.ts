@@ -22,6 +22,7 @@ import { FrameIdRepositoryImpl } from "./repositories/FrameIdRepository";
 import { Container } from "inversify";
 import { newSender as newBackgroundMessageSender } from "./client/BackgroundMessageSender";
 import { newSender as newWindowMessageSender } from "./client/WindowMessageSender";
+import { SiteHackRegistryFactry } from "./hacks";
 
 const container = new Container({ autoBindInjectable: true });
 
@@ -50,5 +51,8 @@ container
 container
   .bind("WindowMessageSender")
   .toConstantValue(newWindowMessageSender(window.top!));
+container
+  .bind("SiteHackRegistry")
+  .toConstantValue(new SiteHackRegistryFactry().create());
 
 export { container };

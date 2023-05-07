@@ -1,5 +1,6 @@
 import * as dom from "../shared/utils/dom";
 import Key from "../shared/Key";
+import SiteHack from "./hacks/SiteHack";
 
 const cancelKey = (e: KeyboardEvent): boolean => {
   if (e.key === "Escape") {
@@ -48,7 +49,7 @@ export default class InputDriver {
 
   private onKeyListeners: ((key: Key) => boolean)[] = [];
 
-  constructor(target: HTMLElement) {
+  constructor(target: HTMLElement, private readonly siteHack?: SiteHack) {
     this.pressed = {};
     this.onKeyListeners = [];
 
@@ -109,12 +110,13 @@ export default class InputDriver {
     }
   }
 
-  private fromInput(e: Element) {
+  private fromInput(e: Element): boolean {
     return (
       e instanceof HTMLInputElement ||
       e instanceof HTMLTextAreaElement ||
       e instanceof HTMLSelectElement ||
-      dom.isContentEditable(e)
+      dom.isContentEditable(e) ||
+      (this.siteHack?.fromInput(e) ?? false)
     );
   }
 }

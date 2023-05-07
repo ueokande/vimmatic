@@ -4,6 +4,7 @@ import ContentMessageListener from "./messaging/ContentMessageListener";
 import KeymapController from "./controllers/KeymapController";
 import BackgroundKeyController from "./controllers/BackgroundKeyController";
 import SettingsController from "./controllers/SettingsController";
+import SiteHackRegistry from "./hacks/SiteHackRegistry";
 import InputDriver from "./InputDriver";
 
 @injectable()
@@ -19,7 +20,9 @@ export default class Application {
     @inject(BackgroundKeyController)
     private readonly backgroundKeyController: BackgroundKeyController,
     @inject(SettingsController)
-    private readonly settingsController: SettingsController
+    private readonly settingsController: SettingsController,
+    @inject("SiteHackRegistry")
+    private readonly siteHackRegistry: SiteHackRegistry
   ) {}
 
   init(): Promise<void> {
@@ -49,7 +52,9 @@ export default class Application {
   }
 
   private routeKeymaps() {
-    const inputDriver = new InputDriver(window.document.body);
+    const siteHack = this.siteHackRegistry.get();
+    const inputDriver = new InputDriver(window.document.body, siteHack);
+
     inputDriver.onKey((key) => this.backgroundKeyController.press(key));
     inputDriver.onKey((key) => this.keymapController.press(key));
   }
