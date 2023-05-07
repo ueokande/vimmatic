@@ -5,10 +5,12 @@ describe("SiteHackRegistryImpl", () => {
     const h1 = {
       match: () => false,
       fromInput: () => false,
+      reservedKeys: () => [],
     };
     const h2 = {
       match: () => true,
       fromInput: () => false,
+      reservedKeys: () => [],
     };
 
     const sut = new SiteHackRegistryImpl();

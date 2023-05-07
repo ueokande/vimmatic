@@ -100,6 +100,9 @@ export default class InputDriver {
     }
 
     const key = keyFromKeyboardEvent(e);
+    if (this.siteHack?.reservedKeys().some((k) => k.equals(key))) {
+      return;
+    }
     for (const listener of this.onKeyListeners) {
       const stop = listener(key);
       if (stop) {
