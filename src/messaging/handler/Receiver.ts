@@ -32,7 +32,7 @@ export default class Receiver<
 
   route<Key extends keyof Schema>(type: Key): Router<Key, Schema> {
     if (this.routes.has(type)) {
-      throw new Error(`The route on "${type}" is already exists`);
+      throw new Error(`The route on "${String(type)}" is already exists`);
     }
     return new Router<Key, Schema>(type, this.routes);
   }

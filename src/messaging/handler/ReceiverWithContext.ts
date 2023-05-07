@@ -48,7 +48,7 @@ export default class ReceiverWithContext<
     type: Key
   ): RouterWithContext<Key, Schema, Context> {
     if (this.routes.has(type)) {
-      throw new Error(`The route on "${type}" is already exists`);
+      throw new Error(`The route on "${String(type)}" is already exists`);
     }
     return new RouterWithContext<Key, Schema, Context>(type, this.routes);
   }

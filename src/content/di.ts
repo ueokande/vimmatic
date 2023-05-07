@@ -49,6 +49,6 @@ container
   .toConstantValue(newBackgroundMessageSender());
 container
   .bind("WindowMessageSender")
-  .toConstantValue(newWindowMessageSender(window.top));
+  .toConstantValue(newWindowMessageSender(window.top!));
 
 export { container };

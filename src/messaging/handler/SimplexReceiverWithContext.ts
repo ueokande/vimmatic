@@ -42,7 +42,7 @@ export default class SimplexReceiverWithContext<
     type: Key
   ): SimplexRouterWithContext<Key, Schema, Context> {
     if (this.routes.has(type)) {
-      throw new Error(`The route on "${type}" is already exists`);
+      throw new Error(`The route on "${String(type)}" is already exists`);
     }
     return new SimplexRouterWithContext<Key, Schema, Context>(
       type,
