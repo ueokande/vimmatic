@@ -65,5 +65,6 @@
     "request-promise-native": "^1.0.8",
     "ts-node": "^10.7.0",
     "webext-agent": "^0.1.0"
-  }
+  },
+  "packageManager": "yarn@3.5.1"
 }
