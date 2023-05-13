@@ -66,5 +66,8 @@
     "ts-node": "^10.7.0",
     "webext-agent": "^0.1.0"
   },
+  "engines": {
+    "node": "20.1.0"
+  },
   "packageManager": "yarn@3.5.1"
 }
