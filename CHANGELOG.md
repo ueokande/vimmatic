@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0](https://github.com/ueokande/vimmatic/compare/v0.2.1...v0.3.0) (2023-05-07)
+
+
+### Features
+
+* Custom Style Support ([#141](https://github.com/ueokande/vimmatic/issues/141)) ([5f9da16](https://github.com/ueokande/vimmatic/commit/5f9da16734e9ed98fc556f3540d39d3582870332))
+
+
+### Bug Fixes
+
+* **deps:** bump esbuild from 0.14.39 to 0.17.18 ([#136](https://github.com/ueokande/vimmatic/issues/136)) ([10636ef](https://github.com/ueokande/vimmatic/commit/10636ef0954a5abf8a217ad59ca7ac001fa8282c))
+* **deps:** bump typescript and typescript-eslint ([393ca63](https://github.com/ueokande/vimmatic/commit/393ca63365e6970d2d0004166a6a18782eb1243f))
+* global jump does not switch tabs ([#139](https://github.com/ueokande/vimmatic/issues/139)) ([e8a232b](https://github.com/ueokande/vimmatic/commit/e8a232b6ef9b4925cd696a22b9e6288afc372192))
+
 ## [0.2.1](https://github.com/ueokande/vimmatic/compare/v0.2.0...v0.2.1) (2023-04-24)
 
 
