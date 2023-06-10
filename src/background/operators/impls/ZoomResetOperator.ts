@@ -10,6 +10,6 @@ export default class ResetZoomOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
-    return chrome.tabs.setZoom(1);
+    return chrome.tabs.setZoom(0);
   }
 }
