@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.1](https://github.com/ueokande/vimmatic/compare/v0.3.0...v0.3.1) (2023-06-11)
+
+
+### Bug Fixes
+
+* **deps:** bump node version to 20.x ([#150](https://github.com/ueokande/vimmatic/issues/150)) ([3f9bebe](https://github.com/ueokande/vimmatic/commit/3f9bebe3d7a891566cc3da3c3b9e26224bcc03b3))
+* **deps:** update yarn ([#148](https://github.com/ueokande/vimmatic/issues/148)) ([80e2385](https://github.com/ueokande/vimmatic/commit/80e2385f2cfd2d1f07eede5bb0887c21b747b0f9))
+* use user's zoom level when resetting ([#160](https://github.com/ueokande/vimmatic/issues/160)) ([2b15137](https://github.com/ueokande/vimmatic/commit/2b151376785d1c976f5b28756d4c3769b732a80d))
+* white rectangle appers by Esc ([#157](https://github.com/ueokande/vimmatic/issues/157)) ([3498424](https://github.com/ueokande/vimmatic/commit/349842494c2a3c2361518bc49dea7f6b67bb7f67))
+
 ## [0.3.0](https://github.com/ueokande/vimmatic/compare/v0.2.1...v0.3.0) (2023-05-07)
 
 
