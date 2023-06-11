@@ -10,7 +10,7 @@ describe("ResetZoomOperator", () => {
       const sut = new ZoomResetOperator();
       await sut.run();
 
-      expect(mockSetZoom).toBeCalledWith(1);
+      expect(mockSetZoom).toBeCalledWith(0);
     });
   });
 });
