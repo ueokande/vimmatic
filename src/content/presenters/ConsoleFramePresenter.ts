@@ -60,7 +60,7 @@ export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
       return;
     }
     ele.blur();
-    ele.style.height = "";
+    ele.style.setProperty("height", "0", "important");
   }
 
   resize(_width: number, height: number): void {
