@@ -17,7 +17,7 @@ export default class MockConsoleClient implements ConsoleClient {
     throw new Error("not implemented");
   }
 
-  showInfo(_tabId: number, _message: string): Promise<any> {
+  showInfo(_tabId: number, _message: string): Promise<void> {
     throw new Error("not implemented");
   }
 }

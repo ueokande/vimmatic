@@ -2,6 +2,7 @@ import type Command from "./Command";
 import type { CommandContext, Completions } from "./Command";
 import type PropertySettings from "../settings/PropertySettings";
 import type PropertyRegistry from "../property/PropertyRegistry";
+import type ConsoleClient from "../clients/ConsoleClient";
 
 const mustNumber = (v: any): number => {
   const num = Number(v);
@@ -14,7 +15,8 @@ const mustNumber = (v: any): number => {
 class SetCommand implements Command {
   constructor(
     private readonly propretySettings: PropertySettings,
-    private readonly propertyRegsitry: PropertyRegistry
+    private readonly propertyRegsitry: PropertyRegistry,
+    private readonly consoleClient: ConsoleClient
   ) {}
 
   names(): string[] {
@@ -65,43 +67,97 @@ class SetCommand implements Command {
   }
 
   async exec(
-    _ctx: CommandContext,
+    ctx: CommandContext,
     _force: boolean,
     args: string
   ): Promise<void> {
     if (args.length === 0) {
-      return;
+      // set
+      return this.showProperties(ctx);
+    } else if (args.includes("=")) {
+      // set key=value
+      const [key, value]: string[] = args.split("=");
+      return this.setProperty(key, value);
+    } else if (args.endsWith("?")) {
+      // set key?
+      const key = args.slice(0, -1);
+      return this.showProperty(ctx, key);
+    } else {
+      // set key
+      // set nokey
+      return this.showPropertyOrSetBoolean(ctx, args);
     }
-    const [name, value] = this.parseSetOption(args);
-    await this.propretySettings.setProperty(name, value);
   }
 
-  private parseSetOption(args: string): [string, string | number | boolean] {
-    let [key, value]: any[] = args.split("=");
-    if (value === undefined) {
-      value = !key.startsWith("no");
-      key = value ? key : key.slice(2);
+  private async showProperties(ctx: CommandContext): Promise<void> {
+    const props = this.propertyRegsitry.getProperties();
+    const kvs = [];
+    for (const p of props) {
+      const value = await this.propretySettings.getProperty(p.name());
+      if (p.type() === "boolean") {
+        if (value) {
+          kvs.push(`${p.name()}`);
+        } else {
+          kvs.push(`no${p.name()}`);
+        }
+      } else {
+        kvs.push(`${p.name()}=${value}`);
+      }
     }
+    await this.consoleClient.showInfo(ctx.sender.tabId, kvs.join("\n"));
+  }
+
+  private async showProperty(ctx: CommandContext, key: string): Promise<void> {
+    const def = this.propertyRegsitry.getProperty(key);
+    if (typeof def === "undefined") {
+      throw new Error("Unknown property: " + key);
+    }
+    const value = await this.propretySettings.getProperty(key);
+
+    if (def.type() === "boolean") {
+      if (value) {
+        await this.consoleClient.showInfo(ctx.sender.tabId, key);
+      } else {
+        await this.consoleClient.showInfo(ctx.sender.tabId, `no${key}`);
+      }
+    } else {
+      const message = `${key}=${value}`;
+      await this.consoleClient.showInfo(ctx.sender.tabId, message);
+    }
+  }
+
+  private async setProperty(key: string, value: string): Promise<void> {
     const def = this.propertyRegsitry.getProperty(key);
     if (!def) {
       throw new Error("Unknown property: " + key);
     }
-    if (
-      (def.type() === "boolean" && typeof value !== "boolean") ||
-      (def.type() !== "boolean" && typeof value === "boolean")
-    ) {
-      throw new Error("Invalid argument: " + args);
-    }
-
     switch (def.type()) {
       case "string":
-        return [key, value];
+        return this.propretySettings.setProperty(key, value);
       case "number":
-        return [key, mustNumber(value)];
+        return this.propretySettings.setProperty(key, mustNumber(value));
       case "boolean":
-        return [key, value];
-      default:
-        throw new Error("Unknown property type: " + def.type);
+        throw new Error("Invalid argument: " + value);
+    }
+  }
+
+  private async showPropertyOrSetBoolean(
+    ctx: CommandContext,
+    args: string
+  ): Promise<void> {
+    const def = this.propertyRegsitry.getProperty(args);
+    if (def?.type() === "boolean") {
+      return this.propretySettings.setProperty(def.name(), true);
+    }
+    if (typeof def !== "undefined") {
+      return this.showProperty(ctx, def.name());
+    }
+    if (args.startsWith("no")) {
+      const def2 = this.propertyRegsitry.getProperty(args.slice(2));
+      if (def2?.type() !== "boolean") {
+        throw new Error("Invalid argument: " + args);
+      }
+      return this.propretySettings.setProperty(def2.name(), false);
     }
   }
 }

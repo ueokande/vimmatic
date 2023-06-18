@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import PropertyRegistry from "../property/PropertyRegistry";
-import SettingsRepository from "./SettingsRepository";
+import type PropertyRegistry from "../property/PropertyRegistry";
+import type SettingsRepository from "./SettingsRepository";
 
 export default interface PropertySettings {
   setProperty(name: string, value: string | number | boolean): Promise<void>;
