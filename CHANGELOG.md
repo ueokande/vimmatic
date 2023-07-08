@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/ueokande/vimmatic/compare/v0.3.1...v0.4.0) (2023-07-08)
+
+
+### Features
+
+* show current value on set commnd ([#143](https://github.com/ueokande/vimmatic/issues/143)) ([afc48b2](https://github.com/ueokande/vimmatic/commit/afc48b2f14eb93f030895bf03ee165884af005a9))
+
 ## [0.3.1](https://github.com/ueokande/vimmatic/compare/v0.3.0...v0.3.1) (2023-06-11)
 
 
