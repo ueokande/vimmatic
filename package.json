@@ -54,7 +54,6 @@
     "eslint-plugin-standard": "^5.0.0",
     "fastify": "^4.15.0",
     "jest": "^27.5.1",
-    "jsonwebtoken": "^8.5.1",
     "jszip": "^3.7.0",
     "nodemon": "^2.0.22",
     "playwright": "1.26.0",
@@ -62,7 +61,6 @@
     "prettier": "2.8.8",
     "prettier-eslint": "13.0.0",
     "react-test-renderer": "17.0.2",
-    "request-promise-native": "^1.0.8",
     "ts-node": "^10.7.0",
     "webext-agent": "^0.1.0"
   },
