@@ -32,3 +32,39 @@ jobs:
           dist/vimmatic_${TAG_NAME}_chrome.zip \
           dist/vimmatic_${TAG_NAME}_firefox.zip
       if: ${{ steps.release.outputs.release_created }}
+    - name: Create source archive
+      env:
+        TAG_NAME: ${{ steps.release.outputs.tag_name }}
+      run: |
+        git archive --format=zip HEAD --output dist/vimmatic_${TAG_NAME}_source.zip
+      if: ${{ steps.release.outputs.release_created }}
+    - uses: browser-actions/publish-firefox-addon@latest
+      env:
+        TAG_NAME: ${{ steps.release.outputs.tag_name }}
+      with:
+        addon-id: "vimmatic"
+        addon-path: "dist/vimmatic_${TAG_NAME}_firefox.zip"
+        source-path: "dist/vimmatic_${TAG_NAME}_source.zip"
+        approval-note: |
+          You can get generated file simply by "yarn install && yarn build".
+          Supported environment is node v18 and yarn v1.  After that, bundled
+          scripts and assets with manifest.json are generated under
+          "$PROJECT_ROOT/dist/firefox".
+        release-note: |
+          This versions contains some bug fixes. See full release note on GitHub:
+          https://github.com/ueokande/vimmatic/releases/tag/${TAG_NAME}
+        compatibility-firefox-min: "102.0"
+        license: "MIT"
+        auth-api-issuer: ${{ secrets.AUTH_API_ISSUER }}
+        auth-api-secret: ${{ secrets.AUTH_API_SECRET }}
+      if: ${{ steps.release.outputs.release_created }}
+    - uses: browser-actions/publish-chrome-extension@latest
+      env:
+        TAG_NAME: ${{ steps.release.outputs.tag_name }}
+      with:
+        extension-id: "pghmfgnakhjiphmlcnhfpgopkcjhiedc"
+        extension-path: "dist/vimmatic_${TAG_NAME}_chrome.zip"
+        oauth-client-id: ${{ secrets.CWS_OAUTH_CLIENT_ID }}
+        oauth-client-secret: ${{ secrets.CWS_OAUTH_CLIENT_SECRET }}
+        oauth-refresh-token: ${{ secrets.CWS_OAUTH_REFRESH_TOKEN }}
+      if: ${{ steps.release.outputs.release_created }}
