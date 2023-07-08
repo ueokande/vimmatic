@@ -38,7 +38,7 @@ jobs:
       run: |
         git archive --format=zip HEAD --output dist/vimmatic_${TAG_NAME}_source.zip
       if: ${{ steps.release.outputs.release_created }}
-    - uses: browser-actions/publish-firefox-addon@latest
+    - uses: browser-actions/release-firefox-addon@latest
       with:
         addon-id: "vimmatic"
         addon-path: "dist/vimmatic_${{ steps.release.outputs.tag_name }}_firefox.zip"
@@ -56,7 +56,7 @@ jobs:
         auth-api-issuer: ${{ secrets.AMO_AUTH_API_ISSUER }}
         auth-api-secret: ${{ secrets.AMO_AUTH_API_SECRET }}
       if: ${{ steps.release.outputs.release_created }}
-    - uses: browser-actions/publish-chrome-extension@latest
+    - uses: browser-actions/release-chrome-extension@latest
       with:
         extension-id: "pghmfgnakhjiphmlcnhfpgopkcjhiedc"
         extension-path: "dist/vimmatic_${{ steps.release.outputs.tag_name }}_chrome.zip"
