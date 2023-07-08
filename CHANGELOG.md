@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/ueokande/vimmatic/compare/v0.4.0...v0.4.1) (2023-07-08)
+
+
+### Bug Fixes
+
+* fix ci publish settings ([3998f28](https://github.com/ueokande/vimmatic/commit/3998f2864f1d58cb4eb173ae6b5b3b13cc70e94f))
+
 ## [0.4.0](https://github.com/ueokande/vimmatic/compare/v0.3.1...v0.4.0) (2023-07-08)
 
 
