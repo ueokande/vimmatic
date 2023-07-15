@@ -47,7 +47,7 @@ tabs, use <kbd>u</kbd>.
 To open a link, press <kbd>f</kbd> to enter the **follow mode** to select a
 link.  Then you can select links by alphabetic keys.
 
-See also [Keymaps](./keymaps.md) for more detailed of keymaps.
+See also [Keymaps](./keymaps) for more detailed of keymaps.
 
 ### Using commands
 
@@ -68,7 +68,7 @@ or search keywords with search engine (such as Google) like:
 
 The console completes commands by your input.  Press <kbd>Tab</kbd> and <kbd>
 Shift</kbd>+<kbd>Tab</kbd> to select next and previous items, respectively.
-You can see all commands on [Console commands](./console_commands.md).
+You can see all commands on [Console commands](./console_commands).
 
 ## Copyright
 

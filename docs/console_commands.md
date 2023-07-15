@@ -37,9 +37,9 @@ To use a search engine other than the default, specify the search engine to use 
 :open yahoo How to contribute to Vimmatic
 ```
 
-To adjust the default search-engine and add/remove search engines, see the [search engines](./search_engines.md) section.
+To adjust the default search-engine and add/remove search engines, see the [search engines](./search_engines) section.
 
-Use <kbd>Tab</kbd> to select from the autocomplete suggestions. To configure this, set the [`complete` property.](./properties.html#complete)
+Use <kbd>Tab</kbd> to select from the autocomplete suggestions. To configure this, set the [`complete` property.](./properties#complete)
 
 ## `:tabopen`
 
@@ -96,5 +96,5 @@ the current page.
 ## `:set`
 
 The `:set` command can be used to temporarily override properties in the
-console. See the [properties](./properties.md) section for more details on
+console. See the [properties](./properties) section for more details on
 the available properties.
