@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-standard": "^5.0.0",
-    "fastify": "^4.15.0",
+    "fastify": "^4.21.0",
     "jest": "^27.5.1",
     "jszip": "^3.7.0",
     "nodemon": "^2.0.22",
