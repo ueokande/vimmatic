@@ -23,6 +23,9 @@ dependencies:
   styled-components:
     specifier: ^5.3.9
     version: 5.3.9(react-dom@17.0.2)(react-is@17.0.2)(react@17.0.2)
+  tslib:
+    specifier: ^2.6.2
+    version: 2.6.2
   typescript:
     specifier: 5.0.4
     version: 5.0.4
@@ -5806,9 +5809,8 @@ packages:
     resolution: {integrity: sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==}
     dev: true
 
-  /tslib@2.4.0:
-    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
-    dev: true
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
   /tsutils@3.21.0(typescript@3.9.7):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -6014,7 +6016,7 @@ packages:
       commander: 9.4.1
       fastify: 4.15.0
       regedit: 5.0.0
-      tslib: 2.4.0
+      tslib: 2.6.2
       uuid: 8.3.2
     transitivePeerDependencies:
       - debug
