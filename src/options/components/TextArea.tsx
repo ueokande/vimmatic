@@ -20,6 +20,7 @@ const Container = styled.div`
 
 const StyledPre = styled.pre`
   position: absolute;
+  font-size: 14px;
   width: calc(100% - ${padding}px * 2);
   height: calc(100% - ${padding}px * 2);
   margin: 0;
@@ -28,6 +29,7 @@ const StyledPre = styled.pre`
 
 const StyledTextarea = styled.textarea`
   position: absolute;
+  font-size: 14px;
   width: calc(100% - ${padding}px * 2);
   height: calc(100% - ${padding}px * 2);
   padding: 0;
