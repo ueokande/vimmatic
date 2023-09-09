@@ -15,15 +15,15 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version-file: 'package.json'
-        cache: 'yarn'
+        cache: 'pnpm'
     - uses: ueokande/setup-firefox@latest
       with:
         firefox-version: 78.3.0esr
-    - run: yarn install --immutable
-    - run: yarn tsc
-    - run: yarn lint
-    - run: yarn test
-    - run: yarn package
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm tsc
+    - run: pnpm lint
+    - run: pnpm test
+    - run: pnpm package
     - uses: actions/upload-artifact@v3
       with:
         name: dist
