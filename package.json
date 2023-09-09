@@ -5,10 +5,10 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --watch ./src --ext js,jsx,ts,tsx,css,html,json script/build",
     "clean": "rm -rf ./dist",
-    "prebuild": "yarn clean",
+    "prebuild": "pnpm clean",
     "build": "script/build",
-    "prepackage": "yarn build",
-    "package": "yarn build && script/package",
+    "prepackage": "pnpm build",
+    "package": "pnpm build && script/package",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --ext .ts,.tsx . --fix",
     "type-checks": "tsc --noEmit",
@@ -67,5 +67,5 @@
   "engines": {
     "node": "20.1.0"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "pnpm@8.7.4"
 }
