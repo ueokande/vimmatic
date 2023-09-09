@@ -37,6 +37,7 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@jest/types": "^29.6.3",
     "@playwright/test": "1.26.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/chrome": "^0.0.233",
