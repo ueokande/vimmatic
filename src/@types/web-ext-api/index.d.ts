@@ -19,7 +19,7 @@ declare namespace chrome.browserSettings.homepageOverride {
 
 declare namespace chrome.sessions {
   function getRecentlyClosed(
-    filter?: browser.sessions.Filter,
+    filter?: chrome.sessions.Filter,
     callback?: function
   ): Promise<chrome.sessions.Session[]>;
 

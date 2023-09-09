@@ -5,10 +5,10 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --watch ./src --ext js,jsx,ts,tsx,css,html,json script/build",
     "clean": "rm -rf ./dist",
-    "prebuild": "yarn clean",
+    "prebuild": "pnpm clean",
     "build": "script/build",
-    "prepackage": "yarn build",
-    "package": "yarn build && script/package",
+    "prepackage": "pnpm build",
+    "package": "pnpm build && script/package",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --ext .ts,.tsx . --fix",
     "type-checks": "tsc --noEmit",
@@ -32,14 +32,17 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "styled-components": "^5.3.9",
+    "tslib": "^2.6.2",
     "typescript": "5.0.4",
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@jest/types": "^29.6.3",
     "@playwright/test": "1.26.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/chrome": "^0.0.233",
     "@types/jest": "^27.4.0",
+    "@types/node": "^20.6.0",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@types/react-test-renderer": "^17.0.0",
@@ -67,5 +70,5 @@
   "engines": {
     "node": "20.1.0"
   },
-  "packageManager": "yarn@3.5.1"
+  "packageManager": "pnpm@8.7.4"
 }

@@ -45,7 +45,7 @@ export default class Application {
       }
     });
     chrome.runtime.onStartup.addListener(() => {
-      browser.storage.local.clear();
+      chrome.storage.local.clear();
     });
     chrome.runtime.onInstalled.addListener((details) => {
       if (details.reason !== "install" && details.reason !== "update") {
