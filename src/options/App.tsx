@@ -51,7 +51,6 @@ const App: React.FC = () => {
       <div>
         <TextArea
           name="text"
-          spellCheck={false}
           onChange={onChange}
           onBlur={onBlur}
           value={jsonText}
