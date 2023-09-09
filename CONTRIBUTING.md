@@ -17,14 +17,14 @@ Clone sources into local
 
 Install dependencies:
 
-    yarn install
+    pnpm install
 
 Start webpack:
 
-    yarn start
+    pnpm start
 
 Then open `about:debugging` in Firefox, and choose directory from "Load Temporary Add-on".
 To run tests and lint:
 
-    yarn test
-    yarn lint
+    pnpm test
+    pnpm lint
