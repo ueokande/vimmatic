@@ -9,7 +9,6 @@ const padding = 4;
 const Container = styled.div`
   position: relative;
   overflow: hidden;
-  resize: vertical;
   border: ButtonBorder 1px solid;
   border-radius: 4px;
   &:focus-within {
@@ -23,6 +22,7 @@ const StyledPre = styled.pre`
   font-size: 14px;
   width: calc(100% - ${padding}px * 2);
   height: calc(100% - ${padding}px * 2);
+  resize: none;
   margin: 0;
   padding: 0;
 `;
