@@ -4,3 +4,8 @@ html {
   color: CanvasText;
   background-color: Canvas;
 }
+
+/* prism.js override */
+.token {
+  background: none !important;
+}
