@@ -44,10 +44,9 @@ jobs:
         addon-path: "dist/vimmatic_${{ steps.release.outputs.tag_name }}_firefox.zip"
         source-path: "dist/vimmatic_${{ steps.release.outputs.tag_name }}_source.zip"
         approval-note: |
-          You can get generated file simply by "yarn install && yarn build".
-          Supported environment is node v18 and yarn v1.  After that, bundled
-          scripts and assets with manifest.json are generated under
-          "$PROJECT_ROOT/dist/firefox".
+          You can get generated file simply by "pnpm install && pnpm build".
+          After that, bundled scripts and assets with manifest.json are
+          generated under "$PROJECT_ROOT/dist/firefox".
         release-note: |
           This versions contains some bug fixes. See full release note on GitHub:
           https://github.com/ueokande/vimmatic/releases/tag/${{ steps.release.outputs.tag_name }}
