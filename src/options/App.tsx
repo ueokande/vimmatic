@@ -7,6 +7,8 @@ import ErrorMessage from "./components/ErrorMessage";
 const Container = styled.form`
   padding: 2px;
   font-family: system-ui;
+  min-width: 480px;
+  max-width: 90wv;
 `;
 
 const App: React.FC = () => {
@@ -51,7 +53,6 @@ const App: React.FC = () => {
       <div>
         <TextArea
           name="text"
-          spellCheck={false}
           onChange={onChange}
           onBlur={onBlur}
           value={jsonText}
