@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/ueokande/vimmatic/compare/v0.4.1...v0.5.0) (2023-09-10)
+
+
+### Features
+
+* syntax hilighting preferenses ([#193](https://github.com/ueokande/vimmatic/issues/193)) ([decbec6](https://github.com/ueokande/vimmatic/commit/decbec6323fe7a0946a9d5d71e0f15e272268db4))
+
 ## [0.4.1](https://github.com/ueokande/vimmatic/compare/v0.4.0...v0.4.1) (2023-07-08)
 
 
