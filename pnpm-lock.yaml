@@ -33,8 +33,8 @@ dependencies:
     specifier: 5.0.4
     version: 5.0.4
   zod:
-    specifier: ^3.19.1
-    version: 3.19.1
+    specifier: ^3.22.2
+    version: 3.22.2
 
 devDependencies:
   '@jest/types':
@@ -6421,6 +6421,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zod@3.19.1:
-    resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
+  /zod@3.22.2:
+    resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: false
