@@ -87,7 +87,7 @@ test("scrolls bottom by <C-U>", async ({ page }) => {
     .poll(async () => {
       const scrollY = await page.evaluate(() => window.pageYOffset);
       const pageHeight = await page.evaluate(
-        () => window.document.documentElement.clientHeight
+        () => window.document.documentElement.clientHeight,
       );
       return Math.abs(scrollY - (1000 - pageHeight / 2));
     })
@@ -103,7 +103,7 @@ test("scrolls bottom by <C-D>", async ({ page }) => {
     .poll(async () => {
       const scrollY = await page.evaluate(() => window.pageYOffset);
       const pageHeight = await page.evaluate(
-        () => window.document.documentElement.clientHeight
+        () => window.document.documentElement.clientHeight,
       );
       return Math.abs(scrollY - (1000 + pageHeight / 2));
     })
@@ -119,7 +119,7 @@ test("scrolls bottom by <C-B>", async ({ page }) => {
     .poll(async () => {
       const scrollY = await page.evaluate(() => window.pageYOffset);
       const pageHeight = await page.evaluate(
-        () => window.document.documentElement.clientHeight
+        () => window.document.documentElement.clientHeight,
       );
       return Math.abs(scrollY - (1000 - pageHeight));
     })
@@ -135,7 +135,7 @@ test("scrolls bottom by <C-F>", async ({ page }) => {
     .poll(async () => {
       const scrollY = await page.evaluate(() => window.pageYOffset);
       const pageHeight = await page.evaluate(
-        () => window.document.documentElement.clientHeight
+        () => window.document.documentElement.clientHeight,
       );
       return Math.abs(scrollY - (1000 + pageHeight));
     })

@@ -11,7 +11,7 @@ export default interface SearchEngineSettings {
 export class SearchEngineSettingsImpl {
   constructor(
     @inject("SettingsRepository")
-    private readonly settingsRepository: SettingsRepository
+    private readonly settingsRepository: SettingsRepository,
   ) {}
 
   async get(): Promise<Search> {

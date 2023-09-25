@@ -25,7 +25,7 @@ describe("useLoadSettings", () => {
     spyGet.mockResolvedValue({ settings_json: "{}" });
 
     const { result, waitForNextUpdate, waitFor } = renderHook(() =>
-      useLoadSettings()
+      useLoadSettings(),
     );
 
     await waitForNextUpdate();
@@ -40,7 +40,7 @@ describe("useLoadSettings", () => {
     spyGet.mockResolvedValue({ settings_json: undefined });
 
     const { result, waitForNextUpdate, waitFor } = renderHook(() =>
-      useLoadSettings()
+      useLoadSettings(),
     );
 
     await waitForNextUpdate();
@@ -60,7 +60,7 @@ describe("useLoadSettings", () => {
     spyGet.mockRejectedValue(new Error("storage error"));
 
     const { result, waitForNextUpdate, waitFor } = renderHook(() =>
-      useLoadSettings()
+      useLoadSettings(),
     );
 
     await waitForNextUpdate();

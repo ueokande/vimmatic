@@ -8,7 +8,7 @@ import ConsoleClient from "../../clients/ConsoleClient";
 export default class ShowAddBookmarkOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   name() {
@@ -23,7 +23,7 @@ export default class ShowAddBookmarkOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { alter }: z.infer<ReturnType<ShowAddBookmarkOperator["schema"]>>
+    { alter }: z.infer<ReturnType<ShowAddBookmarkOperator["schema"]>>,
   ): Promise<void> {
     let command = "addbookmark ";
     if (alter) {

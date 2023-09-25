@@ -17,7 +17,7 @@ describe("FindPrevOperator", () => {
     findRepository,
     findClient,
     consoleClient,
-    frameRepository
+    frameRepository,
   );
 
   const ctx = { sender: { tabId: 10 } } as OperatorContext;

@@ -16,7 +16,7 @@ export default interface FollowClient {
     tabId: number,
     frameId: number,
     viewSize: Size,
-    framePosition: Point
+    framePosition: Point,
   ): Promise<number>;
 
   createHints(
@@ -24,7 +24,7 @@ export default interface FollowClient {
     frameId: number,
     hints: string[],
     viewSize: Size,
-    framePosition: Point
+    framePosition: Point,
   ): Promise<void>;
 
   filterHints(tabId: number, prefix: string): Promise<void>;
@@ -35,7 +35,7 @@ export default interface FollowClient {
     tabId: number,
     tag: string,
     newTab: boolean,
-    background: boolean
+    background: boolean,
   ): Promise<void>;
 }
 
@@ -45,7 +45,7 @@ export class FollowClientImpl implements FollowClient {
     tabId: number,
     frameId: number,
     viewSize: Size,
-    framePosition: Point
+    framePosition: Point,
   ): Promise<number> {
     const sender = newSender(tabId, frameId);
     return sender.send("follow.count.hints", {
@@ -59,7 +59,7 @@ export class FollowClientImpl implements FollowClient {
     frameId: number,
     hints: string[],
     viewSize: Size,
-    framePosition: Point
+    framePosition: Point,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     return sender.send("follow.create.hints", {
@@ -83,7 +83,7 @@ export class FollowClientImpl implements FollowClient {
     tabId: number,
     hint: string,
     newTab: boolean,
-    background: boolean
+    background: boolean,
   ): Promise<void> {
     const sender = newSender(tabId);
     return sender.send("follow.activate", { hint, newTab, background });

@@ -6,7 +6,7 @@ import RequestContext from "../messaging/RequestContext";
 export default class LinkController {
   constructor(
     @inject(LinkUseCase)
-    private readonly linkUseCase: LinkUseCase
+    private readonly linkUseCase: LinkUseCase,
   ) {}
 
   openURL(
@@ -19,7 +19,7 @@ export default class LinkController {
       url: string;
       newTab: boolean;
       background: boolean;
-    }
+    },
   ): Promise<void> {
     const openerId = ctx.sender.tab?.id;
     if (typeof openerId === "undefined") {

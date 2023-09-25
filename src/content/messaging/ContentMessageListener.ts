@@ -39,7 +39,7 @@ export default class ContentMessageListener {
     @inject(TopFrameController)
     topFrameController: TopFrameController,
     @inject(FollowController)
-    followController: FollowController
+    followController: FollowController,
   ) {
     this.receiver
       .route("addon.enable")
@@ -167,7 +167,7 @@ export default class ContentMessageListener {
             console.error(err);
           });
         return true;
-      }
+      },
     );
   }
 }

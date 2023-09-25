@@ -7,7 +7,7 @@ import ConsoleClient from "../../clients/ConsoleClient";
 export default class CancelOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   name(): string {

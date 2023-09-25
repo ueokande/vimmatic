@@ -14,7 +14,7 @@ export class MarkModeRepositoryImpl implements MarkModeRepository {
   constructor(
     private readonly cache: LocalCache<
       "set" | "jump" | null
-    > = new LocalCacheImpl(MarkModeRepositoryImpl.name, null)
+    > = new LocalCacheImpl(MarkModeRepositoryImpl.name, null),
   ) {}
 
   enableSetMode(): Promise<void> {

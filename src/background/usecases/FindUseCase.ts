@@ -18,7 +18,7 @@ export default class StartFindUseCase {
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,
     @inject("ReadyFrameRepository")
-    private readonly frameRepository: ReadyFrameRepository
+    private readonly frameRepository: ReadyFrameRepository,
   ) {}
 
   async startFind(tabId: number, keyword?: string): Promise<void> {

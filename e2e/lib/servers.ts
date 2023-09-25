@@ -24,7 +24,7 @@ const staticContentHandler = (content: string): HandlerFunc => {
 };
 
 const dynamicTitleHandler = (
-  handler: (req: FastifyRequest) => string
+  handler: (req: FastifyRequest) => string,
 ): HandlerFunc => {
   return (request, reply) => {
     const title = handler(request);
@@ -102,7 +102,7 @@ const newSingleHandlerServer = (url: string, handler: HandlerFunc): Server => {
 };
 
 const newDynamicTitleServer = (
-  handler: (req: FastifyRequest) => string
+  handler: (req: FastifyRequest) => string,
 ): Server => {
   const routes = [
     {

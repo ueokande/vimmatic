@@ -11,7 +11,7 @@ export default class SettingsUseCase {
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject(EventUseCaseHelper)
-    private readonly eventUseCaseHelper: EventUseCaseHelper
+    private readonly eventUseCaseHelper: EventUseCaseHelper,
   ) {}
 
   registerEvents() {

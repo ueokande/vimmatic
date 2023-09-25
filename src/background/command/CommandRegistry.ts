@@ -15,7 +15,7 @@ export class CommandRegistryImpl implements CommandRegistry {
   register(cmd: Command): void {
     if (!cmd.names().includes(cmd.fullname())) {
       throw new Error(
-        `names of the command ${cmd.fullname} does not contains full-name`
+        `names of the command ${cmd.fullname} does not contains full-name`,
       );
     }
 
@@ -25,7 +25,7 @@ export class CommandRegistryImpl implements CommandRegistry {
         continue;
       }
       throw new Error(
-        `command name ${name} is already registered by ${registered.fullname()}`
+        `command name ${name} is already registered by ${registered.fullname()}`,
       );
     }
 

@@ -11,7 +11,7 @@ export default interface StyleSettings {
 export class StyleSettingsImpl {
   constructor(
     @inject("SettingsRepository")
-    private readonly settingsRepository: SettingsRepository
+    private readonly settingsRepository: SettingsRepository,
   ) {}
 
   async getStyle(name: ComponentName): Promise<Record<string, string>> {

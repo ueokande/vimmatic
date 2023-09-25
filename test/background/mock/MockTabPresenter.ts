@@ -28,7 +28,7 @@ export default class MockTabPresenter implements TabPresenter {
       openerTabId?: number;
       pinned?: boolean;
       windowId?: number;
-    }
+    },
   ): Promise<chrome.tabs.Tab> {
     const tab = {
       ...MockTabPresenter.defaultTabOptions,
@@ -67,7 +67,7 @@ export default class MockTabPresenter implements TabPresenter {
 
   getByKeyword(
     keyword: string,
-    excludePinned: boolean
+    excludePinned: boolean,
   ): Promise<chrome.tabs.Tab[]> {
     const tabs = this.tabs
 
@@ -104,7 +104,7 @@ export default class MockTabPresenter implements TabPresenter {
   }
 
   onSelected(
-    _listener: (arg: { tabId: number; windowId: number }) => void
+    _listener: (arg: { tabId: number; windowId: number }) => void,
   ): void {
     throw new Error("not implemented");
   }

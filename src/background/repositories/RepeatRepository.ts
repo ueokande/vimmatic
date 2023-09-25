@@ -13,8 +13,8 @@ export class RepeatRepositoryImpl implements RepeatRepository {
   constructor(
     private readonly cache: LocalCache<Operation | null> = new LocalCacheImpl(
       RepeatRepositoryImpl.name,
-      null
-    )
+      null,
+    ),
   ) {}
 
   getLastOperation(): Promise<Operation | null> {

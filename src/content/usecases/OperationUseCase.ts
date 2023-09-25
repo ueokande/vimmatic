@@ -6,7 +6,7 @@ import type { Props } from "../../shared/operations2";
 export default class OperationUseCase {
   constructor(
     @inject("OperationClient")
-    private readonly operationClient: OperationClient
+    private readonly operationClient: OperationClient,
   ) {}
 
   async exec(name: string, props: Props, repeat: number): Promise<void> {

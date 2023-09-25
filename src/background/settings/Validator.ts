@@ -9,7 +9,7 @@ export default class Validator {
     @inject("PropertyRegistry")
     private readonly propertyRegistry: PropertyRegistry,
     @inject("OperatorRegistory")
-    private readonly operatorRegistory: OperatorRegistory
+    private readonly operatorRegistory: OperatorRegistory,
   ) {}
 
   validate(settings: Settings) {

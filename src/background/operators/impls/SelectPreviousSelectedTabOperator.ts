@@ -6,7 +6,7 @@ import LastSelectedTabRepository from "../../repositories/LastSelectedTabReposit
 export default class SelectPreviousSelectedTabOperator implements Operator {
   constructor(
     @inject("LastSelectedTabRepository")
-    private readonly lastSelectedTabRepository: LastSelectedTabRepository
+    private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {}
 
   name() {

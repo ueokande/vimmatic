@@ -16,7 +16,7 @@ class SetCommand implements Command {
   constructor(
     private readonly propretySettings: PropertySettings,
     private readonly propertyRegsitry: PropertyRegistry,
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   names(): string[] {
@@ -69,7 +69,7 @@ class SetCommand implements Command {
   async exec(
     ctx: CommandContext,
     _force: boolean,
-    args: string
+    args: string,
   ): Promise<void> {
     if (args.length === 0) {
       // set
@@ -143,7 +143,7 @@ class SetCommand implements Command {
 
   private async showPropertyOrSetBoolean(
     ctx: CommandContext,
-    args: string
+    args: string,
   ): Promise<void> {
     const def = this.propertyRegsitry.getProperty(args);
     if (def?.type() === "boolean") {

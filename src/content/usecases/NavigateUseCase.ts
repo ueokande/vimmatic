@@ -5,7 +5,7 @@ import NavigationPresenter from "../presenters/NavigationPresenter";
 export default class NavigateUseCase {
   constructor(
     @inject("NavigationPresenter")
-    private readonly navigationPresenter: NavigationPresenter
+    private readonly navigationPresenter: NavigationPresenter,
   ) {}
 
   openHistoryPrev(): void {

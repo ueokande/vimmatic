@@ -33,7 +33,7 @@ test.fixme(
     const tabs = await api.tabs.query({ url: "*://*/global-mark" });
     await api.tabs.move(
       tabs.map((tab) => tab.id),
-      { windowId, index: 0 }
+      { windowId, index: 0 },
     );
 
     await page1.evaluate(() => window.scrollBy(0, 200));
@@ -47,7 +47,7 @@ test.fixme(
     const [activeTab] = await api.tabs.query({ active: true, windowId });
 
     expect(activeTab.url).toBe(server.url("/global-mark#first"));
-  }
+  },
 );
 
 test.fixme(
@@ -71,5 +71,5 @@ test.fixme(
     expect(currentTab1.id).not.toBe(currentTab2.id);
     expect(new URL(currentTab2.url).hash).toBe("#first");
     expect(currentTab2.url).toBe(server.url("/#first"));
-  }
+  },
 );

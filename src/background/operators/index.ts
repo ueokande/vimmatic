@@ -161,7 +161,7 @@ export class OperatorRegistoryFactory {
     @inject(StartFollowOperator)
     private readonly startFollowOperator: StartFollowOperator,
     @inject("RepeatRepository")
-    private readonly repeatRepository: RepeatRepository
+    private readonly repeatRepository: RepeatRepository,
   ) {}
 
   create(): OperatorRegistory {
@@ -223,7 +223,7 @@ export class OperatorRegistoryFactory {
     // resolve circular dependency
     const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(
       r,
-      this.repeatRepository
+      this.repeatRepository,
     );
 
     r.register(repeatLastOperator);

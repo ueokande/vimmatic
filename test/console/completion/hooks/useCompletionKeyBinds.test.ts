@@ -26,7 +26,7 @@ describe("useCompletionKeyBinds", () => {
   const onPrev = jest.fn();
   const onCancel = jest.fn();
   const { result } = renderHook(() =>
-    useCompletionKeyBinds({ onEnter, onNext, onPrev, onCancel })
+    useCompletionKeyBinds({ onEnter, onNext, onPrev, onCancel }),
   );
 
   beforeEach(() => {

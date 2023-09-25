@@ -28,8 +28,8 @@ describe("Key", () => {
             ctrl: true,
             alt: false,
             meta: false,
-          })
-        )
+          }),
+        ),
       ).toBeTruthy;
 
       expect(
@@ -46,8 +46,8 @@ describe("Key", () => {
             ctrl: false,
             alt: false,
             meta: false,
-          })
-        )
+          }),
+        ),
       ).toBeFalsy;
     });
   });

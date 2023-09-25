@@ -32,7 +32,7 @@ describe("KeymapUseCase", () => {
         new KeymapRepositoryImpl(),
         new MockSettingRepository(settings),
         new MockAddonEnabledRepository(true),
-        new MockAddressRepository(new URL("https://example.com"))
+        new MockAddressRepository(new URL("https://example.com")),
       );
     });
 
@@ -83,7 +83,7 @@ describe("KeymapUseCase", () => {
         new KeymapRepositoryImpl(),
         new MockSettingRepository(settings),
         new MockAddonEnabledRepository(true),
-        new MockAddressRepository(new URL("https://example.com"))
+        new MockAddressRepository(new URL("https://example.com")),
       );
     });
 
@@ -143,7 +143,7 @@ describe("KeymapUseCase", () => {
         new KeymapRepositoryImpl(),
         new MockSettingRepository(settings),
         new MockAddonEnabledRepository(true),
-        new MockAddressRepository(new URL("https://example.com"))
+        new MockAddressRepository(new URL("https://example.com")),
       );
     });
 
@@ -190,7 +190,7 @@ describe("KeymapUseCase", () => {
         new KeymapRepositoryImpl(),
         new MockSettingRepository(settings),
         new MockAddonEnabledRepository(false),
-        new MockAddressRepository(new URL("https://example.com"))
+        new MockAddressRepository(new URL("https://example.com")),
       );
     });
 
@@ -228,7 +228,7 @@ describe("KeymapUseCase", () => {
         new KeymapRepositoryImpl(),
         new MockSettingRepository(settings),
         new MockAddonEnabledRepository(true),
-        new MockAddressRepository(new URL("https://example.com"))
+        new MockAddressRepository(new URL("https://example.com")),
       );
 
       expect(sut.nextOps(fromKeymap("k"))).toEqual({
@@ -253,7 +253,7 @@ describe("KeymapUseCase", () => {
         new KeymapRepositoryImpl(),
         new MockSettingRepository(settings),
         new MockAddonEnabledRepository(true),
-        new MockAddressRepository(new URL("https://example.org"))
+        new MockAddressRepository(new URL("https://example.org")),
       );
 
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;

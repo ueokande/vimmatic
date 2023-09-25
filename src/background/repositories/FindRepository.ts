@@ -28,8 +28,8 @@ export class FindRepositoryImpl implements FindRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       FindRepositoryImpl.name,
-      { local: {} }
-    )
+      { local: {} },
+    ),
   ) {}
 
   async getGlobalKeyword(): Promise<string | undefined> {

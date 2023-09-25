@@ -7,7 +7,7 @@ import ConsoleClient from "../../clients/ConsoleClient";
 export default class StartFindOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   name() {

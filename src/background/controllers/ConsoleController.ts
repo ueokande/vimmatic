@@ -6,12 +6,12 @@ import RequestContext from "../messaging/RequestContext";
 export default class ConsoleController {
   constructor(
     @inject(ConsoleUseCase)
-    private readonly consoleUseCase: ConsoleUseCase
+    private readonly consoleUseCase: ConsoleUseCase,
   ) {}
 
   resize(
     { sender }: RequestContext,
-    { width, height }: { width: number; height: number }
+    { width, height }: { width: number; height: number },
   ) {
     if (typeof sender.tab?.id === "undefined") {
       return;

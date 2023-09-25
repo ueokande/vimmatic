@@ -6,5 +6,5 @@ export type Style = {
 };
 
 export const UpdateStyleContext = React.createContext<(style: Style) => void>(
-  () => {}
+  () => {},
 );

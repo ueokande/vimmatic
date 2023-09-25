@@ -11,7 +11,7 @@ export default class MockTopFrameClient implements TopFrameClient {
 
   getFramePosition(
     _tabId: number,
-    _frameId: number
+    _frameId: number,
   ): Promise<Point | undefined> {
     throw new Error("not implemented");
   }

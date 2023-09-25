@@ -8,7 +8,7 @@ export default class AddonEnabledUseCase {
     @inject("AddonEnabledRepository")
     private readonly addonEnabledRepository: AddonEnabledRepository,
     @inject("ConsoleFramePresenter")
-    private readonly consoleFramePresenter: ConsoleFramePresenter
+    private readonly consoleFramePresenter: ConsoleFramePresenter,
   ) {}
 
   enable() {

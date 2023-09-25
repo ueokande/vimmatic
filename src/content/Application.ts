@@ -19,7 +19,7 @@ export default class Application {
     @inject(BackgroundKeyController)
     private readonly backgroundKeyController: BackgroundKeyController,
     @inject(SettingsController)
-    private readonly settingsController: SettingsController
+    private readonly settingsController: SettingsController,
   ) {}
 
   init(): Promise<void> {

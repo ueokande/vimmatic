@@ -8,8 +8,8 @@ class BufferCommand implements Command {
   constructor(
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
     private readonly bufferCommandHelper = new BufferCommandHelper(
-      lastSelectedTabRepository
-    )
+      lastSelectedTabRepository,
+    ),
   ) {}
 
   names(): string[] {
@@ -32,7 +32,7 @@ class BufferCommand implements Command {
   async exec(
     _ctx: CommandContext,
     _force: boolean,
-    args: string
+    args: string,
   ): Promise<void> {
     const keywords = args.trim();
     if (keywords.length === 0) {

@@ -10,7 +10,7 @@ export default class ScrollToTopOperator implements Operator {
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject("PropertySettings")
-    private readonly propertySettings: PropertySettings
+    private readonly propertySettings: PropertySettings,
   ) {}
 
   name() {
@@ -24,7 +24,7 @@ export default class ScrollToTopOperator implements Operator {
     await this.contentMessageClient.scrollToTop(
       sender.tabId,
       sender.frameId,
-      smooth as boolean
+      smooth as boolean,
     );
   }
 }

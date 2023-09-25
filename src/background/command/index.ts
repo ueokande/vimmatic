@@ -34,11 +34,11 @@ export class CommandRegistryFactory {
     @inject("SearchEngineSettings")
     private readonly searchEngineSettings: SearchEngineSettings,
     @inject("LastSelectedTabRepository")
-    private readonly lastSelectedTabRepository: LastSelectedTabRepository
+    private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {
     this.propertyRegistry = propertyRegistry;
     this.bufferCommandHelper = new BufferCommandHelper(
-      this.lastSelectedTabRepository
+      this.lastSelectedTabRepository,
     );
   }
 
@@ -49,20 +49,20 @@ export class CommandRegistryFactory {
     registory.register(
       new BufferCommand(
         this.lastSelectedTabRepository,
-        this.bufferCommandHelper
-      )
+        this.bufferCommandHelper,
+      ),
     );
     registory.register(new BufferDeleteCommand(this.bufferCommandHelper));
     registory.register(new BufferDeletesCommand(this.bufferCommandHelper));
     registory.register(new HelpCommand());
     registory.register(
-      new OpenCommand(this.searchEngineSettings, this.propertySettings)
+      new OpenCommand(this.searchEngineSettings, this.propertySettings),
     );
     registory.register(
-      new TabOpenCommand(this.searchEngineSettings, this.propertySettings)
+      new TabOpenCommand(this.searchEngineSettings, this.propertySettings),
     );
     registory.register(
-      new WindowOpenCommand(this.searchEngineSettings, this.propertySettings)
+      new WindowOpenCommand(this.searchEngineSettings, this.propertySettings),
     );
     registory.register(new QuitAllCommand());
     registory.register(new QuitCommand());
@@ -70,8 +70,8 @@ export class CommandRegistryFactory {
       new SetCommand(
         this.propertySettings,
         this.propertyRegistry,
-        this.consoleClient
-      )
+        this.consoleClient,
+      ),
     );
 
     return registory;

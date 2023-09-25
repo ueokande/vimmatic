@@ -19,7 +19,7 @@ const App: React.FC = () => {
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setJsonText(e.target.value);
     },
-    [setJsonText]
+    [setJsonText],
   );
 
   const onBlur = React.useCallback(() => {

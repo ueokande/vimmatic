@@ -25,7 +25,7 @@ export default class KeymapUseCase {
     @inject("AddonEnabledRepository")
     private readonly addonEnabledRepository: AddonEnabledRepository,
     @inject("AddressRepository")
-    private readonly addressRepository: AddressRepository
+    private readonly addressRepository: AddressRepository,
   ) {}
 
   // eslint-disable-next-line max-statements
@@ -81,13 +81,13 @@ export default class KeymapUseCase {
       .entries()
       .map(([keys, op]) => [KeySequence.fromMapKeys(keys), op]) as [
       KeySequence,
-      Operation
+      Operation,
     ][];
     if (!this.addonEnabledRepository.isEnabled()) {
       // available keymaps are only "addon.enable" and "addon.toggle.enabled" if
       // the addon disabled
       entries = entries.filter(([_seq, { type }]) =>
-        enableAddonOps.includes(type)
+        enableAddonOps.includes(type),
       );
     }
     return entries;

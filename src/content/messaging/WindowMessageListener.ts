@@ -16,7 +16,7 @@ export default class WindowMessageListener {
     @inject(ConsoleFrameController)
     consoleFrameController: ConsoleFrameController,
     @inject(TopFrameController)
-    topFrameController: TopFrameController
+    topFrameController: TopFrameController,
   ) {
     this.receiver
       .route("console.unfocus")

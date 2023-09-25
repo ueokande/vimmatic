@@ -6,13 +6,13 @@ import defaultTab from "../mock/defaultTab";
 describe("BufferCommand", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
   const bufferCommandHelper = new BufferCommandHelper(
-    lastSelectedTabRepository
+    lastSelectedTabRepository,
   );
   const sut = new BufferCommand(lastSelectedTabRepository, bufferCommandHelper);
 
   const mockGetLastSelectedTab = jest.spyOn(
     lastSelectedTabRepository,
-    "getLastSelectedTabId"
+    "getLastSelectedTabId",
   );
   const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
   const mockTabsUpdate = jest.spyOn(chrome.tabs, "update");

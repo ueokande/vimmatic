@@ -6,7 +6,7 @@ import RequestContext from "../messaging/RequestContext";
 export default class SettingsController {
   constructor(
     @inject(SettingsUseCase)
-    private readonly settingsUseCase: SettingsUseCase
+    private readonly settingsUseCase: SettingsUseCase,
   ) {}
 
   async getSettings(_ctx: RequestContext): Promise<unknown> {
@@ -19,7 +19,7 @@ export default class SettingsController {
       name,
     }: {
       name: string;
-    }
+    },
   ): Promise<string | number | boolean> {
     return this.settingsUseCase.getProperty(name);
   }
@@ -30,14 +30,14 @@ export default class SettingsController {
       name,
     }: {
       name: string;
-    }
+    },
   ): Promise<Record<string, string>> {
     return this.settingsUseCase.getStyle(name);
   }
 
   async validate(
     _ctx: RequestContext,
-    { settings }: { settings: unknown }
+    { settings }: { settings: unknown },
   ): Promise<{ error?: string }> {
     const error = await this.settingsUseCase.validate(settings);
     return { error };

@@ -67,7 +67,7 @@ const TextArea: React.FC<Props> = (props) => {
       autoResize();
       props.onChange?.(e);
     },
-    []
+    [],
   );
 
   const highlight = React.useCallback((source: string) => {

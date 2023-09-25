@@ -6,7 +6,7 @@ import RequestContext from "../messaging/RequestContext";
 export default class OperationController {
   constructor(
     @inject(OperationUseCase)
-    private readonly operationUseCase: OperationUseCase
+    private readonly operationUseCase: OperationUseCase,
   ) {}
 
   async exec(
@@ -19,7 +19,7 @@ export default class OperationController {
       repeat: number;
       name: string;
       props: Record<string, string | number | boolean>;
-    }
+    },
   ): Promise<void> {
     await this.operationUseCase.run(ctx, name, props, repeat);
   }

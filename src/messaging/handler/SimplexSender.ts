@@ -1,11 +1,11 @@
 import { Simplex } from "../types";
 
 type SimplexSenderHandler<
-  Schema extends { [Key in keyof Schema]: Simplex<unknown> }
+  Schema extends { [Key in keyof Schema]: Simplex<unknown> },
 > = (type: keyof Schema, args: Schema[keyof Schema]["Request"]) => void;
 
 export default class SimplexSender<
-  Schema extends { [Key in keyof Schema]: Simplex<unknown> }
+  Schema extends { [Key in keyof Schema]: Simplex<unknown> },
 > {
   private readonly sender: SimplexSenderHandler<Schema>;
 

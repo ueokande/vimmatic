@@ -3,7 +3,7 @@ import LastSelectedTabRepository from "../repositories/LastSelectedTabRepository
 
 export default class BufferCommandHelper {
   constructor(
-    private readonly lastSelectedTabRepository: LastSelectedTabRepository
+    private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {}
 
   async getCompletions(force: boolean, query: string): Promise<Completions> {

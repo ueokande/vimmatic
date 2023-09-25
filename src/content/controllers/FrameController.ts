@@ -5,7 +5,7 @@ import FrameUseCase from "../usecases/FrameUseCase";
 export default class FrameController {
   constructor(
     @inject(FrameUseCase)
-    private readonly frameUseCase: FrameUseCase
+    private readonly frameUseCase: FrameUseCase,
   ) {}
 
   notifyToParent({ frameId }: { frameId: number }): Promise<void> {

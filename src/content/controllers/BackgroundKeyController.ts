@@ -6,7 +6,7 @@ import BackgroundKeyUseCase from "../usecases/BackgroundKeyUseCase";
 export default class BackgroundKeyController {
   constructor(
     @inject(BackgroundKeyUseCase)
-    private readonly backgroundKeyUseCase: BackgroundKeyUseCase
+    private readonly backgroundKeyUseCase: BackgroundKeyUseCase,
   ) {}
 
   press(key: Key): boolean {

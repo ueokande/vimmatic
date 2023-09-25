@@ -39,7 +39,7 @@ describe("InputDriver", () => {
         shiftKey: false,
         altKey: false,
         metaKey: false,
-      })
+      }),
     );
   });
 
@@ -145,7 +145,7 @@ describe("#keyFromKeyboardEvent", () => {
         ctrlKey: true,
         altKey: false,
         metaKey: true,
-      })
+      }),
     );
     expect(k.key).toEqual("x");
     expect(k.shift).toBeFalsy;
@@ -162,7 +162,7 @@ describe("#keyFromKeyboardEvent", () => {
         ctrlKey: false,
         altKey: false,
         metaKey: true,
-      })
+      }),
     );
     expect(k.key).toEqual("Esc");
     expect(k.shift).toBeTruthy;
@@ -180,7 +180,7 @@ describe("#keyFromKeyboardEvent", () => {
         ctrlKey: true,
         altKey: false,
         metaKey: false,
-      })
+      }),
     );
     expect(k.key).toEqual("$");
     expect(k.shift).toBeFalsy;
@@ -197,7 +197,7 @@ describe("#keyFromKeyboardEvent", () => {
         ctrlKey: true,
         altKey: false,
         metaKey: false,
-      })
+      }),
     );
     expect(k.key).toEqual("Space");
     expect(k.shift).toBeFalsy;

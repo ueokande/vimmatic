@@ -20,7 +20,7 @@ describe("FollowModeUseCaes", () => {
       frameRepository,
       propertySettings,
       keyCaptureClient,
-      followRepository
+      followRepository,
     );
 
     const mockGetFrameIds = jest
@@ -78,44 +78,44 @@ describe("FollowModeUseCaes", () => {
       10,
       100,
       { width: 1000, height: 1200 },
-      { x: 10, y: 20 }
+      { x: 10, y: 20 },
     );
     expect(mockCountHints).toHaveBeenCalledWith(
       10,
       101,
       { width: 1000, height: 1200 },
-      { x: 11, y: 21 }
+      { x: 11, y: 21 },
     );
     expect(mockCountHints).toHaveBeenCalledWith(
       10,
       102,
       { width: 1000, height: 1200 },
-      { x: 12, y: 22 }
+      { x: 12, y: 22 },
     );
     expect(mockCreateHints).toHaveBeenCalledWith(
       10,
       100,
       ["a"],
       { width: 1000, height: 1200 },
-      { x: 10, y: 20 }
+      { x: 10, y: 20 },
     );
     expect(mockCreateHints).toHaveBeenCalledWith(
       10,
       101,
       ["b", "c"],
       { width: 1000, height: 1200 },
-      { x: 11, y: 21 }
+      { x: 11, y: 21 },
     );
     expect(mockCreateHints).toHaveBeenCalledWith(
       10,
       102,
       ["aa", "ab", "ac"],
       { width: 1000, height: 1200 },
-      { x: 12, y: 22 }
+      { x: 12, y: 22 },
     );
     expect(mockStartFollowMode).toHaveBeenCalledWith(
       { newTab: false, background: false },
-      ["a", "b", "c", "aa", "ab", "ac"]
+      ["a", "b", "c", "aa", "ab", "ac"],
     );
     expect(mockEnableKeyCapture).toHaveBeenCalledWith(10);
   });
@@ -133,7 +133,7 @@ describe("FollowModeUseCaes", () => {
       frameRepository,
       propertySettings,
       keyCaptureClient,
-      followRepository
+      followRepository,
     );
 
     const mockClearHints = jest

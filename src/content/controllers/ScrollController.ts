@@ -5,7 +5,7 @@ import ScrollPresenter from "../presenters/ScrollPresenter";
 export default class ScrollController {
   constructor(
     @inject("ScrollPresenter")
-    private readonly scrollPresenter: ScrollPresenter
+    private readonly scrollPresenter: ScrollPresenter,
   ) {}
 
   scrollVertically({ amount, smooth }: { amount: number; smooth: boolean }) {

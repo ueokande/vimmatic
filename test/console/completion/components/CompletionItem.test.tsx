@@ -10,7 +10,7 @@ describe("console/components/console/completion/CompletionItem", () => {
         highlight={false}
         primary="twitter"
         secondary="https://twitter.com/"
-      />
+      />,
     ).root;
     const spans = root.findAllByType("span");
     expect(spans).toHaveLength(2);

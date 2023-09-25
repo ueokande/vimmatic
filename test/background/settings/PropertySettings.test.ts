@@ -35,7 +35,7 @@ describe("PropertySettingsImpl", () => {
   const propertyRegistry = new MockPropertyRegistry();
   const propertySettings = new PropertySettingsImpl(
     settingsRepository,
-    propertyRegistry
+    propertyRegistry,
   );
   const mockGetProperty = jest.spyOn(propertyRegistry, "getProperty");
   const mockLoad = jest.spyOn(settingsRepository, "load");
@@ -93,7 +93,7 @@ describe("PropertySettingsImpl", () => {
       mockLoad.mockResolvedValue({});
 
       await expect(propertySettings.getProperty("xxxxx")).rejects.toThrowError(
-        "Unknown property: xxxxx"
+        "Unknown property: xxxxx",
       );
     });
   });
@@ -136,7 +136,7 @@ describe("PropertySettingsImpl", () => {
       mockLoad.mockResolvedValue({});
 
       await expect(
-        propertySettings.setProperty("xxxxx", "")
+        propertySettings.setProperty("xxxxx", ""),
       ).rejects.toThrowError("Unknown property: xxxxx");
     });
 
@@ -145,7 +145,7 @@ describe("PropertySettingsImpl", () => {
       mockLoad.mockResolvedValue({});
 
       await expect(
-        propertySettings.setProperty("myprop", "fizz")
+        propertySettings.setProperty("myprop", "fizz"),
       ).rejects.toThrowError("invalid property: fizz");
     });
   });

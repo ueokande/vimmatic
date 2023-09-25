@@ -6,7 +6,7 @@ import AddonEnabledUseCase from "../../usecases/AddonEnabledUseCase";
 export default class ToggleAddonOperator implements Operator {
   constructor(
     @inject(AddonEnabledUseCase)
-    private readonly addonEnabledUseCase: AddonEnabledUseCase
+    private readonly addonEnabledUseCase: AddonEnabledUseCase,
   ) {}
 
   name(): string {

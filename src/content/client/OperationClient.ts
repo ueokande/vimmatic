@@ -5,7 +5,7 @@ export default interface OperationClient {
   execBackgroundOp(
     name: string,
     props: Record<string, string | number | boolean>,
-    repeat: number
+    repeat: number,
   ): Promise<void>;
 }
 
@@ -13,13 +13,13 @@ export default interface OperationClient {
 export class OperationClientImpl implements OperationClient {
   constructor(
     @inject("BackgroundMessageSender")
-    private readonly sender: BackgroundMessageSender
+    private readonly sender: BackgroundMessageSender,
   ) {}
 
   async execBackgroundOp(
     name: string,
     props: Record<string, string | number | boolean>,
-    repeat: number
+    repeat: number,
   ): Promise<void> {
     await this.sender.send("background.operation", { name, props, repeat });
   }

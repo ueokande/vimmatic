@@ -101,7 +101,7 @@ describe("OpenCommandHelper", () => {
           id: "0",
           title: "com",
           url: "https://example.com",
-        })
+        }),
       );
 
       const completions = await sut.getCompletions("");
@@ -148,7 +148,7 @@ describe("OpenCommandHelper", () => {
           id: "1",
           title: "subpath",
           url: "https://example.new/hoge/fuga",
-        })
+        }),
       );
 
       const completions = await sut.getCompletions("");

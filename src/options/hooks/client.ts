@@ -15,9 +15,9 @@ export const useMessageClient = (): Sender<BackgroundMessageSchema> => {
             type,
             args: args ?? {},
           });
-        }
+        },
       ),
-    []
+    [],
   );
   return sender;
 };

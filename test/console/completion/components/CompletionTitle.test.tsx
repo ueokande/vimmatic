@@ -5,7 +5,7 @@ import CompletionTitle from "../../../../src/console/completion/components/Compl
 describe("console/components/console/completion/CompletionTitle", () => {
   it("renders a CompletionTitle", () => {
     const root = ReactTestRenderer.create(
-      <CompletionTitle title="Fruits" shown={true} />
+      <CompletionTitle title="Fruits" shown={true} />,
     ).root;
 
     const li = root.findByType("li");

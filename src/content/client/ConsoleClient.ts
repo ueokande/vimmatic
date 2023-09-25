@@ -10,7 +10,7 @@ export default interface ConsoleClient {
 export class ConsoleClientImpl implements ConsoleClient {
   constructor(
     @inject("BackgroundMessageSender")
-    private readonly sender: BackgroundMessageSender
+    private readonly sender: BackgroundMessageSender,
   ) {}
 
   async info(text: string): Promise<void> {

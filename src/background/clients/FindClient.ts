@@ -14,7 +14,7 @@ export class FindClientImpl implements FindClient {
   async findNext(
     tabId: number,
     frameId: number,
-    keyword: string
+    keyword: string,
   ): Promise<boolean> {
     const sender = newSender(tabId, frameId);
     const found = await sender.send("find.next", { keyword });
@@ -24,7 +24,7 @@ export class FindClientImpl implements FindClient {
   async findPrev(
     tabId: number,
     frameId: number,
-    keyword: string
+    keyword: string,
   ): Promise<boolean> {
     const sender = newSender(tabId, frameId);
     const found = await sender.send("find.prev", { keyword });

@@ -9,12 +9,12 @@ export default class FollowUseCase {
     @inject("FollowPresenter")
     private readonly presenter: FollowPresenter,
     @inject("TabsClient")
-    private readonly tabsClient: TabsClient
+    private readonly tabsClient: TabsClient,
   ) {}
 
   async countHints(
     viewSize: { width: number; height: number },
-    framePosition: { x: number; y: number }
+    framePosition: { x: number; y: number },
   ): Promise<number> {
     return this.presenter.getTargetCount(viewSize, framePosition);
   }
@@ -22,7 +22,7 @@ export default class FollowUseCase {
   async createHints(
     viewSize: { width: number; height: number },
     framePosition: { x: number; y: number },
-    hints: string[]
+    hints: string[],
   ) {
     return this.presenter.createHints(viewSize, framePosition, hints);
   }

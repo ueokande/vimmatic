@@ -24,7 +24,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 const PromptInput: React.FC<Props> = React.forwardRef(function PromptInput(
   props,
-  ref: React.Ref<HTMLInputElement>
+  ref: React.Ref<HTMLInputElement>,
 ) {
   return (
     <Container>

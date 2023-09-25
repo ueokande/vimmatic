@@ -28,7 +28,7 @@ export default interface SettingRepository {
 export class SettingRepositoryImpl implements SettingRepository {
   constructor(
     @inject("SettingClient")
-    private readonly client: SettingClient
+    private readonly client: SettingClient,
   ) {}
 
   async reload(): Promise<void> {

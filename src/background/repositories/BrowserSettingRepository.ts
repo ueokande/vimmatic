@@ -18,7 +18,7 @@ export class FirefoxBrowserSettingRepositoryImpl
       .map(urls.normalizeUrl)
       .filter(
         // firefox does not supports about:blank
-        (u) => !u.startsWith("about:") || u === "about:blank"
+        (u) => !u.startsWith("about:") || u === "about:blank",
       );
     if (normalizedURLs.length === 0) {
       return ["about:blank"];
