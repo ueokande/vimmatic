@@ -34,7 +34,7 @@
     "react-dom": "17.0.2",
     "styled-components": "^5.3.9",
     "tslib": "^2.6.2",
-    "typescript": "5.0.4",
+    "typescript": "5.2.2",
     "zod": "^3.22.2"
   },
   "devDependencies": {
@@ -49,8 +49,8 @@
     "@types/react-dom": "^17.0.11",
     "@types/react-test-renderer": "^17.0.0",
     "@types/styled-components": "^5.1.26",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
     "esbuild-jest": "^0.5.0",
     "eslint": "8.49.0",
     "eslint-config-prettier": "8.8.0",
