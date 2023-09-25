@@ -29,7 +29,7 @@ updates:
         - "typescript"
         - "@typescript-eslint/*"
     jest:
-      typescript:
+      patterns:
         - "jest"
         - "jest-environment-jsdom"
         - "@jest/types"
