@@ -9,7 +9,7 @@ export default class BackgroundKeyUseCase {
     @inject("KeyCaptureModeRepository")
     private readonly keyCaptureModeRepository: KeyCaptureModeRepository,
     @inject("BackgroundKeyClient")
-    private readonly backgroundKeyClient: BackgroundKeyClient
+    private readonly backgroundKeyClient: BackgroundKeyClient,
   ) {}
 
   capture(key: Key): boolean {

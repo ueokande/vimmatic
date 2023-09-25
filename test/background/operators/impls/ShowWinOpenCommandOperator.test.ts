@@ -32,7 +32,7 @@ describe("ShowWinOpenCommandOperator", () => {
 
       expect(showCommandSpy).toBeCalledWith(
         100,
-        "winopen https://example.com/"
+        "winopen https://example.com/",
       );
     });
   });

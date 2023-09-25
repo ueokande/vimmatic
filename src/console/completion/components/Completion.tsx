@@ -26,7 +26,7 @@ const CompletionWrapper = styled.div`
 const useSelectedValue = (
   select: number,
   flatten: Array<{ value?: string }>,
-  source: string
+  source: string,
 ) => {
   return React.useMemo(() => {
     if (select === -1) {
@@ -39,7 +39,7 @@ const useSelectedValue = (
 
 const useAutoInputValue = (
   ref: React.RefObject<HTMLInputElement>,
-  value: string
+  value: string,
 ) => {
   React.useEffect(() => {
     if (ref.current === null) {
@@ -52,7 +52,7 @@ const useAutoInputValue = (
 const useFlatten = (completions: CompletionsType) => {
   return React.useMemo(
     () => completions.map((g) => g.items).flat(),
-    [completions]
+    [completions],
   );
 };
 

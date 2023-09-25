@@ -7,7 +7,7 @@ import RequestContext from "../messaging/RequestContext";
 export default class CommandController {
   constructor(
     @inject(CommandUseCase)
-    private readonly commandUseCase: CommandUseCase
+    private readonly commandUseCase: CommandUseCase,
   ) {}
 
   async exec(ctx: RequestContext, { text }: { text: string }): Promise<void> {
@@ -16,7 +16,7 @@ export default class CommandController {
 
   async getCompletions(
     _ctx: RequestContext,
-    { query }: { query: string }
+    { query }: { query: string },
   ): Promise<Completions> {
     return this.commandUseCase.getCompletions(query);
   }

@@ -14,12 +14,12 @@ export class PropertySettingsImpl {
     @inject("SettingsRepository")
     private readonly settingsRepository: SettingsRepository,
     @inject("PropertyRegistry")
-    private readonly propertyRegistry: PropertyRegistry
+    private readonly propertyRegistry: PropertyRegistry,
   ) {}
 
   async setProperty(
     name: string,
-    value: string | number | boolean
+    value: string | number | boolean,
   ): Promise<void> {
     const def = this.propertyRegistry.getProperty(name);
     if (!def) {

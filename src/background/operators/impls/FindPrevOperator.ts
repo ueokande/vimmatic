@@ -16,7 +16,7 @@ export default class FindPrevOperator implements Operator {
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,
     @inject("ReadyFrameRepository")
-    private readonly frameRepository: ReadyFrameRepository
+    private readonly frameRepository: ReadyFrameRepository,
   ) {}
 
   name(): string {
@@ -55,7 +55,7 @@ export default class FindPrevOperator implements Operator {
           const found = await this.findClient.findPrev(
             tabId,
             frameId,
-            state.keyword
+            state.keyword,
           );
           if (found) {
             await this.findRepository.setLocalState(tabId, {
@@ -70,7 +70,7 @@ export default class FindPrevOperator implements Operator {
         // The keyword is gone.
         this.consoleClient.showError(
           tabId,
-          "Pattern not found: " + state.keyword
+          "Pattern not found: " + state.keyword,
         );
         return;
       }

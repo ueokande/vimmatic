@@ -151,7 +151,7 @@ describe("InputHint", () => {
 
       it("focuses to the textarea", () => {
         const textarea = document.getElementById(
-          "test-textarea"
+          "test-textarea",
         ) as HTMLTextAreaElement;
         const hint = new InputHint(textarea, "abc", css);
         hint.activate();
@@ -167,7 +167,7 @@ describe("InputHint", () => {
 
       it("clicks the button", (done) => {
         const button = document.getElementById(
-          "test-button"
+          "test-button",
         ) as HTMLButtonElement;
         button.onclick = () => {
           done();

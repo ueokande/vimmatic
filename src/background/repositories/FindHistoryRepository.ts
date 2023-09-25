@@ -14,8 +14,8 @@ export class FindHistoryRepositoryImpl implements FindHistoryRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       FindHistoryRepositoryImpl.name,
-      []
-    )
+      [],
+    ),
   ) {}
 
   async append(keyword: string): Promise<void> {
@@ -29,8 +29,8 @@ export class FindHistoryRepositoryImpl implements FindHistoryRepository {
       return this.cache.setValue(
         [keyword].concat(
           value.slice(0, index),
-          value.slice(index + 1, value.length)
-        )
+          value.slice(index + 1, value.length),
+        ),
       );
     }
     return this.cache.setValue([keyword].concat(value));

@@ -14,14 +14,14 @@ export default class MockContentMessageClient implements ContentMessageClient {
     _frameId: number,
     _x: number,
     _y: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
 
   getScroll(
     _tabId: number,
-    _frameId: number
+    _frameId: number,
   ): Promise<{ x: number; y: number }> {
     throw new Error("not implemented");
   }
@@ -34,7 +34,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
     _tabId: number,
     _frameId: number,
     _amount: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -43,7 +43,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
     _tabId: number,
     _frameId: number,
     _amount: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -52,7 +52,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
     _tabId: number,
     _frameId: number,
     _amount: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -60,7 +60,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
   scrollToBottom(
     _tabId: number,
     _frameId: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -68,7 +68,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
   scrollToEnd(
     _tabId: number,
     _frameId: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -76,7 +76,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
   scrollToHome(
     _tabId: number,
     _frameId: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -84,7 +84,7 @@ export default class MockContentMessageClient implements ContentMessageClient {
   scrollToTop(
     _tabId: number,
     _frameId: number,
-    _smooth: boolean
+    _smooth: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }

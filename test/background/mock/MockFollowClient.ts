@@ -6,7 +6,7 @@ export default class MockFollowClient implements FollowClient {
     _tabId: number,
     _frameId: number,
     _viewSize: Size,
-    _framePosition: Point
+    _framePosition: Point,
   ): Promise<number> {
     throw new Error("not implemented");
   }
@@ -16,7 +16,7 @@ export default class MockFollowClient implements FollowClient {
     _frameId: number,
     _hints: string[],
     _viewSize: Size,
-    _framePosition: Point
+    _framePosition: Point,
   ): Promise<void> {
     throw new Error("not implemented");
   }
@@ -33,7 +33,7 @@ export default class MockFollowClient implements FollowClient {
     _tabId: number,
     _tag: string,
     _newTab: boolean,
-    _background: boolean
+    _background: boolean,
   ): Promise<void> {
     throw new Error("not implemented");
   }

@@ -32,7 +32,7 @@ describe("Receiver", () => {
     await expect(sut.receive(ctx, "greeting", "en")).resolves.toBe("[1] hello");
     await expect(sut.receive(ctx, "greeting", "du")).resolves.toBe("[1] hallo");
     await expect(sut.receive(ctx, "greeting", "it")).rejects.toThrowError(
-      "unsupported language"
+      "unsupported language",
     );
   });
 

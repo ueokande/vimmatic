@@ -14,6 +14,6 @@ window.addEventListener("DOMContentLoaded", () => {
         </ColorSchemeProvider>
       </AppProvider>
     </React.StrictMode>,
-    wrapper
+    wrapper,
   );
 });

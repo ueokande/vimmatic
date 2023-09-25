@@ -8,7 +8,7 @@ import ConsoleClient from "../../clients/ConsoleClient";
 export default class ShowTabOpenCommandOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   name() {
@@ -23,7 +23,7 @@ export default class ShowTabOpenCommandOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { alter }: z.infer<ReturnType<ShowTabOpenCommandOperator["schema"]>>
+    { alter }: z.infer<ReturnType<ShowTabOpenCommandOperator["schema"]>>,
   ): Promise<void> {
     let command = "tabopen ";
     if (alter) {

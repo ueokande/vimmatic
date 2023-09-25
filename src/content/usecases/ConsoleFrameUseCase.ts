@@ -5,7 +5,7 @@ import ConsoleFramePresenter from "../presenters/ConsoleFramePresenter";
 export default class ConsoleFrameUseCase {
   constructor(
     @inject("ConsoleFramePresenter")
-    private readonly consoleFramePresenter: ConsoleFramePresenter
+    private readonly consoleFramePresenter: ConsoleFramePresenter,
   ) {}
 
   unfocus() {

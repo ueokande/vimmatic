@@ -9,7 +9,7 @@ import { CommandContext } from "../command/Command";
 export default class CommandUseCase {
   constructor(
     @inject("CommandRegistry")
-    private readonly commandRegistry: CommandRegistry
+    private readonly commandRegistry: CommandRegistry,
   ) {}
 
   async exec(ctx: RequestContext, text: string): Promise<void> {

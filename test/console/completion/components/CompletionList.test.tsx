@@ -26,7 +26,7 @@ describe("CompletionList", () => {
 
   it("renders Completion component", () => {
     const root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={30} select={-1} />
+      <CompletionList completions={completions} size={30} select={-1} />,
     ).root;
 
     const groups = root.findAllByProps({ role: "group" });
@@ -46,7 +46,7 @@ describe("CompletionList", () => {
 
   it("highlight current item", () => {
     const root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={30} select={3} />
+      <CompletionList completions={completions} size={30} select={3} />,
     ).root;
 
     const items = root.findAllByType(CompletionItem);
@@ -55,7 +55,7 @@ describe("CompletionList", () => {
 
   it("does not highlight any items", () => {
     const root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={30} select={-1} />
+      <CompletionList completions={completions} size={30} select={-1} />,
     ).root;
 
     const items = root.findAllByType(CompletionItem);
@@ -64,7 +64,7 @@ describe("CompletionList", () => {
 
   it("limits completion items", () => {
     let root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={3} select={-1} />
+      <CompletionList completions={completions} size={3} select={-1} />,
     ).root;
 
     const showns = root
@@ -73,7 +73,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
 
@@ -89,7 +89,7 @@ describe("CompletionList", () => {
     ]);
 
     root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={3} select={0} />
+      <CompletionList completions={completions} size={3} select={0} />,
     ).root;
 
     const items = root
@@ -103,7 +103,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component = ReactTestRenderer.create(
-        <CompletionList completions={completions} size={3} select={1} />
+        <CompletionList completions={completions} size={3} select={1} />,
       );
     });
 
@@ -116,7 +116,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
     expect(showns).toEqual([
@@ -132,7 +132,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <CompletionList completions={completions} size={3} select={2} />
+        <CompletionList completions={completions} size={3} select={2} />,
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -142,7 +142,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
     expect(showns).toEqual([
@@ -159,7 +159,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <CompletionList completions={completions} size={3} select={3} />
+        <CompletionList completions={completions} size={3} select={3} />,
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -169,7 +169,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
     expect(showns).toEqual([
@@ -190,7 +190,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component = ReactTestRenderer.create(
-        <CompletionList completions={completions} size={3} select={5} />
+        <CompletionList completions={completions} size={3} select={5} />,
       );
     });
     const root = component!.root;
@@ -202,7 +202,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
 
@@ -220,7 +220,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <CompletionList completions={completions} size={3} select={4} />
+        <CompletionList completions={completions} size={3} select={4} />,
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -230,7 +230,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
     expect(showns).toEqual([
@@ -247,7 +247,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <CompletionList completions={completions} size={3} select={3} />
+        <CompletionList completions={completions} size={3} select={3} />,
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -257,7 +257,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
     expect(showns).toEqual([
@@ -274,7 +274,7 @@ describe("CompletionList", () => {
 
     ReactTestRenderer.act(() => {
       component!.update(
-        <CompletionList completions={completions} size={3} select={2} />
+        <CompletionList completions={completions} size={3} select={2} />,
       );
     });
     items = root.findAllByType(CompletionItem);
@@ -284,7 +284,7 @@ describe("CompletionList", () => {
         [
           group.findByType(CompletionTitle).props.shown,
           group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat()
+        ].flat(),
       )
       .flat();
     expect(showns).toEqual([

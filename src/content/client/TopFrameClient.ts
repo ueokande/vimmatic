@@ -9,7 +9,7 @@ export default interface TopFrameClient {
 export class TopFrameClientImpl implements TopFrameClient {
   constructor(
     @inject("WindowMessageSender")
-    private readonly sender: WindowMessageSender
+    private readonly sender: WindowMessageSender,
   ) {}
 
   async notifyFrameId(frameId: number): Promise<void> {

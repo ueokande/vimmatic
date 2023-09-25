@@ -7,7 +7,7 @@ import MarkModeUseCase from "../../usecases/MarkModeUseCase";
 export default class StartJumpMarkOperator implements Operator {
   constructor(
     @inject(MarkModeUseCase)
-    private markModeUseCase: MarkModeUseCase
+    private markModeUseCase: MarkModeUseCase,
   ) {}
 
   name() {

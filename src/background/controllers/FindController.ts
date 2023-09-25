@@ -7,12 +7,12 @@ import RequestContext from "../messaging/RequestContext";
 export default class FindController {
   constructor(
     @inject(FindUseCase)
-    private findUseCase: FindUseCase
+    private findUseCase: FindUseCase,
   ) {}
 
   exec(
     { sender }: RequestContext,
-    { keyword }: { keyword?: string }
+    { keyword }: { keyword?: string },
   ): Promise<void> {
     if (typeof sender.tab?.id === "undefined") {
       return Promise.resolve();
@@ -22,7 +22,7 @@ export default class FindController {
 
   async getCompletions(
     _ctx: RequestContext,
-    { query }: { query: string }
+    { query }: { query: string },
   ): Promise<Completions> {
     const histories = await this.findUseCase.getHistories(query);
     const items = histories.map((hist) => ({

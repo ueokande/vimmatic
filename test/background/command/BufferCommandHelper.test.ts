@@ -8,7 +8,7 @@ describe("BufferCommandHelper", () => {
 
   const mockGetLastSelectedTab = jest.spyOn(
     lastSelectedTabRepository,
-    "getLastSelectedTabId"
+    "getLastSelectedTabId",
   );
   const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
 

@@ -17,7 +17,7 @@ export default class AddonEnabledEventUseCase {
     @inject("AddonEnabledClient")
     private readonly addonEnabledClient: AddonEnabledClient,
     @inject(EventUseCaseHelper)
-    private readonly eventUseCaseHelper: EventUseCaseHelper
+    private readonly eventUseCaseHelper: EventUseCaseHelper,
   ) {}
 
   registerEvents() {

@@ -68,7 +68,7 @@ export default class Console {
           title: title.textContent!.trim(),
           items: Array.from(items).map((item) => ({
             text: document.getElementById(
-              item.getAttribute("aria-labelledby")!
+              item.getAttribute("aria-labelledby")!,
             )!.textContent,
             highlight: item.getAttribute("aria-selected") === "true",
           })),

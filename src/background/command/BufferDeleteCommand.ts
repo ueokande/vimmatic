@@ -25,7 +25,7 @@ class BufferDeleteCommand implements Command {
   async exec(
     _ctx: CommandContext,
     force: boolean,
-    args: string
+    args: string,
   ): Promise<void> {
     const keywords = args.trim();
     const tabs = await this.bufferCommandHelper.queryTabs(force, keywords);

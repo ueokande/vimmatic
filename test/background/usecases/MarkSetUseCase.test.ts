@@ -14,7 +14,7 @@ describe("MarkSetUseCase", () => {
     markRepository,
     consoleClient,
     contentMessageClient,
-    markHelper
+    markHelper,
   );
   const tab = { ...defaultTab, id: 100, url: "https://example.com/" };
 

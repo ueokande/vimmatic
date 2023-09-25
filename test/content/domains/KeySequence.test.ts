@@ -21,7 +21,7 @@ describe("KeySequence", () => {
       expect(seq.startsWith(new KeySequence([]))).toBeTruthy;
       expect(seq.startsWith(new KeySequence([fromKeymap("g")]))).toBeTruthy;
       expect(
-        seq.startsWith(new KeySequence([fromKeymap("g"), fromKeymap("<S-U>")]))
+        seq.startsWith(new KeySequence([fromKeymap("g"), fromKeymap("<S-U>")])),
       ).toBeTruthy;
       expect(
         seq.startsWith(
@@ -29,8 +29,8 @@ describe("KeySequence", () => {
             fromKeymap("g"),
             fromKeymap("<S-U>"),
             fromKeymap("x"),
-          ])
-        )
+          ]),
+        ),
       ).toBeFalsy;
       expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy;
     });
@@ -49,14 +49,14 @@ describe("KeySequence", () => {
         new KeySequence([
           new Key({ key: "4" }),
           new Key({ key: "0" }),
-        ]).isDigitOnly()
+        ]).isDigitOnly(),
       ).toBeTruthy;
       expect(
         new KeySequence([
           new Key({ key: "4" }),
           new Key({ key: "0" }),
           new Key({ key: "z" }),
-        ]).isDigitOnly()
+        ]).isDigitOnly(),
       ).toBeFalsy;
     });
   });

@@ -6,12 +6,12 @@ import TopFrameUseCase from "../usecases/TopFrameUseCase";
 export default class TopFrameController {
   constructor(
     @inject(TopFrameUseCase)
-    private readonly topFrameUseCase: TopFrameUseCase
+    private readonly topFrameUseCase: TopFrameUseCase,
   ) {}
 
   saveChildFrame(
     ctx: WindowRequestContext,
-    { frameId }: { frameId: number }
+    { frameId }: { frameId: number },
   ): Promise<void> {
     return this.topFrameUseCase.saveChildFrame(frameId, ctx.sender);
   }

@@ -4,7 +4,7 @@ import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 export default interface FollowRepository {
   startFollowMode(
     opts: { newTab: boolean; background: boolean },
-    hints: string[]
+    hints: string[],
   ): Promise<void>;
 
   stopFollowMode(): Promise<void>;
@@ -44,13 +44,13 @@ export class FollowRepositoryImpl implements FollowRepository {
         option: { newTab: false, background: false },
         hints: [],
         keys: [],
-      }
-    )
+      },
+    ),
   ) {}
 
   startFollowMode(
     option: { newTab: boolean; background: boolean },
-    hints: string[]
+    hints: string[],
   ): Promise<void> {
     const state: State = {
       enabled: true,

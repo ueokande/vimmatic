@@ -66,7 +66,7 @@ export class TransientSettingsRepository implements SettingsRepository {
     private readonly permanent: SettingsRepository,
     private readonly cache: LocalCache<
       SerializedSettings | undefined
-    > = new LocalCacheImpl(TransientSettingsRepository.name, undefined)
+    > = new LocalCacheImpl(TransientSettingsRepository.name, undefined),
   ) {
     this.permanent.onChanged(this.sync.bind(this));
   }

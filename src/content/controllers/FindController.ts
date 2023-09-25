@@ -5,7 +5,7 @@ import FindUseCase from "../usecases/FindUseCase";
 export default class FindController {
   constructor(
     @inject(FindUseCase)
-    private readonly findUseCase: FindUseCase
+    private readonly findUseCase: FindUseCase,
   ) {}
 
   findNext({ keyword }: { keyword: string }): Promise<boolean> {

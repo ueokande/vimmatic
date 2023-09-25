@@ -5,7 +5,7 @@ import TopFrameClient from "../client/TopFrameClient";
 export default class FrameUseCase {
   constructor(
     @inject("TopFrameClient")
-    private readonly topFrameClient: TopFrameClient
+    private readonly topFrameClient: TopFrameClient,
   ) {}
 
   notifyFrameIdToTop(frameId: number): Promise<void> {

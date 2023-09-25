@@ -54,7 +54,7 @@ describe("CommandRegistryImpl", () => {
         description,
         exec,
         getCompletions,
-      })
+      }),
     ).toThrowError();
   });
 
@@ -67,7 +67,7 @@ describe("CommandRegistryImpl", () => {
         description,
         exec,
         getCompletions,
-      })
+      }),
     ).toThrowError();
   });
 });

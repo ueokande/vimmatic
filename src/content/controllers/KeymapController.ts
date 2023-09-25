@@ -9,7 +9,7 @@ export default class KeymapController {
     @inject(KeymapUseCase)
     private readonly keymapUseCase: KeymapUseCase,
     @inject(OperationUseCase)
-    private readonly operationUseCase: OperationUseCase
+    private readonly operationUseCase: OperationUseCase,
   ) {}
 
   // eslint-disable-next-line complexity, max-lines-per-function

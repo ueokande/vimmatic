@@ -69,7 +69,7 @@ const deserializeBlacklist = (json: SerializedBlacklist): Blacklist => {
   const items = json.map((item) =>
     typeof item === "string"
       ? new BlacklistItem(item, false, [])
-      : new BlacklistItem(item.url, true, item.keys)
+      : new BlacklistItem(item.url, true, item.keys),
   );
   return new Blacklist(items);
 };

@@ -18,7 +18,7 @@ export default class CloseTabOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { force, select }: z.infer<ReturnType<CloseTabOperator["schema"]>>
+    { force, select }: z.infer<ReturnType<CloseTabOperator["schema"]>>,
   ): Promise<void> {
     if (!force && sender.tab.pinned) {
       return;

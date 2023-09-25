@@ -20,10 +20,10 @@ const REL_PATTERN: { [key: string]: RegExp } = {
 // eslint-disable-next-line func-style
 function selectLast<E extends Element>(
   selector: string,
-  filter?: (e: E) => boolean
+  filter?: (e: E) => boolean,
 ): E | null {
   let nodes = Array.from(
-    window.document.querySelectorAll(selector) as NodeListOf<E>
+    window.document.querySelectorAll(selector) as NodeListOf<E>,
   );
 
   if (filter) {

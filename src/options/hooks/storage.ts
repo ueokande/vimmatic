@@ -17,7 +17,7 @@ const useValidate = () => {
       }
       return settings;
     },
-    [client]
+    [client],
   );
 
   return validate;
@@ -74,7 +74,7 @@ export const useSaveSettings = (): {
           setLoading(false);
         });
     },
-    [validate, setError]
+    [validate, setError],
   );
   return { save, error, loading };
 };

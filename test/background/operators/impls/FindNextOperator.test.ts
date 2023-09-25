@@ -17,7 +17,7 @@ describe("FindNextOperator", () => {
     findRepository,
     findClient,
     consoleClient,
-    frameRepository
+    frameRepository,
   );
   const ctx = { sender: { tabId: 10 } } as OperatorContext;
   const findNextSpy = jest.spyOn(findClient, "findNext");

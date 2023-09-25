@@ -8,7 +8,7 @@ export default class FollowKeyUseCase {
     @inject("FollowClient")
     private readonly followClient: FollowClient,
     @inject("FollowRepository")
-    private readonly followRepository: FollowRepository
+    private readonly followRepository: FollowRepository,
   ) {}
 
   async pressKey(tabId: number, key: string): Promise<boolean> {

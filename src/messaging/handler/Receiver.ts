@@ -1,23 +1,23 @@
 import { Duplex } from "../types";
 
 type Handler<
-  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> }
+  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > = (
-  args: Schema[keyof Schema]["Request"]
+  args: Schema[keyof Schema]["Request"],
 ) => Promise<Schema[keyof Schema]["Response"]> | void;
 
 type SingleHandler<
   Key extends keyof Schema,
-  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> }
+  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > = (args: Schema[Key]["Request"]) => Promise<Schema[Key]["Response"]> | void;
 
 export class Router<
   Key extends keyof Schema,
-  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> }
+  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > {
   constructor(
     private readonly type: Key,
-    private readonly routes: Map<keyof Schema, Handler<Schema>>
+    private readonly routes: Map<keyof Schema, Handler<Schema>>,
   ) {}
 
   to(handler: SingleHandler<Key, Schema>) {
@@ -26,7 +26,7 @@ export class Router<
 }
 
 export default class Receiver<
-  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> }
+  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > {
   private readonly routes: Map<keyof Schema, Handler<Schema>> = new Map();
 

@@ -40,7 +40,7 @@ const searchUrl = (keywords: string, search: SearchEngine): string => {
       return url.href;
     } else if (UNSUPPORTED_PROTOCOLS.includes(url.protocol)) {
       throw new Error(
-        `Opening protocol '${url.protocol}' is forbidden for security reasons`
+        `Opening protocol '${url.protocol}' is forbidden for security reasons`,
       );
     }
   }

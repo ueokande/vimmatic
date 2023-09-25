@@ -5,7 +5,7 @@ import FocusPresenter from "../presenters/FocusPresenter";
 export default class FocusController {
   constructor(
     @inject("FocusPresenter")
-    private readonly focusPresenter: FocusPresenter
+    private readonly focusPresenter: FocusPresenter,
   ) {}
 
   async focusFirstElement() {

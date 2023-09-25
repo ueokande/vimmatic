@@ -19,8 +19,8 @@ export class LastSelectedTabRepositoryImpl
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       LastSelectedTabRepositoryImpl.name,
-      {}
-    )
+      {},
+    ),
   ) {}
 
   async getLastSelectedTabId(): Promise<number | undefined> {

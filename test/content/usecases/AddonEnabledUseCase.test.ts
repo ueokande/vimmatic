@@ -9,7 +9,7 @@ describe("AddonEnabledUseCase", () => {
       const consoleFramePresenter = new MockConsoleFramePresenter(false);
       const sut = new AddonEnabledUseCase(
         addonEnabledRepository,
-        consoleFramePresenter
+        consoleFramePresenter,
       );
 
       sut.enable();
@@ -25,7 +25,7 @@ describe("AddonEnabledUseCase", () => {
       const consoleFramePresenter = new MockConsoleFramePresenter(true);
       const sut = new AddonEnabledUseCase(
         addonEnabledRepository,
-        consoleFramePresenter
+        consoleFramePresenter,
       );
 
       sut.disable();
@@ -41,7 +41,7 @@ describe("AddonEnabledUseCase", () => {
       const consoleFramePresenter = new MockConsoleFramePresenter(true);
       const sut = new AddonEnabledUseCase(
         addonEnabledRepository,
-        consoleFramePresenter
+        consoleFramePresenter,
       );
 
       addonEnabledRepository.enable();

@@ -4,7 +4,7 @@ export default class MockFindClient implements FindClient {
   findNext(
     _tabId: number,
     _frameId: number,
-    _keyword: string
+    _keyword: string,
   ): Promise<boolean> {
     throw new Error("not implemented");
   }
@@ -12,7 +12,7 @@ export default class MockFindClient implements FindClient {
   findPrev(
     _tabId: number,
     _frameId: number,
-    _keyword: string
+    _keyword: string,
   ): Promise<boolean> {
     throw new Error("not implemented");
   }

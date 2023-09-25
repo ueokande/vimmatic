@@ -80,7 +80,7 @@ describe("TransientSettingsRepository", () => {
   describe("#load", () => {
     const sut = new TransientSettingsRepository(
       permanent,
-      new MockLocalStorage(undefined)
+      new MockLocalStorage(undefined),
     );
 
     it("loads delegated value and caches it", async () => {
@@ -97,7 +97,7 @@ describe("TransientSettingsRepository", () => {
   describe("#save", () => {
     const sut = new TransientSettingsRepository(
       permanent,
-      new MockLocalStorage(undefined)
+      new MockLocalStorage(undefined),
     );
 
     it("saves to a permanent storage", async () => {
@@ -114,7 +114,7 @@ describe("TransientSettingsRepository", () => {
   describe("#sync", () => {
     const sut = new TransientSettingsRepository(
       permanent,
-      new MockLocalStorage(undefined)
+      new MockLocalStorage(undefined),
     );
 
     it("syncs to a permanent storage", async () => {

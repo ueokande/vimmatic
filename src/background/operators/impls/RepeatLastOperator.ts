@@ -11,7 +11,7 @@ export default class RepeatLastOperator implements Operator {
     @inject("OperatorRegistory")
     private readonly operatorRegistory: OperatorRegistory,
     @inject("RepeatRepository")
-    private readonly repeatRepository: RepeatRepository
+    private readonly repeatRepository: RepeatRepository,
   ) {}
 
   name() {

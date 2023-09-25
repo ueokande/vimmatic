@@ -21,7 +21,7 @@ class QuitAllCommand implements Command {
   async exec(
     _ctx: CommandContext,
     force: boolean,
-    _args: string
+    _args: string,
   ): Promise<void> {
     let tabs = await chrome.tabs.query({ currentWindow: true });
     if (!force) {

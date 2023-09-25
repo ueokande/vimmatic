@@ -13,7 +13,7 @@ export class FocusPresenterImpl implements FocusPresenter {
       .map((type) => `input[type=${type}]`)
       .join(",");
     const targets = window.document.querySelectorAll(
-      inputSelector + ",input:not([type]),textarea"
+      inputSelector + ",input:not([type]),textarea",
     );
     const target = Array.from(targets).find(doms.isVisible);
     if (target instanceof HTMLInputElement) {

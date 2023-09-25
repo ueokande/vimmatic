@@ -32,7 +32,7 @@ describe("ShowTabOpenCommandOperator", () => {
 
       expect(showCommandSpy).toBeCalledWith(
         100,
-        "tabopen https://example.com/"
+        "tabopen https://example.com/",
       );
     });
   });

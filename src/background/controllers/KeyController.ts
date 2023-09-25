@@ -18,7 +18,7 @@ export default class KeyController {
     @inject(FollowModeUseCaes)
     private readonly followModeUseCaes: FollowModeUseCaes,
     @inject(FollowKeyUseCase)
-    private readonly followKeyUseCase: FollowKeyUseCase
+    private readonly followKeyUseCase: FollowKeyUseCase,
   ) {}
 
   async pressKey({ sender }: RequestContext, { key }: { key: string }) {

@@ -15,7 +15,7 @@ export default class SettingsUseCase {
     @inject("StyleSettings")
     private readonly styleSettings: StyleSettings,
     @inject(Validator)
-    private readonly validator: Validator
+    private readonly validator: Validator,
   ) {}
 
   async getSettings(): Promise<unknown> {

@@ -25,7 +25,7 @@ class AddBookmarkCommand implements Command {
   async exec(
     { sender }: CommandContext,
     _force: boolean,
-    args: string
+    args: string,
   ): Promise<void> {
     const { tab } = sender;
     if (typeof tab === "undefined" || typeof tab.id === "undefined") {

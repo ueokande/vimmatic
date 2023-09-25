@@ -11,7 +11,7 @@ export default class VerticalScrollOperator implements Operator {
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject("PropertySettings")
-    private readonly propertySettings: PropertySettings
+    private readonly propertySettings: PropertySettings,
   ) {}
 
   name() {
@@ -26,14 +26,14 @@ export default class VerticalScrollOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { count }: z.infer<ReturnType<VerticalScrollOperator["schema"]>>
+    { count }: z.infer<ReturnType<VerticalScrollOperator["schema"]>>,
   ): Promise<void> {
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollVertically(
       sender.tabId,
       sender.frameId,
       count,
-      smooth as boolean
+      smooth as boolean,
     );
   }
 }

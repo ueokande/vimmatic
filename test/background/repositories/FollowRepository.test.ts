@@ -9,7 +9,7 @@ describe("FollowRepositoryImpl", () => {
         option: { newTab: false, background: false },
         hints: [],
         keys: [],
-      })
+      }),
     );
 
     expect(await sut.isEnabled()).toBeFalsy();
@@ -34,7 +34,7 @@ describe("FollowRepositoryImpl", () => {
         option: { newTab: false, background: false },
         hints: [],
         keys: [],
-      })
+      }),
     );
     const hints = ["a", "b", "c", "aa", "ab", "ac", "ba", "bb", "bc"];
 

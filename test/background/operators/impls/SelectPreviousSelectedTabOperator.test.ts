@@ -18,7 +18,7 @@ describe("SelectPreviousSelectedTabOperator", () => {
         .mockResolvedValue(101);
 
       const sut = new SelectPreviousSelectedTabOperator(
-        lastSelectedTabRepository
+        lastSelectedTabRepository,
       );
       await sut.run();
 
@@ -31,7 +31,7 @@ describe("SelectPreviousSelectedTabOperator", () => {
         .mockResolvedValue(undefined);
 
       const sut = new SelectPreviousSelectedTabOperator(
-        lastSelectedTabRepository
+        lastSelectedTabRepository,
       );
       await sut.run();
 

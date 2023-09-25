@@ -62,7 +62,7 @@ describe("BufferDeletesCommand", () => {
     ]);
 
     await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
-      "No matching buffer"
+      "No matching buffer",
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
   });

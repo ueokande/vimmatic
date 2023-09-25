@@ -7,7 +7,7 @@ export default interface ContentMessageClient {
     frameId: number,
     x: number,
     y: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void>;
   getScroll(tabId: number, frameId: number): Promise<{ x: number; y: number }>;
   settingsChanged(tabId: number): Promise<void>;
@@ -15,24 +15,24 @@ export default interface ContentMessageClient {
     tabId: number,
     frameId: number,
     amount: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void>;
   scrollHorizonally(
     tabId: number,
     frameId: number,
     amount: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void>;
   scrollPages(
     tabId: number,
     frameId: number,
     amount: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void>;
   scrollToBottom(
     tabId: number,
     frameId: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void>;
   scrollToEnd(tabId: number, frameId: number, smooth: boolean): Promise<void>;
   scrollToHome(tabId: number, frameId: number, smooth: boolean): Promise<void>;
@@ -47,7 +47,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
     frameId: number,
     x: number,
     y: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.to", { x, y, smooth });
@@ -55,7 +55,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
 
   async getScroll(
     tabId: number,
-    frameId: number
+    frameId: number,
   ): Promise<{ x: number; y: number }> {
     const sender = newSender(tabId, frameId);
     return sender.send("get.scroll");
@@ -70,7 +70,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
     tabId: number,
     frameId: number,
     amount: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.vertically", { amount, smooth });
@@ -80,7 +80,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
     tabId: number,
     frameId: number,
     amount: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.horizonally", { amount, smooth });
@@ -90,7 +90,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
     tabId: number,
     frameId: number,
     amount: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.pages", { amount, smooth });
@@ -99,7 +99,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
   async scrollToBottom(
     tabId: number,
     frameId: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.bottom", { smooth });
@@ -108,7 +108,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
   async scrollToEnd(
     tabId: number,
     frameId: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.end", { smooth });
@@ -117,7 +117,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
   async scrollToHome(
     tabId: number,
     frameId: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.home", { smooth });
@@ -126,7 +126,7 @@ export class ContentMessageClientImpl implements ContentMessageClient {
   async scrollToTop(
     tabId: number,
     frameId: number,
-    smooth: boolean
+    smooth: boolean,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
     await sender.send("scroll.top", { smooth });

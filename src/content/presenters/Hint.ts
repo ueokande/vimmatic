@@ -76,7 +76,7 @@ export class LinkHint extends Hint {
   constructor(
     target: HTMLAnchorElement | HTMLAreaElement,
     tag: string,
-    style: Style
+    style: Style,
   ) {
     super(target, tag, style);
 

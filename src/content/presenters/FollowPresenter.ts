@@ -31,7 +31,7 @@ const inViewport = (
   win: Window,
   element: Element,
   viewSize: Size,
-  framePosition: Point
+  framePosition: Point,
 ): boolean => {
   const { top, left, bottom, right } = doms.viewportRect(element);
   const doc = win.document;
@@ -86,7 +86,7 @@ export default interface FollowPresenter {
 export class FollowPresenterImpl implements FollowPresenter {
   constructor(
     @inject("SettingRepository")
-    private readonly settingRepository: SettingRepository
+    private readonly settingRepository: SettingRepository,
   ) {}
 
   private hints: Hint[] = [];
@@ -147,7 +147,7 @@ export class FollowPresenterImpl implements FollowPresenter {
           !isAriaHiddenOrAriaDisabled(window, element) &&
           inViewport(window, element, viewSize, framePosition)
         );
-      }
+      },
     );
     return filtered;
   }

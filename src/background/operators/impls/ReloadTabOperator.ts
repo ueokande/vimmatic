@@ -17,7 +17,7 @@ export default class ReloadTabOperator implements Operator {
 
   async run(
     _ctx: OperatorContext,
-    { cache }: z.infer<ReturnType<ReloadTabOperator["schema"]>>
+    { cache }: z.infer<ReturnType<ReloadTabOperator["schema"]>>,
   ): Promise<void> {
     await chrome.tabs.reload({ bypassCache: cache });
   }

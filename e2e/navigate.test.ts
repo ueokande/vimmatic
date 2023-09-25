@@ -130,7 +130,7 @@ test("should go to home page into current tab by gH", async ({ page, api }) => {
 test("should reload by r", async ({ page }) => {
   await page.goto(server.url("/reload"));
   const before = await page.evaluate(
-    () => window.performance.timing.navigationStart
+    () => window.performance.timing.navigationStart,
   );
 
   await page.keyboard.press("r");
