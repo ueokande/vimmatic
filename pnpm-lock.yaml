@@ -56,8 +56,8 @@ devDependencies:
     specifier: ^20.6.0
     version: 20.6.0
   '@types/prismjs':
-    specifier: ^1.26.0
-    version: 1.26.0
+    specifier: ^1.26.1
+    version: 1.26.1
   '@types/react':
     specifier: ^17.0.38
     version: 17.0.38
@@ -1605,8 +1605,8 @@ packages:
     resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
     dev: true
 
-  /@types/prismjs@1.26.0:
-    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
+  /@types/prismjs@1.26.1:
+    resolution: {integrity: sha512-Q7jDsRbzcNHIQje15CS/piKhu6lMLb9jwjxSfEIi4KcFKXW23GoJMkwQiJ8VObyfx+VmUaDcJxXaWN+cTCjVog==}
     dev: true
 
   /@types/prop-types@15.7.4:
