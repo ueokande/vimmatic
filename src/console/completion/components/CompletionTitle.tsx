@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Li = styled.li<{ $shown: number }>`
-  display: ${({ $shown }) => ($shown ? "display" : "none")};
+  display: ${({ $shown }) => ($shown ? "block" : "none")};
   background-color: ${({ theme }) => theme.title?.background};
   color: ${({ theme }) => theme.title?.foreground};
   list-style: none;
