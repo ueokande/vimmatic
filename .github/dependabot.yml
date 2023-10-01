@@ -34,10 +34,6 @@ updates:
         - "jest-environment-jsdom"
         - "@jest/types"
         - "@types/jest"
-    styled-components:
-      patterns:
-        - "styled-components"
-        - "@types/styled-components"
     prismjs:
       patterns:
         - "prismjs"
