@@ -32,7 +32,7 @@
     "prismjs": "^1.29.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "styled-components": "^5.3.9",
+    "styled-components": "^6.0.8",
     "tslib": "^2.6.2",
     "typescript": "5.2.2",
     "zod": "^3.22.2"
@@ -48,7 +48,7 @@
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@types/react-test-renderer": "^17.0.0",
-    "@types/styled-components": "^5.1.26",
+    "@types/styled-components": "^5.1.28",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "esbuild-jest": "^0.5.0",
