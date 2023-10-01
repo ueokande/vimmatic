@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/ueokande/vimmatic/compare/v0.5.1...v0.5.2) (2023-10-01)
+
+
+### Bug Fixes
+
+* minify built JavaScript files ([#225](https://github.com/ueokande/vimmatic/issues/225)) ([d386660](https://github.com/ueokande/vimmatic/commit/d386660bad6ebe3612ec5e20273c7dac21bde12e))
+
 ## [0.5.1](https://github.com/ueokande/vimmatic/compare/v0.5.0...v0.5.1) (2023-10-01)
 
 
