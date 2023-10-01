@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.li<{
-  shown: boolean;
+  shown: number;
   icon?: string;
-  highlight: boolean;
+  highlight: number;
 }>`
   background-image: ${({ icon }) =>
     typeof icon !== "undefined" ? "url(" + icon + ")" : "unset"};
@@ -43,10 +43,23 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   icon?: string;
 }
 
-const CompletionItem: React.FC<Props> = (props) => (
-  <Container aria-labelledby={`completion-item-${props.primary}`} {...props}>
-    <Primary id={`completion-item-${props.primary}`}>{props.primary}</Primary>
-    <Secondary>{props.secondary}</Secondary>
+const CompletionItem: React.FC<Props> = ({
+  shown,
+  highlight,
+  primary,
+  secondary,
+  icon,
+  ...props
+}) => (
+  <Container
+    aria-labelledby={`completion-item-${primary}`}
+    shown={Number(shown)}
+    icon={icon}
+    highlight={Number(highlight)}
+    {...props}
+  >
+    <Primary id={`completion-item-${primary}`}>{primary}</Primary>
+    <Secondary>{secondary}</Secondary>
   </Container>
 );
 

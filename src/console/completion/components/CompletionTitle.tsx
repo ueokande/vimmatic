@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Li = styled.li<{ shown: boolean }>`
+const Li = styled.li<{ shown: number }>`
   display: ${({ shown }) => (shown ? "display" : "none")};
   background-color: ${({ theme }) => theme.title?.background};
   color: ${({ theme }) => theme.title?.foreground};
@@ -16,8 +16,10 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   title: string;
 }
 
-const CompletionTitle: React.FC<Props> = (props) => (
-  <Li {...props}>{props.title}</Li>
+const CompletionTitle: React.FC<Props> = ({ shown, title, ...props }) => (
+  <Li shown={Number(shown)} {...props}>
+    {title}
+  </Li>
 );
 
 export default CompletionTitle;
