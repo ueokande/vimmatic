@@ -2,17 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.li<{
-  shown: number;
-  icon?: string;
-  highlight: number;
+  $shown: number;
+  $icon?: string;
+  $highlight: number;
 }>`
-  background-image: ${({ icon }) =>
-    typeof icon !== "undefined" ? "url(" + icon + ")" : "unset"};
-  background-color: ${({ highlight, theme }) =>
-    highlight ? theme.select?.background : theme.background};
-  color: ${({ highlight, theme }) =>
-    highlight ? theme.select?.foreground : theme.foreground};
-  display: ${({ shown }) => (shown ? "block" : "none")};
+  background-image: ${({ $icon }) =>
+    typeof $icon !== "undefined" ? "url(" + $icon + ")" : "unset"};
+  background-color: ${({ $highlight, theme }) =>
+    $highlight ? theme.select?.background : theme.background};
+  color: ${({ $highlight, theme }) =>
+    $highlight ? theme.select?.foreground : theme.foreground};
+  display: ${({ $shown }) => ($shown ? "block" : "none")};
   padding-left: 1.8rem;
   background-position: 0 center;
   background-size: contain;
@@ -53,9 +53,9 @@ const CompletionItem: React.FC<Props> = ({
 }) => (
   <Container
     aria-labelledby={`completion-item-${primary}`}
-    shown={Number(shown)}
-    icon={icon}
-    highlight={Number(highlight)}
+    $shown={Number(shown)}
+    $icon={icon}
+    $highlight={Number(highlight)}
     {...props}
   >
     <Primary id={`completion-item-${primary}`}>{primary}</Primary>
