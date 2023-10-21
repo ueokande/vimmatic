@@ -4,7 +4,11 @@ import { Style, UpdateStyleContext } from "./contexts";
 import GlobalStyle from "./global";
 import { ThemeProvider } from "styled-components";
 
-export const StyleProvider: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+export const StyleProvider: React.FC<Props> = ({ children }) => {
   const [style, setStyle] = React.useState<Style>({
     colorscheme: "system",
     css: {},

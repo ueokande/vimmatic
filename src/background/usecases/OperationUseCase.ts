@@ -10,14 +10,14 @@ export default class OperationUseCase {
     @inject("OperatorRegistory")
     private readonly operatorRegistory: OperatorRegistory,
     @inject("RepeatRepository")
-    private readonly repeatRepository: RepeatRepository
+    private readonly repeatRepository: RepeatRepository,
   ) {}
 
   async run(
     ctx: RequestContext,
     name: string,
     props: Props,
-    repeat: number
+    repeat: number,
   ): Promise<void> {
     if (
       typeof ctx.sender.tab?.id === "undefined" ||

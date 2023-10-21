@@ -24,8 +24,8 @@ export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   constructor(
     private readonly cache: LocalCache<boolean> = new LocalCacheImpl<boolean>(
       AddonEnabledRepositoryImpl.name,
-      true
-    )
+      true,
+    ),
   ) {}
 
   async enable(): Promise<void> {

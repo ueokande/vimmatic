@@ -17,7 +17,7 @@ export default class MarkJumpUseCase {
     @inject("PropertySettings")
     private readonly propertySettings: PropertySettings,
     @inject(MarkHelper)
-    private readonly markHelper: MarkHelper
+    private readonly markHelper: MarkHelper,
   ) {}
 
   async jumpToMark(key: string): Promise<void> {
@@ -41,7 +41,7 @@ export default class MarkJumpUseCase {
       return this.consoleClient.showError(tabId, "Mark is not set");
     }
     const smooth = (await this.propertySettings.getProperty(
-      "smoothscroll"
+      "smoothscroll",
     )) as boolean;
 
     try {
@@ -50,7 +50,7 @@ export default class MarkJumpUseCase {
         0,
         mark.x,
         mark.y,
-        smooth
+        smooth,
       );
       await chrome.tabs.update(mark.tabId, { active: true });
       return;
@@ -74,7 +74,7 @@ export default class MarkJumpUseCase {
       return this.consoleClient.showError(tabId, "Mark is not set");
     }
     const smooth = (await this.propertySettings.getProperty(
-      "smoothscroll"
+      "smoothscroll",
     )) as boolean;
     await this.contentMessageClient.scrollTo(tabId, 0, mark.x, mark.y, smooth);
   }

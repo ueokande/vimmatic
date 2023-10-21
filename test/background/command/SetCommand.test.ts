@@ -49,7 +49,7 @@ describe("SetCommand", () => {
     const cmd = new SetCommand(
       propertySettings,
       propertyRegistry,
-      consoleClient
+      consoleClient,
     );
 
     beforeEach(() => {
@@ -70,7 +70,7 @@ describe("SetCommand", () => {
       await cmd.exec(ctx, false, "strprop1");
       expect(mockShowInfo).toHaveBeenCalledWith(
         ctx.sender.tabId,
-        "strprop1=saved-value"
+        "strprop1=saved-value",
       );
     });
 
@@ -79,7 +79,7 @@ describe("SetCommand", () => {
       await cmd.exec(ctx, false, "strprop1?");
       expect(mockShowInfo).toHaveBeenCalledWith(
         ctx.sender.tabId,
-        "strprop1=saved-value"
+        "strprop1=saved-value",
       );
     });
 
@@ -88,7 +88,7 @@ describe("SetCommand", () => {
       await cmd.exec(ctx, false, "booleanprop?");
       expect(mockShowInfo).toHaveBeenCalledWith(
         ctx.sender.tabId,
-        "booleanprop"
+        "booleanprop",
       );
     });
 
@@ -97,7 +97,7 @@ describe("SetCommand", () => {
       await cmd.exec(ctx, false, "booleanprop?");
       expect(mockShowInfo).toHaveBeenCalledWith(
         ctx.sender.tabId,
-        "nobooleanprop"
+        "nobooleanprop",
       );
     });
 
@@ -124,13 +124,13 @@ describe("SetCommand", () => {
       await cmd.exec(ctx, false, "");
       expect(mockShowInfo).toHaveBeenCalledWith(
         ctx.sender.tabId,
-        "strprop1=foo\nstrprop2=bar\nnobooleanprop"
+        "strprop1=foo\nstrprop2=bar\nnobooleanprop",
       );
     });
 
     it("throws error when invalid boolean statement", async () => {
       await expect(cmd.exec(ctx, false, "booleanprop=1")).rejects.toThrowError(
-        "Invalid"
+        "Invalid",
       );
     });
   });
@@ -140,7 +140,7 @@ describe("SetCommand", () => {
       const cmd = new SetCommand(
         propertySettings,
         propertyRegistry,
-        consoleClient
+        consoleClient,
       );
       const completions = await cmd.getCompletions(false, "");
       expect(completions).toHaveLength(1);
@@ -156,7 +156,7 @@ describe("SetCommand", () => {
       const cmd = new SetCommand(
         propertySettings,
         propertyRegistry,
-        consoleClient
+        consoleClient,
       );
       const completions = await cmd.getCompletions(false, "str");
       expect(completions).toHaveLength(1);
@@ -170,7 +170,7 @@ describe("SetCommand", () => {
       const cmd = new SetCommand(
         propertySettings,
         propertyRegistry,
-        consoleClient
+        consoleClient,
       );
       const completions = await cmd.getCompletions(false, "no");
       expect(completions).toHaveLength(1);

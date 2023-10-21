@@ -5,7 +5,7 @@ import VersionUseCase from "../usecases/VersionUseCase";
 export default class VersionController {
   constructor(
     @inject(VersionUseCase)
-    private readonly versionUseCase: VersionUseCase
+    private readonly versionUseCase: VersionUseCase,
   ) {}
 
   notify(): Promise<void> {

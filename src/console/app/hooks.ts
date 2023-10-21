@@ -18,7 +18,7 @@ const windowMessageSender = new SimplexSender<WindowMessageSchema>(
   (type: WindowMessageKey, args: WindowMessageRequest) => {
     const msg = JSON.stringify({ args, type });
     window.top?.postMessage(msg, "*");
-  }
+  },
 );
 
 export const useVisibility = () => {
@@ -26,7 +26,7 @@ export const useVisibility = () => {
   const state = React.useContext(AppStateContext);
   const visible = React.useMemo(
     () => typeof state.mode !== "undefined",
-    [state]
+    [state],
   );
   const hide = React.useCallback(() => {
     windowMessageSender.send("console.unfocus");
@@ -47,7 +47,7 @@ export const useConsoleMode = () => {
     (initialInputValue: string) => {
       dispatch(actions.showCommand(initialInputValue));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const showFindPrompt = React.useCallback(() => {
@@ -58,14 +58,14 @@ export const useConsoleMode = () => {
     (message: string) => {
       dispatch(actions.showInfo(message));
     },
-    [dispatch]
+    [dispatch],
   );
 
   const showErrorMessage = React.useCallback(
     (message: string) => {
       dispatch(actions.showError(message));
     },
-    [dispatch]
+    [dispatch],
   );
 
   return {

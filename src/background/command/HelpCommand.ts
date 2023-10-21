@@ -24,7 +24,7 @@ class HelpCommand implements Command {
   async exec(
     _ctx: CommandContext,
     _force: boolean,
-    _args: string
+    _args: string,
   ): Promise<void> {
     await chrome.tabs.create({ url, active: true });
   }

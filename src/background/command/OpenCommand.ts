@@ -11,8 +11,8 @@ class OpenCommand implements Command {
     propertySettings: PropertySettings,
     private readonly openCommandHelper: OpenCommandHelper = new OpenCommandHelper(
       searchEngineSettings,
-      propertySettings
-    )
+      propertySettings,
+    ),
   ) {}
 
   names(): string[] {
@@ -34,7 +34,7 @@ class OpenCommand implements Command {
   async exec(
     _ctx: CommandContext,
     _force: boolean,
-    args: string
+    args: string,
   ): Promise<void> {
     const search = await this.searchEngineSettings.get();
     const url = urls.searchUrl(args, search);

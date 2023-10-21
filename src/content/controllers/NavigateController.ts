@@ -5,7 +5,7 @@ import NavigateUseCase from "../usecases/NavigateUseCase";
 export default class NavigateController {
   constructor(
     @inject(NavigateUseCase)
-    private readonly navigateUseCase: NavigateUseCase
+    private readonly navigateUseCase: NavigateUseCase,
   ) {}
 
   openHistoryNext(): Promise<void> {

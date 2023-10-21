@@ -9,13 +9,13 @@ export default interface TabsClient {
 export class TabsClientImpl implements TabsClient {
   constructor(
     @inject("BackgroundMessageSender")
-    private readonly sender: BackgroundMessageSender
+    private readonly sender: BackgroundMessageSender,
   ) {}
 
   async openUrl(
     url: string,
     newTab: boolean,
-    background = false
+    background = false,
   ): Promise<void> {
     await this.sender.send("open.url", { url, newTab, background });
   }

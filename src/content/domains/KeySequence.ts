@@ -64,7 +64,7 @@ export default class KeySequence {
   static fromMapKeys(keys: string): KeySequence {
     const fromMapKeysRecursive = (
       remaining: string,
-      mappedKeys: Key[]
+      mappedKeys: Key[],
     ): Key[] => {
       if (remaining.length === 0) {
         return mappedKeys;
@@ -80,7 +80,7 @@ export default class KeySequence {
 
       return fromMapKeysRecursive(
         remaining.slice(nextPos),
-        mappedKeys.concat([fromKeymap(remaining.slice(0, nextPos))])
+        mappedKeys.concat([fromKeymap(remaining.slice(0, nextPos))]),
       );
     };
 

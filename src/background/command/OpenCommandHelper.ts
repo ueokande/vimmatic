@@ -8,7 +8,7 @@ const COMPLETION_ITEM_LIMIT = 10;
 export default class OpenCommandHelper {
   constructor(
     private readonly searchEngineSettings: SearchEngineSettings,
-    private readonly propertySettings: PropertySettings
+    private readonly propertySettings: PropertySettings,
   ) {}
 
   async getCompletions(query: string): Promise<Completions> {

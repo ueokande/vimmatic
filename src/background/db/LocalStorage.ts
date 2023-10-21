@@ -5,7 +5,10 @@ export default interface LocalCache<T> {
 }
 
 export class LocalCacheImpl<T> {
-  constructor(private readonly key: string, private readonly initValue: T) {}
+  constructor(
+    private readonly key: string,
+    private readonly initValue: T,
+  ) {}
 
   setValue(value: T): Promise<void> {
     const data = JSON.stringify(value);

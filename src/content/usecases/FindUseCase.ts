@@ -5,7 +5,7 @@ import FindPresenter from "../presenters/FindPresenter";
 export default class FindUseCase {
   constructor(
     @inject("FindPresenter")
-    private readonly findPresenter: FindPresenter
+    private readonly findPresenter: FindPresenter,
   ) {}
 
   findNext(keyword: string): boolean {

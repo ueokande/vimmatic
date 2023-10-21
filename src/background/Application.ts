@@ -27,12 +27,12 @@ export default class Application {
     @inject("FrameClient")
     private readonly frameClient: FrameClient,
     @inject(AddonEnabledEventUseCase)
-    private readonly addonEnabledEventUseCase: AddonEnabledEventUseCase
+    private readonly addonEnabledEventUseCase: AddonEnabledEventUseCase,
   ) {}
 
   private readonly findPortListener = new FindPortListener(
     this.onFindPortConnect.bind(this),
-    this.onFindPortDisconnect.bind(this)
+    this.onFindPortDisconnect.bind(this),
   );
 
   run() {
@@ -45,7 +45,7 @@ export default class Application {
       }
     });
     chrome.runtime.onStartup.addListener(() => {
-      browser.storage.local.clear();
+      chrome.storage.local.clear();
     });
     chrome.runtime.onInstalled.addListener((details) => {
       if (details.reason !== "install" && details.reason !== "update") {

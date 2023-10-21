@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "../styles/styled";
+import styled from "styled-components";
 import useAutoResize from "../hooks/useAutoResize";
 
 const Wrapper = styled.p`
@@ -9,7 +9,11 @@ const Wrapper = styled.p`
   font-weight: bold;
 `;
 
-const ErrorMessage: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const ErrorMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
   return <Wrapper role="alert">{children}</Wrapper>;

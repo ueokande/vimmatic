@@ -181,7 +181,7 @@ describe("deserializeSettings", () => {
               yahoo: "https://search.yahoo.com/search?p={}",
             },
           },
-        })
+        }),
       ).toThrow(TypeError);
       expect(() =>
         deserializeSettings({
@@ -191,7 +191,7 @@ describe("deserializeSettings", () => {
               "g o o g l e": "https://google.com/search?q={}",
             },
           },
-        })
+        }),
       ).toThrow(TypeError);
       expect(() =>
         deserializeSettings({
@@ -201,7 +201,7 @@ describe("deserializeSettings", () => {
               google: "https://google.com/search",
             },
           },
-        })
+        }),
       ).toThrow(TypeError);
       expect(() =>
         deserializeSettings({
@@ -211,7 +211,7 @@ describe("deserializeSettings", () => {
               google: "https://google.com/search?q={}&r={}",
             },
           },
-        })
+        }),
       ).toThrow(TypeError);
     });
   });

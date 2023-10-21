@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.2](https://github.com/ueokande/vimmatic/compare/v0.5.1...v0.5.2) (2023-10-01)
+
+
+### Bug Fixes
+
+* minify built JavaScript files ([#225](https://github.com/ueokande/vimmatic/issues/225)) ([d386660](https://github.com/ueokande/vimmatic/commit/d386660bad6ebe3612ec5e20273c7dac21bde12e))
+
+## [0.5.1](https://github.com/ueokande/vimmatic/compare/v0.5.0...v0.5.1) (2023-10-01)
+
+
+### Bug Fixes
+
+* **deps:** bump the react group with 6 updates ([#217](https://github.com/ueokande/vimmatic/issues/217)) ([8e0f987](https://github.com/ueokande/vimmatic/commit/8e0f987a2a7242eef0f1dd22bcc54a2ebfd90cc5))
+* **deps:** bump the styled-components group with 2 updates ([#215](https://github.com/ueokande/vimmatic/issues/215)) ([ca97954](https://github.com/ueokande/vimmatic/commit/ca9795412817a4979f0e02314d9bce6ccc8d7619))
+* **deps:** bump the typescript group with 3 updates ([#209](https://github.com/ueokande/vimmatic/issues/209)) ([8c4eb3d](https://github.com/ueokande/vimmatic/commit/8c4eb3ddccf50b77aca7ee8a7a3d231ad6eecbef))
+* **deps:** bump zod from 3.19.1 to 3.22.2 ([#201](https://github.com/ueokande/vimmatic/issues/201)) ([51c24a0](https://github.com/ueokande/vimmatic/commit/51c24a09fb392c00b726c7e4021ff8d139b50596))
+* replace incorrect or bad usages on styled-components ([#222](https://github.com/ueokande/vimmatic/issues/222)) ([a0cfea1](https://github.com/ueokande/vimmatic/commit/a0cfea1bf01dab256f47233df29cb1356079a115))
+
+## [0.5.0](https://github.com/ueokande/vimmatic/compare/v0.4.1...v0.5.0) (2023-09-10)
+
+
+### Features
+
+* syntax hilighting preferenses ([#193](https://github.com/ueokande/vimmatic/issues/193)) ([decbec6](https://github.com/ueokande/vimmatic/commit/decbec6323fe7a0946a9d5d71e0f15e272268db4))
+
 ## [0.4.1](https://github.com/ueokande/vimmatic/compare/v0.4.0...v0.4.1) (2023-07-08)
 
 

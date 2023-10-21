@@ -5,7 +5,7 @@ import FrameIdRepository from "../repositories/FrameIdRepository";
 export default class TopFrameUseCase {
   constructor(
     @inject("FrameIdRepository")
-    private readonly frameIdRepository: FrameIdRepository
+    private readonly frameIdRepository: FrameIdRepository,
   ) {}
 
   async saveChildFrame(frameId: number, target: Window): Promise<void> {

@@ -16,7 +16,7 @@ export class PropertyRegistryImpl {
   register(prop: Property): void {
     if (prop.type() !== typeof prop.defaultValue()) {
       throw new Error(
-        `Property ${prop.name()} is a ${prop.type()} value, but the default value is a ${typeof prop.defaultValue()}`
+        `Property ${prop.name()} is a ${prop.type()} value, but the default value is a ${typeof prop.defaultValue()}`,
       );
     }
 

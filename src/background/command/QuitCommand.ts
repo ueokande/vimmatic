@@ -21,7 +21,7 @@ class QuitCommand implements Command {
   async exec(
     { sender }: CommandContext,
     force: boolean,
-    _args: string
+    _args: string,
   ): Promise<void> {
     if (sender.tab.pinned && !force) {
       throw new Error("Cannot close due to tab is pinned");

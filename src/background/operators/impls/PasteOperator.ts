@@ -12,7 +12,7 @@ export default class PasteOperator implements Operator {
     @inject("ClipboardRepository")
     private readonly clipboard: ClipboardRepository,
     @inject("SearchEngineSettings")
-    private readonly searchEngineSettings: SearchEngineSettings
+    private readonly searchEngineSettings: SearchEngineSettings,
   ) {}
 
   name() {
@@ -27,7 +27,7 @@ export default class PasteOperator implements Operator {
 
   async run(
     _ctx: OperatorContext,
-    { newTab }: z.infer<ReturnType<PasteOperator["schema"]>>
+    { newTab }: z.infer<ReturnType<PasteOperator["schema"]>>,
   ): Promise<void> {
     const text = await this.clipboard.read();
     const search = await this.searchEngineSettings.get();

@@ -23,8 +23,8 @@ export class MarkRepositoryImpl implements MarkRepository {
   constructor(
     private readonly cache: LocalCache<MarkData> = new LocalCacheImpl(
       MarkRepositoryImpl.name,
-      { globals: {}, locals: {} }
-    )
+      { globals: {}, locals: {} },
+    ),
   ) {}
 
   async getGlobalMark(key: string): Promise<GlobalMark | undefined> {
@@ -40,7 +40,7 @@ export class MarkRepositoryImpl implements MarkRepository {
 
   async getLocalMark(
     tabId: number,
-    key: string
+    key: string,
   ): Promise<LocalMark | undefined> {
     const { locals } = await this.cache.getValue();
     const marks = locals[tabId];
@@ -53,7 +53,7 @@ export class MarkRepositoryImpl implements MarkRepository {
   async setLocalMark(
     tabId: number,
     key: string,
-    mark: LocalMark
+    mark: LocalMark,
   ): Promise<void> {
     const data = await this.cache.getValue();
     data.locals[tabId] = { ...data.locals[tabId], [key]: mark };

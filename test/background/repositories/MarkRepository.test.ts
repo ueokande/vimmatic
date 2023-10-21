@@ -3,7 +3,7 @@ import MockLocalStorage from "../mock/MockLocalStorage";
 
 describe("MarkRepositoryImpl", () => {
   const sut = new MarkRepositoryImpl(
-    new MockLocalStorage({ globals: {}, locals: {} })
+    new MockLocalStorage({ globals: {}, locals: {} }),
   );
 
   describe("global mark", () => {

@@ -19,25 +19,25 @@ const useCompletionKeyBinds = <E extends Element = Element>({
       e.key === "Escape" ||
       (e.ctrlKey && e.key === "[") ||
       (e.ctrlKey && e.key === "c"),
-    []
+    [],
   );
 
   const isNextKey = React.useCallback(
     (e: React.KeyboardEvent<E>) =>
       (!e.shiftKey && e.key === "Tab") || (e.ctrlKey && e.key === "n"),
-    []
+    [],
   );
 
   const isPrevKey = React.useCallback(
     (e: React.KeyboardEvent<E>) =>
       (e.shiftKey && e.key === "Tab") || (e.ctrlKey && e.key === "p"),
-    []
+    [],
   );
 
   const isEnterKey = React.useCallback(
     (e: React.KeyboardEvent<E>) =>
       e.key === "Enter" || (e.ctrlKey && e.key === "m"),
-    []
+    [],
   );
 
   const onKeyDown = (e: React.KeyboardEvent<E>) => {

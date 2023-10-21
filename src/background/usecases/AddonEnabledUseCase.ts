@@ -8,7 +8,7 @@ export default class AddonEnabledUseCase {
     @inject("ToolbarPresenter")
     private readonly toolbarPresenter: ToolbarPresenter,
     @inject("AddonEnabledRepository")
-    private readonly addonEnabledRepository: AddonEnabledRepository
+    private readonly addonEnabledRepository: AddonEnabledRepository,
   ) {}
 
   async enable(): Promise<void> {

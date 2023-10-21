@@ -34,7 +34,7 @@ export default class BackgroundMessageListener {
     @inject(FindController)
     findController: FindController,
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {
     this.receiver
       .route("background.operation")
@@ -82,7 +82,7 @@ export default class BackgroundMessageListener {
       (
         message: unknown,
         sender: chrome.runtime.MessageSender,
-        sendResponse
+        sendResponse,
       ) => {
         const ctx: RequestContext = { sender };
         if (typeof message !== "object" && message !== null) {
@@ -117,7 +117,7 @@ export default class BackgroundMessageListener {
             this.consoleClient.showError(sender.tab.id, err.message);
           });
         return true;
-      }
+      },
     );
     chrome.runtime.onConnect.addListener(this.onConnected.bind(this));
   }
@@ -135,7 +135,7 @@ export default class BackgroundMessageListener {
 
   private onConsoleFrameMessage(
     { sender }: RequestContext,
-    message: any
+    message: any,
   ): void {
     if (typeof sender.tab?.id === "undefined") {
       return;

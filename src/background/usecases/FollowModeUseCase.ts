@@ -21,20 +21,20 @@ export default class FollowModeUseCaes {
     @inject("KeyCaptureClient")
     private readonly keyCaptureClient: KeyCaptureClient,
     @inject("FollowRepository")
-    private readonly followRepository: FollowRepository
+    private readonly followRepository: FollowRepository,
   ) {}
 
   async start(
     tabId: number,
     newTab: boolean,
-    background: boolean
+    background: boolean,
   ): Promise<void> {
     const frameIds = await this.frameRepository.getFrameIds(tabId);
     if (typeof frameIds === "undefined") {
       return;
     }
     const hintchars = (await this.propertySettings.getProperty(
-      "hintchars"
+      "hintchars",
     )) as string;
 
     const viewport = await this.topFrameClient.getWindowViewport(tabId);
@@ -43,7 +43,7 @@ export default class FollowModeUseCaes {
     for (const frameId of frameIds) {
       const framePos = await this.topFrameClient.getFramePosition(
         tabId,
-        frameId
+        frameId,
       );
       if (!framePos) {
         continue;
@@ -52,7 +52,7 @@ export default class FollowModeUseCaes {
         tabId,
         frameId,
         viewport,
-        framePos
+        framePos,
       );
       const tags = hintKeys.produceN(count);
       hints.push(...tags);
@@ -61,7 +61,7 @@ export default class FollowModeUseCaes {
         frameId,
         tags,
         viewport,
-        framePos
+        framePos,
       );
     }
 

@@ -31,22 +31,22 @@ describe("shared/commands/parsers", () => {
 
     it("throws an error on unsupported protocols", () => {
       expect(() =>
-        parsers.searchUrl("file:///tmp/table.csv", config)
+        parsers.searchUrl("file:///tmp/table.csv", config),
       ).toThrowError("forbidden");
     });
 
     it("user default search engine", () => {
       expect(parsers.searchUrl("apple banana", config)).toEqual(
-        "https://google.com/search?q=apple%20banana"
+        "https://google.com/search?q=apple%20banana",
       );
     });
 
     it("searches with a word containing a colon", () => {
       expect(parsers.searchUrl("foo:", config)).toEqual(
-        "https://google.com/search?q=foo%3A"
+        "https://google.com/search?q=foo%3A",
       );
       expect(parsers.searchUrl("std::vector", config)).toEqual(
-        "https://google.com/search?q=std%3A%3Avector"
+        "https://google.com/search?q=std%3A%3Avector",
       );
     });
   });
@@ -54,7 +54,7 @@ describe("shared/commands/parsers", () => {
   describe("#normalizeUrl", () => {
     it("normalize urls", () => {
       expect(parsers.normalizeUrl("https://google.com/")).toEqual(
-        "https://google.com/"
+        "https://google.com/",
       );
       expect(parsers.normalizeUrl("google.com")).toEqual("http://google.com");
     });

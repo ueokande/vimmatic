@@ -3,7 +3,7 @@ import FollowRepository from "../../../src/background/repositories/FollowReposit
 export default class MockFollowRepository implements FollowRepository {
   startFollowMode(
     _opts: { newTab: boolean; background: boolean },
-    _hints: string[]
+    _hints: string[],
   ): Promise<void> {
     throw new Error("not implemented");
   }

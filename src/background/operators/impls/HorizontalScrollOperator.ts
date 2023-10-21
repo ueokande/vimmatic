@@ -11,7 +11,7 @@ export default class HorizontalScrollOperator implements Operator {
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject("PropertySettings")
-    private readonly propertySettings: PropertySettings
+    private readonly propertySettings: PropertySettings,
   ) {}
 
   name() {
@@ -26,14 +26,14 @@ export default class HorizontalScrollOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { count }: z.infer<ReturnType<HorizontalScrollOperator["schema"]>>
+    { count }: z.infer<ReturnType<HorizontalScrollOperator["schema"]>>,
   ): Promise<void> {
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollHorizonally(
       sender.tabId,
       sender.frameId,
       count,
-      smooth as boolean
+      smooth as boolean,
     );
   }
 }

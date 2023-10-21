@@ -7,7 +7,7 @@ type OnDisconnectFunc = (port: chrome.runtime.Port) => void;
 export default class FindPortListener {
   constructor(
     private readonly onConnect: OnConnectFunc,
-    private readonly onDisconnect: OnDisconnectFunc
+    private readonly onDisconnect: OnDisconnectFunc,
   ) {}
 
   run(): void {

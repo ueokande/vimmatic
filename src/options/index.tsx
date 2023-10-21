@@ -1,8 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App";
+import "./global.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.getElementById("vimmatic-settings");
-  ReactDOM.render(<App />, wrapper);
+  if (!wrapper) {
+    throw new Error("Could not find wrapper element");
+  }
+  const root = createRoot(wrapper);
+  root.render(<App />);
 });

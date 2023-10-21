@@ -10,7 +10,7 @@ export default class YankOperator implements Operator {
     @inject("ClipboardRepository")
     private readonly clipboard: ClipboardRepository,
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   name() {

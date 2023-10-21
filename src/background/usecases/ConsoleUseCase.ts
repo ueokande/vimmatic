@@ -5,7 +5,7 @@ import ConsoleFrameClient from "../clients/ConsoleFrameClient";
 export default class ConsoleUseCase {
   constructor(
     @inject("ConsoleFrameClient")
-    private readonly consoleFrameClient: ConsoleFrameClient
+    private readonly consoleFrameClient: ConsoleFrameClient,
   ) {}
 
   async resize(tabId: number, width: number, height: number): Promise<void> {

@@ -84,7 +84,7 @@ const Completion: React.FC<Props> = ({ select, size, completions }) => {
           highlight={itemIndex === select}
           aria-selected={itemIndex === select}
           role="menuitem"
-        />
+        />,
       );
       ++viewIndex;
       ++itemIndex;
@@ -97,7 +97,7 @@ const Completion: React.FC<Props> = ({ select, size, completions }) => {
       >
         {title}
         <ul>{items}</ul>
-      </div>
+      </div>,
     );
   });
 

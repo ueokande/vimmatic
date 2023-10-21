@@ -1,8 +1,8 @@
 import React from "react";
-import styled from "../../styles/styled";
+import styled from "styled-components";
 
-const Li = styled.li<{ shown: boolean }>`
-  display: ${({ shown }) => (shown ? "display" : "none")};
+const Li = styled.li<{ $shown: number }>`
+  display: ${({ $shown }) => ($shown ? "block" : "none")};
   background-color: ${({ theme }) => theme.title?.background};
   color: ${({ theme }) => theme.title?.foreground};
   list-style: none;
@@ -16,8 +16,10 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   title: string;
 }
 
-const CompletionTitle: React.FC<Props> = (props) => (
-  <Li {...props}>{props.title}</Li>
+const CompletionTitle: React.FC<Props> = ({ shown, title, ...props }) => (
+  <Li $shown={Number(shown)} {...props}>
+    {title}
+  </Li>
 );
 
 export default CompletionTitle;

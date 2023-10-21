@@ -8,7 +8,7 @@ export default class MarkModeUseCase {
     @inject("MarkModeRepository")
     private readonly markModeRepository: MarkModeRepository,
     @inject("KeyCaptureClient")
-    private keyCaptureClient: KeyCaptureClient
+    private keyCaptureClient: KeyCaptureClient,
   ) {}
 
   async enableMarkSetMode(tabId: number) {

@@ -8,7 +8,7 @@ import ConsoleClient from "../../clients/ConsoleClient";
 export default class ShowWinOpenCommandOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   name() {
@@ -23,7 +23,7 @@ export default class ShowWinOpenCommandOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { alter }: z.infer<ReturnType<ShowWinOpenCommandOperator["schema"]>>
+    { alter }: z.infer<ReturnType<ShowWinOpenCommandOperator["schema"]>>,
   ): Promise<void> {
     let command = "winopen ";
     if (alter) {

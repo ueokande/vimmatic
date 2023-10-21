@@ -44,7 +44,7 @@ const App: React.FC = () => {
       }
       hide();
     },
-    [execCommand, execFind, state]
+    [execCommand, execFind, state],
   );
 
   React.useEffect(() => {

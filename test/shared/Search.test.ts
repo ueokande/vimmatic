@@ -20,25 +20,25 @@ describe("Search", () => {
         new Search("wikipedia", {
           google: "https://google.com/search?q={}",
           yahoo: "https://search.yahoo.com/search?p={}",
-        })
+        }),
     ).toThrow(TypeError);
     expect(
       () =>
         new Search("g o o g l e", {
           "g o o g l e": "https://google.com/search?q={}",
-        })
+        }),
     ).toThrow(TypeError);
     expect(
       () =>
         new Search("google", {
           google: "https://google.com/search",
-        })
+        }),
     ).toThrow(TypeError);
     expect(
       () =>
         new Search("google", {
           google: "https://google.com/search?q={}&r={}",
-        })
+        }),
     ).toThrow(TypeError);
   });
 });

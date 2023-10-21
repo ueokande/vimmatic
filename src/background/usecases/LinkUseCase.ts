@@ -9,7 +9,7 @@ export default class LinkUseCase {
   async openNewTab(
     url: string,
     openerId: number,
-    background: boolean
+    background: boolean,
   ): Promise<void> {
     const properties: any = { active: !background };
 

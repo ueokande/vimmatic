@@ -8,7 +8,7 @@ import FollowModeUseCase from "../../usecases/FollowModeUseCase";
 export default class StartFollowOperator implements Operator {
   constructor(
     @inject(FollowModeUseCase)
-    private readonly followModeUseCase: FollowModeUseCase
+    private readonly followModeUseCase: FollowModeUseCase,
   ) {}
 
   name(): string {
@@ -24,7 +24,7 @@ export default class StartFollowOperator implements Operator {
 
   async run(
     ctx: OperatorContext,
-    { newTab, background }: z.infer<ReturnType<StartFollowOperator["schema"]>>
+    { newTab, background }: z.infer<ReturnType<StartFollowOperator["schema"]>>,
   ): Promise<void> {
     this.followModeUseCase.start(ctx.sender.tabId, newTab, background);
   }

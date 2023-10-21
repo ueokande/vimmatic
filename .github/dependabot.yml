@@ -8,3 +8,37 @@ updates:
   commit-message:
     prefix: "fix(deps)"
     prefix-development: 'chore(deps):'
+  groups:
+    react:
+      patterns:
+        - "react"
+        - "react-dom"
+        - "react-test-renderer"
+        - "@types/react"
+        - "@types/react-dom"
+        - "@types/react-test-renderer"
+    eslint:
+      patterns:
+        - "eslint"
+        - "eslint-*"
+        - "prettier"
+        - "prettier-*"
+        - "@typescript-eslint/*"
+    typescript:
+      patterns:
+        - "typescript"
+        - "@typescript-eslint/*"
+    jest:
+      patterns:
+        - "jest"
+        - "jest-environment-jsdom"
+        - "@jest/types"
+        - "@types/jest"
+    prismjs:
+      patterns:
+        - "prismjs"
+        - "@types/prismjs"
+    playwright:
+      patterns:
+        - "playwright"
+        - "@playwright/test"

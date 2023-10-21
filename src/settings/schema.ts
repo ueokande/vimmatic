@@ -3,14 +3,14 @@ import { z } from "zod";
 export const SerializedKeymapsSchema = z.record(
   z
     .object({ type: z.string() })
-    .and(z.record(z.union([z.string(), z.number(), z.boolean()])))
+    .and(z.record(z.union([z.string(), z.number(), z.boolean()]))),
 );
 export const SerializedSearchEngineSchema = z.object({
   default: z.string(),
   engines: z.record(z.string()),
 });
 export const SerializedPropertiesSchema = z.record(
-  z.union([z.string(), z.number(), z.boolean()])
+  z.union([z.string(), z.number(), z.boolean()]),
 );
 export const SerializedBlacklistSchema = z
   .union([z.string(), z.object({ url: z.string(), keys: z.string().array() })])

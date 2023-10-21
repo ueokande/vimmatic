@@ -8,7 +8,7 @@ export default class SettingsController {
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,
     @inject("SettingRepository")
-    private readonly settingRepostory: SettingRepository
+    private readonly settingRepostory: SettingRepository,
   ) {}
 
   async initSettings(): Promise<void> {

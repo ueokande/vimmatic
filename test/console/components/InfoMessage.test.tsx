@@ -9,7 +9,7 @@ import InfoMessage from "../../../src/console/components/InfoMessage";
 describe("console/components/console/completion/InfoMessage", () => {
   it("renders an information message", () => {
     const root = ReactTestRenderer.create(
-      <InfoMessage>Hello!</InfoMessage>
+      <InfoMessage>Hello!</InfoMessage>,
     ).root;
 
     const p = root.findByType("p");

@@ -61,7 +61,7 @@ const viewportRect = (e: Element): Rect => {
 
   const mapElement = e.parentNode as HTMLMapElement;
   const imgElement = document.querySelector(
-    `img[usemap="#${mapElement.name}"]`
+    `img[usemap="#${mapElement.name}"]`,
   ) as HTMLImageElement;
   const { left: mapLeft, top: mapTop } = imgElement.getBoundingClientRect();
   const coords = e.getAttribute("coords");

@@ -11,7 +11,7 @@ describe("AddonEnabledUseCase", () => {
       const toolbarPresenter = new MockToolbarPresenter();
       const sut = new AddonEnabledUseCase(
         toolbarPresenter,
-        addonEnabledRepository
+        addonEnabledRepository,
       );
       const mockRepositoryEnable = jest
         .spyOn(addonEnabledRepository, "enable")
@@ -33,7 +33,7 @@ describe("AddonEnabledUseCase", () => {
       const toolbarPresenter = new MockToolbarPresenter();
       const sut = new AddonEnabledUseCase(
         toolbarPresenter,
-        addonEnabledRepository
+        addonEnabledRepository,
       );
       const mockRepositoryDisable = jest
         .spyOn(addonEnabledRepository, "disable")
@@ -55,7 +55,7 @@ describe("AddonEnabledUseCase", () => {
       const toolbarPresenter = new MockToolbarPresenter();
       const sut = new AddonEnabledUseCase(
         toolbarPresenter,
-        addonEnabledRepository
+        addonEnabledRepository,
       );
       const mockRepositoryToggle = jest
         .spyOn(addonEnabledRepository, "toggle")

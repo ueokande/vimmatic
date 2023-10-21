@@ -61,19 +61,19 @@ describe("BlacklistItem", () => {
       const item = new BlacklistItem("google.com", true, ["j", "k", "<C-U>"]);
 
       expect(
-        item.includeKey(new URL("http://google.com/maps"), fromKeymap("j"))
+        item.includeKey(new URL("http://google.com/maps"), fromKeymap("j")),
       ).toBeTruthy;
       expect(
-        item.includeKey(new URL("http://google.com/maps"), fromKeymap("<C-U>"))
+        item.includeKey(new URL("http://google.com/maps"), fromKeymap("<C-U>")),
       ).toBeTruthy;
       expect(
-        item.includeKey(new URL("http://google.com/maps"), fromKeymap("z"))
+        item.includeKey(new URL("http://google.com/maps"), fromKeymap("z")),
       ).toBeFalsy;
       expect(
-        item.includeKey(new URL("http://google.com/maps"), fromKeymap("u"))
+        item.includeKey(new URL("http://google.com/maps"), fromKeymap("u")),
       ).toBeFalsy;
       expect(
-        item.includeKey(new URL("http://maps.google.com/"), fromKeymap("j"))
+        item.includeKey(new URL("http://maps.google.com/"), fromKeymap("j")),
       ).toBeFalsy;
     });
   });
@@ -91,7 +91,7 @@ describe("Blacklist", () => {
       expect(blacklist.includesEntireBlacklist(new URL("https://github.com")))
         .toBeFalsy;
       expect(
-        blacklist.includesEntireBlacklist(new URL("https://gist.github.com"))
+        blacklist.includesEntireBlacklist(new URL("https://gist.github.com")),
       ).toBeTruthy;
     });
 
@@ -115,13 +115,13 @@ describe("Blacklist", () => {
       ]);
 
       expect(
-        blacklist.includeKey(new URL("https://google.com"), fromKeymap("j"))
+        blacklist.includeKey(new URL("https://google.com"), fromKeymap("j")),
       ).toBeFalsy;
       expect(
-        blacklist.includeKey(new URL("https://github.com"), fromKeymap("j"))
+        blacklist.includeKey(new URL("https://github.com"), fromKeymap("j")),
       ).toBeTruthy;
       expect(
-        blacklist.includeKey(new URL("https://github.com"), fromKeymap("a"))
+        blacklist.includeKey(new URL("https://github.com"), fromKeymap("a")),
       ).toBeFalsy;
     });
   });

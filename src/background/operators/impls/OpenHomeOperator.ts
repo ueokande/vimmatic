@@ -8,7 +8,7 @@ import BrowserSettingRepository from "../../repositories/BrowserSettingRepositor
 export default class OpenHomeOperator implements Operator {
   constructor(
     @inject("BrowserSettingRepository")
-    private readonly browserSettingRepository: BrowserSettingRepository
+    private readonly browserSettingRepository: BrowserSettingRepository,
   ) {}
 
   name() {
@@ -23,7 +23,7 @@ export default class OpenHomeOperator implements Operator {
 
   async run(
     _ctx: OperatorContext,
-    { newTab }: z.infer<ReturnType<OpenHomeOperator["schema"]>>
+    { newTab }: z.infer<ReturnType<OpenHomeOperator["schema"]>>,
   ): Promise<void> {
     const urls = await this.browserSettingRepository.getHomepageUrls();
     if (urls.length === 1 && !newTab) {

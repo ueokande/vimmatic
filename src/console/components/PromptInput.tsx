@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from "react";
-import styled from "../styles/styled";
+import styled from "styled-components";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.command.background};
@@ -27,7 +27,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 const PromptInput: React.FC<Props> = React.forwardRef(function PromptInput(
   props,
-  ref: React.Ref<HTMLInputElement>
+  ref: React.Ref<HTMLInputElement>,
 ) {
   return (
     <Container>

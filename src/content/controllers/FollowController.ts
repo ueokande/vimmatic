@@ -5,7 +5,7 @@ import FollowUseCase from "../usecases/FollowUseCase";
 export default class FollowController {
   constructor(
     @inject(FollowUseCase)
-    private readonly followUseCase: FollowUseCase
+    private readonly followUseCase: FollowUseCase,
   ) {}
 
   async countHints({

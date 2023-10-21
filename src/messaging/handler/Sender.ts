@@ -1,14 +1,14 @@
 import { Duplex } from "../types";
 
 export type SenderHandler<
-  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> }
+  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > = (
   type: keyof Schema,
-  args: Schema[keyof Schema]["Request"]
+  args: Schema[keyof Schema]["Request"],
 ) => Promise<Schema[keyof Schema]["Response"]>;
 
 export default class Sender<
-  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> }
+  Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > {
   private readonly sender: SenderHandler<Schema>;
 

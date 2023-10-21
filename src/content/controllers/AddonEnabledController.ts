@@ -5,7 +5,7 @@ import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
 export default class AddonEnabledController {
   constructor(
     @inject(AddonEnabledUseCase)
-    private readonly addonEnabledUseCase: AddonEnabledUseCase
+    private readonly addonEnabledUseCase: AddonEnabledUseCase,
   ) {}
 
   async enable(): Promise<void> {

@@ -4,7 +4,7 @@ import SettingRepository from "./lib/SettingRepository";
 
 const setupBlacklist = async (
   api: typeof browser,
-  blacklist: Array<string | { url: string; keys: Array<string> }>
+  blacklist: Array<string | { url: string; keys: Array<string> }>,
 ) => {
   await new SettingRepository(api).save({
     blacklist,

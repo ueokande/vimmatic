@@ -2,7 +2,7 @@ import { test, expect } from "./lib/fixture";
 import { newSingleContentServer } from "./lib/servers";
 
 const server = newSingleContentServer(
-  `<!DOCTYPE html><html lang="en"><body>--hello--hello--hello--</body></html>`
+  `<!DOCTYPE html><html lang="en"><body>--hello--hello--hello--</body></html>`,
 );
 
 test.beforeAll(async () => {

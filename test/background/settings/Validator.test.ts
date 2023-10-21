@@ -13,7 +13,7 @@ describe("Validator", () => {
 
   const sut = new Validator(
     new PropertyRegistryFactry().create(),
-    operatorRegistory
+    operatorRegistory,
   );
 
   test("it do nothing on valid settings", () => {
@@ -77,7 +77,7 @@ describe("Validator", () => {
         }),
       });
     }).toThrowError(
-      "Invalid property 'force' on keymap 'D': Expected boolean, received string"
+      "Invalid property 'force' on keymap 'D': Expected boolean, received string",
     );
   });
 });

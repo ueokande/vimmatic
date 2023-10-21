@@ -7,7 +7,7 @@ import NavigateClient from "../../clients/NavigateClient";
 export default class NavigateHistoryPrevOperator implements Operator {
   constructor(
     @inject("NavigateClient")
-    private readonly navigateClient: NavigateClient
+    private readonly navigateClient: NavigateClient,
   ) {}
 
   name() {

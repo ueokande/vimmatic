@@ -6,7 +6,7 @@ import {
 describe("FirefoxBrowserSettingRepositoryImpl", () => {
   const mockHomepageOverrideGet = jest.spyOn(
     chrome.browserSettings.homepageOverride,
-    "get"
+    "get",
   );
   const sut = new FirefoxBrowserSettingRepositoryImpl();
 

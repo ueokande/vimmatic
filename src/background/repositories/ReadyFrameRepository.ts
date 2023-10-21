@@ -16,8 +16,8 @@ export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       ReadyFrameRepositoryImpl.name,
-      {}
-    )
+      {},
+    ),
   ) {}
 
   async addFrameId(tabId: number, frameId: number): Promise<void> {

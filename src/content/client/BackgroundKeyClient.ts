@@ -10,7 +10,7 @@ export default interface BackgroundKeyClient {
 export class BackgroundKeyClientImpl implements BackgroundKeyClient {
   constructor(
     @inject("BackgroundMessageSender")
-    private readonly sender: BackgroundMessageSender
+    private readonly sender: BackgroundMessageSender,
   ) {}
 
   async sendKey(key: Key): Promise<void> {

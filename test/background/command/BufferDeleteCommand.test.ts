@@ -50,7 +50,7 @@ describe("BufferDeleteCommand", () => {
     ]);
 
     await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
-      "More than one match"
+      "More than one match",
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
   });
@@ -59,7 +59,7 @@ describe("BufferDeleteCommand", () => {
     mockTabsQuery.mockResolvedValue([{ ...defaultTab, id: 10, pinned: true }]);
 
     await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
-      "No matching buffer"
+      "No matching buffer",
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
   });

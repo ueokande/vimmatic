@@ -16,7 +16,7 @@ export default class MarkSetUseCase {
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject(MarkHelper)
-    private readonly markHelper: MarkHelper
+    private readonly markHelper: MarkHelper,
   ) {}
 
   async setMark(tab: chrome.tabs.Tab, key: string): Promise<void> {
@@ -37,7 +37,7 @@ export default class MarkSetUseCase {
   private async setGlobalMark(
     tabId: number,
     key: string,
-    mark: GlobalMark
+    mark: GlobalMark,
   ): Promise<void> {
     await this.markRepository.setGlobalMark(key, mark);
     await this.consoleClient.showInfo(tabId, `Set global mark to '${key}'`);
@@ -46,7 +46,7 @@ export default class MarkSetUseCase {
   private async setLocalMark(
     tabId: number,
     key: string,
-    mark: LocalMark
+    mark: LocalMark,
   ): Promise<void> {
     await this.markRepository.setLocalMark(tabId, key, mark);
     await this.consoleClient.showInfo(tabId, `Set local mark to '${key}'`);

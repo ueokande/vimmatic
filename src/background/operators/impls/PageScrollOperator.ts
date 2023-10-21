@@ -11,7 +11,7 @@ export default class PageScrollOperator implements Operator {
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,
     @inject("PropertySettings")
-    private readonly propertySettings: PropertySettings
+    private readonly propertySettings: PropertySettings,
   ) {}
 
   name() {
@@ -26,14 +26,14 @@ export default class PageScrollOperator implements Operator {
 
   async run(
     { sender }: OperatorContext,
-    { count }: z.infer<ReturnType<PageScrollOperator["schema"]>>
+    { count }: z.infer<ReturnType<PageScrollOperator["schema"]>>,
   ): Promise<void> {
     const smooth = await this.propertySettings.getProperty("smoothscroll");
     await this.contentMessageClient.scrollPages(
       sender.tabId,
       sender.frameId,
       count,
-      smooth as boolean
+      smooth as boolean,
     );
   }
 }

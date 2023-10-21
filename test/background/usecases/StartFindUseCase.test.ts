@@ -20,7 +20,7 @@ describe("FindUseCase", () => {
     findRepository,
     findHistoryRepository,
     consoleClient,
-    frameRepository
+    frameRepository,
   );
   const getFrameIdsSpy = jest
     .spyOn(frameRepository, "getFrameIds")
@@ -145,7 +145,7 @@ describe("FindUseCase", () => {
       expect(appendHistorySpy).toBeCalledWith(keyword);
       expect(showErrorSpy).toBeCalledWith(
         tabId,
-        "Pattern not found: " + keyword
+        "Pattern not found: " + keyword,
       );
     });
 

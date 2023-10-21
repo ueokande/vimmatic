@@ -5,7 +5,7 @@ import ConsoleFrameUseCase from "../usecases/ConsoleFrameUseCase";
 export default class ConsoleFrameController {
   constructor(
     @inject(ConsoleFrameUseCase)
-    private readonly consoleFrameUseCase: ConsoleFrameUseCase
+    private readonly consoleFrameUseCase: ConsoleFrameUseCase,
   ) {}
 
   unfocus() {

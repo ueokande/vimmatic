@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "../styles/styled";
+import styled from "styled-components";
 import useAutoResize from "../hooks/useAutoResize";
 
 const Wrapper = styled.p`
@@ -10,7 +10,11 @@ const Wrapper = styled.p`
   white-space: pre-wrap;
 `;
 
-const InfoMessage: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const InfoMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
   return <Wrapper role="status">{children}</Wrapper>;

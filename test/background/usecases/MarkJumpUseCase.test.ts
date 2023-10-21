@@ -16,7 +16,7 @@ describe("MarkJumpUseCase", () => {
     consoleClient,
     contentMessageClient,
     propertySettings,
-    markHelper
+    markHelper,
   );
 
   jest.spyOn(propertySettings, "getProperty").mockImplementation((name) => {
