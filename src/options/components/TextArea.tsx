@@ -7,7 +7,7 @@ import "prismjs/themes/prism-coy.css";
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  resize: both;
+  resize: none;
   overflow: auto;
   border: ButtonBorder 1px solid;
   border-radius: 4px;
@@ -18,13 +18,14 @@ const Container = styled.div`
 
 const Content = styled.div`
   margin: 8px;
+  font: 14px monospace;
   position: relative;
   overflow: hidden;
 `;
 
 const StyledPre = styled.pre`
   position: absolute;
-  font-size: 14px;
+  font: inherit;
   width: 100%;
   height: 100%;
   resize: none;
@@ -34,7 +35,8 @@ const StyledPre = styled.pre`
 
 const StyledTextarea = styled.textarea`
   position: absolute;
-  font-size: 14px;
+  overflow: hidden;
+  font: inherit;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -47,6 +49,12 @@ const StyledTextarea = styled.textarea`
   caret-color: CanvasText;
 `;
 
+const TextMeasure = styled.div`
+  font: inherit;
+  position: absolute;
+  visibility: hidden;
+`;
+
 type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const TextArea: React.FC<Props> = (props) => {
@@ -54,46 +62,74 @@ const TextArea: React.FC<Props> = (props) => {
   const container = React.useRef<HTMLDivElement>(null);
   const content = React.useRef<HTMLDivElement>(null);
   const textarea = React.useRef<HTMLTextAreaElement>(null);
+  const measure = React.useRef<HTMLDivElement>(null);
   const [json, setJson] = React.useState(props.value as string);
-
-  React.useEffect(() => {
-    highlight(json);
-  }, []);
 
   const onChange = React.useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setJson(e.target.value);
-      highlight(e.target.value);
-      autoResize();
       props.onChange?.(e);
     },
     [],
   );
 
-  const highlight = React.useCallback((source: string) => {
+  const [charWidth, charHeight] = React.useMemo(() => {
+    if (!measure.current) {
+      return [0, 0];
+    }
+    const { width, height } = measure.current.getBoundingClientRect();
+    return [width, height];
+  }, [measure.current]);
+
+  const [cols, rows] = React.useMemo(() => {
+    const lines = json.split("\n");
+    const cols = Math.max(...lines.map((line) => line.length));
+    const rows = lines.length;
+    return [cols, rows];
+  }, [json]);
+
+  const autoResize = React.useCallback(() => {
+    if (!textarea.current || !content.current || !container.current) {
+      return;
+    }
+
+    // resize textarea
+    const parentWidth = container.current.getBoundingClientRect().width - 16;
+    content.current.style.width = `${Math.max(
+      parentWidth,
+      charWidth * cols,
+    )}px`;
+    content.current.style.height = `${charHeight * rows}px`;
+  }, [
+    textarea.current,
+    content.current,
+    container.current,
+    charWidth,
+    charHeight,
+    cols,
+    rows,
+  ]);
+
+  React.useEffect(() => {
     if (!highlightContainer.current) {
       return;
     }
-
-    const highlighted = Prism.highlight(source, Prism.languages.json, "json");
+    const highlighted = Prism.highlight(json, Prism.languages.json, "json");
     highlightContainer.current.innerHTML = highlighted;
     autoResize();
-  }, []);
+  }, [json]);
 
-  const autoResize = React.useCallback(() => {
-    if (!textarea.current || !content.current) {
-      return;
-    }
+  React.useEffect(() => {
+    setJson(props.value as string);
+  }, [props.value]);
 
-    // shrink scroll area to get the correct scroll area
-    content.current.style.width = "0";
-    content.current.style.height = "0";
-
-    const { scrollHeight, scrollWidth } = textarea.current;
-    console.log(scrollHeight, scrollWidth);
-    content.current.style.width = `${scrollWidth}px`;
-    content.current.style.height = `${scrollHeight}px`;
-  }, []);
+  React.useEffect(() => {
+    autoResize();
+    window.addEventListener("resize", autoResize);
+    return () => {
+      window.removeEventListener("resize", autoResize);
+    };
+  }, [autoResize]);
 
   return (
     <Container ref={container}>
@@ -104,11 +140,14 @@ const TextArea: React.FC<Props> = (props) => {
         <StyledTextarea
           {...props}
           wrap="off"
+          cols={cols}
+          rows={rows}
           ref={textarea}
           onChange={onChange}
           spellCheck={false}
           value={json}
         />
+        <TextMeasure ref={measure}>@</TextMeasure>
       </Content>
     </Container>
   );

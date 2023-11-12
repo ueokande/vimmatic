@@ -86,6 +86,7 @@ export default class BackgroundMessageListener {
       ) => {
         const ctx: RequestContext = { sender };
         if (typeof message !== "object" && message !== null) {
+          // eslint-disable-next-line no-console
           console.warn("unexpected message format:", message);
           return;
         }
@@ -94,12 +95,14 @@ export default class BackgroundMessageListener {
           typeof type !== "string" ||
           (typeof args !== "undefined" && typeof args !== "object")
         ) {
+          // eslint-disable-next-line no-console
           console.warn("unexpected message format:", message);
           return;
         }
 
         if (process.env.NODE_ENV === "development") {
           const style = "background-color: purple; color: white; padding: 4px;";
+          // eslint-disable-next-line no-console
           console.debug("%cRECEIVE%c %s %o", style, "", type, args);
         }
 
@@ -107,6 +110,7 @@ export default class BackgroundMessageListener {
           .then(() => this.receiver.receive(ctx, type, args))
           .then(sendResponse)
           .catch((err) => {
+            // eslint-disable-next-line no-console
             console.error(err);
             if (!sender.tab || !sender.tab.id) {
               return;

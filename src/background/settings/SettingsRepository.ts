@@ -24,9 +24,10 @@ export class PermanentSettingsRepository implements SettingsRepository {
     try {
       return deserialize(settings);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn("settings may be storage is broken:", e);
-      console.warn("loaded settings is:");
-      console.warn(settings);
+      // eslint-disable-next-line no-console
+      console.warn("loaded settings is:", settings);
       return defaultSettings;
     }
   }
@@ -48,9 +49,10 @@ export class PermanentSettingsRepository implements SettingsRepository {
       try {
         settings = deserialize(changes.settings.newValue);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn("settings may be storage is broken:", e);
-        console.warn("loaded settings is:");
-        console.warn(changes.settings.newValue);
+        // eslint-disable-next-line no-console
+        console.warn("loaded settings is:", changes.settings.newValue);
         return;
       }
 

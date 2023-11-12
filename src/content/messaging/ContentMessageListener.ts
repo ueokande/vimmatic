@@ -143,6 +143,7 @@ export default class ContentMessageListener {
     chrome.runtime.onMessage.addListener(
       (message: unknown, _sender, sendResponse) => {
         if (typeof message !== "object" && message !== null) {
+          // eslint-disable-next-line no-console
           console.warn("unexpected message format:", message);
           return;
         }
@@ -151,12 +152,14 @@ export default class ContentMessageListener {
           typeof type !== "string" ||
           (typeof args !== "undefined" && typeof args !== "object")
         ) {
+          // eslint-disable-next-line no-console
           console.warn("unexpected message format:", message);
           return;
         }
 
         if (process.env.NODE_ENV === "development") {
           const style = "background-color: purple; color: white; padding: 4px;";
+          // eslint-disable-next-line no-console
           console.debug("%cRECEIVE%c %s %o", style, "", type, args);
         }
 
@@ -164,6 +167,7 @@ export default class ContentMessageListener {
         Promise.resolve(ret)
           .then(sendResponse)
           .catch((err) => {
+            // eslint-disable-next-line no-console
             console.error(err);
           });
         return true;
