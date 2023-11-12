@@ -90,7 +90,6 @@ const TextArea: React.FC<Props> = (props) => {
     content.current.style.height = "0";
 
     const { scrollHeight, scrollWidth } = textarea.current;
-    console.log(scrollHeight, scrollWidth);
     content.current.style.width = `${scrollWidth}px`;
     content.current.style.height = `${scrollHeight}px`;
   }, []);

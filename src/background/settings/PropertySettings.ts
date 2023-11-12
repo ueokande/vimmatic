@@ -47,6 +47,7 @@ export class PropertySettingsImpl {
     try {
       def.validate(value);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn(`Property ${name} has invalid value: ${e.message}`);
       return def.defaultValue();
     }

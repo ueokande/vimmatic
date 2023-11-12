@@ -42,11 +42,13 @@ export default class WindowMessageListener {
       try {
         message = JSON.parse(event.data);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.warn("unexpected message format:", e);
         return;
       }
 
       if (typeof message !== "object" && message !== null) {
+        // eslint-disable-next-line no-console
         console.warn("unexpected message format:", message);
         return;
       }
@@ -56,6 +58,7 @@ export default class WindowMessageListener {
         typeof type !== "string" ||
         (typeof args !== "undefined" && typeof args !== "object")
       ) {
+        // eslint-disable-next-line no-console
         console.warn("unexpected message format:", message);
         return;
       }
@@ -64,6 +67,7 @@ export default class WindowMessageListener {
       try {
         this.receiver.receive(ctx, type, args);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     });
