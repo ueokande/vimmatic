@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/ueokande/vimmatic/compare/v0.5.2...v0.5.3) (2023-11-12)
+
+
+### Bug Fixes
+
+* Broken preferences ([#267](https://github.com/ueokande/vimmatic/issues/267)) ([63c0b52](https://github.com/ueokande/vimmatic/commit/63c0b5255ddc5e71712514402d959c51387c41d4))
+
 ## [0.5.2](https://github.com/ueokande/vimmatic/compare/v0.5.1...v0.5.2) (2023-10-01)
 
 
