@@ -24,6 +24,7 @@ export default class KeymapController {
     // identify to continue of abandon the event propagation.
     this.operationUseCase
       .exec(op.name, op.props, op.repeat)
+      // eslint-disable-next-line no-console
       .catch(console.error);
     return true;
   }

@@ -26,6 +26,7 @@ export default class SettingsController {
       }
     } catch (e) {
       // Sometime sendMessage fails when background script is not ready.
+      // eslint-disable-next-line no-console
       console.warn(e);
       setTimeout(() => this.initSettings(), 1000);
     }

@@ -8,6 +8,7 @@ export const newSender = (tabId: number, frameId?: number) => {
     if (process.env.NODE_ENV === "development") {
       const style = "background-color: green; color: white; padding: 4px;";
       const reset = "background-color: unset; color: unset; padding: unset;";
+      // eslint-disable-next-line no-console
       console.debug("%cSEND%c %s %o", style, reset, type, args);
     }
 

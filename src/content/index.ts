@@ -9,6 +9,7 @@ const initDom = () => {
       const app = container.resolve(Application);
       await app.init();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e);
     }
   })();
