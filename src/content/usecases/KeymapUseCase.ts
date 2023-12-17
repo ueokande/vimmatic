@@ -4,13 +4,13 @@ import SettingRepository from "../repositories/SettingRepository";
 import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
 import Keymaps from "../../shared/Keymaps";
 import Key from "../../shared/Key";
-import { extractOperation, Props, Operation } from "../../shared/operations2";
 import KeySequence from "../domains/KeySequence";
+import Operation from "../../shared/Operation";
 import AddressRepository from "../repositories/AddressRepository";
 
 const reservedKeymaps = new Keymaps({
-  "<Esc>": { type: "cancel" },
-  "<C-[>": { type: "cancel" },
+  "<Esc>": { type: "cancel", props: {} },
+  "<C-[>": { type: "cancel", props: {} },
 });
 
 const enableAddonOps = ["addon.enable", "addon.toggle.enabled"];
@@ -29,12 +29,14 @@ export default class KeymapUseCase {
   ) {}
 
   // eslint-disable-next-line max-statements
-  nextOps(key: Key): { repeat: number; name: string; props: Props } | null {
+  nextOps(key: Key): { repeat: number; op: Operation } | null {
     const sequence = this.repository.enqueueKey(key);
     const baseSequence = sequence.trimNumericPrefix();
     const keymaps = this.keymapEntityMap();
-    const matched = keymaps.filter(([seq]) => seq.startsWith(sequence));
-    const baseMatched = keymaps.filter(([seq]) => seq.startsWith(baseSequence));
+    const matched = keymaps.filter(({ seq }) => seq.startsWith(sequence));
+    const baseMatched = keymaps.filter(({ seq }) =>
+      seq.startsWith(baseSequence),
+    );
 
     if (baseSequence.length() === 1 && this.blacklistKey(key)) {
       // ignore if the input starts with black list keys
@@ -42,23 +44,17 @@ export default class KeymapUseCase {
       return null;
     }
 
-    if (matched.length === 1 && sequence.length() === matched[0][0].length()) {
+    if (matched.length === 1 && sequence.length() === matched[0].seq.length()) {
       // keys are matched with an operation
       this.repository.clear();
-      const { name, props } = extractOperation(matched[0][1]);
-      return { repeat: 1, name, props };
+      return { repeat: 1, op: matched[0].op };
     } else if (
       baseMatched.length === 1 &&
-      baseSequence.length() === baseMatched[0][0].length()
+      baseSequence.length() === baseMatched[0].seq.length()
     ) {
       // keys are matched with an operation with a numeric prefix
       this.repository.clear();
-      const { name, props } = extractOperation(baseMatched[0][1]);
-      return {
-        repeat: sequence.repeatCount(),
-        name,
-        props,
-      };
+      return { repeat: sequence.repeatCount(), op: baseMatched[0].op };
     } else if (matched.length >= 1 || baseMatched.length >= 1) {
       // keys are matched with an operation's prefix
       return null;
@@ -73,22 +69,17 @@ export default class KeymapUseCase {
     this.repository.clear();
   }
 
-  private keymapEntityMap(): [KeySequence, Operation][] {
+  private keymapEntityMap(): Array<{ seq: KeySequence; op: Operation }> {
     const keymaps = this.settingRepository
       .getKeymaps()
       .combine(reservedKeymaps);
-    let entries = keymaps
+    let entries: Array<{ seq: KeySequence; op: Operation }> = keymaps
       .entries()
-      .map(([keys, op]) => [KeySequence.fromMapKeys(keys), op]) as [
-      KeySequence,
-      Operation,
-    ][];
+      .map(([keys, op]) => ({ seq: KeySequence.fromMapKeys(keys), op }));
     if (!this.addonEnabledRepository.isEnabled()) {
       // available keymaps are only "addon.enable" and "addon.toggle.enabled" if
       // the addon disabled
-      entries = entries.filter(([_seq, { type }]) =>
-        enableAddonOps.includes(type),
-      );
+      entries = entries.filter(({ op }) => enableAddonOps.includes(op.type));
     }
     return entries;
   }

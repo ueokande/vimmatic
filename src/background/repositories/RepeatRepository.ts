@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
-import { Operation } from "../../shared/operations2";
+import type Operation from "../../shared/Operation";
 
 export default interface RepeatRepository {
   getLastOperation(): Promise<Operation | null>;

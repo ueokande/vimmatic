@@ -15,8 +15,8 @@ describe("serializeSettings", () => {
   describe("keymaps", () => {
     it("serializes keymap settings", () => {
       const keymaps = new Keymaps({
-        k: { type: "scroll.vertically", count: -1 },
-        j: { type: "scroll.vertically", count: 1 },
+        k: { type: "scroll.vertically", props: { count: -1 } },
+        j: { type: "scroll.vertically", props: { count: 1 } },
       });
       const ser = serializeSettings({ keymaps });
 
@@ -139,8 +139,8 @@ describe("deserializeSettings", () => {
 
       expect(settings.keymaps).not.toBeUndefined();
       expect(settings.keymaps.entries()).toMatchObject([
-        ["k", { type: "scroll.vertically", count: -1 }],
-        ["j", { type: "scroll.vertically", count: 1 }],
+        ["k", { type: "scroll.vertically", props: { count: -1 } }],
+        ["j", { type: "scroll.vertically", props: { count: 1 } }],
       ]);
     });
 

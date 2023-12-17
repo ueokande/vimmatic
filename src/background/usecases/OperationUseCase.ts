@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify";
-import type { Props, OperatorContext } from "../operators/Operator";
+import type { OperatorContext } from "../operators/Operator";
+import type Operation from "../../shared/Operation";
 import OperatorRegistory from "../operators/OperatorRegistory";
 import RepeatRepository from "../repositories/RepeatRepository";
 import RequestContext from "../messaging/RequestContext";
@@ -13,12 +14,7 @@ export default class OperationUseCase {
     private readonly repeatRepository: RepeatRepository,
   ) {}
 
-  async run(
-    ctx: RequestContext,
-    name: string,
-    props: Props,
-    repeat: number,
-  ): Promise<void> {
+  async run(ctx: RequestContext, op: Operation, repeat: number): Promise<void> {
     if (
       typeof ctx.sender.tab?.id === "undefined" ||
       typeof ctx.sender.frameId === "undefined"
@@ -33,16 +29,16 @@ export default class OperationUseCase {
       },
     };
 
-    if (this.isRepeatable(name)) {
-      await this.repeatRepository.setLastOperation({ type: name, ...props });
+    if (this.isRepeatable(op.type)) {
+      await this.repeatRepository.setLastOperation(op);
     }
-    const op = this.operatorRegistory.getOperator(name);
-    if (typeof op === "undefined") {
-      throw new Error("unknown operation: " + name);
+    const got = this.operatorRegistory.getOperator(op.type);
+    if (typeof got === "undefined") {
+      throw new Error("unknown operation: " + op.type);
     }
 
     for (let i = 0; i < repeat; ++i) {
-      await op.run(opCtx, props);
+      await got.run(opCtx, op.props);
     }
   }
 

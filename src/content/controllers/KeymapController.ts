@@ -23,7 +23,7 @@ export default class KeymapController {
     // The caller requires the synchronous response from the callback to
     // identify to continue of abandon the event propagation.
     this.operationUseCase
-      .exec(op.name, op.props, op.repeat)
+      .exec(op.op, op.repeat)
       // eslint-disable-next-line no-console
       .catch(console.error);
     return true;

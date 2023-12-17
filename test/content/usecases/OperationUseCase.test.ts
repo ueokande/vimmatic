@@ -20,8 +20,8 @@ describe("OperationUseCase", () => {
   it("exec an background operation on the background script", async () => {
     mockExecBackgroundOp.mockResolvedValue();
 
-    await sut.exec("do", { name: "alice" }, 10);
-
-    expect(mockExecBackgroundOp).toBeCalledWith("do", { name: "alice" }, 10);
+    const op = { type: "do", props: { name: "alice" } };
+    await sut.exec(op, 10);
+    expect(mockExecBackgroundOp).toBeCalledWith(op, 10);
   });
 });

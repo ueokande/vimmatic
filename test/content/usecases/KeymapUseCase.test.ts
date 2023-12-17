@@ -39,19 +39,25 @@ describe("KeymapUseCase", () => {
     it("returns matched operation", () => {
       expect(sut.nextOps(fromKeymap("k"))).toEqual({
         repeat: 1,
-        name: "scroll.vertically",
-        props: { count: -1 },
+        op: {
+          type: "scroll.vertically",
+          props: { count: -1 },
+        },
       });
       expect(sut.nextOps(fromKeymap("j"))).toEqual({
         repeat: 1,
-        name: "scroll.vertically",
-        props: { count: 1 },
+        op: {
+          type: "scroll.vertically",
+          props: { count: 1 },
+        },
       });
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 1,
-        name: "scroll.top",
-        props: {},
+        op: {
+          type: "scroll.top",
+          props: {},
+        },
       });
       expect(sut.nextOps(fromKeymap("z"))).toBeNull;
     });
@@ -62,8 +68,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 10,
-        name: "scroll.top",
-        props: {},
+        op: {
+          type: "scroll.top",
+          props: {},
+        },
       });
     });
   });
@@ -91,8 +99,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("5"))).toEqual({
         repeat: 1,
-        name: "scroll.bottom",
-        props: {},
+        op: {
+          type: "scroll.bottom",
+          props: {},
+        },
       });
     });
 
@@ -100,8 +110,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("2"))).toBeNull;
       expect(sut.nextOps(fromKeymap("0"))).toEqual({
         repeat: 1,
-        name: "scroll.top",
-        props: {},
+        op: {
+          type: "scroll.top",
+          props: {},
+        },
       });
     });
 
@@ -110,8 +122,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("5"))).toEqual({
         repeat: 2,
-        name: "scroll.bottom",
-        props: {},
+        op: {
+          type: "scroll.bottom",
+          props: {},
+        },
       });
     });
 
@@ -122,8 +136,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("5"))).toEqual({
         repeat: 320,
-        name: "scroll.bottom",
-        props: {},
+        op: {
+          type: "scroll.bottom",
+          props: {},
+        },
       });
     });
   });
@@ -153,8 +169,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 1,
-        name: "scroll.top",
-        props: {},
+        op: {
+          type: "scroll.top",
+          props: {},
+        },
       });
     });
 
@@ -168,8 +186,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 10,
-        name: "scroll.top",
-        props: {},
+        op: {
+          type: "scroll.top",
+          props: {},
+        },
       });
     });
   });
@@ -198,13 +218,17 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("k"))).toBeNull;
       expect(sut.nextOps(fromKeymap("a"))).toEqual({
         repeat: 1,
-        name: "addon.enable",
-        props: {},
+        op: {
+          type: "addon.enable",
+          props: {},
+        },
       });
       expect(sut.nextOps(fromKeymap("b"))).toEqual({
         repeat: 1,
-        name: "addon.toggle.enabled",
-        props: {},
+        op: {
+          type: "addon.toggle.enabled",
+          props: {},
+        },
       });
     });
   });
@@ -233,20 +257,26 @@ describe("KeymapUseCase", () => {
 
       expect(sut.nextOps(fromKeymap("k"))).toEqual({
         repeat: 1,
-        name: "scroll.vertically",
-        props: { count: -1 },
+        op: {
+          type: "scroll.vertically",
+          props: { count: -1 },
+        },
       });
       expect(sut.nextOps(fromKeymap("j"))).toEqual({
         repeat: 1,
-        name: "scroll.vertically",
-        props: { count: 1 },
+        op: {
+          type: "scroll.vertically",
+          props: { count: 1 },
+        },
       });
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("G"))).toEqual({
         repeat: 1,
-        name: "scroll.bottom",
-        props: {},
+        op: {
+          type: "scroll.bottom",
+          props: {},
+        },
       });
 
       sut = new KeymapUseCase(
@@ -259,8 +289,10 @@ describe("KeymapUseCase", () => {
       expect(sut.nextOps(fromKeymap("g"))).toBeNull;
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 1,
-        name: "scroll.top",
-        props: {},
+        op: {
+          type: "scroll.top",
+          props: {},
+        },
       });
       expect(sut.nextOps(fromKeymap("G"))).toBeNull;
     });
