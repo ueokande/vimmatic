@@ -12,19 +12,13 @@ describe("HintRepositoryImpl", () => {
       }),
     );
 
-    expect(await sut.isEnabled()).toBeFalsy();
-
     await sut.startHintMode({ newTab: true, background: false }, [
       "a",
       "b",
       "c",
     ]);
 
-    expect(await sut.isEnabled()).toBeTruthy();
     expect(await sut.getOption()).toEqual({ newTab: true, background: false });
-
-    await sut.stopHintMode();
-    expect(await sut.isEnabled()).toBeFalsy();
   });
 
   it("push and pop keys", async () => {

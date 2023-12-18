@@ -3,12 +3,16 @@ import { z } from "zod";
 import Operator from "../Operator";
 import { OperatorContext } from "../Operator";
 import HintModeUseCase from "../../usecases/HintModeUseCase";
+import ModeUseCase from "../../usecases/ModeUseCase";
+import Mode from "../../../shared/Mode";
 
 @injectable()
 export default class StartFollowOperator implements Operator {
   constructor(
     @inject(HintModeUseCase)
     private readonly hintModeUseCase: HintModeUseCase,
+    @inject(ModeUseCase)
+    private modeUseCase: ModeUseCase,
   ) {}
 
   name(): string {
@@ -26,6 +30,7 @@ export default class StartFollowOperator implements Operator {
     ctx: OperatorContext,
     { newTab, background }: z.infer<ReturnType<StartFollowOperator["schema"]>>,
   ): Promise<void> {
-    this.hintModeUseCase.start(ctx.sender.tabId, newTab, background);
+    await this.hintModeUseCase.start(ctx.sender.tabId, newTab, background);
+    await this.modeUseCase.setMode(ctx.sender.tabId, Mode.Follow);
   }
 }

@@ -7,10 +7,6 @@ export default interface HintRepository {
     hints: string[],
   ): Promise<void>;
 
-  stopHintMode(): Promise<void>;
-
-  isEnabled(): Promise<boolean>;
-
   getOption(): Promise<{ newTab: boolean; background: boolean }>;
 
   pushKey(key: string): Promise<void>;
@@ -28,7 +24,6 @@ type Option = {
 };
 
 type State = {
-  enabled: boolean;
   option: Option;
   hints: string[];
   keys: string[];
@@ -40,7 +35,6 @@ export class HintRepositoryImpl implements HintRepository {
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       HintRepositoryImpl.name,
       {
-        enabled: false,
         option: { newTab: false, background: false },
         hints: [],
         keys: [],
@@ -53,23 +47,11 @@ export class HintRepositoryImpl implements HintRepository {
     hints: string[],
   ): Promise<void> {
     const state: State = {
-      enabled: true,
       option,
       hints,
       keys: [],
     };
     return this.cache.setValue(state);
-  }
-
-  async stopHintMode(): Promise<void> {
-    const state = await this.cache.getValue();
-    state.enabled = false;
-    await this.cache.setValue(state);
-  }
-
-  async isEnabled(): Promise<boolean> {
-    const { enabled } = await this.cache.getValue();
-    return enabled;
   }
 
   async getOption(): Promise<{ newTab: boolean; background: boolean }> {

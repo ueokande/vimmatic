@@ -3,7 +3,6 @@ import MockHintClient from "../mock/MockHintClient";
 import MockTopFrameClient from "../mock/MockTopFrameClient";
 import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
 import MockPropertySettings from "../mock/MockPropertySettings";
-import MockKeyCaptureClient from "../mock/MockKeyCaptureClient";
 import MockHintRepository from "../mock/MockHintRepository";
 
 describe("HintModeUseCaes", () => {
@@ -12,14 +11,12 @@ describe("HintModeUseCaes", () => {
     const hintClient = new MockHintClient();
     const frameRepository = new MockReadyFrameRepository();
     const propertySettings = new MockPropertySettings();
-    const keyCaptureClient = new MockKeyCaptureClient();
     const hintRepository = new MockHintRepository();
     const sut = new HintModeUseCaes(
       topFrameClient,
       hintClient,
       frameRepository,
       propertySettings,
-      keyCaptureClient,
       hintRepository,
     );
 
@@ -61,9 +58,6 @@ describe("HintModeUseCaes", () => {
       .mockResolvedValue();
     const mockStartHintMode = jest
       .spyOn(hintRepository, "startHintMode")
-      .mockResolvedValue(undefined);
-    const mockEnableKeyCapture = jest
-      .spyOn(keyCaptureClient, "enableKeyCapture")
       .mockResolvedValue(undefined);
 
     await sut.start(10, false, false);
@@ -117,7 +111,6 @@ describe("HintModeUseCaes", () => {
       { newTab: false, background: false },
       ["a", "b", "c", "aa", "ab", "ac"],
     );
-    expect(mockEnableKeyCapture).toHaveBeenCalledWith(10);
   });
 
   it("stops follow mode", async () => {
@@ -125,31 +118,22 @@ describe("HintModeUseCaes", () => {
     const hintClient = new MockHintClient();
     const frameRepository = new MockReadyFrameRepository();
     const propertySettings = new MockPropertySettings();
-    const keyCaptureClient = new MockKeyCaptureClient();
     const hintRepository = new MockHintRepository();
     const sut = new HintModeUseCaes(
       topFrameClient,
       hintClient,
       frameRepository,
       propertySettings,
-      keyCaptureClient,
       hintRepository,
     );
 
     const mockClearHints = jest
       .spyOn(hintClient, "clearHints")
       .mockResolvedValue();
-    const mockStopHintMode = jest
-      .spyOn(hintRepository, "stopHintMode")
-      .mockResolvedValue();
-    const mockDisableKeyCapture = jest
-      .spyOn(keyCaptureClient, "disableKeyCapture")
-      .mockResolvedValue();
+    jest.spyOn(hintRepository, "stopHintMode").mockResolvedValue();
 
     await sut.stop(10);
 
     expect(mockClearHints).toHaveBeenCalledWith(10);
-    expect(mockStopHintMode).toHaveBeenCalled();
-    expect(mockDisableKeyCapture).toHaveBeenCalledWith(10);
   });
 });

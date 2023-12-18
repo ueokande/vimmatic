@@ -1,5 +1,6 @@
 import { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import { Duplex } from "../types";
+import type Mode from "../../shared/Mode";
 
 export type Schema = {
   "addon.enable": Duplex;
@@ -24,8 +25,7 @@ export type Schema = {
   "scroll.to": Duplex<{ x: number; y: number; smooth: boolean }>;
   "get.scroll": Duplex<undefined, { x: number; y: number }>;
   "focus.input": Duplex;
-  "enable.key.capture": Duplex;
-  "disable.key.capture": Duplex;
+  "set.mode": Duplex<{ mode: Mode }>;
   "notify.frame.id": Duplex<{ frameId: number }>;
 
   "get.window.viewport": Duplex<undefined, { width: number; height: number }>;

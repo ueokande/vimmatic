@@ -8,7 +8,7 @@ import NavigateController from "../controllers/NavigateController";
 import FindController from "../controllers/FindController";
 import ScrollController from "../controllers/ScrollController";
 import FocusController from "../controllers/FocusController";
-import BackgroundKeyController from "../controllers/BackgroundKeyController";
+import ModeController from "../controllers/ModeController";
 import FrameController from "../controllers/FrameController";
 import TopFrameController from "../controllers/TopFrameController";
 import HintController from "../controllers/HintController";
@@ -32,8 +32,8 @@ export default class ContentMessageListener {
     scrollController: ScrollController,
     @inject(FocusController)
     focusController: FocusController,
-    @inject(BackgroundKeyController)
-    backgroundKeyController: BackgroundKeyController,
+    @inject(ModeController)
+    modeController: ModeController,
     @inject(FrameController)
     frameController: FrameController,
     @inject(TopFrameController)
@@ -102,11 +102,8 @@ export default class ContentMessageListener {
       .route("focus.input")
       .to(focusController.focusFirstElement.bind(focusController));
     this.receiver
-      .route("enable.key.capture")
-      .to(backgroundKeyController.enableCapture.bind(backgroundKeyController));
-    this.receiver
-      .route("disable.key.capture")
-      .to(backgroundKeyController.disableCapture.bind(backgroundKeyController));
+      .route("set.mode")
+      .to(modeController.setMode.bind(modeController));
     this.receiver
       .route("get.scroll")
       .to(scrollController.getScroll.bind(scrollController));

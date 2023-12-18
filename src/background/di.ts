@@ -23,13 +23,13 @@ import {
 import { PropertySettingsImpl } from "./settings/PropertySettings";
 import { StyleSettingsImpl } from "./settings/StyleSettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
+import { ModeRepositoryImpl } from "./repositories/ModeRepository";
 import {
   TransientSettingsRepository,
   PermanentSettingsRepository,
 } from "./settings/SettingsRepository";
-import { KeyCaptureClientImpl } from "./clients/KeyCaptureClient";
+import { ModeClientImpl } from "./clients/ModeClient";
 import { MarkRepositoryImpl } from "./repositories/MarkRepository";
-import { MarkModeRepositoryImpl } from "./repositories/MarkModeRepository";
 import { HintClientImpl } from "./clients/HintClient";
 import { HintRepositoryImpl } from "./repositories/HintRepository";
 import { FrameClientImpl } from "./clients/FrameClient";
@@ -68,9 +68,9 @@ if (process.env.BROWSER === "firefox") {
 container.bind("PropertySettings").to(PropertySettingsImpl);
 container.bind("StyleSettings").to(StyleSettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
-container.bind("KeyCaptureClient").to(KeyCaptureClientImpl);
+container.bind("ModeRepository").to(ModeRepositoryImpl);
 container.bind("MarkRepository").to(MarkRepositoryImpl);
-container.bind("MarkModeRepository").to(MarkModeRepositoryImpl);
+container.bind("ModeClient").to(ModeClientImpl);
 container.bind("HintClient").to(HintClientImpl);
 container.bind("HintRepository").to(HintRepositoryImpl);
 container.bind("FrameClient").to(FrameClientImpl);

@@ -1,19 +1,39 @@
 import { injectable, inject } from "inversify";
+import Key from "../../shared/Key";
+import Mode from "../../shared/Mode";
+import ModeRepository from "../repositories/ModeRepository";
+import BackgroundKeyClient from "../client/BackgroundKeyClient";
 import KeymapUseCase from "../usecases/KeymapUseCase";
 import OperationUseCase from "../usecases/OperationUseCase";
-import Key from "../../shared/Key";
 
 @injectable()
-export default class KeymapController {
+export default class KeyController {
   constructor(
+    @inject("ModeRepository")
+    private readonly modeRepository: ModeRepository,
+    @inject("BackgroundKeyClient")
+    private readonly backgroundKeyClient: BackgroundKeyClient,
     @inject(KeymapUseCase)
     private readonly keymapUseCase: KeymapUseCase,
     @inject(OperationUseCase)
     private readonly operationUseCase: OperationUseCase,
   ) {}
 
-  // eslint-disable-next-line complexity, max-lines-per-function
   press(key: Key): boolean {
+    const mode = this.modeRepository.getMode();
+    if (mode === Mode.Normal) {
+      return this.handleKeymaps(key);
+    } else {
+      this.sendKey(key);
+      return true;
+    }
+  }
+
+  cancel() {
+    this.keymapUseCase.cancel();
+  }
+
+  private handleKeymaps(key: Key): boolean {
     const op = this.keymapUseCase.nextOps(key);
     if (op === null) {
       return false;
@@ -29,7 +49,7 @@ export default class KeymapController {
     return true;
   }
 
-  onBlurWindow() {
-    this.keymapUseCase.cancel();
+  private sendKey(key: Key): void {
+    this.backgroundKeyClient.sendKey(key);
   }
 }

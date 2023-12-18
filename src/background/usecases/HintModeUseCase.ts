@@ -4,7 +4,6 @@ import PropertySettings from "../settings/PropertySettings";
 import TopFrameClient from "../clients/TopFrameClient";
 import HintTagProducer from "./HintTagProducer";
 import HintClient from "../clients/HintClient";
-import KeyCaptureClient from "../clients/KeyCaptureClient";
 import HintRepository from "../repositories/HintRepository";
 
 @injectable()
@@ -18,8 +17,6 @@ export default class HintModeUseCaes {
     private readonly frameRepository: ReadyFrameRepository,
     @inject("PropertySettings")
     private readonly propertySettings: PropertySettings,
-    @inject("KeyCaptureClient")
-    private readonly keyCaptureClient: KeyCaptureClient,
     @inject("HintRepository")
     private readonly hintRepository: HintRepository,
   ) {}
@@ -66,16 +63,9 @@ export default class HintModeUseCaes {
     }
 
     await this.hintRepository.startHintMode({ newTab, background }, hints);
-    await this.keyCaptureClient.enableKeyCapture(tabId);
   }
 
   async stop(tabId: number): Promise<void> {
     await this.hintClient.clearHints(tabId);
-    await this.hintRepository.stopHintMode();
-    await this.keyCaptureClient.disableKeyCapture(tabId);
-  }
-
-  isHintMode(): Promise<boolean> {
-    return Promise.resolve(this.hintRepository.isEnabled());
   }
 }
