@@ -1,13 +1,13 @@
 import { injectable } from "inversify";
 import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
 
-export default interface FollowRepository {
-  startFollowMode(
+export default interface HintRepository {
+  startHintMode(
     opts: { newTab: boolean; background: boolean },
     hints: string[],
   ): Promise<void>;
 
-  stopFollowMode(): Promise<void>;
+  stopHintMode(): Promise<void>;
 
   isEnabled(): Promise<boolean>;
 
@@ -35,10 +35,10 @@ type State = {
 };
 
 @injectable()
-export class FollowRepositoryImpl implements FollowRepository {
+export class HintRepositoryImpl implements HintRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
-      FollowRepositoryImpl.name,
+      HintRepositoryImpl.name,
       {
         enabled: false,
         option: { newTab: false, background: false },
@@ -48,7 +48,7 @@ export class FollowRepositoryImpl implements FollowRepository {
     ),
   ) {}
 
-  startFollowMode(
+  startHintMode(
     option: { newTab: boolean; background: boolean },
     hints: string[],
   ): Promise<void> {
@@ -61,7 +61,7 @@ export class FollowRepositoryImpl implements FollowRepository {
     return this.cache.setValue(state);
   }
 
-  async stopFollowMode(): Promise<void> {
+  async stopHintMode(): Promise<void> {
     const state = await this.cache.getValue();
     state.enabled = false;
     await this.cache.setValue(state);

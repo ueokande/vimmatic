@@ -1,4 +1,4 @@
-export default class FollowTagProducer {
+export default class HintTagProducer {
   private counter: number[] = [];
 
   constructor(private readonly charset: string) {}

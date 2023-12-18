@@ -11,7 +11,7 @@ export type Size = {
   height: number;
 };
 
-export default interface FollowClient {
+export default interface HintClient {
   countHints(
     tabId: number,
     frameId: number,
@@ -40,7 +40,7 @@ export default interface FollowClient {
 }
 
 @injectable()
-export class FollowClientImpl implements FollowClient {
+export class HintClientImpl implements HintClient {
   countHints(
     tabId: number,
     frameId: number,

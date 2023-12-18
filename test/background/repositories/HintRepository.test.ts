@@ -1,9 +1,9 @@
-import { FollowRepositoryImpl } from "../../../src/background/repositories/FollowRepository";
+import { HintRepositoryImpl } from "../../../src/background/repositories/HintRepository";
 import MockLocalStorage from "../mock/MockLocalStorage";
 
-describe("FollowRepositoryImpl", () => {
+describe("HintRepositoryImpl", () => {
   it("enable and disable followings", async () => {
-    const sut = new FollowRepositoryImpl(
+    const sut = new HintRepositoryImpl(
       new MockLocalStorage({
         enabled: false,
         option: { newTab: false, background: false },
@@ -14,7 +14,7 @@ describe("FollowRepositoryImpl", () => {
 
     expect(await sut.isEnabled()).toBeFalsy();
 
-    await sut.startFollowMode({ newTab: true, background: false }, [
+    await sut.startHintMode({ newTab: true, background: false }, [
       "a",
       "b",
       "c",
@@ -23,12 +23,12 @@ describe("FollowRepositoryImpl", () => {
     expect(await sut.isEnabled()).toBeTruthy();
     expect(await sut.getOption()).toEqual({ newTab: true, background: false });
 
-    await sut.stopFollowMode();
+    await sut.stopHintMode();
     expect(await sut.isEnabled()).toBeFalsy();
   });
 
   it("push and pop keys", async () => {
-    const sut = new FollowRepositoryImpl(
+    const sut = new HintRepositoryImpl(
       new MockLocalStorage({
         enabled: false,
         option: { newTab: false, background: false },
@@ -38,7 +38,7 @@ describe("FollowRepositoryImpl", () => {
     );
     const hints = ["a", "b", "c", "aa", "ab", "ac", "ba", "bb", "bc"];
 
-    await sut.startFollowMode({ newTab: true, background: false }, hints);
+    await sut.startHintMode({ newTab: true, background: false }, hints);
     expect(await sut.getKeys()).toEqual("");
     expect(await sut.getMatchedHints()).toEqual(hints);
 

@@ -1,14 +1,14 @@
-import FollowRepository from "../../../src/background/repositories/FollowRepository";
+import HintRepository from "../../../src/background/repositories/HintRepository";
 
-export default class MockFollowRepository implements FollowRepository {
-  startFollowMode(
+export default class MockHintRepository implements HintRepository {
+  startHintMode(
     _opts: { newTab: boolean; background: boolean },
     _hints: string[],
   ): Promise<void> {
     throw new Error("not implemented");
   }
 
-  stopFollowMode(): Promise<void> {
+  stopHintMode(): Promise<void> {
     throw new Error("not implemented");
   }
 

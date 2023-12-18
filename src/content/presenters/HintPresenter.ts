@@ -70,7 +70,7 @@ const isAriaHiddenOrAriaDisabled = (win: Window, element: Element): boolean => {
   return isAriaHiddenOrAriaDisabled(win, element.parentElement as Element);
 };
 
-export default interface FollowPresenter {
+export default interface HintPresenter {
   getTargetCount(viewSize: Size, framePosition: Point): number;
 
   createHints(viewSize: Size, framePosition: Point, tags: string[]): void;
@@ -83,7 +83,7 @@ export default interface FollowPresenter {
 }
 
 @injectable()
-export class FollowPresenterImpl implements FollowPresenter {
+export class HintPresenterImpl implements HintPresenter {
   constructor(
     @inject("SettingRepository")
     private readonly settingRepository: SettingRepository,

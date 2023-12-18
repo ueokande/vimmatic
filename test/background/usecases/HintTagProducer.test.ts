@@ -1,8 +1,8 @@
-import FollowTagProducer from "../../../src/background/usecases/FollowTagProducer";
+import HintTagProducer from "../../../src/background/usecases/HintTagProducer";
 
-describe("FollowTagProducer", () => {
+describe("HintTagProducer", () => {
   it("produce incremental keys", () => {
-    const sut = new FollowTagProducer("abc");
+    const sut = new HintTagProducer("abc");
     expect(sut.produce()).toBe("a");
     expect(sut.produce()).toBe("b");
     expect(sut.produce()).toBe("c");
@@ -22,7 +22,7 @@ describe("FollowTagProducer", () => {
   });
 
   it("produce certain incremental keys", () => {
-    const sut = new FollowTagProducer("abc");
+    const sut = new HintTagProducer("abc");
     expect(sut.produceN(4)).toEqual(["a", "b", "c", "aa"]);
     expect(sut.produceN(4)).toEqual(["ab", "ac", "ba", "bb"]);
   });

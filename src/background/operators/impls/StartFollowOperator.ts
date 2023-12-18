@@ -2,13 +2,13 @@ import { inject, injectable } from "inversify";
 import { z } from "zod";
 import Operator from "../Operator";
 import { OperatorContext } from "../Operator";
-import FollowModeUseCase from "../../usecases/FollowModeUseCase";
+import HintModeUseCase from "../../usecases/HintModeUseCase";
 
 @injectable()
 export default class StartFollowOperator implements Operator {
   constructor(
-    @inject(FollowModeUseCase)
-    private readonly followModeUseCase: FollowModeUseCase,
+    @inject(HintModeUseCase)
+    private readonly hintModeUseCase: HintModeUseCase,
   ) {}
 
   name(): string {
@@ -26,6 +26,6 @@ export default class StartFollowOperator implements Operator {
     ctx: OperatorContext,
     { newTab, background }: z.infer<ReturnType<StartFollowOperator["schema"]>>,
   ): Promise<void> {
-    this.followModeUseCase.start(ctx.sender.tabId, newTab, background);
+    this.hintModeUseCase.start(ctx.sender.tabId, newTab, background);
   }
 }

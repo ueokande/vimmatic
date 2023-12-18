@@ -1,7 +1,7 @@
-import type FollowClient from "../../../src/background/clients/FollowClient";
-import type { Point, Size } from "../../../src/background/clients/FollowClient";
+import type HintClient from "../../../src/background/clients/HintClient";
+import type { Point, Size } from "../../../src/background/clients/HintClient";
 
-export default class MockFollowClient implements FollowClient {
+export default class MockHintClient implements HintClient {
   countHints(
     _tabId: number,
     _frameId: number,

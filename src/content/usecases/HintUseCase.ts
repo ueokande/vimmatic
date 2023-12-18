@@ -1,13 +1,13 @@
 import { injectable, inject } from "inversify";
-import FollowPresenter from "../presenters/FollowPresenter";
+import HintPresenter from "../presenters/HintPresenter";
 import { LinkHint, InputHint } from "../presenters/Hint";
 import TabsClient from "../client/TabsClient";
 
 @injectable()
-export default class FollowUseCase {
+export default class HintUseCase {
   constructor(
-    @inject("FollowPresenter")
-    private readonly presenter: FollowPresenter,
+    @inject("HintPresenter")
+    private readonly presenter: HintPresenter,
     @inject("TabsClient")
     private readonly tabsClient: TabsClient,
   ) {}

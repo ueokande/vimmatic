@@ -2,26 +2,26 @@ import { injectable, inject } from "inversify";
 import ReadyFrameRepository from "../repositories/ReadyFrameRepository";
 import PropertySettings from "../settings/PropertySettings";
 import TopFrameClient from "../clients/TopFrameClient";
-import FollowTagProducer from "./FollowTagProducer";
-import FollowClient from "../clients/FollowClient";
+import HintTagProducer from "./HintTagProducer";
+import HintClient from "../clients/HintClient";
 import KeyCaptureClient from "../clients/KeyCaptureClient";
-import FollowRepository from "../repositories/FollowRepository";
+import HintRepository from "../repositories/HintRepository";
 
 @injectable()
-export default class FollowModeUseCaes {
+export default class HintModeUseCaes {
   constructor(
     @inject("TopFrameClient")
     private readonly topFrameClient: TopFrameClient,
-    @inject("FollowClient")
-    private readonly followClient: FollowClient,
+    @inject("HintClient")
+    private readonly hintClient: HintClient,
     @inject("ReadyFrameRepository")
     private readonly frameRepository: ReadyFrameRepository,
     @inject("PropertySettings")
     private readonly propertySettings: PropertySettings,
     @inject("KeyCaptureClient")
     private readonly keyCaptureClient: KeyCaptureClient,
-    @inject("FollowRepository")
-    private readonly followRepository: FollowRepository,
+    @inject("HintRepository")
+    private readonly hintRepository: HintRepository,
   ) {}
 
   async start(
@@ -38,7 +38,7 @@ export default class FollowModeUseCaes {
     )) as string;
 
     const viewport = await this.topFrameClient.getWindowViewport(tabId);
-    const hintKeys = new FollowTagProducer(hintchars);
+    const hintKeys = new HintTagProducer(hintchars);
     const hints = [];
     for (const frameId of frameIds) {
       const framePos = await this.topFrameClient.getFramePosition(
@@ -48,7 +48,7 @@ export default class FollowModeUseCaes {
       if (!framePos) {
         continue;
       }
-      const count = await this.followClient.countHints(
+      const count = await this.hintClient.countHints(
         tabId,
         frameId,
         viewport,
@@ -56,7 +56,7 @@ export default class FollowModeUseCaes {
       );
       const tags = hintKeys.produceN(count);
       hints.push(...tags);
-      await this.followClient.createHints(
+      await this.hintClient.createHints(
         tabId,
         frameId,
         tags,
@@ -65,17 +65,17 @@ export default class FollowModeUseCaes {
       );
     }
 
-    await this.followRepository.startFollowMode({ newTab, background }, hints);
+    await this.hintRepository.startHintMode({ newTab, background }, hints);
     await this.keyCaptureClient.enableKeyCapture(tabId);
   }
 
   async stop(tabId: number): Promise<void> {
-    await this.followClient.clearHints(tabId);
-    await this.followRepository.stopFollowMode();
+    await this.hintClient.clearHints(tabId);
+    await this.hintRepository.stopHintMode();
     await this.keyCaptureClient.disableKeyCapture(tabId);
   }
 
-  isFollowMode(): Promise<boolean> {
-    return Promise.resolve(this.followRepository.isEnabled());
+  isHintMode(): Promise<boolean> {
+    return Promise.resolve(this.hintRepository.isEnabled());
   }
 }

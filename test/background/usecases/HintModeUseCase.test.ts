@@ -1,26 +1,26 @@
-import FollowModeUseCaes from "../../../src/background/usecases/FollowModeUseCase";
-import MockFollowClient from "../mock/MockFollowClient";
+import HintModeUseCaes from "../../../src/background/usecases/HintModeUseCase";
+import MockHintClient from "../mock/MockHintClient";
 import MockTopFrameClient from "../mock/MockTopFrameClient";
 import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
 import MockPropertySettings from "../mock/MockPropertySettings";
 import MockKeyCaptureClient from "../mock/MockKeyCaptureClient";
-import MockFollowRepository from "../mock/MockFollowRepository";
+import MockHintRepository from "../mock/MockHintRepository";
 
-describe("FollowModeUseCaes", () => {
+describe("HintModeUseCaes", () => {
   it("starts follow mode", async () => {
     const topFrameClient = new MockTopFrameClient();
-    const followClient = new MockFollowClient();
+    const hintClient = new MockHintClient();
     const frameRepository = new MockReadyFrameRepository();
     const propertySettings = new MockPropertySettings();
     const keyCaptureClient = new MockKeyCaptureClient();
-    const followRepository = new MockFollowRepository();
-    const sut = new FollowModeUseCaes(
+    const hintRepository = new MockHintRepository();
+    const sut = new HintModeUseCaes(
       topFrameClient,
-      followClient,
+      hintClient,
       frameRepository,
       propertySettings,
       keyCaptureClient,
-      followRepository,
+      hintRepository,
     );
 
     const mockGetFrameIds = jest
@@ -45,7 +45,7 @@ describe("FollowModeUseCaes", () => {
         }
       });
     const mockCountHints = jest
-      .spyOn(followClient, "countHints")
+      .spyOn(hintClient, "countHints")
       .mockImplementation((_tabId, frameId: number) => {
         switch (frameId) {
           case 100:
@@ -57,10 +57,10 @@ describe("FollowModeUseCaes", () => {
         }
       });
     const mockCreateHints = jest
-      .spyOn(followClient, "createHints")
+      .spyOn(hintClient, "createHints")
       .mockResolvedValue();
-    const mockStartFollowMode = jest
-      .spyOn(followRepository, "startFollowMode")
+    const mockStartHintMode = jest
+      .spyOn(hintRepository, "startHintMode")
       .mockResolvedValue(undefined);
     const mockEnableKeyCapture = jest
       .spyOn(keyCaptureClient, "enableKeyCapture")
@@ -113,7 +113,7 @@ describe("FollowModeUseCaes", () => {
       { width: 1000, height: 1200 },
       { x: 12, y: 22 },
     );
-    expect(mockStartFollowMode).toHaveBeenCalledWith(
+    expect(mockStartHintMode).toHaveBeenCalledWith(
       { newTab: false, background: false },
       ["a", "b", "c", "aa", "ab", "ac"],
     );
@@ -122,25 +122,25 @@ describe("FollowModeUseCaes", () => {
 
   it("stops follow mode", async () => {
     const topFrameClient = new MockTopFrameClient();
-    const followClient = new MockFollowClient();
+    const hintClient = new MockHintClient();
     const frameRepository = new MockReadyFrameRepository();
     const propertySettings = new MockPropertySettings();
     const keyCaptureClient = new MockKeyCaptureClient();
-    const followRepository = new MockFollowRepository();
-    const sut = new FollowModeUseCaes(
+    const hintRepository = new MockHintRepository();
+    const sut = new HintModeUseCaes(
       topFrameClient,
-      followClient,
+      hintClient,
       frameRepository,
       propertySettings,
       keyCaptureClient,
-      followRepository,
+      hintRepository,
     );
 
     const mockClearHints = jest
-      .spyOn(followClient, "clearHints")
+      .spyOn(hintClient, "clearHints")
       .mockResolvedValue();
-    const mockStopFollowMode = jest
-      .spyOn(followRepository, "stopFollowMode")
+    const mockStopHintMode = jest
+      .spyOn(hintRepository, "stopHintMode")
       .mockResolvedValue();
     const mockDisableKeyCapture = jest
       .spyOn(keyCaptureClient, "disableKeyCapture")
@@ -149,7 +149,7 @@ describe("FollowModeUseCaes", () => {
     await sut.stop(10);
 
     expect(mockClearHints).toHaveBeenCalledWith(10);
-    expect(mockStopFollowMode).toHaveBeenCalled();
+    expect(mockStopHintMode).toHaveBeenCalled();
     expect(mockDisableKeyCapture).toHaveBeenCalledWith(10);
   });
 });

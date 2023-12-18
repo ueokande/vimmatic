@@ -1,11 +1,11 @@
 import { injectable, inject } from "inversify";
-import FollowUseCase from "../usecases/FollowUseCase";
+import HintUseCase from "../usecases/HintUseCase";
 
 @injectable()
-export default class FollowController {
+export default class HintController {
   constructor(
-    @inject(FollowUseCase)
-    private readonly followUseCase: FollowUseCase,
+    @inject(HintUseCase)
+    private readonly hintUseCase: HintUseCase,
   ) {}
 
   async countHints({
@@ -15,7 +15,7 @@ export default class FollowController {
     viewSize: { width: number; height: number };
     framePosition: { x: number; y: number };
   }): Promise<number> {
-    return this.followUseCase.countHints(viewSize, framePosition);
+    return this.hintUseCase.countHints(viewSize, framePosition);
   }
 
   async createHints({
@@ -27,15 +27,15 @@ export default class FollowController {
     framePosition: { x: number; y: number };
     hints: string[];
   }): Promise<void> {
-    return this.followUseCase.createHints(viewSize, framePosition, hints);
+    return this.hintUseCase.createHints(viewSize, framePosition, hints);
   }
 
   async filterHints({ prefix }: { prefix: string }): Promise<void> {
-    return this.followUseCase.filterHints(prefix);
+    return this.hintUseCase.filterHints(prefix);
   }
 
   async remove(): Promise<void> {
-    return this.followUseCase.remove();
+    return this.hintUseCase.remove();
   }
 
   async activateIfExists({
@@ -47,6 +47,6 @@ export default class FollowController {
     newTab: boolean;
     background: boolean;
   }): Promise<void> {
-    return this.followUseCase.activateIfExists(hint, newTab, background);
+    return this.hintUseCase.activateIfExists(hint, newTab, background);
   }
 }

@@ -11,7 +11,7 @@ import FocusController from "../controllers/FocusController";
 import BackgroundKeyController from "../controllers/BackgroundKeyController";
 import FrameController from "../controllers/FrameController";
 import TopFrameController from "../controllers/TopFrameController";
-import FollowController from "../controllers/FollowController";
+import HintController from "../controllers/HintController";
 
 @injectable()
 export default class ContentMessageListener {
@@ -38,8 +38,8 @@ export default class ContentMessageListener {
     frameController: FrameController,
     @inject(TopFrameController)
     topFrameController: TopFrameController,
-    @inject(FollowController)
-    followController: FollowController,
+    @inject(HintController)
+    followController: HintController,
   ) {
     this.receiver
       .route("addon.enable")

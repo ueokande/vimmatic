@@ -3,8 +3,8 @@ import RequestContext from "../messaging/RequestContext";
 import MarkJumpUseCase from "../usecases/MarkJumpUseCase";
 import MarkSetUseCase from "../usecases/MarkSetUseCase";
 import MarkModeUseCase from "../usecases/MarkModeUseCase";
-import FollowModeUseCaes from "../usecases/FollowModeUseCase";
-import FollowKeyUseCase from "../usecases/FollowKeyUseCase";
+import HintModeUseCaes from "../usecases/HintModeUseCase";
+import HintKeyUseCase from "../usecases/HintKeyUseCase";
 
 @injectable()
 export default class KeyController {
@@ -15,10 +15,10 @@ export default class KeyController {
     private readonly markJumpUseCase: MarkJumpUseCase,
     @inject(MarkModeUseCase)
     private readonly markModeUseCase: MarkModeUseCase,
-    @inject(FollowModeUseCaes)
-    private readonly followModeUseCaes: FollowModeUseCaes,
-    @inject(FollowKeyUseCase)
-    private readonly followKeyUseCase: FollowKeyUseCase,
+    @inject(HintModeUseCaes)
+    private readonly hintModeUseCaes: HintModeUseCaes,
+    @inject(HintKeyUseCase)
+    private readonly hintKeyUseCase: HintKeyUseCase,
   ) {}
 
   async pressKey({ sender }: RequestContext, { key }: { key: string }) {
@@ -33,10 +33,10 @@ export default class KeyController {
       await this.markModeUseCase.clearMarkMode(sender.tab.id);
     }
 
-    if (await this.followModeUseCaes.isFollowMode()) {
-      const cont = await this.followKeyUseCase.pressKey(sender.tab.id, key);
+    if (await this.hintModeUseCaes.isHintMode()) {
+      const cont = await this.hintKeyUseCase.pressKey(sender.tab.id, key);
       if (!cont) {
-        await this.followModeUseCaes.stop(sender.tab.id);
+        await this.hintModeUseCaes.stop(sender.tab.id);
       }
     }
   }
