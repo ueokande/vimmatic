@@ -27,7 +27,7 @@
   "homepage": "https://github.com/ueokande/vimmatic",
   "dependencies": {
     "@abraham/reflection": "^0.12.0",
-    "esbuild": "^0.17.18",
+    "esbuild": "^0.19.10",
     "inversify": "^6.0.1",
     "prismjs": "^1.29.0",
     "react": "18.2.0",
