@@ -1,61 +1,48 @@
 import { injectable, inject } from "inversify";
 import HintPresenter from "../presenters/HintPresenter";
-import { LinkHint, InputHint } from "../presenters/Hint";
-import TabsClient from "../client/TabsClient";
+import type HTMLElementType from "../../shared/HTMLElementType";
 
 @injectable()
 export default class HintUseCase {
   constructor(
     @inject("HintPresenter")
-    private readonly presenter: HintPresenter,
-    @inject("TabsClient")
-    private readonly tabsClient: TabsClient,
+    private readonly presenter: HintPresenter, // @inject("TabsClient")
   ) {}
 
-  async countHints(
+  async lookupTargets(
+    cssSelector: string,
     viewSize: { width: number; height: number },
     framePosition: { x: number; y: number },
-  ): Promise<number> {
-    return this.presenter.getTargetCount(viewSize, framePosition);
+  ): Promise<string[]> {
+    const ids = this.presenter.lookupTargets(
+      cssSelector,
+      viewSize,
+      framePosition,
+    );
+    return ids;
   }
 
-  async createHints(
-    viewSize: { width: number; height: number },
-    framePosition: { x: number; y: number },
-    hints: string[],
-  ) {
-    return this.presenter.createHints(viewSize, framePosition, hints);
+  async assignTags(elementTags: Record<string, string>): Promise<void> {
+    this.presenter.assignTags(elementTags);
   }
 
-  async filterHints(prefix: string): Promise<void> {
-    return this.presenter.filterHints(prefix);
+  async showHints(ids: string[]): Promise<void> {
+    return this.presenter.showHints(ids);
   }
 
-  async remove(): Promise<void> {
+  async clearHints(): Promise<void> {
     return this.presenter.clearHints();
   }
 
-  async activateIfExists(tag: string, newTab: boolean, background: boolean) {
-    const hint = this.presenter.getHint(tag);
-    if (!hint) {
-      return;
-    }
+  async getElement(elementId: string): Promise<HTMLElementType | undefined> {
+    return this.presenter.getElement(elementId);
+  }
 
-    if (hint instanceof LinkHint) {
-      const url = hint.getLink();
-      let openNewTab = newTab;
-      // Open link by background script in order to prevent a popup block
-      if (hint.getLinkTarget() === "_blank") {
-        openNewTab = true;
-      }
-      // eslint-disable-next-line no-script-url
-      if (!url || url === "#" || url.toLowerCase().startsWith("javascript:")) {
-        hint.click();
-        return;
-      }
-      await this.tabsClient.openUrl(url, openNewTab, background);
-    } else if (hint instanceof InputHint) {
-      hint.activate();
-    }
+  async focusElement(elementId: string): Promise<void> {
+    return this.presenter.focusElement(elementId);
+  }
+
+  async clickElement(elementId: string): Promise<void> {
+    return this.presenter.clickElement(elementId);
   }
 }

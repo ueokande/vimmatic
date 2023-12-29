@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import HintUseCase from "../usecases/HintUseCase";
+import type HTMLElementType from "../../shared/HTMLElementType";
 
 @injectable()
 export default class HintController {
@@ -8,45 +9,52 @@ export default class HintController {
     private readonly hintUseCase: HintUseCase,
   ) {}
 
-  async countHints({
+  async lookupTargets({
+    cssSelector,
     viewSize,
     framePosition,
   }: {
+    cssSelector: string;
     viewSize: { width: number; height: number };
     framePosition: { x: number; y: number };
-  }): Promise<number> {
-    return this.hintUseCase.countHints(viewSize, framePosition);
+  }): Promise<{ elements: string[] }> {
+    const ids = await this.hintUseCase.lookupTargets(
+      cssSelector,
+      viewSize,
+      framePosition,
+    );
+    return { elements: ids };
   }
 
-  async createHints({
-    viewSize,
-    framePosition,
-    hints,
+  async assignTags({
+    elementTags,
   }: {
-    viewSize: { width: number; height: number };
-    framePosition: { x: number; y: number };
-    hints: string[];
+    elementTags: Record<string, string>;
   }): Promise<void> {
-    return this.hintUseCase.createHints(viewSize, framePosition, hints);
+    await this.hintUseCase.assignTags(elementTags);
   }
 
-  async filterHints({ prefix }: { prefix: string }): Promise<void> {
-    return this.hintUseCase.filterHints(prefix);
+  async showHints({ elements }: { elements: string[] }): Promise<void> {
+    await this.hintUseCase.showHints(elements);
   }
 
-  async remove(): Promise<void> {
-    return this.hintUseCase.remove();
+  async clearHints(): Promise<void> {
+    return this.hintUseCase.clearHints();
   }
 
-  async activateIfExists({
-    hint,
-    newTab,
-    background,
+  async getElement({
+    element,
   }: {
-    hint: string;
-    newTab: boolean;
-    background: boolean;
-  }): Promise<void> {
-    return this.hintUseCase.activateIfExists(hint, newTab, background);
+    element: string;
+  }): Promise<HTMLElementType | undefined> {
+    return this.hintUseCase.getElement(element);
+  }
+
+  async focusElement({ element }: { element: string }): Promise<void> {
+    this.hintUseCase.focusElement(element);
+  }
+
+  async clickElement({ element }: { element: string }): Promise<void> {
+    this.hintUseCase.clickElement(element);
   }
 }

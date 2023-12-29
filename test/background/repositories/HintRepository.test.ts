@@ -5,51 +5,109 @@ describe("HintRepositoryImpl", () => {
   it("enable and disable followings", async () => {
     const sut = new HintRepositoryImpl(
       new MockLocalStorage({
-        enabled: false,
+        name: "",
         option: { newTab: false, background: false },
-        hints: [],
+        frameIds: [],
+        hintsByTag: {},
         keys: [],
       }),
     );
 
-    await sut.startHintMode({ newTab: true, background: false }, [
-      "a",
-      "b",
-      "c",
-    ]);
+    const hints = [
+      { frameId: 0, element: "0", tag: "a" },
+      { frameId: 0, element: "1", tag: "b" },
+      { frameId: 0, element: "2", tag: "c" },
+    ];
+    await sut.startHintMode(
+      "hint.test",
+      { newTab: true, background: false },
+      hints,
+    );
 
+    expect(await sut.getHintModeName()).toEqual("hint.test");
     expect(await sut.getOption()).toEqual({ newTab: true, background: false });
+  });
+
+  it("get matched hints", async () => {
+    const sut = new HintRepositoryImpl(
+      new MockLocalStorage({
+        name: "",
+        option: { newTab: false, background: false },
+        frameIds: [],
+        hintsByTag: {},
+        keys: [],
+      }),
+    );
+
+    const hints = [
+      { frameId: 0, element: "0", tag: "a" },
+      { frameId: 0, element: "1", tag: "b" },
+      { frameId: 1, element: "0", tag: "c" },
+      { frameId: 1, element: "1", tag: "aa" },
+      { frameId: 2, element: "0", tag: "ab" },
+      { frameId: 2, element: "1", tag: "ac" },
+    ];
+
+    await sut.startHintMode(
+      "hint.test",
+      { newTab: true, background: false },
+      hints,
+    );
+
+    expect(await sut.getMatchedHints(0)).toEqual([
+      { frameId: 0, element: "0", tag: "a" },
+      { frameId: 0, element: "1", tag: "b" },
+    ]);
+    expect(await sut.getMatchedHints(1)).toEqual([
+      { frameId: 1, element: "0", tag: "c" },
+      { frameId: 1, element: "1", tag: "aa" },
+    ]);
+    expect(await sut.getMatchedHints(2)).toEqual([
+      { frameId: 2, element: "0", tag: "ab" },
+      { frameId: 2, element: "1", tag: "ac" },
+    ]);
   });
 
   it("push and pop keys", async () => {
     const sut = new HintRepositoryImpl(
       new MockLocalStorage({
-        enabled: false,
+        name: "",
         option: { newTab: false, background: false },
-        hints: [],
+        frameIds: [],
+        hintsByTag: {},
         keys: [],
       }),
     );
-    const hints = ["a", "b", "c", "aa", "ab", "ac", "ba", "bb", "bc"];
+    const hints = [
+      { frameId: 0, element: "0", tag: "a" },
+      { frameId: 0, element: "1", tag: "b" },
+      { frameId: 1, element: "0", tag: "c" },
+      { frameId: 1, element: "1", tag: "aa" },
+      { frameId: 2, element: "0", tag: "ab" },
+      { frameId: 2, element: "1", tag: "ac" },
+    ];
 
-    await sut.startHintMode({ newTab: true, background: false }, hints);
-    expect(await sut.getKeys()).toEqual("");
-    expect(await sut.getMatchedHints()).toEqual(hints);
+    await sut.startHintMode(
+      "hint.test",
+      { newTab: true, background: false },
+      hints,
+    );
+    expect(await sut.getAllMatchedHints()).toEqual(hints);
 
     await sut.pushKey("a");
-    expect(await sut.getKeys()).toEqual("a");
-    expect(await sut.getMatchedHints()).toEqual(["a", "aa", "ab", "ac"]);
+    expect(await sut.getAllMatchedHints()).toEqual([
+      { frameId: 0, element: "0", tag: "a" },
+      { frameId: 1, element: "1", tag: "aa" },
+      { frameId: 2, element: "0", tag: "ab" },
+      { frameId: 2, element: "1", tag: "ac" },
+    ]);
 
     await sut.popKey();
-    expect(await sut.getKeys()).toEqual("");
-    expect(await sut.getMatchedHints()).toEqual(hints);
+    expect(await sut.getAllMatchedHints()).toEqual(hints);
 
     await sut.pushKey("b");
-    expect(await sut.getKeys()).toEqual("b");
-    expect(await sut.getMatchedHints()).toEqual(["b", "ba", "bb", "bc"]);
-
-    await sut.pushKey("b");
-    expect(await sut.getKeys()).toEqual("bb");
-    expect(await sut.getMatchedHints()).toEqual(["bb"]);
+    expect(await sut.getAllMatchedHints()).toEqual([
+      { frameId: 0, element: "1", tag: "b" },
+    ]);
   });
 });

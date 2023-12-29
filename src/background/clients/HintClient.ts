@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
+import type HTMLElementType from "../../shared/HTMLElementType";
 
 export type Point = {
   x: number;
@@ -12,80 +13,88 @@ export type Size = {
 };
 
 export default interface HintClient {
-  countHints(
+  lookupTargets(
     tabId: number,
     frameId: number,
+    cssSelector: string,
     viewSize: Size,
     framePosition: Point,
-  ): Promise<number>;
+  ): Promise<string[]>;
 
-  createHints(
+  assignTags(
     tabId: number,
     frameId: number,
-    hints: string[],
-    viewSize: Size,
-    framePosition: Point,
+    elementTags: Record<string, string>,
   ): Promise<void>;
 
-  filterHints(tabId: number, prefix: string): Promise<void>;
+  showHints(tabId: number, frameId: number, elements: string[]): Promise<void>;
 
   clearHints(tabId: number): Promise<void>;
 
-  activateIfExists(
+  getElement(
     tabId: number,
-    tag: string,
-    newTab: boolean,
-    background: boolean,
-  ): Promise<void>;
+    frameId: number,
+    element: string,
+  ): Promise<HTMLElementType | undefined>;
+
+  focusElement(tabId: number, frameId: number, element: string): Promise<void>;
+
+  clickElement(tabId: number, frameId: number, element: string): Promise<void>;
 }
 
 @injectable()
 export class HintClientImpl implements HintClient {
-  countHints(
+  async lookupTargets(
     tabId: number,
     frameId: number,
+    cssSelector: string,
     viewSize: Size,
     framePosition: Point,
-  ): Promise<number> {
+  ): Promise<string[]> {
     const sender = newSender(tabId, frameId);
-    return sender.send("follow.count.hints", {
+    const { elements } = await sender.send("hint.lookup", {
       viewSize,
       framePosition,
+      cssSelector,
     });
+    return elements;
   }
 
-  createHints(
+  assignTags(
     tabId: number,
     frameId: number,
-    hints: string[],
-    viewSize: Size,
-    framePosition: Point,
+    elementTags: Record<string, string>,
   ): Promise<void> {
     const sender = newSender(tabId, frameId);
-    return sender.send("follow.create.hints", {
-      viewSize,
-      framePosition,
-      hints,
-    });
+    return sender.send("hint.assign", { elementTags });
   }
 
-  filterHints(tabId: number, prefix: string): Promise<void> {
-    const sender = newSender(tabId);
-    return sender.send("follow.filter.hints", { prefix });
+  showHints(tabId: number, frameId: number, elements: string[]): Promise<void> {
+    const sender = newSender(tabId, frameId);
+    return sender.send("hint.show", { elements });
   }
 
   clearHints(tabId: number): Promise<void> {
     const sender = newSender(tabId);
-    return sender.send("follow.remove.hints");
+    return sender.send("hint.clear");
   }
 
-  activateIfExists(
+  getElement(
     tabId: number,
-    hint: string,
-    newTab: boolean,
-    background: boolean,
-  ): Promise<void> {
-    const sender = newSender(tabId);
-    return sender.send("follow.activate", { hint, newTab, background });
+    frameId: number,
+    element: string,
+  ): Promise<HTMLElementType | undefined> {
+    const sender = newSender(tabId, frameId);
+    return sender.send("hint.getElement", { element });
+  }
+
+  focusElement(tabId: number, frameId: number, element: string): Promise<void> {
+    const sender = newSender(tabId, frameId);
+    return sender.send("hint.focus", { element });
+  }
+
+  clickElement(tabId: number, frameId: number, element: string): Promise<void> {
+    const sender = newSender(tabId, frameId);
+    return sender.send("hint.click", { element });
   }
 }

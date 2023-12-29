@@ -1,6 +1,7 @@
 import { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import { Duplex } from "../types";
 import type Mode from "../../shared/Mode";
+import type HTMLElementType from "../../shared/HTMLElementType";
 
 export type Schema = {
   "addon.enable": Duplex;
@@ -33,25 +34,29 @@ export type Schema = {
     { frameId: number },
     { x: number; y: number } | undefined
   >;
-  "follow.count.hints": Duplex<
+  "hint.lookup": Duplex<
     {
+      cssSelector: string;
       viewSize: { width: number; height: number };
       framePosition: { x: number; y: number };
     },
-    number
+    { elements: string[] }
   >;
-  "follow.create.hints": Duplex<{
-    viewSize: { width: number; height: number };
-    framePosition: { x: number; y: number };
-    hints: string[];
+  "hint.assign": Duplex<{
+    elementTags: Record<string, string>;
   }>;
-  "follow.filter.hints": Duplex<{ prefix: string }>;
-  "follow.remove.hints": Duplex;
-  "follow.activate": Duplex<{
-    hint: string;
-    newTab: boolean;
-    background: boolean;
+  "hint.show": Duplex<{
+    elements: string[];
   }>;
+  "hint.clear": Duplex;
+  "hint.getElement": Duplex<
+    {
+      element: string;
+    },
+    HTMLElementType | undefined
+  >;
+  "hint.focus": Duplex<{ element: string }>;
+  "hint.click": Duplex<{ element: string }>;
 };
 
 export type Key = MessageKey<Schema>;

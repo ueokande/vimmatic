@@ -1,10 +1,12 @@
 import { injectable, inject } from "inversify";
-import ReadyFrameRepository from "../repositories/ReadyFrameRepository";
-import PropertySettings from "../settings/PropertySettings";
-import TopFrameClient from "../clients/TopFrameClient";
+import type ReadyFrameRepository from "../repositories/ReadyFrameRepository";
+import type PropertySettings from "../settings/PropertySettings";
+import type TopFrameClient from "../clients/TopFrameClient";
+import type HintTarget from "../hint/HintTarget";
+import type HintClient from "../clients/HintClient";
+import type HintRepository from "../repositories/HintRepository";
+import type HintActionFactory from "../hint/HintActionFactory";
 import HintTagProducer from "./HintTagProducer";
-import HintClient from "../clients/HintClient";
-import HintRepository from "../repositories/HintRepository";
 
 @injectable()
 export default class HintModeUseCaes {
@@ -19,10 +21,13 @@ export default class HintModeUseCaes {
     private readonly propertySettings: PropertySettings,
     @inject("HintRepository")
     private readonly hintRepository: HintRepository,
+    @inject("HintActionFactory")
+    private readonly hintActionFactory: HintActionFactory,
   ) {}
 
   async start(
     tabId: number,
+    hintModeName: string,
     newTab: boolean,
     background: boolean,
   ): Promise<void> {
@@ -36,7 +41,8 @@ export default class HintModeUseCaes {
 
     const viewport = await this.topFrameClient.getWindowViewport(tabId);
     const hintKeys = new HintTagProducer(hintchars);
-    const hints = [];
+    const targets: HintTarget[] = [];
+    const hintAction = this.hintActionFactory.createHintAction(hintModeName);
     for (const frameId of frameIds) {
       const framePos = await this.topFrameClient.getFramePosition(
         tabId,
@@ -45,24 +51,27 @@ export default class HintModeUseCaes {
       if (!framePos) {
         continue;
       }
-      const count = await this.hintClient.countHints(
+      const ids = await this.hintClient.lookupTargets(
         tabId,
         frameId,
+        hintAction.lookupTargetSelector(),
         viewport,
         framePos,
       );
-      const tags = hintKeys.produceN(count);
-      hints.push(...tags);
-      await this.hintClient.createHints(
-        tabId,
-        frameId,
-        tags,
-        viewport,
-        framePos,
-      );
+      const idTags = hintKeys.produceN(ids.length);
+      const idTagMap = Object.fromEntries(ids.map((id, i) => [id, idTags[i]]));
+      await this.hintClient.assignTags(tabId, frameId, idTagMap);
+
+      for (const [element, tag] of Object.entries(idTagMap)) {
+        targets.push({ frameId, element, tag });
+      }
     }
 
-    await this.hintRepository.startHintMode({ newTab, background }, hints);
+    await this.hintRepository.startHintMode(
+      hintModeName,
+      { newTab, background },
+      targets,
+    );
   }
 
   async stop(tabId: number): Promise<void> {

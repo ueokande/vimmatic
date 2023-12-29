@@ -1,11 +1,15 @@
 import { injectable } from "inversify";
 import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import type HintTarget from "../hint/HintTarget";
 
 export default interface HintRepository {
   startHintMode(
+    name: string,
     opts: { newTab: boolean; background: boolean },
-    hints: string[],
+    targets: HintTarget[],
   ): Promise<void>;
+
+  getHintModeName(): Promise<string>;
 
   getOption(): Promise<{ newTab: boolean; background: boolean }>;
 
@@ -13,9 +17,11 @@ export default interface HintRepository {
 
   popKey(): Promise<void>;
 
-  getMatchedHints(): Promise<string[]>;
+  getTargetFrameIds(): Promise<number[]>;
 
-  getKeys(): Promise<string>;
+  getMatchedHints(frameId: number): Promise<HintTarget[]>;
+
+  getAllMatchedHints(): Promise<HintTarget[]>;
 }
 
 type Option = {
@@ -24,8 +30,10 @@ type Option = {
 };
 
 type State = {
+  name: string;
   option: Option;
-  hints: string[];
+  frameIds: number[];
+  hintsByTag: Record<string, HintTarget>;
   keys: string[];
 };
 
@@ -35,23 +43,47 @@ export class HintRepositoryImpl implements HintRepository {
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       HintRepositoryImpl.name,
       {
+        name: "",
         option: { newTab: false, background: false },
-        hints: [],
+        frameIds: [],
+        hintsByTag: {},
         keys: [],
       },
     ),
   ) {}
 
   startHintMode(
+    name: string,
     option: { newTab: boolean; background: boolean },
-    hints: string[],
+    hints: HintTarget[],
   ): Promise<void> {
+    const hintsByTag: Record<
+      string,
+      {
+        frameId: number;
+        element: string;
+        tag: string;
+      }
+    > = {};
+    const frameIds = new Set<number>();
+    for (const hint of hints) {
+      hintsByTag[hint.tag] = hint;
+      frameIds.add(hint.frameId);
+    }
+
     const state: State = {
+      name,
       option,
-      hints,
+      hintsByTag,
+      frameIds: Array.from(frameIds),
       keys: [],
     };
     return this.cache.setValue(state);
+  }
+
+  async getHintModeName(): Promise<string> {
+    const state = await this.cache.getValue();
+    return state.name;
   }
 
   async getOption(): Promise<{ newTab: boolean; background: boolean }> {
@@ -71,14 +103,31 @@ export class HintRepositoryImpl implements HintRepository {
     await this.cache.setValue(state);
   }
 
-  async getMatchedHints(): Promise<string[]> {
-    const state = await this.cache.getValue();
-    const prefix = state.keys.join("");
-    return state.hints.filter((t) => t.startsWith(prefix));
+  async getTargetFrameIds(): Promise<number[]> {
+    return (await this.cache.getValue()).frameIds;
   }
 
-  async getKeys(): Promise<string> {
-    const { keys } = await this.cache.getValue();
-    return keys.join("");
+  async getMatchedHints(frameId: number): Promise<HintTarget[]> {
+    const state = await this.cache.getValue();
+    const prefix = state.keys.join("");
+    const matched: HintTarget[] = [];
+    for (const [tag, hint] of Object.entries(state.hintsByTag)) {
+      if (hint.frameId === frameId && tag.startsWith(prefix)) {
+        matched.push(hint);
+      }
+    }
+    return matched;
+  }
+
+  async getAllMatchedHints(): Promise<HintTarget[]> {
+    const state = await this.cache.getValue();
+    const prefix = state.keys.join("");
+    const matched: HintTarget[] = [];
+    for (const [tag, hint] of Object.entries(state.hintsByTag)) {
+      if (tag.startsWith(prefix)) {
+        matched.push(hint);
+      }
+    }
+    return matched;
   }
 }

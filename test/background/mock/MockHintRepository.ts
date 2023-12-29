@@ -1,10 +1,17 @@
-import HintRepository from "../../../src/background/repositories/HintRepository";
+import HintRepository, {
+  type HintTarget,
+} from "../../../src/background/repositories/HintRepository";
 
 export default class MockHintRepository implements HintRepository {
   startHintMode(
+    _name: string,
     _opts: { newTab: boolean; background: boolean },
-    _hints: string[],
+    _targets: HintTarget[],
   ): Promise<void> {
+    throw new Error("not implemented");
+  }
+
+  getHintModeName(): Promise<string> {
     throw new Error("not implemented");
   }
 
@@ -12,7 +19,7 @@ export default class MockHintRepository implements HintRepository {
     throw new Error("not implemented");
   }
 
-  isEnabled(): Promise<boolean> {
+  getTargetFrameIds(): Promise<number[]> {
     throw new Error("not implemented");
   }
 
@@ -28,11 +35,11 @@ export default class MockHintRepository implements HintRepository {
     throw new Error("not implemented");
   }
 
-  getMatchedHints(): Promise<string[]> {
+  getAllMatchedHints(): Promise<HintTarget[]> {
     throw new Error("not implemented");
   }
 
-  getKeys(): Promise<string> {
+  getMatchedHints(_frameId: number): Promise<HintTarget[]> {
     throw new Error("not implemented");
   }
 }

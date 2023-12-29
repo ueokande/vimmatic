@@ -1,7 +1,6 @@
 import { injectable, inject } from "inversify";
 import CommandController from "../controllers/CommandController";
 import SettingsController from "../controllers/SettingsController";
-import LinkController from "../controllers/LinkController";
 import OperationController from "../controllers/OperationController";
 import KeyController from "../controllers/KeyController";
 import ConsoleController from "../controllers/ConsoleController";
@@ -23,8 +22,6 @@ export default class BackgroundMessageListener {
     settingsController: SettingsController,
     @inject(CommandController)
     commandController: CommandController,
-    @inject(LinkController)
-    linkController: LinkController,
     @inject(OperationController)
     operationController: OperationController,
     @inject(KeyController)
@@ -54,9 +51,6 @@ export default class BackgroundMessageListener {
     this.receiver
       .route("console.resize")
       .to(consoleController.resize.bind(consoleController));
-    this.receiver
-      .route("open.url")
-      .to(linkController.openURL.bind(linkController));
     this.receiver
       .route("settings.get.property")
       .to(settingsController.getProperty.bind(settingsController));

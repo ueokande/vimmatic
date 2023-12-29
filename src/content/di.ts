@@ -13,7 +13,6 @@ import { OperationClientImpl } from "./client/OperationClient";
 import { ScrollPresenterImpl } from "./presenters/ScrollPresenter";
 import { SettingClientImpl } from "./client/SettingClient";
 import { SettingRepositoryImpl } from "./repositories/SettingRepository";
-import { TabsClientImpl } from "./client/TabsClient";
 import { FindPresenterImpl } from "./presenters/FindPresenter";
 import { BackgroundKeyClientImpl } from "./client/BackgroundKeyClient";
 import { ModeRepositoryImpl } from "./repositories/ModeRepository";
@@ -43,7 +42,6 @@ container.bind("TopFrameClient").to(TopFrameClientImpl);
 container.bind("FrameIdRepository").to(FrameIdRepositoryImpl);
 container.bind("SettingClient").to(SettingClientImpl);
 container.bind("SettingRepository").to(SettingRepositoryImpl);
-container.bind("TabsClient").to(TabsClientImpl);
 container
   .bind("BackgroundMessageSender")
   .toConstantValue(newBackgroundMessageSender());

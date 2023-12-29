@@ -37,9 +37,11 @@ import { TopFrameClientImpl } from "./clients/TopFrameClient";
 import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepository";
 import { AddonEnabledClientImpl } from "./clients/AddonEnabledClient";
 import { ToolbarPresenterImpl } from "./presenters/ToolbarPresenter";
+import { TabPresenterImpl } from "./presenters/TabPresenter";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 import { OperatorRegistoryFactory } from "./operators";
+import { HintActionFactoryImpl } from "./hint/HintActionFactory";
 
 const container = new Container({ autoBindInjectable: true });
 
@@ -78,8 +80,10 @@ container.bind("TopFrameClient").to(TopFrameClientImpl);
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
 container.bind("AddonEnabledClient").to(AddonEnabledClientImpl);
 container.bind("ToolbarPresenter").to(ToolbarPresenterImpl);
+container.bind("TabPresenter").to(TabPresenterImpl);
 container.bind("PermanentSettingsRepository").to(PermanentSettingsRepository);
 container.bind("SettingsRepository").to(TransientSettingsRepository);
+container.bind("HintActionFactory").to(HintActionFactoryImpl);
 container
   .bind("PropertyRegistry")
   .toConstantValue(new PropertyRegistryFactry().create());
