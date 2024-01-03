@@ -8,6 +8,12 @@ import QuickHintAction from "./QuickHintAction";
 import OpenImageHintAction from "./OpenImageHintAction";
 import YankURLHintAction from "./YankURLHintAction";
 import YankLinkTextHintAction from "./YankLinkTextHintAction";
+import OpenHintAction from "./OpenHintAction";
+import TabopenHintAction from "./TabopenHintAction";
+import WinopenHintAction from "./WinopenHintAction";
+import OpenCommandHintAction from "./OpenCommandHintAction";
+import TabopenCommandHintAction from "./TabopenCommandHintAction";
+import WinopenCommandHintAction from "./WinopenCommandHintAction";
 
 export default interface HintActionFactory {
   createHintAction(name: string): HintAction;
@@ -41,6 +47,24 @@ export class HintActionFactoryImpl implements HintActionFactory {
         return new YankLinkTextHintAction(
           this.hintClient,
           this.clipboardRepository,
+          this.consoleClient,
+        );
+      case "hint.open":
+        return new OpenHintAction(this.hintClient, this.tabPresenter);
+      case "hint.tabopen":
+        return new TabopenHintAction(this.hintClient, this.tabPresenter);
+      case "hint.winopen":
+        return new WinopenHintAction(this.hintClient, this.tabPresenter);
+      case "hint.command.open":
+        return new OpenCommandHintAction(this.hintClient, this.consoleClient);
+      case "hint.command.tabopen":
+        return new TabopenCommandHintAction(
+          this.hintClient,
+          this.consoleClient,
+        );
+      case "hint.command.winopen":
+        return new WinopenCommandHintAction(
+          this.hintClient,
           this.consoleClient,
         );
     }

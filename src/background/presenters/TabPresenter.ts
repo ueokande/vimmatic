@@ -7,6 +7,8 @@ export default interface TabPresenter {
 
   openNewTab(url: string, openerId: number, background: boolean): Promise<void>;
 
+  openNewWindow(url: string): Promise<void>;
+
   getTab(tabId: number): Promise<Tab>;
 }
 
@@ -30,6 +32,10 @@ export class TabPresenterImpl implements TabPresenter {
     }
 
     await chrome.tabs.create({ url, ...properties });
+  }
+
+  async openNewWindow(url: string): Promise<void> {
+    await chrome.windows.create({ url });
   }
 
   async getTab(tabId: number): Promise<Tab> {

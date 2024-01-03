@@ -14,6 +14,10 @@ export default class MockTabPresenter implements TabPresenter {
     throw new Error("not implemented");
   }
 
+  openNewWindow(_url: string): Promise<void> {
+    throw new Error("not implemented");
+  }
+
   getTab(_tabId: number): Promise<Tab> {
     throw new Error("not implemented");
   }
