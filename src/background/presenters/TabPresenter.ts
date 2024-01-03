@@ -1,9 +1,13 @@
 import { injectable } from "inversify";
 
+export type Tab = chrome.tabs.Tab;
+
 export default interface TabPresenter {
   openToTab(url: string, tabId: number): Promise<void>;
 
   openNewTab(url: string, openerId: number, background: boolean): Promise<void>;
+
+  getTab(tabId: number): Promise<Tab>;
 }
 
 @injectable()
@@ -26,5 +30,9 @@ export class TabPresenterImpl implements TabPresenter {
     }
 
     await chrome.tabs.create({ url, ...properties });
+  }
+
+  async getTab(tabId: number): Promise<Tab> {
+    return await chrome.tabs.get(tabId);
   }
 }

@@ -189,6 +189,7 @@ export class HintPresenterImpl implements HintPresenter {
     return {
       tagName: e.tagName,
       attributes,
+      textContent: e.textContent || undefined,
       href:
         e instanceof HTMLAnchorElement || e instanceof HTMLAreaElement
           ? e.href
