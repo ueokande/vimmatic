@@ -10,7 +10,7 @@ export default class YankUrlHintAction implements HintAction {
   constructor(
     @inject("HintClient")
     private readonly hintClient: HintClient,
-    @inject("TabPresenter")
+    @inject("ClipboardRepository")
     private readonly clipboardRepository: ClipboardRepository,
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,
