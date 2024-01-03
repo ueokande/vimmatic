@@ -23,7 +23,7 @@ export default class QuickHintAction implements HintAction {
       "area",
       "[contenteditable=true]",
       '[contenteditable=""]',
-      "[tabindex]",
+      '[tabindex]:not([tabindex="-1"])',
       '[role="button"]',
       "[onclick]",
       "summary",
