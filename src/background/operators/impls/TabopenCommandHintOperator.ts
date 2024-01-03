@@ -11,7 +11,7 @@ export default class TabopenCommandHintOperator implements Operator {
     @inject(HintModeUseCase)
     private readonly hintModeUseCase: HintModeUseCase,
     @inject(ModeUseCase)
-    private modeUseCase: ModeUseCase,
+    private readonly modeUseCase: ModeUseCase,
   ) {}
 
   name(): string {

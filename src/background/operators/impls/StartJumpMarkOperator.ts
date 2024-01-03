@@ -8,7 +8,7 @@ import Mode from "../../../shared/Mode";
 export default class StartJumpMarkOperator implements Operator {
   constructor(
     @inject(ModeUseCase)
-    private modeUseCase: ModeUseCase,
+    private readonly modeUseCase: ModeUseCase,
   ) {}
 
   name() {

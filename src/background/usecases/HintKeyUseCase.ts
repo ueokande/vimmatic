@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import HintClient from "../clients/HintClient";
+import type HintClient from "../clients/HintClient";
 import type HintTarget from "../hint/HintTarget";
 import type HintRepository from "../repositories/HintRepository";
 import type HintActionFactory from "../hint/HintActionFactory";

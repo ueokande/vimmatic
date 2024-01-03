@@ -1,12 +1,12 @@
 import { injectable, inject } from "inversify";
-import HintPresenter from "../presenters/HintPresenter";
+import type HintPresenter from "../presenters/HintPresenter";
 import type HTMLElementType from "../../shared/HTMLElementType";
 
 @injectable()
 export default class HintUseCase {
   constructor(
     @inject("HintPresenter")
-    private readonly presenter: HintPresenter, // @inject("TabsClient")
+    private readonly presenter: HintPresenter,
   ) {}
 
   async lookupTargets(
