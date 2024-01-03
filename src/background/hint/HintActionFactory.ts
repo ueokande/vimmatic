@@ -14,6 +14,7 @@ import WinopenHintAction from "./WinopenHintAction";
 import OpenCommandHintAction from "./OpenCommandHintAction";
 import TabopenCommandHintAction from "./TabopenCommandHintAction";
 import WinopenCommandHintAction from "./WinopenCommandHintAction";
+import OpenSourceHintAction from "./OpenSourceHintAction";
 
 export default interface HintActionFactory {
   createHintAction(name: string): HintAction;
@@ -67,6 +68,8 @@ export class HintActionFactoryImpl implements HintActionFactory {
           this.hintClient,
           this.consoleClient,
         );
+      case "hint.source":
+        return new OpenSourceHintAction(this.hintClient, this.tabPresenter);
     }
 
     throw new Error(`Unknown hint action: ${name}`);

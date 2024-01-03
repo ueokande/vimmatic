@@ -46,6 +46,8 @@ export const defaultJSONSettings = `{
     ";Y": { "type": "hint.yanklinktext" },
     ";i": { "type": "hint.openimage", "newTab": false },
     ";I": { "type": "hint.openimage", "newTab": true, "background": false },
+    ";v": { "type": "hint.source", "newTab": false },
+    ";V": { "type": "hint.source", "newTab": true },
     ";o": { "type": "hint.navigate.open" },
     ";t": { "type": "hint.navigate.tabopen" },
     ";w": { "type": "hint.navigate.winopen" },

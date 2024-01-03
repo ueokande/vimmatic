@@ -62,6 +62,7 @@ import WinopenHintOperator from "./impls/WinopenHintOperator";
 import OpenCommandHintOperator from "./impls/OpenCommandHintOperator";
 import TabopenCommandHintOperator from "./impls/TabopenCommandHintOperator";
 import WinopenCommandHintOperator from "./impls/WinopenCommandHintOperator";
+import OpenSourceHintOperator from "./impls/OpenSourceHintOperator";
 import RepeatRepository from "../repositories/RepeatRepository";
 import { OperatorRegistryImpl } from "./OperatorRegistory";
 
@@ -190,6 +191,8 @@ export class OperatorRegistoryFactory {
     private readonly tabopenCommandHintOperator: TabopenCommandHintOperator,
     @inject(WinopenCommandHintOperator)
     private readonly winopenCommandHintOperator: WinopenCommandHintOperator,
+    @inject(OpenSourceHintOperator)
+    private readonly openSourceHintOperator: OpenSourceHintOperator,
     @inject("RepeatRepository")
     private readonly repeatRepository: RepeatRepository,
   ) {}
@@ -259,6 +262,7 @@ export class OperatorRegistoryFactory {
     r.register(this.openCommandHintOperator);
     r.register(this.tabopenCommandHintOperator);
     r.register(this.winopenCommandHintOperator);
+    r.register(this.openSourceHintOperator);
 
     // resolve circular dependency
     const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(
