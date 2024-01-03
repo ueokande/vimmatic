@@ -1,8 +1,4 @@
 import { injectable, inject } from "inversify";
-import type HintClient from "../clients/HintClient";
-import type TabPresenter from "../presenters/TabPresenter";
-import type ClipboardRepository from "../repositories/ClipboardRepository";
-import type ConsoleClient from "../clients/ConsoleClient";
 import type HintAction from "./HintAction";
 import QuickHintAction from "./QuickHintAction";
 import OpenImageHintAction from "./OpenImageHintAction";
@@ -23,53 +19,53 @@ export default interface HintActionFactory {
 @injectable()
 export class HintActionFactoryImpl implements HintActionFactory {
   constructor(
-    @inject("HintClient")
-    private readonly hintClient: HintClient,
-    @inject("TabPresenter")
-    private readonly tabPresenter: TabPresenter,
-    @inject("ClipboardRepository")
-    private readonly clipboardRepository: ClipboardRepository,
-    @inject("ConsoleClient")
-    private readonly consoleClient: ConsoleClient,
+    @inject(QuickHintAction)
+    private readonly quickHintAction: QuickHintAction,
+    @inject(OpenImageHintAction)
+    private readonly openImageHintAction: OpenImageHintAction,
+    @inject(YankURLHintAction)
+    private readonly yankURLHintAction: YankURLHintAction,
+    @inject(YankLinkTextHintAction)
+    private readonly yankLinkTextHintAction: YankLinkTextHintAction,
+    @inject(OpenHintAction)
+    private readonly openHintAction: OpenHintAction,
+    @inject(TabopenHintAction)
+    private readonly tabopenHintAction: TabopenHintAction,
+    @inject(WinopenHintAction)
+    private readonly winopenHintAction: WinopenHintAction,
+    @inject(OpenCommandHintAction)
+    private readonly openCommandHintAction: OpenCommandHintAction,
+    @inject(TabopenCommandHintAction)
+    private readonly tabopenCommandHintAction: TabopenCommandHintAction,
+    @inject(WinopenCommandHintAction)
+    private readonly winopenCommandHintAction: WinopenCommandHintAction,
+    @inject(OpenSourceHintAction)
+    private readonly openSourceHintAction: OpenSourceHintAction,
   ) {}
   createHintAction(name: string): HintAction {
     switch (name) {
       case "hint.quick":
-        return new QuickHintAction(this.hintClient, this.tabPresenter);
+        return this.quickHintAction;
       case "hint.openimage":
-        return new OpenImageHintAction(this.hintClient, this.tabPresenter);
+        return this.openImageHintAction;
       case "hint.yankurl":
-        return new YankURLHintAction(
-          this.hintClient,
-          this.clipboardRepository,
-          this.consoleClient,
-        );
+        return this.yankURLHintAction;
       case "hint.yanklinktext":
-        return new YankLinkTextHintAction(
-          this.hintClient,
-          this.clipboardRepository,
-          this.consoleClient,
-        );
+        return this.yankLinkTextHintAction;
       case "hint.open":
-        return new OpenHintAction(this.hintClient, this.tabPresenter);
+        return this.openHintAction;
       case "hint.tabopen":
-        return new TabopenHintAction(this.hintClient, this.tabPresenter);
+        return this.tabopenHintAction;
       case "hint.winopen":
-        return new WinopenHintAction(this.hintClient, this.tabPresenter);
+        return this.winopenHintAction;
       case "hint.command.open":
-        return new OpenCommandHintAction(this.hintClient, this.consoleClient);
+        return this.openCommandHintAction;
       case "hint.command.tabopen":
-        return new TabopenCommandHintAction(
-          this.hintClient,
-          this.consoleClient,
-        );
+        return this.tabopenCommandHintAction;
       case "hint.command.winopen":
-        return new WinopenCommandHintAction(
-          this.hintClient,
-          this.consoleClient,
-        );
+        return this.winopenCommandHintAction;
       case "hint.source":
-        return new OpenSourceHintAction(this.hintClient, this.tabPresenter);
+        return this.openSourceHintAction;
     }
 
     throw new Error(`Unknown hint action: ${name}`);
