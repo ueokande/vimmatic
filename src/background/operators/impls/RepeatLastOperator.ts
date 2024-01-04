@@ -3,7 +3,6 @@ import Operator from "../Operator";
 import { OperatorContext } from "../Operator";
 import RepeatRepository from "../../repositories/RepeatRepository";
 import OperatorRegistory from "../../operators/OperatorRegistory";
-import { extractOperation } from "../../../shared/operations2";
 
 @injectable()
 export default class RepeatLastOperator implements Operator {
@@ -25,11 +24,10 @@ export default class RepeatLastOperator implements Operator {
     if (lastOp === null) {
       return Promise.resolve();
     }
-    const { name, props } = extractOperation(lastOp);
-    const op = this.operatorRegistory.getOperator(name);
+    const op = this.operatorRegistory.getOperator(lastOp.type);
     if (typeof op === "undefined") {
-      throw new Error("unknown operation: " + name);
+      throw new Error("unknown operation: " + lastOp.type);
     }
-    return op.run(ctx, props);
+    return op.run(ctx, lastOp.props);
   }
 }

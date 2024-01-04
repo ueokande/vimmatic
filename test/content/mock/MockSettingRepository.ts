@@ -1,10 +1,11 @@
 import SettingRepository from "../../../src/content/repositories/SettingRepository";
 import { defaultSettings } from "../../../src/settings";
-import Settings from "../../../src/shared/Settings";
+import type Settings from "../../../src/shared/Settings";
 import Blacklist from "../../../src/shared/Blacklist";
-import Keymaps from "../../../src/shared/Keymaps";
-import Properties from "../../../src/shared/Properties";
-import Search from "../../../src/shared/Search";
+import type Keymaps from "../../../src/shared/Keymaps";
+import type Properties from "../../../src/shared/Properties";
+import type Search from "../../../src/shared/Search";
+import type { ComponentName, CSS } from "../../../src/shared/Styles";
 
 export default class MockSettingRepository implements SettingRepository {
   private value: Settings;
@@ -31,5 +32,9 @@ export default class MockSettingRepository implements SettingRepository {
 
   getProperties(): Properties {
     return this.value.properties;
+  }
+
+  getStyle(component: ComponentName): CSS {
+    return this.value.styles[component];
   }
 }

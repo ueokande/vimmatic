@@ -20,20 +20,33 @@ const hintPosition = (element: Element): Point => {
   };
 };
 
-export default abstract class Hint {
-  private hint: HTMLElement;
+export default class Hint {
+  private readonly hint: HTMLElement;
 
-  private tag: string;
+  private readonly id: string;
 
-  constructor(target: HTMLElement, tag: string, style: Style) {
+  private readonly tag: string;
+
+  constructor({
+    element,
+    id,
+    tag,
+    style,
+  }: {
+    element: HTMLElement;
+    id: string;
+    tag: string;
+    style: Style;
+  }) {
+    this.id = id;
     this.tag = tag;
 
-    const doc = target.ownerDocument;
+    const doc = element.ownerDocument;
     if (doc === null) {
       throw new TypeError("ownerDocument is null");
     }
 
-    const { x, y } = hintPosition(target);
+    const { x, y } = hintPosition(element);
     const { scrollX, scrollY } = window;
 
     const hint = doc.createElement("span");
@@ -41,6 +54,7 @@ export default abstract class Hint {
     for (const [key, value] of Object.entries(style)) {
       hint.style.setProperty(key, value);
     }
+    hint.setAttribute("data-vimmatic-hint", ""); // to ignore by CSS selector
     hint.style.position = "absolute";
     hint.style.textTransform = "uppercase";
     hint.style.zIndex = "2147483647";
@@ -68,74 +82,8 @@ export default abstract class Hint {
   getTag(): string {
     return this.tag;
   }
-}
 
-export class LinkHint extends Hint {
-  private target: HTMLAnchorElement | HTMLAreaElement;
-
-  constructor(
-    target: HTMLAnchorElement | HTMLAreaElement,
-    tag: string,
-    style: Style,
-  ) {
-    super(target, tag, style);
-
-    this.target = target;
-  }
-
-  getLink(): string {
-    return this.target.href;
-  }
-
-  getLinkTarget(): string | null {
-    return this.target.getAttribute("target");
-  }
-
-  click(): void {
-    this.target.click();
-  }
-}
-
-export class InputHint extends Hint {
-  private target: HTMLElement;
-
-  constructor(target: HTMLElement, tag: string, style: Style) {
-    super(target, tag, style);
-
-    this.target = target;
-  }
-
-  activate(): void {
-    const target = this.target;
-    switch (target.tagName.toLowerCase()) {
-      case "input":
-        switch ((target as HTMLInputElement).type) {
-          case "file":
-          case "checkbox":
-          case "radio":
-          case "submit":
-          case "reset":
-          case "button":
-          case "image":
-          case "color":
-            return target.click();
-          default:
-            return target.focus();
-        }
-      case "textarea":
-        return target.focus();
-      case "button":
-      case "summary":
-        return target.click();
-      default:
-        if (doms.isContentEditable(target)) {
-          return target.focus();
-        } else if (
-          target.hasAttribute("tabindex") ||
-          target.hasAttribute("onclick")
-        ) {
-          return target.click();
-        }
-    }
+  getElementId(): string {
+    return this.id;
   }
 }

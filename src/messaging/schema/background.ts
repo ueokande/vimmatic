@@ -1,5 +1,6 @@
 import { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import type { Completions } from "../../shared/Completions";
+import type Operation from "../../shared/Operation";
 import { Duplex } from "../types";
 
 export type Schema = {
@@ -7,8 +8,7 @@ export type Schema = {
   "console.frame.message": Duplex<{ message: any }>;
   "background.operation": Duplex<{
     repeat: number;
-    name: string;
-    props: Record<string, string | number | boolean>;
+    op: Operation;
   }>;
   "settings.query": Duplex<undefined, unknown>;
   "open.url": Duplex<{ url: string; newTab: boolean; background: boolean }>;

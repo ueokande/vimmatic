@@ -8,6 +8,8 @@ import SettingsEventUseCase from "./usecases/SettingsEventUseCase";
 import FrameClient from "./clients/FrameClient";
 import AddonEnabledEventUseCase from "./usecases/AddonEnabledEventUseCase";
 import LastSelectedTabRepository from "./repositories/LastSelectedTabRepository";
+import ModeUseCase from "./usecases/ModeUseCase";
+import HintModeUseCase from "./usecases/HintModeUseCase";
 
 @injectable()
 export default class Application {
@@ -28,6 +30,10 @@ export default class Application {
     private readonly frameClient: FrameClient,
     @inject(AddonEnabledEventUseCase)
     private readonly addonEnabledEventUseCase: AddonEnabledEventUseCase,
+    @inject(ModeUseCase)
+    private readonly modeUseCase: ModeUseCase,
+    @inject(HintModeUseCase)
+    private readonly hintModeUseCase: HintModeUseCase,
   ) {}
 
   private readonly findPortListener = new FindPortListener(
@@ -39,9 +45,14 @@ export default class Application {
     this.settingsEventUseCase.registerEvents();
     this.addonEnabledEventUseCase.registerEvents();
 
-    chrome.tabs.onUpdated.addListener((tabId: number, info) => {
+    chrome.tabs.onUpdated.addListener(async (tabId: number, info) => {
+      if (info.status == "complete") {
+        await this.modeUseCase.resetMode(tabId);
+        await this.hintModeUseCase.stop(tabId);
+      }
+
       if (info.status == "loading") {
-        this.findRepository.deleteLocalState(tabId);
+        await this.findRepository.deleteLocalState(tabId);
       }
     });
     chrome.runtime.onStartup.addListener(() => {
@@ -55,6 +66,11 @@ export default class Application {
     });
     chrome.tabs.onActivated.addListener(({ tabId }) => {
       this.lastSelectedTabRepository.setCurrentTabId(tabId);
+      const lastTabId = this.lastSelectedTabRepository.getLastSelectedTabId();
+      if (typeof lastTabId !== "undefined") {
+        this.modeUseCase.resetMode(tabId);
+        this.hintModeUseCase.stop(tabId);
+      }
     });
 
     this.backgroundMessageListener.listen();

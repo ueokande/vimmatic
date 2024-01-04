@@ -52,6 +52,17 @@ import PasteOperator from "./impls/PasteOperator";
 import StartSetMarkOperator from "./impls/StartSetMarkOperator";
 import StartJumpMarkOperator from "./impls/StartJumpMarkOperator";
 import StartFollowOperator from "./impls/StartFollowOperator";
+import QuickHintOperator from "./impls/QuickHintOperator";
+import OpenImageHintOperator from "./impls/OpenImageHintOperator";
+import YankURLHintOperator from "./impls/YankURLHintOperator";
+import YankLinkTextOperator from "./impls/YankLinkTextOperator";
+import OpenHintOperator from "./impls/OpenHintOperator";
+import TabopenHintOperator from "./impls/TabopenHintOperator";
+import WinopenHintOperator from "./impls/WinopenHintOperator";
+import OpenCommandHintOperator from "./impls/OpenCommandHintOperator";
+import TabopenCommandHintOperator from "./impls/TabopenCommandHintOperator";
+import WinopenCommandHintOperator from "./impls/WinopenCommandHintOperator";
+import OpenSourceHintOperator from "./impls/OpenSourceHintOperator";
 import RepeatRepository from "../repositories/RepeatRepository";
 import { OperatorRegistryImpl } from "./OperatorRegistory";
 
@@ -160,6 +171,28 @@ export class OperatorRegistoryFactory {
     private readonly startJumpMarkOperator: StartJumpMarkOperator,
     @inject(StartFollowOperator)
     private readonly startFollowOperator: StartFollowOperator,
+    @inject(QuickHintOperator)
+    private readonly quickHintOperator: QuickHintOperator,
+    @inject(OpenImageHintOperator)
+    private readonly openImageHintOperator: OpenImageHintOperator,
+    @inject(YankURLHintOperator)
+    private readonly yankURLHintOperator: YankURLHintOperator,
+    @inject(YankLinkTextOperator)
+    private readonly yankLinkTextOperator: YankLinkTextOperator,
+    @inject(OpenHintOperator)
+    private readonly openHintOperator: OpenHintOperator,
+    @inject(TabopenHintOperator)
+    private readonly tabopenHintOperator: TabopenHintOperator,
+    @inject(WinopenHintOperator)
+    private readonly winopenHintOperator: WinopenHintOperator,
+    @inject(OpenCommandHintOperator)
+    private readonly openCommandHintOperator: OpenCommandHintOperator,
+    @inject(TabopenCommandHintOperator)
+    private readonly tabopenCommandHintOperator: TabopenCommandHintOperator,
+    @inject(WinopenCommandHintOperator)
+    private readonly winopenCommandHintOperator: WinopenCommandHintOperator,
+    @inject(OpenSourceHintOperator)
+    private readonly openSourceHintOperator: OpenSourceHintOperator,
     @inject("RepeatRepository")
     private readonly repeatRepository: RepeatRepository,
   ) {}
@@ -219,6 +252,17 @@ export class OperatorRegistoryFactory {
     r.register(this.startSetMarkOperator);
     r.register(this.startJumpMarkOperator);
     r.register(this.startFollowOperator);
+    r.register(this.quickHintOperator);
+    r.register(this.openImageHintOperator);
+    r.register(this.yankURLHintOperator);
+    r.register(this.yankLinkTextOperator);
+    r.register(this.openHintOperator);
+    r.register(this.tabopenHintOperator);
+    r.register(this.winopenHintOperator);
+    r.register(this.openCommandHintOperator);
+    r.register(this.tabopenCommandHintOperator);
+    r.register(this.winopenCommandHintOperator);
+    r.register(this.openSourceHintOperator);
 
     // resolve circular dependency
     const repeatLastOperator: RepeatLastOperator = new RepeatLastOperator(

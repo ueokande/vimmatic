@@ -23,23 +23,25 @@ import {
 import { PropertySettingsImpl } from "./settings/PropertySettings";
 import { StyleSettingsImpl } from "./settings/StyleSettings";
 import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
+import { ModeRepositoryImpl } from "./repositories/ModeRepository";
 import {
   TransientSettingsRepository,
   PermanentSettingsRepository,
 } from "./settings/SettingsRepository";
-import { KeyCaptureClientImpl } from "./clients/KeyCaptureClient";
+import { ModeClientImpl } from "./clients/ModeClient";
 import { MarkRepositoryImpl } from "./repositories/MarkRepository";
-import { MarkModeRepositoryImpl } from "./repositories/MarkModeRepository";
-import { FollowClientImpl } from "./clients/FollowClient";
-import { FollowRepositoryImpl } from "./repositories/FollowRepository";
+import { HintClientImpl } from "./clients/HintClient";
+import { HintRepositoryImpl } from "./repositories/HintRepository";
 import { FrameClientImpl } from "./clients/FrameClient";
 import { TopFrameClientImpl } from "./clients/TopFrameClient";
 import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepository";
 import { AddonEnabledClientImpl } from "./clients/AddonEnabledClient";
 import { ToolbarPresenterImpl } from "./presenters/ToolbarPresenter";
+import { TabPresenterImpl } from "./presenters/TabPresenter";
 import { PropertyRegistryFactry } from "./property";
 import { CommandRegistryFactory } from "./command";
 import { OperatorRegistoryFactory } from "./operators";
+import { HintActionFactoryImpl } from "./hint/HintActionFactory";
 
 const container = new Container({ autoBindInjectable: true });
 
@@ -68,18 +70,20 @@ if (process.env.BROWSER === "firefox") {
 container.bind("PropertySettings").to(PropertySettingsImpl);
 container.bind("StyleSettings").to(StyleSettingsImpl);
 container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
-container.bind("KeyCaptureClient").to(KeyCaptureClientImpl);
+container.bind("ModeRepository").to(ModeRepositoryImpl);
 container.bind("MarkRepository").to(MarkRepositoryImpl);
-container.bind("MarkModeRepository").to(MarkModeRepositoryImpl);
-container.bind("FollowClient").to(FollowClientImpl);
-container.bind("FollowRepository").to(FollowRepositoryImpl);
+container.bind("ModeClient").to(ModeClientImpl);
+container.bind("HintClient").to(HintClientImpl);
+container.bind("HintRepository").to(HintRepositoryImpl);
 container.bind("FrameClient").to(FrameClientImpl);
 container.bind("TopFrameClient").to(TopFrameClientImpl);
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
 container.bind("AddonEnabledClient").to(AddonEnabledClientImpl);
 container.bind("ToolbarPresenter").to(ToolbarPresenterImpl);
+container.bind("TabPresenter").to(TabPresenterImpl);
 container.bind("PermanentSettingsRepository").to(PermanentSettingsRepository);
 container.bind("SettingsRepository").to(TransientSettingsRepository);
+container.bind("HintActionFactory").to(HintActionFactoryImpl);
 container
   .bind("PropertyRegistry")
   .toConstantValue(new PropertyRegistryFactry().create());

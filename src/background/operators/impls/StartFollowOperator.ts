@@ -1,31 +1,10 @@
-import { inject, injectable } from "inversify";
-import { z } from "zod";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import FollowModeUseCase from "../../usecases/FollowModeUseCase";
+import { injectable } from "inversify";
+import QuickHintOperator from "./QuickHintOperator";
 
+// "follow.start" is an alias of "quick.hint"
 @injectable()
-export default class StartFollowOperator implements Operator {
-  constructor(
-    @inject(FollowModeUseCase)
-    private readonly followModeUseCase: FollowModeUseCase,
-  ) {}
-
+export default class StartFollowOperator extends QuickHintOperator {
   name(): string {
     return "follow.start";
-  }
-
-  schema() {
-    return z.object({
-      newTab: z.boolean().default(false),
-      background: z.boolean().default(false),
-    });
-  }
-
-  async run(
-    ctx: OperatorContext,
-    { newTab, background }: z.infer<ReturnType<StartFollowOperator["schema"]>>,
-  ): Promise<void> {
-    this.followModeUseCase.start(ctx.sender.tabId, newTab, background);
   }
 }

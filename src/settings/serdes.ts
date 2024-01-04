@@ -7,8 +7,8 @@ import type {
   SerializedStyles,
 } from "./schema";
 import { validateSerializedSettings } from "./schema";
-import { Operation } from "../shared/operations2";
-import Settings from "../shared/Settings";
+import type Operation from "../shared/Operation";
+import type Settings from "../shared/Settings";
 import Keymaps from "../shared/Keymaps";
 import Search from "../shared/Search";
 import Properties from "../shared/Properties";
@@ -19,7 +19,7 @@ import { BlacklistItem } from "../shared/Blacklist";
 const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
   const obj: SerializedKeymaps = {};
   keymaps.entries().forEach(([key, op]) => {
-    obj[key] = { ...op, type: op.type };
+    obj[key] = { ...op.props, type: op.type };
   });
   return obj;
 };
@@ -27,7 +27,12 @@ const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
 const deserializeKeymaps = (json: SerializedKeymaps): Keymaps => {
   const entries: { [key: string]: Operation } = {};
   for (const [key, op] of Object.entries(json)) {
-    entries[key] = op;
+    const props: Omit<typeof op, "type"> = { ...op };
+    delete props.type;
+    entries[key] = {
+      type: op.type,
+      props,
+    };
   }
   return new Keymaps(entries);
 };

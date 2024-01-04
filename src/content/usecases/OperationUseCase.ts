@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import OperationClient from "../client/OperationClient";
-import type { Props } from "../../shared/operations2";
+import type Operation from "../../shared/Operation";
 
 @injectable()
 export default class OperationUseCase {
@@ -9,7 +9,7 @@ export default class OperationUseCase {
     private readonly operationClient: OperationClient,
   ) {}
 
-  async exec(name: string, props: Props, repeat: number): Promise<void> {
-    await this.operationClient.execBackgroundOp(name, props, repeat);
+  async exec(op: Operation, repeat: number): Promise<void> {
+    await this.operationClient.execBackgroundOp(op, repeat);
   }
 }

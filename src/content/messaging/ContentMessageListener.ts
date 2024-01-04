@@ -8,10 +8,10 @@ import NavigateController from "../controllers/NavigateController";
 import FindController from "../controllers/FindController";
 import ScrollController from "../controllers/ScrollController";
 import FocusController from "../controllers/FocusController";
-import BackgroundKeyController from "../controllers/BackgroundKeyController";
+import ModeController from "../controllers/ModeController";
 import FrameController from "../controllers/FrameController";
 import TopFrameController from "../controllers/TopFrameController";
-import FollowController from "../controllers/FollowController";
+import HintController from "../controllers/HintController";
 
 @injectable()
 export default class ContentMessageListener {
@@ -32,14 +32,14 @@ export default class ContentMessageListener {
     scrollController: ScrollController,
     @inject(FocusController)
     focusController: FocusController,
-    @inject(BackgroundKeyController)
-    backgroundKeyController: BackgroundKeyController,
+    @inject(ModeController)
+    modeController: ModeController,
     @inject(FrameController)
     frameController: FrameController,
     @inject(TopFrameController)
     topFrameController: TopFrameController,
-    @inject(FollowController)
-    followController: FollowController,
+    @inject(HintController)
+    hintController: HintController,
   ) {
     this.receiver
       .route("addon.enable")
@@ -102,11 +102,8 @@ export default class ContentMessageListener {
       .route("focus.input")
       .to(focusController.focusFirstElement.bind(focusController));
     this.receiver
-      .route("enable.key.capture")
-      .to(backgroundKeyController.enableCapture.bind(backgroundKeyController));
-    this.receiver
-      .route("disable.key.capture")
-      .to(backgroundKeyController.disableCapture.bind(backgroundKeyController));
+      .route("set.mode")
+      .to(modeController.setMode.bind(modeController));
     this.receiver
       .route("get.scroll")
       .to(scrollController.getScroll.bind(scrollController));
@@ -123,20 +120,26 @@ export default class ContentMessageListener {
       .route("get.frame.position")
       .to(topFrameController.getFramePosition.bind(topFrameController));
     this.receiver
-      .route("follow.count.hints")
-      .to(followController.countHints.bind(followController));
+      .route("hint.lookup")
+      .to(hintController.lookupTargets.bind(hintController));
     this.receiver
-      .route("follow.create.hints")
-      .to(followController.createHints.bind(followController));
+      .route("hint.assign")
+      .to(hintController.assignTags.bind(hintController));
     this.receiver
-      .route("follow.filter.hints")
-      .to(followController.filterHints.bind(followController));
+      .route("hint.show")
+      .to(hintController.showHints.bind(hintController));
     this.receiver
-      .route("follow.remove.hints")
-      .to(followController.remove.bind(followController));
+      .route("hint.clear")
+      .to(hintController.clearHints.bind(hintController));
     this.receiver
-      .route("follow.activate")
-      .to(followController.activateIfExists.bind(followController));
+      .route("hint.getElement")
+      .to(hintController.getElement.bind(hintController));
+    this.receiver
+      .route("hint.focus")
+      .to(hintController.focusElement.bind(hintController));
+    this.receiver
+      .route("hint.click")
+      .to(hintController.clickElement.bind(hintController));
   }
 
   listen() {

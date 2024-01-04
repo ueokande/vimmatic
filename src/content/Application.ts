@@ -1,8 +1,7 @@
 import { injectable, inject } from "inversify";
 import WindowMessageListener from "./messaging/WindowMessageListener";
 import ContentMessageListener from "./messaging/ContentMessageListener";
-import KeymapController from "./controllers/KeymapController";
-import BackgroundKeyController from "./controllers/BackgroundKeyController";
+import KeyController from "./controllers/KeyController";
 import SettingsController from "./controllers/SettingsController";
 import InputDriver from "./InputDriver";
 
@@ -14,10 +13,8 @@ export default class Application {
     private readonly windowMessageListener: WindowMessageListener,
     @inject(ContentMessageListener)
     private readonly contentMessageListener: ContentMessageListener,
-    @inject(KeymapController)
-    private readonly keymapController: KeymapController,
-    @inject(BackgroundKeyController)
-    private readonly backgroundKeyController: BackgroundKeyController,
+    @inject(KeyController)
+    private readonly keyController: KeyController,
     @inject(SettingsController)
     private readonly settingsController: SettingsController,
   ) {}
@@ -44,13 +41,12 @@ export default class Application {
 
   private routeFocusEvents() {
     window.addEventListener("blur", () => {
-      this.keymapController.onBlurWindow();
+      this.keyController.cancel();
     });
   }
 
   private routeKeymaps() {
     const inputDriver = new InputDriver(window.document.body);
-    inputDriver.onKey((key) => this.backgroundKeyController.press(key));
-    inputDriver.onKey((key) => this.keymapController.press(key));
+    inputDriver.onKey((key) => this.keyController.press(key));
   }
 }
