@@ -64,8 +64,6 @@ See the [console commands](./console_commands) section for a more detailed descr
 
 ## Navigation
 
-- <kbd>f</kbd>: follow links in the page in the current tab
-- <kbd>F</kbd>: follow links in the page in a new tab
 - <kbd>H</kbd>: go back in history
 - <kbd>L</kbd>: go forward in history
 - <kbd>[</kbd><kbd>[</kbd>, <kbd>]</kbd><kbd>]</kbd>: find a link to the previous/next page and open it
@@ -85,6 +83,30 @@ action to `true`, e.g.:
     }
 }
 ```
+
+## Hints
+
+Hint mode is a way to follow links or select elements on a page by typing
+characters.  Users can type the sequence of characters to select a hint, or
+press.  <kbd>Enter</kbd> selects the hint which is currently typed, and <kbd>
+Esc</kbd> or <kbd>Ctrl</kbd>+<kbd>[</kbd> cancels hint mode.
+
+The following keymaps are available in hint mode:
+
+- <kbd>f</kbd>: start a quick hint mode to open links in the current tab or select elements
+- <kbd>F</kbd>: start a quick hint mode to open links in a new tab
+- <kbd>;</kbd><kbd>i</kbd>: open an image in the current tab
+- <kbd>;</kbd><kbd>I</kbd>: open an image in a new tab
+- <kbd>;</kbd><kbd>y</kbd>: copy a link URL to the clipboard
+- <kbd>;</kbd><kbd>Y</kbd>: copy a link text to the clipboard
+- <kbd>;</kbd><kbd>v</kbd>: open a source URL in the current tab
+- <kbd>;</kbd><kbd>V</kbd>: open a source URL in a new tab
+- <kbd>;</kbd><kbd>o</kbd>: open a URL in the current tab
+- <kbd>;</kbd><kbd>t</kbd>: open a URL in a new tab
+- <kbd>;</kbd><kbd>w</kbd>: open a URL in a new window
+- <kbd>;</kbd><kbd>O</kbd>: open the console with `:open` and the selected URL
+- <kbd>;</kbd><kbd>T</kbd>: open the console with `:tabopen` and the selected URL
+- <kbd>;</kbd><kbd>W</kbd>: open the console with `:winopen` and the selected URL
 
 ## Misc
 
