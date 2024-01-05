@@ -34,7 +34,7 @@
     "react-dom": "18.2.0",
     "styled-components": "^6.0.8",
     "tslib": "^2.6.2",
-    "typescript": "5.2.2",
+    "typescript": "5.3.3",
     "zod": "^3.22.2"
   },
   "devDependencies": {
