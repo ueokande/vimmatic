@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/ueokande/vimmatic/compare/v0.5.3...v0.6.0) (2024-01-05)
+
+
+### Features
+
+* extended hints support ([#302](https://github.com/ueokande/vimmatic/issues/302)) ([8065ae3](https://github.com/ueokande/vimmatic/commit/8065ae3e7d290ce0b24353cf3a6af1de8c4af50a))
+
 ## [0.5.3](https://github.com/ueokande/vimmatic/compare/v0.5.2...v0.5.3) (2023-11-12)
 
 
