@@ -1,8 +1,6 @@
-#!/usr/bin/env node
+import fs from "node:fs/promises";
+import { build } from "esbuild";
 
-const fs = require("node:fs/promises");
-const version = require("../package.json").version;
-const { build } = require("esbuild");
 const targets = {
   firefox: "firefox91",
   chrome: "chrome100",
@@ -11,8 +9,8 @@ const targets = {
 const buildScripts = async (browser) => {
   await build({
     define: {
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV ?? ""),
-      'process.env.BROWSER': JSON.stringify(browser),
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? ""),
+      "process.env.BROWSER": JSON.stringify(browser),
     },
     entryPoints: {
       console: "src/console/index.tsx",
@@ -33,15 +31,18 @@ const buildAssets = async (browser) => {
   await fs.cp("resources/", `dist/${browser}/resources/`, { recursive: true });
   await fs.copyFile(
     `src/console/index.html`,
-    `dist/${browser}/lib/console.html`
+    `dist/${browser}/lib/console.html`,
   );
   await fs.copyFile(
     `src/options/index.html`,
-    `dist/${browser}/lib/options.html`
+    `dist/${browser}/lib/options.html`,
   );
 
-  const manifest = require(`../src/manifest.${browser}.json`);
-  manifest.version = version;
+  const manifest = JSON.parse(
+    await fs.readFile(`src/manifest.${browser}.json`, "utf-8"),
+  );
+  const packageJson = JSON.parse(await fs.readFile(`package.json`, "utf-8"));
+  manifest.version = packageJson.version;
   fs.writeFile(`dist/${browser}/manifest.json`, JSON.stringify(manifest));
 };
 
