@@ -1,9 +1,6 @@
-#!/usr/bin/env node
-
-const fs = require("node:fs");
-const path = require("node:path");
-const JSZip = require("jszip");
-const version = require("../package.json").version;
+import fs from "node:fs";
+import path from "node:path";
+import JSZip from "jszip";
 
 async function* tree(dir) {
   const dirents = await fs.promises.readdir(dir, { withFileTypes: true });
@@ -18,7 +15,11 @@ async function* tree(dir) {
 }
 
 const zipPackage = async (browser) => {
-  const root = path.join(__dirname, "..", "dist", browser);
+  const packageJson = JSON.parse(
+    await fs.promises.readFile("package.json", "utf8"),
+  );
+  const version = packageJson.version;
+  const root = path.join("dist", browser);
   const output = path.join("dist", `vimmatic_v${version}_${browser}.zip`);
 
   const zip = new JSZip();
