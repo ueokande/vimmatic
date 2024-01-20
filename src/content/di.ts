@@ -18,6 +18,7 @@ import { BackgroundKeyClientImpl } from "./client/BackgroundKeyClient";
 import { ModeRepositoryImpl } from "./repositories/ModeRepository";
 import { TopFrameClientImpl } from "./client/TopFrameClient";
 import { FrameIdRepositoryImpl } from "./repositories/FrameIdRepository";
+import { ReadyStatusPresenterImpl } from "./presenters/ReadyStatusPresenter";
 import { Container } from "inversify";
 import { newSender as newBackgroundMessageSender } from "./client/BackgroundMessageSender";
 import { newSender as newWindowMessageSender } from "./client/WindowMessageSender";
@@ -40,6 +41,7 @@ container.bind("BackgroundKeyClient").to(BackgroundKeyClientImpl);
 container.bind("ModeRepository").to(ModeRepositoryImpl);
 container.bind("TopFrameClient").to(TopFrameClientImpl);
 container.bind("FrameIdRepository").to(FrameIdRepositoryImpl);
+container.bind("ReadyStatusPresenter").to(ReadyStatusPresenterImpl);
 container.bind("SettingClient").to(SettingClientImpl);
 container.bind("SettingRepository").to(SettingRepositoryImpl);
 container

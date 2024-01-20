@@ -104,3 +104,10 @@ export const useGetFindCompletion = () => {
   }, []);
   return execFind;
 };
+
+export const useSendReady = () => {
+  const sendReady = React.useCallback(() => {
+    windowMessageSender.send("console.ready");
+  }, []);
+  return sendReady;
+};

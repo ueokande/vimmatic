@@ -4,6 +4,7 @@ import ContentMessageListener from "./messaging/ContentMessageListener";
 import KeyController from "./controllers/KeyController";
 import SettingsController from "./controllers/SettingsController";
 import InputDriver from "./InputDriver";
+import ReadyStatusPresenter from "./presenters/ReadyStatusPresenter";
 
 @injectable()
 export default class Application {
@@ -17,6 +18,8 @@ export default class Application {
     private readonly keyController: KeyController,
     @inject(SettingsController)
     private readonly settingsController: SettingsController,
+    @inject("ReadyStatusPresenter")
+    private readonly readyStatusPresenter: ReadyStatusPresenter,
   ) {}
 
   init(): Promise<void> {
@@ -35,6 +38,8 @@ export default class Application {
     // The port is never used, and the messages are delivered via
     // `chrome.tabs.sendMessage` API with a frame ID.
     chrome.runtime.connect({ name: "vimmatic-port" });
+
+    this.readyStatusPresenter.setContentReady();
 
     return Promise.resolve();
   }

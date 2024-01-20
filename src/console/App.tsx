@@ -11,6 +11,7 @@ import {
   useGetCommandCompletion,
   useExecFind,
   useGetFindCompletion,
+  useSendReady,
 } from "./app/hooks";
 import { useInvalidateStyle } from "./styles/hooks";
 
@@ -32,6 +33,7 @@ const App: React.FC = () => {
   const execFind = useExecFind();
   const getCommandCompletions = useGetCommandCompletion();
   const getFindCompletions = useGetFindCompletion();
+  const sendReady = useSendReady();
   const onExec = React.useCallback(
     (cmd: string) => {
       if (state.mode !== "prompt") {
@@ -71,6 +73,8 @@ const App: React.FC = () => {
     port.onMessage.addListener((message: any) => {
       receiver.receive(message.type, message.args);
     });
+
+    sendReady();
   }, []);
 
   if (state.mode === "prompt") {
