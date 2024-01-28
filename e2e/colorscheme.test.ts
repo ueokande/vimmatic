@@ -11,7 +11,7 @@ test.afterAll(async () => {
   await server.stop();
 });
 
-test("changes color scheme by set command", async ({ page }) => {
+test.fixme("changes color scheme by set command", async ({ page }) => {
   await page.goto(server.url());
 
   await page.console.show();

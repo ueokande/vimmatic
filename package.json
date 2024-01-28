@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@jest/types": "^29.6.3",
-    "@playwright/test": "1.26.0",
+    "@playwright/test": "1.40.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/chrome": "^0.0.233",
     "@types/jest": "^29.5.5",
@@ -61,13 +61,12 @@
     "jest-environment-jsdom": "^29.7.0",
     "jszip": "^3.7.0",
     "nodemon": "^2.0.22",
-    "playwright": "1.26.0",
-    "playwright-webextext": "^0.0.3",
+    "playwright-webextext": "^0.0.4",
     "prettier": "3.1.1",
     "prettier-eslint": "16.2.0",
     "react-test-renderer": "18.2.0",
     "ts-node": "^10.7.0",
-    "webext-agent": "^0.1.0"
+    "webext-agent": "^0.2.0"
   },
   "engines": {
     "node": "20.1.0"

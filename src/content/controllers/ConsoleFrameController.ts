@@ -12,6 +12,10 @@ export default class ConsoleFrameController {
     this.consoleFrameUseCase.unfocus();
   }
 
+  ready() {
+    this.consoleFrameUseCase.makeConsoleReady();
+  }
+
   resize({ width, height }: { width: number; height: number }) {
     this.consoleFrameUseCase.resize(width, height);
   }

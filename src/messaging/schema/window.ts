@@ -3,6 +3,7 @@ import { Simplex } from "../types";
 
 export type Schema = {
   "console.unfocus": Simplex;
+  "console.ready": Simplex;
   "notify.frame.id": Simplex<{ frameId: number }>;
 };
 

@@ -119,8 +119,9 @@ test("should focus an input by f", async ({ page }) => {
   await page.locator("text=a").waitFor();
   await page.keyboard.press("a");
 
-  const activeTag = await page.evaluate(() => document.activeElement.tagName);
-  expect(activeTag.toLowerCase()).toBe("input");
+  await expect
+    .poll(() => page.evaluate(() => document.activeElement.tagName))
+    .toBe("INPUT");
 });
 
 test("should open a link by f", async ({ page, api }) => {
@@ -130,7 +131,6 @@ test("should open a link by f", async ({ page, api }) => {
   await page.keyboard.press("f");
   await page.locator("text=a").waitFor();
   await page.keyboard.press("a");
-  await page.waitForNavigation();
 
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -155,7 +155,7 @@ test("should show hints of links in area", async ({ page }) => {
   await page.keyboard.press("f");
   await page.locator("text=a").waitFor();
 
-  const hints = await page.locator(".vimmatic-hint").allInnerTexts();
+  const hints = await page.locator("[data-vimmatic-hint]").allInnerTexts();
   expect(hints.length).toBe(3);
 });
 
@@ -164,7 +164,7 @@ test("should shows hints only in viewport", async ({ page }) => {
   await page.keyboard.press("f");
   await page.locator("text=a").waitFor();
 
-  const hints = await page.locator(".vimmatic-hint").allInnerTexts();
+  const hints = await page.locator("[data-vimmatic-hint]").allInnerTexts();
   expect(hints.length).toBe(1);
 });
 
@@ -175,7 +175,7 @@ test("should shows hints only in window of the frame", async ({ page }) => {
 
   const hints = await page
     .frame("inner-frame")
-    .locator(".vimmatic-hint")
+    .locator("[data-vimmatic-hint]")
     .allInnerTexts();
   expect(hints.length).toBe(1);
 });
@@ -187,7 +187,7 @@ test("should shows hints only in the frame", async ({ page }) => {
 
   const hints = await page
     .frame("inner-frame")
-    .locator(".vimmatic-hint")
+    .locator("[data-vimmatic-hint]")
     .allInnerTexts();
   expect(hints.length).toBe(1);
 });

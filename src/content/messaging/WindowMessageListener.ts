@@ -22,6 +22,9 @@ export default class WindowMessageListener {
       .route("console.unfocus")
       .to(consoleFrameController.unfocus.bind(consoleFrameController));
     this.receiver
+      .route("console.ready")
+      .to(consoleFrameController.ready.bind(consoleFrameController));
+    this.receiver
       .route("notify.frame.id")
       .to(topFrameController.saveChildFrame.bind(topFrameController));
   }

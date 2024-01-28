@@ -18,7 +18,7 @@ test("should set a local mark and jump to it", async ({ page }) => {
   await page.evaluate(() => window.scrollBy(0, 500));
   await page.keyboard.type("'a", { delay: 10 });
 
-  await expect.poll(() => page.evaluate(() => window.pageYOffset)).toBe(200);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(200);
 });
 
 test.fixme(
@@ -40,7 +40,7 @@ test.fixme(
     await page1.keyboard.type("mA");
     await page1.evaluate(() => window.scrollBy(0, 500));
     await page1.keyboard.type("'A");
-    await expect.poll(() => page1.evaluate(() => window.pageYOffset)).toBe(200);
+    await expect.poll(() => page1.evaluate(() => window.scrollY)).toBe(200);
 
     await page2.keyboard.type("'A");
 
