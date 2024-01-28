@@ -47,15 +47,15 @@ test("should show hints with hintchars by settings", async ({ page, api }) => {
   await setupHintchars(api);
   await page.goto(server.url());
   await page.keyboard.press("f");
-  await page.locator(".vimmatic-hint").first().waitFor();
 
-  let hints = await page.locator(".vimmatic-hint:visible").allInnerTexts();
-  expect(hints).toEqual(["J", "K", "JJ", "JK", "KJ"]);
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "K", "JJ", "JK", "KJ"]);
 
   await page.keyboard.press("j");
-
-  hints = await page.locator(".vimmatic-hint:visible").allInnerTexts();
-  expect(hints).toEqual(["J", "JJ", "JK"]);
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "JJ", "JK"]);
 });
 
 test("should open link into a new tab", async ({ page, api }) => {
@@ -64,7 +64,8 @@ test("should open link into a new tab", async ({ page, api }) => {
   await setupHintchars(api);
   await page.goto(server.url());
   await page.keyboard.press("Shift+F");
-  await page.locator(".vimmatic-hint").first().waitFor();
+  await page.locator("[data-vimmatic-hint]:visible").first().waitFor();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   await page.keyboard.press("j");
   await page.keyboard.press("j");
 
@@ -79,7 +80,7 @@ test("should open link into new tab in background", async ({ page, api }) => {
   await setupHintchars(api);
   await page.goto(server.url());
   await page.keyboard.press("Control+f");
-  await page.locator(".vimmatic-hint").first().waitFor();
+  await page.locator("[data-vimmatic-hint]:visible").first().waitFor();
   await page.keyboard.press("j");
   await page.keyboard.press("j");
 
@@ -90,12 +91,12 @@ test("should open link into new tab in background", async ({ page, api }) => {
 
 test("should show hints with set hintchars", async ({ page }) => {
   await page.goto(server.url());
-  await page.console.exec("set hintchars=abc");
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await page.keyboard.type(":set hintchars=abc");
+  await page.keyboard.press("Enter");
 
   await page.keyboard.press("f");
-  await page.locator(".vimmatic-hint").first().waitFor();
-  const hints = await page.locator(".vimmatic-hint:visible").allInnerTexts();
 
-  expect(hints).toEqual(["A", "B", "C", "AA", "AB"]);
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["A", "B", "C", "AA", "AB"]);
 });

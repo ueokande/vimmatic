@@ -2,16 +2,9 @@ import { test, expect } from "./lib/fixture";
 import { newScrollableServer } from "./lib/servers";
 import SettingRepository from "./lib/SettingRepository";
 
-const setupBlacklist = async (
-  api: typeof browser,
-  blacklist: Array<string | { url: string; keys: Array<string> }>,
-) => {
-  await new SettingRepository(api).save({
-    blacklist,
-  });
-};
-
 const server = newScrollableServer();
+const READY_STATE_SELECTOR =
+  "head[data-vimmatic-content-status='ready'][data-vimmatic-console-status='ready']";
 
 test.beforeAll(async () => {
   await server.start();
@@ -25,38 +18,25 @@ test("should disable add-on if the URL is in the blacklist", async ({
   page,
   api,
 }) => {
-  await setupBlacklist(api, [new URL(server.url()).host + "/a"]);
+  await new SettingRepository(api).save({
+    blacklist: [new URL(server.url()).host + "/a"],
+  });
 
-  await page.goto(server.url("/a"));
-  await page.keyboard.press("j");
+  await page.goto(server.url("/a"), { waitUntil: "domcontentloaded" });
+  await expect(page.locator(READY_STATE_SELECTOR)).not.toBeAttached();
 
-  const y = await page.evaluate(() => window.pageYOffset);
-  expect(y).toBe(0);
-});
-
-test("should enabled add-on if the URL is not in the blacklist", async ({
-  page,
-  api,
-}) => {
-  await setupBlacklist(api, [new URL(server.url()).host + "/a"]);
-
-  await page.goto(server.url("/ab"));
-  await page.keyboard.press("j");
-
-  const y = await page.evaluate(() => window.pageYOffset);
-  expect(y).toBe(64);
+  await page.goto(server.url("/ab"), { waitUntil: "domcontentloaded" });
+  await expect(page.locator(READY_STATE_SELECTOR)).toBeAttached();
 });
 
 test("should disable keys in the partial blacklist", async ({ page, api }) => {
-  await setupBlacklist(api, [{ url: new URL(server.url()).host, keys: ["k"] }]);
+  await new SettingRepository(api).save({
+    blacklist: [{ url: new URL(server.url()).host, keys: ["k"] }],
+  });
 
   await page.goto(server.url());
+  await expect(page.locator(READY_STATE_SELECTOR)).toBeAttached();
 
-  await page.keyboard.press("j");
-  const y1 = await page.evaluate(() => window.pageYOffset);
-  expect(y1).toBe(64);
-
-  await page.keyboard.press("k");
-  const y2 = await page.evaluate(() => window.pageYOffset);
-  expect(y2).toBe(64);
+  await page.keyboard.type("jk");
+  expect(await page.evaluate(() => window.scrollY)).toBe(64);
 });

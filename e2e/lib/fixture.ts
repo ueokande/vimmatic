@@ -1,6 +1,5 @@
 import { createFixture, withExtension } from "playwright-webextext";
 import { connect } from "webext-agent";
-import WebExtPage from "./WebExtPage";
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
@@ -8,7 +7,6 @@ import path from "path";
 type Browser = typeof browser;
 
 type Fixture = {
-  page: WebExtPage;
   api: Browser;
 };
 
@@ -17,18 +15,12 @@ const addonPath = "/tmp/vimmatic-mixedin";
 const { test: base, expect } = createFixture(addonPath);
 
 export const test = base.extend<Fixture>({
-  page: async ({ page: base }, use) => {
-    const page = new WebExtPage(base);
-    await page.goto("about:blank");
-    await use(page);
-  },
-
-  api: async ({ page: _ }, use) => {
-    const webext = await connect("127.0.0.1:12345");
+  api: async ({ context: _ }, use) => {
+    const webext = await connect("vimmatic@i-beam.org");
     await use(webext);
   },
   context: [
-    async ({ context, playwright, browserName }, use) => {
+    async ({ playwright, browserName }, use) => {
       const userDataDir = await fs.mkdtemp(
         path.join(os.tmpdir(), `playwright_${browserName}dev_profile-`),
       );
@@ -36,12 +28,39 @@ export const test = base.extend<Fixture>({
       const newContext = await browserType.launchPersistentContext(
         userDataDir,
         {
-          headless: false,
+          // headless: false,
         },
       );
+
       await use(newContext);
-      await context.close();
+      await newContext.close();
       await fs.rm(userDataDir, { recursive: true });
+    },
+    { scope: "test" },
+  ],
+  page: [
+    async ({ page }, use) => {
+      const originalGoto = page.goto.bind(page);
+      page.goto = async (url: string, options?: { waitUntil?: unknown }) => {
+        const resp = await originalGoto(url, options);
+        if (typeof options?.waitUntil === "undefined") {
+          await page
+            .locator(
+              "head[data-vimmatic-content-status='ready'][data-vimmatic-console-status='ready']",
+            )
+            .waitFor({ state: "attached" });
+        }
+        return resp;
+      };
+
+      const originalType = page.keyboard.type.bind(page.keyboard);
+      page.keyboard.type = async (
+        text: string,
+        options?: { delay?: number },
+      ) => {
+        await originalType(text, { delay: options?.delay ?? 10 });
+      };
+      await use(page);
     },
     { scope: "test" },
   ],

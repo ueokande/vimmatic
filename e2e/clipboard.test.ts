@@ -1,35 +1,49 @@
 import { test, expect } from "./lib/fixture";
 import * as clipboard from "./lib/clipboard";
 import SettingRepository from "./lib/SettingRepository";
+import { newNopServer } from "./lib/servers";
+
+const server = newNopServer();
+
+test.beforeAll(async () => {
+  await server.start();
+});
+
+test.afterAll(async () => {
+  await server.stop();
+});
 
 test("should copy current URL by y", async ({ page }) => {
-  await page.goto("about:blank#should_copy_url");
+  await page.goto(server.url());
   await page.keyboard.press("y");
 
-  await expect.poll(() => clipboard.read()).toBe("about:blank#should_copy_url");
+  await expect.poll(() => clipboard.read()).toBe(server.url());
 });
 
 test("should open an URL from clipboard by p", async ({ page }) => {
-  await clipboard.write("about:blank#open_from_clipboard");
+  await page.goto(server.url());
+  await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("p");
 
-  await expect.poll(() => page.url()).toBe("about:blank#open_from_clipboard");
+  await expect.poll(() => page.url()).toBe(`${server.url()}#open_to_new_tab`);
 });
 
 test("should open an URL from clipboard to new tab by P", async ({
   page,
   api,
 }) => {
-  const { id: windowId } = await api.windows.getCurrent();
-  await clipboard.write("about:blank#open_to_new_tab");
+  await page.goto(server.url());
+
+  await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("Shift+P");
 
   await expect
-    .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([
-      { url: "about:blank" },
-      { url: "about:blank#open_to_new_tab" },
-    ]);
+    .poll(async () =>
+      (await api.tabs.query({ currentWindow: true })).map((t) => t.url),
+    )
+    .toEqual(
+      expect.arrayContaining([server.url(), `${server.url()}#open_to_new_tab`]),
+    );
 });
 
 test("should open search result with keywords in clipboard by p", async ({
@@ -38,42 +52,42 @@ test("should open search result with keywords in clipboard by p", async ({
 }) => {
   await new SettingRepository(api).save({
     search: {
-      default: "aboutblank",
+      default: "localhost",
       engines: {
-        aboutblank: "about:blank?q={}",
+        localhost: `${server.url()}?q={}`,
       },
     },
   });
-  await page.reload();
+  await page.goto(server.url());
 
   await clipboard.write(`an apple`);
   await page.keyboard.press("p");
 
-  await expect.poll(() => page.url()).toBe("about:blank?q=an%20apple");
+  await expect.poll(() => page.url()).toBe(`${server.url()}?q=an%20apple`);
 });
 
 test("should open search result with keywords in clipboard to new tab by P", async ({
   page,
   api,
 }) => {
-  const { id: windowId } = await api.windows.getCurrent();
   await new SettingRepository(api).save({
     search: {
-      default: "aboutblank",
+      default: "localhost",
       engines: {
-        aboutblank: "about:blank?q={}",
+        localhost: `${server.url()}?q={}`,
       },
     },
   });
-  await page.reload();
+  await page.goto(server.url());
 
   await clipboard.write(`an apple`);
   await page.keyboard.press("Shift+P");
 
   await expect
-    .poll(() => api.tabs.query({ windowId }))
-    .toMatchObject([
-      { url: "about:blank" },
-      { url: "about:blank?q=an%20apple" },
-    ]);
+    .poll(async () =>
+      (await api.tabs.query({ currentWindow: true })).map((t) => t.url),
+    )
+    .toEqual(
+      expect.arrayContaining([server.url(), `${server.url()}?q=an%20apple`]),
+    );
 });

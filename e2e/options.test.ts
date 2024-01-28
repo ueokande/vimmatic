@@ -1,18 +1,9 @@
-/*
-import * as path from "path";
-import * as assert from "assert";
+import { test } from "./lib/fixture";
 
-import TestServer from "./lib/TestServer";
-import eventually from "./eventually";
-import { Builder, Lanthan } from "lanthan";
-import { WebDriver } from "selenium-webdriver";
-import Page from "./lib/Page";
-import OptionPage from "./lib/OptionPage";
-
-describe("options page", () => {
+test.fixme("options page", () => {
   const server = new TestServer().receiveContent(
     "/",
-    `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`
+    `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`,
   );
   let lanthan: Lanthan;
   let webdriver: WebDriver;
@@ -51,7 +42,7 @@ describe("options page", () => {
     assert.strictEqual(settings.source, "json");
     assert.strictEqual(
       settings.json,
-      '{ "blacklist": [ "https://example.com" ] } '
+      '{ "blacklist": [ "https://example.com" ] } ',
     );
 
     await jsonPage.updateSettings(`invalid json`);
@@ -60,7 +51,7 @@ describe("options page", () => {
     assert.strictEqual(settings.source, "json");
     assert.strictEqual(
       settings.json,
-      '{ "blacklist": [ "https://example.com" ] } '
+      '{ "blacklist": [ "https://example.com" ] } ',
     );
 
     const message = await jsonPage.getErrorMessage();
@@ -71,7 +62,7 @@ describe("options page", () => {
     const optionPage = await OptionPage.open(lanthan);
     const jsonPage = await optionPage.asJSONOptionPage();
     await jsonPage.updateSettings(
-      `{ "keymaps": { "zz": { "type": "scroll.vertically", "count": 10 } } }`
+      `{ "keymaps": { "zz": { "type": "scroll.vertically", "count": 10 } } }`,
     );
 
     await browser.tabs.create({ url: server.url(), active: false });
@@ -88,4 +79,3 @@ describe("options page", () => {
     });
   });
 });
-*/

@@ -4,6 +4,11 @@ import SettingRepository from "./lib/SettingRepository";
 
 const server = newNopServer();
 
+// /site1
+// /site2
+// /current
+// /site3
+// /site4
 const setupTabs = async (api: typeof browser) => {
   const { id: windowId } = await api.windows.getCurrent();
   const tabs = [];
@@ -37,93 +42,88 @@ const setupSearchEngines = async (api: typeof browser) => {
   });
 };
 
-test.describe("addbookmark command", () => {
-  test("should add a bookmark from the current page", async ({ api, page }) => {
-    await page.goto(server.url("/bookmark"));
-    await page.console.exec("addbookmark my great bookmark");
+test("should add a bookmark by the addbookmark command", async ({
+  api,
+  page,
+}) => {
+  await page.goto(server.url("/bookmark"));
+  await page.keyboard.type(":addbookmark my great bookmark");
+  await page.keyboard.press("Enter");
 
-    await expect
-      .poll(() => api.bookmarks.search({ title: "my great bookmark" }))
-      .toMatchObject([{ url: server.url("/bookmark") }]);
-  });
+  await expect
+    .poll(() => api.bookmarks.search({ title: "my great bookmark" }))
+    .toMatchObject([{ url: server.url("/bookmark") }]);
 });
 
-test.describe("open command", () => {
-  test("should open search result for keywords", async ({ page, api }) => {
-    await setupSearchEngines(api);
-    await page.reload();
-    await page.console.exec("open an apple");
+test("should open a search result by the open command", async ({
+  page,
+  api,
+}) => {
+  await setupSearchEngines(api);
+  await page.goto(server.url("/"));
+  await page.keyboard.type(":open an apple");
+  await page.keyboard.press("Enter");
 
-    await expect
-      .poll(() => page.url())
-      .toBe(server.url("/google") + "?q=an%20apple");
-  });
+  await expect
+    .poll(() => page.url())
+    .toBe(server.url("/google") + "?q=an%20apple");
 });
 
-test.describe("buffer command", () => {
-  test("should select a tab by title", async ({ page, api }) => {
-    const { id: windowId } = await api.windows.getCurrent();
-    await setupTabs(api);
+test("should select a tab by the buffer command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+  await page.goto(server.url("/current"));
 
-    await page.console.exec("buffer site1");
+  await page.keyboard.type(":buffer site1");
+  await page.keyboard.press("Enter");
 
-    await expect
-      .poll(() => api.tabs.query({ windowId }))
-      .toMatchObject([
-        { url: server.url("/site1"), active: true },
-        { url: server.url("/site2") },
-        { url: "about:blank" },
-        { url: server.url("/site3") },
-        { url: server.url("/site4") },
-      ]);
-  });
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: server.url("/site1"), active: true },
+      { url: server.url("/site2") },
+      { url: server.url("/current") },
+      { url: server.url("/site3") },
+      { url: server.url("/site4") },
+    ]);
 });
 
-test.describe("bdelete command", () => {
-  test("should delete a tab by keyword", async ({ page, api }) => {
-    const { id: windowId } = await api.windows.getCurrent();
-    await setupTabs(api);
+test("should close a tab by the bdelete command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+  await page.goto(server.url("/current"));
 
-    await page.console.exec("bdelete site3");
-    await expect
-      .poll(() => api.tabs.query({ windowId }))
-      .toMatchObject([
-        { url: server.url("/site1") },
-        { url: server.url("/site2") },
-        { url: "about:blank" },
-        { url: server.url("/site4") },
-      ]);
-
-    await page.console.exec("bdelete! site2");
-    await expect
-      .poll(() => api.tabs.query({ windowId }))
-      .toMatchObject([
-        { url: server.url("/site1") },
-        { url: "about:blank" },
-        { url: server.url("/site4") },
-      ]);
-  });
+  await page.keyboard.type(":bdelete site3");
+  await page.keyboard.press("Enter");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: server.url("/site1") },
+      { url: server.url("/site2") },
+      { url: server.url("/current") },
+      { url: server.url("/site4") },
+    ]);
 });
 
-test.describe("bdeletes command", () => {
-  test("should delete tabs by keyword", async ({ page, api }) => {
-    const { id: windowId } = await api.windows.getCurrent();
-    await setupTabs(api);
+test("should close tabs by the bdeletes command", async ({ page, api }) => {
+  const { id: windowId } = await api.windows.getCurrent();
+  await setupTabs(api);
+  await page.goto(server.url("/current"));
 
-    await page.console.exec("bdeletes site");
+  await page.keyboard.type(":bdeletes site");
+  await page.keyboard.press("Enter");
 
-    await expect
-      .poll(() => api.tabs.query({ windowId }))
-      .toMatchObject([
-        { url: server.url("/site1") },
-        { url: server.url("/site2") },
-        { url: "about:blank" },
-      ]);
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([
+      { url: server.url("/site1") },
+      { url: server.url("/site2") },
+      { url: server.url("/current") },
+    ]);
 
-    await page.console.exec("bdeletes! site");
-
-    await expect
-      .poll(() => api.tabs.query({ windowId }))
-      .toMatchObject([{ url: "about:blank" }]);
-  });
+  await page.keyboard.type(":bdeletes! site");
+  await page.keyboard.press("Enter");
+  await expect
+    .poll(() => api.tabs.query({ windowId }))
+    .toMatchObject([{ url: server.url("/current") }]);
 });
