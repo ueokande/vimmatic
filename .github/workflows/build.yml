@@ -17,9 +17,6 @@ jobs:
       with:
         node-version-file: 'package.json'
         cache: 'pnpm'
-    - uses: ueokande/setup-firefox@latest
-      with:
-        firefox-version: 78.3.0esr
     - run: pnpm install --frozen-lockfile
     - run: pnpm tsc
     - run: pnpm lint
@@ -30,27 +27,21 @@ jobs:
         name: dist
         path: ./dist/
 
-  # TODO playwright-webextext does not support MV3
-  # test-e2e:
-  #   name: E2E Test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/setup-node@v3
-  #     with:
-  #       node-version: '18.5.0'
-  #       cache: 'yarn'
-  #   - uses: ueokande/setup-firefox@latest
-  #     with:
-  #       firefox-version: 78.3.0esr
-  #   - name: Install xsel
-  #     run: sudo apt-get install -y --no-install-recommends xsel
-  #   - run: yarn install --immutable
-  #   - run: yarn build
-  #   - run: $(npm bin)/webext-agent install
-  #   - run: $(npm bin)/webext-agent create-addon --base-addon . /tmp/vimmatic-mixedin
-  #   - name: Run test
-  #     run: |
-  #       export DISPLAY=:99
-  #       Xvfb -ac :99 -screen 0 1280x1024x24 >/dev/null 2>&1 &
-  #       yarn test:e2e --headed
+  test-e2e:
+    name: E2E Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: 'package.json'
+        cache: 'pnpm'
+    - name: Install xsel
+      run: sudo apt-get install -y --no-install-recommends xsel
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm exec playwright install firefox
+    - run: pnpm build
+    - run: pnpm exec webext-agent install --addon-ids vimmatic@i-beam.org
+    - run: pnpm exec webext-agent create-addon --base-addon dist/firefox /tmp/vimmatic-mixedin
+    - run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm run test:e2e --headed
