@@ -69,10 +69,6 @@ const App: React.FC = () => {
     chrome.runtime.onMessage.addListener((message: any) => {
       receiver.receive(message.type, message.args);
     });
-    const port = chrome.runtime.connect({ name: "vimmatic-console" });
-    port.onMessage.addListener((message: any) => {
-      receiver.receive(message.type, message.args);
-    });
 
     sendReady();
   }, []);

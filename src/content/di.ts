@@ -3,7 +3,6 @@
 import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepository";
 import { AddressRepositoryImpl } from "./repositories/AddressRepository";
 import { ClipboardRepositoryImpl } from "./repositories/ClipboardRepository";
-import { ConsoleClientImpl } from "./client/ConsoleClient";
 import { ConsoleFramePresenterImpl } from "./presenters/ConsoleFramePresenter";
 import { FocusPresenterImpl } from "./presenters/FocusPresenter";
 import { HintPresenterImpl } from "./presenters/HintPresenter";
@@ -28,7 +27,6 @@ const container = new Container({ autoBindInjectable: true });
 container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
 container.bind("AddressRepository").to(AddressRepositoryImpl);
 container.bind("ClipboardRepository").to(ClipboardRepositoryImpl);
-container.bind("ConsoleClient").to(ConsoleClientImpl);
 container.bind("ConsoleFramePresenter").to(ConsoleFramePresenterImpl);
 container.bind("FocusPresenter").to(FocusPresenterImpl);
 container.bind("HintPresenter").to(HintPresenterImpl);
