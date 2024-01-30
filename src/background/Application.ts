@@ -80,7 +80,11 @@ export default class Application {
   private async onFindPortConnect(port: chrome.runtime.Port) {
     const tabId = port.sender?.tab?.id;
     const frameId = port.sender?.frameId;
-    if (typeof tabId === "undefined" || typeof frameId === "undefined") {
+    if (
+      typeof tabId === "undefined" ||
+      typeof frameId === "undefined" ||
+      port.sender?.url === "about:blank"
+    ) {
       return;
     }
 
