@@ -15,6 +15,11 @@ describe("HintPresenterImpl", () => {
 
     // HintPresenterImpl checks if the element is visible by the offsetHeight.
     Object.defineProperties(window.HTMLElement.prototype, {
+      offsetWidth: {
+        get() {
+          return 10;
+        },
+      },
       offsetHeight: {
         get() {
           return 10;

@@ -53,3 +53,7 @@ global.chrome = {
     },
   },
 } as unknown as typeof chrome;
+
+if (global.Element) {
+  global.Element.prototype.checkVisibility = () => true;
+}

@@ -161,13 +161,13 @@ export class HintPresenterImpl implements HintPresenter {
     viewSize: Size,
     framePosition: Point,
   ): boolean {
-    const style = window.getComputedStyle(element);
-
     // AREA's 'display' in Browser style is 'none'
     return (
-      (element.tagName === "AREA" || style.display !== "none") &&
-      style.visibility !== "hidden" &&
-      (element as HTMLInputElement).type !== "hidden" &&
+      element.checkVisibility({
+        checkOpacity: true,
+        checkVisibilityCSS: true,
+      }) &&
+      element.offsetWidth > 0 &&
       element.offsetHeight > 0 &&
       !isAriaHiddenOrAriaDisabled(window, element) &&
       inViewport(window, element, viewSize, framePosition)

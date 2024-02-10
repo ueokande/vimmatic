@@ -92,31 +92,4 @@ const viewportRect = (e: Element): Rect => {
   };
 };
 
-const isVisible = (element: Element): boolean => {
-  const rect = element.getBoundingClientRect();
-  const style = window.getComputedStyle(element);
-
-  if (style.overflow !== "visible" && (rect.width === 0 || rect.height === 0)) {
-    return false;
-  }
-  if (rect.right < 0 && rect.bottom < 0) {
-    return false;
-  }
-  if (window.innerWidth < rect.left && window.innerHeight < rect.top) {
-    return false;
-  }
-  if (
-    element instanceof HTMLInputElement &&
-    element.type.toLowerCase() === "hidden"
-  ) {
-    return false;
-  }
-
-  const { display, visibility } = window.getComputedStyle(element);
-  if (display === "none" || visibility === "hidden") {
-    return false;
-  }
-  return true;
-};
-
-export { isContentEditable, viewportRect, isVisible };
+export { isContentEditable, viewportRect };

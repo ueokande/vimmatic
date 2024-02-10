@@ -1,5 +1,4 @@
 import { injectable } from "inversify";
-import * as doms from "../../shared/utils/dom";
 
 const SCROLL_DELTA_X = 64;
 const SCROLL_DELTA_Y = 64;
@@ -42,7 +41,12 @@ const findScrollable = (element: Element): Element | null => {
     return element;
   }
 
-  const children = Array.from(element.children).filter(doms.isVisible);
+  const children = Array.from(element.children).filter((e) =>
+    e.checkVisibility({
+      checkOpacity: true,
+      checkVisibilityCSS: true,
+    }),
+  );
   for (const child of children) {
     const scrollable = findScrollable(child);
     if (scrollable) {
