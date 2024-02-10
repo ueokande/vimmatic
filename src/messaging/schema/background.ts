@@ -5,7 +5,6 @@ import { Duplex } from "../types";
 
 export type Schema = {
   "typeof addon.enabled.response": Duplex<{ enabled: boolean }>;
-  "console.frame.message": Duplex<{ message: any }>;
   "background.operation": Duplex<{
     repeat: number;
     op: Operation;

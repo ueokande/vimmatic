@@ -15,8 +15,6 @@ export default class BackgroundMessageListener {
   private readonly receiver: ReceiverWithContext<Schema, RequestContext> =
     new ReceiverWithContext();
 
-  private readonly consolePorts: { [tabId: number]: chrome.runtime.Port } = {};
-
   constructor(
     @inject(SettingsController)
     settingsController: SettingsController,
@@ -63,9 +61,6 @@ export default class BackgroundMessageListener {
     this.receiver
       .route("settings.validate")
       .to(settingsController.validate.bind(settingsController));
-    this.receiver
-      .route("console.frame.message")
-      .to(this.onConsoleFrameMessage.bind(this));
     this.receiver
       .route("press.key")
       .to(keyController.pressKey.bind(keyController));
@@ -117,31 +112,5 @@ export default class BackgroundMessageListener {
         return true;
       },
     );
-    chrome.runtime.onConnect.addListener(this.onConnected.bind(this));
-  }
-
-  private onConnected(port: chrome.runtime.Port): void {
-    if (port.name !== "vimmatic-console") {
-      return;
-    }
-
-    if (port.sender && port.sender.tab && port.sender.tab.id) {
-      const id = port.sender.tab.id;
-      this.consolePorts[id] = port;
-    }
-  }
-
-  private onConsoleFrameMessage(
-    { sender }: RequestContext,
-    message: any,
-  ): void {
-    if (typeof sender.tab?.id === "undefined") {
-      return;
-    }
-    const port = this.consolePorts[sender.tab?.id];
-    if (!port) {
-      return;
-    }
-    port.postMessage(message);
   }
 }

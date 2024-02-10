@@ -14,7 +14,12 @@ export class FindPresenterImpl implements FindPresenter {
 
     // NOTE: aWholeWord dows not implemented, and aSearchInFrames does not work
     // because of same origin policy
-    return window.find(keyword, caseSensitive, backwards, wrapScan);
+    try {
+      return window.find(keyword, caseSensitive, backwards, wrapScan);
+    } catch (e) {
+      // Firefox throws NS_ERROR_ILLEGAL_VALUE sometimes
+      return false;
+    }
   }
 
   clearSelection(): void {
