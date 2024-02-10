@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/ueokande/vimmatic/compare/v0.6.0...v0.6.1) (2024-02-10)
+
+
+### Bug Fixes
+
+* an unexpected error when find mode ([#335](https://github.com/ueokande/vimmatic/issues/335)) ([5357d5c](https://github.com/ueokande/vimmatic/commit/5357d5c8dea8f9c1d9f6fc7241da1d651f9b35ee))
+* use checkVisibility() ([#348](https://github.com/ueokande/vimmatic/issues/348)) ([6a99e68](https://github.com/ueokande/vimmatic/commit/6a99e688f7c9dcf36e131162c25e3cd91aca6dc4))
+
 ## [0.6.0](https://github.com/ueokande/vimmatic/compare/v0.5.3...v0.6.0) (2024-01-05)
 
 
