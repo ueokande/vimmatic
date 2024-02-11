@@ -1,30 +1,77 @@
 import { injectable } from "inversify";
+import type FindQuery from "../../shared/FindQuery";
 
 export default interface FindPresenter {
-  find(keyword: string, backwards: boolean): boolean;
+  findNext(query: FindQuery): boolean;
+
+  findPrev(query: FindQuery): boolean;
 
   clearSelection(): void;
 }
 
-let currentKeyword: string | undefined;
+let currentQuery: {
+  keyword: string;
+  mode: string;
+  ignoreCase: boolean;
+} = {
+  keyword: "",
+  mode: "",
+  ignoreCase: false,
+};
 let finder: Finder | undefined;
 
 @injectable()
 export class FindPresenterImpl implements FindPresenter {
-  find(keyword: string, backwards: boolean): boolean {
-    if (!finder || currentKeyword !== keyword) {
-      finder = new Finder(
-        { keyword, mode: "normal", ignoreCase: true },
-        getTextGroups(document.body),
-      );
-      currentKeyword = keyword;
-    }
-
-    const matched = backwards ? finder.findPrev() : finder.findNext();
+  findNext({ keyword, mode, ignoreCase }: FindQuery): boolean {
+    this.initFinder({ keyword, mode, ignoreCase });
+    const matched = finder!.findNext();
     if (!matched) {
       return false;
     }
 
+    this.select(matched);
+    return true;
+  }
+
+  findPrev({ keyword, mode, ignoreCase }: FindQuery): boolean {
+    this.initFinder({ keyword, mode, ignoreCase });
+
+    const matched = finder!.findPrev();
+    if (!matched) {
+      return false;
+    }
+    this.select(matched);
+    return true;
+  }
+
+  private initFinder({
+    keyword,
+    mode,
+    ignoreCase,
+  }: {
+    keyword: string;
+    mode: "normal" | "regexp";
+    ignoreCase: boolean;
+  }): void {
+    if (
+      !finder ||
+      keyword !== currentQuery.keyword ||
+      mode !== currentQuery.mode ||
+      ignoreCase !== currentQuery.ignoreCase
+    ) {
+      finder = new Finder(
+        { keyword, mode, ignoreCase },
+        getTextGroups(document.body),
+      );
+      currentQuery = {
+        keyword,
+        mode,
+        ignoreCase,
+      };
+    }
+  }
+
+  private select(matched: FindRange): void {
     const range = document.createRange();
     range.setStart(matched[0].node, matched[0].offset);
     range.setEnd(matched[1].node, matched[1].offset + 1);
@@ -37,7 +84,6 @@ export class FindPresenterImpl implements FindPresenter {
       block: "center",
       inline: "center",
     });
-    return true;
   }
 
   clearSelection(): void {

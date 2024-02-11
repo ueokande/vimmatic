@@ -2,6 +2,8 @@ import ColorSchemeProperty from "./ColorSchemeProperty";
 import CompleteProperty from "./CompleteProperty";
 import HintcharsProperty from "./HintcharsProperty";
 import SmoothScrollProperty from "./SmoothScrollProperty";
+import IgnoreCaseProperty from "./IgnoreCaseProperty";
+import FindModeProperty from "./FindModeProperty";
 import PropertyRegistry, { PropertyRegistryImpl } from "./PropertyRegistry";
 
 export class PropertyRegistryFactry {
@@ -11,6 +13,8 @@ export class PropertyRegistryFactry {
     r.register(new SmoothScrollProperty());
     r.register(new CompleteProperty());
     r.register(new ColorSchemeProperty());
+    r.register(new IgnoreCaseProperty());
+    r.register(new FindModeProperty());
     return r;
   }
 }

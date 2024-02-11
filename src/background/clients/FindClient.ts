@@ -1,10 +1,11 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
+import type FindQuery from "../../shared/FindQuery";
 
 export default interface FindClient {
-  findNext(tabId: number, frameId: number, keyword: string): Promise<boolean>;
+  findNext(tabId: number, frameId: number, query: FindQuery): Promise<boolean>;
 
-  findPrev(tabId: number, frameId: number, keyword: string): Promise<boolean>;
+  findPrev(tabId: number, frameId: number, query: FindQuery): Promise<boolean>;
 
   clearSelection(tabId: number, frameId: number): Promise<void>;
 }
@@ -14,20 +15,20 @@ export class FindClientImpl implements FindClient {
   async findNext(
     tabId: number,
     frameId: number,
-    keyword: string,
+    query: FindQuery,
   ): Promise<boolean> {
     const sender = newSender(tabId, frameId);
-    const found = await sender.send("find.next", { keyword });
+    const found = await sender.send("find.next", query);
     return found;
   }
 
   async findPrev(
     tabId: number,
     frameId: number,
-    keyword: string,
+    query: FindQuery,
   ): Promise<boolean> {
     const sender = newSender(tabId, frameId);
-    const found = await sender.send("find.prev", { keyword });
+    const found = await sender.send("find.prev", query);
     return found;
   }
 

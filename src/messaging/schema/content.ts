@@ -2,14 +2,15 @@ import { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import { Duplex } from "../types";
 import type Mode from "../../shared/Mode";
 import type HTMLElementType from "../../shared/HTMLElementType";
+import type FindQuery from "../../shared/FindQuery";
 
 export type Schema = {
   "addon.enable": Duplex;
   "addon.disable": Duplex;
   "console.hide": Duplex;
   "console.resize": Duplex<{ width: number; height: number }>;
-  "find.next": Duplex<{ keyword: string }, boolean>;
-  "find.prev": Duplex<{ keyword: string }, boolean>;
+  "find.next": Duplex<FindQuery, boolean>;
+  "find.prev": Duplex<FindQuery, boolean>;
   "find.clear.selection": Duplex;
   "navigate.history.next": Duplex;
   "navigate.history.prev": Duplex;
