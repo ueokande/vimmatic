@@ -6,20 +6,37 @@ export default interface FindPresenter {
   clearSelection(): void;
 }
 
+let currentKeyword: string | undefined;
+let finder: Finder | undefined;
+
 @injectable()
 export class FindPresenterImpl implements FindPresenter {
   find(keyword: string, backwards: boolean): boolean {
-    const caseSensitive = false;
-    const wrapScan = false;
+    if (!finder || currentKeyword !== keyword) {
+      finder = new Finder(
+        { keyword, mode: "normal", caseSensitive: false },
+        getTextGroups(document.body),
+      );
+    }
 
-    // NOTE: aWholeWord dows not implemented, and aSearchInFrames does not work
-    // because of same origin policy
-    try {
-      return window.find(keyword, caseSensitive, backwards, wrapScan);
-    } catch (e) {
-      // Firefox throws NS_ERROR_ILLEGAL_VALUE sometimes
+    const matched = backwards ? finder.findPrev() : finder.findNext();
+    if (!matched) {
       return false;
     }
+
+    const range = document.createRange();
+    range.setStart(matched[0].node, matched[0].offset);
+    range.setEnd(matched[1].node, matched[1].offset + 1);
+    const sel = window.getSelection();
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    matched[0].node.parentElement!.scrollIntoView({
+      block: "center",
+      inline: "center",
+    });
+    return true;
   }
 
   clearSelection(): void {
@@ -27,6 +44,7 @@ export class FindPresenterImpl implements FindPresenter {
     if (sel) {
       sel.removeAllRanges();
     }
+    finder = undefined;
   }
 }
 
@@ -186,7 +204,12 @@ export const getTextGroups = (root: Node): Array<Array<Text>> => {
       if (child instanceof Text) {
         currentGroup.push(child);
       } else if (child instanceof Element) {
-        walk(child);
+        const visible = child.checkVisibility({
+          checkVisibilityCSS: true,
+        });
+        if (visible) {
+          walk(child);
+        }
       }
     }
     if (!isInline(node)) {
