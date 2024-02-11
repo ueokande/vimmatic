@@ -36,70 +36,61 @@ type FindTarget = {
   mode: "normal" | "regex";
 };
 
+type FindRange = [
+  { node: Text; offset: number },
+  { node: Text; offset: number },
+];
+
 export class Finder {
   private readonly target: FindTarget;
   private readonly textGroupMaps: Array<TextGroupMap>;
-  private currentTextGroupIndex: number = 0;
-  private currentTextOffset: number = -1;
+  private matched: Array<FindRange> = [];
+
+  private currentMatchedIndex: number = -1;
 
   constructor(target: FindTarget, textNodes: Array<Array<Text>>) {
     this.target = target;
     this.textGroupMaps = textNodes.map((group) => new TextGroupMap(group));
+
+    const keyword = this.target.keyword;
+    for (const textGroupMap of this.textGroupMaps) {
+      const wholeLine = textGroupMap.wholeLine;
+      for (let i = 0; i < wholeLine.length; ++i) {
+        const index = wholeLine.indexOf(keyword, i);
+        if (index < 0) {
+          break;
+        }
+
+        const begin = textGroupMap.anchorAt(index);
+        const end = textGroupMap.anchorAt(index + keyword.length - 1);
+        this.matched.push([begin, end]);
+
+        i = index;
+      }
+    }
   }
 
-  findNext(): { node: Text; offset: number } | undefined {
-    const keyword = this.target.keyword;
-    let textOffset = this.currentTextOffset + 1;
-
-    for (let i = 0; i <= this.textGroupMaps.length; ++i) {
-      const textGroupIndex =
-        (this.currentTextGroupIndex + i) % this.textGroupMaps.length;
-
-      const line = this.textGroupMaps[textGroupIndex].wholeLine;
-      const index = line.indexOf(keyword, textOffset);
-      if (index >= 0) {
-        const { node, offset } =
-          this.textGroupMaps[textGroupIndex].anchorAt(index);
-        this.currentTextGroupIndex = textGroupIndex;
-        this.currentTextOffset = index;
-
-        return { node, offset };
-      }
-
-      textOffset = 0;
+  findNext(): FindRange | undefined {
+    if (this.matched.length === 0) {
+      return undefined;
     }
-
-    return undefined;
+    const next = (this.currentMatchedIndex + 1) % this.matched.length;
+    this.currentMatchedIndex = next;
+    return this.matched[next];
   }
 
-  findPrev(): { node: Text; offset: number } | undefined {
-    const keyword = this.target.keyword;
-    let textOffset = this.currentTextOffset;
-    if (this.currentTextOffset <= 0) {
-      this.currentTextGroupIndex = this.textGroupMaps.length - 1;
-      textOffset = Infinity;
+  findPrev(): FindRange | undefined {
+    if (this.matched.length === 0) {
+      return undefined;
     }
-
-    for (let i = 0; i <= this.textGroupMaps.length; ++i) {
-      const textGroupIndex =
-        (this.textGroupMaps.length - i + this.currentTextGroupIndex) %
-        this.textGroupMaps.length;
-
-      const line = this.textGroupMaps[textGroupIndex].wholeLine;
-      const index = line.lastIndexOf(keyword, textOffset - 1);
-      if (index >= 0) {
-        const { node, offset } =
-          this.textGroupMaps[textGroupIndex].anchorAt(index);
-        this.currentTextGroupIndex = textGroupIndex;
-        this.currentTextOffset = index;
-
-        return { node, offset };
-      }
-
-      textOffset = Infinity;
+    if (this.currentMatchedIndex < 0) {
+      this.currentMatchedIndex = this.matched.length;
     }
-
-    return undefined;
+    const prev =
+      (this.currentMatchedIndex - 1 + this.matched.length) %
+      this.matched.length;
+    this.currentMatchedIndex = prev;
+    return this.matched[prev];
   }
 }
 

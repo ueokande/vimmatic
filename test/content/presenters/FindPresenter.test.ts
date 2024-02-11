@@ -84,9 +84,8 @@ describe("Finder", () => {
 
   beforeAll(() => {
     textNodes = [
-      ["aaa", "bbb", "", "waaaw"],
-      ["bb", "xaaax", "bb"],
-      [""],
+      ["aaaa", "bbb", "", "waaaw"],
+      ["bbaa", "a", "aacc"],
       [],
       ["", "yaaay", ""],
     ].map((group) => group.map((t) => document.createTextNode(t)));
@@ -95,23 +94,42 @@ describe("Finder", () => {
   describe("findNext", () => {
     it("returns the index of the first occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "aa", direction: "forward", mode: "normal" },
+        { keyword: "aaa", direction: "forward", mode: "normal" },
         textNodes,
       );
-      expect(finder.findNext()).toEqual({ node: textNodes[0][0], offset: 0 });
-      expect(finder.findNext()).toEqual({ node: textNodes[0][0], offset: 1 });
-      expect(finder.findNext()).toEqual({ node: textNodes[0][3], offset: 1 });
-      expect(finder.findNext()).toEqual({ node: textNodes[0][3], offset: 2 });
-      expect(finder.findNext()).toEqual({ node: textNodes[1][1], offset: 1 });
-      expect(finder.findNext()).toEqual({ node: textNodes[1][1], offset: 2 });
-      expect(finder.findNext()).toEqual({ node: textNodes[4][1], offset: 1 });
-      expect(finder.findNext()).toEqual({ node: textNodes[4][1], offset: 2 });
-      expect(finder.findNext()).toEqual({ node: textNodes[0][0], offset: 0 });
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 1 },
+        { node: textNodes[0][0], offset: 3 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][3], offset: 1 },
+        { node: textNodes[0][3], offset: 3 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][1], offset: 0 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 3 },
+        { node: textNodes[1][2], offset: 0 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][2], offset: 1 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[3][1], offset: 1 },
+        { node: textNodes[3][1], offset: 3 },
+      ]);
     });
 
     it("returns undefined when the keyword is not found", () => {
       const finder = new Finder(
-        { keyword: "c", direction: "forward", mode: "normal" },
+        { keyword: "q", direction: "forward", mode: "normal" },
         textNodes,
       );
       expect(finder.findNext()).toBeUndefined();
@@ -121,23 +139,42 @@ describe("Finder", () => {
   describe("findPrev", () => {
     it("returns the index of the last occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "aa", direction: "backward", mode: "normal" },
+        { keyword: "aaa", direction: "backward", mode: "normal" },
         textNodes,
       );
-      expect(finder.findPrev()).toEqual({ node: textNodes[4][1], offset: 2 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[4][1], offset: 1 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[1][1], offset: 2 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[1][1], offset: 1 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[0][3], offset: 2 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[0][3], offset: 1 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[0][0], offset: 1 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[0][0], offset: 0 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[4][1], offset: 2 });
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[3][1], offset: 1 },
+        { node: textNodes[3][1], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][2], offset: 1 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][0], offset: 3 },
+        { node: textNodes[1][2], offset: 0 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][1], offset: 0 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][3], offset: 1 },
+        { node: textNodes[0][3], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][0], offset: 1 },
+        { node: textNodes[0][0], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
     });
 
     it("returns undefined when the keyword is not found", () => {
       const finder = new Finder(
-        { keyword: "c", direction: "backward", mode: "normal" },
+        { keyword: "q", direction: "backward", mode: "normal" },
         textNodes,
       );
       expect(finder.findPrev()).toBeUndefined();
@@ -147,16 +184,33 @@ describe("Finder", () => {
   describe("findNext and findPrev", () => {
     it("returns the index of the first occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "a", direction: "forward", mode: "normal" },
+        { keyword: "aaa", direction: "forward", mode: "normal" },
         textNodes,
       );
-      expect(finder.findNext()).toEqual({ node: textNodes[0][0], offset: 0 });
-      expect(finder.findNext()).toEqual({ node: textNodes[0][0], offset: 1 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[0][0], offset: 0 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[4][1], offset: 3 });
-      expect(finder.findPrev()).toEqual({ node: textNodes[4][1], offset: 2 });
-      expect(finder.findNext()).toEqual({ node: textNodes[4][1], offset: 3 });
-      expect(finder.findNext()).toEqual({ node: textNodes[0][0], offset: 0 });
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 1 },
+        { node: textNodes[0][0], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[3][1], offset: 1 },
+        { node: textNodes[3][1], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][2], offset: 1 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[3][1], offset: 1 },
+        { node: textNodes[3][1], offset: 3 },
+      ]);
     });
   });
 });
