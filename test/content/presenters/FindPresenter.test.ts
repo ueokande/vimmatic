@@ -144,7 +144,7 @@ describe("Finder", () => {
     });
   });
 
-  describe("regex with case sensitive", () => {
+  describe("regexp with case sensitive", () => {
     let textNodes: Array<Array<Text>>;
 
     beforeAll(() => {
@@ -154,9 +154,9 @@ describe("Finder", () => {
       ].map((group) => group.map((t) => document.createTextNode(t)));
     });
 
-    test("findNext returns ranges of the occurrences of the given regex", () => {
+    test("findNext returns ranges of the occurrences of the given regexp", () => {
       const finder = new Finder(
-        { keyword: "a.a", mode: "regex", ignoreCase: false },
+        { keyword: "a.a", mode: "regexp", ignoreCase: false },
         textNodes,
       );
 
@@ -175,7 +175,7 @@ describe("Finder", () => {
     });
   });
 
-  describe("regex with ignore case", () => {
+  describe("regexp with ignore case", () => {
     let textNodes: Array<Array<Text>>;
 
     beforeAll(() => {
@@ -185,9 +185,9 @@ describe("Finder", () => {
       ].map((group) => group.map((t) => document.createTextNode(t)));
     });
 
-    test("findNext returns ranges of the occurrences of the given regex", () => {
+    test("findNext returns ranges of the occurrences of the given regexp", () => {
       const finder = new Finder(
-        { keyword: "a.a", mode: "regex", ignoreCase: true },
+        { keyword: "a.a", mode: "regexp", ignoreCase: true },
         textNodes,
       );
 

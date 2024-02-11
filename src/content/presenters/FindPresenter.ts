@@ -51,7 +51,7 @@ export class FindPresenterImpl implements FindPresenter {
 
 type FindTarget = {
   keyword: string;
-  mode: "normal" | "regex";
+  mode: "normal" | "regexp";
   ignoreCase: boolean;
 };
 
