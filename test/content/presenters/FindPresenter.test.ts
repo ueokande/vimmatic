@@ -56,7 +56,7 @@ describe("TextGroupMap", () => {
   describe("wholeLineText", () => {
     it("returns the whole line text", () => {
       const map = new TextGroupMap(textNodes);
-      expect(map.wholeLineText).toBe("firstsecondthird");
+      expect(map.wholeLine).toBe("firstsecondthird");
     });
   });
 
@@ -80,21 +80,159 @@ describe("TextGroupMap", () => {
 });
 
 describe("Finder", () => {
-  let textNodes: Array<Array<Text>>;
+  describe("normal search with case sensitive", () => {
+    let textNodes: Array<Array<Text>>;
 
-  beforeAll(() => {
-    textNodes = [
-      ["aaaa", "bbb", "", "waaaw"],
-      ["bbaa", "a", "aacc"],
-      [],
-      ["", "yaaay", ""],
-    ].map((group) => group.map((t) => document.createTextNode(t)));
+    beforeAll(() => {
+      textNodes = [
+        ["aba", "bad"],
+        ["aBa", "bad"],
+      ].map((group) => group.map((t) => document.createTextNode(t)));
+    });
+
+    test("findNext returns the range of the occurrence of the given text", () => {
+      const finder = new Finder(
+        { keyword: "aba", mode: "normal", caseSensitive: true },
+        textNodes,
+      );
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][1], offset: 1 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][1], offset: 1 },
+      ]);
+    });
   });
 
-  describe("findNext", () => {
-    it("returns the index of the first occurrence of the given text", () => {
+  describe("normal search with ignore case", () => {
+    let textNodes: Array<Array<Text>>;
+
+    beforeAll(() => {
+      textNodes = [
+        ["aba", "bad"],
+        ["aBa", "bad"],
+      ].map((group) => group.map((t) => document.createTextNode(t)));
+    });
+
+    test("findNext returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "aaa", direction: "forward", mode: "normal" },
+        { keyword: "aba", mode: "normal", caseSensitive: false },
+        textNodes,
+      );
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][1], offset: 1 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 0 },
+        { node: textNodes[1][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][1], offset: 1 },
+      ]);
+    });
+  });
+
+  describe("regex with case sensitive", () => {
+    let textNodes: Array<Array<Text>>;
+
+    beforeAll(() => {
+      textNodes = [
+        ["aba", "cad"],
+        ["aAa", "ab"],
+      ].map((group) => group.map((t) => document.createTextNode(t)));
+    });
+
+    test("findNext returns ranges of the occurrences of the given regex", () => {
+      const finder = new Finder(
+        { keyword: "a.a", mode: "regex", caseSensitive: true },
+        textNodes,
+      );
+
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][1], offset: 1 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 0 },
+        { node: textNodes[1][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+    });
+  });
+
+  describe("regex with ignore case", () => {
+    let textNodes: Array<Array<Text>>;
+
+    beforeAll(() => {
+      textNodes = [
+        ["aba", "cad"],
+        ["aAa", "ab"],
+      ].map((group) => group.map((t) => document.createTextNode(t)));
+    });
+
+    test("findNext returns ranges of the occurrences of the given regex", () => {
+      const finder = new Finder(
+        { keyword: "a.a", mode: "regex", caseSensitive: false },
+        textNodes,
+      );
+
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][1], offset: 1 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 0 },
+        { node: textNodes[1][0], offset: 2 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[1][0], offset: 1 },
+        { node: textNodes[1][1], offset: 0 },
+      ]);
+      expect(finder.findNext()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+    });
+  });
+
+  describe("navigation", () => {
+    let textNodes: Array<Array<Text>>;
+
+    beforeAll(() => {
+      textNodes = [
+        ["aaaa", "bbb", "", "waaaw"],
+        ["bbaa", "a", "aacc"],
+        [],
+        ["", "yaaay", ""],
+      ].map((group) => group.map((t) => document.createTextNode(t)));
+    });
+
+    test("findNext returns the range of the occurrence of the given text", () => {
+      const finder = new Finder(
+        { keyword: "aaa", mode: "normal", caseSensitive: true },
         textNodes,
       );
       expect(finder.findNext()).toEqual([
@@ -127,90 +265,21 @@ describe("Finder", () => {
       ]);
     });
 
-    it("returns undefined when the keyword is not found", () => {
+    test("findPrev returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "q", direction: "forward", mode: "normal" },
+        { keyword: "q", mode: "normal", caseSensitive: true },
         textNodes,
       );
       expect(finder.findNext()).toBeUndefined();
     });
-  });
 
-  describe("findPrev", () => {
-    it("returns the index of the last occurrence of the given text", () => {
+    test("returns undefined when the keyword is not found", () => {
       const finder = new Finder(
-        { keyword: "aaa", direction: "backward", mode: "normal" },
+        { keyword: "q", mode: "normal", caseSensitive: true },
         textNodes,
       );
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[3][1], offset: 1 },
-        { node: textNodes[3][1], offset: 3 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][1], offset: 0 },
-        { node: textNodes[1][2], offset: 1 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][0], offset: 3 },
-        { node: textNodes[1][2], offset: 0 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][0], offset: 2 },
-        { node: textNodes[1][1], offset: 0 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][3], offset: 1 },
-        { node: textNodes[0][3], offset: 3 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][0], offset: 1 },
-        { node: textNodes[0][0], offset: 3 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
-      ]);
-    });
-
-    it("returns undefined when the keyword is not found", () => {
-      const finder = new Finder(
-        { keyword: "q", direction: "backward", mode: "normal" },
-        textNodes,
-      );
+      expect(finder.findNext()).toBeUndefined();
       expect(finder.findPrev()).toBeUndefined();
-    });
-  });
-
-  describe("findNext and findPrev", () => {
-    it("returns the index of the first occurrence of the given text", () => {
-      const finder = new Finder(
-        { keyword: "aaa", direction: "forward", mode: "normal" },
-        textNodes,
-      );
-      expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
-      ]);
-      expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 1 },
-        { node: textNodes[0][0], offset: 3 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[3][1], offset: 1 },
-        { node: textNodes[3][1], offset: 3 },
-      ]);
-      expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][1], offset: 0 },
-        { node: textNodes[1][2], offset: 1 },
-      ]);
-      expect(finder.findNext()).toEqual([
-        { node: textNodes[3][1], offset: 1 },
-        { node: textNodes[3][1], offset: 3 },
-      ]);
     });
   });
 });

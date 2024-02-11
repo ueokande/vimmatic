@@ -32,8 +32,8 @@ export class FindPresenterImpl implements FindPresenter {
 
 type FindTarget = {
   keyword: string;
-  direction: "forward" | "backward";
   mode: "normal" | "regex";
+  caseSensitive: boolean;
 };
 
 type FindRange = [
@@ -51,23 +51,7 @@ export class Finder {
   constructor(target: FindTarget, textNodes: Array<Array<Text>>) {
     this.target = target;
     this.textGroupMaps = textNodes.map((group) => new TextGroupMap(group));
-
-    const keyword = this.target.keyword;
-    for (const textGroupMap of this.textGroupMaps) {
-      const wholeLine = textGroupMap.wholeLine;
-      for (let i = 0; i < wholeLine.length; ++i) {
-        const index = wholeLine.indexOf(keyword, i);
-        if (index < 0) {
-          break;
-        }
-
-        const begin = textGroupMap.anchorAt(index);
-        const end = textGroupMap.anchorAt(index + keyword.length - 1);
-        this.matched.push([begin, end]);
-
-        i = index;
-      }
-    }
+    this.matched = this.findAll();
   }
 
   findNext(): FindRange | undefined {
@@ -91,6 +75,44 @@ export class Finder {
       this.matched.length;
     this.currentMatchedIndex = prev;
     return this.matched[prev];
+  }
+
+  private findAll(): Array<FindRange> {
+    const matched: Array<FindRange> = [];
+    const keyword = this.target.keyword;
+    for (const textGroupMap of this.textGroupMaps) {
+      const wholeLine = textGroupMap.wholeLine;
+      if (this.target.mode === "normal") {
+        for (let i = 0; i < wholeLine.length; ++i) {
+          const index = (() => {
+            if (this.target.caseSensitive) {
+              return wholeLine.indexOf(keyword, i);
+            } else {
+              return wholeLine.toLowerCase().indexOf(keyword.toLowerCase(), i);
+            }
+          })();
+          if (index < 0) {
+            break;
+          }
+
+          const begin = textGroupMap.anchorAt(index);
+          const end = textGroupMap.anchorAt(index + keyword.length - 1);
+          matched.push([begin, end]);
+
+          i = index;
+        }
+      } else {
+        const re = new RegExp(keyword, this.target.caseSensitive ? "g" : "gi");
+        let match: RegExpExecArray | null;
+        while ((match = re.exec(wholeLine)) !== null) {
+          const begin = textGroupMap.anchorAt(match.index);
+          const end = textGroupMap.anchorAt(match.index + match[0].length - 1);
+          matched.push([begin, end]);
+          re.lastIndex = match.index + 1;
+        }
+      }
+    }
+    return matched;
   }
 }
 
