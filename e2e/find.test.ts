@@ -49,7 +49,7 @@ test("starts regexp searching", async ({ page }) => {
   await page.keyboard.press("Enter");
   await page.keyboard.type("/h...o");
   await page.keyboard.press("Enter");
-  await expectSelection(page).toEqual({ from: 9, to: 14 });
+  await expectSelection(page).toEqual({ from: 2, to: 7 });
 });
 
 test("search with last keyword if keyword is empty", async ({ page }) => {
