@@ -42,6 +42,16 @@ test("starts searching", async ({ page }) => {
   await expectSelection(page).toEqual({ from: 16, to: 21 });
 });
 
+test("starts regexp searching", async ({ page }) => {
+  await page.goto(server.url());
+
+  await page.keyboard.type(":set findmode=regexp");
+  await page.keyboard.press("Enter");
+  await page.keyboard.type("/h...o");
+  await page.keyboard.press("Enter");
+  await expectSelection(page).toEqual({ from: 9, to: 14 });
+});
+
 test("search with last keyword if keyword is empty", async ({ page }) => {
   await page.goto(server.url());
 
