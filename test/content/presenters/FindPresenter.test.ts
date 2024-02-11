@@ -92,7 +92,7 @@ describe("Finder", () => {
 
     test("findNext returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "aba", mode: "normal", caseSensitive: true },
+        { keyword: "aba", mode: "normal", ignoreCase: false },
         textNodes,
       );
       expect(finder.findNext()).toEqual([
@@ -122,7 +122,7 @@ describe("Finder", () => {
 
     test("findNext returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "aba", mode: "normal", caseSensitive: false },
+        { keyword: "aba", mode: "normal", ignoreCase: true },
         textNodes,
       );
       expect(finder.findNext()).toEqual([
@@ -156,7 +156,7 @@ describe("Finder", () => {
 
     test("findNext returns ranges of the occurrences of the given regex", () => {
       const finder = new Finder(
-        { keyword: "a.a", mode: "regex", caseSensitive: true },
+        { keyword: "a.a", mode: "regex", ignoreCase: false },
         textNodes,
       );
 
@@ -191,7 +191,7 @@ describe("Finder", () => {
 
     test("findNext returns ranges of the occurrences of the given regex", () => {
       const finder = new Finder(
-        { keyword: "a.a", mode: "regex", caseSensitive: false },
+        { keyword: "a.a", mode: "regex", ignoreCase: true },
         textNodes,
       );
 
@@ -232,7 +232,7 @@ describe("Finder", () => {
 
     test("findNext returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "aaa", mode: "normal", caseSensitive: true },
+        { keyword: "aaa", mode: "normal", ignoreCase: false },
         textNodes,
       );
       expect(finder.findNext()).toEqual([
@@ -267,7 +267,7 @@ describe("Finder", () => {
 
     test("findPrev returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
-        { keyword: "q", mode: "normal", caseSensitive: true },
+        { keyword: "q", mode: "normal", ignoreCase: false },
         textNodes,
       );
       expect(finder.findNext()).toBeUndefined();
@@ -275,7 +275,7 @@ describe("Finder", () => {
 
     test("returns undefined when the keyword is not found", () => {
       const finder = new Finder(
-        { keyword: "q", mode: "normal", caseSensitive: true },
+        { keyword: "q", mode: "normal", ignoreCase: false },
         textNodes,
       );
       expect(finder.findNext()).toBeUndefined();

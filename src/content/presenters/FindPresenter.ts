@@ -14,7 +14,7 @@ export class FindPresenterImpl implements FindPresenter {
   find(keyword: string, backwards: boolean): boolean {
     if (!finder || currentKeyword !== keyword) {
       finder = new Finder(
-        { keyword, mode: "normal", caseSensitive: false },
+        { keyword, mode: "normal", ignoreCase: true },
         getTextGroups(document.body),
       );
       currentKeyword = keyword;
@@ -52,7 +52,7 @@ export class FindPresenterImpl implements FindPresenter {
 type FindTarget = {
   keyword: string;
   mode: "normal" | "regex";
-  caseSensitive: boolean;
+  ignoreCase: boolean;
 };
 
 type FindRange = [
@@ -104,10 +104,10 @@ export class Finder {
       if (this.target.mode === "normal") {
         for (let i = 0; i < wholeLine.length; ++i) {
           const index = (() => {
-            if (this.target.caseSensitive) {
-              return wholeLine.indexOf(keyword, i);
-            } else {
+            if (this.target.ignoreCase) {
               return wholeLine.toLowerCase().indexOf(keyword.toLowerCase(), i);
+            } else {
+              return wholeLine.indexOf(keyword, i);
             }
           })();
           if (index < 0) {
@@ -121,7 +121,7 @@ export class Finder {
           i = index;
         }
       } else {
-        const re = new RegExp(keyword, this.target.caseSensitive ? "g" : "gi");
+        const re = new RegExp(keyword, this.target.ignoreCase ? "gi" : "g");
         let match: RegExpExecArray | null;
         while ((match = re.exec(wholeLine)) !== null) {
           const begin = textGroupMap.anchorAt(match.index);
