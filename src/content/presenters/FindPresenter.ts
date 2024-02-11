@@ -17,6 +17,7 @@ export class FindPresenterImpl implements FindPresenter {
         { keyword, mode: "normal", caseSensitive: false },
         getTextGroups(document.body),
       );
+      currentKeyword = keyword;
     }
 
     const matched = backwards ? finder.findPrev() : finder.findNext();
