@@ -77,23 +77,24 @@ export class Finder {
     if (this.matched.length === 0) {
       return undefined;
     }
-    const next = (this.currentMatchedIndex + 1) % this.matched.length;
-    this.currentMatchedIndex = next;
-    return this.matched[next];
+    if (this.currentMatchedIndex === this.matched.length - 1) {
+      return undefined;
+    }
+    this.currentMatchedIndex++;
+    return this.matched[this.currentMatchedIndex];
   }
 
   findPrev(): FindRange | undefined {
     if (this.matched.length === 0) {
       return undefined;
     }
-    if (this.currentMatchedIndex < 0) {
+    if (this.currentMatchedIndex === 0) {
+      return undefined;
+    } else if (this.currentMatchedIndex < 0) {
       this.currentMatchedIndex = this.matched.length;
     }
-    const prev =
-      (this.currentMatchedIndex - 1 + this.matched.length) %
-      this.matched.length;
-    this.currentMatchedIndex = prev;
-    return this.matched[prev];
+    this.currentMatchedIndex--;
+    return this.matched[this.currentMatchedIndex];
   }
 
   private findAll(): Array<FindRange> {

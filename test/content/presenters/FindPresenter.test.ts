@@ -172,10 +172,6 @@ describe("Finder", () => {
         { node: textNodes[1][0], offset: 0 },
         { node: textNodes[1][0], offset: 2 },
       ]);
-      expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
-      ]);
     });
   });
 
@@ -210,10 +206,6 @@ describe("Finder", () => {
       expect(finder.findNext()).toEqual([
         { node: textNodes[1][0], offset: 1 },
         { node: textNodes[1][1], offset: 0 },
-      ]);
-      expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
       ]);
     });
   });
@@ -263,22 +255,58 @@ describe("Finder", () => {
         { node: textNodes[3][1], offset: 1 },
         { node: textNodes[3][1], offset: 3 },
       ]);
+      expect(finder.findNext()).toBeUndefined();
     });
 
     test("findPrev returns the range of the occurrence of the given text", () => {
       const finder = new Finder(
+        { keyword: "aaa", mode: "normal", ignoreCase: false },
+        textNodes,
+      );
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[3][1], offset: 1 },
+        { node: textNodes[3][1], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][2], offset: 1 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][0], offset: 3 },
+        { node: textNodes[1][2], offset: 0 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][1], offset: 0 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][3], offset: 1 },
+        { node: textNodes[0][3], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][0], offset: 1 },
+        { node: textNodes[0][0], offset: 3 },
+      ]);
+      expect(finder.findPrev()).toEqual([
+        { node: textNodes[0][0], offset: 0 },
+        { node: textNodes[0][0], offset: 2 },
+      ]);
+      expect(finder.findPrev()).toBeUndefined();
+    });
+
+    test("findNext returns undefined when the keyword is not found", () => {
+      const finder = new Finder(
         { keyword: "q", mode: "normal", ignoreCase: false },
         textNodes,
       );
       expect(finder.findNext()).toBeUndefined();
     });
 
-    test("returns undefined when the keyword is not found", () => {
+    test("findPrev returns undefined when the keyword is not found", () => {
       const finder = new Finder(
         { keyword: "q", mode: "normal", ignoreCase: false },
         textNodes,
       );
-      expect(finder.findNext()).toBeUndefined();
       expect(finder.findPrev()).toBeUndefined();
     });
   });
