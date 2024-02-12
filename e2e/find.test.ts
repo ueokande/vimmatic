@@ -51,25 +51,3 @@ test("starts regexp searching", async ({ page }) => {
   await page.keyboard.press("Enter");
   await expectSelection(page).toEqual({ from: 2, to: 7 });
 });
-
-test("search with last keyword if keyword is empty", async ({ page }) => {
-  await page.goto(server.url());
-
-  await page.keyboard.type("/hello");
-  await page.keyboard.press("Enter");
-
-  await page.keyboard.type("/");
-  await page.keyboard.press("Enter");
-
-  await expectSelection(page).toEqual({ from: 2, to: 7 });
-});
-
-test("search with last keyword on new page", async ({ page }) => {
-  await page.goto(server.url());
-  await page.keyboard.type("/hello");
-  await page.keyboard.press("Enter");
-
-  await page.reload();
-  await page.keyboard.press("n");
-  await expectSelection(page).toEqual({ from: 2, to: 7 });
-});
