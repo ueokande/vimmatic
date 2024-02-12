@@ -1,5 +1,6 @@
 import { inject, injectable } from "inversify";
-import FindPresenter from "../presenters/FindPresenter";
+import type FindPresenter from "../presenters/FindPresenter";
+import type FindQuery from "../../shared/FindQuery";
 
 @injectable()
 export default class FindUseCase {
@@ -8,12 +9,12 @@ export default class FindUseCase {
     private readonly findPresenter: FindPresenter,
   ) {}
 
-  findNext(keyword: string): boolean {
-    return this.findPresenter.find(keyword, false);
+  findNext(query: FindQuery) {
+    return this.findPresenter.findNext(query);
   }
 
-  findPrev(keyword: string): boolean {
-    return this.findPresenter.find(keyword, true);
+  findPrev(query: FindQuery) {
+    return this.findPresenter.findPrev(query);
   }
 
   clearSelection() {

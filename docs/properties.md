@@ -62,9 +62,32 @@ preferred color configured by system settings is used (see also
 [prefers-color-scheme][]).
 
 ```
-set colorscheme=system     " Use system settings
-set colorscheme=light      " Light mode
-set colorscheme=dark       " Dark mode
+:set colorscheme=system     " Use system settings
+:set colorscheme=light      " Light mode
+:set colorscheme=dark       " Dark mode
 ```
 
 [prefers-color-scheme]: https://developer.mozilla.org/docs/Web/CSS/@media/prefers-color-scheme
+
+## `findmode`
+
+Set find mode.  The allowed value is one of `normal` (default) or `regexp`.
+The `normal` is the normal find mode, it finds the text that matches the text.
+The `regexp` is the regular expression find mode.  The regular expression is
+based on the JavaScript [RegExp][].
+
+[RegExp]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+
+```
+:set findmode=normal        " Normal find mode
+:set findmode=regexp        " Regular expression find mode
+```
+
+## `ignorecase`
+
+Enable or disable case-insensitive search.
+
+```
+:set ignorecase     " Enable case-insensitive search
+:set noignorecase   " Disable case-insensitive search
+```

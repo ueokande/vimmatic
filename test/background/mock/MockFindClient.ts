@@ -1,10 +1,11 @@
-import FindClient from "../../../src/background/clients/FindClient";
+import type FindClient from "../../../src/background/clients/FindClient";
+import type FindQuery from "../../../src/shared/FindQuery";
 
 export default class MockFindClient implements FindClient {
   findNext(
     _tabId: number,
     _frameId: number,
-    _keyword: string,
+    _query: FindQuery,
   ): Promise<boolean> {
     throw new Error("not implemented");
   }
@@ -12,7 +13,7 @@ export default class MockFindClient implements FindClient {
   findPrev(
     _tabId: number,
     _frameId: number,
-    _keyword: string,
+    _query: FindQuery,
   ): Promise<boolean> {
     throw new Error("not implemented");
   }

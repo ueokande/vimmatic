@@ -1,5 +1,6 @@
 import { injectable, inject } from "inversify";
 import FindUseCase from "../usecases/FindUseCase";
+import type FindQuery from "../../shared/FindQuery";
 
 @injectable()
 export default class FindController {
@@ -8,13 +9,13 @@ export default class FindController {
     private readonly findUseCase: FindUseCase,
   ) {}
 
-  findNext({ keyword }: { keyword: string }): Promise<boolean> {
-    const found = this.findUseCase.findNext(keyword);
+  findNext(query: FindQuery): Promise<boolean> {
+    const found = this.findUseCase.findNext(query);
     return Promise.resolve(found);
   }
 
-  findPrev({ keyword }: { keyword: string }): Promise<boolean> {
-    const found = this.findUseCase.findPrev(keyword);
+  findPrev(query: FindQuery): Promise<boolean> {
+    const found = this.findUseCase.findPrev(query);
     return Promise.resolve(found);
   }
 
