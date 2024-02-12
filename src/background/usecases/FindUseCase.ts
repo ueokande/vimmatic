@@ -24,7 +24,7 @@ export default class FindUseCase {
   ) {}
 
   async startFind(tabId: number, keyword?: string): Promise<void> {
-    if (typeof keyword === "undefined") {
+    if (typeof keyword === "undefined" || keyword === "") {
       const state = await this.findRepository.getLocalState(tabId);
       keyword = state?.keyword;
     }
