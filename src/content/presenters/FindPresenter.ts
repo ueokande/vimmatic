@@ -19,6 +19,7 @@ let currentQuery: {
   ignoreCase: false,
 };
 let finder: Finder | undefined;
+let textGroups: Array<Array<Text>> | undefined;
 
 @injectable()
 export class FindPresenterImpl implements FindPresenter {
@@ -53,16 +54,16 @@ export class FindPresenterImpl implements FindPresenter {
     mode: "normal" | "regexp";
     ignoreCase: boolean;
   }): void {
+    if (!textGroups) {
+      textGroups = getTextGroups(document.body);
+    }
     if (
       !finder ||
       keyword !== currentQuery.keyword ||
       mode !== currentQuery.mode ||
       ignoreCase !== currentQuery.ignoreCase
     ) {
-      finder = new Finder(
-        { keyword, mode, ignoreCase },
-        getTextGroups(document.body),
-      );
+      finder = new Finder({ keyword, mode, ignoreCase }, textGroups);
       currentQuery = {
         keyword,
         mode,
