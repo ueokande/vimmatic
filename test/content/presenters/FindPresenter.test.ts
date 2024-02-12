@@ -165,10 +165,6 @@ describe("Finder", () => {
         { node: textNodes[0][0], offset: 2 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 2 },
-        { node: textNodes[0][1], offset: 1 },
-      ]);
-      expect(finder.findNext()).toEqual([
         { node: textNodes[1][0], offset: 0 },
         { node: textNodes[1][0], offset: 2 },
       ]);
@@ -181,7 +177,7 @@ describe("Finder", () => {
     beforeAll(() => {
       textNodes = [
         ["aba", "cad"],
-        ["aAa", "ab"],
+        ["Aa", "ab"],
       ].map((group) => group.map((t) => document.createTextNode(t)));
     });
 
@@ -196,15 +192,7 @@ describe("Finder", () => {
         { node: textNodes[0][0], offset: 2 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 2 },
-        { node: textNodes[0][1], offset: 1 },
-      ]);
-      expect(finder.findNext()).toEqual([
         { node: textNodes[1][0], offset: 0 },
-        { node: textNodes[1][0], offset: 2 },
-      ]);
-      expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 1 },
         { node: textNodes[1][1], offset: 0 },
       ]);
     });

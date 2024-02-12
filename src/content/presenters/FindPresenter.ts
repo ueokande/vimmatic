@@ -169,13 +169,14 @@ export class Finder {
         }
       } else {
         const re = new RegExp(keyword, this.target.ignoreCase ? "gi" : "g");
-        let match: RegExpExecArray | null;
-        while ((match = re.exec(wholeLine)) !== null) {
-          const begin = textGroupMap.anchorAt(match.index);
-          const end = textGroupMap.anchorAt(match.index + match[0].length - 1);
+        Array.from(wholeLine.matchAll(re)).forEach((m) => {
+          if (m.index === undefined || m[0].length === 0) {
+            return;
+          }
+          const begin = textGroupMap.anchorAt(m.index);
+          const end = textGroupMap.anchorAt(m.index + m[0].length - 1);
           matched.push([begin, end]);
-          re.lastIndex = match.index + 1;
-        }
+        });
       }
     }
     return matched;
