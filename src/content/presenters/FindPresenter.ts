@@ -249,13 +249,13 @@ const isInline = (node: Node): boolean => {
  * groups in the given root node.
  */
 export const getTextGroups = (root: Node): Array<Array<Text>> => {
-  const inlineGroups: Array<Array<Text>> = [];
+  const textGroups: Array<Array<Text>> = [];
   let currentGroup: Array<Text> = [];
 
   const walk = (node: Node) => {
     if (!isInline(node)) {
       if (currentGroup.length > 0) {
-        inlineGroups.push(currentGroup);
+        textGroups.push(currentGroup);
         currentGroup = [];
       }
     }
@@ -273,7 +273,7 @@ export const getTextGroups = (root: Node): Array<Array<Text>> => {
     }
     if (!isInline(node)) {
       if (currentGroup.length > 0) {
-        inlineGroups.push(currentGroup);
+        textGroups.push(currentGroup);
         currentGroup = [];
       }
     }
@@ -281,5 +281,5 @@ export const getTextGroups = (root: Node): Array<Array<Text>> => {
 
   walk(root);
 
-  return inlineGroups;
+  return textGroups;
 };
