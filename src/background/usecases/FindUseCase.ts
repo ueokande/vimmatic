@@ -38,37 +38,10 @@ export default class FindUseCase {
 
     await this.findHistoryRepository.append(keyword);
     await this.findRepository.setGlobalKeyword(keyword);
+    await this.findRepository.deleteLocalState(tabId);
 
-    const frameIds = await this.frameRepository.getFrameIds(tabId);
-    if (typeof frameIds === "undefined") {
-      // No frames are ready
-      return;
-    }
-    for (const frameId of frameIds) {
-      await this.findClient.clearSelection(tabId, frameId);
-    }
-
-    const mode: "normal" | "regexp" =
-      (await this.propertySettings.getProperty("findmode")) === "normal"
-        ? "normal"
-        : "regexp";
-    const ignoreCase = Boolean(
-      await this.propertySettings.getProperty("ignorecase"),
-    );
-    const query = { keyword, mode, ignoreCase };
-
-    for (const frameId of frameIds) {
-      const found = await this.findClient.findNext(tabId, frameId, query);
-      if (found) {
-        await this.findRepository.setLocalState(tabId, {
-          frameId,
-          keyword,
-        });
-        await this.consoleClient.showInfo(tabId, "Pattern found: " + keyword);
-        return;
-      }
-    }
-    this.consoleClient.showError(tabId, "Pattern not found: " + keyword);
+    // findNext from global keyword
+    return this.findNext(tabId);
   }
 
   async getHistories(prefix: string): Promise<string[]> {
@@ -82,14 +55,7 @@ export default class FindUseCase {
       return;
     }
 
-    const mode: "normal" | "regexp" =
-      (await this.propertySettings.getProperty("findmode")) === "normal"
-        ? "normal"
-        : "regexp";
-    const ignoreCase = Boolean(
-      await this.propertySettings.getProperty("ignorecase"),
-    );
-
+    const { mode, ignoreCase } = await this.getFindProperties();
     const state = await this.findRepository.getLocalState(tabId);
     if (state) {
       const framePos = frameIds.indexOf(state.frameId);
@@ -164,14 +130,7 @@ export default class FindUseCase {
     }
     frameIds = frameIds.slice(0).reverse();
 
-    const mode: "normal" | "regexp" =
-      (await this.propertySettings.getProperty("findmode")) === "normal"
-        ? "normal"
-        : "regexp";
-    const ignoreCase = Boolean(
-      await this.propertySettings.getProperty("ignorecase"),
-    );
-
+    const { mode, ignoreCase } = await this.getFindProperties();
     const state = await this.findRepository.getLocalState(tabId);
     if (state) {
       const framePos = frameIds.indexOf(state.frameId);
@@ -236,5 +195,19 @@ export default class FindUseCase {
       return;
     }
     await this.consoleClient.showError(tabId, "No previous search keywords");
+  }
+
+  private async getFindProperties(): Promise<{
+    mode: "normal" | "regexp";
+    ignoreCase: boolean;
+  }> {
+    const mode: "normal" | "regexp" =
+      (await this.propertySettings.getProperty("findmode")) === "normal"
+        ? "normal"
+        : "regexp";
+    const ignoreCase = Boolean(
+      await this.propertySettings.getProperty("ignorecase"),
+    );
+    return { mode, ignoreCase };
   }
 }

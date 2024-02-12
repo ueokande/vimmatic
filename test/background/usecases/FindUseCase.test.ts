@@ -93,7 +93,7 @@ describe("FindUseCase", () => {
         findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
         const getLocalStateSpy = jest
           .spyOn(findRepository, "getLocalState")
-          .mockResolvedValue({ keyword, frameId: 0 });
+          .mockResolvedValueOnce({ keyword, frameId: 0 });
         const showInfoSpy = jest
           .spyOn(consoleClient, "showInfo")
           .mockResolvedValue(undefined);
