@@ -81,9 +81,19 @@ export class FindPresenterImpl implements FindPresenter {
       sel.removeAllRanges();
       sel.addRange(range);
     }
+    const container = matched[0].node.parentNode;
+    if (!(container instanceof Element)) {
+      return;
+    }
+    const rect = container.getBoundingClientRect();
+    const horizonalScrollMode =
+      rect.left < 0 || rect.right > window.innerWidth ? "center" : "nearest";
+    const verticalScrollMode =
+      rect.top < 0 || rect.bottom > window.innerHeight ? "center" : "nearest";
+
     matched[0].node.parentElement!.scrollIntoView({
-      block: "center",
-      inline: "center",
+      block: verticalScrollMode,
+      inline: horizonalScrollMode,
     });
   }
 
