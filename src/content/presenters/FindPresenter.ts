@@ -249,7 +249,6 @@ const isInline = (node: Node): boolean => {
  * groups in the given root node.
  */
 export const getTextGroups = (root: Node): Array<Array<Text>> => {
-  document.body.childNodes;
   const inlineGroups: Array<Array<Text>> = [];
   let currentGroup: Array<Text> = [];
 
