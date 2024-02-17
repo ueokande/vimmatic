@@ -42,7 +42,7 @@
     "@playwright/test": "1.40.1",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/chrome": "^0.0.233",
-    "@types/jest": "^29.5.5",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.6.0",
     "@types/prismjs": "^1.26.1",
     "@types/react": "^18.2.46",
