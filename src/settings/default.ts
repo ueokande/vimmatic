@@ -91,7 +91,9 @@ export const defaultJSONSettings = `{
     "hintchars": "abcdefghijklmnopqrstuvwxyz",
     "smoothscroll": false,
     "complete": "sbh",
-    "colorscheme": "system"
+    "colorscheme": "system",
+    "ignorecase": true,
+    "findmode": "normal"
   },
   "blacklist": [
   ],
