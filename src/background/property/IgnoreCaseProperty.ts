@@ -15,7 +15,8 @@ export default class IgnoreCaseProperty implements Property {
   }
 
   defaultValue() {
-    return false;
+    // prefer the browser setting instead of vim's default
+    return true;
   }
 
   validate(value: PropertyType) {
