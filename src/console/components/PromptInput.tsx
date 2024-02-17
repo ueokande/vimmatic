@@ -16,6 +16,9 @@ const InputInner = styled.input`
   flex-grow: 1;
   background-color: ${({ theme }) => theme.command.background};
   color: ${({ theme }) => theme.command.foreground};
+  &:focus {
+    outline: none;
+  }
 `;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
