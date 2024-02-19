@@ -17,7 +17,7 @@ describe("SelectLastTabOperator", () => {
       const sut = new SelectLastTabOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith(103, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(103, { active: true });
     });
   });
 });

@@ -14,7 +14,7 @@ describe("NavigateLinkPrevOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(linkPrevSpy).toBeCalledWith(100);
+      expect(linkPrevSpy).toHaveBeenCalledWith(100);
     });
   });
 });

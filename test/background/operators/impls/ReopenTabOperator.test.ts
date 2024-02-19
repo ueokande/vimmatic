@@ -34,7 +34,7 @@ describe("ReopenTabOperator", () => {
     it("reopens closed tabs", async () => {
       const sut = new ReopenTabOperator();
       await sut.run();
-      expect(mockSessionsRestore).toBeCalledWith("102");
+      expect(mockSessionsRestore).toHaveBeenCalledWith("102");
     });
   });
 });

@@ -18,6 +18,10 @@ describe("TabopenHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: true });
 
-    expect(mockOpen).toBeCalledWith("https://example.com/photo.jpg", 10, true);
+    expect(mockOpen).toHaveBeenCalledWith(
+      "https://example.com/photo.jpg",
+      10,
+      true,
+    );
   });
 });

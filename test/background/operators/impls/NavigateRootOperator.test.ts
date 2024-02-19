@@ -19,7 +19,9 @@ describe("NavigateRootOperator", () => {
       const sut = new NavigateRootOperator();
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({ url: "https://example.com" });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({
+        url: "https://example.com",
+      });
     });
   });
 });

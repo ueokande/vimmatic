@@ -28,7 +28,7 @@ describe("SelectTabPrevOperator", () => {
       const sut = new SelectTabPrevOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith(101, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(101, { active: true });
     });
   });
 
@@ -50,7 +50,7 @@ describe("SelectTabPrevOperator", () => {
       const sut = new SelectTabPrevOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith(103, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(103, { active: true });
     });
   });
 });

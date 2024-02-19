@@ -10,7 +10,7 @@ describe("UnpinTabOperator", () => {
       const sut = new UnpinTabOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith({ pinned: false });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({ pinned: false });
     });
   });
 });

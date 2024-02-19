@@ -25,7 +25,7 @@ describe("CloseTabOperator", () => {
       const sut = new CloseTabOperator();
       await sut.run(ctx, {});
 
-      expect(mockTabsRemove).toBeCalledWith(100);
+      expect(mockTabsRemove).toHaveBeenCalledWith(100);
     });
 
     it("close a current tab forcely", async () => {
@@ -39,7 +39,7 @@ describe("CloseTabOperator", () => {
       const sut = new CloseTabOperator();
       await sut.run(ctx, { force: true });
 
-      expect(mockTabsRemove).toBeCalledWith(100);
+      expect(mockTabsRemove).toHaveBeenCalledWith(100);
     });
 
     it("close a current tab and select left of the closed tab", async () => {
@@ -60,8 +60,8 @@ describe("CloseTabOperator", () => {
       const sut = new CloseTabOperator();
       await sut.run(ctx, { force: true, select: "left" });
 
-      expect(mockTabsRemove).toBeCalledWith(102);
-      expect(mockTabsUpdate).toBeCalledWith(101, { active: true });
+      expect(mockTabsRemove).toHaveBeenCalledWith(102);
+      expect(mockTabsUpdate).toHaveBeenCalledWith(101, { active: true });
     });
   });
 });

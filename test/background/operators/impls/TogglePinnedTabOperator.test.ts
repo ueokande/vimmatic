@@ -14,7 +14,7 @@ describe("TogglePinnedTabOperator", () => {
       } as OperatorContext;
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({ pinned: false });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({ pinned: false });
     });
   });
 });

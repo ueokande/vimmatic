@@ -55,7 +55,7 @@ describe("CommandRegistryImpl", () => {
         exec,
         getCompletions,
       }),
-    ).toThrowError();
+    ).toThrow();
   });
 
   test("throws an error when names does not contains fullname", () => {
@@ -68,6 +68,6 @@ describe("CommandRegistryImpl", () => {
         exec,
         getCompletions,
       }),
-    ).toThrowError();
+    ).toThrow();
   });
 });

@@ -17,7 +17,7 @@ describe("SelectFirstTabOperator", () => {
       const sut = new SelectFirstTabOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith(101, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(101, { active: true });
     });
   });
 });

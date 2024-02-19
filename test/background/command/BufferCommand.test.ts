@@ -40,7 +40,7 @@ describe("BufferCommand", () => {
       mockTabsQuery.mockResolvedValue(allTabs);
       await sut.exec(ctx, false, "3");
 
-      expect(mockTabsUpdate).toBeCalledWith(12, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(12, { active: true });
     });
 
     it("throws an error when the number is out of range", async () => {
@@ -49,7 +49,7 @@ describe("BufferCommand", () => {
       await expect(sut.exec(ctx, false, "0")).rejects.toThrow(RangeError);
       await expect(sut.exec(ctx, false, "6")).rejects.toThrow(RangeError);
 
-      expect(mockTabsUpdate).toBeCalledTimes(0);
+      expect(mockTabsUpdate).toHaveBeenCalledTimes(0);
     });
 
     it("selects last selected tab by #", async () => {
@@ -57,14 +57,14 @@ describe("BufferCommand", () => {
       mockGetLastSelectedTab.mockResolvedValue(10);
       await sut.exec(ctx, false, "#");
 
-      expect(mockTabsUpdate).toBeCalledWith(10, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(10, { active: true });
     });
 
     it("do nothing by %", async () => {
       mockTabsQuery.mockResolvedValue(allTabs);
       await sut.exec(ctx, false, "%");
 
-      expect(mockTabsUpdate).toBeCalledTimes(0);
+      expect(mockTabsUpdate).toHaveBeenCalledTimes(0);
     });
 
     it("selects first matched tab by the keyword", async () => {
@@ -78,7 +78,7 @@ describe("BufferCommand", () => {
 
       await sut.exec(ctx, false, "any");
 
-      expect(mockTabsUpdate).toBeCalledWith(tab3.id, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(tab3.id, { active: true });
     });
 
     it("selects next matched tab by the keyword", async () => {
@@ -92,7 +92,7 @@ describe("BufferCommand", () => {
 
       await sut.exec(ctx, false, "any");
 
-      expect(mockTabsUpdate).toBeCalledWith(tab4.id, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(tab4.id, { active: true });
     });
 
     it("selects matched tab by the keyword, circularly", async () => {
@@ -106,7 +106,7 @@ describe("BufferCommand", () => {
 
       await sut.exec(ctx, false, "any");
 
-      expect(mockTabsUpdate).toBeCalledWith(tab3.id, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(tab3.id, { active: true });
     });
 
     it("throws an error when no maching tabs", async () => {

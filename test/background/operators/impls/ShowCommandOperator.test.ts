@@ -18,7 +18,7 @@ describe("ShowCommandOperator", () => {
       const sut = new ShowCommandOperator(consoleClient);
       await sut.run(ctx);
 
-      expect(showCommandSpy).toBeCalledWith(100, "");
+      expect(showCommandSpy).toHaveBeenCalledWith(100, "");
     });
   });
 });

@@ -38,7 +38,7 @@ describe("PermanentSettingsRepository", () => {
 
   describe("#save", () => {
     it("throws an error", () => {
-      expect(sut.save({})).rejects.toThrowError();
+      expect(sut.save({})).rejects.toThrow();
     });
   });
 });
@@ -90,7 +90,7 @@ describe("TransientSettingsRepository", () => {
       const settings2 = await sut.load();
       expect(settings2.properties["complete"]).toBe("sbh");
 
-      expect(mockPermanetLoad).toBeCalledTimes(1);
+      expect(mockPermanetLoad).toHaveBeenCalledTimes(1);
     });
   });
 

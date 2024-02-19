@@ -13,7 +13,7 @@ describe("ZoomInOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(mockSetZoom).toBeCalledWith(100, 1.1);
+      expect(mockSetZoom).toHaveBeenCalledWith(100, 1.1);
     });
   });
 });

@@ -22,7 +22,7 @@ describe("SelectPreviousSelectedTabOperator", () => {
       );
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith(101, { active: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith(101, { active: true });
     });
 
     it("do nothing if no last-selected tabs", async () => {
@@ -35,7 +35,7 @@ describe("SelectPreviousSelectedTabOperator", () => {
       );
       await sut.run();
 
-      expect(mockTabsUpdate).not.toBeCalled();
+      expect(mockTabsUpdate).not.toHaveBeenCalled();
     });
   });
 });

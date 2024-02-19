@@ -23,14 +23,14 @@ describe("ShowWinOpenCommandOperator", () => {
       const sut = new ShowWinOpenCommandOperator(consoleClient);
       await sut.run(ctx, { alter: false });
 
-      expect(showCommandSpy).toBeCalledWith(100, "winopen ");
+      expect(showCommandSpy).toHaveBeenCalledWith(100, "winopen ");
     });
 
     it("show command with winopen command and an URL of the current tab", async () => {
       const sut = new ShowWinOpenCommandOperator(consoleClient);
       await sut.run(ctx, { alter: true });
 
-      expect(showCommandSpy).toBeCalledWith(
+      expect(showCommandSpy).toHaveBeenCalledWith(
         100,
         "winopen https://example.com/",
       );

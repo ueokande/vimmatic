@@ -20,7 +20,7 @@ describe("WinopenCommandHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockShowCommand).toBeCalledWith(
+    expect(mockShowCommand).toHaveBeenCalledWith(
       10,
       "winopen https://example.com/photo.jpg",
     );

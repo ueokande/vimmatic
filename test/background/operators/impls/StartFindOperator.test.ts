@@ -19,7 +19,7 @@ describe("StartFindOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(showFindSpy).toBeCalledWith(100);
+      expect(showFindSpy).toHaveBeenCalledWith(100);
     });
   });
 });

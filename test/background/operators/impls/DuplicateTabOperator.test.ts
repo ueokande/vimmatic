@@ -12,7 +12,7 @@ describe("DuplicateTabOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(mockTabsDuplicate).toBeCalledWith(100);
+      expect(mockTabsDuplicate).toHaveBeenCalledWith(100);
     });
   });
 });

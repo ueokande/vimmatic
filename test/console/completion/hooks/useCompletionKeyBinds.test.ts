@@ -45,7 +45,7 @@ describe("useCompletionKeyBinds", () => {
       act(() => {
         result.current(mockKeyEvent(event));
       });
-      expect(onCancel).toBeCalledTimes(1);
+      expect(onCancel).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -57,7 +57,7 @@ describe("useCompletionKeyBinds", () => {
       act(() => {
         result.current(mockKeyEvent(event));
       });
-      expect(onNext).toBeCalledTimes(1);
+      expect(onNext).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -69,7 +69,7 @@ describe("useCompletionKeyBinds", () => {
       act(() => {
         result.current(mockKeyEvent(event));
       });
-      expect(onPrev).toBeCalledTimes(1);
+      expect(onPrev).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -81,7 +81,7 @@ describe("useCompletionKeyBinds", () => {
       act(() => {
         result.current(mockKeyEvent(event));
       });
-      expect(onEnter).toBeCalledTimes(1);
+      expect(onEnter).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -25,7 +25,7 @@ describe("CloseTabRightOperator", () => {
       const sut = new CloseTabRightOperator();
       await sut.run();
 
-      expect(mockTabsRemove).toBeCalledWith([103, 104]);
+      expect(mockTabsRemove).toHaveBeenCalledWith([103, 104]);
     });
   });
 });

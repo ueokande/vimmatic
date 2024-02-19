@@ -14,14 +14,14 @@ describe("ReloadTabOperator", () => {
       const sut = new ReloadTabOperator();
       await sut.run(ctx, { cache: true });
 
-      expect(reloadSpy).toBeCalledWith({ bypassCache: true });
+      expect(reloadSpy).toHaveBeenCalledWith({ bypassCache: true });
     });
 
     it("reloads the current tab without cache", async () => {
       const sut = new ReloadTabOperator();
       await sut.run(ctx, { cache: false });
 
-      expect(reloadSpy).toBeCalledWith({ bypassCache: false });
+      expect(reloadSpy).toHaveBeenCalledWith({ bypassCache: false });
     });
   });
 });

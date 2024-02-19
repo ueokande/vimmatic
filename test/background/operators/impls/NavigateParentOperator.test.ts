@@ -23,7 +23,7 @@ describe("NavigateParentOperator", () => {
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({
+      expect(mockTabsUpdate).toHaveBeenCalledWith({
         url: "https://example.com/fruits/yellow/",
       });
     });
@@ -40,7 +40,7 @@ describe("NavigateParentOperator", () => {
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({
+      expect(mockTabsUpdate).toHaveBeenCalledWith({
         url: "https://example.com/fruits/",
       });
     });
@@ -57,7 +57,7 @@ describe("NavigateParentOperator", () => {
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({
+      expect(mockTabsUpdate).toHaveBeenCalledWith({
         url: "https://example.com/fruits/yellow/",
       });
     });
@@ -74,7 +74,7 @@ describe("NavigateParentOperator", () => {
       const sut = new NavigateParentOperator();
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({
+      expect(mockTabsUpdate).toHaveBeenCalledWith({
         url: "https://example.com/search",
       });
     });

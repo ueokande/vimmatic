@@ -10,7 +10,7 @@ describe("PinTabOperator", () => {
       const sut = new PinTabOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith({ pinned: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({ pinned: true });
     });
   });
 });

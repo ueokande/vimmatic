@@ -37,7 +37,7 @@ describe("QuitCommand", () => {
     const ctx = { sender: { tabId: 10, frameId: 0, tab: pinned } };
     const cmd = new QuitCommand();
 
-    await expect(cmd.exec(ctx, false, "")).rejects.toThrowError("Cannot close");
+    await expect(cmd.exec(ctx, false, "")).rejects.toThrow("Cannot close");
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
   });
 

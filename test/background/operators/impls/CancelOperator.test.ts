@@ -14,7 +14,7 @@ describe("CancelOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(spy).toBeCalledWith(100);
+      expect(spy).toHaveBeenCalledWith(100);
     });
   });
 });

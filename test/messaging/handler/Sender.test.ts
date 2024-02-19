@@ -29,7 +29,7 @@ describe("Sender", () => {
   test("it receives and route a message", async () => {
     await expect(sut.send("greeting", { lang: "en" })).resolves.toBe("hello");
     await expect(sut.send("greeting", { lang: "du" })).resolves.toBe("hallo");
-    await expect(sut.send("greeting", { lang: "it" })).rejects.toThrowError(
+    await expect(sut.send("greeting", { lang: "it" })).rejects.toThrow(
       "unsupported language",
     );
   });

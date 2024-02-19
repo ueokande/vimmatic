@@ -14,7 +14,7 @@ describe("NavigateHistoryPrevOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(historyNextSpy).toBeCalledWith(100);
+      expect(historyNextSpy).toHaveBeenCalledWith(100);
     });
   });
 });

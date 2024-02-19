@@ -68,7 +68,7 @@ describe("CommandRegistryImpl", () => {
     const r = new PropertyRegistryImpl();
     r.register(p1);
 
-    expect(() => r.register(p2)).toThrowError(
+    expect(() => r.register(p2)).toThrow(
       "Property myprop is already registered",
     );
   });
@@ -83,7 +83,7 @@ describe("CommandRegistryImpl", () => {
       defaultValue: () => 100,
       validate: () => true,
     };
-    expect(() => r.register(p1)).toThrowError(
+    expect(() => r.register(p1)).toThrow(
       "Property prop is a string value, but the default value is a number",
     );
 
@@ -94,7 +94,7 @@ describe("CommandRegistryImpl", () => {
       defaultValue: () => "false",
       validate: () => true,
     };
-    expect(() => r.register(p2)).toThrowError(
+    expect(() => r.register(p2)).toThrow(
       "Property prop is a boolean value, but the default value is a string",
     );
   });

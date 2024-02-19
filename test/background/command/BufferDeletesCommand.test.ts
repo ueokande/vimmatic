@@ -61,7 +61,7 @@ describe("BufferDeletesCommand", () => {
       { ...defaultTab, id: 11, pinned: true },
     ]);
 
-    await expect(sut.exec(ctx, false, "")).rejects.toThrowError(
+    await expect(sut.exec(ctx, false, "")).rejects.toThrow(
       "No matching buffer",
     );
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);

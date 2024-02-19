@@ -16,7 +16,7 @@ describe("OpenSourceOperator", () => {
       const sut = new OpenSourceOperator();
       await sut.run(ctx);
 
-      expect(mockTabsCreate).toBeCalledWith({
+      expect(mockTabsCreate).toHaveBeenCalledWith({
         url: "view-source:https://example.com/",
       });
     });
