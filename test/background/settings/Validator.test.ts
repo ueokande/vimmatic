@@ -20,9 +20,9 @@ describe("Validator", () => {
     sut.validate({});
     sut.validate({
       keymaps: new Keymaps({
-        d: { type: "tabs.close" },
-        D: { type: "tabs.close", select: "left" },
-        zd: { type: "tabs.duplicate" },
+        d: { type: "tabs.close", props: {} },
+        D: { type: "tabs.close", props: { select: "left" } },
+        zd: { type: "tabs.duplicate", props: {} },
       }),
       search: new Search("google", {
         google: "https://google.com/search?q={}",
@@ -65,7 +65,7 @@ describe("Validator", () => {
     expect(() => {
       sut.validate({
         keymaps: new Keymaps({
-          d: { type: "harakiri" },
+          d: { type: "harakiri", props: {} },
         }),
       });
     }).toThrowError("Unknown keymap: harakiri");
@@ -73,7 +73,7 @@ describe("Validator", () => {
     expect(() => {
       sut.validate({
         keymaps: new Keymaps({
-          D: { type: "tabs.close", force: "1" },
+          D: { type: "tabs.close", props: { force: "1" } },
         }),
       });
     }).toThrowError(

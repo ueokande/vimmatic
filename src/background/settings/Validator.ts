@@ -27,7 +27,7 @@ export default class Validator {
     });
 
     const keymapEntries = settings.keymaps?.entries() || [];
-    keymapEntries.forEach(([key, { type, ...props }]) => {
+    keymapEntries.forEach(([key, { type, props }]) => {
       const op = this.operatorRegistory.getOperator(type);
       if (typeof op === "undefined") {
         throw new Error("Unknown keymap: " + type);
