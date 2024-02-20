@@ -5,7 +5,7 @@
 import InputDriver, {
   keyFromKeyboardEvent,
 } from "../../src/content/InputDriver";
-import Key from "../../src/shared/settings/Key";
+import type Key from "../../src/shared/Key";
 
 describe("InputDriver", () => {
   let target: HTMLElement;
@@ -99,7 +99,6 @@ describe("InputDriver", () => {
   it("does not invoke only meta keys", () => {
     driver.onKey((_key: Key): boolean => {
       throw new Error("unexpected reach");
-      return false;
     });
 
     target.dispatchEvent(new KeyboardEvent("keydown", { key: "Shift" }));
@@ -114,7 +113,6 @@ describe("InputDriver", () => {
       const driver = new InputDriver(input);
       driver.onKey((_key: Key): boolean => {
         throw new Error("unexpected reach");
-        return false;
       });
       input.dispatchEvent(new KeyboardEvent("keydown", { key: "x" }));
     });
@@ -125,7 +123,6 @@ describe("InputDriver", () => {
     const driver = new InputDriver(div);
     driver.onKey((_key: Key): boolean => {
       throw new Error("unexpected reach");
-      return false;
     });
 
     div.setAttribute("contenteditable", "");

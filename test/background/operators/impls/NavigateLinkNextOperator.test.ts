@@ -8,7 +8,7 @@ describe("NavigateLinkNextOperator", () => {
       const navigateClient = new MockNavigateClient();
       const linkNextSpy = jest
         .spyOn(navigateClient, "linkNext")
-        .mockReturnValueOnce(Promise.resolve());
+        .mockResolvedValue();
 
       const sut = new NavigateLinkNextOperator(navigateClient);
       const ctx = { sender: { tabId: 100 } } as OperatorContext;

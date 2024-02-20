@@ -1,6 +1,5 @@
-import HintRepository, {
-  type HintTarget,
-} from "../../../src/background/repositories/HintRepository";
+import type HintRepository from "../../../src/background/repositories/HintRepository";
+import type HintTarget from "../../../src/background/hint/HintTarget";
 
 export default class MockHintRepository implements HintRepository {
   startHintMode(

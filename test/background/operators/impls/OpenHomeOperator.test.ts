@@ -6,10 +6,10 @@ describe("OpenHomeOperator", () => {
   describe("#run", () => {
     const mockTabsCreate = jest
       .spyOn(chrome.tabs, "create")
-      .mockResolvedValue({} as chrome.tabs.Tab);
+      .mockImplementation(() => Promise.resolve({}));
     const mockTabsUpdate = jest
       .spyOn(chrome.tabs, "update")
-      .mockResolvedValue({} as chrome.tabs.Tab);
+      .mockImplementation(() => Promise.resolve({}));
     const ctx = {} as OperatorContext;
 
     it("opens a home page of the browser into the current tab", async () => {

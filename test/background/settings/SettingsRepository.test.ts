@@ -16,23 +16,27 @@ describe("PermanentSettingsRepository", () => {
 
   describe("#load", () => {
     it("returns default settings", async () => {
-      mockStorageGet.mockResolvedValue({ settings: undefined });
+      mockStorageGet.mockImplementation(() =>
+        Promise.resolve({ settings: undefined }),
+      );
 
       const settings = await sut.load();
-      expect(settings.properties["complete"]).toBe("sbh");
+      expect(settings.properties?.complete).toBe("sbh");
     });
 
     it("returns current settings", async () => {
-      mockStorageGet.mockResolvedValue({
-        settings: {
-          properties: {
-            complete: "ssbbhh",
+      mockStorageGet.mockImplementation(() =>
+        Promise.resolve({
+          settings: {
+            properties: {
+              complete: "ssbbhh",
+            },
           },
-        },
-      });
+        }),
+      );
 
       const settings = await sut.load();
-      expect(settings.properties["complete"]).toBe("ssbbhh");
+      expect(settings.properties?.complete).toBe("ssbbhh");
     });
   });
 
@@ -85,10 +89,10 @@ describe("TransientSettingsRepository", () => {
 
     it("loads delegated value and caches it", async () => {
       const settings1 = await sut.load();
-      expect(settings1.properties["complete"]).toBe("sbh");
+      expect(settings1.properties?.complete).toBe("sbh");
 
       const settings2 = await sut.load();
-      expect(settings2.properties["complete"]).toBe("sbh");
+      expect(settings2.properties?.complete).toBe("sbh");
 
       expect(mockPermanetLoad).toHaveBeenCalledTimes(1);
     });
@@ -102,12 +106,12 @@ describe("TransientSettingsRepository", () => {
 
     it("saves to a permanent storage", async () => {
       const settings1 = await sut.load();
-      expect(settings1.properties["complete"]).toBe("sbh");
+      expect(settings1.properties?.complete).toBe("sbh");
 
       await sut.save({ properties: { complete: "ssbbhh" } });
 
       const settings2 = await sut.load();
-      expect(settings2.properties["complete"]).toBe("ssbbhh");
+      expect(settings2.properties?.complete).toBe("ssbbhh");
     });
   });
 
@@ -119,12 +123,12 @@ describe("TransientSettingsRepository", () => {
 
     it("syncs to a permanent storage", async () => {
       const settings1 = await sut.load();
-      expect(settings1.properties["complete"]).toBe("sbh");
+      expect(settings1.properties?.complete).toBe("sbh");
 
       await sut.save({ properties: { complete: "ssbbhh" } });
 
       const settings2 = await sut.load();
-      expect(settings2.properties["complete"]).toBe("ssbbhh");
+      expect(settings2.properties?.complete).toBe("ssbbhh");
 
       permanent.invalidate({
         properties: {
@@ -133,7 +137,7 @@ describe("TransientSettingsRepository", () => {
       });
 
       const settings3 = await sut.load();
-      expect(settings3.properties["complete"]).toBe("hbs");
+      expect(settings3.properties?.complete).toBe("hbs");
     });
   });
 });

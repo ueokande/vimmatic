@@ -25,7 +25,7 @@ describe("OpenCommandHelper", () => {
     mockGetProperty.mockClear();
     mockGetSearchEngines.mockClear();
 
-    mockHistorySearch.mockResolvedValue([]);
+    mockHistorySearch.mockImplementation(() => Promise.resolve([]));
     mockBookmarksSearch.mockResolvedValue([]);
     mockGetProperty.mockImplementation((name) => {
       if (name === "complete") {
@@ -38,9 +38,6 @@ describe("OpenCommandHelper", () => {
       engines: {
         yahoo: "https://search.yahoo.com/search?p={}",
         google: "https://google.com/search?q={}",
-      },
-      toJSON: () => {
-        throw new Error("not implemented");
       },
     });
   });
@@ -112,11 +109,13 @@ describe("OpenCommandHelper", () => {
 
   describe("histories", () => {
     it("returns histories", async () => {
-      mockHistorySearch.mockResolvedValue([
-        { id: "0", title: "com", url: "https://example.com" },
-        { id: "1", title: "net", url: "https://example.net" },
-        { id: "2", title: "org", url: "https://example.org" },
-      ]);
+      mockHistorySearch.mockImplementation(() =>
+        Promise.resolve([
+          { id: "0", title: "com", url: "https://example.com" },
+          { id: "1", title: "net", url: "https://example.net" },
+          { id: "2", title: "org", url: "https://example.org" },
+        ]),
+      );
 
       const completions = await sut.getCompletions("");
 
@@ -128,11 +127,13 @@ describe("OpenCommandHelper", () => {
     });
 
     it("reduces duplicated and similar URLs", async () => {
-      mockHistorySearch.mockResolvedValue([
-        { id: "1", title: "subpath", url: "https://example.new/hoge/fuga" },
-        { id: "2", title: "subpath", url: "https://example.new/hoge" },
-        { id: "3", title: "subpath", url: "http://example.new/hoge" },
-      ]);
+      mockHistorySearch.mockImplementation(() =>
+        Promise.resolve([
+          { id: "1", title: "subpath", url: "https://example.new/hoge/fuga" },
+          { id: "2", title: "subpath", url: "https://example.new/hoge" },
+          { id: "3", title: "subpath", url: "http://example.new/hoge" },
+        ]),
+      );
 
       const completions = await sut.getCompletions("");
 
@@ -143,12 +144,14 @@ describe("OpenCommandHelper", () => {
     });
 
     it("limits max items", async () => {
-      mockHistorySearch.mockResolvedValue(
-        Array(30).fill({
-          id: "1",
-          title: "subpath",
-          url: "https://example.new/hoge/fuga",
-        }),
+      mockHistorySearch.mockImplementation(() =>
+        Promise.resolve(
+          Array(30).fill({
+            id: "1",
+            title: "subpath",
+            url: "https://example.new/hoge/fuga",
+          }),
+        ),
       );
 
       const completions = await sut.getCompletions("");

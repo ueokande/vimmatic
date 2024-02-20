@@ -32,7 +32,7 @@ describe("BufferCommand", () => {
     mockTabsUpdate.mockClear();
     mockHelperQueryTabs.mockClear();
 
-    mockTabsUpdate.mockResolvedValue({} as any);
+    mockTabsUpdate.mockImplementation(() => Promise.resolve({}));
   });
 
   describe("exec", () => {

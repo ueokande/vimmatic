@@ -6,7 +6,7 @@ describe("NavigateRootOperator", () => {
     it("opens root directory in the URL", async () => {
       const mockTabsUpdate = jest
         .spyOn(chrome.tabs, "update")
-        .mockResolvedValue({} as chrome.tabs.Tab);
+        .mockImplementation(() => Promise.resolve({}));
 
       const ctx = {
         sender: {

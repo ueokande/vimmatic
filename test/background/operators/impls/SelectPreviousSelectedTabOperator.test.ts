@@ -5,7 +5,7 @@ describe("SelectPreviousSelectedTabOperator", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
   const mockTabsUpdate = jest
     .spyOn(chrome.tabs, "update")
-    .mockResolvedValue({} as chrome.tabs.Tab);
+    .mockImplementation(() => Promise.resolve({}));
 
   beforeEach(() => {
     mockTabsUpdate.mockClear();

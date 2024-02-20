@@ -49,6 +49,7 @@ describe("FindUseCase", () => {
         case "findmode":
           return Promise.resolve("normal");
       }
+      throw new Error("Unexpected key: " + key);
     });
 
   beforeEach(async () => {

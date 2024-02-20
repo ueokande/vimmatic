@@ -6,7 +6,7 @@ describe("DuplicateTabOperator", () => {
     it("duplicate a tab", async () => {
       const mockTabsDuplicate = jest
         .spyOn(chrome.tabs, "duplicate")
-        .mockResolvedValue({} as chrome.tabs.Tab);
+        .mockImplementation(() => Promise.resolve({}));
 
       const sut = new DuplicateTabOperator();
       const ctx = { sender: { tabId: 100 } } as OperatorContext;

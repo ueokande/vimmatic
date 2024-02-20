@@ -3,7 +3,9 @@ import MockConsoleClient from "../mock/MockConsoleClient";
 import defaultTab from "../mock/defaultTab";
 
 describe("AddBookmarkCommand", () => {
-  const mockBookmarkCreate = jest.spyOn(chrome.bookmarks, "create");
+  const mockBookmarkCreate = jest
+    .spyOn(chrome.bookmarks, "create")
+    .mockImplementation(() => {});
   const consoleClient = new MockConsoleClient();
   const mockShowInfo = jest.spyOn(consoleClient, "showInfo");
 
@@ -11,11 +13,13 @@ describe("AddBookmarkCommand", () => {
     mockBookmarkCreate.mockClear();
     mockShowInfo.mockClear();
 
-    mockBookmarkCreate.mockResolvedValue({
-      id: "100",
-      title: "dummy",
-    });
-    mockShowInfo.mockResolvedValue({});
+    mockBookmarkCreate.mockImplementation(() =>
+      Promise.resolve({
+        id: "100",
+        title: "dummy",
+      }),
+    );
+    mockShowInfo.mockResolvedValue();
   });
 
   it("adds a bookmark with specific title", async () => {

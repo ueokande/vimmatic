@@ -5,7 +5,7 @@ describe("CloseTabRightOperator", () => {
   describe("#run", () => {
     const mockTabsRemove = jest
       .spyOn(chrome.tabs, "remove")
-      .mockResolvedValue();
+      .mockImplementation(() => Promise.resolve());
 
     it("close the right of the current tab", async () => {
       const tabs = [

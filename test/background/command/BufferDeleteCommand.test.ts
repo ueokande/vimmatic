@@ -5,7 +5,10 @@ import defaultTab from "../mock/defaultTab";
 
 describe("BufferDeleteCommand", () => {
   const lastSelectedTab = {
-    get: () => {
+    getLastSelectedTabId(): Promise<number | undefined> {
+      throw new Error("not implemented");
+    },
+    setCurrentTabId(): Promise<void> {
       throw new Error("not implemented");
     },
   };
@@ -21,7 +24,7 @@ describe("BufferDeleteCommand", () => {
     mockTabsQuery.mockClear();
     mockTabsRemove.mockClear();
 
-    mockTabsRemove.mockResolvedValue();
+    mockTabsRemove.mockImplementation(() => Promise.resolve());
   });
 
   it("removes an unpinned tab", async () => {

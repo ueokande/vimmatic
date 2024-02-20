@@ -24,9 +24,11 @@ describe("app reducer", () => {
     it("switches to command mode with a message", () => {
       const nextState = reducer(defaultState, showCommand("open "));
 
-      expect(nextState.mode).toEqual("prompt");
-      expect(nextState.promptMode).toEqual("command");
-      expect(nextState.initValue).toEqual("open ");
+      expect(nextState).toEqual({
+        mode: "prompt",
+        promptMode: "command",
+        initValue: "open ",
+      });
     });
   });
 
@@ -34,9 +36,11 @@ describe("app reducer", () => {
     it("switches to find mode with a message", () => {
       const nextState = reducer(defaultState, showFind());
 
-      expect(nextState.mode).toEqual("prompt");
-      expect(nextState.promptMode).toEqual("find");
-      expect(nextState.initValue).toEqual("");
+      expect(nextState).toEqual({
+        mode: "prompt",
+        promptMode: "find",
+        initValue: "",
+      });
     });
   });
 
@@ -44,8 +48,10 @@ describe("app reducer", () => {
     it("switches to error message mode with a message", () => {
       const nextState = reducer(defaultState, showError("error occurs"));
 
-      expect(nextState.mode).toEqual("error_message");
-      expect(nextState.message).toEqual("error occurs");
+      expect(nextState).toEqual({
+        mode: "error_message",
+        message: "error occurs",
+      });
     });
   });
 
@@ -53,8 +59,10 @@ describe("app reducer", () => {
     it("switches to info message mode with a message", () => {
       const nextState = reducer(defaultState, showInfo("what's up"));
 
-      expect(nextState.mode).toEqual("info_message");
-      expect(nextState.message).toEqual("what's up");
+      expect(nextState).toEqual({
+        mode: "info_message",
+        message: "what's up",
+      });
     });
   });
 });

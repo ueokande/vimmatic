@@ -4,7 +4,7 @@ import defaultTab from "../../mock/defaultTab";
 describe("SelectTabPrevOperator", () => {
   const mockTabsUpdate = jest
     .spyOn(chrome.tabs, "update")
-    .mockResolvedValue({} as any);
+    .mockImplementation(() => Promise.resolve({}));
 
   beforeEach(() => {
     mockTabsUpdate.mockReset();

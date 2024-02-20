@@ -9,17 +9,17 @@ describe("QuitCommand", () => {
     ...defaultTab,
     id: 10,
     pinned: true,
-  };
+  } as chrome.tabs.Tab;
   const unpinned = {
     id: 10,
     pinned: false,
-  };
+  } as chrome.tabs.Tab;
 
   beforeEach(() => {
     mockTabsQuery.mockClear();
     mockTabsRemove.mockClear();
 
-    mockTabsRemove.mockResolvedValue();
+    mockTabsRemove.mockImplementation(() => Promise.resolve());
   });
 
   it("removes unpinned tab", async () => {

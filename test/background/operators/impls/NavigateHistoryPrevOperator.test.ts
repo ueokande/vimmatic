@@ -8,7 +8,7 @@ describe("NavigateHistoryPrevOperator", () => {
       const navigateClient = new MockNavigateClient();
       const historyNextSpy = jest
         .spyOn(navigateClient, "historyPrev")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue();
 
       const sut = new NavigateHistoryPrevOperator(navigateClient);
       const ctx = { sender: { tabId: 100 } } as OperatorContext;

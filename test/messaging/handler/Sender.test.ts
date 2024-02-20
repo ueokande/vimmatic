@@ -21,6 +21,7 @@ describe("Sender", () => {
           }
           throw new Error("unsupported language");
       }
+      throw new Error("unsupported message");
     },
   );
 

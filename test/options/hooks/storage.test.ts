@@ -22,7 +22,7 @@ describe("useLoadSettings", () => {
   });
 
   it("loads saved value", async () => {
-    spyGet.mockResolvedValue({ settings_json: "{}" });
+    spyGet.mockImplementation(() => Promise.resolve({ settings_json: "{}" }));
 
     const { result, waitForNextUpdate, waitFor } = renderHook(() =>
       useLoadSettings(),
@@ -37,7 +37,9 @@ describe("useLoadSettings", () => {
   });
 
   it("loads default value when no saved settings", async () => {
-    spyGet.mockResolvedValue({ settings_json: undefined });
+    spyGet.mockImplementation(() =>
+      Promise.resolve({ settings_json: undefined }),
+    );
 
     const { result, waitForNextUpdate, waitFor } = renderHook(() =>
       useLoadSettings(),
@@ -46,7 +48,7 @@ describe("useLoadSettings", () => {
     await waitForNextUpdate();
     await waitFor(() => !result.current.loading);
 
-    const settings = JSON.parse(result.current.data);
+    const settings = JSON.parse(result.current.data!);
 
     expect(result.current.loading).toBeFalsy;
     expect(result.current.error).toBeUndefined;
@@ -57,7 +59,7 @@ describe("useLoadSettings", () => {
   });
 
   it("returns error when an error occurs", async () => {
-    spyGet.mockRejectedValue(new Error("storage error"));
+    spyGet.mockImplementation(() => Promise.reject(new Error("storage error")));
 
     const { result, waitForNextUpdate, waitFor } = renderHook(() =>
       useLoadSettings(),
@@ -90,7 +92,7 @@ describe("useSaveSettings", () => {
   });
 
   it("saves settings", async () => {
-    spySet.mockResolvedValue({});
+    spySet.mockImplementation(() => Promise.resolve());
     spySendMessage.mockResolvedValue({});
 
     const { result, waitFor } = renderHook(() => useSaveSettings());
@@ -118,7 +120,7 @@ describe("useSaveSettings", () => {
   });
 
   it("returns validation error", async () => {
-    spySet.mockResolvedValue({});
+    spySet.mockImplementation(() => Promise.resolve());
     spySendMessage.mockResolvedValue({});
 
     const { result, waitFor } = renderHook(() => useSaveSettings());

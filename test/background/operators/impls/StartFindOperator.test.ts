@@ -9,9 +9,7 @@ describe("StartFindOperator", () => {
       { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
     ]);
   const consoleClient = new MockConsoleClient();
-  const showFindSpy = jest
-    .spyOn(consoleClient, "showFind")
-    .mockReturnValue(Promise.resolve());
+  const showFindSpy = jest.spyOn(consoleClient, "showFind").mockResolvedValue();
 
   describe("#run", () => {
     it("show find console", async () => {

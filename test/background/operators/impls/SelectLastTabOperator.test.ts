@@ -10,7 +10,7 @@ describe("SelectLastTabOperator", () => {
 
   const mockTabsUpdate = jest
     .spyOn(chrome.tabs, "update")
-    .mockResolvedValue({} as any);
+    .mockImplementation(() => Promise.resolve({}));
 
   describe("#run", () => {
     it("select the rightmost tab", async () => {

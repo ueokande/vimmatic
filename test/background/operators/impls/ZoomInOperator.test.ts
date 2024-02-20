@@ -7,7 +7,7 @@ describe("ZoomInOperator", () => {
       jest.spyOn(chrome.tabs, "getZoom").mockResolvedValue(1);
       const mockSetZoom = jest
         .spyOn(chrome.tabs, "setZoom")
-        .mockResolvedValue();
+        .mockImplementation(() => Promise.resolve());
 
       const sut = new ZoomInOperator();
       const ctx = { sender: { tabId: 100 } } as OperatorContext;

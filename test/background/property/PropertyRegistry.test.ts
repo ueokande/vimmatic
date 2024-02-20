@@ -33,19 +33,19 @@ describe("CommandRegistryImpl", () => {
     });
 
     const p1 = r.getProperty("prop1");
-    expect(p1.name()).toBe("prop1");
-    expect(p1.type()).toBe("string");
-    expect(p1.defaultValue()).toBe("default");
+    expect(p1?.name()).toBe("prop1");
+    expect(p1?.type()).toBe("string");
+    expect(p1?.defaultValue()).toBe("default");
 
     const p2 = r.getProperty("prop2");
-    expect(p2.name()).toBe("prop2");
-    expect(p2.type()).toBe("number");
-    expect(p2.defaultValue()).toBe(10);
+    expect(p2?.name()).toBe("prop2");
+    expect(p2?.type()).toBe("number");
+    expect(p2?.defaultValue()).toBe(10);
 
     const p3 = r.getProperty("prop3");
-    expect(p3.name()).toBe("prop3");
-    expect(p3.type()).toBe("boolean");
-    expect(p3.defaultValue()).toBe(true);
+    expect(p3?.name()).toBe("prop3");
+    expect(p3?.type()).toBe("boolean");
+    expect(p3?.defaultValue()).toBe(true);
 
     expect(r.getProperties()).toHaveLength(3);
   });

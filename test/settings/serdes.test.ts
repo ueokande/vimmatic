@@ -137,8 +137,7 @@ describe("deserializeSettings", () => {
       };
       const settings = deserializeSettings({ keymaps });
 
-      expect(settings.keymaps).not.toBeUndefined();
-      expect(settings.keymaps.entries()).toMatchObject([
+      expect(settings.keymaps?.entries()).toMatchObject([
         ["k", { type: "scroll.vertically", props: { count: -1 } }],
         ["j", { type: "scroll.vertically", props: { count: 1 } }],
       ]);
@@ -148,8 +147,7 @@ describe("deserializeSettings", () => {
       const keymaps = {};
       const settings = deserializeSettings({ keymaps });
 
-      expect(settings.keymaps).not.toBeUndefined();
-      expect(settings.keymaps.entries()).toHaveLength(0);
+      expect(settings.keymaps?.entries()).toHaveLength(0);
     });
   });
 
@@ -164,8 +162,8 @@ describe("deserializeSettings", () => {
       };
       const settings = deserializeSettings({ search });
 
-      expect(settings.search.defaultEngine).toBe("google");
-      expect(settings.search.engines).toMatchObject({
+      expect(settings.search?.defaultEngine).toBe("google");
+      expect(settings.search?.engines).toMatchObject({
         google: "https://google.com/search?q={}",
         yahoo: "https://search.yahoo.com/search?p={}",
       });
@@ -224,21 +222,18 @@ describe("deserializeSettings", () => {
       ];
       const settings = deserializeSettings({ blacklist });
 
-      expect(settings.blacklist).not.toBeUndefined();
-      expect(settings.blacklist.items).toHaveLength(2);
-      expect(settings.blacklist.items[0].pattern).toBe("example.com");
-      expect(settings.blacklist.items[0].partial).toBeTruthy();
-      expect(settings.blacklist.items[0].keys).toEqual(["j", "k"]);
-      expect(settings.blacklist.items[1].pattern).toBe("example.net");
-      expect(settings.blacklist.items[1].partial).toBeFalsy();
+      expect(settings.blacklist?.items).toHaveLength(2);
+      expect(settings.blacklist?.items[0].pattern).toBe("example.com");
+      expect(settings.blacklist?.items[0].partial).toBeTruthy();
+      expect(settings.blacklist?.items[0].keys).toEqual(["j", "k"]);
+      expect(settings.blacklist?.items[1].pattern).toBe("example.net");
+      expect(settings.blacklist?.items[1].partial).toBeFalsy();
     });
 
     test("it deserialize empty blacklist settings", () => {
-      const blacklist = [];
-      const settings = deserializeSettings({ blacklist });
+      const settings = deserializeSettings({ blacklist: [] });
 
-      expect(settings.blacklist).not.toBeUndefined();
-      expect(settings.blacklist.items).toHaveLength(0);
+      expect(settings.blacklist?.items).toHaveLength(0);
     });
   });
 
@@ -273,7 +268,7 @@ describe("deserializeSettings", () => {
       };
       const settings = deserializeSettings({ styles });
 
-      expect(settings.styles.hint).toMatchObject({
+      expect(settings.styles?.hint).toMatchObject({
         "background-color": "yellow",
       });
     });

@@ -6,7 +6,7 @@ describe("ShowTabOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
   const showCommandSpy = jest
     .spyOn(consoleClient, "showCommand")
-    .mockReturnValue(Promise.resolve());
+    .mockResolvedValue();
   const ctx = {
     sender: {
       tabId: 100,
