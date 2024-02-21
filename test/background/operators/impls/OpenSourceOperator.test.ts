@@ -5,7 +5,7 @@ describe("OpenSourceOperator", () => {
   describe("#run", () => {
     const mockTabsCreate = jest
       .spyOn(chrome.tabs, "create")
-      .mockResolvedValue({} as chrome.tabs.Tab);
+      .mockImplementation(() => Promise.resolve({}));
 
     it("opens view-source URL of the current tab", async () => {
       const ctx = {
@@ -16,7 +16,7 @@ describe("OpenSourceOperator", () => {
       const sut = new OpenSourceOperator();
       await sut.run(ctx);
 
-      expect(mockTabsCreate).toBeCalledWith({
+      expect(mockTabsCreate).toHaveBeenCalledWith({
         url: "view-source:https://example.com/",
       });
     });

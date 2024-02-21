@@ -22,8 +22,8 @@ describe("AddonEnabledUseCase", () => {
 
       await sut.enable();
 
-      expect(mockRepositoryEnable).toBeCalledWith();
-      expect(mockToolbarSetEnabled).toBeCalledWith(true);
+      expect(mockRepositoryEnable).toHaveBeenCalledWith();
+      expect(mockToolbarSetEnabled).toHaveBeenCalledWith(true);
     });
   });
 
@@ -44,8 +44,8 @@ describe("AddonEnabledUseCase", () => {
 
       await sut.disable();
 
-      expect(mockRepositoryDisable).toBeCalledWith();
-      expect(mockToolbarSetEnabled).toBeCalledWith(false);
+      expect(mockRepositoryDisable).toHaveBeenCalledWith();
+      expect(mockToolbarSetEnabled).toHaveBeenCalledWith(false);
     });
   });
 
@@ -66,8 +66,8 @@ describe("AddonEnabledUseCase", () => {
 
       await sut.toggle();
 
-      expect(mockRepositoryToggle).toBeCalledWith();
-      expect(mockToolbarSetEnabled).toBeCalledWith(false);
+      expect(mockRepositoryToggle).toHaveBeenCalledWith();
+      expect(mockToolbarSetEnabled).toHaveBeenCalledWith(false);
     });
   });
 });

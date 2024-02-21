@@ -9,17 +9,17 @@ describe("QuitCommand", () => {
     ...defaultTab,
     id: 10,
     pinned: true,
-  };
+  } as chrome.tabs.Tab;
   const unpinned = {
     id: 10,
     pinned: false,
-  };
+  } as chrome.tabs.Tab;
 
   beforeEach(() => {
     mockTabsQuery.mockClear();
     mockTabsRemove.mockClear();
 
-    mockTabsRemove.mockResolvedValue();
+    mockTabsRemove.mockImplementation(() => Promise.resolve());
   });
 
   it("removes unpinned tab", async () => {
@@ -37,7 +37,7 @@ describe("QuitCommand", () => {
     const ctx = { sender: { tabId: 10, frameId: 0, tab: pinned } };
     const cmd = new QuitCommand();
 
-    await expect(cmd.exec(ctx, false, "")).rejects.toThrowError("Cannot close");
+    await expect(cmd.exec(ctx, false, "")).rejects.toThrow("Cannot close");
     expect(mockTabsRemove).toHaveBeenCalledTimes(0);
   });
 

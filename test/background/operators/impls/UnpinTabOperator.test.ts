@@ -5,12 +5,12 @@ describe("UnpinTabOperator", () => {
     it("make unpinned to the current tab", async () => {
       const mockTabsUpdate = jest
         .spyOn(chrome.tabs, "update")
-        .mockResolvedValue({} as chrome.tabs.Tab);
+        .mockImplementation(() => Promise.resolve({}));
 
       const sut = new UnpinTabOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith({ pinned: false });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({ pinned: false });
     });
   });
 });

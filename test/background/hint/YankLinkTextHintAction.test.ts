@@ -30,8 +30,8 @@ describe("YankLinkTextHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockClipboardWrite).toBeCalledWith("my photo");
-    expect(mockConsoleShowInfo).toBeCalledWith(10, "Yanked my photo");
+    expect(mockClipboardWrite).toHaveBeenCalledWith("my photo");
+    expect(mockConsoleShowInfo).toHaveBeenCalledWith(10, "Yanked my photo");
   });
 
   test("yank link text", async () => {
@@ -50,8 +50,8 @@ describe("YankLinkTextHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockClipboardWrite).toBeCalledWith("my photo");
-    expect(mockConsoleShowInfo).toBeCalledWith(10, "Yanked my photo");
+    expect(mockClipboardWrite).toHaveBeenCalledWith("my photo");
+    expect(mockConsoleShowInfo).toHaveBeenCalledWith(10, "Yanked my photo");
   });
 
   test("no text", async () => {
@@ -67,6 +67,6 @@ describe("YankLinkTextHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockConsoleShowError).toBeCalledWith(10, "No content to yank");
+    expect(mockConsoleShowError).toHaveBeenCalledWith(10, "No content to yank");
   });
 });

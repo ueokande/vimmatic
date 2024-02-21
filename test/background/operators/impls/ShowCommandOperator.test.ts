@@ -6,7 +6,7 @@ describe("ShowCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
   const showCommandSpy = jest
     .spyOn(consoleClient, "showCommand")
-    .mockReturnValue(Promise.resolve());
+    .mockResolvedValue();
 
   beforeEach(() => {
     showCommandSpy.mockReset();
@@ -18,7 +18,7 @@ describe("ShowCommandOperator", () => {
       const sut = new ShowCommandOperator(consoleClient);
       await sut.run(ctx);
 
-      expect(showCommandSpy).toBeCalledWith(100, "");
+      expect(showCommandSpy).toHaveBeenCalledWith(100, "");
     });
   });
 });

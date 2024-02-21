@@ -27,12 +27,9 @@ describe("CommandRegistryImpl", () => {
     r.register(cmd1);
     r.register(cmd2);
 
-    let got = r.getCommand("o");
-    expect(got.fullname()).toBe("open");
-    got = r.getCommand("tabopen");
-    expect(got.fullname()).toBe("tabopen");
-    got = r.getCommand("unknown");
-    expect(got).toBeUndefined();
+    expect(r.getCommand("o")?.fullname()).toBe("open");
+    expect(r.getCommand("tabopen")?.fullname()).toBe("tabopen");
+    expect(r.getCommand("unknown")).toBeUndefined();
   });
 
   test("throws an error when command exists", () => {
@@ -55,7 +52,7 @@ describe("CommandRegistryImpl", () => {
         exec,
         getCompletions,
       }),
-    ).toThrowError();
+    ).toThrow();
   });
 
   test("throws an error when names does not contains fullname", () => {
@@ -68,6 +65,6 @@ describe("CommandRegistryImpl", () => {
         exec,
         getCompletions,
       }),
-    ).toThrowError();
+    ).toThrow();
   });
 });

@@ -92,7 +92,7 @@ describe("PropertySettingsImpl", () => {
       mockGetProperty.mockReturnValue(undefined);
       mockLoad.mockResolvedValue({});
 
-      await expect(propertySettings.getProperty("xxxxx")).rejects.toThrowError(
+      await expect(propertySettings.getProperty("xxxxx")).rejects.toThrow(
         "Unknown property: xxxxx",
       );
     });
@@ -110,7 +110,7 @@ describe("PropertySettingsImpl", () => {
 
       await propertySettings.setProperty("myprop", "bar");
 
-      expect(mockSave).toBeCalledWith({
+      expect(mockSave).toHaveBeenCalledWith({
         properties: {
           myprop: "bar",
         },
@@ -124,7 +124,7 @@ describe("PropertySettingsImpl", () => {
 
       await propertySettings.setProperty("myprop", "bar");
 
-      expect(mockSave).toBeCalledWith({
+      expect(mockSave).toHaveBeenCalledWith({
         properties: {
           myprop: "bar",
         },
@@ -135,9 +135,9 @@ describe("PropertySettingsImpl", () => {
       mockGetProperty.mockReturnValue(undefined);
       mockLoad.mockResolvedValue({});
 
-      await expect(
-        propertySettings.setProperty("xxxxx", ""),
-      ).rejects.toThrowError("Unknown property: xxxxx");
+      await expect(propertySettings.setProperty("xxxxx", "")).rejects.toThrow(
+        "Unknown property: xxxxx",
+      );
     });
 
     it("throws an error when invalid value", async () => {
@@ -146,7 +146,7 @@ describe("PropertySettingsImpl", () => {
 
       await expect(
         propertySettings.setProperty("myprop", "fizz"),
-      ).rejects.toThrowError("invalid property: fizz");
+      ).rejects.toThrow("invalid property: fizz");
     });
   });
 });

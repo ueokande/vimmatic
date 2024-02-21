@@ -19,6 +19,9 @@ export default class MockSettingRepository implements SettingRepository {
   }
 
   getKeymaps(): Keymaps {
+    if (typeof this.value.keymaps === "undefined") {
+      throw new Error("keymaps is not defined");
+    }
     return this.value.keymaps;
   }
 
@@ -27,14 +30,27 @@ export default class MockSettingRepository implements SettingRepository {
   }
 
   getSearch(): Search {
+    if (typeof this.value.search === "undefined") {
+      throw new Error("search is not defined");
+    }
     return this.value.search;
   }
 
   getProperties(): Properties {
+    if (typeof this.value.properties === "undefined") {
+      throw new Error("properties is not defined");
+    }
     return this.value.properties;
   }
 
   getStyle(component: ComponentName): CSS {
-    return this.value.styles[component];
+    if (typeof this.value.styles === "undefined") {
+      throw new Error("styles is not defined");
+    }
+    const value = this.value.styles[component];
+    if (typeof value === "undefined") {
+      throw new Error(`styles.${component} is not defined`);
+    }
+    return value;
   }
 }

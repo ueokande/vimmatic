@@ -21,7 +21,7 @@ describe("QuitAllCommand", () => {
     mockTabsQuery.mockClear();
     mockTabsRemove.mockClear();
 
-    mockTabsRemove.mockResolvedValue();
+    mockTabsRemove.mockImplementation(() => Promise.resolve());
   });
 
   it("removes unpinned tabs", async () => {

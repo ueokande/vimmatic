@@ -22,8 +22,8 @@ describe("QuickHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockGetElement).toBeCalledWith(10, 0, "100");
-    expect(mockOpenToTab).toBeCalledWith("https://example.com", 10);
+    expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+    expect(mockOpenToTab).toHaveBeenCalledWith("https://example.com", 10);
   });
 
   test("open link in new tab by target=_blank", async () => {
@@ -41,8 +41,12 @@ describe("QuickHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockGetElement).toBeCalledWith(10, 0, "100");
-    expect(mockOpenNewTab).toBeCalledWith("https://example.com", 10, false);
+    expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+    expect(mockOpenNewTab).toHaveBeenCalledWith(
+      "https://example.com",
+      10,
+      false,
+    );
   });
 
   test("open link in new tab by newTab option", async () => {
@@ -60,8 +64,12 @@ describe("QuickHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: true, background: false });
 
-    expect(mockGetElement).toBeCalledWith(10, 0, "100");
-    expect(mockOpenNewTab).toBeCalledWith("https://example.com", 10, false);
+    expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+    expect(mockOpenNewTab).toHaveBeenCalledWith(
+      "https://example.com",
+      10,
+      false,
+    );
   });
 
   test.each<{ tagName: string; attributes: { [key: string]: string } }>([
@@ -84,8 +92,8 @@ describe("QuickHintAction", () => {
       const target = { frameId: 0, element: "100", tag: "aa" };
       await sut.activate(10, target, { newTab: true, background: false });
 
-      expect(mockGetElement).toBeCalledWith(10, 0, "100");
-      expect(mockFocusElement).toBeCalledWith(10, 0, "100");
+      expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+      expect(mockFocusElement).toHaveBeenCalledWith(10, 0, "100");
     },
   );
 
@@ -109,8 +117,8 @@ describe("QuickHintAction", () => {
       const target = { frameId: 0, element: "100", tag: "aa" };
       await sut.activate(10, target, { newTab: true, background: false });
 
-      expect(mockGetElement).toBeCalledWith(10, 0, "100");
-      expect(mockClickElement).toBeCalledWith(10, 0, "100");
+      expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+      expect(mockClickElement).toHaveBeenCalledWith(10, 0, "100");
     },
   );
 });

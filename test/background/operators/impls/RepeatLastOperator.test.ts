@@ -41,15 +41,15 @@ describe("RepeatLastOperator", () => {
 
       await sut.run(ctx);
 
-      expect(mockRun).toBeCalledWith(ctx, { name: "alice" });
+      expect(mockRun).toHaveBeenCalledWith(ctx, { name: "alice" });
     });
 
     it("does nothing if no last operations", async () => {
-      jest.spyOn(repeatRepository, "getLastOperation").mockReturnValue(null);
+      jest.spyOn(repeatRepository, "getLastOperation").mockResolvedValue(null);
 
       await sut.run(ctx);
 
-      expect(mockRun).not.toBeCalled();
+      expect(mockRun).not.toHaveBeenCalled();
     });
 
     it("throw an error on unknown operation is stored", async () => {
@@ -59,7 +59,7 @@ describe("RepeatLastOperator", () => {
       });
       jest.spyOn(operatorRegistory, "getOperator").mockReturnValue(undefined);
 
-      await expect(() => sut.run(ctx)).rejects.toThrowError();
+      await expect(() => sut.run(ctx)).rejects.toThrow();
     });
   });
 });

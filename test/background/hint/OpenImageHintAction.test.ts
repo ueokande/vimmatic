@@ -41,8 +41,11 @@ describe("OpenImageHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockGetElement).toBeCalledWith(10, 0, "100");
-    expect(mockOpenToTab).toBeCalledWith("https://example.com/photo.jpg", 10);
+    expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+    expect(mockOpenToTab).toHaveBeenCalledWith(
+      "https://example.com/photo.jpg",
+      10,
+    );
   });
 
   test("open image in new tab by newTab option", async () => {
@@ -53,8 +56,8 @@ describe("OpenImageHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: true, background: false });
 
-    expect(mockGetElement).toBeCalledWith(10, 0, "100");
-    expect(mockOpenNewTab).toBeCalledWith(
+    expect(mockGetElement).toHaveBeenCalledWith(10, 0, "100");
+    expect(mockOpenNewTab).toHaveBeenCalledWith(
       "https://example.com/photo.jpg",
       10,
       false,

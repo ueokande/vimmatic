@@ -8,13 +8,13 @@ describe("NavigateHistoryNextOperator", () => {
       const navigateClient = new MockNavigateClient();
       const historyNextSpy = jest
         .spyOn(navigateClient, "historyNext")
-        .mockReturnValue(Promise.resolve());
+        .mockResolvedValue();
 
       const sut = new NavigateHistoryNextOperator(navigateClient);
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(historyNextSpy).toBeCalledWith(100);
+      expect(historyNextSpy).toHaveBeenCalledWith(100);
     });
   });
 });

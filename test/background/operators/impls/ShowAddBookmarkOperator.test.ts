@@ -6,7 +6,7 @@ describe("ShowAddBookmarkOperator", () => {
   const consoleClient = new MockConsoleClient();
   const showCommandSpy = jest
     .spyOn(consoleClient, "showCommand")
-    .mockReturnValue(Promise.resolve());
+    .mockResolvedValue();
   const ctx = {
     sender: {
       tabId: 100,
@@ -24,14 +24,17 @@ describe("ShowAddBookmarkOperator", () => {
       const sut = new ShowAddBookmarkOperator(consoleClient);
       await sut.run(ctx, { alter: false });
 
-      expect(showCommandSpy).toBeCalledWith(100, "addbookmark ");
+      expect(showCommandSpy).toHaveBeenCalledWith(100, "addbookmark ");
     });
 
     it("show command with addbookmark command and an URL of the current tab", async () => {
       const sut = new ShowAddBookmarkOperator(consoleClient);
       await sut.run(ctx, { alter: true });
 
-      expect(showCommandSpy).toBeCalledWith(100, "addbookmark welcome, world");
+      expect(showCommandSpy).toHaveBeenCalledWith(
+        100,
+        "addbookmark welcome, world",
+      );
     });
   });
 });

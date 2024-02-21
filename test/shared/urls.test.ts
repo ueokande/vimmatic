@@ -30,9 +30,9 @@ describe("shared/commands/parsers", () => {
     });
 
     it("throws an error on unsupported protocols", () => {
-      expect(() =>
-        parsers.searchUrl("file:///tmp/table.csv", config),
-      ).toThrowError("forbidden");
+      expect(() => parsers.searchUrl("file:///tmp/table.csv", config)).toThrow(
+        "forbidden",
+      );
     });
 
     it("user default search engine", () => {

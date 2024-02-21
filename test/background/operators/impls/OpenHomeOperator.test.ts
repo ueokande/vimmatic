@@ -6,10 +6,10 @@ describe("OpenHomeOperator", () => {
   describe("#run", () => {
     const mockTabsCreate = jest
       .spyOn(chrome.tabs, "create")
-      .mockResolvedValue({} as chrome.tabs.Tab);
+      .mockImplementation(() => Promise.resolve({}));
     const mockTabsUpdate = jest
       .spyOn(chrome.tabs, "update")
-      .mockResolvedValue({} as chrome.tabs.Tab);
+      .mockImplementation(() => Promise.resolve({}));
     const ctx = {} as OperatorContext;
 
     it("opens a home page of the browser into the current tab", async () => {
@@ -20,7 +20,7 @@ describe("OpenHomeOperator", () => {
       const sut = new OpenHomeOperator(browserSettingRepository);
       await sut.run(ctx, { newTab: false });
 
-      expect(mockTabsUpdate).toBeCalledWith({
+      expect(mockTabsUpdate).toHaveBeenCalledWith({
         url: "https://example.net/",
       });
     });
@@ -33,7 +33,9 @@ describe("OpenHomeOperator", () => {
       const sut = new OpenHomeOperator(browserSettingRepository);
       await sut.run(ctx, { newTab: true });
 
-      expect(mockTabsCreate).toBeCalledWith({ url: "https://example.net/" });
+      expect(mockTabsCreate).toHaveBeenCalledWith({
+        url: "https://example.net/",
+      });
     });
 
     it("opens home pages of the browser", async () => {
@@ -45,8 +47,12 @@ describe("OpenHomeOperator", () => {
       const sut = new OpenHomeOperator(browserSettingRepository);
       await sut.run(ctx, { newTab: false });
 
-      expect(mockTabsCreate).toBeCalledWith({ url: "https://example.net/" });
-      expect(mockTabsCreate).toBeCalledWith({ url: "https://example.org/" });
+      expect(mockTabsCreate).toHaveBeenCalledWith({
+        url: "https://example.net/",
+      });
+      expect(mockTabsCreate).toHaveBeenCalledWith({
+        url: "https://example.org/",
+      });
     });
   });
 });

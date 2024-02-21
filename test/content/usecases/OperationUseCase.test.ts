@@ -22,6 +22,6 @@ describe("OperationUseCase", () => {
 
     const op = { type: "do", props: { name: "alice" } };
     await sut.exec(op, 10);
-    expect(mockExecBackgroundOp).toBeCalledWith(op, 10);
+    expect(mockExecBackgroundOp).toHaveBeenCalledWith(op, 10);
   });
 });

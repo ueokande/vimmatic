@@ -5,12 +5,12 @@ describe("PinTabOperator", () => {
     it("make pinned to the current tab", async () => {
       const mockTabsUpdate = jest
         .spyOn(chrome.tabs, "update")
-        .mockResolvedValue({} as chrome.tabs.Tab);
+        .mockImplementation(() => Promise.resolve({}));
 
       const sut = new PinTabOperator();
       await sut.run();
 
-      expect(mockTabsUpdate).toBeCalledWith({ pinned: true });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({ pinned: true });
     });
   });
 });

@@ -20,6 +20,6 @@ describe("WinopenHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockOpen).toBeCalledWith("https://example.com/photo.jpg");
+    expect(mockOpen).toHaveBeenCalledWith("https://example.com/photo.jpg");
   });
 });

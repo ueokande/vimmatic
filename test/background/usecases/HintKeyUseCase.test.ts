@@ -63,10 +63,10 @@ describe("HintKeyUseCaes", () => {
     const cont = await sut.pressKey(10, "a");
 
     expect(cont).toBeTruthy();
-    expect(mockPushKey).toBeCalledWith("a");
-    expect(mockShowHints).toBeCalledWith(10, 0, ["0", "1"]);
-    expect(mockShowHints).toBeCalledWith(10, 1, ["0"]);
-    expect(mockActivate).not.toBeCalled();
+    expect(mockPushKey).toHaveBeenCalledWith("a");
+    expect(mockShowHints).toHaveBeenCalledWith(10, 0, ["0", "1"]);
+    expect(mockShowHints).toHaveBeenCalledWith(10, 1, ["0"]);
+    expect(mockActivate).not.toHaveBeenCalled();
   });
 
   it("activate if exactly matched", async () => {
@@ -86,8 +86,8 @@ describe("HintKeyUseCaes", () => {
     const cont = await sut.pressKey(10, "a");
 
     expect(cont).toBeFalsy();
-    expect(mockPushKey).toBeCalledWith("a");
-    expect(mockActivate).toBeCalled();
+    expect(mockPushKey).toHaveBeenCalledWith("a");
+    expect(mockActivate).toHaveBeenCalled();
   });
 
   it("activate when enter pressed", async () => {
@@ -112,7 +112,7 @@ describe("HintKeyUseCaes", () => {
     const cont = await sut.pressKey(10, "Enter");
 
     expect(cont).toBeFalsy();
-    expect(mockActivate).toBeCalled();
+    expect(mockActivate).toHaveBeenCalled();
   });
 
   it("delete a chatacter when backspace pressed", async () => {
@@ -140,8 +140,8 @@ describe("HintKeyUseCaes", () => {
     const cont = await sut.pressKey(10, "Backspace");
 
     expect(cont).toBeTruthy();
-    expect(mockPopKey).toBeCalled();
-    expect(mockShowHints).toBeCalledWith(10, 0, ["0", "1"]);
-    expect(mockShowHints).toBeCalledWith(10, 1, ["0"]);
+    expect(mockPopKey).toHaveBeenCalled();
+    expect(mockShowHints).toHaveBeenCalledWith(10, 0, ["0", "1"]);
+    expect(mockShowHints).toHaveBeenCalledWith(10, 1, ["0"]);
   });
 });

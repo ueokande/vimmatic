@@ -29,8 +29,10 @@ describe("YankURLHintAction", () => {
     const target = { frameId: 0, element: "100", tag: "aa" };
     await sut.activate(10, target, { newTab: false, background: false });
 
-    expect(mockClipboardWrite).toBeCalledWith("https://example.com/photo.jpg");
-    expect(mockConsoleShowInfo).toBeCalledWith(
+    expect(mockClipboardWrite).toHaveBeenCalledWith(
+      "https://example.com/photo.jpg",
+    );
+    expect(mockConsoleShowInfo).toHaveBeenCalledWith(
       10,
       "Yanked https://example.com/photo.jpg",
     );

@@ -4,7 +4,7 @@ import { OperatorContext } from "../../../../src/background/operators/Operator";
 describe("TogglePinnedTabOperator", () => {
   const mockTabsUpdate = jest
     .spyOn(chrome.tabs, "update")
-    .mockResolvedValue({} as chrome.tabs.Tab);
+    .mockImplementation(() => Promise.resolve({}));
 
   describe("#run", () => {
     it("toggle pinned to the current tab", async () => {
@@ -14,7 +14,7 @@ describe("TogglePinnedTabOperator", () => {
       } as OperatorContext;
       await sut.run(ctx);
 
-      expect(mockTabsUpdate).toBeCalledWith({ pinned: false });
+      expect(mockTabsUpdate).toHaveBeenCalledWith({ pinned: false });
     });
   });
 });

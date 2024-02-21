@@ -56,6 +56,6 @@ describe(FindHistoryRepositoryImpl.name, () => {
   it("throws an error when appending empty keyword", async () => {
     const sut = new FindHistoryRepositoryImpl(new MockLocalStorage([]));
 
-    expect(sut.append("")).rejects.toThrowError(TypeError);
+    expect(sut.append("")).rejects.toThrow(TypeError);
   });
 });

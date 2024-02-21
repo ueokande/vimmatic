@@ -8,13 +8,13 @@ describe("NavigateLinkPrevOperator", () => {
       const navigateClient = new MockNavigateClient();
       const linkPrevSpy = jest
         .spyOn(navigateClient, "linkPrev")
-        .mockReturnValueOnce(Promise.resolve());
+        .mockResolvedValue();
 
       const sut = new NavigateLinkPrevOperator(navigateClient);
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(linkPrevSpy).toBeCalledWith(100);
+      expect(linkPrevSpy).toHaveBeenCalledWith(100);
     });
   });
 });

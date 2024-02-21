@@ -2,7 +2,9 @@ import ReloadTabOperator from "../../../../src/background/operators/impls/Reload
 import { OperatorContext } from "../../../../src/background/operators/Operator";
 
 describe("ReloadTabOperator", () => {
-  const reloadSpy = jest.spyOn(chrome.tabs, "reload").mockResolvedValue();
+  const reloadSpy = jest
+    .spyOn(chrome.tabs, "reload")
+    .mockImplementation(() => Promise.resolve());
   const ctx = {} as OperatorContext;
 
   beforeEach(() => {
@@ -14,14 +16,14 @@ describe("ReloadTabOperator", () => {
       const sut = new ReloadTabOperator();
       await sut.run(ctx, { cache: true });
 
-      expect(reloadSpy).toBeCalledWith({ bypassCache: true });
+      expect(reloadSpy).toHaveBeenCalledWith({ bypassCache: true });
     });
 
     it("reloads the current tab without cache", async () => {
       const sut = new ReloadTabOperator();
       await sut.run(ctx, { cache: false });
 
-      expect(reloadSpy).toBeCalledWith({ bypassCache: false });
+      expect(reloadSpy).toHaveBeenCalledWith({ bypassCache: false });
     });
   });
 });

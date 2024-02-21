@@ -42,7 +42,7 @@ describe("Validator", () => {
           smoothscroll: "true",
         },
       });
-    }).toThrowError("Invalid smoothscroll property: not a boolean");
+    }).toThrow("Invalid smoothscroll property: not a boolean");
 
     expect(() => {
       sut.validate({
@@ -50,7 +50,7 @@ describe("Validator", () => {
           hintchars: 123,
         },
       });
-    }).toThrowError("Invalid hintchars property: not a string");
+    }).toThrow("Invalid hintchars property: not a string");
 
     expect(() => {
       sut.validate({
@@ -58,7 +58,7 @@ describe("Validator", () => {
           filetype: "typescript",
         },
       });
-    }).toThrowError("Unknown property: filetype");
+    }).toThrow("Unknown property: filetype");
   });
 
   test("it throws an error on invalid keymaps", () => {
@@ -68,7 +68,7 @@ describe("Validator", () => {
           d: { type: "harakiri", props: {} },
         }),
       });
-    }).toThrowError("Unknown keymap: harakiri");
+    }).toThrow("Unknown keymap: harakiri");
 
     expect(() => {
       sut.validate({
@@ -76,7 +76,7 @@ describe("Validator", () => {
           D: { type: "tabs.close", props: { force: "1" } },
         }),
       });
-    }).toThrowError(
+    }).toThrow(
       "Invalid property 'force' on keymap 'D': Expected boolean, received string",
     );
   });

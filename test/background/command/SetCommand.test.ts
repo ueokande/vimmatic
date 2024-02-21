@@ -129,7 +129,7 @@ describe("SetCommand", () => {
     });
 
     it("throws error when invalid boolean statement", async () => {
-      await expect(cmd.exec(ctx, false, "booleanprop=1")).rejects.toThrowError(
+      await expect(cmd.exec(ctx, false, "booleanprop=1")).rejects.toThrow(
         "Invalid",
       );
     });

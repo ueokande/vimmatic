@@ -6,7 +6,7 @@ describe("ShowBufferCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
   const showCommandSpy = jest
     .spyOn(consoleClient, "showCommand")
-    .mockReturnValue(Promise.resolve());
+    .mockResolvedValue();
 
   describe("#run", () => {
     it("show command with buffer command", async () => {
@@ -14,7 +14,7 @@ describe("ShowBufferCommandOperator", () => {
       const ctx = { sender: { tabId: 100 } } as OperatorContext;
       await sut.run(ctx);
 
-      expect(showCommandSpy).toBeCalledWith(100, "buffer ");
+      expect(showCommandSpy).toHaveBeenCalledWith(100, "buffer ");
     });
   });
 });

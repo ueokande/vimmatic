@@ -70,7 +70,7 @@ describe("useCursor", () => {
 
   describe("negative itemCount", () => {
     it("throws an error", () => {
-      expect(() => useCursor(-1)).toThrowError(TypeError);
+      expect(() => useCursor(-1)).toThrow(TypeError);
     });
   });
 });

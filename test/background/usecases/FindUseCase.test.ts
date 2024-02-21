@@ -49,6 +49,7 @@ describe("FindUseCase", () => {
         case "findmode":
           return Promise.resolve("normal");
       }
+      throw new Error("Unexpected key: " + key);
     });
 
   beforeEach(async () => {
@@ -71,20 +72,23 @@ describe("FindUseCase", () => {
 
       await sut.startFind(tabId, keyword);
 
-      expect(clearSelectionSpy).toBeCalledTimes(3);
+      expect(clearSelectionSpy).toHaveBeenCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
       expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
-      expect(findNextSpy).toBeCalledTimes(2);
+      expect(findNextSpy).toHaveBeenCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(0);
       expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-      expect(setLocalStateSpy).toBeCalledWith(tabId, {
+      expect(setLocalStateSpy).toHaveBeenCalledWith(tabId, {
         keyword,
         frameId: 100,
       });
-      expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
-      expect(appendHistorySpy).toBeCalledWith(keyword);
-      expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
+      expect(setGlobalKeywordSpy).toHaveBeenCalledWith(keyword);
+      expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
+      expect(showInfoSpy).toHaveBeenCalledWith(
+        tabId,
+        "Pattern found: " + keyword,
+      );
     });
 
     it.each([undefined, ""])(
@@ -100,21 +104,24 @@ describe("FindUseCase", () => {
 
         await sut.startFind(tabId, givenKeyword);
 
-        expect(clearSelectionSpy).toBeCalledTimes(3);
+        expect(clearSelectionSpy).toHaveBeenCalledTimes(3);
         expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
         expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
         expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
-        expect(findNextSpy).toBeCalledTimes(2);
+        expect(findNextSpy).toHaveBeenCalledTimes(2);
         expect(findNextSpy.mock.calls[0][1]).toEqual(0);
         expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-        expect(getLocalStateSpy).toBeCalledWith(tabId);
-        expect(setLocalStateSpy).toBeCalledWith(tabId, {
+        expect(getLocalStateSpy).toHaveBeenCalledWith(tabId);
+        expect(setLocalStateSpy).toHaveBeenCalledWith(tabId, {
           keyword,
           frameId: 100,
         });
-        expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
-        expect(appendHistorySpy).toBeCalledWith(keyword);
-        expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
+        expect(setGlobalKeywordSpy).toHaveBeenCalledWith(keyword);
+        expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
+        expect(showInfoSpy).toHaveBeenCalledWith(
+          tabId,
+          "Pattern found: " + keyword,
+        );
       },
     );
 
@@ -134,21 +141,24 @@ describe("FindUseCase", () => {
 
         await sut.startFind(tabId, givenKeyword);
 
-        expect(clearSelectionSpy).toBeCalledTimes(3);
+        expect(clearSelectionSpy).toHaveBeenCalledTimes(3);
         expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
         expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
         expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
-        expect(findNextSpy).toBeCalledTimes(2);
+        expect(findNextSpy).toHaveBeenCalledTimes(2);
         expect(findNextSpy.mock.calls[0][1]).toEqual(0);
         expect(findNextSpy.mock.calls[1][1]).toEqual(100);
-        expect(getLocalStateSpy).toBeCalledWith(tabId);
-        expect(setLocalStateSpy).toBeCalledWith(tabId, {
+        expect(getLocalStateSpy).toHaveBeenCalledWith(tabId);
+        expect(setLocalStateSpy).toHaveBeenCalledWith(tabId, {
           keyword,
           frameId: 100,
         });
-        expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
-        expect(appendHistorySpy).toBeCalledWith(keyword);
-        expect(showInfoSpy).toBeCalledWith(tabId, "Pattern found: " + keyword);
+        expect(setGlobalKeywordSpy).toHaveBeenCalledWith(keyword);
+        expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
+        expect(showInfoSpy).toHaveBeenCalledWith(
+          tabId,
+          "Pattern found: " + keyword,
+        );
       },
     );
 
@@ -160,14 +170,14 @@ describe("FindUseCase", () => {
 
       await sut.startFind(tabId, keyword);
 
-      expect(clearSelectionSpy).toBeCalledTimes(3);
+      expect(clearSelectionSpy).toHaveBeenCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
       expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
-      expect(setLocalStateSpy).not.toBeCalled();
-      expect(setGlobalKeywordSpy).toBeCalledWith(keyword);
-      expect(appendHistorySpy).toBeCalledWith(keyword);
-      expect(showErrorSpy).toBeCalledWith(
+      expect(setLocalStateSpy).not.toHaveBeenCalled();
+      expect(setGlobalKeywordSpy).toHaveBeenCalledWith(keyword);
+      expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
+      expect(showErrorSpy).toHaveBeenCalledWith(
         tabId,
         "Pattern not found: " + keyword,
       );
@@ -185,7 +195,10 @@ describe("FindUseCase", () => {
 
       await sut.startFind(tabId, undefined);
 
-      expect(showErrorSpy).toBeCalledWith(tabId, "No previous search keywords");
+      expect(showErrorSpy).toHaveBeenCalledWith(
+        tabId,
+        "No previous search keywords",
+      );
     });
   });
 
@@ -198,7 +211,10 @@ describe("FindUseCase", () => {
 
       await sut.findNext(tabId);
 
-      expect(showErrorSpy).toBeCalledWith(100, "No previous search keywords");
+      expect(showErrorSpy).toHaveBeenCalledWith(
+        100,
+        "No previous search keywords",
+      );
     });
 
     it("continues a search on the same frame", async () => {
@@ -210,12 +226,15 @@ describe("FindUseCase", () => {
 
       await sut.findNext(tabId);
 
-      expect(findNextSpy).toBeCalledWith(100, 100, {
+      expect(findNextSpy).toHaveBeenCalledWith(100, 100, {
         keyword,
         mode: "normal",
         ignoreCase: false,
       });
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 100 });
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 100,
+      });
     });
 
     it("continues a search on next frame", async () => {
@@ -228,11 +247,14 @@ describe("FindUseCase", () => {
 
       await sut.findNext(tabId);
 
-      expect(findNextSpy).toBeCalledTimes(2);
+      expect(findNextSpy).toHaveBeenCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(100);
       expect(findNextSpy.mock.calls[1][1]).toEqual(101);
-      expect(clearSelectionSpy).toBeCalledWith(100, 100);
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 101 });
+      expect(clearSelectionSpy).toHaveBeenCalledWith(100, 100);
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 101,
+      });
     });
 
     it("exercise a wrap-search", async () => {
@@ -245,11 +267,14 @@ describe("FindUseCase", () => {
 
       await sut.findNext(tabId);
 
-      expect(findNextSpy).toBeCalledTimes(2);
+      expect(findNextSpy).toHaveBeenCalledTimes(2);
       expect(findNextSpy.mock.calls[0][1]).toEqual(101);
       expect(findNextSpy.mock.calls[1][1]).toEqual(0);
-      expect(clearSelectionSpy).toBeCalledWith(100, 101);
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 0 });
+      expect(clearSelectionSpy).toHaveBeenCalledWith(100, 101);
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 0,
+      });
     });
 
     it("starts a search with last keywords", async () => {
@@ -261,16 +286,16 @@ describe("FindUseCase", () => {
 
       await sut.findNext(tabId);
 
-      expect(clearSelectionSpy).toBeCalledTimes(3);
+      expect(clearSelectionSpy).toHaveBeenCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(0);
       expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(101);
-      expect(findNextSpy).toBeCalledWith(100, 0, {
+      expect(findNextSpy).toHaveBeenCalledWith(100, 0, {
         keyword,
         mode: "normal",
         ignoreCase: false,
       });
-      expect(setLocalStateSpy).toBeCalledWith(100, {
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
         keyword,
         frameId: 0,
       });
@@ -289,7 +314,10 @@ describe("FindUseCase", () => {
 
       await sut.findPrev(tabId);
 
-      expect(showErrorSpy).toBeCalledWith(100, "No previous search keywords");
+      expect(showErrorSpy).toHaveBeenCalledWith(
+        100,
+        "No previous search keywords",
+      );
     });
 
     it("continues a search on the same frame", async () => {
@@ -301,12 +329,15 @@ describe("FindUseCase", () => {
 
       await sut.findPrev(tabId);
 
-      expect(findPrevSpy).toBeCalledWith(100, 100, {
+      expect(findPrevSpy).toHaveBeenCalledWith(100, 100, {
         keyword,
         mode: "normal",
         ignoreCase: false,
       });
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 100 });
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 100,
+      });
     });
 
     it("continues a search on next frame", async () => {
@@ -318,11 +349,14 @@ describe("FindUseCase", () => {
 
       await sut.findPrev(tabId);
 
-      expect(findPrevSpy).toBeCalledTimes(2);
+      expect(findPrevSpy).toHaveBeenCalledTimes(2);
       expect(findPrevSpy.mock.calls[0][1]).toEqual(100);
       expect(findPrevSpy.mock.calls[1][1]).toEqual(0);
-      expect(clearSelectionSpy).toBeCalledWith(100, 100);
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 0 });
+      expect(clearSelectionSpy).toHaveBeenCalledWith(100, 100);
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 0,
+      });
     });
 
     it("exercise a wrap-search", async () => {
@@ -335,11 +369,14 @@ describe("FindUseCase", () => {
 
       await sut.findPrev(tabId);
 
-      expect(findPrevSpy).toBeCalledTimes(2);
+      expect(findPrevSpy).toHaveBeenCalledTimes(2);
       expect(findPrevSpy.mock.calls[0][1]).toEqual(0);
       expect(findPrevSpy.mock.calls[1][1]).toEqual(101);
-      expect(clearSelectionSpy).toBeCalledWith(100, 0);
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 101 });
+      expect(clearSelectionSpy).toHaveBeenCalledWith(100, 0);
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 101,
+      });
     });
 
     it("starts a search with last keywords", async () => {
@@ -351,16 +388,19 @@ describe("FindUseCase", () => {
 
       await sut.findPrev(tabId);
 
-      expect(clearSelectionSpy).toBeCalledTimes(3);
+      expect(clearSelectionSpy).toHaveBeenCalledTimes(3);
       expect(clearSelectionSpy.mock.calls[0][1]).toEqual(101);
       expect(clearSelectionSpy.mock.calls[1][1]).toEqual(100);
       expect(clearSelectionSpy.mock.calls[2][1]).toEqual(0);
-      expect(findPrevSpy).toBeCalledWith(100, 101, {
+      expect(findPrevSpy).toHaveBeenCalledWith(100, 101, {
         keyword,
         mode: "normal",
         ignoreCase: false,
       });
-      expect(setLocalStateSpy).toBeCalledWith(100, { keyword, frameId: 101 });
+      expect(setLocalStateSpy).toHaveBeenCalledWith(100, {
+        keyword,
+        frameId: 101,
+      });
     });
   });
 });
