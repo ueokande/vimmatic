@@ -3,6 +3,7 @@ import Prompt from "./components/Prompt";
 import InfoMessage from "./components/InfoMessage";
 import ErrorMessage from "./components/ErrorMessage";
 import { SimplexReceiver } from "../messaging";
+import StyleProvider from "./styles/providers";
 import type { Schema as ConsoleMessageSchema } from "../messaging/schema/console";
 import {
   useConsoleMode,
@@ -19,7 +20,7 @@ const COMMAND_COMPLETION_MAX_ITEMS = 33;
 const FIND_COMPLETION_MAX_ITEMS = 11;
 
 const App: React.FC = () => {
-  const { hide } = useVisibility();
+  const { hide, visible } = useVisibility();
   const {
     state,
     showCommandPrompt,
@@ -65,36 +66,44 @@ const App: React.FC = () => {
     sendReady();
   }, []);
 
-  if (state.mode === "prompt") {
-    if (state.promptMode === "command") {
-      return (
-        <Prompt
-          prefix={":"}
-          maxLineHeight={COMMAND_COMPLETION_MAX_ITEMS}
-          onExec={onExec}
-          queryCompletions={getCommandCompletions}
-          initValue={state.initValue}
-          onBlur={hide}
-        />
-      );
-    } else if (state.promptMode === "find") {
-      return (
-        <Prompt
-          prefix={"/"}
-          maxLineHeight={FIND_COMPLETION_MAX_ITEMS}
-          onExec={onExec}
-          queryCompletions={getFindCompletions}
-          initValue={state.initValue}
-          onBlur={hide}
-        />
-      );
-    }
-  } else if (state.mode === "info_message") {
-    return <InfoMessage>{state.message}</InfoMessage>;
-  } else if (state.mode === "error_message") {
-    return <ErrorMessage>{state.message}</ErrorMessage>;
+  if (!visible) {
+    return null;
   }
-  return null;
+
+  const content = (() => {
+    if (state.mode === "prompt") {
+      if (state.promptMode === "command") {
+        return (
+          <Prompt
+            prefix={":"}
+            maxLineHeight={COMMAND_COMPLETION_MAX_ITEMS}
+            onExec={onExec}
+            queryCompletions={getCommandCompletions}
+            initValue={state.initValue}
+            onBlur={hide}
+          />
+        );
+      } else if (state.promptMode === "find") {
+        return (
+          <Prompt
+            prefix={"/"}
+            maxLineHeight={FIND_COMPLETION_MAX_ITEMS}
+            onExec={onExec}
+            queryCompletions={getFindCompletions}
+            initValue={state.initValue}
+            onBlur={hide}
+          />
+        );
+      }
+    } else if (state.mode === "info_message") {
+      return <InfoMessage>{state.message}</InfoMessage>;
+    } else if (state.mode === "error_message") {
+      return <ErrorMessage>{state.message}</ErrorMessage>;
+    }
+    return null;
+  })();
+
+  return <StyleProvider>{content}</StyleProvider>;
 };
 
 export default App;
