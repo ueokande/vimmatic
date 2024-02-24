@@ -42,7 +42,9 @@ export const UserPreferenceCSSProvider = ({
 
   return (
     <UserPreferenceCSSContext.Provider value={{ ready, css }}>
-      <div {...stylex.props(styles.userPreference(css))}>{children}</div>
+      {ready ? (
+        <div {...stylex.props(styles.userPreference(css))}>{children}</div>
+      ) : null}
     </UserPreferenceCSSContext.Provider>
   );
 };

@@ -46,7 +46,7 @@ export const ColorSchemeProvider = ({
 
   return (
     <ColorSchemeContext.Provider value={{ ready }}>
-      <div {...stylex.props(theme)}>{children}</div>
+      {ready ? <div {...stylex.props(theme)}>{children}</div> : null}
     </ColorSchemeContext.Provider>
   );
 };
