@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import ColorSchemeProvider from "./styles/providers";
+import StyleProvider from "./styles/providers";
 import { AppProvider } from "./app/provider";
 import App from "./App";
 
@@ -13,9 +13,9 @@ window.addEventListener("DOMContentLoaded", () => {
   root.render(
     <React.StrictMode>
       <AppProvider>
-        <ColorSchemeProvider>
+        <StyleProvider>
           <App />
-        </ColorSchemeProvider>
+        </StyleProvider>
       </AppProvider>
     </React.StrictMode>,
   );

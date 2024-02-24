@@ -13,15 +13,13 @@ import {
   useGetFindCompletion,
   useSendReady,
 } from "./app/hooks";
-import { useInvalidateStyle } from "./styles/hooks";
 
 // (10item + 1title) * sbc
 const COMMAND_COMPLETION_MAX_ITEMS = 33;
 const FIND_COMPLETION_MAX_ITEMS = 11;
 
 const App: React.FC = () => {
-  const refreshColorScheme = useInvalidateStyle();
-  const { hide, visible } = useVisibility();
+  const { hide } = useVisibility();
   const {
     state,
     showCommandPrompt,
@@ -48,12 +46,6 @@ const App: React.FC = () => {
     },
     [execCommand, execFind, state],
   );
-
-  React.useEffect(() => {
-    if (visible) {
-      refreshColorScheme();
-    }
-  }, [visible]);
 
   React.useEffect(() => {
     const receiver = new SimplexReceiver<ConsoleMessageSchema>();

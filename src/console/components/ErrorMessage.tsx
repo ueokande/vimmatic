@@ -1,13 +1,16 @@
 import React from "react";
-import styled from "styled-components";
 import useAutoResize from "../hooks/useAutoResize";
+import stylex from "@stylexjs/stylex";
+import { colors } from "../styles/tokens.stylex";
 
-const Wrapper = styled.p`
-  border-top: 1px solid gray;
-  background-color: ${({ theme }) => theme.error?.background};
-  color: ${({ theme }) => theme.error?.foreground};
-  font-weight: bold;
-`;
+const styles = stylex.create({
+  error: {
+    borderTop: "1px solid gray",
+    backgroundColor: colors.errorBackground,
+    color: colors.errorForeground,
+    fontWeight: "bold",
+  },
+});
 
 type Props = {
   children: React.ReactNode;
@@ -16,7 +19,7 @@ type Props = {
 const ErrorMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
-  return <Wrapper role="alert">{children}</Wrapper>;
+  return <p {...stylex.props(styles.error)}>{children}</p>;
 };
 
 export default ErrorMessage;

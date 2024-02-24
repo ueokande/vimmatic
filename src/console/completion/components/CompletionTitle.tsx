@@ -1,15 +1,23 @@
 import React from "react";
-import styled from "styled-components";
+import stylex from "@stylexjs/stylex";
+import { colors } from "../../styles/tokens.stylex";
 
-const Li = styled.li<{ $shown: number }>`
-  display: ${({ $shown }) => ($shown ? "block" : "none")};
-  background-color: ${({ theme }) => theme.title?.background};
-  color: ${({ theme }) => theme.title?.foreground};
-  list-style: none;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
-`;
+const styles = stylex.create({
+  shown: {
+    display: "block",
+  },
+  hidden: {
+    display: "none",
+  },
+  title: {
+    backgroundColor: colors.titleBackground,
+    color: colors.titleForeground,
+    listStyle: "none",
+    fontWeight: "bold",
+    margin: 0,
+    padding: 0,
+  },
+});
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
   shown: boolean;
@@ -17,9 +25,12 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 }
 
 const CompletionTitle: React.FC<Props> = ({ shown, title, ...props }) => (
-  <Li $shown={Number(shown)} {...props}>
+  <li
+    {...stylex.props(styles.title, shown ? styles.shown : styles.hidden)}
+    {...props}
+  >
     {title}
-  </Li>
+  </li>
 );
 
 export default CompletionTitle;
