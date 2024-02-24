@@ -60,6 +60,10 @@ const buildAssets = async (browser) => {
     `src/options/index.html`,
     `dist/${browser}/lib/options.html`,
   );
+  await fs.copyFile(
+    `node_modules/prismjs/themes/prism-coy.css`,
+    `dist/${browser}/lib/prism-coy.css`,
+  );
 
   const manifest = JSON.parse(
     await fs.readFile(`src/manifest.${browser}.json`, "utf-8"),

@@ -2,10 +2,24 @@
 <html>
   <head>
     <meta charset='utf-8'>
+    <style>
+      html {
+        color-scheme: light dark;
+
+        color: CanvasText;
+        background-color: Canvas;
+      }
+
+      /* prism.js override */
+      .token {
+        background: none !important;
+      }
+    </style>
   </head>
   <body>
     <div id='vimmatic-settings'></div>
     <script src='options.js'></script>
     <link rel='stylesheet' href='options.css'>
+    <link rel='stylesheet' href='prism-coy.css'>
   </body>
 </html>

@@ -1,11 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import stylex from "@stylexjs/stylex";
 
-const ErrorMessageP = styled.p`
-  font-weight: bold;
-  color: red;
-  min-height: 1.5em;
-`;
+const styles = stylex.create({
+  error: {
+    fontWeight: "bold",
+    color: "red",
+    minHeight: "1.5em",
+  },
+});
 
 interface Props {
   error?: Error;
@@ -15,7 +17,11 @@ const ErrorMessage: React.FC<Props> = ({ error }) => {
   if (typeof error === "undefined") {
     return null;
   }
-  return <ErrorMessageP role="alert">{error.message}</ErrorMessageP>;
+  return (
+    <p {...stylex.props(styles.error)} role="alert">
+      {error.message}
+    </p>
+  );
 };
 
 export default ErrorMessage;
