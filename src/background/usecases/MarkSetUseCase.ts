@@ -1,9 +1,10 @@
 import { inject, injectable } from "inversify";
-import MarkRepository from "../repositories/MarkRepository";
+import MarkRepository, {
+  type GlobalMark,
+  type LocalMark,
+} from "../repositories/MarkRepository";
 import ContentMessageClient from "../clients/ContentMessageClient";
 import ConsoleClient from "../clients/ConsoleClient";
-import GlobalMark from "../domains/GlobalMark";
-import LocalMark from "../domains/LocalMark";
 import MarkHelper from "./MarkHelper";
 
 @injectable()

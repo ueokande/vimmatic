@@ -1,7 +1,17 @@
 import { injectable } from "inversify";
 import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
-import GlobalMark from "../domains/GlobalMark";
-import LocalMark from "../domains/LocalMark";
+
+export type GlobalMark = {
+  readonly tabId: number;
+  readonly url: string;
+  readonly x: number;
+  readonly y: number;
+};
+
+export type LocalMark = {
+  readonly x: number;
+  readonly y: number;
+};
 
 type MarkData = {
   globals: { [key: string]: GlobalMark };
