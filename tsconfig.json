@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "lib": ["es6", "dom", "esnext"],
     "allowJs": true,
     "checkJs": false,
@@ -30,15 +30,10 @@
 
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
-    "node_modules",
-    "./node_modules",
-    "./node_modules/*",
-    "./node_modules/@types/node/index.d.ts"
+    "./e2e/"
   ]
 }
