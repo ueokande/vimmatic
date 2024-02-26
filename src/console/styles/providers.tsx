@@ -1,6 +1,6 @@
 import React from "react";
 import { DarkTheme, LightTheme } from "./theme";
-import { Style, UpdateStyleContext } from "./contexts";
+import { type Style, UpdateStyleContext } from "./contexts";
 import GlobalStyle from "./global";
 import { ThemeProvider } from "styled-components";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import type { Completions } from "../../../shared/Completions";
+import type { Completions } from "../../../shared/completions";
 import useCompletionKeyBinds from "../hooks/useCompletionKeyBinds";
 import useCursor from "../hooks/useCursor";
 import CompletionList from "./CompletionList";

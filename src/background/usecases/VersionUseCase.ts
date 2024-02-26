@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import Notifier from "../presenters/Notifier";
+import type { Notifier } from "../presenters/Notifier";
 
 @injectable()
 export default class VersionUseCase {

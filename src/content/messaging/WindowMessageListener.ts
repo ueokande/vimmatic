@@ -3,7 +3,7 @@ import { SimplexReceiverWithContext } from "../../messaging";
 import type { Schema as WindowMessageSchema } from "../../messaging/schema/window";
 import ConsoleFrameController from "../controllers/ConsoleFrameController";
 import TopFrameController from "../controllers/TopFrameController";
-import WindowRequestContext from "../controllers/WindowRequestContext";
+import type { WindowRequestContext } from "../controllers/types";
 
 @injectable()
 export default class WindowMessageListener {

@@ -1,8 +1,10 @@
 import RepeatLastOperator from "../../../../src/background/operators/impls/RepeatLastOperator";
-import OperatorRegistory from "../../../../src/background/operators/OperatorRegistory";
-import RepeatRepository from "../../../../src/background/repositories/RepeatRepository";
-import Operator from "../../../../src/background/operators/Operator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { RepeatRepository } from "../../../../src/background/repositories/RepeatRepository";
+import type { OperatorRegistory } from "../../../../src/background/operators/OperatorRegistory";
+import type {
+  Operator,
+  OperatorContext,
+} from "../../../../src/background/operators/types";
 
 const todo = () => {
   throw new Error(`not implemented`);

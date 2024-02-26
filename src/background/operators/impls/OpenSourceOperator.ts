@@ -1,6 +1,5 @@
 import { injectable } from "inversify";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export default class OpenSourceOperator implements Operator {

@@ -1,3 +1,3 @@
-export default interface Properties {
+export interface Properties {
   [key: string]: string | number | boolean;
 }

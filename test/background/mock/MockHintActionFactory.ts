@@ -1,4 +1,4 @@
-import type HintActionFactory from "../../../src/background/hint/HintActionFactory";
+import type { HintActionFactory } from "../../../src/background/hint/HintActionFactory";
 import type {
   HintTarget,
   HintAction,

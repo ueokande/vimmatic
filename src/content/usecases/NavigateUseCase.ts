@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import NavigationPresenter from "../presenters/NavigationPresenter";
+import type { NavigationPresenter } from "../presenters/NavigationPresenter";
 
 @injectable()
 export default class NavigateUseCase {

@@ -1,6 +1,6 @@
 import StartFindOperator from "../../../../src/background/operators/impls/StartFindOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("StartFindOperator", () => {
   jest

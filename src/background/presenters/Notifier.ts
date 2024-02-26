@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 
 const NOTIFICATION_ID_UPDATE = "vimmatic-update";
 
-export default interface Notifier {
+export interface Notifier {
   notifyUpdated(version: string, onclick: () => void): Promise<void>;
 }
 

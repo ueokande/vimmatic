@@ -1,4 +1,4 @@
-import Key, { fromKeymap } from "./Key";
+import { fromKeymap, Key } from "./key";
 
 const regexFromWildcard = (pattern: string): RegExp => {
   const regexStr = "^" + pattern.replace(/\*/g, ".*") + "$";
@@ -38,7 +38,7 @@ export class BlacklistItem {
   }
 }
 
-export default class Blacklist {
+export class Blacklist {
   constructor(public readonly items: BlacklistItem[]) {}
 
   includesEntireBlacklist(url: URL): boolean {

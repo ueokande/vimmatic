@@ -1,11 +1,11 @@
-import SettingRepository from "../../../src/content/repositories/SettingRepository";
+import type { SettingRepository } from "../../../src/content/repositories/SettingRepository";
 import { defaultSettings } from "../../../src/settings";
-import type Settings from "../../../src/shared/Settings";
-import Blacklist from "../../../src/shared/Blacklist";
-import type Keymaps from "../../../src/shared/Keymaps";
-import type Properties from "../../../src/shared/Properties";
-import type Search from "../../../src/shared/Search";
-import type { ComponentName, CSS } from "../../../src/shared/Styles";
+import type { Settings } from "../../../src/shared/settings";
+import { Blacklist } from "../../../src/shared/blacklist";
+import type { Keymaps } from "../../../src/shared/keymaps";
+import type { Properties } from "../../../src/shared/properties";
+import type { Search } from "../../../src/shared/search";
+import type { ComponentName, CSS } from "../../../src/shared/styles";
 
 export default class MockSettingRepository implements SettingRepository {
   private value: Settings;

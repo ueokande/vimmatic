@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import OperationClient from "../client/OperationClient";
-import type Operation from "../../shared/Operation";
+import type { OperationClient } from "../client/OperationClient";
+import type { Operation } from "../../shared/operation";
 
 @injectable()
 export default class OperationUseCase {

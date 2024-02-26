@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import TopFrameClient from "../client/TopFrameClient";
+import type { TopFrameClient } from "../client/TopFrameClient";
 
 @injectable()
 export default class FrameUseCase {

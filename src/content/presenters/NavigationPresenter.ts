@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface NavigationPresenter {
+export interface NavigationPresenter {
   openHistoryPrev(): void;
 
   openHistoryNext(): void;

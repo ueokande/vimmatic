@@ -1,4 +1,4 @@
-import FindHistoryRepository from "../../../src/background/repositories/FindHistoryRepository";
+import type { FindHistoryRepository } from "../../../src/background/repositories/FindHistoryRepository";
 
 export default class MockFindHistoryRepository
   implements FindHistoryRepository

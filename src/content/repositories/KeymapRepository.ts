@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
-import Key from "../../shared/Key";
+import { Key } from "../../shared/key";
 import KeySequence from "../domains/KeySequence";
 
-export default interface KeymapRepository {
+export interface KeymapRepository {
   enqueueKey(key: Key): KeySequence;
 
   clear(): void;

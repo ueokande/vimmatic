@@ -1,11 +1,11 @@
 import { injectable, inject } from "inversify";
-import type ReadyFrameRepository from "../repositories/ReadyFrameRepository";
-import type PropertySettings from "../settings/PropertySettings";
-import type TopFrameClient from "../clients/TopFrameClient";
+import type { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
+import type { PropertySettings } from "../settings/PropertySettings";
+import type { TopFrameClient } from "../clients/TopFrameClient";
 import type { HintTarget } from "../hint/types";
-import type HintClient from "../clients/HintClient";
-import type HintRepository from "../repositories/HintRepository";
-import type HintActionFactory from "../hint/HintActionFactory";
+import type { HintClient } from "../clients/HintClient";
+import type { HintRepository } from "../repositories/HintRepository";
+import type { HintActionFactory } from "../hint/HintActionFactory";
 import HintTagProducer from "./HintTagProducer";
 
 @injectable()

@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
-import type WindowMessageSender from "./WindowMessageSender";
+import type { WindowMessageSender } from "./WindowMessageSender";
 
-export default interface TopFrameClient {
+export interface TopFrameClient {
   notifyFrameId(frameId: number): Promise<void>;
 }
 

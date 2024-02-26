@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
-export default interface AddonEnabledClient {
+export interface AddonEnabledClient {
   enable(tabId: number): Promise<void>;
 
   disable(tabId: number): Promise<void>;

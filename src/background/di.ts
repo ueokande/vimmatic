@@ -38,7 +38,7 @@ import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepositor
 import { AddonEnabledClientImpl } from "./clients/AddonEnabledClient";
 import { ToolbarPresenterImpl } from "./presenters/ToolbarPresenter";
 import { TabPresenterImpl } from "./presenters/TabPresenter";
-import { PropertyRegistryFactry } from "./property";
+import { createPropertyRegistry } from "./property";
 import { CommandRegistryFactory } from "./command";
 import { OperatorRegistoryFactory } from "./operators";
 import { HintActionFactoryImpl } from "./hint/HintActionFactory";
@@ -84,9 +84,7 @@ container.bind("TabPresenter").to(TabPresenterImpl);
 container.bind("PermanentSettingsRepository").to(PermanentSettingsRepository);
 container.bind("SettingsRepository").to(TransientSettingsRepository);
 container.bind("HintActionFactory").to(HintActionFactoryImpl);
-container
-  .bind("PropertyRegistry")
-  .toConstantValue(new PropertyRegistryFactry().create());
+container.bind("PropertyRegistry").toConstantValue(createPropertyRegistry());
 container
   .bind("CommandRegistry")
   .toConstantValue(container.resolve(CommandRegistryFactory).create());

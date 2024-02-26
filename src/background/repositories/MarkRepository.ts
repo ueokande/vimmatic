@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 export type GlobalMark = {
   readonly tabId: number;
@@ -18,7 +18,7 @@ type MarkData = {
   locals: { [tabId: number]: { [key: string]: LocalMark } };
 };
 
-export default interface MarkRepository {
+export interface MarkRepository {
   getGlobalMark(key: string): Promise<GlobalMark | undefined>;
 
   setGlobalMark(key: string, mark: GlobalMark): Promise<void>;

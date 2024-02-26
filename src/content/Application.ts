@@ -4,7 +4,7 @@ import ContentMessageListener from "./messaging/ContentMessageListener";
 import KeyController from "./controllers/KeyController";
 import SettingsController from "./controllers/SettingsController";
 import InputDriver from "./InputDriver";
-import ReadyStatusPresenter from "./presenters/ReadyStatusPresenter";
+import type { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
 
 @injectable()
 export default class Application {

@@ -1,5 +1,5 @@
-import { Completions } from "../../shared/Completions";
-import LastSelectedTabRepository from "../repositories/LastSelectedTabRepository";
+import type { Completions } from "../../shared/completions";
+import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
 
 export default class BufferCommandHelper {
   constructor(

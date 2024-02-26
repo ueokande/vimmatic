@@ -1,11 +1,11 @@
-import Operation from "./Operation";
+import type { Operation } from "./operation";
 
 export type OperationSetting = { type: string } & Record<
   string,
   string | number | boolean
 >;
 
-export default class Keymaps {
+export class Keymaps {
   constructor(private readonly data: { [key: string]: Operation }) {}
 
   combine(other: Keymaps): Keymaps {

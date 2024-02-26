@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
-export default interface NavigateClient {
+export interface NavigateClient {
   historyNext(tabId: number): Promise<void>;
 
   historyPrev(tabId: number): Promise<void>;

@@ -1,10 +1,8 @@
-import KeymapRepository, {
-  KeymapRepositoryImpl,
-} from "../../../src/content/repositories/KeymapRepository";
-import { fromKeymap } from "../../../src/shared/Key";
+import { KeymapRepositoryImpl } from "../../../src/content/repositories/KeymapRepository";
+import { fromKeymap } from "../../../src/shared/key";
 
 describe("KeymapRepositoryImpl", () => {
-  let sut: KeymapRepository;
+  let sut: KeymapRepositoryImpl;
 
   beforeEach(() => {
     sut = new KeymapRepositoryImpl();

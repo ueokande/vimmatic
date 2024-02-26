@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
-import SettingsRepository from "./SettingsRepository";
-import { ComponentName } from "../../shared/Styles";
+import type { SettingsRepository } from "./SettingsRepository";
+import type { ComponentName } from "../../shared/styles";
 import { defaultSettings } from "../../settings";
 
-export default interface StyleSettings {
+export interface StyleSettings {
   getStyle(name: string): Promise<Record<string, string>>;
 }
 

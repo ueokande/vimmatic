@@ -1,5 +1,5 @@
 import NavigateRootOperator from "../../../../src/background/operators/impls/NavigateRootOperator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("NavigateRootOperator", () => {
   describe("#run", () => {

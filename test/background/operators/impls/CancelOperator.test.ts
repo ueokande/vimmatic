@@ -1,6 +1,6 @@
 import CancelOperator from "../../../../src/background/operators/impls/CancelOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("CancelOperator", () => {
   describe("#run", () => {

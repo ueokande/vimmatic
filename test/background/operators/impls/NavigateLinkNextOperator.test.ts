@@ -1,6 +1,6 @@
 import NavigateLinkNextOperator from "../../../../src/background/operators/impls/NavigateLinkNextOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("NavigateLinkNextOperator", () => {
   describe("#run", () => {

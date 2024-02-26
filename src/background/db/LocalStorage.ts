@@ -1,4 +1,4 @@
-export default interface LocalCache<T> {
+export interface LocalCache<T> {
   setValue(value: T): Promise<void>;
 
   getValue(): Promise<T>;

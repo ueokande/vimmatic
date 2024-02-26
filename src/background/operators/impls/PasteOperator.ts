@@ -1,9 +1,8 @@
 import { injectable, inject } from "inversify";
 import { z } from "zod";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import ClipboardRepository from "../../repositories/ClipboardRepository";
-import SearchEngineSettings from "../../settings/SearchEngineSettings";
+import type { Operator, OperatorContext } from "../types";
+import type { ClipboardRepository } from "../../repositories/ClipboardRepository";
+import type { SearchEngineSettings } from "../../settings/SearchEngineSettings";
 import * as urls from "../../../shared/urls";
 
 @injectable()

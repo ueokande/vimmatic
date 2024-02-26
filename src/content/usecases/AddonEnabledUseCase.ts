@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
-import ConsoleFramePresenter from "../presenters/ConsoleFramePresenter";
+import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
+import type { ConsoleFramePresenter } from "../presenters/ConsoleFramePresenter";
 
 @injectable()
 export default class AddonEnabledUseCase {

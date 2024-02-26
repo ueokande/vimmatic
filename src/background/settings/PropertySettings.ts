@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import type PropertyRegistry from "../property/PropertyRegistry";
-import type SettingsRepository from "./SettingsRepository";
+import type { PropertyRegistry } from "../property/PropertyRegistry";
+import type { SettingsRepository } from "./SettingsRepository";
 
-export default interface PropertySettings {
+export interface PropertySettings {
   setProperty(name: string, value: string | number | boolean): Promise<void>;
 
   getProperty(name: string): Promise<string | number | boolean>;

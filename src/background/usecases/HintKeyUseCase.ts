@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import type HintClient from "../clients/HintClient";
+import type { HintClient } from "../clients/HintClient";
 import type { HintTarget } from "../hint/types";
-import type HintRepository from "../repositories/HintRepository";
-import type HintActionFactory from "../hint/HintActionFactory";
+import type { HintRepository } from "../repositories/HintRepository";
+import type { HintActionFactory } from "../hint/HintActionFactory";
 
 @injectable()
 export default class HintKeyUseCase {

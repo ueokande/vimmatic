@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface FocusPresenter {
+export interface FocusPresenter {
   focusFirstElement(): boolean;
 }
 

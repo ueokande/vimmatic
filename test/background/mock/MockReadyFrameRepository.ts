@@ -1,4 +1,4 @@
-import ReadyFrameRepository from "../../../src/background/repositories/ReadyFrameRepository";
+import type { ReadyFrameRepository } from "../../../src/background/repositories/ReadyFrameRepository";
 
 export default class MockReadyFrameRepository implements ReadyFrameRepository {
   addFrameId(_tabId: number, _fraemId: number): Promise<void> {

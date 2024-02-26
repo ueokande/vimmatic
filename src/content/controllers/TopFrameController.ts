@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import WindowRequestContext from "./WindowRequestContext";
+import type { WindowRequestContext } from "./types";
 import TopFrameUseCase from "../usecases/TopFrameUseCase";
 
 @injectable()

@@ -1,4 +1,4 @@
-import LastSelectedTabRepository from "../../../src/background/repositories/LastSelectedTabRepository";
+import type { LastSelectedTabRepository } from "../../../src/background/repositories/LastSelectedTabRepository";
 
 export default class MockLastSelectedTabRepository
   implements LastSelectedTabRepository

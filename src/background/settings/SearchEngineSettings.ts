@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
-import SettingsRepository from "./SettingsRepository";
-import Search from "../../shared/Search";
+import type { SettingsRepository } from "./SettingsRepository";
+import type { Search } from "../../shared/search";
 import { defaultSettings } from "../../settings";
 
-export default interface SearchEngineSettings {
+export interface SearchEngineSettings {
   get(): Promise<Search>;
 }
 

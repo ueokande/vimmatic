@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
 import { serialize, deserialize } from "../../settings";
-import SettingsRepository from "../settings/SettingsRepository";
-import PropertySettings from "../settings/PropertySettings";
-import StyleSettings from "../settings/StyleSettings";
+import type { SettingsRepository } from "../settings/SettingsRepository";
+import type { PropertySettings } from "../settings/PropertySettings";
+import type { StyleSettings } from "../settings/StyleSettings";
 import Validator from "../settings/Validator";
 
 @injectable()

@@ -1,5 +1,7 @@
-import type TabPresenter from "../../../src/background/presenters/TabPresenter";
-import type { Tab } from "../../../src/background/presenters/TabPresenter";
+import type {
+  TabPresenter,
+  Tab,
+} from "../../../src/background/presenters/TabPresenter";
 
 export default class MockTabPresenter implements TabPresenter {
   openToTab(_url: string, _tabId: number): Promise<void> {

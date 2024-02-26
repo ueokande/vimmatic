@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import ConsoleFramePresenter from "../presenters/ConsoleFramePresenter";
-import ReadyStatusPresenter from "../presenters/ReadyStatusPresenter";
+import type { ConsoleFramePresenter } from "../presenters/ConsoleFramePresenter";
+import type { ReadyStatusPresenter } from "../presenters/ReadyStatusPresenter";
 
 @injectable()
 export default class ConsoleFrameUseCase {

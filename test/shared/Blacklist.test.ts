@@ -1,5 +1,5 @@
-import Blacklist, { BlacklistItem } from "../../src/shared/Blacklist";
-import { fromKeymap } from "../../src/shared/Key";
+import { BlacklistItem, Blacklist } from "../../src/shared/blacklist";
+import { fromKeymap } from "../../src/shared/key";
 
 describe("BlacklistItem", () => {
   describe("#matches", () => {

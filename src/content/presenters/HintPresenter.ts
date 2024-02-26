@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
-import SettingRepository from "../repositories/SettingRepository";
+import type { SettingRepository } from "../repositories/SettingRepository";
 import Hint from "./Hint";
 import * as doms from "../../shared/utils/dom";
 import HTMLElementLocator from "./HTMLElementLocator";
-import type HTMLElementType from "../../shared/HTMLElementType";
+import type { HTMLElementType } from "../../shared/HTMLElementType";
 
 interface Size {
   width: number;
@@ -58,7 +58,7 @@ const isAriaHiddenOrAriaDisabled = (win: Window, element: Element): boolean => {
   return isAriaHiddenOrAriaDisabled(win, element.parentElement as Element);
 };
 
-export default interface HintPresenter {
+export interface HintPresenter {
   lookupTargets(
     cssSelector: string,
     viewSize: Size,

@@ -1,5 +1,5 @@
 import KeySequence from "../../../src/content/domains/KeySequence";
-import Key, { fromKeymap } from "../../../src/shared/Key";
+import { fromKeymap, Key } from "../../../src/shared/key";
 
 describe("KeySequence", () => {
   describe("#push", () => {

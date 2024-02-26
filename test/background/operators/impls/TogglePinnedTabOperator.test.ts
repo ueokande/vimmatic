@@ -1,5 +1,5 @@
 import TogglePinnedTabOperator from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("TogglePinnedTabOperator", () => {
   const mockTabsUpdate = jest

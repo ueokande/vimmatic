@@ -1,4 +1,4 @@
-import Keymaps from "../../src/shared/Keymaps";
+import { Keymaps } from "../../src/shared/keymaps";
 
 describe("Keymaps", () => {
   describe("#combine", () => {

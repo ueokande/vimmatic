@@ -7,14 +7,14 @@ import type {
   SerializedStyles,
 } from "./schema";
 import { validateSerializedSettings } from "./schema";
-import type Operation from "../shared/Operation";
-import type Settings from "../shared/Settings";
-import Keymaps from "../shared/Keymaps";
-import Search from "../shared/Search";
-import Properties from "../shared/Properties";
-import Blacklist from "../shared/Blacklist";
-import Styles from "../shared/Styles";
-import { BlacklistItem } from "../shared/Blacklist";
+import type { Operation } from "../shared/operation";
+import type { Settings } from "../shared/settings";
+import { Keymaps } from "../shared/keymaps";
+import { Search } from "../shared/search";
+import type { Properties } from "../shared/properties";
+import { Blacklist } from "../shared/blacklist";
+import type { Styles } from "../shared/styles";
+import { BlacklistItem } from "../shared/blacklist";
 
 const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
   const obj: SerializedKeymaps = {};

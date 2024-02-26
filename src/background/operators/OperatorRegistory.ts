@@ -1,6 +1,6 @@
-import Operator from "./Operator";
+import type { Operator } from "./types";
 
-export default interface OperatorRegistory {
+export interface OperatorRegistory {
   register(op: Operator): void;
 
   getOperator(name: string): Operator | undefined;

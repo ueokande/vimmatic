@@ -1,6 +1,4 @@
-import type Command from "./Command";
-import type { CommandContext } from "./Command";
-import type { Completions } from "./Command";
+import type { Command, CommandContext, Completions } from "./types";
 
 const url = "https://ueokande.github.io/vimmatic/";
 

@@ -1,4 +1,4 @@
-import Key, { fromKeymap } from "../../src/shared/Key";
+import { fromKeymap, Key } from "../../src/shared/key";
 
 describe("Key", () => {
   describe("idDigit", () => {

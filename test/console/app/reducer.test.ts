@@ -1,4 +1,7 @@
-import reducer, { defaultState, State } from "../../../src/console/app/recuer";
+import reducer, {
+  defaultState,
+  type State,
+} from "../../../src/console/app/recuer";
 import {
   hide,
   showCommand,

@@ -11,7 +11,7 @@ export type Point = {
   y: number;
 };
 
-export default interface TopFrameClient {
+export interface TopFrameClient {
   getWindowViewport(tabId: number): Promise<Rect>;
 
   getFramePosition(tabId: number, frameId: number): Promise<Point | undefined>;

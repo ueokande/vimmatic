@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
-import type FindQuery from "../../shared/FindQuery";
+import type { FindQuery } from "../../shared/findQuery";
 
-export default interface FindClient {
+export interface FindClient {
   findNext(tabId: number, frameId: number, query: FindQuery): Promise<boolean>;
 
   findPrev(tabId: number, frameId: number, query: FindQuery): Promise<boolean>;

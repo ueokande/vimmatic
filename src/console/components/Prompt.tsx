@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { type InputHTMLAttributes } from "react";
 import Completion from "../completion";
-import type { Completions as CompletionsType } from "../../shared/Completions";
+import type { Completions as CompletionsType } from "../../shared/completions";
 import PromptInput from "./PromptInput";
 import useDebounce from "../hooks/useDebounce";
 import useAutoResize from "../hooks/useAutoResize";

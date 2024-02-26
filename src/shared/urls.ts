@@ -1,4 +1,4 @@
-import SearchEngine from "./Search";
+import { Search as SearchEngine } from "./search";
 
 const trimStart = (str: string): string => {
   // NOTE String.trimStart is available on Firefox 61

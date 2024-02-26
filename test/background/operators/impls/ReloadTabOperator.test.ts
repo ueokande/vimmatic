@@ -1,5 +1,5 @@
 import ReloadTabOperator from "../../../../src/background/operators/impls/ReloadTabOperator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("ReloadTabOperator", () => {
   const reloadSpy = jest

@@ -1,6 +1,7 @@
-import MarkRepository, {
-  type LocalMark,
-  type GlobalMark,
+import type {
+  MarkRepository,
+  GlobalMark,
+  LocalMark,
 } from "../../../src/background/repositories/MarkRepository";
 
 export default class MockMarkRepository implements MarkRepository {

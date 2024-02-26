@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 type State = { [tabId: number]: number[] };
 
-export default interface ReadyFrameRepository {
+export interface ReadyFrameRepository {
   addFrameId(tabId: number, frameId: number): Promise<void>;
 
   removeFrameId(tabId: number, frameId: number): Promise<void>;

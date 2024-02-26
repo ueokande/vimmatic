@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { newSender } from "./ConsoleMessageSender";
 
-export default interface ConsoleClient {
+export interface ConsoleClient {
   showCommand(tabId: number, command: string): Promise<void>;
 
   showFind(tabId: number): Promise<void>;

@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import FocusPresenter from "../presenters/FocusPresenter";
+import type { FocusPresenter } from "../presenters/FocusPresenter";
 
 @injectable()
 export default class FocusController {

@@ -1,5 +1,5 @@
-import SettingsRepository from "../../../src/background/settings/SettingsRepository";
-import Settings from "../../../src/shared/Settings";
+import type { SettingsRepository } from "../../../src/background/settings/SettingsRepository";
+import type { Settings } from "../../../src/shared/settings";
 
 class MockSettingsRepository implements SettingsRepository {
   load(): Promise<Settings> {

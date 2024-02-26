@@ -1,6 +1,6 @@
 import ShowTabOpenCommandOperator from "../../../../src/background/operators/impls/ShowTabOpenCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("ShowTabOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();

@@ -1,4 +1,4 @@
-import type ClipboardRepository from "../../../src/background/repositories/ClipboardRepository";
+import type { ClipboardRepository } from "../../../src/background/repositories/ClipboardRepository";
 
 export default class MockClipboardRepository implements ClipboardRepository {
   async read(): Promise<string> {

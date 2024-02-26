@@ -1,4 +1,4 @@
-import { Duplex } from "../types";
+import type { Duplex } from "../types";
 
 type HandlerWithContext<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },

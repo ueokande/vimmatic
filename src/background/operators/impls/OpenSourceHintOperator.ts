@@ -1,10 +1,9 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
+import type { Operator, OperatorContext } from "../types";
 import HintModeUseCase from "../../usecases/HintModeUseCase";
 import ModeUseCase from "../../usecases/ModeUseCase";
-import Mode from "../../../shared/Mode";
+import { Mode } from "../../../shared/mode";
 
 @injectable()
 export default class OpenSourceHintOperator implements Operator {

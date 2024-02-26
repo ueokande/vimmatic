@@ -1,8 +1,9 @@
 import { PropertySettingsImpl } from "../../../src/background/settings/PropertySettings";
-import Property, {
+import type {
+  Property,
   PropertyType,
   PropertyTypeName,
-} from "../../../src/background/property/Property";
+} from "../../../src/background/property/types";
 import MockSettingsRepository from "../mock/MockSettingsRepository";
 import MockPropertyRegistry from "../mock/MockPropertyRegistry";
 

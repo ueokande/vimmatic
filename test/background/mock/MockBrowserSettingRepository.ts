@@ -1,4 +1,4 @@
-import BrowserSettingRepository from "../../../src/background/repositories/BrowserSettingRepository";
+import type { BrowserSettingRepository } from "../../../src/background/repositories/BrowserSettingRepository";
 
 export default class MockBrowserSettingRepository
   implements BrowserSettingRepository

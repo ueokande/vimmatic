@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
-export default interface ConsoleFrameClient {
+export interface ConsoleFrameClient {
   resize(tabId: number, width: number, height: number): Promise<void>;
 }
 

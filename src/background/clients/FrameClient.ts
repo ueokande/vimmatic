@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
-export default interface FrameClient {
+export interface FrameClient {
   notifyFrameId(tabId: number, frameId: number): Promise<void>;
 }
 

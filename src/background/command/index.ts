@@ -11,12 +11,12 @@ import SetCommand from "./SetCommand";
 import TabOpenCommand from "./TabOpenCommand";
 import WindowOpenCommand from "./WindowOpenCommand";
 import BufferCommandHelper from "./BufferCommandHelper";
-import PropertyRegistry from "../property/PropertyRegistry";
-import PropertySettings from "../settings/PropertySettings";
-import SearchEngineSettings from "../settings/SearchEngineSettings";
-import CommandRegistry, { CommandRegistryImpl } from "./CommandRegistry";
-import LastSelectedTabRepository from "../repositories/LastSelectedTabRepository";
-import ConsoleClient from "../clients/ConsoleClient";
+import type { PropertyRegistry } from "../property/PropertyRegistry";
+import type { PropertySettings } from "../settings/PropertySettings";
+import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
+import { type CommandRegistry, CommandRegistryImpl } from "./CommandRegistry";
+import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
+import type { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export class CommandRegistryFactory {

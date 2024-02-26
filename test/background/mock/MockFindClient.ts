@@ -1,5 +1,5 @@
-import type FindClient from "../../../src/background/clients/FindClient";
-import type FindQuery from "../../../src/shared/FindQuery";
+import type { FindClient } from "../../../src/background/clients/FindClient";
+import type { FindQuery } from "../../../src/shared/findQuery";
 
 export default class MockFindClient implements FindClient {
   findNext(

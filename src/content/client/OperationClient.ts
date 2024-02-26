@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import type Operation from "../../shared/Operation";
-import type BackgroundMessageSender from "./BackgroundMessageSender";
+import type { Operation } from "../../shared/operation";
+import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
-export default interface OperationClient {
+export interface OperationClient {
   execBackgroundOp(op: Operation, repeat: number): Promise<void>;
 }
 

@@ -1,6 +1,6 @@
 import ShowAddBookmarkOperator from "../../../../src/background/operators/impls/ShowAddBookmarkOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("ShowAddBookmarkOperator", () => {
   const consoleClient = new MockConsoleClient();

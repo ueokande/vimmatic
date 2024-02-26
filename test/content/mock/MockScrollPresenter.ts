@@ -1,4 +1,5 @@
-import ScrollPresenter, {
+import type {
+  ScrollPresenter,
   Point,
 } from "../../../src/content/presenters/ScrollPresenter";
 

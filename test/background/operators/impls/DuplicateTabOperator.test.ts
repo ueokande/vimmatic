@@ -1,5 +1,5 @@
 import DuplicateTabOperator from "../../../../src/background/operators/impls/DuplicateTabOperator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("DuplicateTabOperator", () => {
   describe("#run", () => {

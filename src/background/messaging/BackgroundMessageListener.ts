@@ -5,10 +5,10 @@ import OperationController from "../controllers/OperationController";
 import KeyController from "../controllers/KeyController";
 import ConsoleController from "../controllers/ConsoleController";
 import FindController from "../controllers/FindController";
-import ConsoleClient from "../clients/ConsoleClient";
+import type { ConsoleClient } from "../clients/ConsoleClient";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
-import RequestContext from "./RequestContext";
+import type { RequestContext } from "./types";
 
 @injectable()
 export default class BackgroundMessageListener {

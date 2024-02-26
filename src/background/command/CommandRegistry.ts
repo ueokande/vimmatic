@@ -1,6 +1,6 @@
-import Command from "./Command";
+import type { Command } from "./types";
 
-export default interface CommandRegistry {
+export interface CommandRegistry {
   register(cmd: Command): void;
 
   getCommand(name: string): Command | undefined;

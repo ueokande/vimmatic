@@ -1,6 +1,6 @@
 import { SettingRepositoryImpl } from "../../../src/content/repositories/SettingRepository";
-import SettingClient from "../../../src/content/client/SettingClient";
-import Settings from "../../../src/shared/Settings";
+import type { SettingClient } from "../../../src/content/client/SettingClient";
+import type { Settings } from "../../../src/shared/settings";
 import { deserialize } from "../../../src/settings";
 
 class MockSettingClient implements SettingClient {

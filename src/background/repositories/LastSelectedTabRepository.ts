@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
-export default interface LastSelectedTabRepository {
+export interface LastSelectedTabRepository {
   getLastSelectedTabId(): Promise<number | undefined>;
 
   setCurrentTabId(tabId: number): Promise<void>;

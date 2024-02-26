@@ -1,7 +1,6 @@
 import { inject, injectable } from "inversify";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import ContentMessageClient from "../../clients/ContentMessageClient";
+import type { Operator, OperatorContext } from "../types";
+import type { ContentMessageClient } from "../../clients/ContentMessageClient";
 
 @injectable()
 export default class CancelOperator implements Operator {

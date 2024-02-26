@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface ToolbarPresenter {
+export interface ToolbarPresenter {
   setEnabled(enabled: boolean): Promise<void>;
 
   onClick(listener: (arg: chrome.tabs.Tab) => void): void;

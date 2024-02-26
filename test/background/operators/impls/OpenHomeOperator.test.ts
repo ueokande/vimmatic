@@ -1,6 +1,6 @@
 import OpenHomeOperator from "../../../../src/background/operators/impls/OpenHomeOperator";
 import MockBrowserSettingRepository from "../../mock/MockBrowserSettingRepository";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("OpenHomeOperator", () => {
   describe("#run", () => {

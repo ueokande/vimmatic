@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import type { HintTarget } from "../hint/types";
 
-export default interface HintRepository {
+export interface HintRepository {
   startHintMode(
     name: string,
     opts: { newTab: boolean; background: boolean },

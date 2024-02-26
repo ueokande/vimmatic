@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface ReadyStatusPresenter {
+export interface ReadyStatusPresenter {
   setContentReady(): void;
 
   setConsoleReady(): void;
