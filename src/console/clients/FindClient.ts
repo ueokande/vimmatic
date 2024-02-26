@@ -1,5 +1,5 @@
 import type BackgroundMessageSender from "./BackgroundMessageSender";
-import Completions from "../Completions";
+import type { Completions } from "../../shared/Completions";
 
 export default class FindClient {
   constructor(private readonly sender: BackgroundMessageSender) {}
