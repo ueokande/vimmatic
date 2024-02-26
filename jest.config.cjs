@@ -1,7 +1,7 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   verbose: true,
-  testMatch: ["**/test/**/*.test.+(ts|tsx|js|jsx)"],
+  testMatch: ["<rootDir>/test/**/*.test.+(ts|tsx|js|jsx)"],
   transform: {
     // Use isolated tsconfig for jest to disable verbatimModuleSyntax
     // https://github.com/kulshekhar/ts-jest/issues/4081
