@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import Operator from "../Operator";
+import type { Operator } from "../types";
 
 @injectable()
 export default class UnpinTabOperator implements Operator {

@@ -1,9 +1,8 @@
 import { injectable, inject } from "inversify";
-import type HintClient from "../clients/HintClient";
-import type HintTarget from "./HintTarget";
-import type HintAction from "./HintAction";
-import type HTMLElementType from "../../shared/HTMLElementType";
-import type TabPresenter from "../presenters/TabPresenter";
+import type { HintClient } from "../clients/HintClient";
+import type { HTMLElementType } from "../../shared/HTMLElementType";
+import type { TabPresenter } from "../presenters/TabPresenter";
+import type { HintTarget, HintAction } from "./types";
 
 @injectable()
 export default class QuickHintAction implements HintAction {

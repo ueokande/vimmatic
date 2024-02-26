@@ -1,8 +1,7 @@
-import type Command from "./Command";
-import type { CommandContext, Completions } from "./Command";
-import type PropertySettings from "../settings/PropertySettings";
-import type PropertyRegistry from "../property/PropertyRegistry";
-import type ConsoleClient from "../clients/ConsoleClient";
+import type { Command, CommandContext, Completions } from "./types";
+import type { PropertySettings } from "../settings/PropertySettings";
+import type { PropertyRegistry } from "../property/PropertyRegistry";
+import type { ConsoleClient } from "../clients/ConsoleClient";
 
 const mustNumber = (v: any): number => {
   const num = Number(v);

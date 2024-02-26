@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface AddressRepository {
+export interface AddressRepository {
   getCurrentURL(): URL;
 }
 

@@ -1,8 +1,6 @@
 import type { Schema, Key, Request } from "../../messaging/schema/content";
 import { Sender } from "../../messaging";
 
-type ContentMessageSender = Sender<Schema>;
-
 export const newSender = (tabId: number, frameId?: number) => {
   const sender = new Sender<Schema>((type: Key, args: Request) => {
     if (process.env.NODE_ENV === "development") {
@@ -18,4 +16,4 @@ export const newSender = (tabId: number, frameId?: number) => {
   return sender;
 };
 
-export default ContentMessageSender;
+export type ContentMessageSender = Sender<Schema>;

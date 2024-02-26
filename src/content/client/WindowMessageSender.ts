@@ -1,8 +1,6 @@
 import { SimplexSender } from "../../messaging";
 import type { Key, Schema, Request } from "../../messaging/schema/window";
 
-type WindowMessageSender = SimplexSender<Schema>;
-
 /**
  * The window.postMessage() is used to identify a frame id of the <iframe>
  * element through the background script.  Only Firefox supports to get the
@@ -18,4 +16,4 @@ export const newSender = (target: Window) => {
   return sender;
 };
 
-export default WindowMessageSender;
+export type WindowMessageSender = SimplexSender<Schema>;

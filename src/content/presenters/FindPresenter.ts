@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import type FindQuery from "../../shared/FindQuery";
+import type { FindQuery } from "../../shared/findQuery";
 
-export default interface FindPresenter {
+export interface FindPresenter {
   findNext(query: FindQuery): boolean;
 
   findPrev(query: FindQuery): boolean;

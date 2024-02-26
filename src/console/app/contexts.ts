@@ -1,6 +1,6 @@
 import React from "react";
-import { State, defaultState } from "./recuer";
-import { AppAction } from "./actions";
+import { type State, defaultState } from "./recuer";
+import type { AppAction } from "./actions";
 
 export const AppStateContext = React.createContext<State>(defaultState);
 

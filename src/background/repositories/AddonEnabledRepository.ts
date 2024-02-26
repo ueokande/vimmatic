@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
-export default interface AddonEnabledRepository {
+export interface AddonEnabledRepository {
   enable(): Promise<void>;
 
   disable(): Promise<void>;

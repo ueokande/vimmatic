@@ -1,4 +1,4 @@
-import { Simplex } from "../types";
+import type { Simplex } from "../types";
 
 type SimplexHandlerWithContext<
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },

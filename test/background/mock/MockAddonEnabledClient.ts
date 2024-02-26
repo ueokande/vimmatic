@@ -1,4 +1,4 @@
-import AddonEnabledClient from "../../../src/background/clients/AddonEnabledClient";
+import type { AddonEnabledClient } from "../../../src/background/clients/AddonEnabledClient";
 
 export default class MockAddonEnabledClient implements AddonEnabledClient {
   enable(_tabId: number): Promise<void> {

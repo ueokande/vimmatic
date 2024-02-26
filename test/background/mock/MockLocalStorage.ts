@@ -1,6 +1,6 @@
-import LocalStorage from "../../../src/background/db/LocalStorage";
+import type { LocalCache } from "../../../src/background/db/LocalStorage";
 
-export default class MockLocalStorage<T> implements LocalStorage<T> {
+export default class MockLocalStorage<T> implements LocalCache<T> {
   private value: T | undefined;
 
   constructor(private readonly initValue: T) {}

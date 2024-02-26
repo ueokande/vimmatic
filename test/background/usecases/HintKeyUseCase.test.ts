@@ -2,7 +2,7 @@ import HintKeyUseCaes from "../../../src/background/usecases/HintKeyUseCase";
 import MockHintClient from "../mock/MockHintClient";
 import MockHintRepository from "../mock/MockHintRepository";
 import MockHintActionFactory from "../mock/MockHintActionFactory";
-import HintAction from "../../../src/background/hint/HintAction";
+import type { HintAction } from "../../../src/background/hint/types";
 
 class MockHintAction implements HintAction {
   constructor() {}

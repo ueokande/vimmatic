@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
-import Settings from "../../shared/Settings";
-import PropertyRegistry from "../property/PropertyRegistry";
-import OperatorRegistory from "../operators/OperatorRegistory";
+import type { Settings } from "../../shared/settings";
+import type { PropertyRegistry } from "../property/PropertyRegistry";
+import type { OperatorRegistory } from "../operators/OperatorRegistory";
 
 @injectable()
 export default class Validator {

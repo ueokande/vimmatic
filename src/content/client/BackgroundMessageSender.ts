@@ -1,8 +1,6 @@
 import { Sender } from "../../messaging";
 import type { Schema, Key, Request } from "../../messaging/schema/background";
 
-type BackgroundMessageSender = Sender<Schema>;
-
 export const newSender = () => {
   const sender = new Sender<Schema>((type: Key, args: Request) => {
     if (process.env.NODE_ENV === "development") {
@@ -19,4 +17,4 @@ export const newSender = () => {
   return sender;
 };
 
-export default BackgroundMessageSender;
+export type BackgroundMessageSender = Sender<Schema>;

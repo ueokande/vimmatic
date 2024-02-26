@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface ClipboardRepository {
+export interface ClipboardRepository {
   read(): Promise<string>;
 
   write(value: string): Promise<void>;

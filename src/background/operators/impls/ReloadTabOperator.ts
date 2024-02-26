@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import { z } from "zod";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export default class ReloadTabOperator implements Operator {

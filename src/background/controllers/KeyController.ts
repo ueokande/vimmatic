@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import RequestContext from "../messaging/RequestContext";
+import type { RequestContext } from "../messaging/types";
 import MarkJumpUseCase from "../usecases/MarkJumpUseCase";
 import MarkSetUseCase from "../usecases/MarkSetUseCase";
 import HintModeUseCaes from "../usecases/HintModeUseCase";

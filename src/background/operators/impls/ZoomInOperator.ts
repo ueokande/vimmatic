@@ -1,6 +1,5 @@
 import { injectable } from "inversify";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
+import type { Operator, OperatorContext } from "../types";
 import ZoomHelper from "./ZoomHelper";
 
 @injectable()

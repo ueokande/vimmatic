@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import FrameIdRepository from "../repositories/FrameIdRepository";
+import type { FrameIdRepository } from "../repositories/FrameIdRepository";
 
 @injectable()
 export default class TopFrameUseCase {

@@ -1,8 +1,7 @@
 import { injectable, inject } from "inversify";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import ClipboardRepository from "../../repositories/ClipboardRepository";
-import ConsoleClient from "../../clients/ConsoleClient";
+import type { Operator, OperatorContext } from "../types";
+import type { ClipboardRepository } from "../../repositories/ClipboardRepository";
+import type { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
 export default class YankOperator implements Operator {

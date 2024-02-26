@@ -1,4 +1,4 @@
-import ContentMessageClient from "../../../src/background/clients/ContentMessageClient";
+import type { ContentMessageClient } from "../../../src/background/clients/ContentMessageClient";
 
 export default class MockContentMessageClient implements ContentMessageClient {
   getAddonEnabled(_tabId: number, _frameId: number): Promise<boolean> {

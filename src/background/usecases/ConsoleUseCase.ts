@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import ConsoleFrameClient from "../clients/ConsoleFrameClient";
+import type { ConsoleFrameClient } from "../clients/ConsoleFrameClient";
 
 @injectable()
 export default class ConsoleUseCase {

@@ -1,4 +1,4 @@
-import Search from "../../src/shared/Search";
+import { Search } from "../../src/shared/search";
 
 describe("Search", () => {
   it("create a search engines", () => {

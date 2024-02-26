@@ -1,4 +1,4 @@
-import { Duplex } from "../types";
+import type { Duplex } from "../types";
 
 export type SenderHandler<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },

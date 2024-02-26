@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import * as urls from "../../shared/urls";
 
-export default interface BrowserSettingRepository {
+export interface BrowserSettingRepository {
   getHomepageUrls(): Promise<string[]>;
 }
 

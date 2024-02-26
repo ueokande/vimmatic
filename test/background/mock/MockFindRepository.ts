@@ -1,4 +1,5 @@
-import FindRepository, {
+import type {
+  FindRepository,
   FindState,
 } from "../../../src/background/repositories/FindRepository";
 

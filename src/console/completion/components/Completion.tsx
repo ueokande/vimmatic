@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import type CompletionsType from "../../Completions";
+import type { Completions } from "../../../shared/completions";
 import useCompletionKeyBinds from "../hooks/useCompletionKeyBinds";
 import useCursor from "../hooks/useCursor";
 import CompletionList from "./CompletionList";
@@ -15,7 +15,7 @@ interface Props {
   maxLineHeight: number;
   onInputChange: (newValue: string) => void;
   onInputEnter: (newValue: string) => void;
-  completions: CompletionsType;
+  completions: Completions;
   renderInput: (attrs: InputProps) => React.ReactNode;
 }
 
@@ -49,7 +49,7 @@ const useAutoInputValue = (
   }, [value]);
 };
 
-const useFlatten = (completions: CompletionsType) => {
+const useFlatten = (completions: Completions) => {
   return React.useMemo(
     () => completions.map((g) => g.items).flat(),
     [completions],

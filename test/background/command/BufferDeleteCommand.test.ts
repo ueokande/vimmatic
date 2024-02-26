@@ -1,6 +1,6 @@
 import BufferDeleteCommand from "../../../src/background/command/BufferDeleteCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
-import { CommandContext } from "../../../src/background/command/Command";
+import type { CommandContext } from "../../../src/background/command/types";
 import defaultTab from "../mock/defaultTab";
 
 describe("BufferDeleteCommand", () => {

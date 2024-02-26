@@ -2,7 +2,7 @@ import type {
   Completions as CompletionsType,
   CompletionGroup as CompletionGroupType,
   CompletionItem as CompletionItemType,
-} from "../../shared/Completions";
+} from "../../shared/completions";
 
 export type Completions = CompletionsType;
 export type CompletionGroup = CompletionGroupType;
@@ -16,7 +16,7 @@ export type CommandContext = {
   };
 };
 
-interface Command {
+export interface Command {
   names(): string[];
 
   fullname(): string;
@@ -27,5 +27,3 @@ interface Command {
 
   exec(ctx: CommandContext, force: boolean, args: string): Promise<void>;
 }
-
-export default Command;

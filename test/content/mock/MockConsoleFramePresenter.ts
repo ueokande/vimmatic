@@ -1,4 +1,4 @@
-import ConsoleFramePresenter from "../../../src/content/presenters/ConsoleFramePresenter";
+import type { ConsoleFramePresenter } from "../../../src/content/presenters/ConsoleFramePresenter";
 
 export default class MockConsoleFramePresenter
   implements ConsoleFramePresenter

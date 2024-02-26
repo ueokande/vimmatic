@@ -1,7 +1,5 @@
-import type Command from "./Command";
-import type { CommandContext } from "./Command";
-import type { Completions } from "./Command";
-import type LastSelectedTabRepository from "../repositories/LastSelectedTabRepository";
+import type { Command, CommandContext, Completions } from "./types";
+import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
 import BufferCommandHelper from "./BufferCommandHelper";
 
 class BufferCommand implements Command {

@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import Key from "../../shared/Key";
-import Mode from "../../shared/Mode";
-import ModeRepository from "../repositories/ModeRepository";
-import BackgroundKeyClient from "../client/BackgroundKeyClient";
+import { Key } from "../../shared/key";
+import { Mode } from "../../shared/mode";
+import type { ModeRepository } from "../repositories/ModeRepository";
+import type { BackgroundKeyClient } from "../client/BackgroundKeyClient";
 import KeymapUseCase from "../usecases/KeymapUseCase";
 import OperationUseCase from "../usecases/OperationUseCase";
 

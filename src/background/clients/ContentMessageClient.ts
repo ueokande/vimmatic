@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
 
-export default interface ContentMessageClient {
+export interface ContentMessageClient {
   scrollTo(
     tabId: number,
     frameId: number,

@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface FrameIdRepository {
+export interface FrameIdRepository {
   saveFrameId(frameId: number, target: Window, element: Element): void;
 
   getWindow(frameId: number): Window | undefined;

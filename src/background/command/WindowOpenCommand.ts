@@ -1,8 +1,7 @@
-import type Command from "./Command";
-import type { CommandContext, Completions } from "./Command";
+import type { Completions, Command, CommandContext } from "./types";
 import * as urls from "../../shared/urls";
-import type SearchEngineSettings from "../settings/SearchEngineSettings";
-import type PropertySettings from "../settings/PropertySettings";
+import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
+import type { PropertySettings } from "../settings/PropertySettings";
 import OpenCommandHelper from "./OpenCommandHelper";
 
 class WindowOpenCommand implements Command {

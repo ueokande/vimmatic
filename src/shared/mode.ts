@@ -4,5 +4,3 @@ export enum Mode {
   MarkSet = "mark-set",
   MarkJump = "mark-jump",
 }
-
-export default Mode;

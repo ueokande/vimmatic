@@ -1,5 +1,5 @@
-import PropertyRegistry from "../../../src/background/property/PropertyRegistry";
-import Property from "../../../src/background/property/Property";
+import type { PropertyRegistry } from "../../../src/background/property/PropertyRegistry";
+import type { Property } from "../../../src/background/property/types";
 
 class MockPropertyRegistry implements PropertyRegistry {
   register(_prop: Property): void {

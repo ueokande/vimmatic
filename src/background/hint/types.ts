@@ -1,6 +1,10 @@
-import type HintTarget from "./HintTarget";
+export type HintTarget = {
+  frameId: number;
+  element: string;
+  tag: string;
+};
 
-interface HintAction {
+export interface HintAction {
   lookupTargetSelector(): string;
 
   activate(
@@ -9,5 +13,3 @@ interface HintAction {
     opts: { newTab: boolean; background: boolean },
   ): Promise<void>;
 }
-
-export default HintAction;

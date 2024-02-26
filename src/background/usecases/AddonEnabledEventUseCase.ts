@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
-import ToolbarPresenter from "../presenters/ToolbarPresenter";
+import type { ToolbarPresenter } from "../presenters/ToolbarPresenter";
 import AddonEnabledUseCase from "./AddonEnabledUseCase";
-import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
-import AddonEnabledClient from "../clients/AddonEnabledClient";
+import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
+import type { AddonEnabledClient } from "../clients/AddonEnabledClient";
 import EventUseCaseHelper from "./EventUseCaseHelper";
 
 @injectable()

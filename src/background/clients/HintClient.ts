@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
-import type HTMLElementType from "../../shared/HTMLElementType";
+import type { HTMLElementType } from "../../shared/HTMLElementType";
 
 export type Point = {
   x: number;
@@ -12,7 +12,7 @@ export type Size = {
   height: number;
 };
 
-export default interface HintClient {
+export interface HintClient {
   lookupTargets(
     tabId: number,
     frameId: number,

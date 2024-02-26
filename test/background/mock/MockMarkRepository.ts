@@ -1,6 +1,8 @@
-import LocalMark from "../../../src/background/domains/LocalMark";
-import GlobalMark from "../../../src/background/domains/GlobalMark";
-import MarkRepository from "../../../src/background/repositories/MarkRepository";
+import type {
+  MarkRepository,
+  GlobalMark,
+  LocalMark,
+} from "../../../src/background/repositories/MarkRepository";
 
 export default class MockMarkRepository implements MarkRepository {
   getGlobalMark(_key: string): Promise<GlobalMark | undefined> {

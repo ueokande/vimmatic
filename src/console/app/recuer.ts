@@ -4,7 +4,7 @@ import {
   SHOW_ERROR,
   SHOW_FIND,
   SHOW_INFO,
-  AppAction,
+  type AppAction,
 } from "./actions";
 
 export type State =

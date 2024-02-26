@@ -1,8 +1,7 @@
 import { injectable, inject } from "inversify";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import RepeatRepository from "../../repositories/RepeatRepository";
-import OperatorRegistory from "../../operators/OperatorRegistory";
+import type { Operator, OperatorContext } from "../types";
+import type { RepeatRepository } from "../../repositories/RepeatRepository";
+import type { OperatorRegistory } from "../../operators/OperatorRegistory";
 
 @injectable()
 export default class RepeatLastOperator implements Operator {

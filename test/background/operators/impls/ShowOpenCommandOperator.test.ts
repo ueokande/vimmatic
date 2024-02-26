@@ -1,6 +1,6 @@
 import ShowOpenCommandOperator from "../../../../src/background/operators/impls/ShowOpenCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("ShowOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();

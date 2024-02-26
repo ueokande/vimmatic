@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 
 export type Tab = chrome.tabs.Tab;
 
-export default interface TabPresenter {
+export interface TabPresenter {
   openToTab(url: string, tabId: number): Promise<void>;
 
   openNewTab(url: string, openerId: number, background: boolean): Promise<void>;

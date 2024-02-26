@@ -1,8 +1,7 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import ConsoleClient from "../../clients/ConsoleClient";
+import type { Operator, OperatorContext } from "../types";
+import type { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
 export default class ShowAddBookmarkOperator implements Operator {

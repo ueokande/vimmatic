@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
-import type { OperatorContext } from "../operators/Operator";
-import type Operation from "../../shared/Operation";
-import OperatorRegistory from "../operators/OperatorRegistory";
-import RepeatRepository from "../repositories/RepeatRepository";
-import RequestContext from "../messaging/RequestContext";
+import type { OperatorContext } from "../operators/types";
+import type { Operation } from "../../shared/operation";
+import type { OperatorRegistory } from "../operators/OperatorRegistory";
+import type { RepeatRepository } from "../repositories/RepeatRepository";
+import type { RequestContext } from "../messaging/types";
 
 @injectable()
 export default class OperationUseCase {

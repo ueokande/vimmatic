@@ -1,12 +1,12 @@
 import { injectable, inject } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
-import Settings from "../../shared/Settings";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
+import type { Settings } from "../../shared/settings";
 import { defaultSettings, serialize, deserialize } from "../../settings";
-import { SerializedSettings } from "../../settings/schema";
+import type { SerializedSettings } from "../../settings/schema";
 
 type OnChangeListener = (value: Settings) => unknown;
 
-export default interface SettingsRepository {
+export interface SettingsRepository {
   load(): Promise<Settings>;
 
   save(value: Settings): Promise<void>;

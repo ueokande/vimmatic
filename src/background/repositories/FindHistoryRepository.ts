@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 type State = string[];
 
-export default interface FindHistoryRepository {
+export interface FindHistoryRepository {
   append(keyword: string): Promise<void>;
 
   query(prefix: string): Promise<string[]>;

@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 
 let enabled = false;
 
-export default interface AddonEnabledRepository {
+export interface AddonEnabledRepository {
   enable(): void;
   disable(): void;
   isEnabled(): boolean;

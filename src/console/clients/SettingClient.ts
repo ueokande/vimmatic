@@ -1,4 +1,4 @@
-import type BackgroundMessageSender from "./BackgroundMessageSender";
+import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export default class SettingClient {
   constructor(private readonly sender: BackgroundMessageSender) {}

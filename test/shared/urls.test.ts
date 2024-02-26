@@ -1,5 +1,5 @@
 import * as parsers from "../../src/shared/urls";
-import Search from "../../src/shared/Search";
+import { Search } from "../../src/shared/search";
 
 describe("shared/commands/parsers", () => {
   describe("#searchUrl", () => {

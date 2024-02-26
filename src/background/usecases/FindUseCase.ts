@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
-import ConsoleClient from "../clients/ConsoleClient";
-import FindRepository from "../repositories/FindRepository";
-import FindHistoryRepository from "../repositories/FindHistoryRepository";
-import type PropertySettings from "../settings/PropertySettings";
-import FindClient from "../clients/FindClient";
-import ReadyFrameRepository from "../repositories/ReadyFrameRepository";
+import type { ConsoleClient } from "../clients/ConsoleClient";
+import type { FindRepository } from "../repositories/FindRepository";
+import type { FindHistoryRepository } from "../repositories/FindHistoryRepository";
+import type { PropertySettings } from "../settings/PropertySettings";
+import type { FindClient } from "../clients/FindClient";
+import type { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
 
 @injectable()
 export default class FindUseCase {

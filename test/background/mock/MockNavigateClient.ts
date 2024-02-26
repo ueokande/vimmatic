@@ -1,4 +1,4 @@
-import NavigateClient from "../../../src/background/clients/NavigateClient";
+import type { NavigateClient } from "../../../src/background/clients/NavigateClient";
 
 export default class MockNavigateClient implements NavigateClient {
   historyNext(_tabId: number): Promise<void> {

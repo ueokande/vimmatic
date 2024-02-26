@@ -1,5 +1,5 @@
-import type TopFrameClient from "../../../src/background/clients/TopFrameClient";
 import type {
+  TopFrameClient,
   Rect,
   Point,
 } from "../../../src/background/clients/TopFrameClient";

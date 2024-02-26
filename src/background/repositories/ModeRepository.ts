@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
-import Mode from "../../shared/Mode";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
+import { Mode } from "../../shared/mode";
 
-export default interface ModeRepository {
+export interface ModeRepository {
   getMode(): Promise<Mode>;
   setMode(mode: Mode): Promise<void>;
 }

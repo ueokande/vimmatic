@@ -1,8 +1,8 @@
 import KeymapUseCase from "../../../src/content/usecases/KeymapUseCase";
 import { KeymapRepositoryImpl } from "../../../src/content/repositories/KeymapRepository";
-import { fromKeymap } from "../../../src/shared/Key";
+import { fromKeymap } from "../../../src/shared/key";
 import { deserialize } from "../../../src/settings";
-import AddressRepository from "../../../src/content/repositories/AddressRepository";
+import type { AddressRepository } from "../../../src/content/repositories/AddressRepository";
 import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
 import MockSettingRepository from "../mock/MockSettingRepository";
 

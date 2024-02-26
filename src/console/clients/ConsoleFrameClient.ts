@@ -1,4 +1,4 @@
-import type BackgroundMessageSender from "./BackgroundMessageSender";
+import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export default class ConsoleFrameClient {
   constructor(private readonly sender: BackgroundMessageSender) {}

@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
 import { deserialize } from "../../settings";
-import type Settings from "../../shared/Settings";
-import type BackgroundMessageSender from "./BackgroundMessageSender";
+import type { Settings } from "../../shared/settings";
+import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
-export default interface SettingClient {
+export interface SettingClient {
   load(): Promise<Settings>;
 }
 

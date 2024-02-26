@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import Mode from "../../shared/Mode";
-import ModeRepository from "../repositories/ModeRepository";
+import { Mode } from "../../shared/mode";
+import type { ModeRepository } from "../repositories/ModeRepository";
 
 @injectable()
 export default class ModeController {

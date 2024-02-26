@@ -1,4 +1,4 @@
-import type Property from "../../../src/background/property/Property";
+import type { Property } from "../../../src/background/property/types";
 import { PropertyRegistryImpl } from "../../../src/background/property/PropertyRegistry";
 
 describe("CommandRegistryImpl", () => {

@@ -1,9 +1,8 @@
 import { injectable, inject } from "inversify";
-import type HintClient from "../clients/HintClient";
-import type HintTarget from "./HintTarget";
-import type HintAction from "./HintAction";
-import type ClipboardRepository from "../repositories/ClipboardRepository";
-import type ConsoleClient from "../clients/ConsoleClient";
+import type { HintClient } from "../clients/HintClient";
+import type { HintTarget, HintAction } from "./types";
+import type { ClipboardRepository } from "../repositories/ClipboardRepository";
+import type { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export default class YankLinkTextHintAction implements HintAction {

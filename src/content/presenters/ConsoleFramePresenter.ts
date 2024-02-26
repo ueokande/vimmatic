@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-export default interface ConsoleFramePresenter {
+export interface ConsoleFramePresenter {
   attach(): void;
 
   detach(): void;

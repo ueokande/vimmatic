@@ -1,5 +1,5 @@
 import OperationUseCase from "../../../src/content/usecases/OperationUseCase";
-import OperationClient from "../../../src/content/client/OperationClient";
+import type { OperationClient } from "../../../src/content/client/OperationClient";
 
 const todo = () => {
   throw new Error(`not implemented`);

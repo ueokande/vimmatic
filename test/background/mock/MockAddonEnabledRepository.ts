@@ -1,4 +1,4 @@
-import AddonEnabledRepository from "../../../src/background/repositories/AddonEnabledRepository";
+import type { AddonEnabledRepository } from "../../../src/background/repositories/AddonEnabledRepository";
 
 export default class MockAddonEnabledRepository
   implements AddonEnabledRepository

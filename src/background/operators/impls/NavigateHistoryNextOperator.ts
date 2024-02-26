@@ -1,7 +1,6 @@
 import { inject, injectable } from "inversify";
-import Operator from "../Operator";
-import { OperatorContext } from "../Operator";
-import NavigateClient from "../../clients/NavigateClient";
+import type { Operator, OperatorContext } from "../types";
+import type { NavigateClient } from "../../clients/NavigateClient";
 
 @injectable()
 export default class NavigateHistoryNextOperator implements Operator {

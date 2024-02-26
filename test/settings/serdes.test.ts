@@ -2,9 +2,9 @@ import {
   serializeSettings,
   deserializeSettings,
 } from "../../src/settings/serdes";
-import Keymaps from "../../src/shared/Keymaps";
-import Search from "../../src/shared/Search";
-import Blacklist, { BlacklistItem } from "../../src/shared/Blacklist";
+import { Keymaps } from "../../src/shared/keymaps";
+import { Search } from "../../src/shared/search";
+import { BlacklistItem, Blacklist } from "../../src/shared/blacklist";
 
 describe("serializeSettings", () => {
   it("serializes empty settings", () => {

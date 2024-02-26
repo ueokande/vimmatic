@@ -1,5 +1,5 @@
 import NavigateParentOperator from "../../../../src/background/operators/impls/NavigateParentOperator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("NavigateParentOperator", () => {
   const mockTabsUpdate = jest

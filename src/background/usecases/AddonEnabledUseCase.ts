@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import ToolbarPresenter from "../presenters/ToolbarPresenter";
-import AddonEnabledRepository from "../repositories/AddonEnabledRepository";
+import type { ToolbarPresenter } from "../presenters/ToolbarPresenter";
+import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
 
 @injectable()
 export default class AddonEnabledUseCase {

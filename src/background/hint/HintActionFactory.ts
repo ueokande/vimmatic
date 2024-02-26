@@ -1,5 +1,4 @@
 import { injectable, inject } from "inversify";
-import type HintAction from "./HintAction";
 import QuickHintAction from "./QuickHintAction";
 import OpenImageHintAction from "./OpenImageHintAction";
 import YankURLHintAction from "./YankURLHintAction";
@@ -11,8 +10,9 @@ import OpenCommandHintAction from "./OpenCommandHintAction";
 import TabopenCommandHintAction from "./TabopenCommandHintAction";
 import WinopenCommandHintAction from "./WinopenCommandHintAction";
 import OpenSourceHintAction from "./OpenSourceHintAction";
+import type { HintAction } from "./types";
 
-export default interface HintActionFactory {
+export interface HintActionFactory {
   createHintAction(name: string): HintAction;
 }
 

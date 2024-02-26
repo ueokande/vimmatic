@@ -1,6 +1,5 @@
 import { inject, injectable } from "inversify";
-import type Operator from "../Operator";
-import type { OperatorContext } from "../Operator";
+import type { Operator, OperatorContext } from "../types";
 import FindUseCase from "../../usecases/FindUseCase";
 
 @injectable()

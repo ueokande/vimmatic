@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { type InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`

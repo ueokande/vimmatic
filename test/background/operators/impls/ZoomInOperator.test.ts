@@ -1,5 +1,5 @@
 import ZoomInOperator from "../../../../src/background/operators/impls/ZoomInOperator";
-import { OperatorContext } from "../../../../src/background/operators/Operator";
+import type { OperatorContext } from "../../../../src/background/operators/types";
 
 describe("ZoomInOperator", () => {
   describe("#run", () => {

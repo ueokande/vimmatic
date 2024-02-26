@@ -1,7 +1,7 @@
 export type PropertyType = string | number | boolean;
 export type PropertyTypeName = "string" | "number" | "boolean";
 
-export default interface Property {
+export interface Property {
   name(): string;
 
   description(): string;

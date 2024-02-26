@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import LocalCache, { LocalCacheImpl } from "../db/LocalStorage";
+import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 export type FindState = {
   keyword: string;
@@ -11,7 +11,7 @@ type State = {
   local: { [tabId: number]: FindState };
 };
 
-export default interface FindRepository {
+export interface FindRepository {
   getGlobalKeyword(): Promise<string | undefined>;
 
   setGlobalKeyword(keyword: string): Promise<void>;

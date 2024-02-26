@@ -2,12 +2,12 @@ import { injectable, inject } from "inversify";
 import BackgroundMessageListener from "./messaging/BackgroundMessageListener";
 import FindPortListener from "./messaging/FindPortListener";
 import VersionUseCase from "./usecases/VersionUseCase";
-import FindRepositoryImpl from "./repositories/FindRepository";
-import ReadyFrameRepository from "./repositories/ReadyFrameRepository";
+import type { FindRepository } from "./repositories/FindRepository";
+import type { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
 import SettingsEventUseCase from "./usecases/SettingsEventUseCase";
-import FrameClient from "./clients/FrameClient";
+import type { FrameClient } from "./clients/FrameClient";
 import AddonEnabledEventUseCase from "./usecases/AddonEnabledEventUseCase";
-import LastSelectedTabRepository from "./repositories/LastSelectedTabRepository";
+import type { LastSelectedTabRepository } from "./repositories/LastSelectedTabRepository";
 import ModeUseCase from "./usecases/ModeUseCase";
 import HintModeUseCase from "./usecases/HintModeUseCase";
 
@@ -19,7 +19,7 @@ export default class Application {
     @inject(VersionUseCase)
     private readonly versionUseCase: VersionUseCase,
     @inject("FindRepository")
-    private readonly findRepository: FindRepositoryImpl,
+    private readonly findRepository: FindRepository,
     @inject("ReadyFrameRepository")
     private readonly frameRepository: ReadyFrameRepository,
     @inject("LastSelectedTabRepository")

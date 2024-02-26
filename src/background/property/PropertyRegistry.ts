@@ -1,6 +1,6 @@
-import Property from "./Property";
+import type { Property } from "./types";
 
-export default interface PropertyRegistry {
+export interface PropertyRegistry {
   register(prop: Property): void;
 
   getProperty(name: string): Property | undefined;

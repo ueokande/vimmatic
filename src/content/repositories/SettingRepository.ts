@@ -1,16 +1,16 @@
 import { injectable, inject } from "inversify";
-import Blacklist from "../../shared/Blacklist";
-import Keymaps from "../../shared/Keymaps";
-import Properties from "../../shared/Properties";
-import Search from "../../shared/Search";
-import { ComponentName, CSS } from "../../shared/Styles";
-import SettingClient from "../client/SettingClient";
+import { Blacklist } from "../../shared/blacklist";
+import { Keymaps } from "../../shared/keymaps";
+import type { Properties } from "../../shared/properties";
+import { Search } from "../../shared/search";
+import type { ComponentName, CSS } from "../../shared/styles";
+import type { SettingClient } from "../client/SettingClient";
 import { defaultSettings } from "../../settings";
-import Settings from "../../shared/Settings";
+import type { Settings } from "../../shared/settings";
 
 let current: Settings = defaultSettings;
 
-export default interface SettingRepository {
+export interface SettingRepository {
   reload(): Promise<void>;
 
   getKeymaps(): Keymaps;

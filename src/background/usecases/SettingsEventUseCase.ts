@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
-import ContentMessageClient from "../clients/ContentMessageClient";
-import SettingsRepository from "../settings/SettingsRepository";
+import type { ContentMessageClient } from "../clients/ContentMessageClient";
+import type { SettingsRepository } from "../settings/SettingsRepository";
 import EventUseCaseHelper from "./EventUseCaseHelper";
 
 @injectable()

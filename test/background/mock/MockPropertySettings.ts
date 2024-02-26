@@ -1,4 +1,4 @@
-import PropertySettings from "../../../src/background/settings/PropertySettings";
+import type { PropertySettings } from "../../../src/background/settings/PropertySettings";
 
 export default class MockPropertySettings implements PropertySettings {
   setProperty(_name: string, _value: string | number | boolean): Promise<void> {

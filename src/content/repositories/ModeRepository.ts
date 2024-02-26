@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
-import Mode from "../../shared/Mode";
+import { Mode } from "../../shared/mode";
 
 let mode: Mode = Mode.Normal;
 
-export default interface ModeRepository {
+export interface ModeRepository {
   getMode(): Mode;
 
   setMode(mode: Mode): void;

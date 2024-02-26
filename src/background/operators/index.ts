@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import type OperatorRegistory from "./OperatorRegistory";
+import type { OperatorRegistory } from "./OperatorRegistory";
 import EnableAddonOperator from "./impls/EnableAddonOperator";
 import DisableAddonOperator from "./impls/DisableAddonOperator";
 import ToggleAddonOperator from "./impls/ToggleAddonOperator";
@@ -63,7 +63,7 @@ import OpenCommandHintOperator from "./impls/OpenCommandHintOperator";
 import TabopenCommandHintOperator from "./impls/TabopenCommandHintOperator";
 import WinopenCommandHintOperator from "./impls/WinopenCommandHintOperator";
 import OpenSourceHintOperator from "./impls/OpenSourceHintOperator";
-import RepeatRepository from "../repositories/RepeatRepository";
+import type { RepeatRepository } from "../repositories/RepeatRepository";
 import { OperatorRegistryImpl } from "./OperatorRegistory";
 
 @injectable()

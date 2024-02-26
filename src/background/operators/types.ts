@@ -10,12 +10,10 @@ export type OperatorContext = {
   };
 };
 
-interface Operator {
+export interface Operator {
   name(): string;
 
   schema(): PropsSchema | void;
 
   run(ctx: OperatorContext, props: Props): Promise<void>;
 }
-
-export default Operator;
