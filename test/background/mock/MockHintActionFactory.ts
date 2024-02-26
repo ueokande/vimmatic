@@ -1,6 +1,8 @@
 import type HintActionFactory from "../../../src/background/hint/HintActionFactory";
-import type HintTarget from "../../../src/background/hint/HintTarget";
-import type HintAction from "../../../src/background/hint/HintAction";
+import type {
+  HintTarget,
+  HintAction,
+} from "../../../src/background/hint/types";
 
 class MockHintAction implements HintAction {
   constructor(public readonly name: string) {}

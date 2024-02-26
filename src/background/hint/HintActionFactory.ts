@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import type HintAction from "./HintAction";
+import type { HintAction } from "./types";
 import QuickHintAction from "./QuickHintAction";
 import OpenImageHintAction from "./OpenImageHintAction";
 import YankURLHintAction from "./YankURLHintAction";
