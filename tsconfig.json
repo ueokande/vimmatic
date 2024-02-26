@@ -33,7 +33,8 @@
     "skipLibCheck": true,
     "verbatimModuleSyntax": true
   },
-  "exclude": [
-    "./e2e/"
+  "include": [
+    "./src/**/*",
+    "./test/**/*"
   ]
 }
