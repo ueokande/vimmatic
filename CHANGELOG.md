@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.7.0](https://github.com/ueokande/vimmatic/compare/v0.6.1...v0.7.0) (2024-02-26)
+
+
+### Features
+
+* support regexp and ignorecase on find ([#349](https://github.com/ueokande/vimmatic/issues/349)) ([94b7d7f](https://github.com/ueokande/vimmatic/commit/94b7d7f7613f00dbc2baab0a02ef500e1e19785d))
+
+
+### Bug Fixes
+
+* change default value of find mode ([#356](https://github.com/ueokande/vimmatic/issues/356)) ([737c536](https://github.com/ueokande/vimmatic/commit/737c536f9a665c618f7cc7acc97671b6a884c7db))
+* **deps:** bump the typescript group with 3 updates ([#352](https://github.com/ueokande/vimmatic/issues/352)) ([5d829ef](https://github.com/ueokande/vimmatic/commit/5d829ef6ce35c2b027d295f7ac457e01ec4b96cd))
+* ignore unexpected message ([#354](https://github.com/ueokande/vimmatic/issues/354)) ([ac302cd](https://github.com/ueokande/vimmatic/commit/ac302cd7383b9f17efb4c42191d881f67a91ff45)), closes [#351](https://github.com/ueokande/vimmatic/issues/351)
+* validate keymap props ([#359](https://github.com/ueokande/vimmatic/issues/359)) ([86516be](https://github.com/ueokande/vimmatic/commit/86516be9dad8cb4c147a03f1333c35bb24373590))
+
 ## [0.6.1](https://github.com/ueokande/vimmatic/compare/v0.6.0...v0.6.1) (2024-02-10)
 
 
