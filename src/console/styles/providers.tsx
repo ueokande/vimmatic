@@ -1,7 +1,6 @@
 import React from "react";
 import { DarkTheme, LightTheme } from "./theme";
 import { type Style, UpdateStyleContext } from "./contexts";
-import GlobalStyle from "./global";
 import { ThemeProvider } from "styled-components";
 
 type Props = {
@@ -29,7 +28,6 @@ export const StyleProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <UpdateStyleContext.Provider value={setStyle}>
-      <GlobalStyle {...style.css} />
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </UpdateStyleContext.Provider>
   );
