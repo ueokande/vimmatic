@@ -9,8 +9,7 @@ export const useInvalidateStyle = () => {
   const update = React.useContext(UpdateStyleContext);
   const refresh = React.useCallback(async () => {
     const colorscheme = await settingClient.getColorScheme();
-    const css = await settingClient.getConsoleStyle();
-    update({ colorscheme, css });
+    update({ colorscheme });
   }, []);
 
   return refresh;
