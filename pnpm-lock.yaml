@@ -42,7 +42,7 @@ devDependencies:
     version: 1.40.1
   '@testing-library/react-hooks':
     specifier: ^8.0.1
-    version: 8.0.1(@types/react@18.2.46)(react-dom@18.2.0)(react-test-renderer@18.2.0)(react@18.2.0)
+    version: 8.0.1(@types/react@18.2.61)(react-dom@18.2.0)(react-test-renderer@18.2.0)(react@18.2.0)
   '@types/chrome':
     specifier: ^0.0.233
     version: 0.0.233
@@ -56,11 +56,11 @@ devDependencies:
     specifier: ^1.26.1
     version: 1.26.1
   '@types/react':
-    specifier: ^18.2.46
-    version: 18.2.46
+    specifier: ^18.2.61
+    version: 18.2.61
   '@types/react-dom':
-    specifier: ^18.2.18
-    version: 18.2.18
+    specifier: ^18.2.19
+    version: 18.2.19
   '@types/react-test-renderer':
     specifier: ^18.0.7
     version: 18.0.7
@@ -2235,7 +2235,7 @@ packages:
       '@sinonjs/commons': 3.0.0
     dev: true
 
-  /@testing-library/react-hooks@8.0.1(@types/react@18.2.46)(react-dom@18.2.0)(react-test-renderer@18.2.0)(react@18.2.0):
+  /@testing-library/react-hooks@8.0.1(@types/react@18.2.61)(react-dom@18.2.0)(react-test-renderer@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Aqhl2IVmLt8IovEVarNDFuJDVWVvhnr9/GCU6UUnrYXwgDFF9h2L2o2P9KBni1AST5sT6riAyoukFLyjQUgD/g==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -2252,7 +2252,7 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.21.0
-      '@types/react': 18.2.46
+      '@types/react': 18.2.61
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-error-boundary: 3.1.4(react@18.2.0)
@@ -2391,20 +2391,20 @@ packages:
     resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
     dev: true
 
-  /@types/react-dom@18.2.18:
-    resolution: {integrity: sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==}
+  /@types/react-dom@18.2.19:
+    resolution: {integrity: sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA==}
     dependencies:
-      '@types/react': 18.2.46
+      '@types/react': 18.2.61
     dev: true
 
   /@types/react-test-renderer@18.0.7:
     resolution: {integrity: sha512-1+ANPOWc6rB3IkSnElhjv6VLlKg2dSv/OWClUyZimbLsQyBn8Js9Vtdsi3UICJ2rIQ3k2la06dkB+C92QfhKmg==}
     dependencies:
-      '@types/react': 18.2.46
+      '@types/react': 18.2.61
     dev: true
 
-  /@types/react@18.2.46:
-    resolution: {integrity: sha512-nNCvVBcZlvX4NU1nRRNV/mFl1nNRuTuslAJglQsq+8ldXe5Xv0Wd2f7WTE3jOxhLH2BFfiZGC6GCp+kHQbgG+w==}
+  /@types/react@18.2.61:
+    resolution: {integrity: sha512-NURTN0qNnJa7O/k4XUkEW2yfygA+NxS0V5h1+kp9jPwhzZy95q3ADoGMP0+JypMhrZBTTgjKAUlTctde1zzeQA==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
