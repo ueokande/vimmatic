@@ -20,7 +20,11 @@ type Props = {
 const InfoMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
-  return <p {...stylex.props(styles.info)}>{children}</p>;
+  return (
+    <p role="status" {...stylex.props(styles.info)}>
+      {children}
+    </p>
+  );
 };
 
 export default InfoMessage;

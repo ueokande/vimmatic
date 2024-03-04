@@ -19,7 +19,11 @@ type Props = {
 const ErrorMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
-  return <p {...stylex.props(styles.error)}>{children}</p>;
+  return (
+    <p role="alert" {...stylex.props(styles.error)}>
+      {children}
+    </p>
+  );
 };
 
 export default ErrorMessage;
