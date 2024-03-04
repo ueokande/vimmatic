@@ -37,6 +37,9 @@ devDependencies:
   '@playwright/test':
     specifier: 1.40.1
     version: 1.40.1
+  '@stylexjs/dev-runtime':
+    specifier: ^0.5.1
+    version: 0.5.1
   '@stylexjs/esbuild-plugin':
     specifier: ^0.5.1
     version: 0.5.1
@@ -1653,6 +1656,12 @@ packages:
       '@stylexjs/stylex': 0.5.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@stylexjs/dev-runtime@0.5.1:
+    resolution: {integrity: sha512-iF0VIuqxDGG4eGkIBGyhPV5LONxAPRh6lO06qvbC85KdMzvt3Tffclv8HAbW8bcJFz7HJIOFYUoTGTjqyijKMw==}
+    dependencies:
+      '@stylexjs/shared': 0.5.1
     dev: true
 
   /@stylexjs/esbuild-plugin@0.5.1:

@@ -1,4 +1,7 @@
 import "@abraham/reflection";
+import inject from "@stylexjs/dev-runtime";
+
+inject({ test: false } as any);
 
 const todo = () => {
   throw new Error("not implemented");
