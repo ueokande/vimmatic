@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/ueokande/vimmatic/compare/v0.7.0...v0.7.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* keep class names ([#384](https://github.com/ueokande/vimmatic/issues/384)) ([66c2e46](https://github.com/ueokande/vimmatic/commit/66c2e463cf59b076c54a5f4cb66333a6a65653bd))
+
 ## [0.7.0](https://github.com/ueokande/vimmatic/compare/v0.6.1...v0.7.0) (2024-02-26)
 
 
