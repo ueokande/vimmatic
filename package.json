@@ -43,7 +43,7 @@
     "@stylexjs/eslint-plugin": "^0.5.1",
     "@stylexjs/stylex": "^0.5.1",
     "@testing-library/react-hooks": "^8.0.1",
-    "@types/chrome": "^0.0.233",
+    "@types/chrome": "^0.0.262",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.6.0",
     "@types/prismjs": "^1.26.1",

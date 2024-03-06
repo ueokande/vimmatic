@@ -53,8 +53,8 @@ devDependencies:
     specifier: ^8.0.1
     version: 8.0.1(@types/react@18.2.46)(react-dom@18.2.0)(react-test-renderer@18.2.0)(react@18.2.0)
   '@types/chrome':
-    specifier: ^0.0.233
-    version: 0.0.233
+    specifier: ^0.0.262
+    version: 0.0.262
   '@types/jest':
     specifier: ^29.5.12
     version: 29.5.12
@@ -1774,8 +1774,8 @@ packages:
       '@babel/types': 7.23.0
     dev: true
 
-  /@types/chrome@0.0.233:
-    resolution: {integrity: sha512-T3HUW8LDhHfYPbUkOZilhnqX04sZqEFIQO0OIG8byZ7PBIk2jYys1AkNg56UbtKbsh3dABmOniK+0Q3oyo7Sxg==}
+  /@types/chrome@0.0.262:
+    resolution: {integrity: sha512-TOoj3dqSYE13PD2fRuMQ6X6pggEvL9rRk/yOYOyWE6sfqRWxsJm4VoVm+wr9pkr4Sht/M5t7FFL4vXato8d1gA==}
     dependencies:
       '@types/filesystem': 0.0.32
       '@types/har-format': 1.2.10
