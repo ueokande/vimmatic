@@ -1,39 +1,45 @@
 import React from "react";
-import styled from "styled-components";
+import stylex from "@stylexjs/stylex";
+import { colors } from "../../styles/tokens.stylex";
 
-const Container = styled.li<{
-  $shown: number;
-  $icon?: string;
-  $highlight: number;
-}>`
-  background-image: ${({ $icon }) =>
-    typeof $icon !== "undefined" ? "url(" + $icon + ")" : "unset"};
-  background-color: ${({ $highlight, theme }) =>
-    $highlight ? theme.select?.background : theme.background};
-  color: ${({ $highlight, theme }) =>
-    $highlight ? theme.select?.foreground : theme.foreground};
-  display: ${({ $shown }) => ($shown ? "block" : "none")};
-  padding-left: 1.8rem;
-  background-position: 0 center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  white-space: pre;
-`;
+const styles = stylex.create({
+  base: {
+    backgroundColor: colors.background,
+    color: colors.foreground,
+    paddingLeft: "1.8rem",
+    backgroundPosition: "0 center",
+    backgroundSize: "contain",
+    backgroundRepeat: "no-repeat",
+    whiteSpace: "pre",
+  },
+  icon: (icon: string | undefined) => ({
+    backgroundImage: typeof icon !== "undefined" ? `url(${icon})` : "unset",
+  }),
+  highlighted: {
+    backgroundColor: colors.selectBackground,
+    color: colors.selectForeground,
+  },
+  shown: {
+    display: "block",
+  },
+  hidden: {
+    display: "none",
+  },
 
-const Primary = styled.span`
-  display: inline-block;
-  width: 40%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
-
-const Secondary = styled.span`
-  display: inline-block;
-  color: ${({ theme }) => theme.secondaryForeground};
-  width: 60%;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
+  primaryText: {
+    display: "inline-block",
+    width: "40%",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
+  secondaryText: {
+    display: "inline-block",
+    color: colors.secondaryForeground,
+    width: "60%",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
+});
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
   shown: boolean;
@@ -51,16 +57,24 @@ const CompletionItem: React.FC<Props> = ({
   icon,
   ...props
 }) => (
-  <Container
+  <div
     aria-labelledby={`completion-item-${primary}`}
-    $shown={Number(shown)}
-    $icon={icon}
-    $highlight={Number(highlight)}
+    {...stylex.props(
+      styles.base,
+      styles.icon(icon),
+      shown ? styles.shown : styles.hidden,
+      highlight ? styles.highlighted : null,
+    )}
     {...props}
   >
-    <Primary id={`completion-item-${primary}`}>{primary}</Primary>
-    <Secondary>{secondary}</Secondary>
-  </Container>
+    <span
+      id={`completion-item-${primary}`}
+      {...stylex.props(styles.primaryText)}
+    >
+      {primary}
+    </span>
+    <span {...stylex.props(styles.secondaryText)}>{secondary}</span>
+  </div>
 );
 
 export default CompletionItem;

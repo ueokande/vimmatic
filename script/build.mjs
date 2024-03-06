@@ -1,5 +1,10 @@
 import fs from "node:fs/promises";
+import path from "node:path";
 import { build } from "esbuild";
+import stylexPlugin from "@stylexjs/esbuild-plugin";
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const ROOT_DIR = path.resolve(__dirname, "..");
 
 const targets = {
   firefox: "firefox91",
@@ -7,25 +12,42 @@ const targets = {
 };
 
 const buildScripts = async (browser) => {
-  await build({
-    define: {
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? ""),
-      "process.env.BROWSER": JSON.stringify(browser),
-    },
-    entryPoints: {
-      console: "src/console/index.tsx",
-      content: "src/content/index.ts",
-      background: "src/background/index.ts",
-      options: "src/options/index.tsx",
-    },
-    outdir: `./dist/${browser}/lib`,
-    bundle: true,
-    target: targets[browser],
-    sourcemap: "inline",
-    keepNames: true,
-    minify: process.env.NODE_ENV !== "development",
-    platform: "browser",
-  });
+  const entryPoints = {
+    console: "src/console/index.tsx",
+    content: "src/content/index.ts",
+    background: "src/background/index.ts",
+    options: "src/options/index.tsx",
+  };
+  for (const entry of ["console", "content", "background", "options"]) {
+    await build({
+      define: {
+        "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? ""),
+        "process.env.BROWSER": JSON.stringify(browser),
+      },
+      entryPoints: [entryPoints[entry]],
+      outfile: `./dist/${browser}/lib/${entry}.js`,
+      bundle: true,
+      target: targets[browser],
+      sourcemap: "inline",
+      keepNames: true,
+      minify: process.env.NODE_ENV !== "development",
+      platform: "browser",
+      plugins: [
+        stylexPlugin({
+          dev: false,
+          generatedCSSFileName: path.resolve(
+            ROOT_DIR,
+            `dist/${browser}/lib/${entry}.css`,
+          ),
+          stylexImports: ["@stylexjs/stylex"],
+          unstable_moduleResolution: {
+            type: "commonJS",
+            rootDir: ROOT_DIR,
+          },
+        }),
+      ],
+    });
+  }
 };
 
 const buildAssets = async (browser) => {
@@ -37,6 +59,10 @@ const buildAssets = async (browser) => {
   await fs.copyFile(
     `src/options/index.html`,
     `dist/${browser}/lib/options.html`,
+  );
+  await fs.copyFile(
+    `node_modules/prismjs/themes/prism-coy.css`,
+    `dist/${browser}/lib/prism-coy.css`,
   );
 
   const manifest = JSON.parse(

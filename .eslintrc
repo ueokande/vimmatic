@@ -16,6 +16,7 @@
     "@typescript-eslint",
     "prettier",
     "react",
+    "@stylexjs",
     "standard"
   ],
   "parserOptions": {

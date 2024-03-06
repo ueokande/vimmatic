@@ -1,59 +1,57 @@
 import React from "react";
-import styled from "styled-components";
+import stylex from "@stylexjs/stylex";
 import Prism from "prismjs";
 import "prismjs/components/prism-json";
 import "prismjs/themes/prism-coy.css";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  resize: none;
-  overflow: auto;
-  border: ButtonBorder 1px solid;
-  border-radius: 4px;
-  &:focus-within {
-    box-shadow: inset 0 0 3px AccentColor;
-  }
-`;
-
-const Content = styled.div`
-  margin: 8px;
-  font: 14px monospace;
-  position: relative;
-  overflow: hidden;
-`;
-
-const StyledPre = styled.pre`
-  position: absolute;
-  font: inherit;
-  width: 100%;
-  height: 100%;
-  resize: none;
-  margin: 0;
-  padding: 0;
-`;
-
-const StyledTextarea = styled.textarea`
-  position: absolute;
-  overflow: hidden;
-  font: inherit;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  outline: none;
-  border: none;
-  resize: none;
-  background-color: transparent;
-  color: transparent;
-  caret-color: CanvasText;
-`;
-
-const TextMeasure = styled.div`
-  font: inherit;
-  position: absolute;
-  visibility: hidden;
-`;
+const styles = stylex.create({
+  container: {
+    width: "100%",
+    height: "100%",
+    resize: "none",
+    overflow: "auto",
+    border: "ButtonBorder 1px solid",
+    borderRadius: "4px",
+    ":focus-within": {
+      boxShadow: "inset 0 0 3px AccentColor",
+    },
+  },
+  content: {
+    margin: "8px",
+    font: "14px monospace",
+    position: "relative",
+    overflow: "hidden",
+  },
+  pre: {
+    position: "absolute",
+    font: "inherit",
+    width: "100%",
+    height: "100%",
+    resize: "none",
+    margin: 0,
+    padding: 0,
+  },
+  textarea: {
+    position: "absolute",
+    overflow: "hidden",
+    font: "inherit",
+    width: "100%",
+    height: "100%",
+    padding: 0,
+    margin: 0,
+    outline: "none",
+    border: "none",
+    resize: "none",
+    backgroundColor: "transparent",
+    color: "transparent",
+    caretColor: "CanvasText",
+  },
+  textMeasure: {
+    font: "inherit",
+    position: "absolute",
+    visibility: "hidden",
+  },
+});
 
 type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -132,13 +130,14 @@ const TextArea: React.FC<Props> = (props) => {
   }, [autoResize]);
 
   return (
-    <Container ref={container}>
-      <Content ref={content}>
-        <StyledPre>
+    <div ref={container} {...stylex.props(styles.container)}>
+      <div ref={content} {...stylex.props(styles.content)}>
+        <pre {...stylex.props(styles.pre)}>
           <code ref={highlightContainer} />
-        </StyledPre>
-        <StyledTextarea
+        </pre>
+        <textarea
           {...props}
+          {...stylex.props(styles.textarea)}
           wrap="off"
           cols={cols}
           rows={rows}
@@ -147,9 +146,12 @@ const TextArea: React.FC<Props> = (props) => {
           spellCheck={false}
           value={json}
         />
-        <TextMeasure ref={measure}>@</TextMeasure>
-      </Content>
-    </Container>
+        {/* initialize with a single character to measure the size of the font */}
+        <div ref={measure} {...stylex.props(styles.textMeasure)}>
+          @
+        </div>
+      </div>
+    </div>
   );
 };
 

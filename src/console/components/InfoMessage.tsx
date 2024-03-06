@@ -1,14 +1,17 @@
 import React from "react";
-import styled from "styled-components";
 import useAutoResize from "../hooks/useAutoResize";
+import stylex from "@stylexjs/stylex";
+import { colors } from "../styles/tokens.stylex";
 
-const Wrapper = styled.p`
-  border-top: 1px solid gray;
-  background-color: ${({ theme }) => theme.info?.background};
-  color: ${({ theme }) => theme.info?.foreground};
-  font-weight: normal;
-  white-space: pre-wrap;
-`;
+const styles = stylex.create({
+  info: {
+    borderTop: "1px solid gray",
+    backgroundColor: colors.infoBackground,
+    color: colors.infoForeground,
+    fontWeight: "normal",
+    whiteSpace: "pre-wrap",
+  },
+});
 
 type Props = {
   children: React.ReactNode;
@@ -17,7 +20,11 @@ type Props = {
 const InfoMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
-  return <Wrapper role="status">{children}</Wrapper>;
+  return (
+    <p role="status" {...stylex.props(styles.info)}>
+      {children}
+    </p>
+  );
 };
 
 export default InfoMessage;
