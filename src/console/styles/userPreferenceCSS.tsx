@@ -18,6 +18,7 @@ const UserPreferenceCSSContext = React.createContext<ContextState>({
 
 const styles = stylex.create({
   userPreference: (css: Record<string, string>) => ({
+    font: css["font"],
     fontFamily: css["font-family"],
     fontSize: css["font-size"],
     fontStyle: css["font-style"],
