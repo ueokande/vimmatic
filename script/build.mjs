@@ -22,6 +22,7 @@ const buildScripts = async (browser) => {
     bundle: true,
     target: targets[browser],
     sourcemap: "inline",
+    keepNames: true,
     minify: process.env.NODE_ENV !== "development",
     platform: "browser",
   });
