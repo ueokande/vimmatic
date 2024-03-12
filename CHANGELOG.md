@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/ueokande/vimmatic/compare/v0.7.1...v0.7.2) (2024-03-12)
+
+
+### Bug Fixes
+
+* replace styled-component with stylex ([#367](https://github.com/ueokande/vimmatic/issues/367)) ([46ef567](https://github.com/ueokande/vimmatic/commit/46ef567e3f68889f5405b79e857febd8f47bfa66))
+
 ## [0.7.1](https://github.com/ueokande/vimmatic/compare/v0.7.0...v0.7.1) (2024-03-06)
 
 
