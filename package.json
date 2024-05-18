@@ -36,7 +36,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@playwright/test": "1.40.1",
+    "@playwright/test": "1.44.0",
     "@stylexjs/dev-runtime": "^0.5.1",
     "@stylexjs/esbuild-plugin": "^0.5.1",
     "@stylexjs/eslint-plugin": "^0.5.1",
