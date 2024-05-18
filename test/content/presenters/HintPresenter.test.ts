@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { HintPresenterImpl } from "../../../src/content/presenters/HintPresenter";

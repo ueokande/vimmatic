@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import HTMLElementLocator from "../../../src/content/presenters/HTMLElementLocator";

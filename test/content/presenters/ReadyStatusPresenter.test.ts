@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { ReadyStatusPresenterImpl } from "../../../src/content/presenters/ReadyStatusPresenter";

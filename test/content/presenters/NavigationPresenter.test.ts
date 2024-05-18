@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { NavigationPresenterImpl } from "../../../src/content/presenters/NavigationPresenter";
