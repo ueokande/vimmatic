@@ -5,6 +5,7 @@ import {
 import { Keymaps } from "../../src/shared/keymaps";
 import { Search } from "../../src/shared/search";
 import { BlacklistItem, Blacklist } from "../../src/shared/blacklist";
+import { describe, it, test, expect } from "vitest";
 
 describe("serializeSettings", () => {
   it("serializes empty settings", () => {

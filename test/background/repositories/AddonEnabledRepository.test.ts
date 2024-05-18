@@ -1,9 +1,10 @@
 import { AddonEnabledRepositoryImpl } from "../../../src/background/repositories/AddonEnabledRepository";
 import MockLocalStorage from "../mock/MockLocalStorage";
+import { describe, it, vi, expect } from "vitest";
 
 describe("AddonEnabledRepositoryImpl", () => {
   it("set and reset addon enabled", async () => {
-    const listener = jest.fn();
+    const listener = vi.fn();
     const sut = new AddonEnabledRepositoryImpl(new MockLocalStorage(true));
     sut.onChange(listener);
 

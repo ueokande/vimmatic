@@ -5,6 +5,7 @@ import CloseTabOperator from "../../../src/background/operators/impls/CloseTabOp
 import DuplicateTabOperator from "../../../src/background/operators/impls/DuplicateTabOperator";
 import { Keymaps } from "../../../src/shared/keymaps";
 import { Search } from "../../../src/shared/search";
+import { describe, test, expect } from "vitest";
 
 describe("Validator", () => {
   const operatorRegistory = new OperatorRegistryImpl();

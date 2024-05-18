@@ -3,6 +3,7 @@ import MockHintClient from "../mock/MockHintClient";
 import MockHintRepository from "../mock/MockHintRepository";
 import MockHintActionFactory from "../mock/MockHintActionFactory";
 import type { HintAction } from "../../../src/background/hint/types";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 class MockHintAction implements HintAction {
   constructor() {}
@@ -23,10 +24,10 @@ describe("HintKeyUseCaes", () => {
   const mockAction = new MockHintAction();
   const sut = new HintKeyUseCaes(hintClient, hintRepository, hintActionFactory);
 
-  const mockPushKey = jest.spyOn(hintRepository, "pushKey").mockResolvedValue();
-  const mockPopKey = jest.spyOn(hintRepository, "popKey").mockResolvedValue();
-  const mockShowHints = jest.spyOn(hintClient, "showHints").mockResolvedValue();
-  const mockActivate = jest.spyOn(mockAction, "activate").mockResolvedValue();
+  const mockPushKey = vi.spyOn(hintRepository, "pushKey").mockResolvedValue();
+  const mockPopKey = vi.spyOn(hintRepository, "popKey").mockResolvedValue();
+  const mockShowHints = vi.spyOn(hintClient, "showHints").mockResolvedValue();
+  const mockActivate = vi.spyOn(mockAction, "activate").mockResolvedValue();
 
   beforeEach(() => {
     mockPushKey.mockClear();
@@ -36,15 +37,14 @@ describe("HintKeyUseCaes", () => {
   });
 
   it("filters pressed key", async () => {
-    jest.spyOn(hintRepository, "getTargetFrameIds").mockResolvedValue([0, 1]);
-    jest.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
+    vi.spyOn(hintRepository, "getTargetFrameIds").mockResolvedValue([0, 1]);
+    vi.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
       { frameId: 0, element: "0", tag: "a" },
       { frameId: 0, element: "1", tag: "aa" },
       { frameId: 1, element: "0", tag: "ab" },
     ]);
-    jest
-      .spyOn(hintRepository, "getMatchedHints")
-      .mockImplementation((frameId) => {
+    vi.spyOn(hintRepository, "getMatchedHints").mockImplementation(
+      (frameId) => {
         switch (frameId) {
           case 0:
             return Promise.resolve([
@@ -56,10 +56,9 @@ describe("HintKeyUseCaes", () => {
           default:
             return Promise.resolve([]);
         }
-      });
-    jest
-      .spyOn(hintActionFactory, "createHintAction")
-      .mockReturnValue(mockAction);
+      },
+    );
+    vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
     const cont = await sut.pressKey(10, "a");
 
     expect(cont).toBeTruthy();
@@ -70,19 +69,16 @@ describe("HintKeyUseCaes", () => {
   });
 
   it("activate if exactly matched", async () => {
-    jest
-      .spyOn(hintRepository, "getOption")
-      .mockResolvedValue({ newTab: true, background: false });
+    vi.spyOn(hintRepository, "getOption").mockResolvedValue({
+      newTab: true,
+      background: false,
+    });
 
-    jest
-      .spyOn(hintRepository, "getAllMatchedHints")
-      .mockResolvedValue([{ frameId: 0, element: "0", tag: "a" }]);
-    jest
-      .spyOn(hintRepository, "getHintModeName")
-      .mockResolvedValue("hint.test");
-    jest
-      .spyOn(hintActionFactory, "createHintAction")
-      .mockReturnValue(mockAction);
+    vi.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
+      { frameId: 0, element: "0", tag: "a" },
+    ]);
+    vi.spyOn(hintRepository, "getHintModeName").mockResolvedValue("hint.test");
+    vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
     const cont = await sut.pressKey(10, "a");
 
     expect(cont).toBeFalsy();
@@ -91,24 +87,19 @@ describe("HintKeyUseCaes", () => {
   });
 
   it("activate when enter pressed", async () => {
-    jest
-      .spyOn(hintRepository, "getOption")
-      .mockResolvedValue({ newTab: true, background: false });
-    jest
-      .spyOn(hintActionFactory, "createHintAction")
-      .mockReturnValue(mockAction);
+    vi.spyOn(hintRepository, "getOption").mockResolvedValue({
+      newTab: true,
+      background: false,
+    });
+    vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
 
-    jest.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
+    vi.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
       { frameId: 0, element: "0", tag: "ab" },
       { frameId: 0, element: "1", tag: "aba" },
       { frameId: 0, element: "2", tag: "abb" },
     ]);
-    jest
-      .spyOn(hintRepository, "getHintModeName")
-      .mockResolvedValue("hint.test");
-    jest
-      .spyOn(hintActionFactory, "createHintAction")
-      .mockReturnValue(mockAction);
+    vi.spyOn(hintRepository, "getHintModeName").mockResolvedValue("hint.test");
+    vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
     const cont = await sut.pressKey(10, "Enter");
 
     expect(cont).toBeFalsy();
@@ -116,15 +107,14 @@ describe("HintKeyUseCaes", () => {
   });
 
   it("delete a chatacter when backspace pressed", async () => {
-    jest.spyOn(hintRepository, "getTargetFrameIds").mockResolvedValue([0, 1]);
-    jest.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
+    vi.spyOn(hintRepository, "getTargetFrameIds").mockResolvedValue([0, 1]);
+    vi.spyOn(hintRepository, "getAllMatchedHints").mockResolvedValue([
       { frameId: 0, element: "0", tag: "a" },
       { frameId: 0, element: "1", tag: "aa" },
       { frameId: 1, element: "0", tag: "ab" },
     ]);
-    jest
-      .spyOn(hintRepository, "getMatchedHints")
-      .mockImplementation((frameId) => {
+    vi.spyOn(hintRepository, "getMatchedHints").mockImplementation(
+      (frameId) => {
         switch (frameId) {
           case 0:
             return Promise.resolve([
@@ -136,7 +126,8 @@ describe("HintKeyUseCaes", () => {
           default:
             return Promise.resolve([]);
         }
-      });
+      },
+    );
     const cont = await sut.pressKey(10, "Backspace");
 
     expect(cont).toBeTruthy();

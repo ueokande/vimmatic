@@ -5,6 +5,7 @@ import type {
   Operator,
   OperatorContext,
 } from "../../../../src/background/operators/types";
+import { describe, beforeEach, it, expect, vi } from "vitest";
 
 const todo = () => {
   throw new Error(`not implemented`);
@@ -27,7 +28,7 @@ describe("RepeatLastOperator", () => {
   const ctx = {} as OperatorContext;
   const sut = new RepeatLastOperator(operatorRegistory, repeatRepository);
 
-  const mockRun = jest.spyOn(operator, "run").mockResolvedValue();
+  const mockRun = vi.spyOn(operator, "run").mockResolvedValue();
 
   beforeEach(() => {
     mockRun.mockClear();
@@ -35,11 +36,11 @@ describe("RepeatLastOperator", () => {
 
   describe("#run", () => {
     it("repeat last operation", async () => {
-      jest.spyOn(repeatRepository, "getLastOperation").mockResolvedValue({
+      vi.spyOn(repeatRepository, "getLastOperation").mockResolvedValue({
         type: "greeting",
         props: { name: "alice" },
       });
-      jest.spyOn(operatorRegistory, "getOperator").mockReturnValue(operator);
+      vi.spyOn(operatorRegistory, "getOperator").mockReturnValue(operator);
 
       await sut.run(ctx);
 
@@ -47,7 +48,7 @@ describe("RepeatLastOperator", () => {
     });
 
     it("does nothing if no last operations", async () => {
-      jest.spyOn(repeatRepository, "getLastOperation").mockResolvedValue(null);
+      vi.spyOn(repeatRepository, "getLastOperation").mockResolvedValue(null);
 
       await sut.run(ctx);
 
@@ -55,11 +56,11 @@ describe("RepeatLastOperator", () => {
     });
 
     it("throw an error on unknown operation is stored", async () => {
-      jest.spyOn(repeatRepository, "getLastOperation").mockResolvedValue({
+      vi.spyOn(repeatRepository, "getLastOperation").mockResolvedValue({
         type: "unknown",
         props: {},
       });
-      jest.spyOn(operatorRegistory, "getOperator").mockReturnValue(undefined);
+      vi.spyOn(operatorRegistory, "getOperator").mockReturnValue(undefined);
 
       await expect(() => sut.run(ctx)).rejects.toThrow();
     });

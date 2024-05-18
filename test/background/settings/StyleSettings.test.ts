@@ -1,10 +1,11 @@
 import { StyleSettingsImpl } from "../../../src/background/settings/StyleSettings";
 import MockSettingsRepository from "../mock/MockSettingsRepository";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("StyleSettingsImpl", () => {
   const settingsRepository = new MockSettingsRepository();
   const styleSettings = new StyleSettingsImpl(settingsRepository);
-  const mockLoad = jest.spyOn(settingsRepository, "load");
+  const mockLoad = vi.spyOn(settingsRepository, "load");
 
   beforeEach(() => {
     mockLoad.mockClear();

@@ -1,14 +1,15 @@
 import SelectLastTabOperator from "../../../../src/background/operators/impls/SelectLastTabOperator";
 import defaultTab from "../../mock/defaultTab";
+import { describe, it, expect, vi } from "vitest";
 
 describe("SelectLastTabOperator", () => {
-  jest.spyOn(chrome.tabs, "query").mockResolvedValue([
+  vi.spyOn(chrome.tabs, "query").mockResolvedValue([
     { ...defaultTab, id: 101, index: 0, active: false },
     { ...defaultTab, id: 102, index: 1, active: true },
     { ...defaultTab, id: 103, index: 2, active: false },
   ]);
 
-  const mockTabsUpdate = jest
+  const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
 

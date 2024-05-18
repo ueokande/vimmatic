@@ -1,6 +1,7 @@
 import React from "react";
 import { renderHook, act } from "@testing-library/react-hooks";
 import useCompletionKeyBinds from "../../../../src/console/completion/hooks/useCompletionKeyBinds";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 const mockKeyEvent = ({
   key,
@@ -21,10 +22,10 @@ const mockKeyEvent = ({
 };
 
 describe("useCompletionKeyBinds", () => {
-  const onEnter = jest.fn();
-  const onNext = jest.fn();
-  const onPrev = jest.fn();
-  const onCancel = jest.fn();
+  const onEnter = vi.fn();
+  const onNext = vi.fn();
+  const onPrev = vi.fn();
+  const onCancel = vi.fn();
   const { result } = renderHook(() =>
     useCompletionKeyBinds({ onEnter, onNext, onPrev, onCancel }),
   );

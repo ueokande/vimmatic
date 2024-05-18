@@ -6,6 +6,7 @@ import {
   SHOW_FIND,
   SHOW_INFO,
 } from "../../../src/console/app/actions";
+import { describe, it, expect } from "vitest";
 
 describe("console actions", () => {
   describe("hide", () => {

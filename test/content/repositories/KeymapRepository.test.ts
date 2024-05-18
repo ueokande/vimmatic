@@ -1,5 +1,6 @@
 import { KeymapRepositoryImpl } from "../../../src/content/repositories/KeymapRepository";
 import { fromKeymap } from "../../../src/shared/key";
+import { describe, beforeEach, it, expect } from "vitest";
 
 describe("KeymapRepositoryImpl", () => {
   let sut: KeymapRepositoryImpl;

@@ -1,4 +1,5 @@
 import { CommandRegistryImpl } from "../../../src/background/command/CommandRegistry";
+import { describe, test, expect } from "vitest";
 
 const exec = () => {
   throw new Error("not implemented");

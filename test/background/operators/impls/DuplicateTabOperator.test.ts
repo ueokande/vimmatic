@@ -1,10 +1,11 @@
 import DuplicateTabOperator from "../../../../src/background/operators/impls/DuplicateTabOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, expect, it, vi } from "vitest";
 
 describe("DuplicateTabOperator", () => {
   describe("#run", () => {
     it("duplicate a tab", async () => {
-      const mockTabsDuplicate = jest
+      const mockTabsDuplicate = vi
         .spyOn(chrome.tabs, "duplicate")
         .mockImplementation(() => Promise.resolve({}));
 

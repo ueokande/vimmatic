@@ -1,10 +1,11 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from "react";
 import ReactTestRenderer from "react-test-renderer";
 import InfoMessage from "../../../src/console/components/InfoMessage";
+import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/InfoMessage", () => {
   it("renders an information message", () => {

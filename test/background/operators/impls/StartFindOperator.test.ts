@@ -1,15 +1,14 @@
 import StartFindOperator from "../../../../src/background/operators/impls/StartFindOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("StartFindOperator", () => {
-  jest
-    .spyOn(chrome.tabs, "query")
-    .mockResolvedValue([
-      { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
-    ]);
+  vi.spyOn(chrome.tabs, "query").mockResolvedValue([
+    { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
+  ]);
   const consoleClient = new MockConsoleClient();
-  const showFindSpy = jest.spyOn(consoleClient, "showFind").mockResolvedValue();
+  const showFindSpy = vi.spyOn(consoleClient, "showFind").mockResolvedValue();
 
   describe("#run", () => {
     it("show find console", async () => {

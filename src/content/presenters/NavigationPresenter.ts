@@ -11,8 +11,8 @@ export interface NavigationPresenter {
 }
 
 const REL_PATTERN: { [key: string]: RegExp } = {
-  prev: /^(?:prev(?:ious)?|older)\b|\u2039|\u2190|\xab|\u226a|<</i,
-  next: /^(?:next|newer)\b|\u203a|\u2192|\xbb|\u226b|>>/i,
+  prev: /(?:prev(?:ious)?|older)\b|\u2039|\u2190|\xab|\u226a|<</i,
+  next: /(?:next|newer)\b|\u203a|\u2192|\xbb|\u226b|>>/i,
 };
 
 // Return the last element in the document matching the supplied selector
@@ -62,9 +62,7 @@ export class NavigationPresenterImpl implements NavigationPresenter {
 
     const a =
       selectLast<HTMLAnchorElement>(`a[rel~=${rel}][href]`) ||
-      // `innerText` is much slower than `textContent`, but produces much better
-      // (i.e. less unexpected) results
-      selectLast("a[href]", (lnk) => pattern.test(lnk.innerText));
+      selectLast("a[href]", (lnk) => pattern.test(lnk?.textContent || ""));
 
     if (a) {
       a.click();

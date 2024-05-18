@@ -4,9 +4,10 @@ import {
 } from "../../../src/background/settings/SettingsRepository";
 import type { Settings } from "../../../src/shared/settings";
 import MockLocalStorage from "../mock/MockLocalStorage";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("PermanentSettingsRepository", () => {
-  const mockStorageGet = jest.spyOn(chrome.storage.sync, "get");
+  const mockStorageGet = vi.spyOn(chrome.storage.sync, "get");
 
   const sut = new PermanentSettingsRepository();
 
@@ -69,7 +70,7 @@ class MockSettingsRepository {
 
 describe("TransientSettingsRepository", () => {
   const permanent = new MockSettingsRepository();
-  const mockPermanetLoad = jest.spyOn(permanent, "load");
+  const mockPermanetLoad = vi.spyOn(permanent, "load");
 
   mockPermanetLoad.mockResolvedValue({
     properties: {

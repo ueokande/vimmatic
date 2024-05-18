@@ -1,9 +1,10 @@
 import QuitAllCommand from "../../../src/background/command/QuitAllCommand";
 import defaultTab from "../mock/defaultTab";
+import { describe, it, beforeEach, vi, expect } from "vitest";
 
 describe("QuitAllCommand", () => {
-  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
-  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
+  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
+  const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
 
   const ctx = {
     sender: {

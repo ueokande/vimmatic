@@ -26,12 +26,6 @@ updates:
       patterns:
         - "typescript"
         - "@typescript-eslint/*"
-    jest:
-      patterns:
-        - "jest"
-        - "jest-environment-jsdom"
-        - "@jest/types"
-        - "@types/jest"
     prismjs:
       patterns:
         - "prismjs"

@@ -1,10 +1,11 @@
 import NavigateRootOperator from "../../../../src/background/operators/impls/NavigateRootOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("NavigateRootOperator", () => {
   describe("#run", () => {
     it("opens root directory in the URL", async () => {
-      const mockTabsUpdate = jest
+      const mockTabsUpdate = vi
         .spyOn(chrome.tabs, "update")
         .mockImplementation(() => Promise.resolve({}));
 

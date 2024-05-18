@@ -1,17 +1,18 @@
 import ReopenTabOperator from "../../../../src/background/operators/impls/ReopenTabOperator";
 import defaultTab from "../../mock/defaultTab";
+import { describe, it, expect, vi } from "vitest";
 
 describe("ReopenTabOperator", () => {
-  const mockSessionsRestore = jest
+  const mockSessionsRestore = vi
     .spyOn(chrome.sessions, "restore")
     .mockImplementation(() => Promise.resolve({ lastModified: 0 }));
-  jest.spyOn(chrome.windows, "getCurrent").mockResolvedValue({
+  vi.spyOn(chrome.windows, "getCurrent").mockResolvedValue({
     id: 20,
     focused: true,
     incognito: false,
     alwaysOnTop: false,
   });
-  jest.spyOn(chrome.sessions, "getRecentlyClosed").mockImplementation(() =>
+  vi.spyOn(chrome.sessions, "getRecentlyClosed").mockImplementation(() =>
     Promise.resolve([
       {
         lastModified: 0,

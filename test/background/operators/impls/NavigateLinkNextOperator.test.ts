@@ -1,12 +1,13 @@
 import NavigateLinkNextOperator from "../../../../src/background/operators/impls/NavigateLinkNextOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("NavigateLinkNextOperator", () => {
   describe("#run", () => {
     it("send a message to navigate next page", async () => {
       const navigateClient = new MockNavigateClient();
-      const linkNextSpy = jest
+      const linkNextSpy = vi
         .spyOn(navigateClient, "linkNext")
         .mockResolvedValue();
 

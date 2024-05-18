@@ -1,10 +1,11 @@
 import ShowTabOpenCommandOperator from "../../../../src/background/operators/impls/ShowTabOpenCommandOperator";
 import MockConsoleClient from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, beforeEach, it, expect, vi } from "vitest";
 
 describe("ShowTabOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
-  const showCommandSpy = jest
+  const showCommandSpy = vi
     .spyOn(consoleClient, "showCommand")
     .mockResolvedValue();
   const ctx = {

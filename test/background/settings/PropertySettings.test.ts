@@ -6,6 +6,7 @@ import type {
 } from "../../../src/background/property/types";
 import MockSettingsRepository from "../mock/MockSettingsRepository";
 import MockPropertyRegistry from "../mock/MockPropertyRegistry";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 class MyProp implements Property {
   name(): string {
@@ -38,9 +39,9 @@ describe("PropertySettingsImpl", () => {
     settingsRepository,
     propertyRegistry,
   );
-  const mockGetProperty = jest.spyOn(propertyRegistry, "getProperty");
-  const mockLoad = jest.spyOn(settingsRepository, "load");
-  const mockSave = jest.spyOn(settingsRepository, "save");
+  const mockGetProperty = vi.spyOn(propertyRegistry, "getProperty");
+  const mockLoad = vi.spyOn(settingsRepository, "load");
+  const mockSave = vi.spyOn(settingsRepository, "save");
 
   beforeEach(() => {
     mockGetProperty.mockClear();

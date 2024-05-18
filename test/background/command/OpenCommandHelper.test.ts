@@ -2,6 +2,7 @@ import OpenCommandHelper from "../../../src/background/command/OpenCommandHelper
 import type { SearchEngineSettings } from "../../../src/background/settings/SearchEngineSettings";
 import { Search } from "../../../src/shared/search";
 import MockPropertySettings from "../mock/MockPropertySettings";
+import { describe, expect, beforeEach, it, vi } from "vitest";
 
 class MockSearchEngineSettings implements SearchEngineSettings {
   get(): Promise<Search> {
@@ -14,10 +15,10 @@ describe("OpenCommandHelper", () => {
   const searchEngineSettings = new MockSearchEngineSettings();
   const sut = new OpenCommandHelper(searchEngineSettings, propertySettings);
 
-  const mockGetProperty = jest.spyOn(propertySettings, "getProperty");
-  const mockGetSearchEngines = jest.spyOn(searchEngineSettings, "get");
-  const mockHistorySearch = jest.spyOn(chrome.history, "search");
-  const mockBookmarksSearch = jest.spyOn(chrome.bookmarks, "search");
+  const mockGetProperty = vi.spyOn(propertySettings, "getProperty");
+  const mockGetSearchEngines = vi.spyOn(searchEngineSettings, "get");
+  const mockHistorySearch = vi.spyOn(chrome.history, "search");
+  const mockBookmarksSearch = vi.spyOn(chrome.bookmarks, "search");
 
   beforeEach(() => {
     mockHistorySearch.mockClear();

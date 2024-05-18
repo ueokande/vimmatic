@@ -1,23 +1,22 @@
 import OpenImageHintAction from "../../../src/background/hint/OpenImageHintAction";
 import MokcHintClient from "../mock/MockHintClient";
 import MockTabPresenter from "../mock/MockTabPresenter";
+import { describe, expect, beforeEach, vi, test } from "vitest";
 
 describe("OpenImageHintAction", () => {
   const hintClient = new MokcHintClient();
   const tabPresenter = new MockTabPresenter();
   const sut = new OpenImageHintAction(hintClient, tabPresenter);
 
-  const mockGetElement = jest
-    .spyOn(hintClient, "getElement")
-    .mockResolvedValue({
-      tagName: "IMAGE",
-      attributes: {
-        src: "photo.jpg",
-      },
-    });
+  const mockGetElement = vi.spyOn(hintClient, "getElement").mockResolvedValue({
+    tagName: "IMAGE",
+    attributes: {
+      src: "photo.jpg",
+    },
+  });
 
   beforeEach(() => {
-    jest.spyOn(tabPresenter, "getTab").mockResolvedValue({
+    vi.spyOn(tabPresenter, "getTab").mockResolvedValue({
       id: 10,
       url: "https://example.com",
       active: true,
@@ -34,7 +33,7 @@ describe("OpenImageHintAction", () => {
   });
 
   test("open image in current tab", async () => {
-    const mockOpenToTab = jest
+    const mockOpenToTab = vi
       .spyOn(tabPresenter, "openToTab")
       .mockResolvedValue(undefined);
 
@@ -49,7 +48,7 @@ describe("OpenImageHintAction", () => {
   });
 
   test("open image in new tab by newTab option", async () => {
-    const mockOpenNewTab = jest
+    const mockOpenNewTab = vi
       .spyOn(tabPresenter, "openNewTab")
       .mockResolvedValue(undefined);
 

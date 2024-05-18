@@ -5,6 +5,7 @@ import MockConsoleClient from "../mock/MockConsoleClient";
 import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
 import MockPropertySettings from "../mock/MockPropertySettings";
 import FindUseCase from "../../../src/background/usecases/FindUseCase";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("FindUseCase", () => {
   const tabId = 100;
@@ -25,22 +26,22 @@ describe("FindUseCase", () => {
     frameRepository,
     propertySettings,
   );
-  const getFrameIdsSpy = jest
+  const getFrameIdsSpy = vi
     .spyOn(frameRepository, "getFrameIds")
     .mockResolvedValue(frameIds);
-  const clearSelectionSpy = jest
+  const clearSelectionSpy = vi
     .spyOn(findClient, "clearSelection")
     .mockResolvedValue();
-  const findNextSpy = jest.spyOn(findClient, "findNext");
-  const findPrevSpy = jest.spyOn(findClient, "findPrev");
-  const setLocalStateSpy = jest
+  const findNextSpy = vi.spyOn(findClient, "findNext");
+  const findPrevSpy = vi.spyOn(findClient, "findPrev");
+  const setLocalStateSpy = vi
     .spyOn(findRepository, "setLocalState")
     .mockResolvedValue();
-  const setGlobalKeywordSpy = jest.spyOn(findRepository, "setGlobalKeyword");
-  const appendHistorySpy = jest
+  const setGlobalKeywordSpy = vi.spyOn(findRepository, "setGlobalKeyword");
+  const appendHistorySpy = vi
     .spyOn(findHistoryRepository, "append")
     .mockResolvedValue();
-  const getPropertySpy = jest
+  const getPropertySpy = vi
     .spyOn(propertySettings, "getProperty")
     .mockImplementation((key: string) => {
       switch (key) {
@@ -66,7 +67,7 @@ describe("FindUseCase", () => {
   describe("startFind", () => {
     it("starts a find with a keyword", async () => {
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-      const showInfoSpy = jest
+      const showInfoSpy = vi
         .spyOn(consoleClient, "showInfo")
         .mockResolvedValue(undefined);
 
@@ -95,10 +96,10 @@ describe("FindUseCase", () => {
       "starts a find from local state with a empty keyword (%p)",
       async (givenKeyword) => {
         findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-        const getLocalStateSpy = jest
+        const getLocalStateSpy = vi
           .spyOn(findRepository, "getLocalState")
           .mockResolvedValueOnce({ keyword, frameId: 0 });
-        const showInfoSpy = jest
+        const showInfoSpy = vi
           .spyOn(consoleClient, "showInfo")
           .mockResolvedValue(undefined);
 
@@ -129,13 +130,11 @@ describe("FindUseCase", () => {
       "starts a find from the global keyword with a empty keyword (%p)",
       async (givenKeyword) => {
         findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-        const getLocalStateSpy = jest
+        const getLocalStateSpy = vi
           .spyOn(findRepository, "getLocalState")
           .mockResolvedValue(undefined);
-        jest
-          .spyOn(findRepository, "getGlobalKeyword")
-          .mockResolvedValue(keyword);
-        const showInfoSpy = jest
+        vi.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
+        const showInfoSpy = vi
           .spyOn(consoleClient, "showInfo")
           .mockResolvedValue(undefined);
 
@@ -164,7 +163,7 @@ describe("FindUseCase", () => {
 
     it("shows an error when pattern not found", async () => {
       findNextSpy.mockResolvedValue(false);
-      const showErrorSpy = jest
+      const showErrorSpy = vi
         .spyOn(consoleClient, "showError")
         .mockResolvedValue(undefined);
 
@@ -184,12 +183,10 @@ describe("FindUseCase", () => {
     });
 
     it("shows an error when no last keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
-      jest
-        .spyOn(findRepository, "getGlobalKeyword")
-        .mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(undefined);
 
-      const showErrorSpy = jest
+      const showErrorSpy = vi
         .spyOn(consoleClient, "showError")
         .mockResolvedValue(undefined);
 
@@ -204,8 +201,8 @@ describe("FindUseCase", () => {
 
   describe("findNext", () => {
     it("shows errors if no previous keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
-      const showErrorSpy = jest
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      const showErrorSpy = vi
         .spyOn(consoleClient, "showError")
         .mockResolvedValue(undefined);
 
@@ -218,11 +215,12 @@ describe("FindUseCase", () => {
     });
 
     it("continues a search on the same frame", async () => {
-      jest
-        .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 100 });
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue({
+        keyword,
+        frameId: 100,
+      });
       findNextSpy.mockResolvedValue(true);
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findNext(tabId);
 
@@ -238,12 +236,13 @@ describe("FindUseCase", () => {
     });
 
     it("continues a search on next frame", async () => {
-      jest
-        .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 100 });
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue({
+        keyword,
+        frameId: 100,
+      });
 
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findNext(tabId);
 
@@ -258,12 +257,13 @@ describe("FindUseCase", () => {
     });
 
     it("exercise a wrap-search", async () => {
-      jest
-        .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 101 });
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue({
+        keyword,
+        frameId: 101,
+      });
 
       findNextSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findNext(tabId);
 
@@ -278,11 +278,11 @@ describe("FindUseCase", () => {
     });
 
     it("starts a search with last keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
-      jest.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
-      jest.spyOn(consoleClient, "showInfo").mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
+      vi.spyOn(consoleClient, "showInfo").mockResolvedValue(undefined);
 
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findNext(tabId);
 
@@ -304,11 +304,9 @@ describe("FindUseCase", () => {
 
   describe("findPrev", () => {
     it("shows errors if no previous keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
-      jest
-        .spyOn(findRepository, "getGlobalKeyword")
-        .mockResolvedValue(undefined);
-      const showErrorSpy = jest
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(undefined);
+      const showErrorSpy = vi
         .spyOn(consoleClient, "showError")
         .mockResolvedValue(undefined);
 
@@ -321,11 +319,12 @@ describe("FindUseCase", () => {
     });
 
     it("continues a search on the same frame", async () => {
-      jest
-        .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 100 });
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue({
+        keyword,
+        frameId: 100,
+      });
       findPrevSpy.mockResolvedValue(true);
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findPrev(tabId);
 
@@ -341,11 +340,12 @@ describe("FindUseCase", () => {
     });
 
     it("continues a search on next frame", async () => {
-      jest
-        .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 100 });
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue({
+        keyword,
+        frameId: 100,
+      });
       findPrevSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findPrev(tabId);
 
@@ -360,12 +360,13 @@ describe("FindUseCase", () => {
     });
 
     it("exercise a wrap-search", async () => {
-      jest
-        .spyOn(findRepository, "getLocalState")
-        .mockResolvedValue({ keyword, frameId: 0 });
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue({
+        keyword,
+        frameId: 0,
+      });
 
       findPrevSpy.mockResolvedValueOnce(false).mockResolvedValueOnce(true);
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findPrev(tabId);
 
@@ -380,11 +381,11 @@ describe("FindUseCase", () => {
     });
 
     it("starts a search with last keywords", async () => {
-      jest.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
-      jest.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
-      jest.spyOn(consoleClient, "showInfo").mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getLocalState").mockResolvedValue(undefined);
+      vi.spyOn(findRepository, "getGlobalKeyword").mockResolvedValue(keyword);
+      vi.spyOn(consoleClient, "showInfo").mockResolvedValue(undefined);
 
-      const setLocalStateSpy = jest.spyOn(findRepository, "setLocalState");
+      const setLocalStateSpy = vi.spyOn(findRepository, "setLocalState");
 
       await sut.findPrev(tabId);
 

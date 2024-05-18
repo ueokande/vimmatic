@@ -1,4 +1,5 @@
 import { fromKeymap, Key } from "../../src/shared/key";
+import { describe, it, expect } from "vitest";
 
 describe("Key", () => {
   describe("idDigit", () => {

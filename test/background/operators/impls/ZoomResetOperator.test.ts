@@ -1,9 +1,10 @@
 import ZoomResetOperator from "../../../../src/background/operators/impls/ZoomResetOperator";
+import { describe, it, expect, vi } from "vitest";
 
 describe("ResetZoomOperator", () => {
   describe("#run", () => {
     it("resets zoom on the tab", async () => {
-      const mockSetZoom = jest
+      const mockSetZoom = vi
         .spyOn(chrome.tabs, "setZoom")
         .mockImplementation(() => Promise.resolve());
 

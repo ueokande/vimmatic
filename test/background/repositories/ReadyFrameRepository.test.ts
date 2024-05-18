@@ -1,5 +1,6 @@
 import { ReadyFrameRepositoryImpl } from "../../../src/background/repositories/ReadyFrameRepository";
 import MockLocalStorage from "../mock/MockLocalStorage";
+import { describe, it, expect } from "vitest";
 
 describe("ReadyFrameRepositoryImpl", () => {
   const sut = new ReadyFrameRepositoryImpl(new MockLocalStorage({}));

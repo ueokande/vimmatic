@@ -2,6 +2,7 @@ import BufferCommand from "../../../src/background/command/BufferCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
 import MockLastSelectedTabRepository from "../mock/MockLastSelectedTabRepository";
 import defaultTab from "../mock/defaultTab";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("BufferCommand", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
@@ -10,13 +11,13 @@ describe("BufferCommand", () => {
   );
   const sut = new BufferCommand(lastSelectedTabRepository, bufferCommandHelper);
 
-  const mockGetLastSelectedTab = jest.spyOn(
+  const mockGetLastSelectedTab = vi.spyOn(
     lastSelectedTabRepository,
     "getLastSelectedTabId",
   );
-  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
-  const mockTabsUpdate = jest.spyOn(chrome.tabs, "update");
-  const mockHelperQueryTabs = jest.spyOn(bufferCommandHelper, "queryTabs");
+  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
+  const mockTabsUpdate = vi.spyOn(chrome.tabs, "update");
+  const mockHelperQueryTabs = vi.spyOn(bufferCommandHelper, "queryTabs");
 
   const tab1 = { ...defaultTab, id: 10, index: 0 };
   const tab2 = { ...defaultTab, id: 11, index: 1 };

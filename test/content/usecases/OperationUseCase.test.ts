@@ -1,5 +1,6 @@
 import OperationUseCase from "../../../src/content/usecases/OperationUseCase";
 import type { OperationClient } from "../../../src/content/client/OperationClient";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 const todo = () => {
   throw new Error(`not implemented`);
@@ -11,7 +12,7 @@ describe("OperationUseCase", () => {
   };
   const sut = new OperationUseCase(operationClient);
 
-  const mockExecBackgroundOp = jest.spyOn(operationClient, "execBackgroundOp");
+  const mockExecBackgroundOp = vi.spyOn(operationClient, "execBackgroundOp");
 
   beforeEach(() => {
     mockExecBackgroundOp.mockClear();

@@ -5,6 +5,7 @@ import { deserialize } from "../../../src/settings";
 import type { AddressRepository } from "../../../src/content/repositories/AddressRepository";
 import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
 import MockSettingRepository from "../mock/MockSettingRepository";
+import { describe, beforeEach, it, expect } from "vitest";
 
 class MockAddressRepository implements AddressRepository {
   constructor(private url: URL) {}

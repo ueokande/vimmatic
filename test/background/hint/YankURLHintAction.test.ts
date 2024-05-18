@@ -2,6 +2,7 @@ import YankURLHintAction from "../../../src/background/hint/YankURLHintAction";
 import MokcHintClient from "../mock/MockHintClient";
 import MockConsoleClient from "../mock/MockConsoleClient";
 import MockClipboardRepository from "../mock/MockClipboardRepository";
+import { describe, test, vi, expect } from "vitest";
 
 describe("YankURLHintAction", () => {
   const hintClient = new MokcHintClient();
@@ -14,13 +15,13 @@ describe("YankURLHintAction", () => {
   );
 
   test("yank link url", async () => {
-    const mockClipboardWrite = jest
+    const mockClipboardWrite = vi
       .spyOn(clipboardRepository, "write")
       .mockResolvedValue();
-    const mockConsoleShowInfo = jest
+    const mockConsoleShowInfo = vi
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "a",
       href: "https://example.com/photo.jpg",
       attributes: {},

@@ -1,12 +1,13 @@
 import NavigateHistoryNextOperator from "../../../../src/background/operators/impls/NavigateHistoryNextOperator";
 import MockNavigateClient from "../../mock/MockNavigateClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("NavigateHistoryNextOperator", () => {
   describe("#run", () => {
     it("send a message to navigate next in the history", async () => {
       const navigateClient = new MockNavigateClient();
-      const historyNextSpy = jest
+      const historyNextSpy = vi
         .spyOn(navigateClient, "historyNext")
         .mockResolvedValue();
 

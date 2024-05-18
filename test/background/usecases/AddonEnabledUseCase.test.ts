@@ -1,9 +1,10 @@
 import AddonEnabledUseCase from "../../../src/background/usecases/AddonEnabledUseCase";
 import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
 import MockToolbarPresenter from "../mock/MockToolbarPresenter";
+import { describe, it, vi, expect } from "vitest";
 
 describe("AddonEnabledUseCase", () => {
-  jest.spyOn(chrome.tabs.onActivated, "addListener").mockReturnValue();
+  vi.spyOn(chrome.tabs.onActivated, "addListener").mockReturnValue();
 
   describe("#enable", () => {
     it("sets enabled and updates toolbar", async () => {
@@ -13,10 +14,10 @@ describe("AddonEnabledUseCase", () => {
         toolbarPresenter,
         addonEnabledRepository,
       );
-      const mockRepositoryEnable = jest
+      const mockRepositoryEnable = vi
         .spyOn(addonEnabledRepository, "enable")
         .mockResolvedValue();
-      const mockToolbarSetEnabled = jest
+      const mockToolbarSetEnabled = vi
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
@@ -35,10 +36,10 @@ describe("AddonEnabledUseCase", () => {
         toolbarPresenter,
         addonEnabledRepository,
       );
-      const mockRepositoryDisable = jest
+      const mockRepositoryDisable = vi
         .spyOn(addonEnabledRepository, "disable")
         .mockResolvedValue();
-      const mockToolbarSetEnabled = jest
+      const mockToolbarSetEnabled = vi
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 
@@ -57,10 +58,10 @@ describe("AddonEnabledUseCase", () => {
         toolbarPresenter,
         addonEnabledRepository,
       );
-      const mockRepositoryToggle = jest
+      const mockRepositoryToggle = vi
         .spyOn(addonEnabledRepository, "toggle")
         .mockResolvedValue(false);
-      const mockToolbarSetEnabled = jest
+      const mockToolbarSetEnabled = vi
         .spyOn(toolbarPresenter, "setEnabled")
         .mockResolvedValue();
 

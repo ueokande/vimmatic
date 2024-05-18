@@ -1,8 +1,9 @@
 import NavigateParentOperator from "../../../../src/background/operators/impls/NavigateParentOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, beforeEach, it, expect, vi } from "vitest";
 
 describe("NavigateParentOperator", () => {
-  const mockTabsUpdate = jest
+  const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
 

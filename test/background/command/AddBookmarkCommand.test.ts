@@ -1,13 +1,14 @@
 import AddBookmarkCommand from "../../../src/background/command/AddBookmarkCommand";
 import MockConsoleClient from "../mock/MockConsoleClient";
 import defaultTab from "../mock/defaultTab";
+import { describe, expect, vi, it, beforeEach } from "vitest";
 
 describe("AddBookmarkCommand", () => {
-  const mockBookmarkCreate = jest
+  const mockBookmarkCreate = vi
     .spyOn(chrome.bookmarks, "create")
     .mockImplementation(() => {});
   const consoleClient = new MockConsoleClient();
-  const mockShowInfo = jest.spyOn(consoleClient, "showInfo");
+  const mockShowInfo = vi.spyOn(consoleClient, "showInfo");
 
   beforeEach(() => {
     mockBookmarkCreate.mockClear();

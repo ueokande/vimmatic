@@ -1,5 +1,6 @@
 import type { Property } from "../../../src/background/property/types";
 import { PropertyRegistryImpl } from "../../../src/background/property/PropertyRegistry";
+import { describe, test, expect } from "vitest";
 
 describe("CommandRegistryImpl", () => {
   test("register and get properties", () => {

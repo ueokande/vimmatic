@@ -1,4 +1,5 @@
 import ColorSchemeProperty from "../../../src/background/property/ColorSchemeProperty";
+import { describe, test, expect } from "vitest";
 
 describe("ColorSchemeProperty", () => {
   describe("validate", () => {

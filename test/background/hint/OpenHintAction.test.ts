@@ -1,6 +1,7 @@
 import OpenHintAction from "../../../src/background/hint/OpenHintAction";
 import MokcHintClient from "../mock/MockHintClient";
 import MockTabPresenter from "../mock/MockTabPresenter";
+import { describe, test, expect, vi } from "vitest";
 
 describe("OpenHintAction", () => {
   const hintClient = new MokcHintClient();
@@ -8,8 +9,8 @@ describe("OpenHintAction", () => {
   const sut = new OpenHintAction(hintClient, tabPresenter);
 
   test("open link in the current tab", async () => {
-    const mockOpen = jest.spyOn(tabPresenter, "openToTab").mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    const mockOpen = vi.spyOn(tabPresenter, "openToTab").mockResolvedValue();
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "a",
       href: "https://example.com/photo.jpg",
       attributes: {},

@@ -1,9 +1,10 @@
 import OpenSourceOperator from "../../../../src/background/operators/impls/OpenSourceOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("OpenSourceOperator", () => {
   describe("#run", () => {
-    const mockTabsCreate = jest
+    const mockTabsCreate = vi
       .spyOn(chrome.tabs, "create")
       .mockImplementation(() => Promise.resolve({}));
 
