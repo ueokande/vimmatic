@@ -1,11 +1,12 @@
 import ZoomOutOperator from "../../../../src/background/operators/impls/ZoomOutOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("ZoomOutOperator", () => {
   describe("#run", () => {
     it("zoom-in the current tab", async () => {
-      jest.spyOn(chrome.tabs, "getZoom").mockResolvedValue(1);
-      const mockSetZoom = jest
+      vi.spyOn(chrome.tabs, "getZoom").mockResolvedValue(1);
+      const mockSetZoom = vi
         .spyOn(chrome.tabs, "setZoom")
         .mockImplementation(() => Promise.resolve());
 

@@ -4,6 +4,7 @@ import MockContentMessageClient from "../mock/MockContentMessageClient";
 import MockPropertySettings from "../mock/MockPropertySettings";
 import MockMarkRepository from "../mock/MockMarkRepository";
 import MarkHelper from "../../../src/background/usecases/MarkHelper";
+import { describe, beforeAll, it, vi, expect } from "vitest";
 
 describe("MarkJumpUseCase", () => {
   const markRepository = new MockMarkRepository();
@@ -19,7 +20,7 @@ describe("MarkJumpUseCase", () => {
     markHelper,
   );
 
-  jest.spyOn(propertySettings, "getProperty").mockImplementation((name) => {
+  vi.spyOn(propertySettings, "getProperty").mockImplementation((name) => {
     if (name === "smoothscroll") {
       return Promise.resolve(true);
     }
@@ -27,15 +28,13 @@ describe("MarkJumpUseCase", () => {
   });
 
   beforeAll(() => {
-    jest
-      .spyOn(chrome.tabs, "query")
-      .mockResolvedValue([
-        { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
-      ]);
+    vi.spyOn(chrome.tabs, "query").mockResolvedValue([
+      { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
+    ]);
   });
 
   it("scrolls to global marks", async () => {
-    const mockGetGlobalMark = jest
+    const mockGetGlobalMark = vi
       .spyOn(markRepository, "getGlobalMark")
       .mockResolvedValue({
         tabId: 101,
@@ -43,10 +42,10 @@ describe("MarkJumpUseCase", () => {
         x: 10,
         y: 20,
       });
-    const mockScrollTo = jest
+    const mockScrollTo = vi
       .spyOn(contentMessageClient, "scrollTo")
       .mockResolvedValue();
-    const mockTabsUpdate = jest
+    const mockTabsUpdate = vi
       .spyOn(chrome.tabs, "update")
       .mockImplementation(() => Promise.resolve());
 
@@ -58,7 +57,7 @@ describe("MarkJumpUseCase", () => {
   });
 
   it("reopens tabs when the tab of the global mark is gone", async () => {
-    const mockGetGlobalMark = jest
+    const mockGetGlobalMark = vi
       .spyOn(markRepository, "getGlobalMark")
       .mockResolvedValue({
         tabId: 200,
@@ -66,13 +65,13 @@ describe("MarkJumpUseCase", () => {
         x: 10,
         y: 20,
       });
-    const mockSetGlobalMark = jest
+    const mockSetGlobalMark = vi
       .spyOn(markRepository, "setGlobalMark")
       .mockResolvedValue();
-    const mockScrollTo = jest
+    const mockScrollTo = vi
       .spyOn(contentMessageClient, "scrollTo")
       .mockRejectedValue("tab not found");
-    const mockTabsCreate = jest
+    const mockTabsCreate = vi
       .spyOn(chrome.tabs, "create")
       .mockImplementation(() =>
         Promise.resolve({
@@ -97,13 +96,13 @@ describe("MarkJumpUseCase", () => {
   });
 
   it("jumps to local marks", async () => {
-    const mockGetLocalMark = jest
+    const mockGetLocalMark = vi
       .spyOn(markRepository, "getLocalMark")
       .mockResolvedValue({
         x: 10,
         y: 20,
       });
-    const mockScrollTo = jest
+    const mockScrollTo = vi
       .spyOn(contentMessageClient, "scrollTo")
       .mockResolvedValue();
 
@@ -114,10 +113,10 @@ describe("MarkJumpUseCase", () => {
   });
 
   it("show errors when global mark is not set", async () => {
-    const mockShowError = jest
+    const mockShowError = vi
       .spyOn(consoleClient, "showError")
       .mockResolvedValue(undefined);
-    jest.spyOn(markRepository, "getGlobalMark").mockResolvedValue(undefined);
+    vi.spyOn(markRepository, "getGlobalMark").mockResolvedValue(undefined);
 
     await sut.jumpToMark("A");
 
@@ -125,10 +124,10 @@ describe("MarkJumpUseCase", () => {
   });
 
   it("show errors when local mark is not set", async () => {
-    const mockShowError = jest
+    const mockShowError = vi
       .spyOn(consoleClient, "showError")
       .mockResolvedValue(undefined);
-    jest.spyOn(markRepository, "getLocalMark").mockResolvedValue(undefined);
+    vi.spyOn(markRepository, "getLocalMark").mockResolvedValue(undefined);
 
     await sut.jumpToMark("A");
 

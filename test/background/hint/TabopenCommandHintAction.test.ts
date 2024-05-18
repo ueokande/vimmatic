@@ -1,6 +1,7 @@
 import TabopenCommandHintAction from "../../../src/background/hint/TabopenCommandHintAction";
 import MokcHintClient from "../mock/MockHintClient";
 import MockConsoleClient from "../mock/MockConsoleClient";
+import { describe, test, expect, vi } from "vitest";
 
 describe("TabopenCommandHintAction", () => {
   const hintClient = new MokcHintClient();
@@ -8,10 +9,10 @@ describe("TabopenCommandHintAction", () => {
   const sut = new TabopenCommandHintAction(hintClient, consoleClient);
 
   test("open link in the current tab", async () => {
-    const mockShowCommand = jest
+    const mockShowCommand = vi
       .spyOn(consoleClient, "showCommand")
       .mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "a",
       href: "https://example.com/photo.jpg",
       attributes: {},

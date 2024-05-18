@@ -1,5 +1,6 @@
 import { BlacklistItem, Blacklist } from "../../src/shared/blacklist";
 import { fromKeymap } from "../../src/shared/key";
+import { describe, it, expect } from "vitest";
 
 describe("BlacklistItem", () => {
   describe("#matches", () => {
@@ -125,6 +126,4 @@ describe("Blacklist", () => {
       ).toBeFalsy;
     });
   });
-
-  describe("#combined", () => {});
 });

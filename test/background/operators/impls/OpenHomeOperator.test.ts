@@ -1,13 +1,14 @@
 import OpenHomeOperator from "../../../../src/background/operators/impls/OpenHomeOperator";
 import MockBrowserSettingRepository from "../../mock/MockBrowserSettingRepository";
 import type { OperatorContext } from "../../../../src/background/operators/types";
+import { describe, it, expect, vi } from "vitest";
 
 describe("OpenHomeOperator", () => {
   describe("#run", () => {
-    const mockTabsCreate = jest
+    const mockTabsCreate = vi
       .spyOn(chrome.tabs, "create")
       .mockImplementation(() => Promise.resolve({}));
-    const mockTabsUpdate = jest
+    const mockTabsUpdate = vi
       .spyOn(chrome.tabs, "update")
       .mockImplementation(() => Promise.resolve({}));
     const ctx = {} as OperatorContext;

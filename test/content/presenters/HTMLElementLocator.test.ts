@@ -3,6 +3,7 @@
  */
 
 import HTMLElementLocator from "../../../src/content/presenters/HTMLElementLocator";
+import { describe, beforeEach, test, expect } from "vitest";
 
 describe("HTMLElementLocator", () => {
   beforeEach(() => {

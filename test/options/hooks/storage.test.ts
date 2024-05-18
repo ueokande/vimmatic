@@ -3,9 +3,10 @@ import {
   useLoadSettings,
   useSaveSettings,
 } from "../../../src/options/hooks/storage";
+import { describe, vi, beforeEach, it, expect } from "vitest";
 
 describe("useLoadSettings", () => {
-  const spyGet = jest.spyOn(chrome.storage.sync, "get");
+  const spyGet = vi.spyOn(chrome.storage.sync, "get");
 
   beforeEach(() => {
     spyGet.mockClear();
@@ -75,8 +76,8 @@ describe("useLoadSettings", () => {
 });
 
 describe("useSaveSettings", () => {
-  const spySet = jest.spyOn(chrome.storage.sync, "set");
-  const spySendMessage = jest.spyOn(chrome.runtime, "sendMessage");
+  const spySet = vi.spyOn(chrome.storage.sync, "set");
+  const spySendMessage = vi.spyOn(chrome.runtime, "sendMessage");
 
   beforeEach(() => {
     spySet.mockClear();

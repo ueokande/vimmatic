@@ -4,6 +4,7 @@
 
 import { HintPresenterImpl } from "../../../src/content/presenters/HintPresenter";
 import MockSettingsRepository from "../mock/MockSettingRepository";
+import { describe, beforeEach, test, expect } from "vitest";
 
 describe("HintPresenterImpl", () => {
   beforeEach(() => {

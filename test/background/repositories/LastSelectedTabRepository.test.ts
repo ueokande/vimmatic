@@ -1,5 +1,6 @@
 import { LastSelectedTabRepositoryImpl } from "../../../src/background/repositories/LastSelectedTabRepository";
 import MockLocalStorage from "../mock/MockLocalStorage";
+import { describe, it, expect } from "vitest";
 
 describe("LastSelectedTabRepositoryImpl", () => {
   it("enable and disable followings", async () => {

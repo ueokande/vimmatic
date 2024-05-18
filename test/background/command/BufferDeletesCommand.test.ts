@@ -1,6 +1,7 @@
 import BufferDeletesCommand from "../../../src/background/command/BufferDeletesCommand";
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
 import defaultTab from "../mock/defaultTab";
+import { describe, expect, beforeEach, vi, it } from "vitest";
 
 describe("BufferDeletesCommand", () => {
   const lastSelectedTab = {
@@ -14,8 +15,8 @@ describe("BufferDeletesCommand", () => {
   const bufferCommandHelper = new BufferCommandHelper(lastSelectedTab);
   const sut = new BufferDeletesCommand(bufferCommandHelper);
 
-  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
-  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
+  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
+  const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
 
   const ctx = {
     sender: {

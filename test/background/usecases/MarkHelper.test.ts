@@ -1,4 +1,5 @@
 import MarkHelper from "../../../src/background/usecases/MarkHelper";
+import { describe, it, expect } from "vitest";
 
 describe("MarkHelper", () => {
   const sut = new MarkHelper();

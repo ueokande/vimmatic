@@ -3,6 +3,7 @@ import ReactTestRenderer from "react-test-renderer";
 import CompletionList from "../../../../src/console/completion/components/CompletionList";
 import CompletionTitle from "../../../../src/console/completion/components/CompletionTitle";
 import CompletionItem from "../../../../src/console/completion/components/CompletionItem";
+import { describe, it, expect } from "vitest";
 
 describe("CompletionList", () => {
   const completions = [

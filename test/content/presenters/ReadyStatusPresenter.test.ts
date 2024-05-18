@@ -3,6 +3,7 @@
  */
 
 import { ReadyStatusPresenterImpl } from "../../../src/content/presenters/ReadyStatusPresenter";
+import { describe, test, expect } from "vitest";
 
 describe("ReadyStatusPresenterImpl", () => {
   test("sets ready status of the content script", () => {

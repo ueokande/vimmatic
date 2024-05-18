@@ -1,16 +1,17 @@
 import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
 import MockLastSelectedTabRepository from "../mock/MockLastSelectedTabRepository";
 import defaultTab from "../mock/defaultTab";
+import { describe, test, expect, beforeEach, vi } from "vitest";
 
 describe("BufferCommandHelper", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
   const sut = new BufferCommandHelper(lastSelectedTabRepository);
 
-  const mockGetLastSelectedTab = jest.spyOn(
+  const mockGetLastSelectedTab = vi.spyOn(
     lastSelectedTabRepository,
     "getLastSelectedTabId",
   );
-  const mockTabsQuery = jest.spyOn(chrome.tabs, "query");
+  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
 
   const allTabs = Array.from(Array(5).keys()).map((i) => ({
     ...defaultTab,

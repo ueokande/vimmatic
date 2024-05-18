@@ -1,4 +1,5 @@
 import { AddonEnabledRepositoryImpl } from "../../../src/content/repositories/AddonEnabledRepository";
+import { describe, it, expect } from "vitest";
 
 describe("AddonEnabledRepositoryImpl", () => {
   it("updates and gets current value", () => {

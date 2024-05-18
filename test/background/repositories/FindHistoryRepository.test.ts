@@ -1,5 +1,6 @@
 import { FindHistoryRepositoryImpl } from "../../../src/background/repositories/FindHistoryRepository";
 import MockLocalStorage from "../mock/MockLocalStorage";
+import { describe, it, expect } from "vitest";
 
 describe(FindHistoryRepositoryImpl.name, () => {
   it("appends keywords", async () => {

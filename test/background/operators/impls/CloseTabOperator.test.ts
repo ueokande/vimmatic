@@ -1,9 +1,10 @@
 import CloseTabOperator from "../../../../src/background/operators/impls/CloseTabOperator";
 import defaultTab from "../../mock/defaultTab";
+import { describe, expect, beforeEach, it, vi } from "vitest";
 
 describe("CloseTabOperator", () => {
-  const mockTabsRemove = jest.spyOn(chrome.tabs, "remove");
-  const mockTabsUpdate = jest.spyOn(chrome.tabs, "update");
+  const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
+  const mockTabsUpdate = vi.spyOn(chrome.tabs, "update");
 
   mockTabsRemove.mockImplementation(() => Promise.resolve());
   mockTabsUpdate.mockImplementation(() => Promise.resolve({}));
@@ -20,7 +21,7 @@ describe("CloseTabOperator", () => {
         { ...defaultTab, id: 102, index: 1, pinned: false, active: true },
         { ...defaultTab, id: 103, index: 2, pinned: false, active: false },
       ];
-      jest.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
+      vi.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
 
       const ctx = {
         sender: {
@@ -42,7 +43,7 @@ describe("CloseTabOperator", () => {
         { ...defaultTab, id: 102, index: 1, pinned: false, active: true },
         { ...defaultTab, id: 103, index: 2, pinned: false, active: false },
       ];
-      jest.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
+      vi.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
 
       const ctx = {
         sender: {

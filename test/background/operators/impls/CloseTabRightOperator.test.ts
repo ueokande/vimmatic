@@ -1,9 +1,10 @@
 import CloseTabRightOperator from "../../../../src/background/operators/impls/CloseTabRightOperator";
 import defaultTab from "../../mock/defaultTab";
+import { describe, expect, it, vi } from "vitest";
 
 describe("CloseTabRightOperator", () => {
   describe("#run", () => {
-    const mockTabsRemove = jest
+    const mockTabsRemove = vi
       .spyOn(chrome.tabs, "remove")
       .mockImplementation(() => Promise.resolve());
 
@@ -14,7 +15,7 @@ describe("CloseTabRightOperator", () => {
         { ...defaultTab, id: 103, index: 2, active: false },
         { ...defaultTab, id: 104, index: 3, active: false },
       ];
-      jest.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
+      vi.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
         if (active) {
           return Promise.resolve([tabs[2]]);
         } else {

@@ -5,6 +5,7 @@
 import React from "react";
 import ReactTestRenderer from "react-test-renderer";
 import ErrorMessage from "../../../src/console/components/ErrorMessage";
+import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/ErrorMessage", () => {
   it("renders an error message", () => {

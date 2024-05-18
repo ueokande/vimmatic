@@ -1,7 +1,8 @@
 import HelpCommand from "../../../src/background/command/HelpCommand";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("HelpCommand", () => {
-  const mockTabsCreate = jest
+  const mockTabsCreate = vi
     .spyOn(chrome.tabs, "create")
     .mockImplementation(() => Promise.resolve({}));
 

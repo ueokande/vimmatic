@@ -1,8 +1,9 @@
 import SelectTabNextOperator from "../../../../src/background/operators/impls/SelectTabNextOperator";
 import defaultTab from "../../mock/defaultTab";
+import { describe, beforeEach, it, expect, vi } from "vitest";
 
 describe("SelectTabNextOperator", () => {
-  const mockTabsUpdate = jest
+  const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
 
@@ -17,7 +18,7 @@ describe("SelectTabNextOperator", () => {
         { ...defaultTab, id: 102, index: 1, active: true },
         { ...defaultTab, id: 103, index: 2, active: false },
       ];
-      jest.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
+      vi.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
         if (active) {
           return Promise.resolve([tabs[1]]);
         } else {
@@ -39,7 +40,7 @@ describe("SelectTabNextOperator", () => {
         { ...defaultTab, id: 102, index: 1, active: false },
         { ...defaultTab, id: 103, index: 2, active: true },
       ];
-      jest.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
+      vi.spyOn(chrome.tabs, "query").mockImplementation(({ active }) => {
         if (active) {
           return Promise.resolve([tabs[2]]);
         } else {

@@ -1,9 +1,10 @@
 import SelectPreviousSelectedTabOperator from "../../../../src/background/operators/impls/SelectPreviousSelectedTabOperator";
 import MockLastSelectedTabRepository from "../../mock/MockLastSelectedTabRepository";
+import { describe, beforeEach, it, expect, vi } from "vitest";
 
 describe("SelectPreviousSelectedTabOperator", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
-  const mockTabsUpdate = jest
+  const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
 
@@ -13,9 +14,10 @@ describe("SelectPreviousSelectedTabOperator", () => {
 
   describe("#run", () => {
     it("select the last-selected tab", async () => {
-      jest
-        .spyOn(lastSelectedTabRepository, "getLastSelectedTabId")
-        .mockResolvedValue(101);
+      vi.spyOn(
+        lastSelectedTabRepository,
+        "getLastSelectedTabId",
+      ).mockResolvedValue(101);
 
       const sut = new SelectPreviousSelectedTabOperator(
         lastSelectedTabRepository,
@@ -26,9 +28,10 @@ describe("SelectPreviousSelectedTabOperator", () => {
     });
 
     it("do nothing if no last-selected tabs", async () => {
-      jest
-        .spyOn(lastSelectedTabRepository, "getLastSelectedTabId")
-        .mockResolvedValue(undefined);
+      vi.spyOn(
+        lastSelectedTabRepository,
+        "getLastSelectedTabId",
+      ).mockResolvedValue(undefined);
 
       const sut = new SelectPreviousSelectedTabOperator(
         lastSelectedTabRepository,

@@ -2,6 +2,7 @@ import { SettingRepositoryImpl } from "../../../src/content/repositories/Setting
 import type { SettingClient } from "../../../src/content/client/SettingClient";
 import type { Settings } from "../../../src/shared/settings";
 import { deserialize } from "../../../src/settings";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 class MockSettingClient implements SettingClient {
   load(): Promise<Settings> {
@@ -11,7 +12,7 @@ class MockSettingClient implements SettingClient {
 
 describe("SettingRepositoryImpl", () => {
   const settingClient = new MockSettingClient();
-  const mockLoad = jest.spyOn(settingClient, "load");
+  const mockLoad = vi.spyOn(settingClient, "load");
 
   beforeEach(() => {
     mockLoad.mockClear();

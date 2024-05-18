@@ -5,6 +5,7 @@ import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
 import MockPropertySettings from "../mock/MockPropertySettings";
 import MockHintRepository from "../mock/MockHintRepository";
 import MockHintActionFactory from "../mock/MockHintActionFactory";
+import { describe, it, vi, expect } from "vitest";
 
 describe("HintModeUseCaes", () => {
   const topFrameClient = new MockTopFrameClient();
@@ -23,16 +24,16 @@ describe("HintModeUseCaes", () => {
   );
 
   it("starts follow mode", async () => {
-    const mockGetFrameIds = jest
+    const mockGetFrameIds = vi
       .spyOn(frameRepository, "getFrameIds")
       .mockResolvedValue([100, 101, 102]);
-    const mockGetProperty = jest
+    const mockGetProperty = vi
       .spyOn(propertySettings, "getProperty")
       .mockResolvedValue("abc");
-    const mockGetWindowViewport = jest
+    const mockGetWindowViewport = vi
       .spyOn(topFrameClient, "getWindowViewport")
       .mockResolvedValue({ width: 1000, height: 1200 });
-    const mockGetFramePosition = jest
+    const mockGetFramePosition = vi
       .spyOn(topFrameClient, "getFramePosition")
       .mockImplementation((_tabId: number, frameId: number) => {
         switch (frameId) {
@@ -45,7 +46,7 @@ describe("HintModeUseCaes", () => {
         }
         return Promise.resolve(undefined);
       });
-    const mockLookupTargets = jest
+    const mockLookupTargets = vi
       .spyOn(hintClient, "lookupTargets")
       .mockImplementation((_tabId, frameId: number) => {
         switch (frameId) {
@@ -58,10 +59,10 @@ describe("HintModeUseCaes", () => {
         }
         return Promise.resolve([]);
       });
-    const mockAssignTags = jest
+    const mockAssignTags = vi
       .spyOn(hintClient, "assignTags")
       .mockResolvedValue();
-    const mockStartHintMode = jest
+    const mockStartHintMode = vi
       .spyOn(hintRepository, "startHintMode")
       .mockResolvedValue(undefined);
 
@@ -119,10 +120,10 @@ describe("HintModeUseCaes", () => {
   });
 
   it("stops follow mode", async () => {
-    const mockClearHints = jest
+    const mockClearHints = vi
       .spyOn(hintClient, "clearHints")
       .mockResolvedValue();
-    jest.spyOn(hintRepository, "stopHintMode").mockResolvedValue();
+    vi.spyOn(hintRepository, "stopHintMode").mockResolvedValue();
 
     await sut.stop(10);
 

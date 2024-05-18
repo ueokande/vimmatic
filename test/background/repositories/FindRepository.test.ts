@@ -1,5 +1,6 @@
 import { FindRepositoryImpl } from "../../../src/background/repositories/FindRepository";
 import MockLocalStorage from "../mock/MockLocalStorage";
+import { describe, beforeEach, it, expect } from "vitest";
 
 describe("background/repositories/FindRepositoryImpl", () => {
   let sut: FindRepositoryImpl;

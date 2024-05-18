@@ -1,6 +1,7 @@
 import QuickHintAction from "../../../src/background/hint/QuickHintAction";
 import MokcHintClient from "../mock/MockHintClient";
 import MockTabPresenter from "../mock/MockTabPresenter";
+import { describe, test, expect, vi } from "vitest";
 
 describe("QuickHintAction", () => {
   const hintClient = new MokcHintClient();
@@ -8,14 +9,14 @@ describe("QuickHintAction", () => {
   const sut = new QuickHintAction(hintClient, tabPresenter);
 
   test("open link in current tab", async () => {
-    const mockGetElement = jest
+    const mockGetElement = vi
       .spyOn(hintClient, "getElement")
       .mockResolvedValue({
         tagName: "A",
         href: "https://example.com",
         attributes: {},
       });
-    const mockOpenToTab = jest
+    const mockOpenToTab = vi
       .spyOn(tabPresenter, "openToTab")
       .mockResolvedValue(undefined);
 
@@ -27,14 +28,14 @@ describe("QuickHintAction", () => {
   });
 
   test("open link in new tab by target=_blank", async () => {
-    const mockGetElement = jest
+    const mockGetElement = vi
       .spyOn(hintClient, "getElement")
       .mockResolvedValue({
         tagName: "A",
         href: "https://example.com",
         attributes: { target: "_blank" },
       });
-    const mockOpenNewTab = jest
+    const mockOpenNewTab = vi
       .spyOn(tabPresenter, "openNewTab")
       .mockResolvedValue(undefined);
 
@@ -50,14 +51,14 @@ describe("QuickHintAction", () => {
   });
 
   test("open link in new tab by newTab option", async () => {
-    const mockGetElement = jest
+    const mockGetElement = vi
       .spyOn(hintClient, "getElement")
       .mockResolvedValue({
         tagName: "A",
         href: "https://example.com",
         attributes: {},
       });
-    const mockOpenNewTab = jest
+    const mockOpenNewTab = vi
       .spyOn(tabPresenter, "openNewTab")
       .mockResolvedValue(undefined);
 
@@ -79,13 +80,13 @@ describe("QuickHintAction", () => {
   ])(
     "focus to $tagName element with attributes $attributes",
     async ({ tagName, attributes }) => {
-      const mockGetElement = jest
+      const mockGetElement = vi
         .spyOn(hintClient, "getElement")
         .mockResolvedValue({
           tagName,
           attributes: { ...attributes },
         });
-      const mockFocusElement = jest
+      const mockFocusElement = vi
         .spyOn(hintClient, "focusElement")
         .mockResolvedValue();
 
@@ -104,13 +105,13 @@ describe("QuickHintAction", () => {
   ])(
     "click to $tagName element with attributes $attributes",
     async ({ tagName, attributes }) => {
-      const mockGetElement = jest
+      const mockGetElement = vi
         .spyOn(hintClient, "getElement")
         .mockResolvedValue({
           tagName,
           attributes: { ...attributes },
         });
-      const mockClickElement = jest
+      const mockClickElement = vi
         .spyOn(hintClient, "clickElement")
         .mockResolvedValue();
 

@@ -1,4 +1,5 @@
 import HintTagProducer from "../../../src/background/usecases/HintTagProducer";
+import { describe, it, expect } from "vitest";
 
 describe("HintTagProducer", () => {
   it("produce incremental keys", () => {

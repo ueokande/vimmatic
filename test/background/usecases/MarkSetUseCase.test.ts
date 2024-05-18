@@ -4,6 +4,7 @@ import MockContentMessageClient from "../mock/MockContentMessageClient";
 import MockMarkRepository from "../mock/MockMarkRepository";
 import MarkHelper from "../../../src/background/usecases/MarkHelper";
 import defaultTab from "../mock/defaultTab";
+import { describe, it, vi, expect } from "vitest";
 
 describe("MarkSetUseCase", () => {
   const markRepository = new MockMarkRepository();
@@ -19,13 +20,14 @@ describe("MarkSetUseCase", () => {
   const tab = { ...defaultTab, id: 100, url: "https://example.com/" };
 
   it("sets global marks", async () => {
-    jest
-      .spyOn(contentMessageClient, "getScroll")
-      .mockResolvedValue({ x: 10, y: 20 });
-    const mockSetGlobalMark = jest
+    vi.spyOn(contentMessageClient, "getScroll").mockResolvedValue({
+      x: 10,
+      y: 20,
+    });
+    const mockSetGlobalMark = vi
       .spyOn(markRepository, "setGlobalMark")
       .mockResolvedValue();
-    const mockShowInfo = jest
+    const mockShowInfo = vi
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
 
@@ -41,13 +43,14 @@ describe("MarkSetUseCase", () => {
   });
 
   it("sets local marks", async () => {
-    jest
-      .spyOn(contentMessageClient, "getScroll")
-      .mockResolvedValue({ x: 10, y: 20 });
-    const mockSetGlobalMark = jest
+    vi.spyOn(contentMessageClient, "getScroll").mockResolvedValue({
+      x: 10,
+      y: 20,
+    });
+    const mockSetGlobalMark = vi
       .spyOn(markRepository, "setLocalMark")
       .mockResolvedValue();
-    const mockShowInfo = jest
+    const mockShowInfo = vi
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue(undefined);
 

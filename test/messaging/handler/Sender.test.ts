@@ -1,4 +1,5 @@
 import Sender from "../../../src/messaging/handler/Sender";
+import { describe, vi, test, expect } from "vitest";
 
 type Schema = {
   greeting: {
@@ -8,7 +9,7 @@ type Schema = {
 };
 
 describe("Sender", () => {
-  const handler = jest.fn();
+  const handler = vi.fn();
   handler.mockImplementation(
     async (name: string, { lang }: { lang: string }) => {
       switch (name) {

@@ -9,6 +9,7 @@ import {
   showFind,
   showInfo,
 } from "../../../src/console/app/actions";
+import { describe, it, expect } from "vitest";
 
 describe("app reducer", () => {
   describe("hide", () => {

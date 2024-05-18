@@ -1,6 +1,7 @@
 import WinopenHintAction from "../../../src/background/hint/WinopenHintAction";
 import MokcHintClient from "../mock/MockHintClient";
 import MockTabPresenter from "../mock/MockTabPresenter";
+import { describe, test, vi, expect } from "vitest";
 
 describe("WinopenHintAction", () => {
   const hintClient = new MokcHintClient();
@@ -8,10 +9,10 @@ describe("WinopenHintAction", () => {
   const sut = new WinopenHintAction(hintClient, tabPresenter);
 
   test("open link in new window", async () => {
-    const mockOpen = jest
+    const mockOpen = vi
       .spyOn(tabPresenter, "openNewWindow")
       .mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "a",
       href: "https://example.com/photo.jpg",
       attributes: {},

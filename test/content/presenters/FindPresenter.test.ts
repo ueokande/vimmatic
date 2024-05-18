@@ -7,10 +7,11 @@ import {
   TextGroupMap,
   Finder,
 } from "../../../src/content/presenters/FindPresenter";
+import { describe, beforeAll, beforeEach, it, test, vi, expect } from "vitest";
 
 describe("getTextGroups", () => {
   beforeAll(() => {
-    window.getComputedStyle = jest.fn().mockImplementation((node) => {
+    window.getComputedStyle = vi.fn().mockImplementation((node) => {
       if (["BODY", "DIV", "P"].includes(node.nodeName)) {
         return { display: "block" };
       } else {

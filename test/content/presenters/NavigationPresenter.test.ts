@@ -3,6 +3,7 @@
  */
 
 import { NavigationPresenterImpl } from "../../../src/content/presenters/NavigationPresenter";
+import { describe, beforeEach, it, expect } from "vitest";
 
 describe("NavigationPresenterImpl", () => {
   let sut: NavigationPresenterImpl;

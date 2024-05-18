@@ -2,6 +2,7 @@ import YankLinkTextHintAction from "../../../src/background/hint/YankLinkTextHin
 import MokcHintClient from "../mock/MockHintClient";
 import MockConsoleClient from "../mock/MockConsoleClient";
 import MockClipboardRepository from "../mock/MockClipboardRepository";
+import { describe, test, vi, expect } from "vitest";
 
 describe("YankLinkTextHintAction", () => {
   const hintClient = new MokcHintClient();
@@ -14,13 +15,13 @@ describe("YankLinkTextHintAction", () => {
   );
 
   test("yank link text", async () => {
-    const mockClipboardWrite = jest
+    const mockClipboardWrite = vi
       .spyOn(clipboardRepository, "write")
       .mockResolvedValue();
-    const mockConsoleShowInfo = jest
+    const mockConsoleShowInfo = vi
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "a",
       href: "https://example.com/photo.jpg",
       attributes: {},
@@ -35,13 +36,13 @@ describe("YankLinkTextHintAction", () => {
   });
 
   test("yank link text", async () => {
-    const mockClipboardWrite = jest
+    const mockClipboardWrite = vi
       .spyOn(clipboardRepository, "write")
       .mockResolvedValue();
-    const mockConsoleShowInfo = jest
+    const mockConsoleShowInfo = vi
       .spyOn(consoleClient, "showInfo")
       .mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "area",
       href: "https://example.com/photo.jpg",
       attributes: { alt: "my photo" },
@@ -55,10 +56,10 @@ describe("YankLinkTextHintAction", () => {
   });
 
   test("no text", async () => {
-    const mockConsoleShowError = jest
+    const mockConsoleShowError = vi
       .spyOn(consoleClient, "showError")
       .mockResolvedValue();
-    jest.spyOn(hintClient, "getElement").mockResolvedValue({
+    vi.spyOn(hintClient, "getElement").mockResolvedValue({
       tagName: "area",
       href: "https://example.com/photo.jpg",
       attributes: {},

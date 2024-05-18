@@ -2,9 +2,10 @@ import {
   FirefoxBrowserSettingRepositoryImpl,
   ChromeBrowserSettingRepositoryImpl,
 } from "../../../src/background/repositories/BrowserSettingRepository";
+import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("FirefoxBrowserSettingRepositoryImpl", () => {
-  const mockHomepageOverrideGet = jest.spyOn(
+  const mockHomepageOverrideGet = vi.spyOn(
     chrome.browserSettings.homepageOverride,
     "get",
   );

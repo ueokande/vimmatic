@@ -6,6 +6,7 @@ import InputDriver, {
   keyFromKeyboardEvent,
 } from "../../src/content/InputDriver";
 import type { Key } from "../../src/shared/key";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
 
 describe("InputDriver", () => {
   let target: HTMLElement;

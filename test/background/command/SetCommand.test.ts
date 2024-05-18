@@ -3,6 +3,7 @@ import type { CommandContext } from "../../../src/background/command/types";
 import { PropertyRegistryImpl } from "../../../src/background/property/PropertyRegistry";
 import MockPropertySettings from "../mock/MockPropertySettings";
 import MockConsoleClient from "../mock/MockConsoleClient";
+import { describe, beforeEach, expect, it, vi } from "vitest";
 
 const strprop1 = {
   name: () => "strprop1",
@@ -43,9 +44,9 @@ describe("SetCommand", () => {
   propertyRegistry.register(booleanprop);
 
   describe("exec", () => {
-    const mockSetProperty = jest.spyOn(propertySettings, "setProperty");
-    const mockGetProperty = jest.spyOn(propertySettings, "getProperty");
-    const mockShowInfo = jest.spyOn(consoleClient, "showInfo");
+    const mockSetProperty = vi.spyOn(propertySettings, "setProperty");
+    const mockGetProperty = vi.spyOn(propertySettings, "getProperty");
+    const mockShowInfo = vi.spyOn(consoleClient, "showInfo");
     const cmd = new SetCommand(
       propertySettings,
       propertyRegistry,
