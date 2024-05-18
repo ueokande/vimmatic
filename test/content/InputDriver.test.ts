@@ -22,26 +22,28 @@ describe("InputDriver", () => {
     target.remove();
   });
 
-  it("register callbacks", (done) => {
-    driver.onKey((key: Key): boolean => {
-      expect(key.key).toEqual("a");
-      expect(key.ctrl).toBeTruthy;
-      expect(key.shift).toBeFalsy;
-      expect(key.alt).toBeFalsy;
-      expect(key.meta).toBeFalsy;
-      done();
-      return true;
-    });
+  it("register callbacks", () => {
+    return new Promise<void>((resolve) => {
+      driver.onKey((key: Key): boolean => {
+        expect(key.key).toEqual("a");
+        expect(key.ctrl).toBeTruthy;
+        expect(key.shift).toBeFalsy;
+        expect(key.alt).toBeFalsy;
+        expect(key.meta).toBeFalsy;
+        resolve();
+        return true;
+      });
 
-    target.dispatchEvent(
-      new KeyboardEvent("keydown", {
-        key: "a",
-        ctrlKey: true,
-        shiftKey: false,
-        altKey: false,
-        metaKey: false,
-      }),
-    );
+      target.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "a",
+          ctrlKey: true,
+          shiftKey: false,
+          altKey: false,
+          metaKey: false,
+        }),
+      );
+    });
   });
 
   it("invoke callback once", () => {

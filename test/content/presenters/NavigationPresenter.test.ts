@@ -8,20 +8,22 @@ import { describe, beforeEach, it, expect } from "vitest";
 describe("NavigationPresenterImpl", () => {
   let sut: NavigationPresenterImpl;
 
-  const testRel = (done: () => void, rel: string, html: string) => {
-    const method =
-      rel === "prev" ? sut.openLinkPrev.bind(sut) : sut.openLinkNext.bind(sut);
-    document.body.innerHTML = html;
-    method();
-    setTimeout(() => {
-      expect(document.location.hash).toEqual(`#${rel}`);
-      done();
-    }, 0);
+  const testRel = (rel: string, html: string): Promise<void> => {
+    return new Promise((resolve) => {
+      const method =
+        rel === "prev"
+          ? sut.openLinkPrev.bind(sut)
+          : sut.openLinkNext.bind(sut);
+      document.body.innerHTML = html;
+      method();
+      setTimeout(() => {
+        expect(document.location.hash).toEqual(`#${rel}`);
+        resolve();
+      }, 0);
+    });
   };
-  const testPrev = (html: string) => (done: () => void) =>
-    testRel(done, "prev", html);
-  const testNext = (html: string) => (done: () => void) =>
-    testRel(done, "next", html);
+  const testPrev = (html: string) => (): Promise<void> => testRel("prev", html);
+  const testNext = (html: string) => (): Promise<void> => testRel("next", html);
 
   beforeEach(() => {
     sut = new NavigationPresenterImpl();
