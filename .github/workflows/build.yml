@@ -11,9 +11,9 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v2
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v3
+    - uses: actions/setup-node@v4
       with:
         node-version-file: 'package.json'
         cache: 'pnpm'
@@ -22,7 +22,7 @@ jobs:
     - run: pnpm lint
     - run: pnpm test
     - run: pnpm package
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: dist
         path: ./dist/
@@ -31,9 +31,9 @@ jobs:
     name: E2E Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v2
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v3
+    - uses: actions/setup-node@v4
       with:
         node-version-file: 'package.json'
         cache: 'pnpm'
