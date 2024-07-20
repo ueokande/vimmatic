@@ -1,6 +1,6 @@
 import React from "react";
-import useAutoResize from "../hooks/useAutoResize";
 import stylex from "@stylexjs/stylex";
+import { useAutoResize } from "../hooks/useAutoResize";
 import { colors } from "../styles/tokens.stylex";
 
 const styles = stylex.create({
@@ -16,7 +16,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const ErrorMessage: React.FC<Props> = ({ children }) => {
+export const ErrorMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
   return (
@@ -25,5 +25,3 @@ const ErrorMessage: React.FC<Props> = ({ children }) => {
     </p>
   );
 };
-
-export default ErrorMessage;

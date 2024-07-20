@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 
 @injectable()
-export default class EventUseCaseHelper {
+export class EventUseCaseHelper {
   async isSystemTab(tabId: number): Promise<boolean> {
     const tab = await chrome.tabs.get(tabId);
     if (

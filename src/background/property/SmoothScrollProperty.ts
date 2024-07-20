@@ -1,6 +1,6 @@
 import type { Property, PropertyType } from "./types";
 
-export default class SmoothScrollProperty implements Property {
+export class SmoothScrollProperty implements Property {
   name() {
     return "smoothscroll";
   }

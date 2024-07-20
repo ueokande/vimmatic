@@ -1,5 +1,5 @@
-import ShowAddBookmarkOperator from "../../../../src/background/operators/impls/ShowAddBookmarkOperator";
-import MockConsoleClient from "../../mock/MockConsoleClient";
+import { ShowAddBookmarkOperator } from "../../../../src/background/operators/impls/ShowAddBookmarkOperator";
+import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, beforeEach, it, expect, vi } from "vitest";
 

@@ -1,9 +1,9 @@
 import React from "react";
-import Prompt from "./components/Prompt";
-import InfoMessage from "./components/InfoMessage";
-import ErrorMessage from "./components/ErrorMessage";
+import { Prompt } from "./components/Prompt";
+import { InfoMessage } from "./components/InfoMessage";
+import { ErrorMessage } from "./components/ErrorMessage";
 import { SimplexReceiver } from "../messaging";
-import StyleProvider from "./styles/providers";
+import { StyleProvider } from "./styles/providers";
 import type { Schema as ConsoleMessageSchema } from "../messaging/schema/console";
 import {
   useConsoleMode,
@@ -19,7 +19,7 @@ import {
 const COMMAND_COMPLETION_MAX_ITEMS = 33;
 const FIND_COMPLETION_MAX_ITEMS = 11;
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const { hide, visible } = useVisibility();
   const {
     state,
@@ -105,5 +105,3 @@ const App: React.FC = () => {
 
   return <StyleProvider>{content}</StyleProvider>;
 };
-
-export default App;

@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator } from "../types";
 
 @injectable()
-export default class PinTabOperator implements Operator {
+export class PinTabOperator implements Operator {
   name(): string {
     return "tabs.pin";
   }

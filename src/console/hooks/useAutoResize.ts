@@ -1,10 +1,10 @@
 import React from "react";
-import ConsoleFrameClient from "../clients/ConsoleFrameClient";
+import { ConsoleFrameClient } from "../clients/ConsoleFrameClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 
 const consoleFrameClient = new ConsoleFrameClient(newSender());
 
-const useAutoResize = () => {
+export const useAutoResize = () => {
   const [prevWidth, setPrevWidth] = React.useState(-1);
   const [prevHeight, setPrevHeight] = React.useState(-1);
 
@@ -23,5 +23,3 @@ const useAutoResize = () => {
     setPrevHeight(height);
   });
 };
-
-export default useAutoResize;

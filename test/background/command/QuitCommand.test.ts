@@ -1,5 +1,5 @@
-import QuitCommand from "../../../src/background/command/QuitCommand";
-import defaultTab from "../mock/defaultTab";
+import { QuitCommand } from "../../../src/background/command/QuitCommand";
+import { defaultTab } from "../mock/defaultTab";
 import { describe, expect, beforeEach, it, vi } from "vitest";
 
 describe("QuitCommand", () => {

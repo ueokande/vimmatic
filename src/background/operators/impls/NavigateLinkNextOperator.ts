@@ -3,7 +3,7 @@ import type { Operator, OperatorContext } from "../types";
 import type { NavigateClient } from "../../clients/NavigateClient";
 
 @injectable()
-export default class NavigateLinkNextOperator implements Operator {
+export class NavigateLinkNextOperator implements Operator {
   constructor(
     @inject("NavigateClient")
     private readonly navigateClient: NavigateClient,

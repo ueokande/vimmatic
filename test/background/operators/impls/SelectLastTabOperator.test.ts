@@ -1,5 +1,5 @@
-import SelectLastTabOperator from "../../../../src/background/operators/impls/SelectLastTabOperator";
-import defaultTab from "../../mock/defaultTab";
+import { SelectLastTabOperator } from "../../../../src/background/operators/impls/SelectLastTabOperator";
+import { defaultTab } from "../../mock/defaultTab";
 import { describe, it, expect, vi } from "vitest";
 
 describe("SelectLastTabOperator", () => {

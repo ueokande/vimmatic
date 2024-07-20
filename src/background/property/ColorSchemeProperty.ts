@@ -6,7 +6,7 @@ enum ColorScheme {
   Dark = "dark",
 }
 
-export default class ColorSchemeProperty implements Property {
+export class ColorSchemeProperty implements Property {
   name() {
     return "colorscheme";
   }

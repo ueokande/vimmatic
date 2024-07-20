@@ -2,7 +2,7 @@ import type { Command, CommandContext, Completions } from "./types";
 
 const url = "https://ueokande.github.io/vimmatic/";
 
-class HelpCommand implements Command {
+export class HelpCommand implements Command {
   names(): string[] {
     return ["h", "help"];
   }
@@ -27,5 +27,3 @@ class HelpCommand implements Command {
     await chrome.tabs.create({ url, active: true });
   }
 }
-
-export default HelpCommand;

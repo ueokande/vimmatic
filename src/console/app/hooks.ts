@@ -1,8 +1,8 @@
 import React from "react";
 import * as actions from "./actions";
 import { AppDispatchContext, AppStateContext } from "./contexts";
-import CommandClient from "../clients/CommandClient";
-import FindClient from "../clients/FindClient";
+import { CommandClient } from "../clients/CommandClient";
+import { FindClient } from "../clients/FindClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 import { SimplexSender } from "../../messaging";
 import type {

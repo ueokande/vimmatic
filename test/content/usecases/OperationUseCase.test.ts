@@ -1,4 +1,4 @@
-import OperationUseCase from "../../../src/content/usecases/OperationUseCase";
+import { OperationUseCase } from "../../../src/content/usecases/OperationUseCase";
 import type { OperationClient } from "../../../src/content/client/OperationClient";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 

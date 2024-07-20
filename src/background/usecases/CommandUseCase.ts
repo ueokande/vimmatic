@@ -6,7 +6,7 @@ import type { CommandContext } from "../command/types";
 import { parseCommand, onCommandInputting } from "./parser";
 
 @injectable()
-export default class CommandUseCase {
+export class CommandUseCase {
   constructor(
     @inject("CommandRegistry")
     private readonly commandRegistry: CommandRegistry,

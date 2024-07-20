@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator } from "../types";
 
 @injectable()
-export default class SelectFirstTabOperator implements Operator {
+export class SelectFirstTabOperator implements Operator {
   name() {
     return "tabs.first";
   }

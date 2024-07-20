@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { Operator, OperatorContext } from "../types";
 
 @injectable()
-export default class ReloadTabOperator implements Operator {
+export class ReloadTabOperator implements Operator {
   name() {
     return "tabs.reload";
   }

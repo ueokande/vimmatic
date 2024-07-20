@@ -4,7 +4,7 @@ import type { RepeatRepository } from "../../repositories/RepeatRepository";
 import type { OperatorRegistory } from "../../operators/OperatorRegistory";
 
 @injectable()
-export default class RepeatLastOperator implements Operator {
+export class RepeatLastOperator implements Operator {
   constructor(
     @inject("OperatorRegistory")
     private readonly operatorRegistory: OperatorRegistory,

@@ -16,11 +16,7 @@ export type State =
 
 export const defaultState: State = { mode: undefined };
 
-// eslint-disable-next-line max-lines-per-function
-export default function reducer(
-  state: State = defaultState,
-  action: AppAction,
-): State {
+export function reducer(state: State = defaultState, action: AppAction): State {
   switch (action.type) {
     case HIDE:
       return { mode: undefined };

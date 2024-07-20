@@ -1,12 +1,12 @@
 import { injectable, inject } from "inversify";
 import { SimplexReceiverWithContext } from "../../messaging";
 import type { Schema as WindowMessageSchema } from "../../messaging/schema/window";
-import ConsoleFrameController from "../controllers/ConsoleFrameController";
-import TopFrameController from "../controllers/TopFrameController";
+import { ConsoleFrameController } from "../controllers/ConsoleFrameController";
+import { TopFrameController } from "../controllers/TopFrameController";
 import type { WindowRequestContext } from "../controllers/types";
 
 @injectable()
-export default class WindowMessageListener {
+export class WindowMessageListener {
   private readonly receiver: SimplexReceiverWithContext<
     WindowMessageSchema,
     WindowRequestContext

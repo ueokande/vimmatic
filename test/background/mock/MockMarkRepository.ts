@@ -4,7 +4,7 @@ import type {
   LocalMark,
 } from "../../../src/background/repositories/MarkRepository";
 
-export default class MockMarkRepository implements MarkRepository {
+export class MockMarkRepository implements MarkRepository {
   getGlobalMark(_key: string): Promise<GlobalMark | undefined> {
     throw new Error("not implemented");
   }

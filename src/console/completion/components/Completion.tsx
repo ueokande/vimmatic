@@ -1,9 +1,9 @@
 import React from "react";
 import stylex from "@stylexjs/stylex";
 import type { Completions } from "../../../shared/completions";
-import useCompletionKeyBinds from "../hooks/useCompletionKeyBinds";
-import useCursor from "../hooks/useCursor";
-import CompletionList from "./CompletionList";
+import { useCompletionKeyBinds } from "../hooks/useCompletionKeyBinds";
+import { useCursor } from "../hooks/useCursor";
+import { CompletionList } from "./CompletionList";
 
 type InputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -58,7 +58,7 @@ const useFlatten = (completions: Completions) => {
   );
 };
 
-const Completion: React.FC<Props> = ({
+export const Completion: React.FC<Props> = ({
   defaultValue,
   renderInput,
   completions,
@@ -139,5 +139,3 @@ const Completion: React.FC<Props> = ({
     </div>
   );
 };
-
-export default Completion;

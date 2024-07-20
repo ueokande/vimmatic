@@ -4,7 +4,7 @@ import type { Operator, OperatorContext } from "../types";
 import type { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
-export default class ShowWinOpenCommandOperator implements Operator {
+export class ShowWinOpenCommandOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,

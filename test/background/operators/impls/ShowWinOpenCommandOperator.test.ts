@@ -1,5 +1,5 @@
-import ShowWinOpenCommandOperator from "../../../../src/background/operators/impls/ShowWinOpenCommandOperator";
-import MockConsoleClient from "../../mock/MockConsoleClient";
+import { ShowWinOpenCommandOperator } from "../../../../src/background/operators/impls/ShowWinOpenCommandOperator";
+import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, beforeEach, it, expect, vi } from "vitest";
 

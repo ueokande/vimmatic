@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
-import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
+import { AddonEnabledUseCase } from "../usecases/AddonEnabledUseCase";
 import type { SettingRepository } from "../repositories/SettingRepository";
 
 @injectable()
-export default class SettingsController {
+export class SettingsController {
   constructor(
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,

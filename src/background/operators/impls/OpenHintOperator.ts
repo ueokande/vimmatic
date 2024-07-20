@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
-import HintModeUseCase from "../../usecases/HintModeUseCase";
-import ModeUseCase from "../../usecases/ModeUseCase";
+import { HintModeUseCase } from "../../usecases/HintModeUseCase";
+import { ModeUseCase } from "../../usecases/ModeUseCase";
 import { Mode } from "../../../shared/mode";
 
 @injectable()
-export default class OpenHintOperator implements Operator {
+export class OpenHintOperator implements Operator {
   constructor(
     @inject(HintModeUseCase)
     private readonly hintModeUseCase: HintModeUseCase,

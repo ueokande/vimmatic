@@ -4,7 +4,7 @@ import type { PropertyRegistry } from "../property/PropertyRegistry";
 import type { OperatorRegistory } from "../operators/OperatorRegistory";
 
 @injectable()
-export default class Validator {
+export class Validator {
   constructor(
     @inject("PropertyRegistry")
     private readonly propertyRegistry: PropertyRegistry,

@@ -3,7 +3,7 @@ import type { Operator, OperatorContext } from "../types";
 import type { ContentMessageClient } from "../../clients/ContentMessageClient";
 
 @injectable()
-export default class CancelOperator implements Operator {
+export class FocusOperator implements Operator {
   constructor(
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,

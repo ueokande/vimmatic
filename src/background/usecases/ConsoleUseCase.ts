@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import type { ConsoleFrameClient } from "../clients/ConsoleFrameClient";
 
 @injectable()
-export default class ConsoleUseCase {
+export class ConsoleUseCase {
   constructor(
     @inject("ConsoleFrameClient")
     private readonly consoleFrameClient: ConsoleFrameClient,

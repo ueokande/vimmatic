@@ -35,7 +35,7 @@ export class RouterWithContext<
   }
 }
 
-export default class ReceiverWithContext<
+export class ReceiverWithContext<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
   Context,
 > {

@@ -1,4 +1,4 @@
-import ReloadTabOperator from "../../../../src/background/operators/impls/ReloadTabOperator";
+import { ReloadTabOperator } from "../../../../src/background/operators/impls/ReloadTabOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, beforeEach, it, expect, vi } from "vitest";
 

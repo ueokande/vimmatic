@@ -1,12 +1,12 @@
 import { inject, injectable } from "inversify";
 import type { ToolbarPresenter } from "../presenters/ToolbarPresenter";
-import AddonEnabledUseCase from "./AddonEnabledUseCase";
+import { AddonEnabledUseCase } from "./AddonEnabledUseCase";
 import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
 import type { AddonEnabledClient } from "../clients/AddonEnabledClient";
-import EventUseCaseHelper from "./EventUseCaseHelper";
+import { EventUseCaseHelper } from "./EventUseCaseHelper";
 
 @injectable()
-export default class AddonEnabledEventUseCase {
+export class AddonEnabledEventUseCase {
   constructor(
     @inject("ToolbarPresenter")
     private readonly toolbarPresenter: ToolbarPresenter,

@@ -2,7 +2,8 @@
  * @vitest-environment jsdom
  */
 
-import InputDriver, {
+import {
+  InputDriver,
   keyFromKeyboardEvent,
 } from "../../src/content/InputDriver";
 import type { Key } from "../../src/shared/key";

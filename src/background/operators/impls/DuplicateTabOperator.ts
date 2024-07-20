@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
 
 @injectable()
-export default class DuplicateTabOperator implements Operator {
+export class DuplicateTabOperator implements Operator {
   name(): string {
     return "tabs.duplicate";
   }

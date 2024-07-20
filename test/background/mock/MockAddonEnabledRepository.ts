@@ -1,8 +1,6 @@
 import type { AddonEnabledRepository } from "../../../src/background/repositories/AddonEnabledRepository";
 
-export default class MockAddonEnabledRepository
-  implements AddonEnabledRepository
-{
+export class MockAddonEnabledRepository implements AddonEnabledRepository {
   enable(): Promise<void> {
     throw new Error("not implemented");
   }

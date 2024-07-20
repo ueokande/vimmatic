@@ -6,10 +6,10 @@ import type {
 } from "../repositories/MarkRepository";
 import type { ContentMessageClient } from "../clients/ContentMessageClient";
 import type { ConsoleClient } from "../clients/ConsoleClient";
-import MarkHelper from "./MarkHelper";
+import { MarkHelper } from "./MarkHelper";
 
 @injectable()
-export default class MarkSetUseCase {
+export class MarkSetUseCase {
   constructor(
     @inject("MarkRepository")
     private readonly markRepository: MarkRepository,

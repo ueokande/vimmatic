@@ -1,4 +1,4 @@
-import { type Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
 import { test, expect } from "./lib/fixture";
 import { newSingleContentServer } from "./lib/servers";
 

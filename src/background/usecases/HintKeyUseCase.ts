@@ -5,7 +5,7 @@ import type { HintRepository } from "../repositories/HintRepository";
 import type { HintActionFactory } from "../hint/HintActionFactory";
 
 @injectable()
-export default class HintKeyUseCase {
+export class HintKeyUseCase {
   constructor(
     @inject("HintClient")
     private readonly hintClient: HintClient,

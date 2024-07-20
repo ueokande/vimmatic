@@ -1,4 +1,4 @@
-import UnpinTabOperator from "../../../../src/background/operators/impls/UnpinTabOperator";
+import { UnpinTabOperator } from "../../../../src/background/operators/impls/UnpinTabOperator";
 import { describe, it, expect, vi } from "vitest";
 
 describe("UnpinTabOperator", () => {

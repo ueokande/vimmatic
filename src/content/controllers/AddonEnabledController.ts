@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import AddonEnabledUseCase from "../usecases/AddonEnabledUseCase";
+import { AddonEnabledUseCase } from "../usecases/AddonEnabledUseCase";
 
 @injectable()
-export default class AddonEnabledController {
+export class AddonEnabledController {
   constructor(
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,

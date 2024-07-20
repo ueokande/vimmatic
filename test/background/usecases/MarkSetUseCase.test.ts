@@ -1,9 +1,9 @@
-import MarkSetUseCase from "../../../src/background/usecases/MarkSetUseCase";
-import MockConsoleClient from "../mock/MockConsoleClient";
-import MockContentMessageClient from "../mock/MockContentMessageClient";
-import MockMarkRepository from "../mock/MockMarkRepository";
-import MarkHelper from "../../../src/background/usecases/MarkHelper";
-import defaultTab from "../mock/defaultTab";
+import { MarkSetUseCase } from "../../../src/background/usecases/MarkSetUseCase";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { MockContentMessageClient } from "../mock/MockContentMessageClient";
+import { MockMarkRepository } from "../mock/MockMarkRepository";
+import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
+import { defaultTab } from "../mock/defaultTab";
 import { describe, it, vi, expect } from "vitest";
 
 describe("MarkSetUseCase", () => {

@@ -3,7 +3,7 @@ import type { Operator, OperatorContext } from "../types";
 import type { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
-export default class ShowBufferCommandOperator implements Operator {
+export class ShowBufferCommandOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,

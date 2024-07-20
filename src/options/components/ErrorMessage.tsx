@@ -13,7 +13,7 @@ interface Props {
   error?: Error;
 }
 
-const ErrorMessage: React.FC<Props> = ({ error }) => {
+export const ErrorMessage: React.FC<Props> = ({ error }) => {
   if (typeof error === "undefined") {
     return null;
   }
@@ -23,5 +23,3 @@ const ErrorMessage: React.FC<Props> = ({ error }) => {
     </p>
   );
 };
-
-export default ErrorMessage;

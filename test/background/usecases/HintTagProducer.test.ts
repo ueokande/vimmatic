@@ -1,4 +1,4 @@
-import HintTagProducer from "../../../src/background/usecases/HintTagProducer";
+import { HintTagProducer } from "../../../src/background/usecases/HintTagProducer";
 import { describe, it, expect } from "vitest";
 
 describe("HintTagProducer", () => {

@@ -4,7 +4,7 @@ import type { ModeClient } from "../clients/ModeClient";
 import type { ModeRepository } from "../repositories/ModeRepository";
 
 @injectable()
-export default class ModeUseCase {
+export class ModeUseCase {
   constructor(
     @inject("ModeRepository")
     private readonly modeRepository: ModeRepository,

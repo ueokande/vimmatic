@@ -3,7 +3,7 @@ import type { OperationClient } from "../client/OperationClient";
 import type { Operation } from "../../shared/operation";
 
 @injectable()
-export default class OperationUseCase {
+export class OperationUseCase {
   constructor(
     @inject("OperationClient")
     private readonly operationClient: OperationClient,

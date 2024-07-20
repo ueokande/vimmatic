@@ -1,10 +1,10 @@
-import KeymapUseCase from "../../../src/content/usecases/KeymapUseCase";
+import { KeymapUseCase } from "../../../src/content/usecases/KeymapUseCase";
 import { KeymapRepositoryImpl } from "../../../src/content/repositories/KeymapRepository";
 import { fromKeymap } from "../../../src/shared/key";
 import { deserialize } from "../../../src/settings";
 import type { AddressRepository } from "../../../src/content/repositories/AddressRepository";
-import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
-import MockSettingRepository from "../mock/MockSettingRepository";
+import { MockAddonEnabledRepository } from "../mock/MockAddonEnabledRepository";
+import { MockSettingRepository } from "../mock/MockSettingRepository";
 import { describe, beforeEach, it, expect } from "vitest";
 
 class MockAddressRepository implements AddressRepository {

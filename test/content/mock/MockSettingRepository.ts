@@ -7,7 +7,7 @@ import type { Properties } from "../../../src/shared/properties";
 import type { Search } from "../../../src/shared/search";
 import type { ComponentName, CSS } from "../../../src/shared/styles";
 
-export default class MockSettingRepository implements SettingRepository {
+export class MockSettingRepository implements SettingRepository {
   private value: Settings;
 
   constructor(initValue: Settings = defaultSettings) {

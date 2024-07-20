@@ -1,6 +1,6 @@
 import type { Property, PropertyType } from "./types";
 
-export default class HintcharsProperty implements Property {
+export class HintcharsProperty implements Property {
   name() {
     return "hintchars";
   }

@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import VersionUseCase from "../usecases/VersionUseCase";
+import { VersionUseCase } from "../usecases/VersionUseCase";
 
 @injectable()
-export default class VersionController {
+export class VersionController {
   constructor(
     @inject(VersionUseCase)
     private readonly versionUseCase: VersionUseCase,

@@ -5,7 +5,7 @@ import type { ContentMessageClient } from "../../clients/ContentMessageClient";
 import type { PropertySettings } from "../../settings/PropertySettings";
 
 @injectable()
-export default class PageScrollOperator implements Operator {
+export class PageScrollOperator implements Operator {
   constructor(
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,

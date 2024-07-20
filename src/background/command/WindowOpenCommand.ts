@@ -2,9 +2,9 @@ import type { Completions, Command, CommandContext } from "./types";
 import * as urls from "../../shared/urls";
 import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import type { PropertySettings } from "../settings/PropertySettings";
-import OpenCommandHelper from "./OpenCommandHelper";
+import { OpenCommandHelper } from "./OpenCommandHelper";
 
-class WindowOpenCommand implements Command {
+export class WindowOpenCommand implements Command {
   constructor(
     private readonly searchEngineSettings: SearchEngineSettings,
     propertySettings: PropertySettings,
@@ -40,5 +40,3 @@ class WindowOpenCommand implements Command {
     await chrome.windows.create({ url });
   }
 }
-
-export default WindowOpenCommand;

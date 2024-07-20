@@ -4,7 +4,7 @@ import type { Operator, OperatorContext } from "../types";
 import type { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
-export default class ShowAddBookmarkOperator implements Operator {
+export class ShowAddBookmarkOperator implements Operator {
   constructor(
     @inject("ConsoleClient")
     private readonly consoleClient: ConsoleClient,

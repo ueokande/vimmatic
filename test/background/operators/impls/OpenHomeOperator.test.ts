@@ -1,5 +1,5 @@
-import OpenHomeOperator from "../../../../src/background/operators/impls/OpenHomeOperator";
-import MockBrowserSettingRepository from "../../mock/MockBrowserSettingRepository";
+import { OpenHomeOperator } from "../../../../src/background/operators/impls/OpenHomeOperator";
+import { MockBrowserSettingRepository } from "../../mock/MockBrowserSettingRepository";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
 

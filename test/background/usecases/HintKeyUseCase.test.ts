@@ -1,7 +1,7 @@
-import HintKeyUseCaes from "../../../src/background/usecases/HintKeyUseCase";
-import MockHintClient from "../mock/MockHintClient";
-import MockHintRepository from "../mock/MockHintRepository";
-import MockHintActionFactory from "../mock/MockHintActionFactory";
+import { HintKeyUseCase } from "../../../src/background/usecases/HintKeyUseCase";
+import { MockHintClient } from "../mock/MockHintClient";
+import { MockHintRepository } from "../mock/MockHintRepository";
+import { MockHintActionFactory } from "../mock/MockHintActionFactory";
 import type { HintAction } from "../../../src/background/hint/types";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 
@@ -17,12 +17,12 @@ class MockHintAction implements HintAction {
   }
 }
 
-describe("HintKeyUseCaes", () => {
+describe("HintKeyUseCase", () => {
   const hintClient = new MockHintClient();
   const hintRepository = new MockHintRepository();
   const hintActionFactory = new MockHintActionFactory();
   const mockAction = new MockHintAction();
-  const sut = new HintKeyUseCaes(hintClient, hintRepository, hintActionFactory);
+  const sut = new HintKeyUseCase(hintClient, hintRepository, hintActionFactory);
 
   const mockPushKey = vi.spyOn(hintRepository, "pushKey").mockResolvedValue();
   const mockPopKey = vi.spyOn(hintRepository, "popKey").mockResolvedValue();

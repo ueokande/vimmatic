@@ -1,6 +1,6 @@
 import type { Property, PropertyType } from "./types";
 
-export default class IgnoreCaseProperty implements Property {
+export class IgnoreCaseProperty implements Property {
   name() {
     return "ignorecase";
   }

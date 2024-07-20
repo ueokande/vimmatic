@@ -23,7 +23,7 @@ export class SimplexRouter<
   }
 }
 
-export default class SimplexReceiver<
+export class SimplexReceiver<
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },
 > {
   private readonly routes: Map<keyof Schema, SimplexHandler<Schema>> =

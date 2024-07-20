@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
 import type { WindowRequestContext } from "./types";
-import TopFrameUseCase from "../usecases/TopFrameUseCase";
+import { TopFrameUseCase } from "../usecases/TopFrameUseCase";
 
 @injectable()
-export default class TopFrameController {
+export class TopFrameController {
   constructor(
     @inject(TopFrameUseCase)
     private readonly topFrameUseCase: TopFrameUseCase,

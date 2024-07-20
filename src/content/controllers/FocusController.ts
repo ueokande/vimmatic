@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import type { FocusPresenter } from "../presenters/FocusPresenter";
 
 @injectable()
-export default class FocusController {
+export class FocusController {
   constructor(
     @inject("FocusPresenter")
     private readonly focusPresenter: FocusPresenter,

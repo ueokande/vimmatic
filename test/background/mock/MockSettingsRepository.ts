@@ -1,7 +1,7 @@
 import type { SettingsRepository } from "../../../src/background/settings/SettingsRepository";
 import type { Settings } from "../../../src/shared/settings";
 
-class MockSettingsRepository implements SettingsRepository {
+export class MockSettingsRepository implements SettingsRepository {
   load(): Promise<Settings> {
     throw new Error("not implemented");
   }
@@ -14,5 +14,3 @@ class MockSettingsRepository implements SettingsRepository {
     throw new Error("not implemented");
   }
 }
-
-export default MockSettingsRepository;

@@ -20,7 +20,7 @@ class MockHintAction implements HintAction {
   }
 }
 
-export default class MockHintActionFactory implements HintActionFactory {
+export class MockHintActionFactory implements HintActionFactory {
   createHintAction(name: string): HintAction {
     return new MockHintAction(name);
   }

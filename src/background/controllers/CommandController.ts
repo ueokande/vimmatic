@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
 import type { Completions } from "../../shared/completions";
-import CommandUseCase from "../usecases/CommandUseCase";
+import { CommandUseCase } from "../usecases/CommandUseCase";
 import type { RequestContext } from "../messaging/types";
 
 @injectable()
-export default class CommandController {
+export class CommandController {
   constructor(
     @inject(CommandUseCase)
     private readonly commandUseCase: CommandUseCase,

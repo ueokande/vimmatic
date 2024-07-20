@@ -4,7 +4,7 @@ import type { Operator, OperatorContext } from "../types";
 import type { BrowserSettingRepository } from "../../repositories/BrowserSettingRepository";
 
 @injectable()
-export default class OpenHomeOperator implements Operator {
+export class OpenHomeOperator implements Operator {
   constructor(
     @inject("BrowserSettingRepository")
     private readonly browserSettingRepository: BrowserSettingRepository,

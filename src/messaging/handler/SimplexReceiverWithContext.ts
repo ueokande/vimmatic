@@ -29,7 +29,7 @@ export class SimplexRouterWithContext<
   }
 }
 
-export default class SimplexReceiverWithContext<
+export class SimplexReceiverWithContext<
   Schema extends { [Key in keyof Schema]: Simplex<unknown> },
   Context,
 > {

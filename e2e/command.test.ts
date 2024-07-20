@@ -1,6 +1,6 @@
 import { test, expect } from "./lib/fixture";
 import { newNopServer } from "./lib/servers";
-import SettingRepository from "./lib/SettingRepository";
+import { SettingRepository } from "./lib/SettingRepository";
 
 const server = newNopServer();
 

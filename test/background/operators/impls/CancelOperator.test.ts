@@ -1,5 +1,5 @@
-import CancelOperator from "../../../../src/background/operators/impls/CancelOperator";
-import MockConsoleClient from "../../mock/MockConsoleClient";
+import { CancelOperator } from "../../../../src/background/operators/impls/CancelOperator";
+import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, expect, it, vi } from "vitest";
 

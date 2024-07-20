@@ -3,7 +3,7 @@ import type { FindPresenter } from "../presenters/FindPresenter";
 import type { FindQuery } from "../../shared/findQuery";
 
 @injectable()
-export default class FindUseCase {
+export class FindUseCase {
   constructor(
     @inject("FindPresenter")
     private readonly findPresenter: FindPresenter,

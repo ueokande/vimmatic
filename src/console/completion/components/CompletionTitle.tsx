@@ -24,7 +24,11 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   title: string;
 }
 
-const CompletionTitle: React.FC<Props> = ({ shown, title, ...props }) => (
+export const CompletionTitle: React.FC<Props> = ({
+  shown,
+  title,
+  ...props
+}) => (
   <li
     {...stylex.props(styles.title, shown ? styles.shown : styles.hidden)}
     {...props}
@@ -32,5 +36,3 @@ const CompletionTitle: React.FC<Props> = ({ shown, title, ...props }) => (
     {title}
   </li>
 );
-
-export default CompletionTitle;

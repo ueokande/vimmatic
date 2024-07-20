@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { Operator, OperatorContext } from "../types";
 
 @injectable()
-export default class CloseTabOperator implements Operator {
+export class CloseTabOperator implements Operator {
   name() {
     return "tabs.close";
   }

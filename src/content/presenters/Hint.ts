@@ -20,7 +20,7 @@ const hintPosition = (element: Element): Point => {
   };
 };
 
-export default class Hint {
+export class Hint {
   private readonly hint: HTMLElement;
 
   private readonly id: string;

@@ -6,7 +6,7 @@ enum Complete {
   History = "h",
 }
 
-export default class CompleteProperty implements Property {
+export class CompleteProperty implements Property {
   name() {
     return "complete";
   }

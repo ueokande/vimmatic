@@ -4,7 +4,7 @@ import type { ClipboardRepository } from "../../repositories/ClipboardRepository
 import type { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
-export default class YankOperator implements Operator {
+export class YankOperator implements Operator {
   constructor(
     @inject("ClipboardRepository")
     private readonly clipboard: ClipboardRepository,

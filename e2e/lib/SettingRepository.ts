@@ -1,6 +1,6 @@
-import { SerializedSettings } from "../../src/settings/schema";
+import type { SerializedSettings } from "../../src/settings/schema";
 
-export default class SettingRepository {
+export class SettingRepository {
   constructor(private readonly api: typeof browser) {}
 
   async save(serialized: SerializedSettings): Promise<void> {

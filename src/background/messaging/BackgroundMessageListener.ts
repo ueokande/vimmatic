@@ -1,17 +1,17 @@
 import { injectable, inject } from "inversify";
-import CommandController from "../controllers/CommandController";
-import SettingsController from "../controllers/SettingsController";
-import OperationController from "../controllers/OperationController";
-import KeyController from "../controllers/KeyController";
-import ConsoleController from "../controllers/ConsoleController";
-import FindController from "../controllers/FindController";
+import { CommandController } from "../controllers/CommandController";
+import { SettingsController } from "../controllers/SettingsController";
+import { OperationController } from "../controllers/OperationController";
+import { KeyController } from "../controllers/KeyController";
+import { ConsoleController } from "../controllers/ConsoleController";
+import { FindController } from "../controllers/FindController";
 import type { ConsoleClient } from "../clients/ConsoleClient";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
 import type { RequestContext } from "./types";
 
 @injectable()
-export default class BackgroundMessageListener {
+export class BackgroundMessageListener {
   private readonly receiver: ReceiverWithContext<Schema, RequestContext> =
     new ReceiverWithContext();
 

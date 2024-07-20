@@ -1,4 +1,4 @@
-import NavigateParentOperator from "../../../../src/background/operators/impls/NavigateParentOperator";
+import { NavigateParentOperator } from "../../../../src/background/operators/impls/NavigateParentOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, beforeEach, it, expect, vi } from "vitest";
 

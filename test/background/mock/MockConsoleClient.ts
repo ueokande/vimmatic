@@ -1,6 +1,6 @@
 import type { ConsoleClient } from "../../../src/background/clients/ConsoleClient";
 
-export default class MockConsoleClient implements ConsoleClient {
+export class MockConsoleClient implements ConsoleClient {
   hide(_tabId: number): Promise<void> {
     throw new Error("not implemented");
   }

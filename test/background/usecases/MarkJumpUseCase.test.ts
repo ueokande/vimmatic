@@ -1,9 +1,9 @@
-import MarkJumpUseCase from "../../../src/background/usecases/MarkJumpUseCase";
-import MockConsoleClient from "../mock/MockConsoleClient";
-import MockContentMessageClient from "../mock/MockContentMessageClient";
-import MockPropertySettings from "../mock/MockPropertySettings";
-import MockMarkRepository from "../mock/MockMarkRepository";
-import MarkHelper from "../../../src/background/usecases/MarkHelper";
+import { MarkJumpUseCase } from "../../../src/background/usecases/MarkJumpUseCase";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { MockContentMessageClient } from "../mock/MockContentMessageClient";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
+import { MockMarkRepository } from "../mock/MockMarkRepository";
+import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
 import { describe, beforeAll, it, vi, expect } from "vitest";
 
 describe("MarkJumpUseCase", () => {

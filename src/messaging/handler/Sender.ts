@@ -7,7 +7,7 @@ export type SenderHandler<
   args: Schema[keyof Schema]["Request"],
 ) => Promise<Schema[keyof Schema]["Response"]>;
 
-export default class Sender<
+export class Sender<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > {
   private readonly sender: SenderHandler<Schema>;

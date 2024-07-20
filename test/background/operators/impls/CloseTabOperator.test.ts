@@ -1,5 +1,5 @@
-import CloseTabOperator from "../../../../src/background/operators/impls/CloseTabOperator";
-import defaultTab from "../../mock/defaultTab";
+import { CloseTabOperator } from "../../../../src/background/operators/impls/CloseTabOperator";
+import { defaultTab } from "../../mock/defaultTab";
 import { describe, expect, beforeEach, it, vi } from "vitest";
 
 describe("CloseTabOperator", () => {

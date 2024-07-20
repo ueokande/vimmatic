@@ -1,9 +1,9 @@
-import ColorSchemeProperty from "./ColorSchemeProperty";
-import CompleteProperty from "./CompleteProperty";
-import HintcharsProperty from "./HintcharsProperty";
-import SmoothScrollProperty from "./SmoothScrollProperty";
-import IgnoreCaseProperty from "./IgnoreCaseProperty";
-import FindModeProperty from "./FindModeProperty";
+import { ColorSchemeProperty } from "./ColorSchemeProperty";
+import { CompleteProperty } from "./CompleteProperty";
+import { HintcharsProperty } from "./HintcharsProperty";
+import { SmoothScrollProperty } from "./SmoothScrollProperty";
+import { IgnoreCaseProperty } from "./IgnoreCaseProperty";
+import { FindModeProperty } from "./FindModeProperty";
 import {
   type PropertyRegistry,
   PropertyRegistryImpl,

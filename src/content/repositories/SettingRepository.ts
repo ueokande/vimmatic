@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
 import { Blacklist } from "../../shared/blacklist";
-import { Keymaps } from "../../shared/keymaps";
+import type { Keymaps } from "../../shared/keymaps";
 import type { Properties } from "../../shared/properties";
-import { Search } from "../../shared/search";
+import type { Search } from "../../shared/search";
 import type { ComponentName, CSS } from "../../shared/styles";
 import type { SettingClient } from "../client/SettingClient";
 import { defaultSettings } from "../../settings";

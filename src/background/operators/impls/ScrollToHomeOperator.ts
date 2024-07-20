@@ -4,7 +4,7 @@ import type { ContentMessageClient } from "../../clients/ContentMessageClient";
 import type { PropertySettings } from "../../settings/PropertySettings";
 
 @injectable()
-export default class ScrollToHomeOperator implements Operator {
+export class ScrollToHomeOperator implements Operator {
   constructor(
     @inject("ContentMessageClient")
     private readonly contentMessageClient: ContentMessageClient,

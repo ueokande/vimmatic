@@ -3,7 +3,7 @@ import type { AddonEnabledRepository } from "../repositories/AddonEnabledReposit
 import type { ConsoleFramePresenter } from "../presenters/ConsoleFramePresenter";
 
 @injectable()
-export default class AddonEnabledUseCase {
+export class AddonEnabledUseCase {
   constructor(
     @inject("AddonEnabledRepository")
     private readonly addonEnabledRepository: AddonEnabledRepository,

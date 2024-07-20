@@ -1,7 +1,7 @@
 import type { PropertyRegistry } from "../../../src/background/property/PropertyRegistry";
 import type { Property } from "../../../src/background/property/types";
 
-class MockPropertyRegistry implements PropertyRegistry {
+export class MockPropertyRegistry implements PropertyRegistry {
   register(_prop: Property): void {
     throw new Error("not implemented");
   }
@@ -14,5 +14,3 @@ class MockPropertyRegistry implements PropertyRegistry {
     throw new Error("not implemented");
   }
 }
-
-export default MockPropertyRegistry;

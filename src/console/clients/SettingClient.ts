@@ -1,6 +1,6 @@
 import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
-export default class SettingClient {
+export class SettingClient {
   constructor(private readonly sender: BackgroundMessageSender) {}
 
   async getColorScheme(): Promise<string> {

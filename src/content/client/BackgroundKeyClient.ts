@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import { Key } from "../../shared/key";
+import type { Key } from "../../shared/key";
 import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export interface BackgroundKeyClient {

@@ -1,4 +1,4 @@
-import RepeatLastOperator from "../../../../src/background/operators/impls/RepeatLastOperator";
+import { RepeatLastOperator } from "../../../../src/background/operators/impls/RepeatLastOperator";
 import type { RepeatRepository } from "../../../../src/background/repositories/RepeatRepository";
 import type { OperatorRegistory } from "../../../../src/background/operators/OperatorRegistory";
 import type {

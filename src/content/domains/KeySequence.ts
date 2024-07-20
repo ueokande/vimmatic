@@ -1,6 +1,7 @@
-import { fromKeymap, Key } from "../../shared/key";
+import type { Key } from "../../shared/key";
+import { fromKeymap } from "../../shared/key";
 
-export default class KeySequence {
+export class KeySequence {
   constructor(public readonly keys: Key[]) {}
 
   push(key: Key): number {

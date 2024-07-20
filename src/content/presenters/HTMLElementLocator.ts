@@ -2,7 +2,7 @@
  * HTMLElementLocator is a class to locate HTMLElements by unique id.
  * The id is a stringified index of the element in the document.
  */
-class HTMLElementLocator {
+export class HTMLElementLocator {
   // assume that the element stracture does not change
   private allElements: Record<string, HTMLElement> | undefined;
 
@@ -31,5 +31,3 @@ class HTMLElementLocator {
     return this.allElements;
   }
 }
-
-export default HTMLElementLocator;

@@ -1,9 +1,9 @@
 import React, { type InputHTMLAttributes } from "react";
-import Completion from "../completion";
+import { Completion } from "../completion/components/Completion";
 import type { Completions as CompletionsType } from "../../shared/completions";
-import PromptInput from "./PromptInput";
-import useDebounce from "../hooks/useDebounce";
-import useAutoResize from "../hooks/useAutoResize";
+import { PromptInput } from "./PromptInput";
+import { useDebounce } from "../hooks/useDebounce";
+import { useAutoResize } from "../hooks/useAutoResize";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   initValue: string;
@@ -13,7 +13,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   queryCompletions?: (query: string) => Promise<CompletionsType>;
 }
 
-const Prompt: React.FC<Props> = ({
+export const Prompt: React.FC<Props> = ({
   initValue,
   prefix,
   maxLineHeight,
@@ -61,5 +61,3 @@ const Prompt: React.FC<Props> = ({
     />
   );
 };
-
-export default Prompt;

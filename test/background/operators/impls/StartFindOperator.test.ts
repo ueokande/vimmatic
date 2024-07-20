@@ -1,5 +1,5 @@
-import StartFindOperator from "../../../../src/background/operators/impls/StartFindOperator";
-import MockConsoleClient from "../../mock/MockConsoleClient";
+import { StartFindOperator } from "../../../../src/background/operators/impls/StartFindOperator";
+import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
 

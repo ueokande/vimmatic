@@ -1,7 +1,7 @@
 import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 import type { Completions } from "../../shared/completions";
 
-export default class CommandClient {
+export class CommandClient {
   constructor(private readonly sender: BackgroundMessageSender) {}
 
   async execCommand(text: string): Promise<void> {

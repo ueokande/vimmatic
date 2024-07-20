@@ -1,8 +1,8 @@
 import React from "react";
 import stylex from "@stylexjs/stylex";
 import { useLoadSettings, useSaveSettings } from "./hooks/storage";
-import TextArea from "./components/TextArea";
-import ErrorMessage from "./components/ErrorMessage";
+import { TextArea } from "./components/TextArea";
+import { ErrorMessage } from "./components/ErrorMessage";
 
 const styles = stylex.create({
   container: {
@@ -13,7 +13,7 @@ const styles = stylex.create({
   },
 });
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const { data: loadedValue, loading, error: loadError } = useLoadSettings();
   const { save, error: saveError } = useSaveSettings();
   const [jsonText, setJsonText] = React.useState("");
@@ -64,5 +64,3 @@ const App: React.FC = () => {
     </form>
   );
 };
-
-export default App;

@@ -1,6 +1,6 @@
 import { test, expect } from "./lib/fixture";
 import { newSingleContentServer } from "./lib/servers";
-import SettingRepository from "./lib/SettingRepository";
+import { SettingRepository } from "./lib/SettingRepository";
 
 const setupHintchars = async (api: typeof browser) => {
   await new SettingRepository(api).save({

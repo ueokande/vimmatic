@@ -6,7 +6,7 @@ import type { SearchEngineSettings } from "../../settings/SearchEngineSettings";
 import * as urls from "../../../shared/urls";
 
 @injectable()
-export default class PasteOperator implements Operator {
+export class PasteOperator implements Operator {
   constructor(
     @inject("ClipboardRepository")
     private readonly clipboard: ClipboardRepository,

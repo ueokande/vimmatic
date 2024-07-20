@@ -1,4 +1,4 @@
-import DuplicateTabOperator from "../../../../src/background/operators/impls/DuplicateTabOperator";
+import { DuplicateTabOperator } from "../../../../src/background/operators/impls/DuplicateTabOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, expect, it, vi } from "vitest";
 

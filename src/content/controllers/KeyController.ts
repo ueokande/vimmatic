@@ -1,13 +1,13 @@
 import { injectable, inject } from "inversify";
-import { Key } from "../../shared/key";
+import type { Key } from "../../shared/key";
 import { Mode } from "../../shared/mode";
 import type { ModeRepository } from "../repositories/ModeRepository";
 import type { BackgroundKeyClient } from "../client/BackgroundKeyClient";
-import KeymapUseCase from "../usecases/KeymapUseCase";
-import OperationUseCase from "../usecases/OperationUseCase";
+import { KeymapUseCase } from "../usecases/KeymapUseCase";
+import { OperationUseCase } from "../usecases/OperationUseCase";
 
 @injectable()
-export default class KeyController {
+export class KeyController {
   constructor(
     @inject("ModeRepository")
     private readonly modeRepository: ModeRepository,

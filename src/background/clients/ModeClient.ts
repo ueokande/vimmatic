@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { newSender } from "./ContentMessageSender";
-import { Mode } from "../../shared/mode";
+import type { Mode } from "../../shared/mode";
 
 export interface ModeClient {
   setMode(tabid: number, mode: Mode): Promise<void>;

@@ -1,5 +1,5 @@
-import SelectPreviousSelectedTabOperator from "../../../../src/background/operators/impls/SelectPreviousSelectedTabOperator";
-import MockLastSelectedTabRepository from "../../mock/MockLastSelectedTabRepository";
+import { SelectPreviousSelectedTabOperator } from "../../../../src/background/operators/impls/SelectPreviousSelectedTabOperator";
+import { MockLastSelectedTabRepository } from "../../mock/MockLastSelectedTabRepository";
 import { describe, beforeEach, it, expect, vi } from "vitest";
 
 describe("SelectPreviousSelectedTabOperator", () => {
