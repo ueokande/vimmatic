@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import { Mode } from "../../shared/mode";
+import type { Mode } from "../../shared/mode";
 import type { ModeRepository } from "../repositories/ModeRepository";
 
 @injectable()

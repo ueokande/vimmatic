@@ -5,7 +5,7 @@ import type { AddonEnabledRepository } from "../repositories/AddonEnabledReposit
 import type { Operation } from "../../shared/operation";
 import type { AddressRepository } from "../repositories/AddressRepository";
 import { Keymaps } from "../../shared/keymaps";
-import { Key } from "../../shared/key";
+import type { Key } from "../../shared/key";
 import KeySequence from "../domains/KeySequence";
 
 const reservedKeymaps = new Keymaps({

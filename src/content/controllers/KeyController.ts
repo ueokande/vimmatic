@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import { Key } from "../../shared/key";
+import type { Key } from "../../shared/key";
 import { Mode } from "../../shared/mode";
 import type { ModeRepository } from "../repositories/ModeRepository";
 import type { BackgroundKeyClient } from "../client/BackgroundKeyClient";
