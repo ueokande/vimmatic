@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
 
 @injectable()
-export default class NavigateParentOperator implements Operator {
+export class NavigateParentOperator implements Operator {
   name() {
     return "navigate.parent";
   }

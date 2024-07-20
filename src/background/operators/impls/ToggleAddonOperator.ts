@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
 import type { Operator } from "../types";
-import AddonEnabledUseCase from "../../usecases/AddonEnabledUseCase";
+import { AddonEnabledUseCase } from "../../usecases/AddonEnabledUseCase";
 
 @injectable()
-export default class ToggleAddonOperator implements Operator {
+export class ToggleAddonOperator implements Operator {
   constructor(
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,

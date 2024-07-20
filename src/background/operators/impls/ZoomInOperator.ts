@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
-import ZoomHelper from "./ZoomHelper";
+import { ZoomHelper } from "./ZoomHelper";
 
 @injectable()
-export default class ZoomInOperator implements Operator {
+export class ZoomInOperator implements Operator {
   private readonly zoomHelper = new ZoomHelper();
 
   name() {

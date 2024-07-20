@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator } from "../types";
 
 @injectable()
-export default class ReopenTabOperator implements Operator {
+export class ReopenTabOperator implements Operator {
   name() {
     return "tabs.reopen";
   }

@@ -5,7 +5,7 @@ enum FindMode {
   RegExp = "regexp",
 }
 
-export default class FindModeProperty implements Property {
+export class FindModeProperty implements Property {
   name() {
     return "findmode";
   }

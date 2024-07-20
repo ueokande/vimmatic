@@ -1,4 +1,4 @@
-import KeySequence from "../../../src/content/domains/KeySequence";
+import { KeySequence } from "../../../src/content/domains/KeySequence";
 import { fromKeymap, Key } from "../../../src/shared/key";
 import { describe, it, expect } from "vitest";
 

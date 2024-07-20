@@ -1,7 +1,7 @@
 import type { HintRepository } from "../../../src/background/repositories/HintRepository";
 import type { HintTarget } from "../../../src/background/hint/types";
 
-export default class MockHintRepository implements HintRepository {
+export class MockHintRepository implements HintRepository {
   startHintMode(
     _name: string,
     _opts: { newTab: boolean; background: boolean },

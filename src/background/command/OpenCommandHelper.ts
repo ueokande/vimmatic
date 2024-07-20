@@ -5,7 +5,7 @@ import type { PropertySettings } from "../settings/PropertySettings";
 
 const COMPLETION_ITEM_LIMIT = 10;
 
-export default class OpenCommandHelper {
+export class OpenCommandHelper {
   constructor(
     private readonly searchEngineSettings: SearchEngineSettings,
     private readonly propertySettings: PropertySettings,

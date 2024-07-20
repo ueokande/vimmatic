@@ -1,8 +1,8 @@
-import SetCommand from "../../../src/background/command/SetCommand";
+import { SetCommand } from "../../../src/background/command/SetCommand";
 import type { CommandContext } from "../../../src/background/command/types";
 import { PropertyRegistryImpl } from "../../../src/background/property/PropertyRegistry";
-import MockPropertySettings from "../mock/MockPropertySettings";
-import MockConsoleClient from "../mock/MockConsoleClient";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { describe, beforeEach, expect, it, vi } from "vitest";
 
 const strprop1 = {

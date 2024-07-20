@@ -8,7 +8,7 @@ type Props<E> = {
   onCancel: EventFn<E>;
 };
 
-const useCompletionKeyBinds = <E extends Element = Element>({
+export const useCompletionKeyBinds = <E extends Element = Element>({
   onEnter,
   onNext,
   onPrev,
@@ -59,5 +59,3 @@ const useCompletionKeyBinds = <E extends Element = Element>({
 
   return onKeyDown;
 };
-
-export default useCompletionKeyBinds;

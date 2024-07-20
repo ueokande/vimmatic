@@ -1,6 +1,6 @@
 import "@abraham/reflection";
-import Application from "./Application";
-import Bootstrap from "./Bootstrap";
+import { Application } from "./Application";
+import { Bootstrap } from "./Bootstrap";
 import { container } from "./di";
 
 const initDom = () => {

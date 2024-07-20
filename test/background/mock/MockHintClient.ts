@@ -2,7 +2,7 @@ import type { HintClient } from "../../../src/background/clients/HintClient";
 import type { Point, Size } from "../../../src/background/clients/HintClient";
 import type { HTMLElementType } from "../../../src/shared/HTMLElementType";
 
-export default class MockHintClient implements HintClient {
+export class MockHintClient implements HintClient {
   lookupTargets(
     _tabId: number,
     _frameId: number,

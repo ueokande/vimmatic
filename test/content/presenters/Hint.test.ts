@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 
-import Hint from "../../../src/content/presenters/Hint";
+import { Hint } from "../../../src/content/presenters/Hint";
 import { describe, beforeEach, it, expect } from "vitest";
 
 describe("Hint", () => {

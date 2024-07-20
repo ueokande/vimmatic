@@ -1,7 +1,7 @@
 import type { Command, CommandContext, Completions } from "./types";
 import type { ConsoleClient } from "../clients/ConsoleClient";
 
-class AddBookmarkCommand implements Command {
+export class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}
 
   names(): string[] {
@@ -49,5 +49,3 @@ class AddBookmarkCommand implements Command {
     return this.consoleClient.showInfo(sender.tabId, message);
   }
 }
-
-export default AddBookmarkCommand;

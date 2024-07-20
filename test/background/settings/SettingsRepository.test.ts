@@ -3,7 +3,7 @@ import {
   TransientSettingsRepository,
 } from "../../../src/background/settings/SettingsRepository";
 import type { Settings } from "../../../src/shared/settings";
-import MockLocalStorage from "../mock/MockLocalStorage";
+import { MockLocalStorage } from "../mock/MockLocalStorage";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("PermanentSettingsRepository", () => {

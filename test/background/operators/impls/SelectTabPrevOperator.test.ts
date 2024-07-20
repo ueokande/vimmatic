@@ -1,5 +1,5 @@
-import SelectTabPrevOperator from "../../../../src/background/operators/impls/SelectTabPrevOperator";
-import defaultTab from "../../mock/defaultTab";
+import { SelectTabPrevOperator } from "../../../../src/background/operators/impls/SelectTabPrevOperator";
+import { defaultTab } from "../../mock/defaultTab";
 import { describe, beforeEach, it, expect, vi } from "vitest";
 
 describe("SelectTabPrevOperator", () => {

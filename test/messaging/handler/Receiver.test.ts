@@ -1,4 +1,4 @@
-import Receiver from "../../../src/messaging/handler/Receiver";
+import { Receiver } from "../../../src/messaging/handler/Receiver";
 import { describe, vi, test, expect } from "vitest";
 
 type Schema = {

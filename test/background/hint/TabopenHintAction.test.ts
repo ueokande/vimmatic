@@ -1,10 +1,10 @@
-import TabopenHintAction from "../../../src/background/hint/TabopenHintAction";
-import MokcHintClient from "../mock/MockHintClient";
-import MockTabPresenter from "../mock/MockTabPresenter";
+import { TabopenHintAction } from "../../../src/background/hint/TabopenHintAction";
+import { MockHintClient } from "../mock/MockHintClient";
+import { MockTabPresenter } from "../mock/MockTabPresenter";
 import { describe, test, expect, vi } from "vitest";
 
 describe("TabopenHintAction", () => {
-  const hintClient = new MokcHintClient();
+  const hintClient = new MockHintClient();
   const tabPresenter = new MockTabPresenter();
   const sut = new TabopenHintAction(hintClient, tabPresenter);
 

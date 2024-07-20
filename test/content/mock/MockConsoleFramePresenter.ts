@@ -1,8 +1,6 @@
 import type { ConsoleFramePresenter } from "../../../src/content/presenters/ConsoleFramePresenter";
 
-export default class MockConsoleFramePresenter
-  implements ConsoleFramePresenter
-{
+export class MockConsoleFramePresenter implements ConsoleFramePresenter {
   constructor(public attached: boolean) {}
 
   attach(): void {

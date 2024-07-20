@@ -1,20 +1,20 @@
 import { injectable, inject } from "inversify";
 import { Receiver } from "../../messaging";
 import type { Schema } from "../../messaging/schema/content";
-import AddonEnabledController from "../controllers/AddonEnabledController";
-import SettingsController from "../controllers/SettingsController";
-import ConsoleFrameController from "../controllers/ConsoleFrameController";
-import NavigateController from "../controllers/NavigateController";
-import FindController from "../controllers/FindController";
-import ScrollController from "../controllers/ScrollController";
-import FocusController from "../controllers/FocusController";
-import ModeController from "../controllers/ModeController";
-import FrameController from "../controllers/FrameController";
-import TopFrameController from "../controllers/TopFrameController";
-import HintController from "../controllers/HintController";
+import { AddonEnabledController } from "../controllers/AddonEnabledController";
+import { SettingsController } from "../controllers/SettingsController";
+import { ConsoleFrameController } from "../controllers/ConsoleFrameController";
+import { NavigateController } from "../controllers/NavigateController";
+import { FindController } from "../controllers/FindController";
+import { ScrollController } from "../controllers/ScrollController";
+import { FocusController } from "../controllers/FocusController";
+import { ModeController } from "../controllers/ModeController";
+import { FrameController } from "../controllers/FrameController";
+import { TopFrameController } from "../controllers/TopFrameController";
+import { HintController } from "../controllers/HintController";
 
 @injectable()
-export default class ContentMessageListener {
+export class ContentMessageListener {
   private readonly receiver: Receiver<Schema> = new Receiver();
 
   constructor(

@@ -1,6 +1,6 @@
 type Callback = () => void;
 
-export default class Bootstrap {
+export class Bootstrap {
   constructor() {}
 
   isReady(): boolean {

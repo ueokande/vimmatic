@@ -1,5 +1,5 @@
-import NavigateLinkNextOperator from "../../../../src/background/operators/impls/NavigateLinkNextOperator";
-import MockNavigateClient from "../../mock/MockNavigateClient";
+import { NavigateLinkNextOperator } from "../../../../src/background/operators/impls/NavigateLinkNextOperator";
+import { MockNavigateClient } from "../../mock/MockNavigateClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
 

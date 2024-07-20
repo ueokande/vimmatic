@@ -1,7 +1,7 @@
-import OpenCommandHelper from "../../../src/background/command/OpenCommandHelper";
+import { OpenCommandHelper } from "../../../src/background/command/OpenCommandHelper";
 import type { SearchEngineSettings } from "../../../src/background/settings/SearchEngineSettings";
 import type { Search } from "../../../src/shared/search";
-import MockPropertySettings from "../mock/MockPropertySettings";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { describe, expect, beforeEach, it, vi } from "vitest";
 
 class MockSearchEngineSettings implements SearchEngineSettings {

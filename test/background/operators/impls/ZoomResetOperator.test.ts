@@ -1,4 +1,4 @@
-import ZoomResetOperator from "../../../../src/background/operators/impls/ZoomResetOperator";
+import { ZoomResetOperator } from "../../../../src/background/operators/impls/ZoomResetOperator";
 import { describe, it, expect, vi } from "vitest";
 
 describe("ResetZoomOperator", () => {

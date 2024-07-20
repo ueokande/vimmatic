@@ -43,7 +43,7 @@ export const keyFromKeyboardEvent = (e: KeyboardEvent): Key => {
   });
 };
 
-export default class InputDriver {
+export class InputDriver {
   private pressed: { [key: string]: string } = {};
 
   private onKeyListeners: ((key: Key) => boolean)[] = [];

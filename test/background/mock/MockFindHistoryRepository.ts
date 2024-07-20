@@ -1,8 +1,6 @@
 import type { FindHistoryRepository } from "../../../src/background/repositories/FindHistoryRepository";
 
-export default class MockFindHistoryRepository
-  implements FindHistoryRepository
-{
+export class MockFindHistoryRepository implements FindHistoryRepository {
   append(_keyword: string): Promise<void> {
     throw new Error("not implemented");
   }

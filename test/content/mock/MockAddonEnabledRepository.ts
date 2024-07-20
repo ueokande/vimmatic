@@ -1,8 +1,6 @@
 import type { AddonEnabledRepository } from "../../../src/content/repositories/AddonEnabledRepository";
 
-export default class MockAddonEnabledRepository
-  implements AddonEnabledRepository
-{
+export class MockAddonEnabledRepository implements AddonEnabledRepository {
   constructor(public enabled: boolean) {}
 
   enable(): void {

@@ -49,7 +49,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   icon?: string;
 }
 
-const CompletionItem: React.FC<Props> = ({
+export const CompletionItem: React.FC<Props> = ({
   shown,
   highlight,
   primary,
@@ -76,5 +76,3 @@ const CompletionItem: React.FC<Props> = ({
     <span {...stylex.props(styles.secondaryText)}>{secondary}</span>
   </div>
 );
-
-export default CompletionItem;

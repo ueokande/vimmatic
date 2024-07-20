@@ -1,6 +1,6 @@
 import React from "react";
 import stylex from "@stylexjs/stylex";
-import SettingClient from "../clients/SettingClient";
+import { SettingClient } from "../clients/SettingClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 
 const settingClient = new SettingClient(newSender());

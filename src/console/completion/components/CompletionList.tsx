@@ -1,6 +1,6 @@
 import React from "react";
-import CompletionItem from "./CompletionItem";
-import CompletionTitle from "./CompletionTitle";
+import { CompletionItem } from "./CompletionItem";
+import { CompletionTitle } from "./CompletionTitle";
 
 interface Item {
   icon?: string;
@@ -19,7 +19,11 @@ interface Props {
   completions: Group[];
 }
 
-const Completion: React.FC<Props> = ({ select, size, completions }) => {
+export const CompletionList: React.FC<Props> = ({
+  select,
+  size,
+  completions,
+}) => {
   const [viewOffset, setViewOffset] = React.useState(0);
   const [prevSelect, setPrevSelect] = React.useState(-1);
 
@@ -103,5 +107,3 @@ const Completion: React.FC<Props> = ({ select, size, completions }) => {
 
   return <div role="menu">{groups}</div>;
 };
-
-export default Completion;

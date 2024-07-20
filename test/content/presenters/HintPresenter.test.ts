@@ -3,7 +3,7 @@
  */
 
 import { HintPresenterImpl } from "../../../src/content/presenters/HintPresenter";
-import MockSettingsRepository from "../mock/MockSettingRepository";
+import { MockSettingRepository } from "../mock/MockSettingRepository";
 import { describe, beforeEach, test, expect } from "vitest";
 
 describe("HintPresenterImpl", () => {
@@ -30,7 +30,7 @@ describe("HintPresenterImpl", () => {
   });
 
   test("should assign tags to hints and clear them", () => {
-    const settingsRepository = new MockSettingsRepository();
+    const settingsRepository = new MockSettingRepository();
     const sut = new HintPresenterImpl(settingsRepository);
     const viewSize = { width: 100, height: 100 };
     const framePosition = { x: 0, y: 0 };

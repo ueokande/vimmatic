@@ -1,7 +1,7 @@
 import type { Completions } from "../../shared/completions";
 import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
 
-export default class BufferCommandHelper {
+export class BufferCommandHelper {
   constructor(
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {}

@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import ConsoleFrameUseCase from "../usecases/ConsoleFrameUseCase";
+import { ConsoleFrameUseCase } from "../usecases/ConsoleFrameUseCase";
 
 @injectable()
-export default class ConsoleFrameController {
+export class ConsoleFrameController {
   constructor(
     @inject(ConsoleFrameUseCase)
     private readonly consoleFrameUseCase: ConsoleFrameUseCase,

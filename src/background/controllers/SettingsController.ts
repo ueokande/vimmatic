@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
-import SettingsUseCase from "../usecases/SettingsUseCase";
+import { SettingsUseCase } from "../usecases/SettingsUseCase";
 import type { RequestContext } from "../messaging/types";
 
 @injectable()
-export default class SettingsController {
+export class SettingsController {
   constructor(
     @inject(SettingsUseCase)
     private readonly settingsUseCase: SettingsUseCase,

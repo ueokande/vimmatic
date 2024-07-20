@@ -29,21 +29,18 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   prefix: string;
 }
 
-const PromptInput: React.FC<Props> = React.forwardRef(function PromptInput(
-  props,
-  ref: React.Ref<HTMLInputElement>,
-) {
-  const { css } = useUserPreferenceCSS();
-  return (
-    <div {...stylex.props(styles.container)}>
-      <i {...stylex.props(styles.prompt)}>{props.prefix}</i>
-      <input
-        {...stylex.props(styles.input, styles.userPreference(css))}
-        {...props}
-        ref={ref}
-      />
-    </div>
-  );
-});
-
-export default PromptInput;
+export const PromptInput: React.FC<Props> = React.forwardRef(
+  function PromptInput(props, ref: React.Ref<HTMLInputElement>) {
+    const { css } = useUserPreferenceCSS();
+    return (
+      <div {...stylex.props(styles.container)}>
+        <i {...stylex.props(styles.prompt)}>{props.prefix}</i>
+        <input
+          {...stylex.props(styles.input, styles.userPreference(css))}
+          {...props}
+          ref={ref}
+        />
+      </div>
+    );
+  },
+);

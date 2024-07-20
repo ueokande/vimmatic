@@ -5,7 +5,7 @@ import type { ClipboardRepository } from "../repositories/ClipboardRepository";
 import type { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
-export default class YankUrlHintAction implements HintAction {
+export class YankURLHintAction implements HintAction {
   constructor(
     @inject("HintClient")
     private readonly hintClient: HintClient,

@@ -1,4 +1,4 @@
-const tab: chrome.tabs.Tab = {
+export const defaultTab: chrome.tabs.Tab = {
   index: 0,
   title: "Example",
   url: "https://examle.com/",
@@ -11,6 +11,4 @@ const tab: chrome.tabs.Tab = {
   discarded: false,
   autoDiscardable: false,
   groupId: 0,
-};
-
-export default tab;
+} as const;

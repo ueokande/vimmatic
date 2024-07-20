@@ -7,7 +7,7 @@ import type { FindClient } from "../clients/FindClient";
 import type { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
 
 @injectable()
-export default class FindUseCase {
+export class FindUseCase {
   constructor(
     @inject("FindClient")
     private readonly findClient: FindClient,

@@ -1,8 +1,8 @@
-import Validator from "../../../src/background/settings/Validator";
+import { Validator } from "../../../src/background/settings/Validator";
 import { createPropertyRegistry } from "../../../src/background/property";
 import { OperatorRegistryImpl } from "../../../src/background/operators/OperatorRegistory";
-import CloseTabOperator from "../../../src/background/operators/impls/CloseTabOperator";
-import DuplicateTabOperator from "../../../src/background/operators/impls/DuplicateTabOperator";
+import { CloseTabOperator } from "../../../src/background/operators/impls/CloseTabOperator";
+import { DuplicateTabOperator } from "../../../src/background/operators/impls/DuplicateTabOperator";
 import { Keymaps } from "../../../src/shared/keymaps";
 import { Search } from "../../../src/shared/search";
 import { describe, test, expect } from "vitest";

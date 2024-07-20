@@ -4,8 +4,8 @@ import type {
   PropertyType,
   PropertyTypeName,
 } from "../../../src/background/property/types";
-import MockSettingsRepository from "../mock/MockSettingsRepository";
-import MockPropertyRegistry from "../mock/MockPropertyRegistry";
+import { MockSettingsRepository } from "../mock/MockSettingsRepository";
+import { MockPropertyRegistry } from "../mock/MockPropertyRegistry";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 
 class MyProp implements Property {

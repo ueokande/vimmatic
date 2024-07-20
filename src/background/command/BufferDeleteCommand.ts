@@ -1,7 +1,7 @@
 import type { Command, CommandContext, Completions } from "./types";
-import type BufferCommandHelper from "./BufferCommandHelper";
+import type { BufferCommandHelper } from "./BufferCommandHelper";
 
-class BufferDeleteCommand implements Command {
+export class BufferDeleteCommand implements Command {
   constructor(private readonly bufferCommandHelper: BufferCommandHelper) {}
 
   names(): string[] {
@@ -35,5 +35,3 @@ class BufferDeleteCommand implements Command {
     return chrome.tabs.remove(tabs[0].id!);
   }
 }
-
-export default BufferDeleteCommand;

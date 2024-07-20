@@ -1,13 +1,13 @@
 import { injectable, inject } from "inversify";
-import WindowMessageListener from "./messaging/WindowMessageListener";
-import ContentMessageListener from "./messaging/ContentMessageListener";
-import KeyController from "./controllers/KeyController";
-import SettingsController from "./controllers/SettingsController";
-import InputDriver from "./InputDriver";
+import { WindowMessageListener } from "./messaging/WindowMessageListener";
+import { ContentMessageListener } from "./messaging/ContentMessageListener";
+import { KeyController } from "./controllers/KeyController";
+import { SettingsController } from "./controllers/SettingsController";
+import { InputDriver } from "./InputDriver";
 import type { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
 
 @injectable()
-export default class Application {
+export class Application {
   // eslint-disable-next-line max-params
   constructor(
     @inject(WindowMessageListener)

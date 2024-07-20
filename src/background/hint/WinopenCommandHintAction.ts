@@ -4,7 +4,7 @@ import type { HintTarget, HintAction } from "./types";
 import type { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
-export default class WinopenCommandHintAction implements HintAction {
+export class WinopenCommandHintAction implements HintAction {
   constructor(
     @inject("HintClient")
     private readonly hintClient: HintClient,

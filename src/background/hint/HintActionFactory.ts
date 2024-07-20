@@ -1,15 +1,15 @@
 import { injectable, inject } from "inversify";
-import QuickHintAction from "./QuickHintAction";
-import OpenImageHintAction from "./OpenImageHintAction";
-import YankURLHintAction from "./YankURLHintAction";
-import YankLinkTextHintAction from "./YankLinkTextHintAction";
-import OpenHintAction from "./OpenHintAction";
-import TabopenHintAction from "./TabopenHintAction";
-import WinopenHintAction from "./WinopenHintAction";
-import OpenCommandHintAction from "./OpenCommandHintAction";
-import TabopenCommandHintAction from "./TabopenCommandHintAction";
-import WinopenCommandHintAction from "./WinopenCommandHintAction";
-import OpenSourceHintAction from "./OpenSourceHintAction";
+import { QuickHintAction } from "./QuickHintAction";
+import { OpenImageHintAction } from "./OpenImageHintAction";
+import { YankURLHintAction } from "./YankURLHintAction";
+import { YankLinkTextHintAction } from "./YankLinkTextHintAction";
+import { OpenHintAction } from "./OpenHintAction";
+import { TabopenHintAction } from "./TabopenHintAction";
+import { WinopenHintAction } from "./WinopenHintAction";
+import { OpenCommandHintAction } from "./OpenCommandHintAction";
+import { TabopenCommandHintAction } from "./TabopenCommandHintAction";
+import { WinopenCommandHintAction } from "./WinopenCommandHintAction";
+import { OpenSourceHintAction } from "./OpenSourceHintAction";
 import type { HintAction } from "./types";
 
 export interface HintActionFactory {

@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
 
 @injectable()
-export default class OpenSourceOperator implements Operator {
+export class OpenSourceOperator implements Operator {
   name() {
     return "navigate.source";
   }

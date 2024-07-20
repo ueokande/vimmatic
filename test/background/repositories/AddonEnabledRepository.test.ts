@@ -1,5 +1,5 @@
 import { AddonEnabledRepositoryImpl } from "../../../src/background/repositories/AddonEnabledRepository";
-import MockLocalStorage from "../mock/MockLocalStorage";
+import { MockLocalStorage } from "../mock/MockLocalStorage";
 import { describe, it, vi, expect } from "vitest";
 
 describe("AddonEnabledRepositoryImpl", () => {

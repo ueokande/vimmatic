@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
 import type { ContentMessageClient } from "../clients/ContentMessageClient";
 import type { SettingsRepository } from "../settings/SettingsRepository";
-import EventUseCaseHelper from "./EventUseCaseHelper";
+import { EventUseCaseHelper } from "./EventUseCaseHelper";
 
 @injectable()
-export default class SettingsUseCase {
+export class SettingsEventUseCase {
   constructor(
     @inject("PermanentSettingsRepository")
     private readonly settingsRepository: SettingsRepository,

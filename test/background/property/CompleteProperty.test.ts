@@ -1,4 +1,4 @@
-import CompleteProperty from "../../../src/background/property/CompleteProperty";
+import { CompleteProperty } from "../../../src/background/property/CompleteProperty";
 import { describe, test, expect } from "vitest";
 
 describe("CompleteProperty", () => {

@@ -6,7 +6,7 @@ import type { RepeatRepository } from "../repositories/RepeatRepository";
 import type { RequestContext } from "../messaging/types";
 
 @injectable()
-export default class OperationUseCase {
+export class OperationUseCase {
   constructor(
     @inject("OperatorRegistory")
     private readonly operatorRegistory: OperatorRegistory,

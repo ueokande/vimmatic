@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import type { TopFrameClient } from "../client/TopFrameClient";
 
 @injectable()
-export default class FrameUseCase {
+export class FrameUseCase {
   constructor(
     @inject("TopFrameClient")
     private readonly topFrameClient: TopFrameClient,

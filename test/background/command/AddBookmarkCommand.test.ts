@@ -1,6 +1,6 @@
-import AddBookmarkCommand from "../../../src/background/command/AddBookmarkCommand";
-import MockConsoleClient from "../mock/MockConsoleClient";
-import defaultTab from "../mock/defaultTab";
+import { AddBookmarkCommand } from "../../../src/background/command/AddBookmarkCommand";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { defaultTab } from "../mock/defaultTab";
 import { describe, expect, vi, it, beforeEach } from "vitest";
 
 describe("AddBookmarkCommand", () => {

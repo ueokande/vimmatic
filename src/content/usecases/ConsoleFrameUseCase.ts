@@ -3,7 +3,7 @@ import type { ConsoleFramePresenter } from "../presenters/ConsoleFramePresenter"
 import type { ReadyStatusPresenter } from "../presenters/ReadyStatusPresenter";
 
 @injectable()
-export default class ConsoleFrameUseCase {
+export class ConsoleFrameUseCase {
   constructor(
     @inject("ConsoleFramePresenter")
     private readonly consoleFramePresenter: ConsoleFramePresenter,

@@ -1,18 +1,18 @@
 import { injectable, inject } from "inversify";
-import BackgroundMessageListener from "./messaging/BackgroundMessageListener";
-import FindPortListener from "./messaging/FindPortListener";
-import VersionUseCase from "./usecases/VersionUseCase";
+import { BackgroundMessageListener } from "./messaging/BackgroundMessageListener";
+import { FindPortListener } from "./messaging/FindPortListener";
+import { VersionUseCase } from "./usecases/VersionUseCase";
 import type { FindRepository } from "./repositories/FindRepository";
 import type { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
-import SettingsEventUseCase from "./usecases/SettingsEventUseCase";
+import { SettingsEventUseCase } from "./usecases/SettingsEventUseCase";
 import type { FrameClient } from "./clients/FrameClient";
-import AddonEnabledEventUseCase from "./usecases/AddonEnabledEventUseCase";
+import { AddonEnabledEventUseCase } from "./usecases/AddonEnabledEventUseCase";
 import type { LastSelectedTabRepository } from "./repositories/LastSelectedTabRepository";
-import ModeUseCase from "./usecases/ModeUseCase";
-import HintModeUseCase from "./usecases/HintModeUseCase";
+import { ModeUseCase } from "./usecases/ModeUseCase";
+import { HintModeUseCase } from "./usecases/HintModeUseCase";
 
 @injectable()
-export default class Application {
+export class Application {
   constructor(
     @inject(BackgroundMessageListener)
     private readonly backgroundMessageListener: BackgroundMessageListener,

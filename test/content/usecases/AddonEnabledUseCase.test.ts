@@ -1,6 +1,6 @@
-import AddonEnabledUseCase from "../../../src/content/usecases/AddonEnabledUseCase";
-import MockAddonEnabledRepository from "../mock/MockAddonEnabledRepository";
-import MockConsoleFramePresenter from "../mock/MockConsoleFramePresenter";
+import { AddonEnabledUseCase } from "../../../src/content/usecases/AddonEnabledUseCase";
+import { MockAddonEnabledRepository } from "../mock/MockAddonEnabledRepository";
+import { MockConsoleFramePresenter } from "../mock/MockConsoleFramePresenter";
 import { describe, it, expect } from "vitest";
 
 describe("AddonEnabledUseCase", () => {

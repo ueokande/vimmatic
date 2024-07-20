@@ -6,10 +6,10 @@ import type { HintTarget } from "../hint/types";
 import type { HintClient } from "../clients/HintClient";
 import type { HintRepository } from "../repositories/HintRepository";
 import type { HintActionFactory } from "../hint/HintActionFactory";
-import HintTagProducer from "./HintTagProducer";
+import { HintTagProducer } from "./HintTagProducer";
 
 @injectable()
-export default class HintModeUseCaes {
+export class HintModeUseCase {
   constructor(
     @inject("TopFrameClient")
     private readonly topFrameClient: TopFrameClient,

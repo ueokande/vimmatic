@@ -1,5 +1,5 @@
 import { StyleSettingsImpl } from "../../../src/background/settings/StyleSettings";
-import MockSettingsRepository from "../mock/MockSettingsRepository";
+import { MockSettingsRepository } from "../mock/MockSettingsRepository";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 
 describe("StyleSettingsImpl", () => {

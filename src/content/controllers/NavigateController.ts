@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import NavigateUseCase from "../usecases/NavigateUseCase";
+import { NavigateUseCase } from "../usecases/NavigateUseCase";
 
 @injectable()
-export default class NavigateController {
+export class NavigateController {
   constructor(
     @inject(NavigateUseCase)
     private readonly navigateUseCase: NavigateUseCase,

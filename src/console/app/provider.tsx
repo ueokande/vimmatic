@@ -1,5 +1,5 @@
 import React from "react";
-import reducer, { defaultState } from "./recuer";
+import { reducer, defaultState } from "./recuer";
 import { AppDispatchContext, AppStateContext } from "./contexts";
 
 type Props = {

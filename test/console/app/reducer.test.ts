@@ -1,4 +1,5 @@
-import reducer, {
+import {
+  reducer,
   defaultState,
   type State,
 } from "../../../src/console/app/recuer";

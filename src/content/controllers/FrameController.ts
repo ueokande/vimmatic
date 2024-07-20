@@ -1,8 +1,8 @@
 import { injectable, inject } from "inversify";
-import FrameUseCase from "../usecases/FrameUseCase";
+import { FrameUseCase } from "../usecases/FrameUseCase";
 
 @injectable()
-export default class FrameController {
+export class FrameController {
   constructor(
     @inject(FrameUseCase)
     private readonly frameUseCase: FrameUseCase,

@@ -1,20 +1,20 @@
-import HintModeUseCaes from "../../../src/background/usecases/HintModeUseCase";
-import MockHintClient from "../mock/MockHintClient";
-import MockTopFrameClient from "../mock/MockTopFrameClient";
-import MockReadyFrameRepository from "../mock/MockReadyFrameRepository";
-import MockPropertySettings from "../mock/MockPropertySettings";
-import MockHintRepository from "../mock/MockHintRepository";
-import MockHintActionFactory from "../mock/MockHintActionFactory";
+import { HintModeUseCase } from "../../../src/background/usecases/HintModeUseCase";
+import { MockHintClient } from "../mock/MockHintClient";
+import { MockTopFrameClient } from "../mock/MockTopFrameClient";
+import { MockReadyFrameRepository } from "../mock/MockReadyFrameRepository";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
+import { MockHintRepository } from "../mock/MockHintRepository";
+import { MockHintActionFactory } from "../mock/MockHintActionFactory";
 import { describe, it, vi, expect } from "vitest";
 
-describe("HintModeUseCaes", () => {
+describe("HintModeUseCase", () => {
   const topFrameClient = new MockTopFrameClient();
   const hintClient = new MockHintClient();
   const frameRepository = new MockReadyFrameRepository();
   const propertySettings = new MockPropertySettings();
   const hintRepository = new MockHintRepository();
   const hintActionFactory = new MockHintActionFactory();
-  const sut = new HintModeUseCaes(
+  const sut = new HintModeUseCase(
     topFrameClient,
     hintClient,
     frameRepository,

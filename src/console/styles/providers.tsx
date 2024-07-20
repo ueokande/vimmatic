@@ -13,4 +13,3 @@ export const StyleProvider: React.FC<Props> = ({ children }) => {
     </UserPreferenceCSSProvider>
   );
 };
-export default StyleProvider;

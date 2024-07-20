@@ -3,7 +3,7 @@ import type { ToolbarPresenter } from "../presenters/ToolbarPresenter";
 import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
 
 @injectable()
-export default class AddonEnabledUseCase {
+export class AddonEnabledUseCase {
   constructor(
     @inject("ToolbarPresenter")
     private readonly toolbarPresenter: ToolbarPresenter,

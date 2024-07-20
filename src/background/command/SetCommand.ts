@@ -11,7 +11,7 @@ const mustNumber = (v: any): number => {
   return num;
 };
 
-class SetCommand implements Command {
+export class SetCommand implements Command {
   constructor(
     private readonly propretySettings: PropertySettings,
     private readonly propertyRegsitry: PropertyRegistry,
@@ -160,5 +160,3 @@ class SetCommand implements Command {
     }
   }
 }
-
-export default SetCommand;

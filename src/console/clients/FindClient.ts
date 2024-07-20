@@ -1,7 +1,7 @@
 import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 import type { Completions } from "../../shared/completions";
 
-export default class FindClient {
+export class FindClient {
   constructor(private readonly sender: BackgroundMessageSender) {}
 
   async execFind(text?: string): Promise<void> {

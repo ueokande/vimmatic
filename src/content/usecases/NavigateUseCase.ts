@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import type { NavigationPresenter } from "../presenters/NavigationPresenter";
 
 @injectable()
-export default class NavigateUseCase {
+export class NavigateUseCase {
   constructor(
     @inject("NavigationPresenter")
     private readonly navigationPresenter: NavigationPresenter,

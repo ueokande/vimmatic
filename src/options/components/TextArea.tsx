@@ -55,7 +55,7 @@ const styles = stylex.create({
 
 type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const TextArea: React.FC<Props> = (props) => {
+export const TextArea: React.FC<Props> = (props) => {
   const highlightContainer = React.useRef<HTMLDivElement>(null);
   const container = React.useRef<HTMLDivElement>(null);
   const content = React.useRef<HTMLDivElement>(null);
@@ -154,5 +154,3 @@ const TextArea: React.FC<Props> = (props) => {
     </div>
   );
 };
-
-export default TextArea;

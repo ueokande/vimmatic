@@ -1,6 +1,6 @@
-import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
-import MockLastSelectedTabRepository from "../mock/MockLastSelectedTabRepository";
-import defaultTab from "../mock/defaultTab";
+import { BufferCommandHelper } from "../../../src/background/command/BufferCommandHelper";
+import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
+import { defaultTab } from "../mock/defaultTab";
 import { describe, test, expect, beforeEach, vi } from "vitest";
 
 describe("BufferCommandHelper", () => {

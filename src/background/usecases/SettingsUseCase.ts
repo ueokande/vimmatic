@@ -3,10 +3,10 @@ import { serialize, deserialize } from "../../settings";
 import type { SettingsRepository } from "../settings/SettingsRepository";
 import type { PropertySettings } from "../settings/PropertySettings";
 import type { StyleSettings } from "../settings/StyleSettings";
-import Validator from "../settings/Validator";
+import { Validator } from "../settings/Validator";
 
 @injectable()
-export default class SettingsUseCase {
+export class SettingsUseCase {
   constructor(
     @inject("SettingsRepository")
     private readonly settingsRepository: SettingsRepository,

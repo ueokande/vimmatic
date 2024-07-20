@@ -1,8 +1,8 @@
 import type { Command, CommandContext, Completions } from "./types";
 import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
-import BufferCommandHelper from "./BufferCommandHelper";
+import { BufferCommandHelper } from "./BufferCommandHelper";
 
-class BufferCommand implements Command {
+export class BufferCommand implements Command {
   constructor(
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
     private readonly bufferCommandHelper = new BufferCommandHelper(
@@ -87,5 +87,3 @@ class BufferCommand implements Command {
     await chrome.tabs.update(tabId, { active: true });
   }
 }
-
-export default BufferCommand;

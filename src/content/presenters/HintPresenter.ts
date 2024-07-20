@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 import type { SettingRepository } from "../repositories/SettingRepository";
-import Hint from "./Hint";
+import { Hint } from "./Hint";
 import * as doms from "../../shared/utils/dom";
-import HTMLElementLocator from "./HTMLElementLocator";
+import { HTMLElementLocator } from "./HTMLElementLocator";
 import type { HTMLElementType } from "../../shared/HTMLElementType";
 
 interface Size {

@@ -4,7 +4,7 @@ import type { HintTarget, HintAction } from "./types";
 import type { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
-export default class TabopenCommandHintAction implements HintAction {
+export class TabopenCommandHintAction implements HintAction {
   constructor(
     @inject("HintClient")
     private readonly hintClient: HintClient,

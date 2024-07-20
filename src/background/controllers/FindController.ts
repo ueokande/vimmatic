@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
 import type { Completions } from "../../shared/completions";
-import FindUseCase from "../usecases/FindUseCase";
+import { FindUseCase } from "../usecases/FindUseCase";
 import type { RequestContext } from "../messaging/types";
 
 @injectable()
-export default class FindController {
+export class FindController {
   constructor(
     @inject(FindUseCase)
     private findUseCase: FindUseCase,

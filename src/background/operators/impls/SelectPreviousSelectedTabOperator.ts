@@ -3,7 +3,7 @@ import type { Operator } from "../types";
 import type { LastSelectedTabRepository } from "../../repositories/LastSelectedTabRepository";
 
 @injectable()
-export default class SelectPreviousSelectedTabOperator implements Operator {
+export class SelectPreviousSelectedTabOperator implements Operator {
   constructor(
     @inject("LastSelectedTabRepository")
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,

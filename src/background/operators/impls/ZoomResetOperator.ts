@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import type { Operator } from "../types";
 
 @injectable()
-export default class ResetZoomOperator implements Operator {
+export class ZoomResetOperator implements Operator {
   name() {
     return "zoom.neutral";
   }

@@ -3,7 +3,7 @@ import type {
   FindState,
 } from "../../../src/background/repositories/FindRepository";
 
-export default class MockFindRepository implements FindRepository {
+export class MockFindRepository implements FindRepository {
   private globalKeyword: string | undefined;
   private localStates: { [tabId: number]: FindState } = {};
 

@@ -25,7 +25,7 @@ export class Router<
   }
 }
 
-export default class Receiver<
+export class Receiver<
   Schema extends { [Key in keyof Schema]: Duplex<unknown, unknown> },
 > {
   private readonly routes: Map<keyof Schema, Handler<Schema>> = new Map();

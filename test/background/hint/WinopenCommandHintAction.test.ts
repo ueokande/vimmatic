@@ -1,10 +1,10 @@
-import WinopenCommandHintAction from "../../../src/background/hint/WinopenCommandHintAction";
-import MokcHintClient from "../mock/MockHintClient";
-import MockConsoleClient from "../mock/MockConsoleClient";
+import { WinopenCommandHintAction } from "../../../src/background/hint/WinopenCommandHintAction";
+import { MockHintClient } from "../mock/MockHintClient";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { describe, test, expect, vi } from "vitest";
 
 describe("WinopenCommandHintAction", () => {
-  const hintClient = new MokcHintClient();
+  const hintClient = new MockHintClient();
   const consoleClient = new MockConsoleClient();
   const sut = new WinopenCommandHintAction(hintClient, consoleClient);
 

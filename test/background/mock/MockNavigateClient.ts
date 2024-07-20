@@ -1,6 +1,6 @@
 import type { NavigateClient } from "../../../src/background/clients/NavigateClient";
 
-export default class MockNavigateClient implements NavigateClient {
+export class MockNavigateClient implements NavigateClient {
   historyNext(_tabId: number): Promise<void> {
     throw new Error("not implemented");
   }

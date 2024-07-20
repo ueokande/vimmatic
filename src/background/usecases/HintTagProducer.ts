@@ -1,4 +1,4 @@
-export default class HintTagProducer {
+export class HintTagProducer {
   private counter: number[] = [];
 
   constructor(private readonly charset: string) {}

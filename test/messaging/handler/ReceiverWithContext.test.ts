@@ -1,4 +1,4 @@
-import ReceiverWithContext from "../../../src/messaging/handler/ReceiverWithContext";
+import { ReceiverWithContext } from "../../../src/messaging/handler/ReceiverWithContext";
 import { describe, vi, test, expect } from "vitest";
 
 type Schema = {

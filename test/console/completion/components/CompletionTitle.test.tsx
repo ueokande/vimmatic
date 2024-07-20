@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTestRenderer from "react-test-renderer";
-import CompletionTitle from "../../../../src/console/completion/components/CompletionTitle";
+import { CompletionTitle } from "../../../../src/console/completion/components/CompletionTitle";
 import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/CompletionTitle", () => {

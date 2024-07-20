@@ -1,11 +1,11 @@
-import YankURLHintAction from "../../../src/background/hint/YankURLHintAction";
-import MokcHintClient from "../mock/MockHintClient";
-import MockConsoleClient from "../mock/MockConsoleClient";
-import MockClipboardRepository from "../mock/MockClipboardRepository";
+import { YankURLHintAction } from "../../../src/background/hint/YankURLHintAction";
+import { MockHintClient } from "../mock/MockHintClient";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { MockClipboardRepository } from "../mock/MockClipboardRepository";
 import { describe, test, vi, expect } from "vitest";
 
 describe("YankURLHintAction", () => {
-  const hintClient = new MokcHintClient();
+  const hintClient = new MockHintClient();
   const clipboardRepository = new MockClipboardRepository();
   const consoleClient = new MockConsoleClient();
   const sut = new YankURLHintAction(

@@ -1,5 +1,5 @@
-import ReopenTabOperator from "../../../../src/background/operators/impls/ReopenTabOperator";
-import defaultTab from "../../mock/defaultTab";
+import { ReopenTabOperator } from "../../../../src/background/operators/impls/ReopenTabOperator";
+import { defaultTab } from "../../mock/defaultTab";
 import { describe, it, expect, vi } from "vitest";
 
 describe("ReopenTabOperator", () => {

@@ -1,4 +1,4 @@
-import ZoomOutOperator from "../../../../src/background/operators/impls/ZoomOutOperator";
+import { ZoomOutOperator } from "../../../../src/background/operators/impls/ZoomOutOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
 

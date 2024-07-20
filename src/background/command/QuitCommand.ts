@@ -1,6 +1,6 @@
 import type { Completions, Command, CommandContext } from "./types";
 
-class QuitCommand implements Command {
+export class QuitCommand implements Command {
   names(): string[] {
     return ["q", "quit"];
   }
@@ -28,5 +28,3 @@ class QuitCommand implements Command {
     await chrome.tabs.remove(sender.tabId);
   }
 }
-
-export default QuitCommand;

@@ -5,7 +5,7 @@ import type { TabPresenter } from "../presenters/TabPresenter";
 import type { HintTarget, HintAction } from "./types";
 
 @injectable()
-export default class QuickHintAction implements HintAction {
+export class QuickHintAction implements HintAction {
   constructor(
     @inject("HintClient")
     private readonly hintClient: HintClient,

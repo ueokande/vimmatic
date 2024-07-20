@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import type { Notifier } from "../presenters/Notifier";
 
 @injectable()
-export default class VersionUseCase {
+export class VersionUseCase {
   constructor(@inject("Notifier") private notifier: Notifier) {}
 
   notify(): Promise<void> {

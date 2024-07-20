@@ -2,9 +2,9 @@ import type { Command, CommandContext, Completions } from "./types";
 import * as urls from "../../shared/urls";
 import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import type { PropertySettings } from "../settings/PropertySettings";
-import OpenCommandHelper from "./OpenCommandHelper";
+import { OpenCommandHelper } from "./OpenCommandHelper";
 
-class TabOpenCommand implements Command {
+export class TabOpenCommand implements Command {
   constructor(
     private readonly searchEngineSettings: SearchEngineSettings,
     propertySettings: PropertySettings,
@@ -40,5 +40,3 @@ class TabOpenCommand implements Command {
     await chrome.tabs.create({ url });
   }
 }
-
-export default TabOpenCommand;

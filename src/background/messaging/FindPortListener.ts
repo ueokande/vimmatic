@@ -4,7 +4,7 @@ type OnConnectFunc = (port: chrome.runtime.Port) => void;
 type OnDisconnectFunc = (port: chrome.runtime.Port) => void;
 
 @injectable()
-export default class FindPortListener {
+export class FindPortListener {
   constructor(
     private readonly onConnect: OnConnectFunc,
     private readonly onDisconnect: OnDisconnectFunc,

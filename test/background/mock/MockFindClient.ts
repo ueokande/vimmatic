@@ -1,7 +1,7 @@
 import type { FindClient } from "../../../src/background/clients/FindClient";
 import type { FindQuery } from "../../../src/shared/findQuery";
 
-export default class MockFindClient implements FindClient {
+export class MockFindClient implements FindClient {
   findNext(
     _tabId: number,
     _frameId: number,

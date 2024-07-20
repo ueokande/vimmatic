@@ -1,7 +1,7 @@
-import BufferDeleteCommand from "../../../src/background/command/BufferDeleteCommand";
-import BufferCommandHelper from "../../../src/background/command/BufferCommandHelper";
+import { BufferDeleteCommand } from "../../../src/background/command/BufferDeleteCommand";
+import { BufferCommandHelper } from "../../../src/background/command/BufferCommandHelper";
 import type { CommandContext } from "../../../src/background/command/types";
-import defaultTab from "../mock/defaultTab";
+import { defaultTab } from "../mock/defaultTab";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 describe("BufferDeleteCommand", () => {

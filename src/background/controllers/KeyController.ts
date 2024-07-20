@@ -1,20 +1,20 @@
 import { injectable, inject } from "inversify";
 import type { RequestContext } from "../messaging/types";
-import MarkJumpUseCase from "../usecases/MarkJumpUseCase";
-import MarkSetUseCase from "../usecases/MarkSetUseCase";
-import HintModeUseCaes from "../usecases/HintModeUseCase";
-import HintKeyUseCase from "../usecases/HintKeyUseCase";
-import ModeUseCase from "../usecases/ModeUseCase";
+import { MarkJumpUseCase } from "../usecases/MarkJumpUseCase";
+import { MarkSetUseCase } from "../usecases/MarkSetUseCase";
+import { HintModeUseCase } from "../usecases/HintModeUseCase";
+import { HintKeyUseCase } from "../usecases/HintKeyUseCase";
+import { ModeUseCase } from "../usecases/ModeUseCase";
 
 @injectable()
-export default class KeyController {
+export class KeyController {
   constructor(
     @inject(MarkSetUseCase)
     private readonly markSetUseCase: MarkSetUseCase,
     @inject(MarkJumpUseCase)
     private readonly markJumpUseCase: MarkJumpUseCase,
-    @inject(HintModeUseCaes)
-    private readonly hintModeUseCaes: HintModeUseCaes,
+    @inject(HintModeUseCase)
+    private readonly hintModeUseCase: HintModeUseCase,
     @inject(HintKeyUseCase)
     private readonly hintKeyUseCase: HintKeyUseCase,
     @inject(ModeUseCase)
@@ -30,7 +30,7 @@ export default class KeyController {
     if (mode === "follow") {
       const continued = await this.hintKeyUseCase.pressKey(sender.tab.id, key);
       if (!continued) {
-        await this.hintModeUseCaes.stop(sender.tab.id);
+        await this.hintModeUseCase.stop(sender.tab.id);
         await this.modeUseCase.resetMode(sender.tab.id);
       }
     } else if (mode === "mark-set") {

@@ -1,5 +1,6 @@
 import React from "react";
-const useCursor = (itemCount: number, initCursor = -1) => {
+
+export const useCursor = (itemCount: number, initCursor = -1) => {
   if (itemCount < 0) {
     throw new TypeError("item count must be greater than or equal to 0");
   }
@@ -41,5 +42,3 @@ const useCursor = (itemCount: number, initCursor = -1) => {
     reset,
   };
 };
-
-export default useCursor;

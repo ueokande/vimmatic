@@ -6,7 +6,7 @@ import type { Operation } from "../../shared/operation";
 import type { AddressRepository } from "../repositories/AddressRepository";
 import { Keymaps } from "../../shared/keymaps";
 import type { Key } from "../../shared/key";
-import KeySequence from "../domains/KeySequence";
+import { KeySequence } from "../domains/KeySequence";
 
 const reservedKeymaps = new Keymaps({
   "<Esc>": { type: "cancel", props: {} },
@@ -16,7 +16,7 @@ const reservedKeymaps = new Keymaps({
 const enableAddonOps = ["addon.enable", "addon.toggle.enabled"];
 
 @injectable()
-export default class KeymapUseCase {
+export class KeymapUseCase {
   constructor(
     @inject("KeymapRepository")
     private readonly repository: KeymapRepository,

@@ -1,4 +1,4 @@
-import PinTabOperator from "../../../../src/background/operators/impls/PinTabOperator";
+import { PinTabOperator } from "../../../../src/background/operators/impls/PinTabOperator";
 import { describe, it, expect, vi } from "vitest";
 
 describe("PinTabOperator", () => {

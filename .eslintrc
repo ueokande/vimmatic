@@ -38,6 +38,12 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-restricted-exports": ["error", {
+      "restrictDefaultExports": {
+        "direct": true,
+        "named": true
+      }
+    }],
     "no-console": "error"
   },
   "overrides": [

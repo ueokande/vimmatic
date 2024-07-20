@@ -1,4 +1,4 @@
-import TogglePinnedTabOperator from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
+import { TogglePinnedTabOperator } from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
 

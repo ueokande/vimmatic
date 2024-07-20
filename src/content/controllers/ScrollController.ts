@@ -2,7 +2,7 @@ import { injectable, inject } from "inversify";
 import type { ScrollPresenter } from "../presenters/ScrollPresenter";
 
 @injectable()
-export default class ScrollController {
+export class ScrollController {
   constructor(
     @inject("ScrollPresenter")
     private readonly scrollPresenter: ScrollPresenter,

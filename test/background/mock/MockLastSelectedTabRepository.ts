@@ -1,6 +1,6 @@
 import type { LastSelectedTabRepository } from "../../../src/background/repositories/LastSelectedTabRepository";
 
-export default class MockLastSelectedTabRepository
+export class MockLastSelectedTabRepository
   implements LastSelectedTabRepository
 {
   getLastSelectedTabId(): Promise<number | undefined> {

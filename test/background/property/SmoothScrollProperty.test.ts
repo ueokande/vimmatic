@@ -1,4 +1,4 @@
-import SmoothScrollProperty from "../../../src/background/property/SmoothScrollProperty";
+import { SmoothScrollProperty } from "../../../src/background/property/SmoothScrollProperty";
 import { describe, test, expect } from "vitest";
 
 describe("SmoothScrollProperty", () => {
