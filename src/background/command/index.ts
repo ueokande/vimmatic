@@ -10,7 +10,7 @@ import { QuitCommand } from "./QuitCommand";
 import { SetCommand } from "./SetCommand";
 import { TabOpenCommand } from "./TabOpenCommand";
 import { WindowOpenCommand } from "./WindowOpenCommand";
-import { BufferCommandHelper } from "./BufferCommandHelper";
+import { TabQueryHelper } from "./TabQueryHelper";
 import { PropertyRegistry } from "../property/PropertyRegistry";
 import { PropertySettings } from "../settings/PropertySettings";
 import { SearchEngineSettings } from "../settings/SearchEngineSettings";
@@ -20,7 +20,7 @@ import { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export class CommandRegistryFactory {
-  private readonly bufferCommandHelper: BufferCommandHelper;
+  private readonly tabQueryHelper: TabQueryHelper;
 
   constructor(
     @inject(PropertyRegistry)
@@ -34,9 +34,7 @@ export class CommandRegistryFactory {
     @inject(LastSelectedTabRepository)
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {
-    this.bufferCommandHelper = new BufferCommandHelper(
-      this.lastSelectedTabRepository,
-    );
+    this.tabQueryHelper = new TabQueryHelper(this.lastSelectedTabRepository);
   }
 
   create(): CommandRegistry {
@@ -44,13 +42,10 @@ export class CommandRegistryFactory {
 
     registory.register(new AddBookmarkCommand(this.consoleClient));
     registory.register(
-      new BufferCommand(
-        this.lastSelectedTabRepository,
-        this.bufferCommandHelper,
-      ),
+      new BufferCommand(this.lastSelectedTabRepository, this.tabQueryHelper),
     );
-    registory.register(new BufferDeleteCommand(this.bufferCommandHelper));
-    registory.register(new BufferDeletesCommand(this.bufferCommandHelper));
+    registory.register(new BufferDeleteCommand(this.tabQueryHelper));
+    registory.register(new BufferDeletesCommand(this.tabQueryHelper));
     registory.register(new HelpCommand());
     registory.register(
       new OpenCommand(this.searchEngineSettings, this.propertySettings),

@@ -1,8 +1,8 @@
 import type { Command, CommandContext, Completions } from "./types";
-import type { BufferCommandHelper } from "./BufferCommandHelper";
+import type { TabQueryHelper } from "./TabQueryHelper";
 
 export class BufferDeletesCommand implements Command {
-  constructor(private readonly bufferCommandHelper: BufferCommandHelper) {}
+  constructor(private readonly tabQueryHelper: TabQueryHelper) {}
 
   names(): string[] {
     return ["bdeletes"];
@@ -17,7 +17,9 @@ export class BufferDeletesCommand implements Command {
   }
 
   async getCompletions(force: boolean, query: string): Promise<Completions> {
-    return this.bufferCommandHelper.getCompletions(force, query);
+    return this.tabQueryHelper.getCompletions(query, {
+      includePinned: force,
+    });
   }
 
   async exec(
@@ -26,7 +28,9 @@ export class BufferDeletesCommand implements Command {
     args: string,
   ): Promise<void> {
     const keywords = args.trim();
-    const tabs = await this.bufferCommandHelper.queryTabs(force, keywords);
+    const tabs = await this.tabQueryHelper.queryTabs(keywords, {
+      includePinned: force,
+    });
     if (tabs.length === 0) {
       throw new Error("No matching buffer for " + keywords);
     }
