@@ -70,7 +70,7 @@ export class CommandUseCase {
     // add original command to completed value
     completions.forEach((group) => {
       group.items.forEach((item) => {
-        item.value = name + " " + item.value;
+        item.value = `${name}${force ? "!" : ""} ${item.value}`;
       });
     });
     return completions;
