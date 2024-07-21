@@ -4,6 +4,8 @@ export interface FocusPresenter {
   focusFirstElement(): boolean;
 }
 
+export const FocusPresenter = Symbol("FocusPresenter");
+
 @injectable()
 export class FocusPresenterImpl implements FocusPresenter {
   focusFirstElement(): boolean {

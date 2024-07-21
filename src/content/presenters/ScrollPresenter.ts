@@ -128,8 +128,10 @@ export interface ScrollPresenter {
   scrollToEnd(smooth: boolean): void;
 }
 
+export const ScrollPresenter = Symbol("ScrollPresenter");
+
 @injectable()
-export class ScrollPresenterImpl {
+export class ScrollPresenterImpl implements ScrollPresenter {
   getScroll(): Point {
     const target = scrollTarget();
     return { x: target.scrollLeft, y: target.scrollTop };

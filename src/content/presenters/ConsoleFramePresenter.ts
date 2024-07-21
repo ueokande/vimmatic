@@ -26,6 +26,8 @@ const FRAME_STYLES = {
   "pointer-events": "none",
 } as const;
 
+export const ConsoleFramePresenter = Symbol("ConsoleFramePresenter");
+
 @injectable()
 export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
   private static readonly IframeId = "vimmatic-console-frame" as const;

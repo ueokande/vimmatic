@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
-import type { FrameIdRepository } from "../repositories/FrameIdRepository";
+import { FrameIdRepository } from "../repositories/FrameIdRepository";
 
 @injectable()
 export class TopFrameUseCase {
   constructor(
-    @inject("FrameIdRepository")
+    @inject(FrameIdRepository)
     private readonly frameIdRepository: FrameIdRepository,
   ) {}
 

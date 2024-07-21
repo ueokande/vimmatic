@@ -1,6 +1,8 @@
 import { SimplexSender } from "../../messaging";
 import type { Key, Schema, Request } from "../../messaging/schema/window";
 
+export const WindowMessageSender = Symbol("WindowMessageSender");
+
 /**
  * The window.postMessage() is used to identify a frame id of the <iframe>
  * element through the background script.  Only Firefox supports to get the

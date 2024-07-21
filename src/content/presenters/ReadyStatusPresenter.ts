@@ -6,6 +6,8 @@ export interface ReadyStatusPresenter {
   setConsoleReady(): void;
 }
 
+export const ReadyStatusPresenter = Symbol("ReadyStatusPresenter");
+
 @injectable()
 export class ReadyStatusPresenterImpl {
   constructor(private readonly doc: Document = window.document) {}

@@ -21,6 +21,8 @@ let currentQuery: {
 let finder: Finder | undefined;
 let textGroups: Array<Array<Text>> | undefined;
 
+export const FindPresenter = Symbol("FindPresenter");
+
 @injectable()
 export class FindPresenterImpl implements FindPresenter {
   findNext({ keyword, mode, ignoreCase }: FindQuery): boolean {

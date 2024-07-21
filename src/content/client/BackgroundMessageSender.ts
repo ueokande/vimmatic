@@ -1,6 +1,8 @@
 import { Sender } from "../../messaging";
 import type { Schema, Key, Request } from "../../messaging/schema/background";
 
+export const BackgroundMessageSender = Symbol("BackgroundMessageSender");
+
 export const newSender = () => {
   const sender = new Sender<Schema>((type: Key, args: Request) => {
     if (process.env.NODE_ENV === "development") {

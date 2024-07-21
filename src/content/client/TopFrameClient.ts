@@ -1,14 +1,16 @@
 import { injectable, inject } from "inversify";
-import type { WindowMessageSender } from "./WindowMessageSender";
+import { WindowMessageSender } from "./WindowMessageSender";
 
 export interface TopFrameClient {
   notifyFrameId(frameId: number): Promise<void>;
 }
 
+export const TopFrameClient = Symbol("TopFrameClient");
+
 @injectable()
 export class TopFrameClientImpl implements TopFrameClient {
   constructor(
-    @inject("WindowMessageSender")
+    @inject(WindowMessageSender)
     private readonly sender: WindowMessageSender,
   ) {}
 

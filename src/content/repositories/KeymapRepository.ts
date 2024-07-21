@@ -10,6 +10,8 @@ export interface KeymapRepository {
 
 let current: KeySequence = new KeySequence([]);
 
+export const KeymapRepository = Symbol("KeymapRepository");
+
 @injectable()
 export class KeymapRepositoryImpl implements KeymapRepository {
   enqueueKey(key: Key): KeySequence {

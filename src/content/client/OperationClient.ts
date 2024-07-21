@@ -1,15 +1,17 @@
 import { injectable, inject } from "inversify";
 import type { Operation } from "../../shared/operation";
-import type { BackgroundMessageSender } from "./BackgroundMessageSender";
+import { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export interface OperationClient {
   execBackgroundOp(op: Operation, repeat: number): Promise<void>;
 }
 
+export const OperationClient = Symbol("OperationClient");
+
 @injectable()
 export class OperationClientImpl implements OperationClient {
   constructor(
-    @inject("BackgroundMessageSender")
+    @inject(BackgroundMessageSender)
     private readonly sender: BackgroundMessageSender,
   ) {}
 

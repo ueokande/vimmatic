@@ -8,6 +8,8 @@ export interface AddonEnabledRepository {
   isEnabled(): boolean;
 }
 
+export const AddonEnabledRepository = Symbol("AddonEnabledRepository");
+
 @injectable()
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   set(on: boolean): void {

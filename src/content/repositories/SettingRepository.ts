@@ -4,7 +4,7 @@ import type { Keymaps } from "../../shared/keymaps";
 import type { Properties } from "../../shared/properties";
 import type { Search } from "../../shared/search";
 import type { ComponentName, CSS } from "../../shared/styles";
-import type { SettingClient } from "../client/SettingClient";
+import { SettingClient } from "../client/SettingClient";
 import { defaultSettings } from "../../settings";
 import type { Settings } from "../../shared/settings";
 
@@ -24,10 +24,12 @@ export interface SettingRepository {
   getStyle(component: ComponentName): CSS;
 }
 
+export const SettingRepository = Symbol("SettingRepository");
+
 @injectable()
 export class SettingRepositoryImpl implements SettingRepository {
   constructor(
-    @inject("SettingClient")
+    @inject(SettingClient)
     private readonly client: SettingClient,
   ) {}
 

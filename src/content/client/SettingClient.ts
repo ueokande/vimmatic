@@ -1,16 +1,18 @@
 import { injectable, inject } from "inversify";
 import { deserialize } from "../../settings";
 import type { Settings } from "../../shared/settings";
-import type { BackgroundMessageSender } from "./BackgroundMessageSender";
+import { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export interface SettingClient {
   load(): Promise<Settings>;
 }
 
+export const SettingClient = Symbol("SettingClient");
+
 @injectable()
 export class SettingClientImpl {
   constructor(
-    @inject("BackgroundMessageSender")
+    @inject(BackgroundMessageSender)
     private readonly sender: BackgroundMessageSender,
   ) {}
 

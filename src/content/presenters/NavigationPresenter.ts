@@ -32,6 +32,8 @@ function selectLast<E extends Element>(
   return nodes.length ? nodes[nodes.length - 1] : null;
 }
 
+export const NavigationPresenter = Symbol("NavigationPresenter");
+
 @injectable()
 export class NavigationPresenterImpl implements NavigationPresenter {
   openHistoryPrev(): void {

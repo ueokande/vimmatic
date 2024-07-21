@@ -1,11 +1,11 @@
 import { injectable, inject } from "inversify";
-import type { HintPresenter } from "../presenters/HintPresenter";
+import { HintPresenter } from "../presenters/HintPresenter";
 import type { HTMLElementType } from "../../shared/HTMLElementType";
 
 @injectable()
 export class HintUseCase {
   constructor(
-    @inject("HintPresenter")
+    @inject(HintPresenter)
     private readonly presenter: HintPresenter,
   ) {}
 

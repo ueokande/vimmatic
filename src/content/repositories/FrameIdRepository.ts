@@ -11,6 +11,8 @@ export interface FrameIdRepository {
 const targets: { [frameId: number]: Window } = {};
 const elements: { [frameId: number]: Element } = {};
 
+export const FrameIdRepository = Symbol("FrameIdRepository");
+
 @injectable()
 export class FrameIdRepositoryImpl implements FrameIdRepository {
   saveFrameId(frameId: number, target: Window, element: Element): void {

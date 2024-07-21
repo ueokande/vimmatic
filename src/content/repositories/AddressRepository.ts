@@ -4,6 +4,8 @@ export interface AddressRepository {
   getCurrentURL(): URL;
 }
 
+export const AddressRepository = Symbol("AddressRepository");
+
 @injectable()
 export class AddressRepositoryImpl implements AddressRepository {
   getCurrentURL(): URL {

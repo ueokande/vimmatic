@@ -1,9 +1,9 @@
 import { injectable, inject } from "inversify";
-import type { KeymapRepository } from "../repositories/KeymapRepository";
-import type { SettingRepository } from "../repositories/SettingRepository";
-import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
+import { KeymapRepository } from "../repositories/KeymapRepository";
+import { SettingRepository } from "../repositories/SettingRepository";
+import { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
 import type { Operation } from "../../shared/operation";
-import type { AddressRepository } from "../repositories/AddressRepository";
+import { AddressRepository } from "../repositories/AddressRepository";
 import { Keymaps } from "../../shared/keymaps";
 import type { Key } from "../../shared/key";
 import { KeySequence } from "../domains/KeySequence";
@@ -18,13 +18,13 @@ const enableAddonOps = ["addon.enable", "addon.toggle.enabled"];
 @injectable()
 export class KeymapUseCase {
   constructor(
-    @inject("KeymapRepository")
+    @inject(KeymapRepository)
     private readonly repository: KeymapRepository,
-    @inject("SettingRepository")
+    @inject(SettingRepository)
     private readonly settingRepository: SettingRepository,
-    @inject("AddonEnabledRepository")
+    @inject(AddonEnabledRepository)
     private readonly addonEnabledRepository: AddonEnabledRepository,
-    @inject("AddressRepository")
+    @inject(AddressRepository)
     private readonly addressRepository: AddressRepository,
   ) {}
 

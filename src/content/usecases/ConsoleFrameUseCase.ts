@@ -1,13 +1,13 @@
 import { injectable, inject } from "inversify";
-import type { ConsoleFramePresenter } from "../presenters/ConsoleFramePresenter";
-import type { ReadyStatusPresenter } from "../presenters/ReadyStatusPresenter";
+import { ConsoleFramePresenter } from "../presenters/ConsoleFramePresenter";
+import { ReadyStatusPresenter } from "../presenters/ReadyStatusPresenter";
 
 @injectable()
 export class ConsoleFrameUseCase {
   constructor(
-    @inject("ConsoleFramePresenter")
+    @inject(ConsoleFramePresenter)
     private readonly consoleFramePresenter: ConsoleFramePresenter,
-    @inject("ReadyStatusPresenter")
+    @inject(ReadyStatusPresenter)
     private readonly readyStatusPresenter: ReadyStatusPresenter,
   ) {}
 
