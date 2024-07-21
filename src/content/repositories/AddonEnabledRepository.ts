@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 let enabled = false;
 
@@ -10,7 +10,7 @@ export interface AddonEnabledRepository {
 
 export const AddonEnabledRepository = Symbol("AddonEnabledRepository");
 
-@injectable()
+@provide(AddonEnabledRepository)
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   set(on: boolean): void {
     enabled = on;

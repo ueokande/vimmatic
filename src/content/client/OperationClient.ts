@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import type { Operation } from "../../shared/operation";
 import { BackgroundMessageSender } from "./BackgroundMessageSender";
 
@@ -8,7 +9,7 @@ export interface OperationClient {
 
 export const OperationClient = Symbol("OperationClient");
 
-@injectable()
+@provide(OperationClient)
 export class OperationClientImpl implements OperationClient {
   constructor(
     @inject(BackgroundMessageSender)

@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export interface ConsoleFramePresenter {
   attach(): void;
@@ -28,7 +28,7 @@ const FRAME_STYLES = {
 
 export const ConsoleFramePresenter = Symbol("ConsoleFramePresenter");
 
-@injectable()
+@provide(ConsoleFramePresenter)
 export class ConsoleFramePresenterImpl implements ConsoleFramePresenter {
   private static readonly IframeId = "vimmatic-console-frame" as const;
 

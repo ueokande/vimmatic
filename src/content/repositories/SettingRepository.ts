@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { Blacklist } from "../../shared/blacklist";
 import type { Keymaps } from "../../shared/keymaps";
 import type { Properties } from "../../shared/properties";
@@ -26,7 +27,7 @@ export interface SettingRepository {
 
 export const SettingRepository = Symbol("SettingRepository");
 
-@injectable()
+@provide(SettingRepository)
 export class SettingRepositoryImpl implements SettingRepository {
   constructor(
     @inject(SettingClient)

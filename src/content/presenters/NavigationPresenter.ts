@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export interface NavigationPresenter {
   openHistoryPrev(): void;
@@ -34,7 +34,7 @@ function selectLast<E extends Element>(
 
 export const NavigationPresenter = Symbol("NavigationPresenter");
 
-@injectable()
+@provide(NavigationPresenter)
 export class NavigationPresenterImpl implements NavigationPresenter {
   openHistoryPrev(): void {
     window.history.back();

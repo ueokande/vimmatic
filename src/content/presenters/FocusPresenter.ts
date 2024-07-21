@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export interface FocusPresenter {
   focusFirstElement(): boolean;
@@ -6,7 +6,7 @@ export interface FocusPresenter {
 
 export const FocusPresenter = Symbol("FocusPresenter");
 
-@injectable()
+@provide(FocusPresenter)
 export class FocusPresenterImpl implements FocusPresenter {
   focusFirstElement(): boolean {
     const inputTypes = ["email", "number", "search", "tel", "text", "url"];

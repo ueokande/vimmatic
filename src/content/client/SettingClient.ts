@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { deserialize } from "../../settings";
 import type { Settings } from "../../shared/settings";
 import { BackgroundMessageSender } from "./BackgroundMessageSender";
@@ -9,7 +10,7 @@ export interface SettingClient {
 
 export const SettingClient = Symbol("SettingClient");
 
-@injectable()
+@provide(SettingClient)
 export class SettingClientImpl {
   constructor(
     @inject(BackgroundMessageSender)
