@@ -5,6 +5,8 @@ export interface FrameClient {
   notifyFrameId(tabId: number, frameId: number): Promise<void>;
 }
 
+export const FrameClient = Symbol("FrameClient");
+
 @injectable()
 export class FrameClientImpl implements FrameClient {
   async notifyFrameId(tabId: number, frameId: number): Promise<void> {

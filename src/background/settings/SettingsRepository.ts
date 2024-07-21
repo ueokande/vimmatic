@@ -14,8 +14,13 @@ export interface SettingsRepository {
   onChanged(f: OnChangeListener): void;
 }
 
+export const SettingsRepository = Symbol("SettingsRepository");
+export const PermanentSettingsRepository = Symbol(
+  "PermanentSettingsRepository",
+);
+
 @injectable()
-export class PermanentSettingsRepository implements SettingsRepository {
+export class PermanentSettingsRepositoryImpl implements SettingsRepository {
   async load(): Promise<Settings> {
     const { settings } = await chrome.storage.sync.get("settings");
     if (!settings) {
@@ -62,13 +67,13 @@ export class PermanentSettingsRepository implements SettingsRepository {
 }
 
 @injectable()
-export class TransientSettingsRepository implements SettingsRepository {
+export class TransientSettingsRepositoryImpl implements SettingsRepository {
   constructor(
-    @inject("PermanentSettingsRepository")
+    @inject(PermanentSettingsRepository)
     private readonly permanent: SettingsRepository,
     private readonly cache: LocalCache<
       SerializedSettings | undefined
-    > = new LocalCacheImpl(TransientSettingsRepository.name, undefined),
+    > = new LocalCacheImpl(TransientSettingsRepositoryImpl.name, undefined),
   ) {
     this.permanent.onChanged(this.sync.bind(this));
   }

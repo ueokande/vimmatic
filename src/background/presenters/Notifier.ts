@@ -6,6 +6,8 @@ export interface Notifier {
   notifyUpdated(version: string, onclick: () => void): Promise<void>;
 }
 
+export const Notifier = Symbol("Notifier");
+
 @injectable()
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {

@@ -1,14 +1,17 @@
 import { injectable, inject } from "inversify";
-import type { ContentMessageClient } from "../clients/ContentMessageClient";
-import type { SettingsRepository } from "../settings/SettingsRepository";
+import { ContentMessageClient } from "../clients/ContentMessageClient";
+import {
+  PermanentSettingsRepository,
+  type SettingsRepository,
+} from "../settings/SettingsRepository";
 import { EventUseCaseHelper } from "./EventUseCaseHelper";
 
 @injectable()
 export class SettingsEventUseCase {
   constructor(
-    @inject("PermanentSettingsRepository")
+    @inject(PermanentSettingsRepository)
     private readonly settingsRepository: SettingsRepository,
-    @inject("ContentMessageClient")
+    @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
     @inject(EventUseCaseHelper)
     private readonly eventUseCaseHelper: EventUseCaseHelper,

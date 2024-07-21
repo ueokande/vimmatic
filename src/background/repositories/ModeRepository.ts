@@ -9,6 +9,8 @@ export interface ModeRepository {
 
 type State = Mode;
 
+export const ModeRepository = Symbol("ModeRepository");
+
 @injectable()
 export class ModeRepositoryImpl implements ModeRepository {
   constructor(

@@ -17,6 +17,8 @@ export interface TopFrameClient {
   getFramePosition(tabId: number, frameId: number): Promise<Point | undefined>;
 }
 
+export const TopFrameClient = Symbol("TopFrameClient");
+
 @injectable()
 export class TopFrameClientImpl implements TopFrameClient {
   getWindowViewport(tabId: number): Promise<Rect> {

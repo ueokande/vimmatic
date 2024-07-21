@@ -28,6 +28,8 @@ export interface MarkRepository {
   setLocalMark(tabId: number, key: string, mark: LocalMark): Promise<void>;
 }
 
+export const MarkRepository = Symbol("MarkRepository");
+
 @injectable()
 export class MarkRepositoryImpl implements MarkRepository {
   constructor(

@@ -11,6 +11,8 @@ export interface NavigateClient {
   linkPrev(tabId: number): Promise<void>;
 }
 
+export const NavigateClient = Symbol("NavigateClient");
+
 @injectable()
 export class NavigateClientImpl implements NavigateClient {
   async historyNext(tabId: number): Promise<void> {

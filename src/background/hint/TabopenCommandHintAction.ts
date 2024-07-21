@@ -1,14 +1,14 @@
 import { injectable, inject } from "inversify";
-import type { HintClient } from "../clients/HintClient";
+import { HintClient } from "../clients/HintClient";
 import type { HintTarget, HintAction } from "./types";
-import type { ConsoleClient } from "../clients/ConsoleClient";
+import { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export class TabopenCommandHintAction implements HintAction {
   constructor(
-    @inject("HintClient")
+    @inject(HintClient)
     private readonly hintClient: HintClient,
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
   ) {}
 

@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify";
-import type { ToolbarPresenter } from "../presenters/ToolbarPresenter";
-import type { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
+import { ToolbarPresenter } from "../presenters/ToolbarPresenter";
+import { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
 
 @injectable()
 export class AddonEnabledUseCase {
   constructor(
-    @inject("ToolbarPresenter")
+    @inject(ToolbarPresenter)
     private readonly toolbarPresenter: ToolbarPresenter,
-    @inject("AddonEnabledRepository")
+    @inject(AddonEnabledRepository)
     private readonly addonEnabledRepository: AddonEnabledRepository,
   ) {}
 

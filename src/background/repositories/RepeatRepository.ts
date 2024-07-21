@@ -8,6 +8,8 @@ export interface RepeatRepository {
   setLastOperation(op: Operation): Promise<void>;
 }
 
+export const RepeatRepository = Symbol("RepeatRepository");
+
 @injectable()
 export class RepeatRepositoryImpl implements RepeatRepository {
   constructor(

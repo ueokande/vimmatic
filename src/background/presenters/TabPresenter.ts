@@ -12,6 +12,8 @@ export interface TabPresenter {
   getTab(tabId: number): Promise<Tab>;
 }
 
+export const TabPresenter = Symbol("TabPresenter");
+
 @injectable()
 export class TabPresenterImpl implements TabPresenter {
   async openToTab(url: string, tabId: number): Promise<void> {

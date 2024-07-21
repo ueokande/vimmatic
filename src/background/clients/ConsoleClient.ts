@@ -13,6 +13,8 @@ export interface ConsoleClient {
   hide(tabId: number): Promise<void>;
 }
 
+export const ConsoleClient = Symbol("ConsoleClient");
+
 @injectable()
 export class ConsoleClientImpl implements ConsoleClient {
   async showCommand(tabId: number, command: string): Promise<void> {

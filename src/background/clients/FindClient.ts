@@ -10,6 +10,8 @@ export interface FindClient {
   clearSelection(tabId: number, frameId: number): Promise<void>;
 }
 
+export const FindClient = Symbol("FindClient");
+
 @injectable()
 export class FindClientImpl implements FindClient {
   async findNext(

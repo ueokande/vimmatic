@@ -1,16 +1,16 @@
 import { inject, injectable } from "inversify";
 import type { OperatorContext } from "../operators/types";
 import type { Operation } from "../../shared/operation";
-import type { OperatorRegistory } from "../operators/OperatorRegistory";
-import type { RepeatRepository } from "../repositories/RepeatRepository";
+import { OperatorRegistry } from "../operators/OperatorRegistry";
+import { RepeatRepository } from "../repositories/RepeatRepository";
 import type { RequestContext } from "../messaging/types";
 
 @injectable()
 export class OperationUseCase {
   constructor(
-    @inject("OperatorRegistory")
-    private readonly operatorRegistory: OperatorRegistory,
-    @inject("RepeatRepository")
+    @inject(OperatorRegistry)
+    private readonly operatorRegistry: OperatorRegistry,
+    @inject(RepeatRepository)
     private readonly repeatRepository: RepeatRepository,
   ) {}
 
@@ -32,7 +32,7 @@ export class OperationUseCase {
     if (this.isRepeatable(op.type)) {
       await this.repeatRepository.setLastOperation(op);
     }
-    const got = this.operatorRegistory.getOperator(op.type);
+    const got = this.operatorRegistry.getOperator(op.type);
     if (typeof got === "undefined") {
       throw new Error("unknown operation: " + op.type);
     }

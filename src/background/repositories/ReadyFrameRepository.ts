@@ -11,6 +11,8 @@ export interface ReadyFrameRepository {
   getFrameIds(tabId: number): Promise<number[] | undefined>;
 }
 
+export const ReadyFrameRepository = Symbol("ReadyFrameRepository");
+
 @injectable()
 export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
   constructor(

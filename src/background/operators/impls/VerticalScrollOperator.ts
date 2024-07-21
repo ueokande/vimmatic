@@ -1,15 +1,15 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
 import type { Operator, OperatorContext } from "../types";
-import type { ContentMessageClient } from "../../clients/ContentMessageClient";
-import type { PropertySettings } from "../../settings/PropertySettings";
+import { ContentMessageClient } from "../../clients/ContentMessageClient";
+import { PropertySettings } from "../../settings/PropertySettings";
 
 @injectable()
 export class VerticalScrollOperator implements Operator {
   constructor(
-    @inject("ContentMessageClient")
+    @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
-    @inject("PropertySettings")
+    @inject(PropertySettings)
     private readonly propertySettings: PropertySettings,
   ) {}
 

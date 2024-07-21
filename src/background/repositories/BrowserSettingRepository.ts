@@ -5,6 +5,8 @@ export interface BrowserSettingRepository {
   getHomepageUrls(): Promise<string[]>;
 }
 
+export const BrowserSettingRepository = Symbol("BrowserSettingRepository");
+
 @injectable()
 export class FirefoxBrowserSettingRepositoryImpl
   implements BrowserSettingRepository

@@ -6,6 +6,8 @@ export interface ModeClient {
   setMode(tabid: number, mode: Mode): Promise<void>;
 }
 
+export const ModeClient = Symbol("ModeClient");
+
 @injectable()
 export class ModeClientImpl implements ModeClient {
   async setMode(tabId: number, mode: Mode): Promise<void> {

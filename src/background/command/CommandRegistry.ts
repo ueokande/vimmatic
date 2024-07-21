@@ -8,6 +8,8 @@ export interface CommandRegistry {
   getCommands(): Command[];
 }
 
+export const CommandRegistry = Symbol("CommandRegistry");
+
 export class CommandRegistryImpl implements CommandRegistry {
   private readonly commands: Command[] = [];
   private readonly commandNames: Map<string, Command> = new Map();

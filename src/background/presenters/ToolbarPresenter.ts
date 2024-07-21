@@ -6,6 +6,8 @@ export interface ToolbarPresenter {
   onClick(listener: (arg: chrome.tabs.Tab) => void): void;
 }
 
+export const ToolbarPresenter = Symbol("ToolbarPresenter");
+
 @injectable()
 export class ToolbarPresenterImpl {
   async setEnabled(enabled: boolean): Promise<void> {

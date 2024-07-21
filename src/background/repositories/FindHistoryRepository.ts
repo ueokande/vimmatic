@@ -9,6 +9,8 @@ export interface FindHistoryRepository {
   query(prefix: string): Promise<string[]>;
 }
 
+export const FindHistoryRepository = Symbol("FindHistoryRepository");
+
 @injectable()
 export class FindHistoryRepositoryImpl implements FindHistoryRepository {
   constructor(

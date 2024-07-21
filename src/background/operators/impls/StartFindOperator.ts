@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
-import type { ConsoleClient } from "../../clients/ConsoleClient";
+import { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
 export class StartFindOperator implements Operator {
   constructor(
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
   ) {}
 

@@ -7,6 +7,8 @@ export interface AddonEnabledClient {
   disable(tabId: number): Promise<void>;
 }
 
+export const AddonEnabledClient = Symbol("AddonEnabledClient");
+
 @injectable()
 export class AddonEnabledClientImpl implements AddonEnabledClient {
   async enable(tabId: number): Promise<void> {

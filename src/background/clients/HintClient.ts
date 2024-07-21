@@ -42,6 +42,8 @@ export interface HintClient {
   clickElement(tabId: number, frameId: number, element: string): Promise<void>;
 }
 
+export const HintClient = Symbol("HintClient");
+
 @injectable()
 export class HintClientImpl implements HintClient {
   async lookupTargets(

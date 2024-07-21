@@ -12,6 +12,8 @@ type State = {
   currentSelected?: number;
 };
 
+export const LastSelectedTabRepository = Symbol("LastSelectedTabRepository");
+
 @injectable()
 export class LastSelectedTabRepositoryImpl
   implements LastSelectedTabRepository

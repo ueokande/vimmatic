@@ -40,6 +40,8 @@ export interface ContentMessageClient {
   focusFirstInput(tabId: number): Promise<void>;
 }
 
+export const ContentMessageClient = Symbol("ContentMessageClient");
+
 @injectable()
 export class ContentMessageClientImpl implements ContentMessageClient {
   async scrollTo(

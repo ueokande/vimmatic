@@ -6,6 +6,8 @@ export interface ClipboardRepository {
   write(value: string): Promise<void>;
 }
 
+export const ClipboardRepository = Symbol("ClipboardRepository");
+
 @injectable()
 export class FirefoxClipboardRepositoryImpl implements ClipboardRepository {
   async read(): Promise<string> {

@@ -37,6 +37,8 @@ type State = {
   keys: string[];
 };
 
+export const HintRepository = Symbol("HintRepository");
+
 @injectable()
 export class HintRepositoryImpl implements HintRepository {
   constructor(

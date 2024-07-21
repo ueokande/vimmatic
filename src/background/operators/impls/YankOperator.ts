@@ -1,14 +1,14 @@
 import { injectable, inject } from "inversify";
 import type { Operator, OperatorContext } from "../types";
-import type { ClipboardRepository } from "../../repositories/ClipboardRepository";
-import type { ConsoleClient } from "../../clients/ConsoleClient";
+import { ClipboardRepository } from "../../repositories/ClipboardRepository";
+import { ConsoleClient } from "../../clients/ConsoleClient";
 
 @injectable()
 export class YankOperator implements Operator {
   constructor(
-    @inject("ClipboardRepository")
+    @inject(ClipboardRepository)
     private readonly clipboard: ClipboardRepository,
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
   ) {}
 

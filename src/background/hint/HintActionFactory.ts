@@ -16,6 +16,8 @@ export interface HintActionFactory {
   createHintAction(name: string): HintAction;
 }
 
+export const HintActionFactory = Symbol("HintActionFactory");
+
 @injectable()
 export class HintActionFactoryImpl implements HintActionFactory {
   constructor(

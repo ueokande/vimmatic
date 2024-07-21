@@ -23,6 +23,8 @@ export interface FindRepository {
   deleteLocalState(tabId: number): Promise<void>;
 }
 
+export const FindRepository = Symbol("FindRepository");
+
 @injectable()
 export class FindRepositoryImpl implements FindRepository {
   constructor(

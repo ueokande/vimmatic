@@ -19,6 +19,8 @@ type OnChangeListener = (values: {
 }) => void;
 const listeners: OnChangeListener[] = [];
 
+export const AddonEnabledRepository = Symbol("AddonEnabledRepository");
+
 @injectable()
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   constructor(

@@ -5,7 +5,7 @@ import { OperationController } from "../controllers/OperationController";
 import { KeyController } from "../controllers/KeyController";
 import { ConsoleController } from "../controllers/ConsoleController";
 import { FindController } from "../controllers/FindController";
-import type { ConsoleClient } from "../clients/ConsoleClient";
+import { ConsoleClient } from "../clients/ConsoleClient";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
 import type { RequestContext } from "./types";
@@ -28,7 +28,7 @@ export class BackgroundMessageListener {
     consoleController: ConsoleController,
     @inject(FindController)
     findController: FindController,
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
   ) {
     this.receiver

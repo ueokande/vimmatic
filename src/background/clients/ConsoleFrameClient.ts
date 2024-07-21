@@ -5,6 +5,8 @@ export interface ConsoleFrameClient {
   resize(tabId: number, width: number, height: number): Promise<void>;
 }
 
+export const ConsoleFrameClient = Symbol("ConsoleFrameClient");
+
 @injectable()
 export class ConsoleFrameClientImpl implements ConsoleFrameClient {
   async resize(tabId: number, width: number, height: number): Promise<void> {
