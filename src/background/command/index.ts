@@ -14,6 +14,9 @@ import { TabQueryHelper } from "./TabQueryHelper";
 import { PropertyRegistry } from "../property/PropertyRegistry";
 import { PropertySettings } from "../settings/PropertySettings";
 import { SearchEngineSettings } from "../settings/SearchEngineSettings";
+import { PinCommand } from "./PinCommand";
+import { UnpinCommand } from "./UnpinCommand";
+import { TogglePinCommand } from "./TogglePinCommand";
 import { type CommandRegistry, CommandRegistryImpl } from "./CommandRegistry";
 import { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
 import { ConsoleClient } from "../clients/ConsoleClient";
@@ -64,6 +67,13 @@ export class CommandRegistryFactory {
         this.propertyRegistry,
         this.consoleClient,
       ),
+    );
+    registory.register(new PinCommand(this.tabQueryHelper, this.consoleClient));
+    registory.register(
+      new UnpinCommand(this.tabQueryHelper, this.consoleClient),
+    );
+    registory.register(
+      new TogglePinCommand(this.tabQueryHelper, this.consoleClient),
     );
 
     return registory;
