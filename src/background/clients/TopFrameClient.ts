@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 
 export type Rect = {
@@ -17,7 +17,9 @@ export interface TopFrameClient {
   getFramePosition(tabId: number, frameId: number): Promise<Point | undefined>;
 }
 
-@injectable()
+export const TopFrameClient = Symbol("TopFrameClient");
+
+@provide(TopFrameClient)
 export class TopFrameClientImpl implements TopFrameClient {
   getWindowViewport(tabId: number): Promise<Rect> {
     const sender = newSender(tabId, 0);

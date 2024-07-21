@@ -4,7 +4,7 @@ import { ContentMessageListener } from "./messaging/ContentMessageListener";
 import { KeyController } from "./controllers/KeyController";
 import { SettingsController } from "./controllers/SettingsController";
 import { InputDriver } from "./InputDriver";
-import type { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
+import { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
 
 @injectable()
 export class Application {
@@ -18,7 +18,7 @@ export class Application {
     private readonly keyController: KeyController,
     @inject(SettingsController)
     private readonly settingsController: SettingsController,
-    @inject("ReadyStatusPresenter")
+    @inject(ReadyStatusPresenter)
     private readonly readyStatusPresenter: ReadyStatusPresenter,
   ) {}
 

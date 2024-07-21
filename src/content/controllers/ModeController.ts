@@ -1,11 +1,11 @@
 import { injectable, inject } from "inversify";
 import type { Mode } from "../../shared/mode";
-import type { ModeRepository } from "../repositories/ModeRepository";
+import { ModeRepository } from "../repositories/ModeRepository";
 
 @injectable()
 export class ModeController {
   constructor(
-    @inject("ModeRepository")
+    @inject(ModeRepository)
     private readonly modeRepository: ModeRepository,
   ) {}
 

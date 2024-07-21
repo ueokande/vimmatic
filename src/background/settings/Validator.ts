@@ -1,15 +1,15 @@
 import { injectable, inject } from "inversify";
 import type { Settings } from "../../shared/settings";
-import type { PropertyRegistry } from "../property/PropertyRegistry";
-import type { OperatorRegistory } from "../operators/OperatorRegistory";
+import { PropertyRegistry } from "../property/PropertyRegistry";
+import { OperatorRegistry } from "../operators/OperatorRegistry";
 
 @injectable()
 export class Validator {
   constructor(
-    @inject("PropertyRegistry")
+    @inject(PropertyRegistry)
     private readonly propertyRegistry: PropertyRegistry,
-    @inject("OperatorRegistory")
-    private readonly operatorRegistory: OperatorRegistory,
+    @inject(OperatorRegistry)
+    private readonly operatorRegistry: OperatorRegistry,
   ) {}
 
   validate(settings: Settings) {
@@ -28,7 +28,7 @@ export class Validator {
 
     const keymapEntries = settings.keymaps?.entries() || [];
     keymapEntries.forEach(([key, { type, props }]) => {
-      const op = this.operatorRegistory.getOperator(type);
+      const op = this.operatorRegistry.getOperator(type);
       if (typeof op === "undefined") {
         throw new Error("Unknown keymap: " + type);
       }

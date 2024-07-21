@@ -1,16 +1,16 @@
 import { injectable, inject } from "inversify";
 import { z } from "zod";
 import type { Operator, OperatorContext } from "../types";
-import type { ClipboardRepository } from "../../repositories/ClipboardRepository";
-import type { SearchEngineSettings } from "../../settings/SearchEngineSettings";
+import { ClipboardRepository } from "../../repositories/ClipboardRepository";
+import { SearchEngineSettings } from "../../settings/SearchEngineSettings";
 import * as urls from "../../../shared/urls";
 
 @injectable()
 export class PasteOperator implements Operator {
   constructor(
-    @inject("ClipboardRepository")
+    @inject(ClipboardRepository)
     private readonly clipboard: ClipboardRepository,
-    @inject("SearchEngineSettings")
+    @inject(SearchEngineSettings)
     private readonly searchEngineSettings: SearchEngineSettings,
   ) {}
 

@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { Mode } from "../../shared/mode";
 
 let mode: Mode = Mode.Normal;
@@ -9,7 +9,9 @@ export interface ModeRepository {
   setMode(mode: Mode): void;
 }
 
-@injectable()
+export const ModeRepository = Symbol("ModeRepository");
+
+@provide(ModeRepository)
 export class ModeRepositoryImpl implements ModeRepository {
   getMode(): Mode {
     return mode;

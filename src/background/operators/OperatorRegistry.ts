@@ -1,10 +1,12 @@
 import type { Operator } from "./types";
 
-export interface OperatorRegistory {
+export interface OperatorRegistry {
   register(op: Operator): void;
 
   getOperator(name: string): Operator | undefined;
 }
+
+export const OperatorRegistry = Symbol("OperatorRegistry");
 
 export class OperatorRegistryImpl {
   private readonly operatorNames: Map<string, Operator> = new Map();

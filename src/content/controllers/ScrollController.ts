@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
-import type { ScrollPresenter } from "../presenters/ScrollPresenter";
+import { ScrollPresenter } from "../presenters/ScrollPresenter";
 
 @injectable()
 export class ScrollController {
   constructor(
-    @inject("ScrollPresenter")
+    @inject(ScrollPresenter)
     private readonly scrollPresenter: ScrollPresenter,
   ) {}
 

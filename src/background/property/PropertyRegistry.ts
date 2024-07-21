@@ -8,6 +8,8 @@ export interface PropertyRegistry {
   getProperties(): Property[];
 }
 
+export const PropertyRegistry = Symbol("PropertyRegistry");
+
 export class PropertyRegistryImpl {
   private readonly properties: Property[] = [];
 

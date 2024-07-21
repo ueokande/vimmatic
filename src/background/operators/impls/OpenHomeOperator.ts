@@ -1,12 +1,12 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
 import type { Operator, OperatorContext } from "../types";
-import type { BrowserSettingRepository } from "../../repositories/BrowserSettingRepository";
+import { BrowserSettingRepository } from "../../repositories/BrowserSettingRepository";
 
 @injectable()
 export class OpenHomeOperator implements Operator {
   constructor(
-    @inject("BrowserSettingRepository")
+    @inject(BrowserSettingRepository)
     private readonly browserSettingRepository: BrowserSettingRepository,
   ) {}
 

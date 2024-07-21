@@ -1,15 +1,18 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import type { Key } from "../../shared/key";
-import type { BackgroundMessageSender } from "./BackgroundMessageSender";
+import { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export interface BackgroundKeyClient {
   sendKey(key: Key): Promise<void>;
 }
 
-@injectable()
+export const BackgroundKeyClient = Symbol("BackgroundKeyClient");
+
+@provide(BackgroundKeyClient)
 export class BackgroundKeyClientImpl implements BackgroundKeyClient {
   constructor(
-    @inject("BackgroundMessageSender")
+    @inject(BackgroundMessageSender)
     private readonly sender: BackgroundMessageSender,
   ) {}
 

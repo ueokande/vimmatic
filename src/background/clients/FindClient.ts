@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 import type { FindQuery } from "../../shared/findQuery";
 
@@ -10,7 +10,9 @@ export interface FindClient {
   clearSelection(tabId: number, frameId: number): Promise<void>;
 }
 
-@injectable()
+export const FindClient = Symbol("FindClient");
+
+@provide(FindClient)
 export class FindClientImpl implements FindClient {
   async findNext(
     tabId: number,

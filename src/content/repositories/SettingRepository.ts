@@ -1,10 +1,11 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { Blacklist } from "../../shared/blacklist";
 import type { Keymaps } from "../../shared/keymaps";
 import type { Properties } from "../../shared/properties";
 import type { Search } from "../../shared/search";
 import type { ComponentName, CSS } from "../../shared/styles";
-import type { SettingClient } from "../client/SettingClient";
+import { SettingClient } from "../client/SettingClient";
 import { defaultSettings } from "../../settings";
 import type { Settings } from "../../shared/settings";
 
@@ -24,10 +25,12 @@ export interface SettingRepository {
   getStyle(component: ComponentName): CSS;
 }
 
-@injectable()
+export const SettingRepository = Symbol("SettingRepository");
+
+@provide(SettingRepository)
 export class SettingRepositoryImpl implements SettingRepository {
   constructor(
-    @inject("SettingClient")
+    @inject(SettingClient)
     private readonly client: SettingClient,
   ) {}
 

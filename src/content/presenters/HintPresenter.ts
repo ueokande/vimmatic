@@ -1,5 +1,6 @@
-import { inject, injectable } from "inversify";
-import type { SettingRepository } from "../repositories/SettingRepository";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
+import { SettingRepository } from "../repositories/SettingRepository";
 import { Hint } from "./Hint";
 import * as doms from "../../shared/utils/dom";
 import { HTMLElementLocator } from "./HTMLElementLocator";
@@ -80,10 +81,12 @@ export interface HintPresenter {
   clickElement(id: string): void;
 }
 
-@injectable()
+export const HintPresenter = Symbol("HintPresenter");
+
+@provide(HintPresenter)
 export class HintPresenterImpl implements HintPresenter {
   constructor(
-    @inject("SettingRepository")
+    @inject(SettingRepository)
     private readonly settingRepository: SettingRepository,
   ) {}
 

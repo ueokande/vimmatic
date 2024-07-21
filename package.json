@@ -27,7 +27,8 @@
   "homepage": "https://github.com/ueokande/vimmatic",
   "dependencies": {
     "@abraham/reflection": "^0.12.0",
-    "inversify": "^6.0.1",
+    "inversify": "^6.0.2",
+    "inversify-binding-decorators": "^4.0.0",
     "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

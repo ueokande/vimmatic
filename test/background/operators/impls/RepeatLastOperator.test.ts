@@ -1,6 +1,6 @@
 import { RepeatLastOperator } from "../../../../src/background/operators/impls/RepeatLastOperator";
 import type { RepeatRepository } from "../../../../src/background/repositories/RepeatRepository";
-import type { OperatorRegistory } from "../../../../src/background/operators/OperatorRegistory";
+import type { OperatorRegistry } from "../../../../src/background/operators/OperatorRegistry";
 import type {
   Operator,
   OperatorContext,
@@ -12,7 +12,7 @@ const todo = () => {
 };
 
 describe("RepeatLastOperator", () => {
-  const operatorRegistory: OperatorRegistory = {
+  const operatorRegistry: OperatorRegistry = {
     register: todo,
     getOperator: todo,
   };
@@ -26,7 +26,7 @@ describe("RepeatLastOperator", () => {
     run: todo,
   };
   const ctx = {} as OperatorContext;
-  const sut = new RepeatLastOperator(operatorRegistory, repeatRepository);
+  const sut = new RepeatLastOperator(operatorRegistry, repeatRepository);
 
   const mockRun = vi.spyOn(operator, "run").mockResolvedValue();
 
@@ -40,7 +40,7 @@ describe("RepeatLastOperator", () => {
         type: "greeting",
         props: { name: "alice" },
       });
-      vi.spyOn(operatorRegistory, "getOperator").mockReturnValue(operator);
+      vi.spyOn(operatorRegistry, "getOperator").mockReturnValue(operator);
 
       await sut.run(ctx);
 
@@ -60,7 +60,7 @@ describe("RepeatLastOperator", () => {
         type: "unknown",
         props: {},
       });
-      vi.spyOn(operatorRegistory, "getOperator").mockReturnValue(undefined);
+      vi.spyOn(operatorRegistry, "getOperator").mockReturnValue(undefined);
 
       await expect(() => sut.run(ctx)).rejects.toThrow();
     });

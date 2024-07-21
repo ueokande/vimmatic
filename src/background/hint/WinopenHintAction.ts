@@ -1,14 +1,14 @@
 import { injectable, inject } from "inversify";
-import type { HintClient } from "../clients/HintClient";
+import { HintClient } from "../clients/HintClient";
 import type { HintTarget, HintAction } from "./types";
-import type { TabPresenter } from "../presenters/TabPresenter";
+import { TabPresenter } from "../presenters/TabPresenter";
 
 @injectable()
 export class WinopenHintAction implements HintAction {
   constructor(
-    @inject("HintClient")
+    @inject(HintClient)
     private readonly hintClient: HintClient,
-    @inject("TabPresenter")
+    @inject(TabPresenter)
     private readonly tabPresenter: TabPresenter,
   ) {}
 

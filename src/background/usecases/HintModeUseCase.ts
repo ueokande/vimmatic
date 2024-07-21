@@ -1,27 +1,27 @@
 import { injectable, inject } from "inversify";
-import type { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
-import type { PropertySettings } from "../settings/PropertySettings";
-import type { TopFrameClient } from "../clients/TopFrameClient";
+import { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
+import { PropertySettings } from "../settings/PropertySettings";
+import { TopFrameClient } from "../clients/TopFrameClient";
 import type { HintTarget } from "../hint/types";
-import type { HintClient } from "../clients/HintClient";
-import type { HintRepository } from "../repositories/HintRepository";
-import type { HintActionFactory } from "../hint/HintActionFactory";
+import { HintClient } from "../clients/HintClient";
+import { HintRepository } from "../repositories/HintRepository";
+import { HintActionFactory } from "../hint/HintActionFactory";
 import { HintTagProducer } from "./HintTagProducer";
 
 @injectable()
 export class HintModeUseCase {
   constructor(
-    @inject("TopFrameClient")
+    @inject(TopFrameClient)
     private readonly topFrameClient: TopFrameClient,
-    @inject("HintClient")
+    @inject(HintClient)
     private readonly hintClient: HintClient,
-    @inject("ReadyFrameRepository")
+    @inject(ReadyFrameRepository)
     private readonly frameRepository: ReadyFrameRepository,
-    @inject("PropertySettings")
+    @inject(PropertySettings)
     private readonly propertySettings: PropertySettings,
-    @inject("HintRepository")
+    @inject(HintRepository)
     private readonly hintRepository: HintRepository,
-    @inject("HintActionFactory")
+    @inject(HintActionFactory)
     private readonly hintActionFactory: HintActionFactory,
   ) {}
 

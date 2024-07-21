@@ -1,25 +1,25 @@
 import { inject, injectable } from "inversify";
-import type { ConsoleClient } from "../clients/ConsoleClient";
-import type { FindRepository } from "../repositories/FindRepository";
-import type { FindHistoryRepository } from "../repositories/FindHistoryRepository";
-import type { PropertySettings } from "../settings/PropertySettings";
-import type { FindClient } from "../clients/FindClient";
-import type { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
+import { ConsoleClient } from "../clients/ConsoleClient";
+import { FindRepository } from "../repositories/FindRepository";
+import { FindHistoryRepository } from "../repositories/FindHistoryRepository";
+import { PropertySettings } from "../settings/PropertySettings";
+import { FindClient } from "../clients/FindClient";
+import { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
 
 @injectable()
 export class FindUseCase {
   constructor(
-    @inject("FindClient")
+    @inject(FindClient)
     private readonly findClient: FindClient,
-    @inject("FindRepository")
+    @inject(FindRepository)
     private readonly findRepository: FindRepository,
-    @inject("FindHistoryRepository")
+    @inject(FindHistoryRepository)
     private readonly findHistoryRepository: FindHistoryRepository,
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
-    @inject("ReadyFrameRepository")
+    @inject(ReadyFrameRepository)
     private readonly frameRepository: ReadyFrameRepository,
-    @inject("PropertySettings")
+    @inject(PropertySettings)
     private readonly propertySettings: PropertySettings,
   ) {}
 

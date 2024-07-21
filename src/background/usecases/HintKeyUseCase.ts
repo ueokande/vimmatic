@@ -1,17 +1,17 @@
 import { injectable, inject } from "inversify";
-import type { HintClient } from "../clients/HintClient";
+import { HintClient } from "../clients/HintClient";
 import type { HintTarget } from "../hint/types";
-import type { HintRepository } from "../repositories/HintRepository";
-import type { HintActionFactory } from "../hint/HintActionFactory";
+import { HintRepository } from "../repositories/HintRepository";
+import { HintActionFactory } from "../hint/HintActionFactory";
 
 @injectable()
 export class HintKeyUseCase {
   constructor(
-    @inject("HintClient")
+    @inject(HintClient)
     private readonly hintClient: HintClient,
-    @inject("HintRepository")
+    @inject(HintRepository)
     private readonly hintRepository: HintRepository,
-    @inject("HintActionFactory")
+    @inject(HintActionFactory)
     private readonly hintActionFactory: HintActionFactory,
   ) {}
 

@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 const SCROLL_DELTA_X = 64;
 const SCROLL_DELTA_Y = 64;
@@ -128,8 +128,10 @@ export interface ScrollPresenter {
   scrollToEnd(smooth: boolean): void;
 }
 
-@injectable()
-export class ScrollPresenterImpl {
+export const ScrollPresenter = Symbol("ScrollPresenter");
+
+@provide(ScrollPresenter)
+export class ScrollPresenterImpl implements ScrollPresenter {
   getScroll(): Point {
     const target = scrollTarget();
     return { x: target.scrollLeft, y: target.scrollTop };

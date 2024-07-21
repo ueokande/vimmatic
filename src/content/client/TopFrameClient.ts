@@ -1,14 +1,17 @@
-import { injectable, inject } from "inversify";
-import type { WindowMessageSender } from "./WindowMessageSender";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
+import { WindowMessageSender } from "./WindowMessageSender";
 
 export interface TopFrameClient {
   notifyFrameId(frameId: number): Promise<void>;
 }
 
-@injectable()
+export const TopFrameClient = Symbol("TopFrameClient");
+
+@provide(TopFrameClient)
 export class TopFrameClientImpl implements TopFrameClient {
   constructor(
-    @inject("WindowMessageSender")
+    @inject(WindowMessageSender)
     private readonly sender: WindowMessageSender,
   ) {}
 

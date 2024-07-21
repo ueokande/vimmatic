@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import type { Key } from "../../shared/key";
 import { KeySequence } from "../domains/KeySequence";
 
@@ -10,7 +10,9 @@ export interface KeymapRepository {
 
 let current: KeySequence = new KeySequence([]);
 
-@injectable()
+export const KeymapRepository = Symbol("KeymapRepository");
+
+@provide(KeymapRepository)
 export class KeymapRepositoryImpl implements KeymapRepository {
   enqueueKey(key: Key): KeySequence {
     current.push(key);

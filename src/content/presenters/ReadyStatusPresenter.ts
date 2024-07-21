@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export interface ReadyStatusPresenter {
   setContentReady(): void;
@@ -6,7 +6,9 @@ export interface ReadyStatusPresenter {
   setConsoleReady(): void;
 }
 
-@injectable()
+export const ReadyStatusPresenter = Symbol("ReadyStatusPresenter");
+
+@provide(ReadyStatusPresenter)
 export class ReadyStatusPresenterImpl {
   constructor(private readonly doc: Document = window.document) {}
   setContentReady() {

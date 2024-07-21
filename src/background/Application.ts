@@ -2,12 +2,12 @@ import { injectable, inject } from "inversify";
 import { BackgroundMessageListener } from "./messaging/BackgroundMessageListener";
 import { FindPortListener } from "./messaging/FindPortListener";
 import { VersionUseCase } from "./usecases/VersionUseCase";
-import type { FindRepository } from "./repositories/FindRepository";
-import type { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
+import { FindRepository } from "./repositories/FindRepository";
+import { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
 import { SettingsEventUseCase } from "./usecases/SettingsEventUseCase";
-import type { FrameClient } from "./clients/FrameClient";
+import { FrameClient } from "./clients/FrameClient";
 import { AddonEnabledEventUseCase } from "./usecases/AddonEnabledEventUseCase";
-import type { LastSelectedTabRepository } from "./repositories/LastSelectedTabRepository";
+import { LastSelectedTabRepository } from "./repositories/LastSelectedTabRepository";
 import { ModeUseCase } from "./usecases/ModeUseCase";
 import { HintModeUseCase } from "./usecases/HintModeUseCase";
 
@@ -18,15 +18,15 @@ export class Application {
     private readonly backgroundMessageListener: BackgroundMessageListener,
     @inject(VersionUseCase)
     private readonly versionUseCase: VersionUseCase,
-    @inject("FindRepository")
+    @inject(FindRepository)
     private readonly findRepository: FindRepository,
-    @inject("ReadyFrameRepository")
+    @inject(ReadyFrameRepository)
     private readonly frameRepository: ReadyFrameRepository,
-    @inject("LastSelectedTabRepository")
+    @inject(LastSelectedTabRepository)
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
     @inject(SettingsEventUseCase)
     private readonly settingsEventUseCase: SettingsEventUseCase,
-    @inject("FrameClient")
+    @inject(FrameClient)
     private readonly frameClient: FrameClient,
     @inject(AddonEnabledEventUseCase)
     private readonly addonEnabledEventUseCase: AddonEnabledEventUseCase,

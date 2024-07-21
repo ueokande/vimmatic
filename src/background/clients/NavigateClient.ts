@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 
 export interface NavigateClient {
@@ -11,7 +11,9 @@ export interface NavigateClient {
   linkPrev(tabId: number): Promise<void>;
 }
 
-@injectable()
+export const NavigateClient = Symbol("NavigateClient");
+
+@provide(NavigateClient)
 export class NavigateClientImpl implements NavigateClient {
   async historyNext(tabId: number): Promise<void> {
     const sender = newSender(tabId);

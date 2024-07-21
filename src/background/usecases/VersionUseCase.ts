@@ -1,9 +1,12 @@
 import { injectable, inject } from "inversify";
-import type { Notifier } from "../presenters/Notifier";
+import { Notifier } from "../presenters/Notifier";
 
 @injectable()
 export class VersionUseCase {
-  constructor(@inject("Notifier") private notifier: Notifier) {}
+  constructor(
+    @inject(Notifier)
+    private notifier: Notifier,
+  ) {}
 
   notify(): Promise<void> {
     const manifest = chrome.runtime.getManifest();

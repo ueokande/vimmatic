@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import type { FindQuery } from "../../shared/findQuery";
 
 export interface FindPresenter {
@@ -21,7 +21,9 @@ let currentQuery: {
 let finder: Finder | undefined;
 let textGroups: Array<Array<Text>> | undefined;
 
-@injectable()
+export const FindPresenter = Symbol("FindPresenter");
+
+@provide(FindPresenter)
 export class FindPresenterImpl implements FindPresenter {
   findNext({ keyword, mode, ignoreCase }: FindQuery): boolean {
     this.initFinder({ keyword, mode, ignoreCase });

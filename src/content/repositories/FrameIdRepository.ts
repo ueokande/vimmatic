@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export interface FrameIdRepository {
   saveFrameId(frameId: number, target: Window, element: Element): void;
@@ -11,7 +11,9 @@ export interface FrameIdRepository {
 const targets: { [frameId: number]: Window } = {};
 const elements: { [frameId: number]: Element } = {};
 
-@injectable()
+export const FrameIdRepository = Symbol("FrameIdRepository");
+
+@provide(FrameIdRepository)
 export class FrameIdRepositoryImpl implements FrameIdRepository {
   saveFrameId(frameId: number, target: Window, element: Element): void {
     targets[frameId] = target;

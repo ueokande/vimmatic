@@ -1,18 +1,18 @@
 import { injectable, inject } from "inversify";
 import { serialize, deserialize } from "../../settings";
-import type { SettingsRepository } from "../settings/SettingsRepository";
-import type { PropertySettings } from "../settings/PropertySettings";
-import type { StyleSettings } from "../settings/StyleSettings";
+import { SettingsRepository } from "../settings/SettingsRepository";
+import { PropertySettings } from "../settings/PropertySettings";
+import { StyleSettings } from "../settings/StyleSettings";
 import { Validator } from "../settings/Validator";
 
 @injectable()
 export class SettingsUseCase {
   constructor(
-    @inject("SettingsRepository")
+    @inject(SettingsRepository)
     private readonly settingsRepository: SettingsRepository,
-    @inject("PropertySettings")
+    @inject(PropertySettings)
     private readonly propertySettings: PropertySettings,
-    @inject("StyleSettings")
+    @inject(StyleSettings)
     private readonly styleSettings: StyleSettings,
     @inject(Validator)
     private readonly validator: Validator,

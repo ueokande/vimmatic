@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 type State = string[];
@@ -9,7 +9,9 @@ export interface FindHistoryRepository {
   query(prefix: string): Promise<string[]>;
 }
 
-@injectable()
+export const FindHistoryRepository = Symbol("FindHistoryRepository");
+
+@provide(FindHistoryRepository)
 export class FindHistoryRepositoryImpl implements FindHistoryRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(

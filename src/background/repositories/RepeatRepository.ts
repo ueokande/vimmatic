@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import type { Operation } from "../../shared/operation";
 
@@ -8,7 +8,9 @@ export interface RepeatRepository {
   setLastOperation(op: Operation): Promise<void>;
 }
 
-@injectable()
+export const RepeatRepository = Symbol("RepeatRepository");
+
+@provide(RepeatRepository)
 export class RepeatRepositoryImpl implements RepeatRepository {
   constructor(
     private readonly cache: LocalCache<Operation | null> = new LocalCacheImpl(

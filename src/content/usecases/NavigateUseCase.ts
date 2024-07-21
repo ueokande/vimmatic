@@ -1,10 +1,10 @@
 import { injectable, inject } from "inversify";
-import type { NavigationPresenter } from "../presenters/NavigationPresenter";
+import { NavigationPresenter } from "../presenters/NavigationPresenter";
 
 @injectable()
 export class NavigateUseCase {
   constructor(
-    @inject("NavigationPresenter")
+    @inject(NavigationPresenter)
     private readonly navigationPresenter: NavigationPresenter,
   ) {}
 

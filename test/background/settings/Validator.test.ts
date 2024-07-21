@@ -1,6 +1,6 @@
 import { Validator } from "../../../src/background/settings/Validator";
 import { createPropertyRegistry } from "../../../src/background/property";
-import { OperatorRegistryImpl } from "../../../src/background/operators/OperatorRegistory";
+import { OperatorRegistryImpl } from "../../../src/background/operators/OperatorRegistry";
 import { CloseTabOperator } from "../../../src/background/operators/impls/CloseTabOperator";
 import { DuplicateTabOperator } from "../../../src/background/operators/impls/DuplicateTabOperator";
 import { Keymaps } from "../../../src/shared/keymaps";
@@ -8,11 +8,11 @@ import { Search } from "../../../src/shared/search";
 import { describe, test, expect } from "vitest";
 
 describe("Validator", () => {
-  const operatorRegistory = new OperatorRegistryImpl();
-  operatorRegistory.register(new CloseTabOperator());
-  operatorRegistory.register(new DuplicateTabOperator());
+  const operatorRegistry = new OperatorRegistryImpl();
+  operatorRegistry.register(new CloseTabOperator());
+  operatorRegistry.register(new DuplicateTabOperator());
 
-  const sut = new Validator(createPropertyRegistry(), operatorRegistory);
+  const sut = new Validator(createPropertyRegistry(), operatorRegistry);
 
   test("it do nothing on valid settings", () => {
     sut.validate({});

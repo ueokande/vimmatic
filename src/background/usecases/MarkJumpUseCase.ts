@@ -1,20 +1,20 @@
 import { inject, injectable } from "inversify";
-import type { MarkRepository } from "../repositories/MarkRepository";
-import type { ContentMessageClient } from "../clients/ContentMessageClient";
-import type { ConsoleClient } from "../clients/ConsoleClient";
-import type { PropertySettings } from "../settings/PropertySettings";
+import { MarkRepository } from "../repositories/MarkRepository";
+import { ContentMessageClient } from "../clients/ContentMessageClient";
+import { ConsoleClient } from "../clients/ConsoleClient";
+import { PropertySettings } from "../settings/PropertySettings";
 import { MarkHelper } from "./MarkHelper";
 
 @injectable()
 export class MarkJumpUseCase {
   constructor(
-    @inject("MarkRepository")
+    @inject(MarkRepository)
     private readonly markRepository: MarkRepository,
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
-    @inject("ContentMessageClient")
+    @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
-    @inject("PropertySettings")
+    @inject(PropertySettings)
     private readonly propertySettings: PropertySettings,
     @inject(MarkHelper)
     private readonly markHelper: MarkHelper,

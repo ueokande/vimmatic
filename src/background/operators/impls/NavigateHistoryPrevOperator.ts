@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
-import type { NavigateClient } from "../../clients/NavigateClient";
+import { NavigateClient } from "../../clients/NavigateClient";
 
 @injectable()
 export class NavigateHistoryPrevOperator implements Operator {
   constructor(
-    @inject("NavigateClient")
+    @inject(NavigateClient)
     private readonly navigateClient: NavigateClient,
   ) {}
 

@@ -1,5 +1,4 @@
 import { inject, injectable } from "inversify";
-import type { OperatorRegistory } from "./OperatorRegistory";
 import { EnableAddonOperator } from "./impls/EnableAddonOperator";
 import { DisableAddonOperator } from "./impls/DisableAddonOperator";
 import { ToggleAddonOperator } from "./impls/ToggleAddonOperator";
@@ -63,11 +62,14 @@ import { OpenCommandHintOperator } from "./impls/OpenCommandHintOperator";
 import { TabopenCommandHintOperator } from "./impls/TabopenCommandHintOperator";
 import { WinopenCommandHintOperator } from "./impls/WinopenCommandHintOperator";
 import { OpenSourceHintOperator } from "./impls/OpenSourceHintOperator";
-import type { RepeatRepository } from "../repositories/RepeatRepository";
-import { OperatorRegistryImpl } from "./OperatorRegistory";
+import { RepeatRepository } from "../repositories/RepeatRepository";
+import {
+  type OperatorRegistry,
+  OperatorRegistryImpl,
+} from "./OperatorRegistry";
 
 @injectable()
-export class OperatorRegistoryFactory {
+export class OperatorRegistryFactory {
   constructor(
     @inject(EnableAddonOperator)
     private readonly enableAddonOperator: EnableAddonOperator,
@@ -193,11 +195,11 @@ export class OperatorRegistoryFactory {
     private readonly winopenCommandHintOperator: WinopenCommandHintOperator,
     @inject(OpenSourceHintOperator)
     private readonly openSourceHintOperator: OpenSourceHintOperator,
-    @inject("RepeatRepository")
+    @inject(RepeatRepository)
     private readonly repeatRepository: RepeatRepository,
   ) {}
 
-  create(): OperatorRegistory {
+  create(): OperatorRegistry {
     const r = new OperatorRegistryImpl();
     r.register(this.enableAddonOperator);
     r.register(this.disableAddonOperator);

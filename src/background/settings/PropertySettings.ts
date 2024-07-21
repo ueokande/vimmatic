@@ -1,6 +1,7 @@
-import { injectable, inject } from "inversify";
-import type { PropertyRegistry } from "../property/PropertyRegistry";
-import type { SettingsRepository } from "./SettingsRepository";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
+import { PropertyRegistry } from "../property/PropertyRegistry";
+import { SettingsRepository } from "./SettingsRepository";
 
 export interface PropertySettings {
   setProperty(name: string, value: string | number | boolean): Promise<void>;
@@ -8,12 +9,14 @@ export interface PropertySettings {
   getProperty(name: string): Promise<string | number | boolean>;
 }
 
-@injectable()
+export const PropertySettings = Symbol("PropertySettings");
+
+@provide(PropertySettings)
 export class PropertySettingsImpl {
   constructor(
-    @inject("SettingsRepository")
+    @inject(SettingsRepository)
     private readonly settingsRepository: SettingsRepository,
-    @inject("PropertyRegistry")
+    @inject(PropertyRegistry)
     private readonly propertyRegistry: PropertyRegistry,
   ) {}
 

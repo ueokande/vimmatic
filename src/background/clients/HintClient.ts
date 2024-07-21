@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 import type { HTMLElementType } from "../../shared/HTMLElementType";
 
@@ -42,7 +42,9 @@ export interface HintClient {
   clickElement(tabId: number, frameId: number, element: string): Promise<void>;
 }
 
-@injectable()
+export const HintClient = Symbol("HintClient");
+
+@provide(HintClient)
 export class HintClientImpl implements HintClient {
   async lookupTargets(
     tabId: number,

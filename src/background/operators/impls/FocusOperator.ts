@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify";
 import type { Operator, OperatorContext } from "../types";
-import type { ContentMessageClient } from "../../clients/ContentMessageClient";
+import { ContentMessageClient } from "../../clients/ContentMessageClient";
 
 @injectable()
 export class FocusOperator implements Operator {
   constructor(
-    @inject("ContentMessageClient")
+    @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
   ) {}
 

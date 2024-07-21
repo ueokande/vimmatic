@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export interface ToolbarPresenter {
   setEnabled(enabled: boolean): Promise<void>;
@@ -6,7 +6,9 @@ export interface ToolbarPresenter {
   onClick(listener: (arg: chrome.tabs.Tab) => void): void;
 }
 
-@injectable()
+export const ToolbarPresenter = Symbol("ToolbarPresenter");
+
+@provide(ToolbarPresenter)
 export class ToolbarPresenterImpl {
   async setEnabled(enabled: boolean): Promise<void> {
     const path = enabled

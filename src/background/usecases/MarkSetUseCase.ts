@@ -1,21 +1,21 @@
 import { inject, injectable } from "inversify";
-import type {
+import {
   MarkRepository,
-  GlobalMark,
-  LocalMark,
+  type GlobalMark,
+  type LocalMark,
 } from "../repositories/MarkRepository";
-import type { ContentMessageClient } from "../clients/ContentMessageClient";
-import type { ConsoleClient } from "../clients/ConsoleClient";
+import { ContentMessageClient } from "../clients/ContentMessageClient";
+import { ConsoleClient } from "../clients/ConsoleClient";
 import { MarkHelper } from "./MarkHelper";
 
 @injectable()
 export class MarkSetUseCase {
   constructor(
-    @inject("MarkRepository")
+    @inject(MarkRepository)
     private readonly markRepository: MarkRepository,
-    @inject("ConsoleClient")
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
-    @inject("ContentMessageClient")
+    @inject(ContentMessageClient)
     private readonly contentMessageClient: ContentMessageClient,
     @inject(MarkHelper)
     private readonly markHelper: MarkHelper,

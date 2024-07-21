@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import type { Completions } from "../../shared/completions";
-import type { CommandRegistry } from "../command/CommandRegistry";
+import { CommandRegistry } from "../command/CommandRegistry";
 import type { RequestContext } from "../messaging/types";
 import type { CommandContext } from "../command/types";
 import { parseCommand, onCommandInputting } from "./parser";
@@ -8,7 +8,7 @@ import { parseCommand, onCommandInputting } from "./parser";
 @injectable()
 export class CommandUseCase {
   constructor(
-    @inject("CommandRegistry")
+    @inject(CommandRegistry)
     private readonly commandRegistry: CommandRegistry,
   ) {}
 

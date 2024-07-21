@@ -11,32 +11,29 @@ import { SetCommand } from "./SetCommand";
 import { TabOpenCommand } from "./TabOpenCommand";
 import { WindowOpenCommand } from "./WindowOpenCommand";
 import { BufferCommandHelper } from "./BufferCommandHelper";
-import type { PropertyRegistry } from "../property/PropertyRegistry";
-import type { PropertySettings } from "../settings/PropertySettings";
-import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
+import { PropertyRegistry } from "../property/PropertyRegistry";
+import { PropertySettings } from "../settings/PropertySettings";
+import { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import { type CommandRegistry, CommandRegistryImpl } from "./CommandRegistry";
-import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
-import type { ConsoleClient } from "../clients/ConsoleClient";
+import { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
+import { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export class CommandRegistryFactory {
-  private readonly propertyRegistry: PropertyRegistry;
-
   private readonly bufferCommandHelper: BufferCommandHelper;
 
   constructor(
-    @inject("PropertyRegistry")
-    propertyRegistry: PropertyRegistry,
-    @inject("ConsoleClient")
+    @inject(PropertyRegistry)
+    private readonly propertyRegistry: PropertyRegistry,
+    @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
-    @inject("PropertySettings")
+    @inject(PropertySettings)
     private readonly propertySettings: PropertySettings,
-    @inject("SearchEngineSettings")
+    @inject(SearchEngineSettings)
     private readonly searchEngineSettings: SearchEngineSettings,
-    @inject("LastSelectedTabRepository")
+    @inject(LastSelectedTabRepository)
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {
-    this.propertyRegistry = propertyRegistry;
     this.bufferCommandHelper = new BufferCommandHelper(
       this.lastSelectedTabRepository,
     );

@@ -1,5 +1,6 @@
-import { injectable, inject } from "inversify";
-import type { SettingsRepository } from "./SettingsRepository";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
+import { SettingsRepository } from "./SettingsRepository";
 import type { ComponentName } from "../../shared/styles";
 import { defaultSettings } from "../../settings";
 
@@ -7,10 +8,12 @@ export interface StyleSettings {
   getStyle(name: string): Promise<Record<string, string>>;
 }
 
-@injectable()
+export const StyleSettings = Symbol("StyleSettings");
+
+@provide(StyleSettings)
 export class StyleSettingsImpl {
   constructor(
-    @inject("SettingsRepository")
+    @inject(SettingsRepository)
     private readonly settingsRepository: SettingsRepository,
   ) {}
 

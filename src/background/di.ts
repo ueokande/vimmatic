@@ -1,95 +1,72 @@
 /* eslint-disable max-len */
 
 import { Container } from "inversify";
-import { LastSelectedTabRepositoryImpl } from "./repositories/LastSelectedTabRepository";
-import { NotifierImpl } from "./presenters/Notifier";
-import { ContentMessageClientImpl } from "./clients/ContentMessageClient";
-import { NavigateClientImpl } from "./clients/NavigateClient";
-import { ConsoleClientImpl } from "./clients/ConsoleClient";
+import { buildProviderModule } from "inversify-binding-decorators";
 import {
+  BrowserSettingRepository,
   FirefoxBrowserSettingRepositoryImpl,
   ChromeBrowserSettingRepositoryImpl,
 } from "./repositories/BrowserSettingRepository";
-import { RepeatRepositoryImpl } from "./repositories/RepeatRepository";
-import { FindClientImpl } from "./clients/FindClient";
-import { ConsoleFrameClientImpl } from "./clients/ConsoleFrameClient";
-import { FindRepositoryImpl } from "./repositories/FindRepository";
-import { FindHistoryRepositoryImpl } from "./repositories/FindHistoryRepository";
-import { ReadyFrameRepositoryImpl } from "./repositories/ReadyFrameRepository";
 import {
+  ClipboardRepository,
   FirefoxClipboardRepositoryImpl,
   ChromeClipboardRepositoryImpl,
 } from "./repositories/ClipboardRepository";
-import { PropertySettingsImpl } from "./settings/PropertySettings";
-import { StyleSettingsImpl } from "./settings/StyleSettings";
-import { SearchEngineSettingsImpl } from "./settings/SearchEngineSettings";
-import { ModeRepositoryImpl } from "./repositories/ModeRepository";
-import {
-  TransientSettingsRepository,
-  PermanentSettingsRepository,
-} from "./settings/SettingsRepository";
-import { ModeClientImpl } from "./clients/ModeClient";
-import { MarkRepositoryImpl } from "./repositories/MarkRepository";
-import { HintClientImpl } from "./clients/HintClient";
-import { HintRepositoryImpl } from "./repositories/HintRepository";
-import { FrameClientImpl } from "./clients/FrameClient";
-import { TopFrameClientImpl } from "./clients/TopFrameClient";
-import { AddonEnabledRepositoryImpl } from "./repositories/AddonEnabledRepository";
-import { AddonEnabledClientImpl } from "./clients/AddonEnabledClient";
-import { ToolbarPresenterImpl } from "./presenters/ToolbarPresenter";
-import { TabPresenterImpl } from "./presenters/TabPresenter";
 import { createPropertyRegistry } from "./property";
 import { CommandRegistryFactory } from "./command";
-import { OperatorRegistoryFactory } from "./operators";
-import { HintActionFactoryImpl } from "./hint/HintActionFactory";
+import { CommandRegistry } from "./command/CommandRegistry";
+import { OperatorRegistryFactory } from "./operators";
+import { OperatorRegistry } from "./operators/OperatorRegistry";
+import { PropertyRegistry } from "./property/PropertyRegistry";
+import "./clients/AddonEnabledClient";
+import "./clients/ConsoleClient";
+import "./clients/ConsoleFrameClient";
+import "./clients/ContentMessageClient";
+import "./clients/FindClient";
+import "./clients/FrameClient";
+import "./clients/HintClient";
+import "./clients/ModeClient";
+import "./clients/NavigateClient";
+import "./clients/TopFrameClient";
+import "./hint/HintActionFactory";
+import "./presenters/Notifier";
+import "./presenters/TabPresenter";
+import "./presenters/ToolbarPresenter";
+import "./repositories/AddonEnabledRepository";
+import "./repositories/FindHistoryRepository";
+import "./repositories/FindRepository";
+import "./repositories/HintRepository";
+import "./repositories/LastSelectedTabRepository";
+import "./repositories/MarkRepository";
+import "./repositories/ModeRepository";
+import "./repositories/ReadyFrameRepository";
+import "./repositories/RepeatRepository";
+import "./settings/PropertySettings";
+import "./settings/SearchEngineSettings";
+import "./settings/SettingsRepository";
+import "./settings/StyleSettings";
 
 const container = new Container({ autoBindInjectable: true });
 
-container.bind("LastSelectedTabRepository").to(LastSelectedTabRepositoryImpl);
-container.bind("Notifier").to(NotifierImpl);
-container.bind("RepeatRepository").to(RepeatRepositoryImpl);
-container.bind("FindRepository").to(FindRepositoryImpl);
-container.bind("FindHistoryRepository").to(FindHistoryRepositoryImpl);
-container.bind("FindClient").to(FindClientImpl);
-container.bind("ContentMessageClient").to(ContentMessageClientImpl);
-container.bind("NavigateClient").to(NavigateClientImpl);
-container.bind("ConsoleClient").to(ConsoleClientImpl);
-container.bind("ConsoleFrameClient").to(ConsoleFrameClientImpl);
-container.bind("ReadyFrameRepository").to(ReadyFrameRepositoryImpl);
+container.load(buildProviderModule());
+
 if (process.env.BROWSER === "firefox") {
-  container.bind("ClipboardRepository").to(FirefoxClipboardRepositoryImpl);
+  container.bind(ClipboardRepository).to(FirefoxClipboardRepositoryImpl);
   container
-    .bind("BrowserSettingRepository")
+    .bind(BrowserSettingRepository)
     .to(FirefoxBrowserSettingRepositoryImpl);
 } else {
-  container.bind("ClipboardRepository").to(ChromeClipboardRepositoryImpl);
+  container.bind(ClipboardRepository).to(ChromeClipboardRepositoryImpl);
   container
-    .bind("BrowserSettingRepository")
+    .bind(BrowserSettingRepository)
     .to(ChromeBrowserSettingRepositoryImpl);
 }
-container.bind("PropertySettings").to(PropertySettingsImpl);
-container.bind("StyleSettings").to(StyleSettingsImpl);
-container.bind("SearchEngineSettings").to(SearchEngineSettingsImpl);
-container.bind("ModeRepository").to(ModeRepositoryImpl);
-container.bind("MarkRepository").to(MarkRepositoryImpl);
-container.bind("ModeClient").to(ModeClientImpl);
-container.bind("HintClient").to(HintClientImpl);
-container.bind("HintRepository").to(HintRepositoryImpl);
-container.bind("FrameClient").to(FrameClientImpl);
-container.bind("TopFrameClient").to(TopFrameClientImpl);
-container.bind("AddonEnabledRepository").to(AddonEnabledRepositoryImpl);
-container.bind("AddonEnabledClient").to(AddonEnabledClientImpl);
-container.bind("ToolbarPresenter").to(ToolbarPresenterImpl);
-container.bind("TabPresenter").to(TabPresenterImpl);
-container.bind("PermanentSettingsRepository").to(PermanentSettingsRepository);
-container.bind("SettingsRepository").to(TransientSettingsRepository);
-container.bind("HintActionFactory").to(HintActionFactoryImpl);
-container.bind("PropertyRegistry").toConstantValue(createPropertyRegistry());
+container.bind(PropertyRegistry).toConstantValue(createPropertyRegistry());
 container
-  .bind("CommandRegistry")
+  .bind(CommandRegistry)
   .toConstantValue(container.resolve(CommandRegistryFactory).create());
 container
-  .bind("OperatorRegistory")
-  .toConstantValue(container.resolve(OperatorRegistoryFactory).create());
+  .bind(OperatorRegistry)
+  .toConstantValue(container.resolve(OperatorRegistryFactory).create());
 
 export { container };

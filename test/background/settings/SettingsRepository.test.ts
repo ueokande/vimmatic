@@ -1,15 +1,15 @@
 import {
-  PermanentSettingsRepository,
-  TransientSettingsRepository,
+  PermanentSettingsRepositoryImpl,
+  TransientSettingsRepositoryImpl,
 } from "../../../src/background/settings/SettingsRepository";
 import type { Settings } from "../../../src/shared/settings";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 
-describe("PermanentSettingsRepository", () => {
+describe("PermanentSettingsRepositoryImpl", () => {
   const mockStorageGet = vi.spyOn(chrome.storage.sync, "get");
 
-  const sut = new PermanentSettingsRepository();
+  const sut = new PermanentSettingsRepositoryImpl();
 
   beforeEach(() => {
     mockStorageGet.mockClear();
@@ -68,7 +68,7 @@ class MockSettingsRepository {
   }
 }
 
-describe("TransientSettingsRepository", () => {
+describe("TransientSettingsRepositoryImpl", () => {
   const permanent = new MockSettingsRepository();
   const mockPermanetLoad = vi.spyOn(permanent, "load");
 
@@ -83,7 +83,7 @@ describe("TransientSettingsRepository", () => {
   });
 
   describe("#load", () => {
-    const sut = new TransientSettingsRepository(
+    const sut = new TransientSettingsRepositoryImpl(
       permanent,
       new MockLocalStorage(undefined),
     );
@@ -100,7 +100,7 @@ describe("TransientSettingsRepository", () => {
   });
 
   describe("#save", () => {
-    const sut = new TransientSettingsRepository(
+    const sut = new TransientSettingsRepositoryImpl(
       permanent,
       new MockLocalStorage(undefined),
     );
@@ -117,7 +117,7 @@ describe("TransientSettingsRepository", () => {
   });
 
   describe("#sync", () => {
-    const sut = new TransientSettingsRepository(
+    const sut = new TransientSettingsRepositoryImpl(
       permanent,
       new MockLocalStorage(undefined),
     );
