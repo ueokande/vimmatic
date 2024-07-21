@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { QuickHintAction } from "./QuickHintAction";
 import { OpenImageHintAction } from "./OpenImageHintAction";
 import { YankURLHintAction } from "./YankURLHintAction";
@@ -18,7 +19,7 @@ export interface HintActionFactory {
 
 export const HintActionFactory = Symbol("HintActionFactory");
 
-@injectable()
+@provide(HintActionFactory)
 export class HintActionFactoryImpl implements HintActionFactory {
   constructor(
     @inject(QuickHintAction)

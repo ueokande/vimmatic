@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import { Mode } from "../../shared/mode";
 
@@ -11,7 +11,7 @@ type State = Mode;
 
 export const ModeRepository = Symbol("ModeRepository");
 
-@injectable()
+@provide(ModeRepository)
 export class ModeRepositoryImpl implements ModeRepository {
   constructor(
     private readonly localCache: LocalCache<State> = new LocalCacheImpl<State>(

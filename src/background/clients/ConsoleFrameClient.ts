@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 
 export interface ConsoleFrameClient {
@@ -7,7 +7,7 @@ export interface ConsoleFrameClient {
 
 export const ConsoleFrameClient = Symbol("ConsoleFrameClient");
 
-@injectable()
+@provide(ConsoleFrameClient)
 export class ConsoleFrameClientImpl implements ConsoleFrameClient {
   async resize(tabId: number, width: number, height: number): Promise<void> {
     const sender = newSender(tabId);

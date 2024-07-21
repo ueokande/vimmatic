@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 export interface AddonEnabledRepository {
@@ -21,7 +21,7 @@ const listeners: OnChangeListener[] = [];
 
 export const AddonEnabledRepository = Symbol("AddonEnabledRepository");
 
-@injectable()
+@provide(AddonEnabledRepository)
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   constructor(
     private readonly cache: LocalCache<boolean> = new LocalCacheImpl<boolean>(

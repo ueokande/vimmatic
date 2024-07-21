@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 
 export interface AddonEnabledClient {
@@ -9,7 +9,7 @@ export interface AddonEnabledClient {
 
 export const AddonEnabledClient = Symbol("AddonEnabledClient");
 
-@injectable()
+@provide(AddonEnabledClient)
 export class AddonEnabledClientImpl implements AddonEnabledClient {
   async enable(tabId: number): Promise<void> {
     const sender = newSender(tabId);

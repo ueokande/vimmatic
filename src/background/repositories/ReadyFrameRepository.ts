@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 type State = { [tabId: number]: number[] };
@@ -13,7 +13,7 @@ export interface ReadyFrameRepository {
 
 export const ReadyFrameRepository = Symbol("ReadyFrameRepository");
 
-@injectable()
+@provide(ReadyFrameRepository)
 export class ReadyFrameRepositoryImpl implements ReadyFrameRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(

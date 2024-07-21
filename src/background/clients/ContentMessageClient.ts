@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 
 export interface ContentMessageClient {
@@ -42,7 +42,7 @@ export interface ContentMessageClient {
 
 export const ContentMessageClient = Symbol("ContentMessageClient");
 
-@injectable()
+@provide(ContentMessageClient)
 export class ContentMessageClientImpl implements ContentMessageClient {
   async scrollTo(
     tabId: number,

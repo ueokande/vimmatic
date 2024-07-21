@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 export interface LastSelectedTabRepository {
@@ -14,7 +14,7 @@ type State = {
 
 export const LastSelectedTabRepository = Symbol("LastSelectedTabRepository");
 
-@injectable()
+@provide(LastSelectedTabRepository)
 export class LastSelectedTabRepositoryImpl
   implements LastSelectedTabRepository
 {

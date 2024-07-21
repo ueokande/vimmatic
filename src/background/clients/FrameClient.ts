@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 
 export interface FrameClient {
@@ -7,7 +7,7 @@ export interface FrameClient {
 
 export const FrameClient = Symbol("FrameClient");
 
-@injectable()
+@provide(FrameClient)
 export class FrameClientImpl implements FrameClient {
   async notifyFrameId(tabId: number, frameId: number): Promise<void> {
     const sender = newSender(tabId, frameId);

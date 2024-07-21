@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 const NOTIFICATION_ID_UPDATE = "vimmatic-update";
 
@@ -8,7 +8,7 @@ export interface Notifier {
 
 export const Notifier = Symbol("Notifier");
 
-@injectable()
+@provide(Notifier)
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {
     const title = `Vimmatic ${version} has been installed`;

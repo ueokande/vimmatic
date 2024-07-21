@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ContentMessageSender";
 import type { Mode } from "../../shared/mode";
 
@@ -8,7 +8,7 @@ export interface ModeClient {
 
 export const ModeClient = Symbol("ModeClient");
 
-@injectable()
+@provide(ModeClient)
 export class ModeClientImpl implements ModeClient {
   async setMode(tabId: number, mode: Mode): Promise<void> {
     const sender = newSender(tabId);

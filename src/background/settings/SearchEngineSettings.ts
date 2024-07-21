@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { SettingsRepository } from "./SettingsRepository";
 import type { Search } from "../../shared/search";
 import { defaultSettings } from "../../settings";
@@ -9,7 +10,7 @@ export interface SearchEngineSettings {
 
 export const SearchEngineSettings = Symbol("SearchEngineSettings");
 
-@injectable()
+@provide(SearchEngineSettings)
 export class SearchEngineSettingsImpl {
   constructor(
     @inject(SettingsRepository)

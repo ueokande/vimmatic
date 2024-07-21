@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 export type GlobalMark = {
@@ -30,7 +30,7 @@ export interface MarkRepository {
 
 export const MarkRepository = Symbol("MarkRepository");
 
-@injectable()
+@provide(MarkRepository)
 export class MarkRepositoryImpl implements MarkRepository {
   constructor(
     private readonly cache: LocalCache<MarkData> = new LocalCacheImpl(

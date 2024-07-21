@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import type { Settings } from "../../shared/settings";
 import { defaultSettings, serialize, deserialize } from "../../settings";
@@ -19,7 +20,7 @@ export const PermanentSettingsRepository = Symbol(
   "PermanentSettingsRepository",
 );
 
-@injectable()
+@provide(PermanentSettingsRepository)
 export class PermanentSettingsRepositoryImpl implements SettingsRepository {
   async load(): Promise<Settings> {
     const { settings } = await chrome.storage.sync.get("settings");
@@ -66,7 +67,7 @@ export class PermanentSettingsRepositoryImpl implements SettingsRepository {
   }
 }
 
-@injectable()
+@provide(SettingsRepository)
 export class TransientSettingsRepositoryImpl implements SettingsRepository {
   constructor(
     @inject(PermanentSettingsRepository)

@@ -1,4 +1,5 @@
-import { injectable, inject } from "inversify";
+import { inject } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { PropertyRegistry } from "../property/PropertyRegistry";
 import { SettingsRepository } from "./SettingsRepository";
 
@@ -10,7 +11,7 @@ export interface PropertySettings {
 
 export const PropertySettings = Symbol("PropertySettings");
 
-@injectable()
+@provide(PropertySettings)
 export class PropertySettingsImpl {
   constructor(
     @inject(SettingsRepository)

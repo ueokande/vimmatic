@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 
 export type Tab = chrome.tabs.Tab;
 
@@ -14,7 +14,7 @@ export interface TabPresenter {
 
 export const TabPresenter = Symbol("TabPresenter");
 
-@injectable()
+@provide(TabPresenter)
 export class TabPresenterImpl implements TabPresenter {
   async openToTab(url: string, tabId: number): Promise<void> {
     await chrome.tabs.update(tabId, { url });

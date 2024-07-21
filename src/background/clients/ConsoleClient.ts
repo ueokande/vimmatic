@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { newSender } from "./ConsoleMessageSender";
 
 export interface ConsoleClient {
@@ -15,7 +15,7 @@ export interface ConsoleClient {
 
 export const ConsoleClient = Symbol("ConsoleClient");
 
-@injectable()
+@provide(ConsoleClient)
 export class ConsoleClientImpl implements ConsoleClient {
   async showCommand(tabId: number, command: string): Promise<void> {
     const sender = newSender(tabId);

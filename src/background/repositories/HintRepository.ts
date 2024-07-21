@@ -1,4 +1,4 @@
-import { injectable } from "inversify";
+import { provide } from "inversify-binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import type { HintTarget } from "../hint/types";
 
@@ -39,7 +39,7 @@ type State = {
 
 export const HintRepository = Symbol("HintRepository");
 
-@injectable()
+@provide(HintRepository)
 export class HintRepositoryImpl implements HintRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
