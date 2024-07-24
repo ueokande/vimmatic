@@ -1,5 +1,5 @@
 import { BufferDeletesCommand } from "../../../src/background/command/BufferDeletesCommand";
-import { BufferCommandHelper } from "../../../src/background/command/BufferCommandHelper";
+import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { defaultTab } from "../mock/defaultTab";
 import { describe, expect, beforeEach, vi, it } from "vitest";
 
@@ -12,8 +12,8 @@ describe("BufferDeletesCommand", () => {
       throw new Error("not implemented");
     },
   };
-  const bufferCommandHelper = new BufferCommandHelper(lastSelectedTab);
-  const sut = new BufferDeletesCommand(bufferCommandHelper);
+  const tabQueryHelper = new TabQueryHelper(lastSelectedTab);
+  const sut = new BufferDeletesCommand(tabQueryHelper);
 
   const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
   const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
@@ -33,20 +33,7 @@ describe("BufferDeletesCommand", () => {
     mockTabsRemove.mockImplementation(() => Promise.resolve());
   });
 
-  it("removes unpinned tabs", async () => {
-    mockTabsQuery.mockResolvedValue([
-      { ...defaultTab, id: 10, pinned: true },
-      { ...defaultTab, id: 11, pinned: false },
-      { ...defaultTab, id: 12, pinned: true },
-      { ...defaultTab, id: 13, pinned: false },
-    ]);
-
-    await sut.exec(ctx, false, "");
-
-    expect(mockTabsRemove).toHaveBeenCalledWith([11, 13]);
-  });
-
-  it("removes pinned tabs forcely", async () => {
+  it("removes tabs", async () => {
     mockTabsQuery.mockResolvedValue([
       { ...defaultTab, id: 10, pinned: true },
       { ...defaultTab, id: 11, pinned: false },
@@ -60,10 +47,7 @@ describe("BufferDeletesCommand", () => {
   });
 
   it("fails no matching tabs", async () => {
-    mockTabsQuery.mockResolvedValue([
-      { ...defaultTab, id: 10, pinned: true },
-      { ...defaultTab, id: 11, pinned: true },
-    ]);
+    mockTabsQuery.mockResolvedValue([]);
 
     await expect(sut.exec(ctx, false, "")).rejects.toThrow(
       "No matching buffer",

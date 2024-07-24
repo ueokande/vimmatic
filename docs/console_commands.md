@@ -98,3 +98,30 @@ the current page.
 The `:set` command can be used to temporarily override properties in the
 console. See the [properties](./properties) section for more details on
 the available properties.
+
+## `:pin`
+
+The `:pin` command pins the current tab or specific tab by URL or title keywords.
+
+```
+:pin        " pin the current tab
+:pin foobar " pin the tab with "foobar" in the title or URL
+```
+
+## `:unpin`
+
+The `:unpin` command unpins the current tab or specific tab by URL or title keywords.
+
+```
+:unpin        " unpin the current tab
+:unpin foobar " unpin the tab with "foobar" in the title or URL
+```
+
+## `:togglepin`
+
+The `:togglepin` command toggles pinning of the current tab or specific tab by URL or title keywords.
+
+```
+:togglepin        " toggle pinning of the current tab
+:togglepin foobar " toggle pinning of the tab with "foobar" in the title or URL
+```

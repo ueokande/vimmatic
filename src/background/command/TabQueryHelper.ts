@@ -1,15 +1,20 @@
 import type { Completions } from "../../shared/completions";
 import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
 
-export class BufferCommandHelper {
+type TabOption = {
+  includePinned: boolean;
+};
+
+export class TabQueryHelper {
   constructor(
     private readonly lastSelectedTabRepository: LastSelectedTabRepository,
   ) {}
 
-  async getCompletions(force: boolean, query: string): Promise<Completions> {
+  // async getCompletions(force: boolean, query: string): Promise<Completions> {
+  async getCompletions(query: string, opts: TabOption): Promise<Completions> {
     const lastTabId =
       await this.lastSelectedTabRepository.getLastSelectedTabId();
-    const allTabs = await this.getAllTabs(force);
+    const allTabs = await this.getAllTabs(opts);
     const num = parseInt(query, 10);
     let tabs: chrome.tabs.Tab[] = [];
     if (!isNaN(num)) {
@@ -28,7 +33,7 @@ export class BufferCommandHelper {
         tabs = [tab];
       }
     } else {
-      tabs = await this.queryTabs(force, query);
+      tabs = await this.queryTabs(query, opts);
     }
 
     const items = tabs.map((tab) => {
@@ -50,9 +55,12 @@ export class BufferCommandHelper {
     return [{ name: "Buffers", items }];
   }
 
-  async queryTabs(force: boolean, query: string): Promise<chrome.tabs.Tab[]> {
-    const tabs = await chrome.tabs.query({ currentWindow: true });
-    const matched = tabs
+  async queryTabs(query: string, opts: TabOption): Promise<chrome.tabs.Tab[]> {
+    const tabs = await chrome.tabs.query({
+      currentWindow: true,
+      pinned: opts.includePinned ? undefined : false,
+    });
+    return tabs
       .filter((t) => {
         return (
           (t.url && t.url.toLowerCase().includes(query.toLowerCase())) ||
@@ -60,18 +68,12 @@ export class BufferCommandHelper {
         );
       })
       .filter((item) => item.id && item.title && item.url);
-
-    if (force) {
-      return matched;
-    }
-    return matched.filter((tab) => !tab.pinned);
   }
 
-  private async getAllTabs(force: boolean): Promise<chrome.tabs.Tab[]> {
-    const tabs = await chrome.tabs.query({ currentWindow: true });
-    if (force) {
-      return tabs;
-    }
-    return tabs.filter((tab) => !tab.pinned);
+  private async getAllTabs(opts: TabOption): Promise<chrome.tabs.Tab[]> {
+    return await chrome.tabs.query({
+      currentWindow: true,
+      pinned: opts.includePinned ? undefined : false,
+    });
   }
 }
