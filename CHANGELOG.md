@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/ueokande/vimmatic/compare/v0.7.2...v0.8.0) (2024-07-25)
+
+
+### Features
+
+* pin/unpin/togglepin command ([#487](https://github.com/ueokande/vimmatic/issues/487)) ([7a8ee3e](https://github.com/ueokande/vimmatic/commit/7a8ee3ec6dea1de1116ae500a26dcc0f10c1579d)), closes [#478](https://github.com/ueokande/vimmatic/issues/478)
+
 ## [0.7.2](https://github.com/ueokande/vimmatic/compare/v0.7.1...v0.7.2) (2024-07-20)
 
 
