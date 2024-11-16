@@ -73,13 +73,13 @@ See the [console commands](./console_commands) section for a more detailed descr
 
 Vimmatic can be configured to follow links opened in tabs in the background
 instead of switching to a new tab immediately. To do this, you'll need to update
-the config file: change the `"background"` property of the `"follow.start"`
+the config file: change the `"background"` property of the `"hint.quick"`
 action to `true`, e.g.:
 
 ```json
 {
     "keymaps": {
-        "F": { "type": "follow.start", "newTab": true, "background": true }
+        "F": { "type": "hint.quick", "newTab": true, "background": false }
     }
 }
 ```
