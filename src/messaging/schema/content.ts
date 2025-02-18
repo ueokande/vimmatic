@@ -9,6 +9,12 @@ export type Schema = {
   "addon.disable": Duplex;
   "console.hide": Duplex;
   "console.resize": Duplex<{ width: number; height: number }>;
+  //"find.visual.start": 
+  "visual.left": Duplex<{ amount: number }>;
+  "visual.right": Duplex<{ amount: number }>;
+  "visual.word.next": Duplex<{ amount: number }>;
+  "visual.word.end": Duplex<{ amount: number }>;
+  "visual.word.back": Duplex<{ amount: number }>;
   "find.next": Duplex<FindQuery, boolean>;
   "find.prev": Duplex<FindQuery, boolean>;
   "find.clear.selection": Duplex;

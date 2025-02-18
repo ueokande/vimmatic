@@ -8,6 +8,7 @@ import { CloseTabRightOperator } from "./impls/CloseTabRightOperator";
 import { DuplicateTabOperator } from "./impls/DuplicateTabOperator";
 import { FindNextOperator } from "./impls/FindNextOperator";
 import { FindPrevOperator } from "./impls/FindPrevOperator";
+import { StartVisualOperator } from "./impls/StartVisualOperator";
 import { NavigateHistoryNextOperator } from "./impls/NavigateHistoryNextOperator";
 import { NavigateHistoryPrevOperator } from "./impls/NavigateHistoryPrevOperator";
 import { NavigateLinkNextOperator } from "./impls/NavigateLinkNextOperator";
@@ -89,6 +90,8 @@ export class OperatorRegistryFactory {
     private readonly findNextOperator: FindNextOperator,
     @inject(FindPrevOperator)
     private readonly findPrevOperator: FindPrevOperator,
+    @inject(StartVisualOperator)
+    private readonly startVisualOperator: StartVisualOperator,
     @inject(NavigateHistoryNextOperator)
     private readonly navigateHistoryNextOperator: NavigateHistoryNextOperator,
     @inject(NavigateHistoryPrevOperator)
@@ -247,6 +250,8 @@ export class OperatorRegistryFactory {
     r.register(this.scrollToTopOperator);
     r.register(this.verticalScrollOperator);
     r.register(this.pageScrollOperator);
+
+    r.register(this.startVisualOperator);
 
     r.register(this.focusOperator);
     r.register(this.yankOperator);
