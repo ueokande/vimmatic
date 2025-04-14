@@ -40,7 +40,8 @@ export class FindPresenterImpl implements FindPresenter {
   }
 
   select(matched: FindRange): void {
-      this.finderRepository.select(matched);
+    this.finderRepository.select(matched);
+    this.finderRepository.scrollTo(matched);
   }
 
   clearSelection(): void {
