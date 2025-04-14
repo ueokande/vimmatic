@@ -8,24 +8,23 @@ export class VisualController {
     private readonly visualUseCase: VisualUseCase,
   ) {}
 
-  moveLeft({amount}: {amount: number}) {
-    this.visualUseCase.moveLeft(amount);
+  moveLeft() {
+    this.visualUseCase.moveLeft();
   }
 
-  moveRight({amount}: {amount: number}) {
-    this.visualUseCase.moveRight(amount);
+  moveRight() {
+    this.visualUseCase.moveRight();
   }
 
-  moveEndWord({amount}: {amount: number}) {
-    this.visualUseCase.moveEndWord(amount);
+  moveEndWord() {
+    this.visualUseCase.moveEndWord();
   }
 
-  moveNextWord({amount}: {amount: number}) {
-    this.visualUseCase.moveNextWord(amount);
+  moveNextWord() {
+    this.visualUseCase.moveNextWord();
   }
 
-  movePrevWord({amount}: {amount: number}) {
-    this.visualUseCase.movePrevWord(amount);
+  movePrevWord() {
+    this.visualUseCase.movePrevWord();
   }
-
 }
