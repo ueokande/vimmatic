@@ -71,9 +71,6 @@ export class ContentMessageListener {
     this.receiver
       .route("console.resize")
       .to(consoleFrameController.resize.bind(consoleFrameController));
-    // this.receiver
-    //   .route("find.visual.start")
-    //   .to(visualController)
     this.receiver
       .route("visual.left")
       .to(visualController.moveLeft.bind(visualController));
