@@ -1,7 +1,12 @@
 import { injectable } from "inversify";
 import type { FindQuery } from "../../shared/findQuery";
+import { fluentProvide } from "inversify-binding-decorators";
 
+const provideSingleton = (identifier: any) => {
+  return fluentProvide(identifier).inSingletonScope().done(true);
+};
 
+@provideSingleton(FinderRepository)
 @injectable()
 export class FinderRepository {
   private currentQuery: FindQuery = { keyword: "", mode: "normal" || "regexp", ignoreCase: false };
