@@ -73,6 +73,11 @@ export const defaultJSONSettings = `{
     "/": { "type": "find.start" },
     "n": { "type": "find.next" },
     "N": { "type": "find.prev" },
+    "h": { "type": "visual.left", "count": 1},
+    "l": { "type": "visual.right", "count": 1 },
+    "e": { "type": "visual.word.end", "count": 1 },
+    "w": { "type": "visual.word.next", "count": 1 },
+    "b": { "type": "visual.word.back", "count": 1 },
     "Enter": { "type": "find.visual.start" },
     ".": { "type": "repeat" },
     "<S-Esc>": { "type": "addon.toggle.enabled" }
@@ -94,7 +99,8 @@ export const defaultJSONSettings = `{
     "complete": "sbh",
     "colorscheme": "system",
     "ignorecase": true,
-    "findmode": "normal"
+    "findmode": "normal",
+    "ignorenodes": true
   },
   "blacklist": [
   ],
