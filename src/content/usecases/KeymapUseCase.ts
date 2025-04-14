@@ -11,7 +11,7 @@ import { KeySequence } from "../domains/KeySequence";
 const reservedKeymaps = new Keymaps({
   "<Esc>": { type: "cancel", props: {} },
   "<C-[>": { type: "cancel", props: {} },
-  "<Enter>": { type: "find.visual.start", props: {} }
+  "<Enter>": { type: "find.visual.start", props: {} },
 });
 
 const enableAddonOps = ["addon.enable", "addon.toggle.enabled"];
