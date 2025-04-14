@@ -9,6 +9,11 @@ import { DuplicateTabOperator } from "./impls/DuplicateTabOperator";
 import { FindNextOperator } from "./impls/FindNextOperator";
 import { FindPrevOperator } from "./impls/FindPrevOperator";
 import { StartVisualOperator } from "./impls/StartVisualOperator";
+import { VisualMoveLeftOperator } from "./impls/VisualMoveLeftOperator";
+import { VisualMoveRightOperator } from "./impls/VisualMoveRightOperator";
+import { VisualMoveEndWordOperator } from "./impls/VisualMoveEndWordOperator";
+import { VisualMoveNextWordOperator } from "./impls/VisualMoveNextWordOperator";
+import { VisualMovePrevWordOperator } from "./impls/VisualMovePrevWordOperator";
 import { NavigateHistoryNextOperator } from "./impls/NavigateHistoryNextOperator";
 import { NavigateHistoryPrevOperator } from "./impls/NavigateHistoryPrevOperator";
 import { NavigateLinkNextOperator } from "./impls/NavigateLinkNextOperator";
@@ -92,6 +97,16 @@ export class OperatorRegistryFactory {
     private readonly findPrevOperator: FindPrevOperator,
     @inject(StartVisualOperator)
     private readonly startVisualOperator: StartVisualOperator,
+    @inject(VisualMoveRightOperator)
+    private readonly visualMoveRightOperator: VisualMoveRightOperator,
+    @inject(VisualMoveLeftOperator)
+    private readonly visualMoveLeftOperator: VisualMoveLeftOperator,
+    @inject(VisualMoveNextWordOperator)
+    private readonly visualMoveNextWordOperator: VisualMoveNextWordOperator,
+    @inject(VisualMoveEndWordOperator)
+    private readonly visualMoveEndWordOperator: VisualMoveEndWordOperator,
+    @inject(VisualMovePrevWordOperator)
+    private readonly visualMovePrevWordOperator: VisualMovePrevWordOperator,
     @inject(NavigateHistoryNextOperator)
     private readonly navigateHistoryNextOperator: NavigateHistoryNextOperator,
     @inject(NavigateHistoryPrevOperator)
@@ -252,6 +267,11 @@ export class OperatorRegistryFactory {
     r.register(this.pageScrollOperator);
 
     r.register(this.startVisualOperator);
+    r.register(this.visualMoveLeftOperator);
+    r.register(this.visualMoveRightOperator);
+    r.register(this.visualMoveNextWordOperator);
+    r.register(this.visualMovePrevWordOperator);
+    r.register(this.visualMoveEndWordOperator);
 
     r.register(this.focusOperator);
     r.register(this.yankOperator);
