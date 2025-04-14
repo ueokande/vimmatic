@@ -4,6 +4,7 @@ import { MarkJumpUseCase } from "../usecases/MarkJumpUseCase";
 import { MarkSetUseCase } from "../usecases/MarkSetUseCase";
 import { HintModeUseCase } from "../usecases/HintModeUseCase";
 import { HintKeyUseCase } from "../usecases/HintKeyUseCase";
+import { VisualModeUseCase } from "../usecases/VisualModeUseCase";
 import { ModeUseCase } from "../usecases/ModeUseCase";
 
 @injectable()
@@ -19,6 +20,8 @@ export class KeyController {
     private readonly hintKeyUseCase: HintKeyUseCase,
     @inject(ModeUseCase)
     private readonly modeUseCase: ModeUseCase,
+    @inject(VisualModeUseCase)
+    private readonly visualModeUseCase: VisualModeUseCase,
   ) {}
 
   async pressKey({ sender }: RequestContext, { key }: { key: string }) {
@@ -33,6 +36,11 @@ export class KeyController {
         await this.hintModeUseCase.stop(sender.tab.id);
         await this.modeUseCase.resetMode(sender.tab.id);
       }
+    } else if (mode == 'visual') {
+        const continued = this.visualModeUseCase.pressKey(key);
+        if (!continued) {
+            await this.modeUseCase.resetMode(sender.tab.id);
+        }
     } else if (mode === "mark-set") {
       await this.markSetUseCase.setMark(sender.tab, key);
       await this.modeUseCase.resetMode(sender.tab.id);
