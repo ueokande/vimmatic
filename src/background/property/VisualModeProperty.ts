@@ -1,33 +1,31 @@
 import type { Property, PropertyType } from "./types";
 
 enum VisualMode {
-    Visual = "visual"
+  Visual = "visual",
 }
 
-
 export class VisualModeProperty implements Property {
-    name() {
-        return "visualmode"
+  name() {
+    return "visualmode";
+  }
+
+  description() {
+    return "Visual Mode";
+  }
+
+  type() {
+    return "string" as const;
+  }
+
+  defaultValue() {
+    return VisualMode.Visual;
+  }
+
+  validate(value: PropertyType) {
+    if (value == VisualMode.Visual) {
+      return;
     }
 
-
-    description() {
-        return "Visual Mode"
-    }
-
-    type() {
-        return "string" as const
-    }
-
-    defaultValue () {
-        return VisualMode.Visual
-    }
-
-    validate (value: PropertyType) {
-        if (value == VisualMode.Visual) {
-            return;
-        }
-
-        throw new Error(`invalid color scheme: ${value}`) 
-    }
+    throw new Error(`invalid color scheme: ${value}`);
+  }
 }
