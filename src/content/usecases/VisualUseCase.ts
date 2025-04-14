@@ -1,8 +1,6 @@
 import { injectable, inject } from "inversify";
 import { VisualPresenter } from "../presenters/VisualPresenter";
 
-
-
 @injectable()
 export class VisualUseCase {
   constructor(
@@ -10,44 +8,48 @@ export class VisualUseCase {
     private readonly visualPresenter: VisualPresenter,
   ) {}
 
-  moveLeft(amount: number) {
-    while (amount > 0) { 
-        amount--;
-        this.visualPresenter.moveLeft();
+  moveLeft() {
+    if (!this.visualPresenter.isValidCarret()) {
+      this.visualPresenter.updateCarrets();
     }
+
+    this.visualPresenter.moveLeft();
     this.visualPresenter.select();
   }
 
-  moveRight(amount: number) {
-    while (amount > 0) {
-        amount--;
-        this.visualPresenter.moveRight();
+  moveRight() {
+    if (!this.visualPresenter.isValidCarret()) {
+      this.visualPresenter.updateCarrets();
     }
+
+    this.visualPresenter.moveRight();
     this.visualPresenter.select();
   }
 
-  moveEndWord(amount: number) {
-    while (amount > 0) {
-        amount--;
-        this.visualPresenter.moveEndWord();
+  moveEndWord() {
+    if (!this.visualPresenter.isValidCarret()) {
+      this.visualPresenter.updateCarrets();
     }
+
+    this.visualPresenter.moveEndWord();
     this.visualPresenter.select();
   }
 
-  moveNextWord(amount: number) {
-    while (amount > 0) {
-        amount--;
-        this.visualPresenter.moveNextWord();
+  moveNextWord() {
+    if (!this.visualPresenter.isValidCarret()) {
+      this.visualPresenter.updateCarrets();
     }
+
+    this.visualPresenter.moveNextWord();
     this.visualPresenter.select();
   }
 
-  movePrevWord(amount: number) {
-      while (amount > 0) {
-          amount--;
-          this.visualPresenter.movePrevWord();
-      }
-      this.visualPresenter.select(); 
-  }
+  movePrevWord() {
+    if (!this.visualPresenter.isValidCarret()) {
+      this.visualPresenter.updateCarrets();
+    }
 
+    this.visualPresenter.movePrevWord();
+    this.visualPresenter.select();
+  }
 }
