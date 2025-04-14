@@ -9,16 +9,20 @@ const provideSingleton = (identifier: any) => {
 @provideSingleton(FinderRepository)
 @injectable()
 export class FinderRepository {
-  private currentQuery: FindQuery = { keyword: "", mode: "normal" || "regexp", ignoreCase: false };
+  private currentQuery: FindQuery = {
+    keyword: "",
+    mode: "normal" || "regexp",
+    ignoreCase: false,
+  };
   private finder: Finder | undefined;
   private textGroups: Array<Array<Text>> | undefined;
-  private currentCarretPosition: FindRange;
-  private initCarretPosition: FindRange;
+  private initCarretPosition: FindRange | undefined;
 
   initFinder(query: FindQuery) {
     if (!this.textGroups) {
       this.textGroups = getTextGroups(document.body);
     }
+
     if (
       !this.finder ||
       query.keyword !== this.currentQuery.keyword ||
@@ -27,17 +31,18 @@ export class FinderRepository {
     ) {
       this.finder = new Finder(query, this.textGroups);
       this.initCarretPosition = this.finder.getCurrentMatch();
-      this.currentCarretPosition = this.finder.getCurrentMatch();
+
       this.currentQuery = query;
     }
   }
 
   getCurrentMatch(): FindRange {
-      return this.initCarretPosition;
-  }
-  
-  getCurrentCarretPosition(): FindRange {
-      return this.currentCarretPosition;
+    if (!this.initCarretPosition) {
+      throw new Error(
+        "FinderRepository: initFinder() must be called before getCurrentMatch().",
+      );
+    }
+    return this.initCarretPosition;
   }
 
   getFinder(): Finder | undefined {
@@ -45,28 +50,25 @@ export class FinderRepository {
   }
 
   findNext(): FindRange | undefined {
-      return this.finder?.findNext()
+    this.initCarretPosition = this.finder?.findNext();
+    return this.initCarretPosition;
   }
 
   findPrev(): FindRange | undefined {
-      return this.finder?.findPrev()
+    this.initCarretPosition = this.finder?.findPrev();
+    return this.initCarretPosition;
   }
 
   getTextGroups(): Array<Array<Text>> | undefined {
     return this.textGroups;
   }
 
-  select(matched: FindRange): void {
-    const range = document.createRange();
-    range.setStart(matched[0].node, matched[0].offset);
-    range.setEnd(matched[1].node, matched[1].offset + 1);
-    const sel = window.getSelection();
-    if (sel) {
-      sel.removeAllRanges();
-      sel.addRange(range);
-    }
+  scrollTo(matched: FindRange) {
     const container = matched[0].node.parentNode;
     if (!(container instanceof Element)) {
+      return;
+    }
+    if (!scroll) {
       return;
     }
     const rect = container.getBoundingClientRect();
@@ -81,6 +83,21 @@ export class FinderRepository {
     });
   }
 
+  select(matched: FindRange): void {
+    const range = document.createRange();
+    if (matched[1].textNodePos < matched[0].textNodePos) {
+      range.setStart(matched[1].node, matched[1].offset);
+      range.setEnd(matched[0].node, matched[0].offset);
+    } else {
+      range.setStart(matched[0].node, matched[0].offset);
+      range.setEnd(matched[1].node, matched[1].offset);
+    }
+    const sel = window.getSelection();
+    if (sel) {
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
 
   clearSelection(): void {
     const sel = window.getSelection();
@@ -89,9 +106,7 @@ export class FinderRepository {
     }
     this.finder = undefined;
   }
-
 }
-
 
 type FindTarget = {
   keyword: string;
@@ -100,10 +115,9 @@ type FindTarget = {
 };
 
 export type FindRange = [
-  { node: Text; offset: number },
-  { node: Text; offset: number },
+  { node: Text; offset: number; textNodePos: number },
+  { node: Text; offset: number; textNodePos: number },
 ];
-
 
 export class Finder {
   private readonly target: FindTarget;
@@ -119,10 +133,8 @@ export class Finder {
   }
 
   getCurrentMatch(): FindRange {
-      console.log(this.matched);
-      return this.matched[0]
+    return this.matched[0];
   }
-
 
   findNext(): FindRange | undefined {
     if (this.matched.length === 0) {
@@ -168,6 +180,7 @@ export class Finder {
 
           const begin = textGroupMap.anchorAt(index);
           const end = textGroupMap.anchorAt(index + keyword.length - 1);
+          end.offset += 1;
           matched.push([begin, end]);
 
           i = index;
@@ -180,6 +193,7 @@ export class Finder {
           }
           const begin = textGroupMap.anchorAt(m.index);
           const end = textGroupMap.anchorAt(m.index + m[0].length - 1);
+          end.offset += 1;
           matched.push([begin, end]);
         });
       }
@@ -197,6 +211,10 @@ export class TextGroupMap {
     this.wholeLineText = textNodes.map((e) => e.wholeText).join("");
   }
 
+  getTextNodeIndex(target: Text, textNodes: Node[]): number {
+    return textNodes.findIndex((node) => node === target);
+  }
+
   get wholeLine(): string {
     return this.wholeLineText;
   }
@@ -208,12 +226,16 @@ export class TextGroupMap {
    *   |      |       |
    *   0      3       7
    */
-  anchorAt(index: number): { node: Text; offset: number } {
+  anchorAt(index: number): { node: Text; offset: number; textNodePos: number } {
     let current = 0;
     for (const node of this.textNodes) {
       const length = node.wholeText.length;
       if (current + length > index) {
-        return { node, offset: index - current };
+        return {
+          node,
+          offset: index - current,
+          textNodePos: this.getTextNodeIndex(node, getNodes()),
+        };
       }
       current += length;
     }
@@ -244,6 +266,7 @@ const isInline = (node: Node): boolean => {
  */
 export const getTextGroups = (root: Node): Array<Array<Text>> => {
   const textGroups: Array<Array<Text>> = [];
+
   let currentGroup: Array<Text> = [];
 
   const walk = (node: Node) => {
@@ -276,4 +299,14 @@ export const getTextGroups = (root: Node): Array<Array<Text>> => {
   walk(root);
 
   return textGroups;
+};
+
+function getNodes(): Array<Node> {
+  const walker = document.createTreeWalker(document, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  let node;
+  while ((node = walker.nextNode())) {
+    nodes.push(node);
+  }
+  return nodes;
 }
