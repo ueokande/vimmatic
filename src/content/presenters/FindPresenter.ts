@@ -1,20 +1,12 @@
-import { FinderRepository } from "../repositories/FinderRepository";
 import { inject } from "inversify";
-import { provide} from "inversify-binding-decorators";
+import { provide } from "inversify-binding-decorators";
+import { FinderRepository } from "../repositories/FinderRepository";
+import type { FindRange } from "../repositories/FinderRepository";
 import type { FindQuery } from "../../shared/findQuery";
-
-
-type FindRange = [
-  { node: Text; offset: number },
-  { node: Text; offset: number },
-];
-
 
 export interface FindPresenter {
   findNext(query: FindQuery): boolean;
-
   findPrev(query: FindQuery): boolean;
-
   clearSelection(): void;
 }
 
@@ -31,9 +23,7 @@ export class FindPresenterImpl implements FindPresenter {
     this.finderRepository.initFinder({ keyword, mode, ignoreCase });
 
     const matched = this.finderRepository.findNext();
-    if (!matched) {
-      return false;
-    }
+    if (!matched) return false;
 
     this.select(matched);
     return true;
@@ -43,9 +33,8 @@ export class FindPresenterImpl implements FindPresenter {
     this.finderRepository.initFinder({ keyword, mode, ignoreCase });
 
     const matched = this.finderRepository.findPrev();
-    if (!matched) {
-      return false;
-    }
+    if (!matched) return false;
+
     this.select(matched);
     return true;
   }
@@ -55,10 +44,6 @@ export class FindPresenterImpl implements FindPresenter {
   }
 
   clearSelection(): void {
-      this.finderRepository.clearSelection();
+    this.finderRepository.clearSelection();
   }
-
-
 }
-
-
