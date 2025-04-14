@@ -36,11 +36,11 @@ export class KeyController {
         await this.hintModeUseCase.stop(sender.tab.id);
         await this.modeUseCase.resetMode(sender.tab.id);
       }
-    } else if (mode == 'visual') {
-        const continued = this.visualModeUseCase.pressKey(key);
-        if (!continued) {
-            await this.modeUseCase.resetMode(sender.tab.id);
-        }
+    } else if (mode == "visual") {
+      const continued = this.visualModeUseCase.pressKey(key);
+      if (!continued) {
+        await this.modeUseCase.resetMode(sender.tab.id);
+      }
     } else if (mode === "mark-set") {
       await this.markSetUseCase.setMark(sender.tab, key);
       await this.modeUseCase.resetMode(sender.tab.id);
