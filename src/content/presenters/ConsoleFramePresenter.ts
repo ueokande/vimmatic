@@ -20,7 +20,7 @@ const FRAME_STYLES = {
   height: "0",
   width: "100%",
   position: "fixed",
-  "z-index": "2147483647",
+  "z-index": "2147483647", // to be on top of all other elements and hints
   border: "none",
   "background-color": "unset",
   "pointer-events": "none",

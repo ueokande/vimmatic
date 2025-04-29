@@ -57,7 +57,7 @@ export class Hint {
     hint.setAttribute("data-vimmatic-hint", ""); // to ignore by CSS selector
     hint.style.position = "absolute";
     hint.style.textTransform = "uppercase";
-    hint.style.zIndex = "2147483647";
+    hint.style.zIndex = "2147483646"; // to be under the console
     hint.style.left = x + scrollX + "px";
     hint.style.top = y + scrollY + "px";
 
