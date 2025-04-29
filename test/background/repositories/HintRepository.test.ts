@@ -102,13 +102,16 @@ describe("HintRepositoryImpl", () => {
       { frameId: 2, element: "0", tag: "ab" },
       { frameId: 2, element: "1", tag: "ac" },
     ]);
+    expect(await sut.getCurrentQueuedKeys()).toEqual("a");
 
     await sut.popKey();
     expect(await sut.getAllMatchedHints()).toEqual(hints);
+    expect(await sut.getCurrentQueuedKeys()).toEqual("");
 
     await sut.pushKey("b");
     expect(await sut.getAllMatchedHints()).toEqual([
       { frameId: 0, element: "1", tag: "b" },
     ]);
+    expect(await sut.getCurrentQueuedKeys()).toEqual("b");
   });
 });

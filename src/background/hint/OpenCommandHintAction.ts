@@ -12,6 +12,10 @@ export class OpenCommandHintAction implements HintAction {
     private readonly consoleClient: ConsoleClient,
   ) {}
 
+  description(): string {
+    return "Show open command";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

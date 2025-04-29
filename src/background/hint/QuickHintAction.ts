@@ -13,6 +13,10 @@ export class QuickHintAction implements HintAction {
     private readonly tabPresenter: TabPresenter,
   ) {}
 
+  description(): string {
+    return "Quick hint";
+  }
+
   lookupTargetSelector(): string {
     return [
       "a",

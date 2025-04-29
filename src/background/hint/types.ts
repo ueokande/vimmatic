@@ -5,6 +5,8 @@ export type HintTarget = {
 };
 
 export interface HintAction {
+  description(): string;
+
   lookupTargetSelector(): string;
 
   activate(

@@ -12,6 +12,10 @@ export class WinopenHintAction implements HintAction {
     private readonly tabPresenter: TabPresenter,
   ) {}
 
+  description(): string {
+    return "Open link";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

@@ -12,6 +12,10 @@ export class WinopenCommandHintAction implements HintAction {
     private readonly consoleClient: ConsoleClient,
   ) {}
 
+  description(): string {
+    return "Show winopen command";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

@@ -7,6 +7,7 @@ import { HintClient } from "../clients/HintClient";
 import { HintRepository } from "../repositories/HintRepository";
 import { HintActionFactory } from "../hint/HintActionFactory";
 import { HintTagProducer } from "./HintTagProducer";
+import { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export class HintModeUseCase {
@@ -23,6 +24,8 @@ export class HintModeUseCase {
     private readonly hintRepository: HintRepository,
     @inject(HintActionFactory)
     private readonly hintActionFactory: HintActionFactory,
+    @inject(ConsoleClient)
+    private readonly consoleClient: ConsoleClient,
   ) {}
 
   async start(
@@ -39,10 +42,17 @@ export class HintModeUseCase {
       "hintchars",
     )) as string;
 
+    const hintAction = this.hintActionFactory.createHintAction(hintModeName);
+    const description = hintAction.description();
+    await this.consoleClient.showInfo(
+      tabId,
+      `${description}: press a key to filter the hints or press Enter to select`,
+    );
+
     const viewport = await this.topFrameClient.getWindowViewport(tabId);
     const hintKeys = new HintTagProducer(hintchars);
     const targets: HintTarget[] = [];
-    const hintAction = this.hintActionFactory.createHintAction(hintModeName);
+
     for (const frameId of frameIds) {
       const framePos = await this.topFrameClient.getFramePosition(
         tabId,
@@ -76,5 +86,6 @@ export class HintModeUseCase {
 
   async stop(tabId: number): Promise<void> {
     await this.hintClient.clearHints(tabId);
+    await this.consoleClient.hide(tabId);
   }
 }

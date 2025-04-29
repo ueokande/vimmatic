@@ -15,6 +15,10 @@ export class YankLinkTextHintAction implements HintAction {
     private readonly consoleClient: ConsoleClient,
   ) {}
 
+  description(): string {
+    return "Copy link text";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(", ");
   }

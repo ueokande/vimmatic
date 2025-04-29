@@ -12,6 +12,10 @@ export class TabopenCommandHintAction implements HintAction {
     private readonly consoleClient: ConsoleClient,
   ) {}
 
+  description(): string {
+    return "Show tabopen command";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

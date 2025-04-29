@@ -12,6 +12,10 @@ export class OpenImageHintAction implements HintAction {
     private readonly tabPresenter: TabPresenter,
   ) {}
 
+  description(): string {
+    return "Open image";
+  }
+
   lookupTargetSelector(): string {
     return ["img"].join(",");
   }

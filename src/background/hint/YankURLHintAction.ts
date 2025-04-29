@@ -15,6 +15,10 @@ export class YankURLHintAction implements HintAction {
     private readonly consoleClient: ConsoleClient,
   ) {}
 
+  description(): string {
+    return "Copy link URL";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

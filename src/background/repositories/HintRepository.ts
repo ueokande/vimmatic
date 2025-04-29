@@ -17,6 +17,8 @@ export interface HintRepository {
 
   popKey(): Promise<void>;
 
+  getCurrentQueuedKeys(): Promise<string>;
+
   getTargetFrameIds(): Promise<number[]>;
 
   getMatchedHints(frameId: number): Promise<HintTarget[]>;
@@ -103,6 +105,11 @@ export class HintRepositoryImpl implements HintRepository {
     const state = await this.cache.getValue();
     state.keys.pop();
     await this.cache.setValue(state);
+  }
+
+  async getCurrentQueuedKeys(): Promise<string> {
+    const state = await this.cache.getValue();
+    return state.keys.join("");
   }
 
   async getTargetFrameIds(): Promise<number[]> {
