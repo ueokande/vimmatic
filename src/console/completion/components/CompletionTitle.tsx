@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import * as stylex from "@stylexjs/stylex";
 import { colors } from "../../styles/tokens.stylex";
 

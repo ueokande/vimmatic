@@ -1,4 +1,3 @@
-import React from "react";
 import ReactTestRenderer from "react-test-renderer";
 import { CompletionList } from "../../../../src/console/completion/components/CompletionList";
 import { CompletionTitle } from "../../../../src/console/completion/components/CompletionTitle";

@@ -5,7 +5,7 @@
     "lib": ["es6", "dom", "esnext"],
     "allowJs": true,
     "checkJs": false,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "outDir": "./build",
     "removeComments": true,

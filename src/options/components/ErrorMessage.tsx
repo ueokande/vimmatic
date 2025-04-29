@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import stylex from "@stylexjs/stylex";
 
 const styles = stylex.create({

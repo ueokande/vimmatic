@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { UserPreferenceCSSProvider } from "./userPreferenceCSS";
 import { ColorSchemeProvider } from "./colorScheme";
 
