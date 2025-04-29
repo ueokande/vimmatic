@@ -94,16 +94,17 @@ export const CompletionList: React.FC<Props> = ({
       ++itemIndex;
     }
     groups.push(
-      <div
+      <li
         key={`group-${groupIndex}`}
         role="group"
         aria-describedby={`title-${groupIndex}`}
       >
-        {title}
-        <ul>{items}</ul>
-      </div>,
+        <ul>
+          {title} {items}
+        </ul>
+      </li>,
     );
   });
 
-  return <div role="menu">{groups}</div>;
+  return <ul role="menu">{groups}</ul>;
 };

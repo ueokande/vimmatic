@@ -57,7 +57,7 @@ export const CompletionItem: React.FC<Props> = ({
   icon,
   ...props
 }) => (
-  <div
+  <li
     aria-labelledby={`completion-item-${primary}`}
     {...stylex.props(
       styles.base,
@@ -74,5 +74,5 @@ export const CompletionItem: React.FC<Props> = ({
       {primary}
     </span>
     <span {...stylex.props(styles.secondaryText)}>{secondary}</span>
-  </div>
+  </li>
 );
