@@ -28,8 +28,11 @@ export class KeyController {
 
     const mode = await this.modeUseCase.getMode();
     if (mode === "follow") {
-      const continued = await this.hintKeyUseCase.pressKey(sender.tab.id, key);
-      if (!continued) {
+      const result = await this.hintKeyUseCase.pressKey(sender.tab.id, key);
+      if (result === "cancel") {
+        await this.hintModeUseCase.cancel(sender.tab.id);
+        await this.modeUseCase.resetMode(sender.tab.id);
+      } else if (result === "activate") {
         await this.hintModeUseCase.stop(sender.tab.id);
         await this.modeUseCase.resetMode(sender.tab.id);
       }

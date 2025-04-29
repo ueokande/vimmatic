@@ -4,9 +4,12 @@ import { MockHintRepository } from "../mock/MockHintRepository";
 import { MockHintActionFactory } from "../mock/MockHintActionFactory";
 import type { HintAction } from "../../../src/background/hint/types";
 import { describe, it, vi, expect } from "vitest";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 
 class MockHintAction implements HintAction {
-  constructor() {}
+  description(): string {
+    return "mock";
+  }
 
   lookupTargetSelector(): string {
     return "[mock]";
@@ -22,12 +25,21 @@ describe("HintKeyUseCase", () => {
   const hintRepository = new MockHintRepository();
   const hintActionFactory = new MockHintActionFactory();
   const mockAction = new MockHintAction();
-  const sut = new HintKeyUseCase(hintClient, hintRepository, hintActionFactory);
+  const consoleClient = new MockConsoleClient();
+  const sut = new HintKeyUseCase(
+    hintClient,
+    hintRepository,
+    hintActionFactory,
+    consoleClient,
+  );
 
   const mockPushKey = vi.spyOn(hintRepository, "pushKey").mockResolvedValue();
   const mockPopKey = vi.spyOn(hintRepository, "popKey").mockResolvedValue();
   const mockShowHints = vi.spyOn(hintClient, "showHints").mockResolvedValue();
   const mockActivate = vi.spyOn(mockAction, "activate").mockResolvedValue();
+  vi.spyOn(hintRepository, "getCurrentQueuedKeys").mockResolvedValue("");
+  vi.spyOn(consoleClient, "showInfo").mockResolvedValue();
+  vi.spyOn(consoleClient, "hide").mockResolvedValue();
 
   it("filters pressed key", async () => {
     vi.spyOn(hintRepository, "getTargetFrameIds").mockResolvedValue([0, 1]);
@@ -51,10 +63,11 @@ describe("HintKeyUseCase", () => {
         }
       },
     );
+    vi.spyOn(hintRepository, "getHintModeName").mockResolvedValue("hint.test");
     vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
-    const cont = await sut.pressKey(10, "a");
+    const r = await sut.pressKey(10, "a");
 
-    expect(cont).toBeTruthy();
+    expect(r).toBe("continue_key_input");
     expect(mockPushKey).toHaveBeenCalledWith("a");
     expect(mockShowHints).toHaveBeenCalledWith(10, 0, ["0", "1"]);
     expect(mockShowHints).toHaveBeenCalledWith(10, 1, ["0"]);
@@ -72,9 +85,9 @@ describe("HintKeyUseCase", () => {
     ]);
     vi.spyOn(hintRepository, "getHintModeName").mockResolvedValue("hint.test");
     vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
-    const cont = await sut.pressKey(10, "a");
+    const r = await sut.pressKey(10, "a");
 
-    expect(cont).toBeFalsy();
+    expect(r).toBe("activate");
     expect(mockPushKey).toHaveBeenCalledWith("a");
     expect(mockActivate).toHaveBeenCalled();
   });
@@ -93,9 +106,9 @@ describe("HintKeyUseCase", () => {
     ]);
     vi.spyOn(hintRepository, "getHintModeName").mockResolvedValue("hint.test");
     vi.spyOn(hintActionFactory, "createHintAction").mockReturnValue(mockAction);
-    const cont = await sut.pressKey(10, "Enter");
+    const r = await sut.pressKey(10, "Enter");
 
-    expect(cont).toBeFalsy();
+    expect(r).toBe("activate");
     expect(mockActivate).toHaveBeenCalled();
   });
 
@@ -121,9 +134,9 @@ describe("HintKeyUseCase", () => {
         }
       },
     );
-    const cont = await sut.pressKey(10, "Backspace");
+    const r = await sut.pressKey(10, "Backspace");
 
-    expect(cont).toBeTruthy();
+    expect(r).toBe("continue_key_input");
     expect(mockPopKey).toHaveBeenCalled();
     expect(mockShowHints).toHaveBeenCalledWith(10, 0, ["0", "1"]);
     expect(mockShowHints).toHaveBeenCalledWith(10, 1, ["0"]);

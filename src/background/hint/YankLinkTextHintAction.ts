@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction } from "./types";
+import type { HintTarget, HintAction, ActionResult } from "./types";
 import { ClipboardRepository } from "../repositories/ClipboardRepository";
 import { ConsoleClient } from "../clients/ConsoleClient";
 
@@ -30,7 +30,7 @@ export class YankLinkTextHintAction implements HintAction {
       newTab: boolean;
       background: boolean;
     },
-  ): Promise<void> {
+  ): Promise<ActionResult | void> {
     const element = await this.hintClient.getElement(
       tabId,
       target.frameId,
@@ -55,5 +55,6 @@ export class YankLinkTextHintAction implements HintAction {
 
     await this.clipboardRepository.write(content);
     await this.consoleClient.showInfo(tabId, "Yanked " + content);
+    return { keepConsole: true };
   }
 }

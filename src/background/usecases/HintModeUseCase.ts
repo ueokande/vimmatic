@@ -84,8 +84,12 @@ export class HintModeUseCase {
     );
   }
 
-  async stop(tabId: number): Promise<void> {
+  async cancel(tabId: number): Promise<void> {
     await this.hintClient.clearHints(tabId);
     await this.consoleClient.hide(tabId);
+  }
+
+  async stop(tabId: number): Promise<void> {
+    await this.hintClient.clearHints(tabId);
   }
 }
