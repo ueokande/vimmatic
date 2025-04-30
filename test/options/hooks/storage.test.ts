@@ -1,4 +1,8 @@
-import { renderHook, act } from "@testing-library/react-hooks";
+/**
+ * @vitest-environment jsdom
+ */
+
+import { renderHook, waitFor, act } from "@testing-library/react";
 import {
   useLoadSettings,
   useSaveSettings,
@@ -13,28 +17,23 @@ describe("useLoadSettings", () => {
   });
 
   it("returns initial values", async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useLoadSettings());
+    const { result } = renderHook(() => useLoadSettings());
 
-    await waitForNextUpdate();
+    await waitFor(() => expect(result.current.loading).toBeTruthy());
 
-    expect(result.current.loading).toBeTruthy;
-    expect(result.current.data).toBeUndefined;
-    expect(result.current.error).toBeUndefined;
+    expect(result.current.data).toBeUndefined();
+    expect(result.current.error).toBeUndefined();
   });
 
   it("loads saved value", async () => {
     spyGet.mockImplementation(() => Promise.resolve({ settings_json: "{}" }));
 
-    const { result, waitForNextUpdate, waitFor } = renderHook(() =>
-      useLoadSettings(),
-    );
+    const { result } = renderHook(() => useLoadSettings());
 
-    await waitForNextUpdate();
-    await waitFor(() => !result.current.loading);
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
 
-    expect(result.current.loading).toBeFalsy;
     expect(result.current.data).toEqual("{}");
-    expect(result.current.error).toBeUndefined;
+    expect(result.current.error).toBeUndefined();
   });
 
   it("loads default value when no saved settings", async () => {
@@ -42,17 +41,13 @@ describe("useLoadSettings", () => {
       Promise.resolve({ settings_json: undefined }),
     );
 
-    const { result, waitForNextUpdate, waitFor } = renderHook(() =>
-      useLoadSettings(),
-    );
+    const { result } = renderHook(() => useLoadSettings());
 
-    await waitForNextUpdate();
-    await waitFor(() => !result.current.loading);
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
 
     const settings = JSON.parse(result.current.data!);
 
-    expect(result.current.loading).toBeFalsy;
-    expect(result.current.error).toBeUndefined;
+    expect(result.current.error).toBeUndefined();
     expect(settings).toHaveProperty("keymaps");
     expect(settings).toHaveProperty("blacklist");
     expect(settings).toHaveProperty("search");
@@ -62,16 +57,12 @@ describe("useLoadSettings", () => {
   it("returns error when an error occurs", async () => {
     spyGet.mockImplementation(() => Promise.reject(new Error("storage error")));
 
-    const { result, waitForNextUpdate, waitFor } = renderHook(() =>
-      useLoadSettings(),
-    );
+    const { result } = renderHook(() => useLoadSettings());
 
-    await waitForNextUpdate();
-    await waitFor(() => !result.current.loading);
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
 
-    expect(result.current.loading).toBeFalsy;
     expect(result.current.error).toBeInstanceOf(Error);
-    expect(result.current.data).toBeUndefined;
+    expect(result.current.data).toBeUndefined();
   });
 });
 
@@ -87,8 +78,8 @@ describe("useSaveSettings", () => {
   it("returns initial values", async () => {
     const { result } = renderHook(() => useSaveSettings());
 
-    expect(result.current.loading).toBeFalsy;
-    expect(result.current.error).toBeUndefined;
+    expect(result.current.loading).toBeFalsy();
+    expect(result.current.error).toBeUndefined();
     expect(result.current.save).toBeInstanceOf(Function);
   });
 
@@ -96,17 +87,16 @@ describe("useSaveSettings", () => {
     spySet.mockImplementation(() => Promise.resolve());
     spySendMessage.mockResolvedValue({});
 
-    const { result, waitFor } = renderHook(() => useSaveSettings());
+    const { result } = renderHook(() => useSaveSettings());
 
     act(() => {
       result.current.save(`{ "properties": { "smoothscroll": true } }`);
     });
 
-    expect(result.current.loading).toBeTruthy;
+    expect(result.current.loading).toBeTruthy();
 
-    await waitFor(() => !result.current.loading);
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
 
-    expect(result.current.loading).toBeFalsy;
     expect(result.current.error).toBeUndefined();
 
     expect(spySet).toHaveBeenCalledWith({
@@ -124,17 +114,15 @@ describe("useSaveSettings", () => {
     spySet.mockImplementation(() => Promise.resolve());
     spySendMessage.mockResolvedValue({});
 
-    const { result, waitFor } = renderHook(() => useSaveSettings());
+    const { result } = renderHook(() => useSaveSettings());
 
     act(() => {
       result.current.save(`invalid json`);
     });
+    expect(result.current.loading).toBeTruthy();
 
-    expect(result.current.loading).toBeTruthy;
+    await waitFor(() => expect(result.current.loading).toBeFalsy());
 
-    await waitFor(() => !result.current.loading);
-
-    expect(result.current.loading).toBeFalsy;
     expect(result.current.error).toBeInstanceOf(SyntaxError);
   });
 });

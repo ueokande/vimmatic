@@ -1,5 +1,9 @@
+/**
+ * @vitest-environment jsdom
+ */
+
 import type React from "react";
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import { useCompletionKeyBinds } from "../../../../src/console/completion/hooks/useCompletionKeyBinds";
 import { describe, beforeEach, it, vi, expect } from "vitest";
 

@@ -1,4 +1,8 @@
-import { renderHook, act } from "@testing-library/react-hooks";
+/**
+ * @vitest-environment jsdom
+ */
+
+import { renderHook, act } from "@testing-library/react";
 import { useCursor } from "../../../../src/console/completion/hooks/useCursor";
 import { describe, it, expect } from "vitest";
 
