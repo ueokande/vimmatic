@@ -86,8 +86,7 @@ export const CompletionList: React.FC<Props> = ({
           primary={item.primary}
           secondary={item.secondary}
           highlight={itemIndex === select}
-          aria-selected={itemIndex === select}
-          role="menuitem"
+          aria-current={itemIndex === select}
         />,
       );
       ++viewIndex;
@@ -97,9 +96,9 @@ export const CompletionList: React.FC<Props> = ({
       <li
         key={`group-${groupIndex}`}
         role="group"
-        aria-describedby={`title-${groupIndex}`}
+        aria-labelledby={`title-${groupIndex}`}
       >
-        <ul>
+        <ul role="menu">
           {title} {items}
         </ul>
       </li>,

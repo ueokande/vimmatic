@@ -1,14 +1,17 @@
-import ReactTestRenderer from "react-test-renderer";
+/**
+ * @vitest-environment jsdom
+ */
+
+import { render } from "@testing-library/react";
 import { CompletionTitle } from "../../../../src/console/completion/components/CompletionTitle";
 import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/CompletionTitle", () => {
   it("renders a CompletionTitle", () => {
-    const root = ReactTestRenderer.create(
+    const { container } = render(
       <CompletionTitle title="Fruits" shown={true} />,
-    ).root;
+    );
 
-    const li = root.findByType("li");
-    expect(li.children).toEqual(["Fruits"]);
+    expect(container.textContent).toBe("Fruits");
   });
 });

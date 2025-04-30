@@ -58,7 +58,10 @@ export const CompletionItem: React.FC<Props> = ({
   ...props
 }) => (
   <li
+    role="menuitem"
     aria-labelledby={`completion-item-${primary}`}
+    aria-selected={highlight}
+    aria-hidden={!shown}
     {...stylex.props(
       styles.base,
       styles.icon(icon),

@@ -30,6 +30,7 @@ export const CompletionTitle: React.FC<Props> = ({
   ...props
 }) => (
   <li
+    aria-hidden={!shown}
     {...stylex.props(styles.title, shown ? styles.shown : styles.hidden)}
     {...props}
   >

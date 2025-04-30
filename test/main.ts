@@ -1,6 +1,7 @@
 import "@abraham/reflection";
 import inject from "@stylexjs/dev-runtime";
-import { vi, beforeAll } from "vitest";
+import { vi, beforeAll, afterEach } from "vitest";
+import { cleanup } from "@testing-library/react";
 
 beforeAll(() => {
   vi.mock("@stylexjs/stylex", () => {
@@ -11,6 +12,10 @@ beforeAll(() => {
 
     return stylex;
   });
+});
+
+afterEach(() => {
+  cleanup();
 });
 
 const todo = () => {
