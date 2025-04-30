@@ -60,7 +60,7 @@ export const CompletionList: React.FC<Props> = ({
 
   let itemIndex = 0;
   let viewIndex = 0;
-  const groups: Array<JSX.Element> = [];
+  const groups: Array<React.ReactNode> = [];
 
   completions.forEach((group, groupIndex) => {
     if (group.items.length === 0) {
