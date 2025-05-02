@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import { SettingClient } from "../clients/SettingClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import { useAutoResize } from "../hooks/useAutoResize";
 import { colors } from "../styles/tokens.stylex";
 

@@ -1,5 +1,5 @@
 import React, { type InputHTMLAttributes } from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import { colors } from "../styles/tokens.stylex";
 import { useUserPreferenceCSS } from "../styles/userPreferenceCSS";
 

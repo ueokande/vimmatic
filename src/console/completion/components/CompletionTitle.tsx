@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import { colors } from "../../styles/tokens.stylex";
 
 const styles = stylex.create({
