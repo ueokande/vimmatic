@@ -1,7 +1,17 @@
 import "@abraham/reflection";
 import inject from "@stylexjs/dev-runtime";
+import { vi, beforeAll } from "vitest";
 
-inject({ test: false } as any);
+beforeAll(() => {
+  vi.mock("@stylexjs/stylex", () => {
+    const stylex = inject({
+      dev: true,
+      test: true,
+    } as any);
+
+    return stylex;
+  });
+});
 
 const todo = () => {
   throw new Error("not implemented");
