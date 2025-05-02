@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import type { Completions } from "../../../shared/completions";
 import { useCompletionKeyBinds } from "../hooks/useCompletionKeyBinds";
 import { useCursor } from "../hooks/useCursor";
