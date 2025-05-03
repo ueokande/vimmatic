@@ -54,7 +54,7 @@ export class MarkJumpUseCase {
       );
       await chrome.tabs.update(mark.tabId, { active: true });
       return;
-    } catch (e) {
+    } catch {
       const tab = await chrome.tabs.create({ url: mark.url });
       if (!tab.id) {
         return;

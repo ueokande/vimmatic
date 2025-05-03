@@ -28,7 +28,6 @@ export class KeymapUseCase {
     private readonly addressRepository: AddressRepository,
   ) {}
 
-  // eslint-disable-next-line max-statements
   nextOps(key: Key): { repeat: number; op: Operation } | null {
     const sequence = this.repository.enqueueKey(key);
     const baseSequence = sequence.trimNumericPrefix();

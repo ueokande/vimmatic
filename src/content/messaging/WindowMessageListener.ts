@@ -44,7 +44,7 @@ export class WindowMessageListener {
       let message: unknown;
       try {
         message = JSON.parse(event.data);
-      } catch (e) {
+      } catch {
         // ignore unexpected message
         return;
       }

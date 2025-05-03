@@ -26,7 +26,6 @@ export class BufferCommand implements Command {
     });
   }
 
-  // eslint-disable-next-line max-statements
   async exec(
     _ctx: CommandContext,
     _force: boolean,

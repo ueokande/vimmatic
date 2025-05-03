@@ -81,7 +81,6 @@ export class InputDriver {
     delete this.pressed[e.key];
   }
 
-  // eslint-disable-next-line max-statements
   private capture(e: KeyboardEvent) {
     const target = e.target;
     if (!(target instanceof HTMLElement)) {

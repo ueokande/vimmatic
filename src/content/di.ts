@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import { Container } from "inversify";
 import { buildProviderModule } from "inversify-binding-decorators";
 import {
