@@ -1,15 +1,11 @@
 import { NavigateParentOperator } from "../../../../src/background/operators/impls/NavigateParentOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, beforeEach, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("NavigateParentOperator", () => {
   const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
-
-  beforeEach(() => {
-    mockTabsUpdate.mockClear();
-  });
 
   describe("#run", () => {
     it("opens a parent directory of the file in the URL", async () => {

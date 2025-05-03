@@ -2,7 +2,7 @@ import {
   FirefoxBrowserSettingRepositoryImpl,
   ChromeBrowserSettingRepositoryImpl,
 } from "../../../src/background/repositories/BrowserSettingRepository";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 describe("FirefoxBrowserSettingRepositoryImpl", () => {
   const mockHomepageOverrideGet = vi.spyOn(
@@ -10,10 +10,6 @@ describe("FirefoxBrowserSettingRepositoryImpl", () => {
     "get",
   );
   const sut = new FirefoxBrowserSettingRepositoryImpl();
-
-  beforeEach(() => {
-    mockHomepageOverrideGet.mockClear();
-  });
 
   it("returns homepage urls", async () => {
     mockHomepageOverrideGet.mockResolvedValue({

@@ -1,14 +1,10 @@
 import { HelpCommand } from "../../../src/background/command/HelpCommand";
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("HelpCommand", () => {
   const mockTabsCreate = vi
     .spyOn(chrome.tabs, "create")
     .mockImplementation(() => Promise.resolve({}));
-
-  beforeEach(() => {
-    mockTabsCreate.mockClear();
-  });
 
   it("opens help page", async () => {
     const cmd = new HelpCommand();

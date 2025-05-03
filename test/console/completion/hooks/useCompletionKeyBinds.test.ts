@@ -5,7 +5,7 @@
 import type React from "react";
 import { renderHook, act } from "@testing-library/react";
 import { useCompletionKeyBinds } from "../../../../src/console/completion/hooks/useCompletionKeyBinds";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 const mockKeyEvent = ({
   key,
@@ -33,13 +33,6 @@ describe("useCompletionKeyBinds", () => {
   const { result } = renderHook(() =>
     useCompletionKeyBinds({ onEnter, onNext, onPrev, onCancel }),
   );
-
-  beforeEach(() => {
-    onEnter.mockClear();
-    onNext.mockClear();
-    onPrev.mockClear();
-    onCancel.mockClear();
-  });
 
   describe("cancel", () => {
     it.each([

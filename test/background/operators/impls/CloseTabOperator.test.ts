@@ -1,6 +1,6 @@
 import { CloseTabOperator } from "../../../../src/background/operators/impls/CloseTabOperator";
 import { defaultTab } from "../../mock/defaultTab";
-import { describe, expect, beforeEach, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 describe("CloseTabOperator", () => {
   const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
@@ -8,11 +8,6 @@ describe("CloseTabOperator", () => {
 
   mockTabsRemove.mockImplementation(() => Promise.resolve());
   mockTabsUpdate.mockImplementation(() => Promise.resolve({}));
-
-  beforeEach(() => {
-    mockTabsRemove.mockClear();
-    mockTabsUpdate.mockClear();
-  });
 
   describe("#run", () => {
     it("close a current tab and select right of the closed tab", async () => {

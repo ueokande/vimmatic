@@ -1,7 +1,7 @@
 import { BufferDeletesCommand } from "../../../src/background/command/BufferDeletesCommand";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, beforeEach, vi, it } from "vitest";
+import { describe, expect, vi, it } from "vitest";
 
 describe("BufferDeletesCommand", () => {
   const lastSelectedTab = {
@@ -16,7 +16,9 @@ describe("BufferDeletesCommand", () => {
   const sut = new BufferDeletesCommand(tabQueryHelper);
 
   const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
-  const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
+  const mockTabsRemove = vi
+    .spyOn(chrome.tabs, "remove")
+    .mockImplementation(() => Promise.resolve());
 
   const ctx = {
     sender: {
@@ -25,13 +27,6 @@ describe("BufferDeletesCommand", () => {
       tab: { ...defaultTab, id: 10, pinned: true },
     },
   };
-
-  beforeEach(() => {
-    mockTabsQuery.mockClear();
-    mockTabsRemove.mockClear();
-
-    mockTabsRemove.mockImplementation(() => Promise.resolve());
-  });
 
   it("removes tabs", async () => {
     mockTabsQuery.mockResolvedValue([

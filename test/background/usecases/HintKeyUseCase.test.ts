@@ -3,7 +3,7 @@ import { MockHintClient } from "../mock/MockHintClient";
 import { MockHintRepository } from "../mock/MockHintRepository";
 import { MockHintActionFactory } from "../mock/MockHintActionFactory";
 import type { HintAction } from "../../../src/background/hint/types";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 class MockHintAction implements HintAction {
   constructor() {}
@@ -28,13 +28,6 @@ describe("HintKeyUseCase", () => {
   const mockPopKey = vi.spyOn(hintRepository, "popKey").mockResolvedValue();
   const mockShowHints = vi.spyOn(hintClient, "showHints").mockResolvedValue();
   const mockActivate = vi.spyOn(mockAction, "activate").mockResolvedValue();
-
-  beforeEach(() => {
-    mockPushKey.mockClear();
-    mockPopKey.mockClear();
-    mockShowHints.mockClear();
-    mockActivate.mockClear();
-  });
 
   it("filters pressed key", async () => {
     vi.spyOn(hintRepository, "getTargetFrameIds").mockResolvedValue([0, 1]);

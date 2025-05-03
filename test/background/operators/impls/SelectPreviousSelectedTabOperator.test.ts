@@ -1,16 +1,12 @@
 import { SelectPreviousSelectedTabOperator } from "../../../../src/background/operators/impls/SelectPreviousSelectedTabOperator";
 import { MockLastSelectedTabRepository } from "../../mock/MockLastSelectedTabRepository";
-import { describe, beforeEach, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("SelectPreviousSelectedTabOperator", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
   const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
-
-  beforeEach(() => {
-    mockTabsUpdate.mockClear();
-  });
 
   describe("#run", () => {
     it("select the last-selected tab", async () => {

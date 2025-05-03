@@ -1,7 +1,7 @@
 import { ShowOpenCommandOperator } from "../../../../src/background/operators/impls/ShowOpenCommandOperator";
 import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, beforeEach, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("ShowOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -14,10 +14,6 @@ describe("ShowOpenCommandOperator", () => {
       tab: { id: 100, url: "https://example.com/" },
     },
   } as OperatorContext;
-
-  beforeEach(() => {
-    showCommandSpy.mockReset();
-  });
 
   describe("#run", () => {
     it("show command with open command", async () => {

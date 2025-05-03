@@ -3,7 +3,7 @@ import type { CommandContext } from "../../../src/background/command/types";
 import { PropertyRegistryImpl } from "../../../src/background/property/PropertyRegistry";
 import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { MockConsoleClient } from "../mock/MockConsoleClient";
-import { describe, beforeEach, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 const strprop1 = {
   name: () => "strprop1",
@@ -44,22 +44,18 @@ describe("SetCommand", () => {
   propertyRegistry.register(booleanprop);
 
   describe("exec", () => {
-    const mockSetProperty = vi.spyOn(propertySettings, "setProperty");
+    const mockSetProperty = vi
+      .spyOn(propertySettings, "setProperty")
+      .mockResolvedValue();
     const mockGetProperty = vi.spyOn(propertySettings, "getProperty");
-    const mockShowInfo = vi.spyOn(consoleClient, "showInfo");
+    const mockShowInfo = vi
+      .spyOn(consoleClient, "showInfo")
+      .mockResolvedValue();
     const cmd = new SetCommand(
       propertySettings,
       propertyRegistry,
       consoleClient,
     );
-
-    beforeEach(() => {
-      mockSetProperty.mockClear();
-      mockSetProperty.mockResolvedValue();
-      mockGetProperty.mockClear();
-      mockShowInfo.mockClear();
-      mockShowInfo.mockResolvedValue();
-    });
 
     it("saves string property", async () => {
       await cmd.exec(ctx, false, "strprop1=newvalue");

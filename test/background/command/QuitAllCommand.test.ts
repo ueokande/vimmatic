@@ -1,10 +1,12 @@
 import { QuitAllCommand } from "../../../src/background/command/QuitAllCommand";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, it, beforeEach, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 describe("QuitAllCommand", () => {
   const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
-  const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
+  const mockTabsRemove = vi
+    .spyOn(chrome.tabs, "remove")
+    .mockImplementation(() => Promise.resolve());
 
   const ctx = {
     sender: {
@@ -17,13 +19,6 @@ describe("QuitAllCommand", () => {
       },
     },
   };
-
-  beforeEach(() => {
-    mockTabsQuery.mockClear();
-    mockTabsRemove.mockClear();
-
-    mockTabsRemove.mockImplementation(() => Promise.resolve());
-  });
 
   it("removes unpinned tabs", async () => {
     mockTabsQuery.mockResolvedValue([

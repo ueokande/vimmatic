@@ -2,7 +2,7 @@ import { TogglePinCommand } from "../../../src/background/command/TogglePinComma
 import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, vi, test, beforeEach } from "vitest";
+import { describe, expect, vi, test } from "vitest";
 
 const tabs = [
   {
@@ -50,11 +50,6 @@ describe("TogglePinCommand", () => {
   const tabQueryHelper = new TabQueryHelper(lastSelectedTab);
   const mockTabUpdate = vi.spyOn(chrome.tabs, "update").mockResolvedValue();
   const mockTabQuery = vi.spyOn(chrome.tabs, "query");
-
-  beforeEach(() => {
-    mockTabUpdate.mockClear();
-    mockShowInfo.mockClear();
-  });
 
   test("toggle pinning the current tab", async () => {
     mockTabQuery.mockResolvedValueOnce(tabs);

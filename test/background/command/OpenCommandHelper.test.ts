@@ -2,7 +2,7 @@ import { OpenCommandHelper } from "../../../src/background/command/OpenCommandHe
 import type { SearchEngineSettings } from "../../../src/background/settings/SearchEngineSettings";
 import type { Search } from "../../../src/shared/search";
 import { MockPropertySettings } from "../mock/MockPropertySettings";
-import { describe, expect, beforeEach, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 class MockSearchEngineSettings implements SearchEngineSettings {
   get(): Promise<Search> {
@@ -15,32 +15,24 @@ describe("OpenCommandHelper", () => {
   const searchEngineSettings = new MockSearchEngineSettings();
   const sut = new OpenCommandHelper(searchEngineSettings, propertySettings);
 
-  const mockGetProperty = vi.spyOn(propertySettings, "getProperty");
-  const mockGetSearchEngines = vi.spyOn(searchEngineSettings, "get");
-  const mockHistorySearch = vi.spyOn(chrome.history, "search");
-  const mockBookmarksSearch = vi.spyOn(chrome.bookmarks, "search");
-
-  beforeEach(() => {
-    mockHistorySearch.mockClear();
-    mockBookmarksSearch.mockClear();
-    mockGetProperty.mockClear();
-    mockGetSearchEngines.mockClear();
-
-    mockHistorySearch.mockImplementation(() => Promise.resolve([]));
-    mockBookmarksSearch.mockResolvedValue([]);
-    mockGetProperty.mockImplementation((name) => {
-      if (name === "complete") {
-        return Promise.resolve("sbh");
-      }
-      throw new Error(`unexpected property name: ${name}`);
-    });
-    mockGetSearchEngines.mockResolvedValue({
-      defaultEngine: "google",
-      engines: {
-        yahoo: "https://search.yahoo.com/search?p={}",
-        google: "https://google.com/search?q={}",
-      },
-    });
+  const mockHistorySearch = vi
+    .spyOn(chrome.history, "search")
+    .mockImplementation(() => Promise.resolve([]));
+  const mockBookmarksSearch = vi
+    .spyOn(chrome.bookmarks, "search")
+    .mockResolvedValue([]);
+  vi.spyOn(propertySettings, "getProperty").mockImplementation((name) => {
+    if (name === "complete") {
+      return Promise.resolve("sbh");
+    }
+    throw new Error(`unexpected property name: ${name}`);
+  });
+  vi.spyOn(searchEngineSettings, "get").mockResolvedValue({
+    defaultEngine: "google",
+    engines: {
+      yahoo: "https://search.yahoo.com/search?p={}",
+      google: "https://google.com/search?q={}",
+    },
   });
 
   it("it returns from search engines, bookmarks, and histories", async () => {
