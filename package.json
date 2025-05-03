@@ -56,14 +56,14 @@
     "eslint-plugin-react": "7.37.5",
     "fastify": "^4.23.2",
     "globals": "^16.0.0",
-    "jsdom": "^24.0.0",
+    "jsdom": "^26.1.0",
     "jszip": "^3.7.0",
     "nodemon": "^2.0.22",
     "playwright-webextext": "^0.0.4",
     "prettier": "3.5.3",
     "prettier-eslint": "16.4.1",
     "typescript-eslint": "^8.31.1",
-    "vitest": "^1.6.0",
+    "vitest": "^3.1.2",
     "webext-agent": "^0.2.0"
   },
   "engines": {
