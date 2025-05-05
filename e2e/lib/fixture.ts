@@ -58,7 +58,7 @@ export const test = base.extend<Fixture>({
         text: string,
         options?: { delay?: number },
       ) => {
-        await originalType(text, { delay: options?.delay ?? 10 });
+        await originalType(text, { delay: options?.delay ?? 50 });
       };
       await use(page);
     },
