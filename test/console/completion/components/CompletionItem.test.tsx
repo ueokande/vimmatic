@@ -17,8 +17,8 @@ describe("console/components/console/completion/CompletionItem", () => {
       />,
     );
 
-    const row = screen.getByRole("menuitem");
-    expect(row.textContent).toContain("twitter");
-    expect(row.textContent).toContain("https://twitter.com/");
+    const item = screen.getByRole("menuitem");
+    expect(item.textContent).toContain("twitter");
+    expect(item.textContent).toContain("https://twitter.com/");
   });
 });
