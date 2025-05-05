@@ -8,7 +8,6 @@ import { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
 
 @injectable()
 export class Application {
-  // eslint-disable-next-line max-params
   constructor(
     @inject(WindowMessageListener)
     private readonly windowMessageListener: WindowMessageListener,

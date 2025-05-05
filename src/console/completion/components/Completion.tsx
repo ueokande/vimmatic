@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import type { Completions } from "../../../shared/completions";
 import { useCompletionKeyBinds } from "../hooks/useCompletionKeyBinds";
 import { useCursor } from "../hooks/useCursor";
@@ -40,7 +40,7 @@ const useSelectedValue = (
 };
 
 const useAutoInputValue = (
-  ref: React.RefObject<HTMLInputElement>,
+  ref: React.RefObject<HTMLInputElement | null>,
   value: string,
 ) => {
   React.useEffect(() => {
@@ -78,7 +78,7 @@ export const Completion: React.FC<Props> = ({
    * completion.
    */
   const waiting = React.useRef(false);
-  const waitingOp = React.useRef<() => unknown>();
+  const waitingOp = React.useRef<() => unknown>(undefined);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;

@@ -4,16 +4,12 @@ import {
 } from "../../../src/background/settings/SettingsRepository";
 import type { Settings } from "../../../src/shared/settings";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 describe("PermanentSettingsRepositoryImpl", () => {
   const mockStorageGet = vi.spyOn(chrome.storage.sync, "get");
 
   const sut = new PermanentSettingsRepositoryImpl();
-
-  beforeEach(() => {
-    mockStorageGet.mockClear();
-  });
 
   describe("#load", () => {
     it("returns default settings", async () => {
@@ -76,10 +72,6 @@ describe("TransientSettingsRepositoryImpl", () => {
     properties: {
       complete: "sbh",
     },
-  });
-
-  beforeEach(() => {
-    mockPermanetLoad.mockClear();
   });
 
   describe("#load", () => {

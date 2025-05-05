@@ -1,27 +1,18 @@
 import { AddBookmarkCommand } from "../../../src/background/command/AddBookmarkCommand";
 import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, vi, it, beforeEach } from "vitest";
+import { describe, expect, vi, it } from "vitest";
 
 describe("AddBookmarkCommand", () => {
-  const mockBookmarkCreate = vi
-    .spyOn(chrome.bookmarks, "create")
-    .mockImplementation(() => {});
+  const mockBookmarkCreate = vi.spyOn(chrome.bookmarks, "create");
+  mockBookmarkCreate.mockImplementation(() =>
+    Promise.resolve({
+      id: "100",
+      title: "dummy",
+    }),
+  );
   const consoleClient = new MockConsoleClient();
-  const mockShowInfo = vi.spyOn(consoleClient, "showInfo");
-
-  beforeEach(() => {
-    mockBookmarkCreate.mockClear();
-    mockShowInfo.mockClear();
-
-    mockBookmarkCreate.mockImplementation(() =>
-      Promise.resolve({
-        id: "100",
-        title: "dummy",
-      }),
-    );
-    mockShowInfo.mockResolvedValue();
-  });
+  const mockShowInfo = vi.spyOn(consoleClient, "showInfo").mockResolvedValue();
 
   it("adds a bookmark with specific title", async () => {
     const ctx = {

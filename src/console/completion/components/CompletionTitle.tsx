@@ -1,5 +1,5 @@
-import React from "react";
-import stylex from "@stylexjs/stylex";
+import type React from "react";
+import * as stylex from "@stylexjs/stylex";
 import { colors } from "../../styles/tokens.stylex";
 
 const styles = stylex.create({
@@ -30,6 +30,7 @@ export const CompletionTitle: React.FC<Props> = ({
   ...props
 }) => (
   <li
+    aria-hidden={!shown}
     {...stylex.props(styles.title, shown ? styles.shown : styles.hidden)}
     {...props}
   >

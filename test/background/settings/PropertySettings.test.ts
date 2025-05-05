@@ -6,7 +6,7 @@ import type {
 } from "../../../src/background/property/types";
 import { MockSettingsRepository } from "../mock/MockSettingsRepository";
 import { MockPropertyRegistry } from "../mock/MockPropertyRegistry";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 class MyProp implements Property {
   name(): string {
@@ -42,12 +42,6 @@ describe("PropertySettingsImpl", () => {
   const mockGetProperty = vi.spyOn(propertyRegistry, "getProperty");
   const mockLoad = vi.spyOn(settingsRepository, "load");
   const mockSave = vi.spyOn(settingsRepository, "save");
-
-  beforeEach(() => {
-    mockGetProperty.mockClear();
-    mockLoad.mockClear();
-    mockSave.mockClear();
-  });
 
   describe("getProperty", () => {
     it("returns saved property", async () => {

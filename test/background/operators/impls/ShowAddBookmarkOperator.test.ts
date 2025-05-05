@@ -1,7 +1,7 @@
 import { ShowAddBookmarkOperator } from "../../../../src/background/operators/impls/ShowAddBookmarkOperator";
 import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, beforeEach, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("ShowAddBookmarkOperator", () => {
   const consoleClient = new MockConsoleClient();
@@ -15,10 +15,6 @@ describe("ShowAddBookmarkOperator", () => {
       tab: { id: 100, title: "welcome, world" } as chrome.tabs.Tab,
     },
   } as OperatorContext;
-
-  beforeEach(() => {
-    showCommandSpy.mockReset();
-  });
 
   describe("#run", () => {
     it("show command with addbookmark command", async () => {

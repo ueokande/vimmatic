@@ -2,20 +2,15 @@
  * @vitest-environment jsdom
  */
 
-import React from "react";
-import ReactTestRenderer from "react-test-renderer";
+import { render, screen } from "@testing-library/react";
 import { InfoMessage } from "../../../src/console/components/InfoMessage";
 import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/InfoMessage", () => {
   it("renders an information message", () => {
-    const root = ReactTestRenderer.create(
-      <InfoMessage>Hello!</InfoMessage>,
-    ).root;
+    render(<InfoMessage>Hello!</InfoMessage>);
 
-    const p = root.findByType("p");
-
-    expect(p.props["role"]).toEqual("status");
-    expect(p.children).toEqual(["Hello!"]);
+    const p = screen.getByRole("status");
+    expect(p.textContent).toEqual("Hello!");
   });
 });

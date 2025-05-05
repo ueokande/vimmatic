@@ -1,7 +1,23 @@
 import "@abraham/reflection";
 import inject from "@stylexjs/dev-runtime";
+import { vi, beforeAll, afterEach } from "vitest";
+import { cleanup } from "@testing-library/react";
 
-inject({ test: false } as any);
+beforeAll(() => {
+  vi.mock("@stylexjs/stylex", () => {
+    const stylex = inject({
+      dev: true,
+      test: true,
+    } as any);
+
+    return stylex;
+  });
+});
+
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
+});
 
 const todo = () => {
   throw new Error("not implemented");

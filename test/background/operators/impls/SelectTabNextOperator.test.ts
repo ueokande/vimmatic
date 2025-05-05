@@ -1,15 +1,11 @@
 import { SelectTabNextOperator } from "../../../../src/background/operators/impls/SelectTabNextOperator";
 import { defaultTab } from "../../mock/defaultTab";
-import { describe, beforeEach, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("SelectTabNextOperator", () => {
   const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));
-
-  beforeEach(() => {
-    mockTabsUpdate.mockReset();
-  });
 
   describe("#run", () => {
     it("select a right tab of the current tab", async () => {

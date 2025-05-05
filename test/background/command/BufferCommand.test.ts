@@ -2,7 +2,7 @@ import { BufferCommand } from "../../../src/background/command/BufferCommand";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 describe("BufferCommand", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
@@ -14,7 +14,9 @@ describe("BufferCommand", () => {
     "getLastSelectedTabId",
   );
   const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
-  const mockTabsUpdate = vi.spyOn(chrome.tabs, "update");
+  const mockTabsUpdate = vi
+    .spyOn(chrome.tabs, "update")
+    .mockImplementation(() => Promise.resolve({}));
   const mockHelperQueryTabs = vi.spyOn(tabQueryHelper, "queryTabs");
 
   const tab1 = { ...defaultTab, id: 10, index: 0 };
@@ -24,15 +26,6 @@ describe("BufferCommand", () => {
   const tab5 = { ...defaultTab, id: 14, index: 4 };
   const allTabs = [tab1, tab2, tab3, tab4, tab5];
   const ctx = { sender: { tabId: 10, frameId: 0, tab: tab1 } };
-
-  beforeEach(() => {
-    mockGetLastSelectedTab.mockClear();
-    mockTabsQuery.mockClear();
-    mockTabsUpdate.mockClear();
-    mockHelperQueryTabs.mockClear();
-
-    mockTabsUpdate.mockImplementation(() => Promise.resolve({}));
-  });
 
   describe("exec", () => {
     it("selects a tab by number", async () => {

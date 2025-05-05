@@ -59,7 +59,7 @@ export class OpenCommandHelper {
         let url = undefined;
         try {
           url = new URL(item.url!);
-        } catch (e) {
+        } catch {
           return false;
         }
         return url.protocol !== "place:";

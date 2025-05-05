@@ -1,5 +1,5 @@
-import React from "react";
-import stylex from "@stylexjs/stylex";
+import type React from "react";
+import * as stylex from "@stylexjs/stylex";
 import { colors } from "../../styles/tokens.stylex";
 
 const styles = stylex.create({
@@ -57,8 +57,11 @@ export const CompletionItem: React.FC<Props> = ({
   icon,
   ...props
 }) => (
-  <div
+  <li
+    role="menuitem"
     aria-labelledby={`completion-item-${primary}`}
+    aria-current={highlight}
+    aria-hidden={!shown}
     {...stylex.props(
       styles.base,
       styles.icon(icon),
@@ -74,5 +77,5 @@ export const CompletionItem: React.FC<Props> = ({
       {primary}
     </span>
     <span {...stylex.props(styles.secondaryText)}>{secondary}</span>
-  </div>
+  </li>
 );

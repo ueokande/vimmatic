@@ -60,7 +60,7 @@ export const CompletionList: React.FC<Props> = ({
 
   let itemIndex = 0;
   let viewIndex = 0;
-  const groups: Array<JSX.Element> = [];
+  const groups: Array<React.ReactNode> = [];
 
   completions.forEach((group, groupIndex) => {
     if (group.items.length === 0) {
@@ -86,24 +86,23 @@ export const CompletionList: React.FC<Props> = ({
           primary={item.primary}
           secondary={item.secondary}
           highlight={itemIndex === select}
-          aria-selected={itemIndex === select}
-          role="menuitem"
         />,
       );
       ++viewIndex;
       ++itemIndex;
     }
     groups.push(
-      <div
+      <li
         key={`group-${groupIndex}`}
         role="group"
-        aria-describedby={`title-${groupIndex}`}
+        aria-labelledby={`title-${groupIndex}`}
       >
-        {title}
-        <ul>{items}</ul>
-      </div>,
+        <ul role="menu">
+          {title} {items}
+        </ul>
+      </li>,
     );
   });
 
-  return <div role="menu">{groups}</div>;
+  return <ul role="menu">{groups}</ul>;
 };

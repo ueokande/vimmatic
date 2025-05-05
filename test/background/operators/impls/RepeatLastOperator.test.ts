@@ -5,7 +5,7 @@ import type {
   Operator,
   OperatorContext,
 } from "../../../../src/background/operators/types";
-import { describe, beforeEach, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 const todo = () => {
   throw new Error(`not implemented`);
@@ -29,10 +29,6 @@ describe("RepeatLastOperator", () => {
   const sut = new RepeatLastOperator(operatorRegistry, repeatRepository);
 
   const mockRun = vi.spyOn(operator, "run").mockResolvedValue();
-
-  beforeEach(() => {
-    mockRun.mockClear();
-  });
 
   describe("#run", () => {
     it("repeat last operation", async () => {

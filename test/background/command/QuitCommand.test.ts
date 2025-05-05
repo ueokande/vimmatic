@@ -1,10 +1,12 @@
 import { QuitCommand } from "../../../src/background/command/QuitCommand";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, beforeEach, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 describe("QuitCommand", () => {
   const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
-  const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
+  const mockTabsRemove = vi
+    .spyOn(chrome.tabs, "remove")
+    .mockImplementation(() => Promise.resolve());
 
   const pinned = {
     ...defaultTab,
@@ -15,13 +17,6 @@ describe("QuitCommand", () => {
     id: 10,
     pinned: false,
   } as chrome.tabs.Tab;
-
-  beforeEach(() => {
-    mockTabsQuery.mockClear();
-    mockTabsRemove.mockClear();
-
-    mockTabsRemove.mockImplementation(() => Promise.resolve());
-  });
 
   it("removes unpinned tab", async () => {
     mockTabsQuery.mockResolvedValue([unpinned]);

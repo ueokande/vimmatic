@@ -5,7 +5,7 @@ import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { MockReadyFrameRepository } from "../mock/MockReadyFrameRepository";
 import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { FindUseCase } from "../../../src/background/usecases/FindUseCase";
-import { describe, beforeEach, it, vi, expect } from "vitest";
+import { describe, it, vi, expect } from "vitest";
 
 describe("FindUseCase", () => {
   const tabId = 100;
@@ -26,9 +26,6 @@ describe("FindUseCase", () => {
     frameRepository,
     propertySettings,
   );
-  const getFrameIdsSpy = vi
-    .spyOn(frameRepository, "getFrameIds")
-    .mockResolvedValue(frameIds);
   const clearSelectionSpy = vi
     .spyOn(findClient, "clearSelection")
     .mockResolvedValue();
@@ -41,9 +38,9 @@ describe("FindUseCase", () => {
   const appendHistorySpy = vi
     .spyOn(findHistoryRepository, "append")
     .mockResolvedValue();
-  const getPropertySpy = vi
-    .spyOn(propertySettings, "getProperty")
-    .mockImplementation((key: string) => {
+  vi.spyOn(frameRepository, "getFrameIds").mockResolvedValue(frameIds);
+  vi.spyOn(propertySettings, "getProperty").mockImplementation(
+    (key: string) => {
       switch (key) {
         case "ignorecase":
           return Promise.resolve(false);
@@ -51,18 +48,8 @@ describe("FindUseCase", () => {
           return Promise.resolve("normal");
       }
       throw new Error("Unexpected key: " + key);
-    });
-
-  beforeEach(async () => {
-    getFrameIdsSpy.mockClear();
-    clearSelectionSpy.mockClear();
-    findNextSpy.mockClear();
-    findPrevSpy.mockClear();
-    setLocalStateSpy.mockClear();
-    setGlobalKeywordSpy.mockClear();
-    appendHistorySpy.mockClear();
-    getPropertySpy.mockClear();
-  });
+    },
+  );
 
   describe("startFind", () => {
     it("starts a find with a keyword", async () => {

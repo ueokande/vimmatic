@@ -24,7 +24,7 @@ const isHost = (src: string): boolean => {
 const parseURL = (src: string): URL | undefined => {
   try {
     return new URL(src);
-  } catch (e) {
+  } catch {
     // fallthrough
   }
   return undefined;
@@ -67,7 +67,7 @@ const normalizeUrl = (url: string): string => {
     if (SUPPORTED_PROTOCOLS.includes(u.protocol.toLowerCase())) {
       return u.href;
     }
-  } catch (e) {
+  } catch {
     // fallthrough
   }
   return "http://" + url;

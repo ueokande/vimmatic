@@ -1,8 +1,9 @@
-import React from "react";
-import ReactTestRenderer from "react-test-renderer";
+/**
+ * @vitest-environment jsdom
+ */
+
+import { render, screen } from "@testing-library/react";
 import { CompletionList } from "../../../../src/console/completion/components/CompletionList";
-import { CompletionTitle } from "../../../../src/console/completion/components/CompletionTitle";
-import { CompletionItem } from "../../../../src/console/completion/components/CompletionItem";
 import { describe, it, expect } from "vitest";
 
 describe("CompletionList", () => {
@@ -26,278 +27,121 @@ describe("CompletionList", () => {
   ];
 
   it("renders Completion component", () => {
-    const root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={30} select={-1} />,
-    ).root;
+    render(<CompletionList completions={completions} size={30} select={-1} />);
 
-    const groups = root.findAllByProps({ role: "group" });
+    const groups = screen.getAllByRole("group");
     expect(groups).toHaveLength(2);
 
-    groups.forEach((group, i) => {
-      const title = group.findByType(CompletionTitle);
-      expect(title.props.title).toEqual(completions[i].name);
+    const fluitGroup = screen.getByLabelText("Fruit");
+    const fluitItems = fluitGroup.querySelectorAll("[role=menuitem]");
+    expect(Array.from(fluitItems).map((item) => item.textContent)).toEqual([
+      "apple",
+      "banana",
+      "cherry",
+    ]);
 
-      const items = group.findAllByType(CompletionItem);
-      expect(items).toHaveLength(completions[i].items.length);
-      items.forEach((item, j) => {
-        expect(item.props.primary).toEqual(completions[i].items[j].primary);
-      });
-    });
+    const elementGroup = screen.getByLabelText("Element");
+    const elementItems = elementGroup.querySelectorAll("[role=menuitem]");
+    expect(Array.from(elementItems).map((item) => item.textContent)).toEqual([
+      "argon",
+      "boron",
+      "carbon",
+    ]);
   });
 
   it("highlight current item", () => {
-    const root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={30} select={3} />,
-    ).root;
+    render(<CompletionList completions={completions} size={30} select={3} />);
 
-    const items = root.findAllByType(CompletionItem);
-    expect(items[3].props.highlight).toBeTruthy;
+    const item = screen.getByRole("menuitem", { current: true });
+    expect(item.textContent).toEqual("argon");
   });
 
   it("does not highlight any items", () => {
-    const root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={30} select={-1} />,
-    ).root;
+    render(<CompletionList completions={completions} size={30} select={-1} />);
 
-    const items = root.findAllByType(CompletionItem);
-    expect(items.every((item) => item.props.highlight === false)).toBeTruthy;
+    expect(() => screen.getByRole("menuitem", { current: true })).toThrow();
   });
 
   it("limits completion items", () => {
-    let root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={3} select={-1} />,
-    ).root;
+    render(<CompletionList completions={completions} size={3} select={-1} />);
 
-    const showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-
-    expect(showns).toEqual([
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-    ]);
-
-    root = ReactTestRenderer.create(
-      <CompletionList completions={completions} size={3} select={0} />,
-    ).root;
-
-    const items = root
-      .findAllByType(CompletionItem)
-      .map((item) => item.props.shown);
-    expect(items[1]).toBeTruthy;
+    const items = screen.getAllByRole("menuitem");
+    expect(items.map((item) => item.textContent)).toEqual(["apple", "banana"]);
   });
 
   it("scrolls up to down with select", () => {
-    let component: ReactTestRenderer.ReactTestRenderer | null = null;
-
-    ReactTestRenderer.act(() => {
-      component = ReactTestRenderer.create(
-        <CompletionList completions={completions} size={3} select={1} />,
-      );
-    });
-
-    const root = component!.root;
-
-    let items = root.findAllByType(CompletionItem);
-    let showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-    expect(showns).toEqual([
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
+    const { rerender } = render(
+      <CompletionList completions={completions} size={3} select={0} />,
+    );
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "apple",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual([
+      // [Fruit]
+      "apple",
+      "banana",
     ]);
 
-    ReactTestRenderer.act(() => {
-      component!.update(
-        <CompletionList completions={completions} size={3} select={2} />,
-      );
-    });
-    items = root.findAllByType(CompletionItem);
-    showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-    expect(showns).toEqual([
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-    ]);
-    expect(items[2].props.highlight).toBeTruthy;
+    rerender(<CompletionList completions={completions} size={3} select={2} />);
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "cherry",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual(["apple", "banana", "cherry"]);
 
-    ReactTestRenderer.act(() => {
-      component!.update(
-        <CompletionList completions={completions} size={3} select={3} />,
-      );
-    });
-    items = root.findAllByType(CompletionItem);
-    showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-    expect(showns).toEqual([
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
+    rerender(<CompletionList completions={completions} size={3} select={3} />);
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "argon",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual([
+      "cherry",
+      // [Element]
+      "argon",
     ]);
-    expect(items[3].props.highlight).toBeTruthy;
   });
 
   it("scrolls down to up with select", () => {
-    let component: ReactTestRenderer.ReactTestRenderer | null = null;
+    const { rerender } = render(
+      <CompletionList completions={completions} size={3} select={5} />,
+    );
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "carbon",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual(["argon", "boron", "carbon"]);
 
-    ReactTestRenderer.act(() => {
-      component = ReactTestRenderer.create(
-        <CompletionList completions={completions} size={3} select={5} />,
-      );
-    });
-    const root = component!.root;
+    rerender(<CompletionList completions={completions} size={3} select={4} />);
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "boron",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual(["argon", "boron", "carbon"]);
 
-    let items = root.findAllByType(CompletionItem);
-    let showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
+    rerender(<CompletionList completions={completions} size={3} select={3} />);
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "argon",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual(["argon", "boron", "carbon"]);
 
-    expect(showns).toEqual([
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
+    rerender(<CompletionList completions={completions} size={3} select={2} />);
+    expect(screen.getByRole("menuitem", { current: true }).textContent).toEqual(
+      "cherry",
+    );
+    expect(
+      screen.getAllByRole("menuitem").map((item) => item.textContent),
+    ).toEqual([
+      "cherry",
+      // [Element]
+      "argon",
     ]);
-    expect(items[5].props.highlight).toBeTruthy;
-
-    ReactTestRenderer.act(() => {
-      component!.update(
-        <CompletionList completions={completions} size={3} select={4} />,
-      );
-    });
-    items = root.findAllByType(CompletionItem);
-    showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-    expect(showns).toEqual([
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-    ]);
-    expect(items[4].props.highlight).toBeTruthy;
-
-    ReactTestRenderer.act(() => {
-      component!.update(
-        <CompletionList completions={completions} size={3} select={3} />,
-      );
-    });
-    items = root.findAllByType(CompletionItem);
-    showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-    expect(showns).toEqual([
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-    ]);
-    expect(items[3].props.highlight).toBeTruthy;
-
-    ReactTestRenderer.act(() => {
-      component!.update(
-        <CompletionList completions={completions} size={3} select={2} />,
-      );
-    });
-    items = root.findAllByType(CompletionItem);
-    showns = root
-      .findAllByProps({ role: "group" })
-      .map((group) =>
-        [
-          group.findByType(CompletionTitle).props.shown,
-          group.findAllByType(CompletionItem).map((item) => item.props.shown),
-        ].flat(),
-      )
-      .flat();
-    expect(showns).toEqual([
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-    ]);
-    expect(items[2].props.highlight).toBeTruthy;
   });
 });

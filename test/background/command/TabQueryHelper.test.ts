@@ -1,17 +1,31 @@
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, test, expect, beforeEach, vi } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 
 describe("TabQueryHelper", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
   const sut = new TabQueryHelper(lastSelectedTabRepository);
 
-  const mockGetLastSelectedTab = vi.spyOn(
-    lastSelectedTabRepository,
-    "getLastSelectedTabId",
+  vi.spyOn(lastSelectedTabRepository, "getLastSelectedTabId").mockResolvedValue(
+    14,
   );
-  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
+  vi.spyOn(chrome.tabs, "query").mockImplementation(
+    async (opts: chrome.tabs.QueryInfo) =>
+      allTabs
+        .filter((t) => {
+          if (typeof opts.active === "undefined") {
+            return true;
+          }
+          return t.active === opts.active;
+        })
+        .filter((t) => {
+          if (typeof opts.pinned === "undefined") {
+            return true;
+          }
+          return t.pinned === opts.pinned;
+        }),
+  );
 
   /**
    * 0: tab1, https://example.com/1, pinned
@@ -29,27 +43,6 @@ describe("TabQueryHelper", () => {
     title: `tab${i + 1}`,
     url: `https://example.com/${i + 1}`,
   }));
-
-  beforeEach(() => {
-    mockGetLastSelectedTab.mockClear();
-    mockTabsQuery.mockClear();
-    mockGetLastSelectedTab.mockResolvedValue(14);
-    mockTabsQuery.mockImplementation(async (opts: chrome.tabs.QueryInfo) =>
-      allTabs
-        .filter((t) => {
-          if (typeof opts.active === "undefined") {
-            return true;
-          }
-          return t.active === opts.active;
-        })
-        .filter((t) => {
-          if (typeof opts.pinned === "undefined") {
-            return true;
-          }
-          return t.pinned === opts.pinned;
-        }),
-    );
-  });
 
   describe("getCompletions", () => {
     test("returns tab completions maching with a query", async () => {
