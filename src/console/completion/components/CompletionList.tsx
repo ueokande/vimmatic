@@ -86,7 +86,6 @@ export const CompletionList: React.FC<Props> = ({
           primary={item.primary}
           secondary={item.secondary}
           highlight={itemIndex === select}
-          aria-current={itemIndex === select}
         />,
       );
       ++viewIndex;
