@@ -17,7 +17,6 @@ const REL_PATTERN: { [key: string]: RegExp } = {
 
 // Return the last element in the document matching the supplied selector
 // and the optional filter, or null if there are no matches.
-
 function selectLast<E extends Element>(
   selector: string,
   filter?: (e: E) => boolean,
