@@ -26,51 +26,50 @@ describe("HintModeUseCase", () => {
     consoleClient,
   );
 
+  const mockGetFrameIds = vi
+    .spyOn(frameRepository, "getFrameIds")
+    .mockResolvedValue([100, 101, 102]);
+  const mockGetProperty = vi
+    .spyOn(propertySettings, "getProperty")
+    .mockResolvedValue("abc");
+  const mockGetWindowViewport = vi
+    .spyOn(topFrameClient, "getWindowViewport")
+    .mockResolvedValue({ width: 1000, height: 1200 });
+  const mockGetFramePosition = vi
+    .spyOn(topFrameClient, "getFramePosition")
+    .mockImplementation((_tabId: number, frameId: number) => {
+      switch (frameId) {
+        case 100:
+          return Promise.resolve({ x: 10, y: 20 });
+        case 101:
+          return Promise.resolve({ x: 11, y: 21 });
+        case 102:
+          return Promise.resolve({ x: 12, y: 22 });
+      }
+      return Promise.resolve(undefined);
+    });
+  const mockLookupTargets = vi.spyOn(hintClient, "lookupTargets");
+  const mockAssignTags = vi.spyOn(hintClient, "assignTags").mockResolvedValue();
+  const mockStartHintMode = vi
+    .spyOn(hintRepository, "startHintMode")
+    .mockResolvedValue(undefined);
+  const mockShowInfo = vi.spyOn(consoleClient, "showInfo").mockResolvedValue();
+  const mockShowError = vi
+    .spyOn(consoleClient, "showError")
+    .mockResolvedValue();
+
   it("starts follow mode", async () => {
-    const mockGetFrameIds = vi
-      .spyOn(frameRepository, "getFrameIds")
-      .mockResolvedValue([100, 101, 102]);
-    const mockGetProperty = vi
-      .spyOn(propertySettings, "getProperty")
-      .mockResolvedValue("abc");
-    const mockGetWindowViewport = vi
-      .spyOn(topFrameClient, "getWindowViewport")
-      .mockResolvedValue({ width: 1000, height: 1200 });
-    const mockGetFramePosition = vi
-      .spyOn(topFrameClient, "getFramePosition")
-      .mockImplementation((_tabId: number, frameId: number) => {
-        switch (frameId) {
-          case 100:
-            return Promise.resolve({ x: 10, y: 20 });
-          case 101:
-            return Promise.resolve({ x: 11, y: 21 });
-          case 102:
-            return Promise.resolve({ x: 12, y: 22 });
-        }
-        return Promise.resolve(undefined);
-      });
-    const mockLookupTargets = vi
-      .spyOn(hintClient, "lookupTargets")
-      .mockImplementation((_tabId, frameId: number) => {
-        switch (frameId) {
-          case 100:
-            return Promise.resolve(["0"]);
-          case 101:
-            return Promise.resolve(["0", "1"]);
-          case 102:
-            return Promise.resolve(["0", "1", "2"]);
-        }
-        return Promise.resolve([]);
-      });
-    const mockAssignTags = vi
-      .spyOn(hintClient, "assignTags")
-      .mockResolvedValue();
-    const mockStartHintMode = vi
-      .spyOn(hintRepository, "startHintMode")
-      .mockResolvedValue(undefined);
-    const mockShowInfo = vi
-      .spyOn(consoleClient, "showInfo")
-      .mockResolvedValue();
+    mockLookupTargets.mockImplementation((_tabId, frameId: number) => {
+      switch (frameId) {
+        case 100:
+          return Promise.resolve(["0"]);
+        case 101:
+          return Promise.resolve(["0", "1"]);
+        case 102:
+          return Promise.resolve(["0", "1", "2"]);
+      }
+      return Promise.resolve([]);
+    });
 
     await sut.start(10, "hint.test", false, false);
 
@@ -124,6 +123,14 @@ describe("HintModeUseCase", () => {
       ],
     );
     expect(mockShowInfo).toHaveBeenCalledOnce();
+  });
+
+  it("shows error when no hints found", async () => {
+    mockLookupTargets.mockResolvedValue([]);
+
+    await sut.start(10, "hint.test", false, false);
+
+    expect(mockShowError).toHaveBeenCalledOnce();
   });
 
   it("stops follow mode", async () => {
