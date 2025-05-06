@@ -34,6 +34,10 @@ export class MockHintRepository implements HintRepository {
     throw new Error("not implemented");
   }
 
+  getCurrentQueuedKeys(): Promise<string> {
+    throw new Error("Method not implemented.");
+  }
+
   getAllMatchedHints(): Promise<HintTarget[]> {
     throw new Error("not implemented");
   }

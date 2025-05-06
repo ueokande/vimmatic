@@ -6,6 +6,7 @@ import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { MockHintRepository } from "../mock/MockHintRepository";
 import { MockHintActionFactory } from "../mock/MockHintActionFactory";
 import { describe, it, vi, expect } from "vitest";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 
 describe("HintModeUseCase", () => {
   const topFrameClient = new MockTopFrameClient();
@@ -14,6 +15,7 @@ describe("HintModeUseCase", () => {
   const propertySettings = new MockPropertySettings();
   const hintRepository = new MockHintRepository();
   const hintActionFactory = new MockHintActionFactory();
+  const consoleClient = new MockConsoleClient();
   const sut = new HintModeUseCase(
     topFrameClient,
     hintClient,
@@ -21,6 +23,7 @@ describe("HintModeUseCase", () => {
     propertySettings,
     hintRepository,
     hintActionFactory,
+    consoleClient,
   );
 
   it("starts follow mode", async () => {
@@ -65,6 +68,9 @@ describe("HintModeUseCase", () => {
     const mockStartHintMode = vi
       .spyOn(hintRepository, "startHintMode")
       .mockResolvedValue(undefined);
+    const mockShowInfo = vi
+      .spyOn(consoleClient, "showInfo")
+      .mockResolvedValue();
 
     await sut.start(10, "hint.test", false, false);
 
@@ -117,6 +123,7 @@ describe("HintModeUseCase", () => {
         { frameId: 102, element: "2", tag: "ac" },
       ],
     );
+    expect(mockShowInfo).toHaveBeenCalledOnce();
   });
 
   it("stops follow mode", async () => {

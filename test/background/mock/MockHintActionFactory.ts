@@ -7,6 +7,10 @@ import type {
 class MockHintAction implements HintAction {
   constructor(public readonly name: string) {}
 
+  description(): string {
+    return "mock description";
+  }
+
   lookupTargetSelector(): string {
     return "[mock]";
   }

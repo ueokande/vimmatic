@@ -4,12 +4,18 @@ export type HintTarget = {
   tag: string;
 };
 
+export type ActionResult = {
+  keepConsole: boolean;
+};
+
 export interface HintAction {
+  description(): string;
+
   lookupTargetSelector(): string;
 
   activate(
     tabId: number,
     target: HintTarget,
     opts: { newTab: boolean; background: boolean },
-  ): Promise<void>;
+  ): Promise<ActionResult | void>;
 }

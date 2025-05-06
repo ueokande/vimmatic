@@ -12,6 +12,10 @@ export class OpenSourceHintAction implements HintAction {
     private readonly tabPresenter: TabPresenter,
   ) {}
 
+  description(): string {
+    return "View source";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

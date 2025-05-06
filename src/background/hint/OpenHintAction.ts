@@ -12,6 +12,10 @@ export class OpenHintAction implements HintAction {
     private readonly tabPresenter: TabPresenter,
   ) {}
 
+  description(): string {
+    return "Open link";
+  }
+
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
   }

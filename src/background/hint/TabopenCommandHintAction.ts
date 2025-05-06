@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction } from "./types";
+import type { HintTarget, HintAction, ActionResult } from "./types";
 import { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
@@ -11,6 +11,10 @@ export class TabopenCommandHintAction implements HintAction {
     @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
   ) {}
+
+  description(): string {
+    return "Show tabopen command";
+  }
 
   lookupTargetSelector(): string {
     return ["a", "area"].join(",");
@@ -23,7 +27,7 @@ export class TabopenCommandHintAction implements HintAction {
       newTab: boolean;
       background: boolean;
     },
-  ): Promise<void> {
+  ): Promise<ActionResult | void> {
     const element = await this.hintClient.getElement(
       tabId,
       target.frameId,
@@ -39,5 +43,7 @@ export class TabopenCommandHintAction implements HintAction {
     }
 
     await this.consoleClient.showCommand(tabId, "tabopen " + href);
+
+    return { keepConsole: true };
   }
 }
