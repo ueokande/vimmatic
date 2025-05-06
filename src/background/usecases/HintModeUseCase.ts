@@ -44,10 +44,6 @@ export class HintModeUseCase {
 
     const hintAction = this.hintActionFactory.createHintAction(hintModeName);
     const description = hintAction.description();
-    await this.consoleClient.showInfo(
-      tabId,
-      `${description}: press a key to filter the hints or press Enter to select`,
-    );
 
     const viewport = await this.topFrameClient.getWindowViewport(tabId);
     const hintKeys = new HintTagProducer(hintchars);
@@ -76,6 +72,19 @@ export class HintModeUseCase {
         targets.push({ frameId, element, tag });
       }
     }
+
+    if (targets.length === 0) {
+      await this.consoleClient.showError(
+        tabId,
+        `${description}: no elements found to select`,
+      );
+      return;
+    }
+
+    await this.consoleClient.showInfo(
+      tabId,
+      `${description}: press a key to filter the hints or press Enter to select`,
+    );
 
     await this.hintRepository.startHintMode(
       hintModeName,
