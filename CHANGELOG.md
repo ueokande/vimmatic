@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.1](https://github.com/ueokande/vimmatic/compare/v0.8.0...v0.8.1) (2025-05-06)
+
+
+### Bug Fixes
+
+* **deps:** Update dependencides ([#525](https://github.com/ueokande/vimmatic/issues/525)) ([c7af427](https://github.com/ueokande/vimmatic/commit/c7af427064c759f5b1ab4c9a6649e80b71c62efc))
+* show console on following hints ([#522](https://github.com/ueokande/vimmatic/issues/522)) ([b4b10d4](https://github.com/ueokande/vimmatic/commit/b4b10d4d5cdad97f261f45d1547755bd37cd157b))
+* show error when no hints matched ([#527](https://github.com/ueokande/vimmatic/issues/527)) ([204300f](https://github.com/ueokande/vimmatic/commit/204300fcd0ba47b29cb346366697940562275ed1))
+
 ## [0.8.0](https://github.com/ueokande/vimmatic/compare/v0.7.2...v0.8.0) (2024-07-25)
 
 
