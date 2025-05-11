@@ -4,7 +4,7 @@
 
 import { HintPresenterImpl } from "../../../src/content/presenters/HintPresenter";
 import { MockSettingRepository } from "../mock/MockSettingRepository";
-import { describe, beforeEach, test, expect } from "vitest";
+import { describe, beforeEach, test, expect, vi } from "vitest";
 
 describe("HintPresenterImpl", () => {
   beforeEach(() => {
@@ -15,23 +15,62 @@ describe("HintPresenterImpl", () => {
     </ul></div>`;
 
     // HintPresenterImpl checks if the element is visible by the offsetHeight.
-    Object.defineProperties(window.HTMLElement.prototype, {
-      offsetWidth: {
-        get() {
-          return 10;
-        },
-      },
-      offsetHeight: {
-        get() {
-          return 10;
-        },
-      },
+    vi.spyOn(
+      window.HTMLElement.prototype,
+      "offsetWidth",
+      "get",
+    ).mockReturnValue(10);
+    vi.spyOn(
+      window.HTMLElement.prototype,
+      "offsetHeight",
+      "get",
+    ).mockReturnValue(10);
+    vi.spyOn(
+      window.HTMLElement.prototype,
+      "getBoundingClientRect",
+    ).mockImplementation(function (this: HTMLElement) {
+      let y = NaN;
+      if (this.id === "link") {
+        y = 0;
+      } else if (this.id === "input") {
+        y = 10;
+      } else if (this.id === "button") {
+        y = 20;
+      }
+      return {
+        bottom: y + 10,
+        height: 10,
+        left: 0,
+        right: 300,
+        top: y,
+        width: 300,
+        x: 0,
+        y,
+        toJSON: () => {},
+      };
     });
+    vi.spyOn(document, "elementFromPoint").mockImplementation((_x, y) => {
+      if (0 <= y && y < 10) {
+        return document.getElementById("link");
+      } else if (10 <= y && y < 20) {
+        return document.getElementById("input");
+      } else if (20 <= y && y < 30) {
+        return document.getElementById("button");
+      }
+      return null;
+    });
+    vi.spyOn(document.documentElement, "clientWidth", "get").mockReturnValue(
+      300,
+    );
+    vi.spyOn(document.documentElement, "clientHeight", "get").mockReturnValue(
+      100,
+    );
   });
 
+  const settingsRepository = new MockSettingRepository();
+  const sut = new HintPresenterImpl(settingsRepository);
+
   test("should assign tags to hints and clear them", () => {
-    const settingsRepository = new MockSettingRepository();
-    const sut = new HintPresenterImpl(settingsRepository);
     const viewSize = { width: 100, height: 100 };
     const framePosition = { x: 0, y: 0 };
 
@@ -40,7 +79,7 @@ describe("HintPresenterImpl", () => {
       viewSize,
       framePosition,
     );
-    expect(targets.length).toBe(3);
+    expect(targets).toHaveLength(3);
 
     sut.assignTags({
       [targets[0]]: "a",
@@ -65,5 +104,18 @@ describe("HintPresenterImpl", () => {
     sut.clearHints();
 
     expect(document.querySelectorAll("[data-vimmatic-hint]").length).toBe(0);
+  });
+
+  test("should skip out-of-view elements", () => {
+    const viewSize = { width: 100, height: 15 };
+    const framePosition = { x: 0, y: 0 };
+
+    const targets = sut.lookupTargets(
+      "a,input,button",
+      viewSize,
+      framePosition,
+    );
+
+    expect(targets).toHaveLength(2);
   });
 });

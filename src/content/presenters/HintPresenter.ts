@@ -43,20 +43,36 @@ const inViewport = (
   return true;
 };
 
-const isAriaHiddenOrAriaDisabled = (win: Window, element: Element): boolean => {
-  if (!element || win.document.documentElement === element) {
+const isAriaVisible = (win: Window, element: HTMLElement): boolean => {
+  if (win.document.documentElement === element) {
+    return true;
+  }
+  if (element.ariaHidden === "true" || element.ariaDisabled === "true") {
     return false;
   }
-  for (const attr of ["aria-hidden", "aria-disabled"]) {
-    const value = element.getAttribute(attr);
-    if (value !== null) {
-      const hidden = value.toLowerCase();
-      if (hidden === "" || hidden === "true") {
-        return true;
-      }
-    }
+  if (element.parentElement === null) {
+    return true;
   }
-  return isAriaHiddenOrAriaDisabled(win, element.parentElement as Element);
+  return isAriaVisible(win, element.parentElement);
+};
+
+const isElementIsNotOverlapped = (element: HTMLElement) => {
+  const doc = element.ownerDocument;
+  const rect = element.getBoundingClientRect();
+
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const elementAtPoint = doc.elementFromPoint(centerX, centerY);
+
+  if (rect.width === 0 || rect.height === 0) {
+    return false;
+  }
+
+  if (!element.contains(elementAtPoint) && !elementAtPoint?.contains(element)) {
+    return false;
+  }
+
+  return true;
 };
 
 export interface HintPresenter {
@@ -153,13 +169,13 @@ export class HintPresenterImpl implements HintPresenter {
     const allElements = this.locator.getAllElements();
     const targets = Object.fromEntries(
       Object.entries(allElements).filter(([_id, element]) =>
-        this.isViewable(element, viewSize, framePosition),
+        this.isVisible(element, viewSize, framePosition),
       ),
     );
     return targets;
   }
 
-  private isViewable(
+  private isVisible(
     element: HTMLElement,
     viewSize: Size,
     framePosition: Point,
@@ -167,12 +183,12 @@ export class HintPresenterImpl implements HintPresenter {
     // AREA's 'display' in Browser style is 'none'
     return (
       element.checkVisibility({
-        checkOpacity: true,
-        checkVisibilityCSS: true,
+        contentVisibilityAuto: true,
+        opacityProperty: true,
+        visibilityProperty: true,
       }) &&
-      element.offsetWidth > 0 &&
-      element.offsetHeight > 0 &&
-      !isAriaHiddenOrAriaDisabled(window, element) &&
+      isAriaVisible(window, element) &&
+      isElementIsNotOverlapped(element) &&
       inViewport(window, element, viewSize, framePosition)
     );
   }
