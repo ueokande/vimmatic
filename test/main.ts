@@ -76,3 +76,6 @@ global.chrome = {
 if (global.Element) {
   global.Element.prototype.checkVisibility = () => true;
 }
+if (global.Document) {
+  global.Document.prototype.elementFromPoint = () => null;
+}
