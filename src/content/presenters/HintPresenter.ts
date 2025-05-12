@@ -181,16 +181,28 @@ export class HintPresenterImpl implements HintPresenter {
     framePosition: Point,
   ): boolean {
     // AREA's 'display' in Browser style is 'none'
-    return (
-      element.checkVisibility({
-        contentVisibilityAuto: true,
-        opacityProperty: true,
-        visibilityProperty: true,
-      }) &&
-      isAriaVisible(window, element) &&
-      isElementIsNotOverlapped(element) &&
-      inViewport(window, element, viewSize, framePosition)
-    );
+    if (element instanceof HTMLAreaElement) {
+      return (
+        element.checkVisibility({
+          contentVisibilityAuto: true,
+          opacityProperty: true,
+          visibilityProperty: true,
+        }) &&
+        isAriaVisible(window, element) &&
+        inViewport(window, element, viewSize, framePosition)
+      );
+    } else {
+      return (
+        element.checkVisibility({
+          contentVisibilityAuto: true,
+          opacityProperty: true,
+          visibilityProperty: true,
+        }) &&
+        isAriaVisible(window, element) &&
+        isElementIsNotOverlapped(element) &&
+        inViewport(window, element, viewSize, framePosition)
+      );
+    }
   }
 
   getElement(elementId: string): HTMLElementType | undefined {
