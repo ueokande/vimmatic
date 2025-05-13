@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.2](https://github.com/ueokande/vimmatic/compare/v0.8.1...v0.8.2) (2025-05-12)
+
+
+### Bug Fixes
+
+* list-up links without overlapped ([#528](https://github.com/ueokande/vimmatic/issues/528)) ([b8d1c9a](https://github.com/ueokande/vimmatic/commit/b8d1c9a4767c3dd25cf20360b0278201363eada8))
+
 ## [0.8.1](https://github.com/ueokande/vimmatic/compare/v0.8.0...v0.8.1) (2025-05-06)
 
 
