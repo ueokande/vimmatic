@@ -6,7 +6,7 @@ import {
   getTextGroups,
   TextGroupMap,
   Finder,
-} from "../../../src/content/presenters/FindPresenter";
+} from "../../../src/content/repositories/FinderRepository";
 import { describe, beforeAll, beforeEach, it, test, vi, expect } from "vitest";
 
 describe("getTextGroups", () => {
@@ -64,9 +64,9 @@ describe("TextGroupMap", () => {
   describe("anchorAt", () => {
     it("returns the text node and the offset of the given index in the text", () => {
       const map = new TextGroupMap(textNodes);
-      expect(map.anchorAt(3)).toEqual({ node: textNodes[0], offset: 3 });
-      expect(map.anchorAt(5)).toEqual({ node: textNodes[1], offset: 0 });
-      expect(map.anchorAt(11)).toEqual({ node: textNodes[3], offset: 0 });
+      expect(map.anchorAt(3)).toEqual({ node: textNodes[0], offset: 3, textNodePos: -1});
+      expect(map.anchorAt(5)).toEqual({ node: textNodes[1], offset: 0, textNodePos: -1});
+      expect(map.anchorAt(11)).toEqual({ node: textNodes[3], offset: 0, textNodePos: -1 });
     });
 
     it("throws an error when the index is out of range", () => {
@@ -97,16 +97,16 @@ describe("Finder", () => {
         textNodes,
       );
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][0], offset: 0, textNodePos: -1},
+        { node: textNodes[0][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 2 },
-        { node: textNodes[0][1], offset: 1 },
+        { node: textNodes[0][0], offset: 2, textNodePos: -1 },
+        { node: textNodes[0][1], offset: 2, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 2 },
-        { node: textNodes[1][1], offset: 1 },
+        { node: textNodes[1][0], offset: 2, textNodePos: -1 },
+        { node: textNodes[1][1], offset: 2, textNodePos: -1 },
       ]);
     });
   });
@@ -127,20 +127,20 @@ describe("Finder", () => {
         textNodes,
       );
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 2 },
-        { node: textNodes[0][1], offset: 1 },
+        { node: textNodes[0][0], offset: 2, textNodePos: -1 },
+        { node: textNodes[0][1], offset: 2, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 0 },
-        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[1][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 2 },
-        { node: textNodes[1][1], offset: 1 },
+        { node: textNodes[1][0], offset: 2, textNodePos: -1 },
+        { node: textNodes[1][1], offset: 2, textNodePos: -1 },
       ]);
     });
   });
@@ -162,12 +162,12 @@ describe("Finder", () => {
       );
 
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 0 },
-        { node: textNodes[1][0], offset: 2 },
+        { node: textNodes[1][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[1][0], offset: 3, textNodePos: -1 },
       ]);
     });
   });
@@ -189,12 +189,12 @@ describe("Finder", () => {
       );
 
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 0 },
-        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[1][1], offset: 1, textNodePos: -1 },
       ]);
     });
   });
@@ -217,32 +217,32 @@ describe("Finder", () => {
         textNodes,
       );
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][0], offset: 1 },
-        { node: textNodes[0][0], offset: 3 },
+        { node: textNodes[0][0], offset: 1, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 4, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[0][3], offset: 1 },
-        { node: textNodes[0][3], offset: 3 },
+        { node: textNodes[0][3], offset: 1, textNodePos: -1 },
+        { node: textNodes[0][3], offset: 4, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 2 },
-        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][0], offset: 2, textNodePos: -1 },
+        { node: textNodes[1][1], offset: 1, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][0], offset: 3 },
-        { node: textNodes[1][2], offset: 0 },
+        { node: textNodes[1][0], offset: 3, textNodePos: -1 },
+        { node: textNodes[1][2], offset: 1, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[1][1], offset: 0 },
-        { node: textNodes[1][2], offset: 1 },
+        { node: textNodes[1][1], offset: 0, textNodePos: -1 },
+        { node: textNodes[1][2], offset: 2, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toEqual([
-        { node: textNodes[3][1], offset: 1 },
-        { node: textNodes[3][1], offset: 3 },
+        { node: textNodes[3][1], offset: 1, textNodePos: -1 },
+        { node: textNodes[3][1], offset: 4, textNodePos: -1 },
       ]);
       expect(finder.findNext()).toBeUndefined();
     });
@@ -253,32 +253,32 @@ describe("Finder", () => {
         textNodes,
       );
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[3][1], offset: 1 },
-        { node: textNodes[3][1], offset: 3 },
+        { node: textNodes[3][1], offset: 1, textNodePos: -1 },
+        { node: textNodes[3][1], offset: 4, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][1], offset: 0 },
-        { node: textNodes[1][2], offset: 1 },
+        { node: textNodes[1][1], offset: 0, textNodePos: -1 },
+        { node: textNodes[1][2], offset: 2, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][0], offset: 3 },
-        { node: textNodes[1][2], offset: 0 },
+        { node: textNodes[1][0], offset: 3, textNodePos: -1 },
+        { node: textNodes[1][2], offset: 1, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[1][0], offset: 2 },
-        { node: textNodes[1][1], offset: 0 },
+        { node: textNodes[1][0], offset: 2, textNodePos: -1 },
+        { node: textNodes[1][1], offset: 1, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][3], offset: 1 },
-        { node: textNodes[0][3], offset: 3 },
+        { node: textNodes[0][3], offset: 1, textNodePos: -1 },
+        { node: textNodes[0][3], offset: 4, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][0], offset: 1 },
-        { node: textNodes[0][0], offset: 3 },
+        { node: textNodes[0][0], offset: 1, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 4, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toEqual([
-        { node: textNodes[0][0], offset: 0 },
-        { node: textNodes[0][0], offset: 2 },
+        { node: textNodes[0][0], offset: 0, textNodePos: -1 },
+        { node: textNodes[0][0], offset: 3, textNodePos: -1 },
       ]);
       expect(finder.findPrev()).toBeUndefined();
     });

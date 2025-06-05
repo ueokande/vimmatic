@@ -63,6 +63,11 @@ export class OperationUseCase {
       case "zoom.in":
       case "zoom.out":
       case "zoom.reset":
+      case "visual.left":
+      case "visual.right":
+      case "visual.word.end":
+      case "visual.word.next":
+      case "visual.word.back":
         return true;
     }
     return false;
