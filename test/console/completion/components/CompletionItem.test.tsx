@@ -12,13 +12,13 @@ describe("console/components/console/completion/CompletionItem", () => {
       <CompletionItem
         shown={true}
         highlight={false}
-        primary="twitter"
-        secondary="https://twitter.com/"
+        primary="x"
+        secondary="https://x.com/"
       />,
     );
 
     const item = screen.getByRole("menuitem");
-    expect(item.textContent).toContain("twitter");
-    expect(item.textContent).toContain("https://twitter.com/");
+    expect(item.textContent).toContain("x");
+    expect(item.textContent).toContain("https://x.com/");
   });
 });
