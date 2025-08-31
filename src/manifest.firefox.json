@@ -24,7 +24,6 @@
     "scripts": ["lib/background.js"]
   },
   "permissions": [
-    "history",
     "sessions",
     "storage",
     "tabs",
@@ -33,6 +32,9 @@
     "notifications",
     "bookmarks",
     "browserSettings"
+  ],
+  "optional_permissions": [
+    "history"
   ],
   "web_accessible_resources": [
     {
