@@ -83,7 +83,7 @@ export const defaultJSONSettings = `{
       "yahoo": "https://search.yahoo.com/search?p={}",
       "bing": "https://www.bing.com/search?q={}",
       "duckduckgo": "https://duckduckgo.com/?q={}",
-      "twitter": "https://twitter.com/search?q={}",
+      "x": "https://x.com/search?q={}",
       "wikipedia": "https://en.wikipedia.org/w/index.php?search={}"
     }
   },
