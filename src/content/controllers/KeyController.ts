@@ -23,6 +23,8 @@ export class KeyController {
     const mode = this.modeRepository.getMode();
     if (mode === Mode.Normal) {
       return this.handleKeymaps(key);
+    } else if (mode === Mode.Visual) {
+      return this.handleKeymaps(key);
     } else {
       this.sendKey(key);
       return true;
