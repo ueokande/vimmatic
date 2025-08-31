@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.3](https://github.com/ueokande/vimmatic/compare/v0.8.2...v0.8.3) (2025-08-31)
+
+
+### Bug Fixes
+
+* replace Twitter references with X ([#536](https://github.com/ueokande/vimmatic/issues/536)) ([531e9e1](https://github.com/ueokande/vimmatic/commit/531e9e123e45d8fb0b07531932a2a3b869be13eb))
+
 ## [0.8.2](https://github.com/ueokande/vimmatic/compare/v0.8.1...v0.8.2) (2025-05-12)
 
 
