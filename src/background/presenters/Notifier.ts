@@ -11,6 +11,11 @@ export const Notifier = Symbol("Notifier");
 @provide(Notifier)
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {
+    if (typeof chrome.notifications === "undefined") {
+      // In case notifications API is not granted.
+      return;
+    }
+
     const title = `Vimmatic ${version} has been installed`;
     const message = "Click here to see release notes";
 
