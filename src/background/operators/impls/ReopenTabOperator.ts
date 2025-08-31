@@ -11,7 +11,9 @@ export class ReopenTabOperator implements Operator {
 
   async run(): Promise<void> {
     if (typeof chrome.sessions === "undefined") {
-      throw new Error(`The "sessions" permission is not granted.`);
+      throw new Error(
+        "Recently closed tabs access was blocked due to lack of user activation.",
+      );
     }
 
     const window = await chrome.windows.getCurrent();

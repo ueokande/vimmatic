@@ -26,7 +26,9 @@ export class AddBookmarkCommand implements Command {
     args: string,
   ): Promise<void> {
     if (typeof chrome.bookmarks === "undefined") {
-      throw new Error(`The "bookmarks" permission is not granted.`);
+      throw new Error(
+        "Bookmark save was blocked due to lack of user activation.",
+      );
     }
 
     const { tab } = sender;
