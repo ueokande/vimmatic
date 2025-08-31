@@ -51,6 +51,11 @@ export class OpenCommandHelper {
   }
 
   private async queryBookmarks(query: string): Promise<CompletionItem[]> {
+    if (typeof chrome.bookmarks === "undefined") {
+      // In case the bookmarks permission is not granted.
+      return [];
+    }
+
     const items = await chrome.bookmarks.search({ query });
     return items
       .filter((item) => item.title.length > 0)

@@ -25,6 +25,10 @@ export class AddBookmarkCommand implements Command {
     _force: boolean,
     args: string,
   ): Promise<void> {
+    if (typeof chrome.bookmarks === "undefined") {
+      throw new Error(`The "bookmarks" permission is not granted.`);
+    }
+
     const { tab } = sender;
     if (typeof tab === "undefined" || typeof tab.id === "undefined") {
       return;
