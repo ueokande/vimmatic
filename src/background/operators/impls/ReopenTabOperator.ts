@@ -10,6 +10,10 @@ export class ReopenTabOperator implements Operator {
   schema() {}
 
   async run(): Promise<void> {
+    if (typeof chrome.sessions === "undefined") {
+      throw new Error(`The "sessions" permission is not granted.`);
+    }
+
     const window = await chrome.windows.getCurrent();
     const sessions = await chrome.sessions.getRecentlyClosed();
     const session = sessions.find((s) => {
