@@ -12,6 +12,11 @@ export class FirefoxBrowserSettingRepositoryImpl
   implements BrowserSettingRepository
 {
   async getHomepageUrls(): Promise<string[]> {
+    if (typeof chrome.browserSettings === "undefined") {
+      // In case browserSettings API is not available, return about:home
+      return ["about:blank"];
+    }
+
     const { value } = await chrome.browserSettings.homepageOverride.get({});
     const normalizedURLs = value
       .split("|")
