@@ -1,5 +1,6 @@
 import type { Command, CommandContext, Completions } from "./types";
 import type { ConsoleClient } from "../clients/ConsoleClient";
+import { requirePermission } from "../decorators/permissions";
 
 export class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}
@@ -20,17 +21,12 @@ export class AddBookmarkCommand implements Command {
     return Promise.resolve([]);
   }
 
+  @requirePermission("bookmarks")
   async exec(
     { sender }: CommandContext,
     _force: boolean,
     args: string,
   ): Promise<void> {
-    if (typeof chrome.bookmarks === "undefined") {
-      throw new Error(
-        "Bookmark save was blocked due to lack of user activation.",
-      );
-    }
-
     const { tab } = sender;
     if (typeof tab === "undefined" || typeof tab.id === "undefined") {
       return;

@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import type { Operator } from "../types";
+import { requirePermission } from "../../decorators/permissions";
 
 @injectable()
 export class ReopenTabOperator implements Operator {
@@ -9,13 +10,8 @@ export class ReopenTabOperator implements Operator {
 
   schema() {}
 
+  @requirePermission("sessions")
   async run(): Promise<void> {
-    if (typeof chrome.sessions === "undefined") {
-      throw new Error(
-        "Recently closed tabs access was blocked due to lack of user activation.",
-      );
-    }
-
     const window = await chrome.windows.getCurrent();
     const sessions = await chrome.sessions.getRecentlyClosed();
     const session = sessions.find((s) => {

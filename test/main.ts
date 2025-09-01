@@ -71,6 +71,9 @@ global.chrome = {
       },
     },
   },
+  permissions: {
+    contains: todo,
+  },
 } as unknown as typeof chrome;
 
 if (global.Element) {

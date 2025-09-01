@@ -51,8 +51,10 @@ export class OpenCommandHelper {
   }
 
   private async queryBookmarks(query: string): Promise<CompletionItem[]> {
-    if (typeof chrome.bookmarks === "undefined") {
-      // In case the bookmarks permission is not granted.
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["bookmarks"],
+    });
+    if (!hasPermission) {
       return [];
     }
 
@@ -78,8 +80,10 @@ export class OpenCommandHelper {
   }
 
   async queryHistories(query: string): Promise<CompletionItem[]> {
-    if (typeof chrome.history === "undefined") {
-      // In case the history permission is not granted.
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["history"],
+    });
+    if (!hasPermission) {
       return [];
     }
 

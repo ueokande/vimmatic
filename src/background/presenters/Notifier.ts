@@ -11,8 +11,10 @@ export const Notifier = Symbol("Notifier");
 @provide(Notifier)
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {
-    if (typeof chrome.notifications === "undefined") {
-      // In case notifications API is not granted.
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["notifications"],
+    });
+    if (!hasPermission) {
       return;
     }
 

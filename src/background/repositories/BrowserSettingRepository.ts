@@ -12,8 +12,10 @@ export class FirefoxBrowserSettingRepositoryImpl
   implements BrowserSettingRepository
 {
   async getHomepageUrls(): Promise<string[]> {
-    if (typeof chrome.browserSettings === "undefined") {
-      // In case browserSettings API is not available, return about:home
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["browserSettings"],
+    });
+    if (!hasPermission) {
       return ["about:blank"];
     }
 
