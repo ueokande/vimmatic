@@ -3,7 +3,8 @@ type Permission =
   | "history"
   | "sessions"
   | "notifications"
-  | "browserSettings";
+  | "browserSettings"
+  | "tabs";
 
 export function requirePermission(permission: Permission): MethodDecorator {
   return function (

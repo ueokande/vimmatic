@@ -70,6 +70,7 @@ const PERMISSION_LABELS: Record<string, string> = {
   notifications: "Display notifications to you",
   bookmarks: "Read and modify bookmarks",
   browserSettings: "Read and modify browser settings",
+  tabs: "Access browser tabs",
 };
 
 const CHROME_OPTIONAL_PERMISSIONS = [
@@ -77,6 +78,7 @@ const CHROME_OPTIONAL_PERMISSIONS = [
   "sessions",
   "notifications",
   "bookmarks",
+  "tabs",
 ];
 
 // Sort permissions by about:addons page
@@ -88,6 +90,7 @@ const FIREFOX_OPTIONAL_PERMISSIONS = [
   "notifications",
   "bookmarks",
   "browserSettings",
+  "tabs",
 ];
 
 const getOptionalPermissions = (): Permission[] => {
