@@ -72,7 +72,10 @@ global.chrome = {
     },
   },
   permissions: {
-    contains: todo,
+    contains: () => true,
+    getAll: () => {},
+    request: () => {},
+    remove: () => {},
   },
 } as unknown as typeof chrome;
 
