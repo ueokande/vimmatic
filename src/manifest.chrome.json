@@ -19,14 +19,14 @@
     "service_worker": "lib/background.js"
   },
   "permissions": [
-    "sessions",
-    "storage",
-    "tabs",
-    "notifications",
-    "bookmarks"
+    "storage"
   ],
   "optional_permissions": [
-    "history"
+    "history",
+    "sessions",
+    "notifications",
+    "bookmarks",
+    "tabs"
   ],
   "web_accessible_resources": [
     {

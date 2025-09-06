@@ -24,17 +24,17 @@
     "scripts": ["lib/background.js"]
   },
   "permissions": [
+    "storage"
+  ],
+  "optional_permissions": [
+    "history",
     "sessions",
-    "storage",
-    "tabs",
     "clipboardRead",
     "clipboardWrite",
     "notifications",
     "bookmarks",
-    "browserSettings"
-  ],
-  "optional_permissions": [
-    "history"
+    "browserSettings",
+    "tabs"
   ],
   "web_accessible_resources": [
     {
