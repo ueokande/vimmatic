@@ -75,6 +75,48 @@ describe("TabQueryHelper", () => {
       completions = await sut.getCompletions("10", { includePinned: true });
       expect(completions[0].items).toHaveLength(0);
     });
+
+    test("handles tabs with undefined title", async () => {
+      const tabsWithUndefinedTitle: chrome.tabs.Tab[] = [
+        {
+          ...defaultTab,
+          id: 20,
+          index: 0,
+          title: undefined,
+          url: "https://example.com/no-title",
+          pinned: false,
+          active: true,
+        },
+      ];
+
+      vi.spyOn(chrome.tabs, "query").mockResolvedValueOnce(
+        tabsWithUndefinedTitle,
+      );
+
+      const completions = await sut.getCompletions("", { includePinned: true });
+      expect(completions[0].items).toMatchObject([
+        { primary: "1: % ", value: "https://example.com/no-title" },
+      ]);
+    });
+
+    test("handles tabs with undefined url", async () => {
+      vi.spyOn(chrome.tabs, "query").mockResolvedValueOnce([
+        {
+          ...defaultTab,
+          id: 21,
+          index: 0,
+          title: "Tab without URL",
+          url: undefined,
+          pinned: false,
+          active: true,
+        },
+      ]);
+
+      const completions = await sut.getCompletions("", { includePinned: true });
+      expect(completions[0].items).toMatchObject([
+        { primary: "1: % Tab without URL", value: "1" },
+      ]);
+    });
   });
 
   describe("queryTabs", () => {

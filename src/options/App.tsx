@@ -3,6 +3,7 @@ import stylex from "@stylexjs/stylex";
 import { useLoadSettings, useSaveSettings } from "./hooks/storage";
 import { TextArea } from "./components/TextArea";
 import { ErrorMessage } from "./components/ErrorMessage";
+import { PermissionToggles } from "./components/PermissionToggles";
 
 const styles = stylex.create({
   container: {
@@ -52,6 +53,7 @@ export const App: React.FC = () => {
         </a>{" "}
         for more details.
       </p>
+      <PermissionToggles />
       <div>
         <TextArea
           name="text"

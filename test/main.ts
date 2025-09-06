@@ -71,6 +71,12 @@ global.chrome = {
       },
     },
   },
+  permissions: {
+    contains: () => true,
+    getAll: () => {},
+    request: () => {},
+    remove: () => {},
+  },
 } as unknown as typeof chrome;
 
 if (global.Element) {

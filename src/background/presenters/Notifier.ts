@@ -11,6 +11,13 @@ export const Notifier = Symbol("Notifier");
 @provide(Notifier)
 export class NotifierImpl implements NotifierImpl {
   async notifyUpdated(version: string, onclick: () => void): Promise<void> {
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["notifications"],
+    });
+    if (!hasPermission) {
+      return;
+    }
+
     const title = `Vimmatic ${version} has been installed`;
     const message = "Click here to see release notes";
 
