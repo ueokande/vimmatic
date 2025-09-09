@@ -20,6 +20,7 @@ import "./presenters/HintPresenter";
 import "./presenters/NavigationPresenter";
 import "./presenters/ReadyStatusPresenter";
 import "./presenters/ScrollPresenter";
+import "./presenters/VisualPresenter";
 import "./repositories/AddonEnabledRepository";
 import "./repositories/AddressRepository";
 import "./repositories/FrameIdRepository";

@@ -6,6 +6,7 @@ import { SettingsController } from "../controllers/SettingsController";
 import { ConsoleFrameController } from "../controllers/ConsoleFrameController";
 import { NavigateController } from "../controllers/NavigateController";
 import { FindController } from "../controllers/FindController";
+import { VisualController } from "../controllers/VisualController";
 import { ScrollController } from "../controllers/ScrollController";
 import { FocusController } from "../controllers/FocusController";
 import { ModeController } from "../controllers/ModeController";
@@ -28,6 +29,8 @@ export class ContentMessageListener {
     navigateController: NavigateController,
     @inject(FindController)
     findController: FindController,
+    @inject(VisualController)
+    visualController: VisualController,
     @inject(ScrollController)
     scrollController: ScrollController,
     @inject(FocusController)
@@ -68,6 +71,21 @@ export class ContentMessageListener {
     this.receiver
       .route("console.resize")
       .to(consoleFrameController.resize.bind(consoleFrameController));
+    this.receiver
+      .route("visual.left")
+      .to(visualController.moveLeft.bind(visualController));
+    this.receiver
+      .route("visual.right")
+      .to(visualController.moveRight.bind(visualController));
+    this.receiver
+      .route("visual.word.next")
+      .to(visualController.moveNextWord.bind(visualController));
+    this.receiver
+      .route("visual.word.end")
+      .to(visualController.moveEndWord.bind(visualController));
+    this.receiver
+      .route("visual.word.back")
+      .to(visualController.movePrevWord.bind(visualController));
     this.receiver
       .route("find.next")
       .to(findController.findNext.bind(findController));
