@@ -12,6 +12,13 @@ export class FirefoxBrowserSettingRepositoryImpl
   implements BrowserSettingRepository
 {
   async getHomepageUrls(): Promise<string[]> {
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["browserSettings"],
+    });
+    if (!hasPermission) {
+      return ["about:blank"];
+    }
+
     const { value } = await chrome.browserSettings.homepageOverride.get({});
     const normalizedURLs = value
       .split("|")
