@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.4](https://github.com/ueokande/vimmatic/compare/v0.8.3...v0.8.4) (2025-09-06)
+
+
+### Bug Fixes
+
+* fix resizing in chrome option ([#540](https://github.com/ueokande/vimmatic/issues/540)) ([f2a6558](https://github.com/ueokande/vimmatic/commit/f2a6558f493f173ef56050cd9f26905799a8952a))
+
 ## [0.8.3](https://github.com/ueokande/vimmatic/compare/v0.8.2...v0.8.3) (2025-08-31)
 
 

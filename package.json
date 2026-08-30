@@ -1,7 +1,7 @@
 {
   "name": "vimmatic",
   "description": "vimmatic",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "scripts": {
     "start": "NODE_ENV=development nodemon --watch ./src --ext js,jsx,ts,tsx,css,html,json script/build.mjs",
     "clean": "rm -rf ./dist",
