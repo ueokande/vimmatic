@@ -88,8 +88,13 @@ export class Application {
       return;
     }
 
-    await this.frameClient.notifyFrameId(tabId, frameId);
+    // Register the frame as ready first, so the readiness invariant (a frame in
+    // the repository is able to receive messages) holds before we send anything
+    // to it.  The port `onConnect` fires only after the content script has
+    // installed its message listener, so the frame is guaranteed to be
+    // listening at this point.
     await this.frameRepository.addFrameId(tabId, frameId);
+    await this.frameClient.notifyFrameId(tabId, frameId);
   }
 
   private async onFindPortDisconnect(port: chrome.runtime.Port) {
