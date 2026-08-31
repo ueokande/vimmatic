@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.5](https://github.com/ueokande/vimmatic/compare/v0.8.4...v0.8.5) (2026-08-31)
+
+
+### Bug Fixes
+
+* stabilize background-content messaging with a readiness handshake ([#544](https://github.com/ueokande/vimmatic/issues/544)) ([6026c1b](https://github.com/ueokande/vimmatic/commit/6026c1b03a1c138f97af7a4352cad8bce31e8c71))
+
 ## [0.8.4](https://github.com/ueokande/vimmatic/compare/v0.8.3...v0.8.4) (2025-09-06)
 
 
