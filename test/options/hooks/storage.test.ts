@@ -13,6 +13,8 @@ describe("useLoadSettings", () => {
   const spyGet = vi.spyOn(chrome.storage.sync, "get");
 
   it("returns initial values", async () => {
+    spyGet.mockImplementation(() => new Promise(() => {})); // never resolves
+
     const { result } = renderHook(() => useLoadSettings());
 
     await waitFor(() => expect(result.current.loading).toBeTruthy());
