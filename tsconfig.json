@@ -25,7 +25,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
 
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
 
     "experimentalDecorators": true,
