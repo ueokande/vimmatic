@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { Mode } from "../../shared/mode";
 
 let mode: Mode = Mode.Normal;

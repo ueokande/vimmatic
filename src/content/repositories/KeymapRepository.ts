@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import type { Key } from "../../shared/key";
 import { KeySequence } from "../domains/KeySequence";
 

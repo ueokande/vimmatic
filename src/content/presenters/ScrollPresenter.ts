@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 
 const SCROLL_DELTA_X = 64;
 const SCROLL_DELTA_Y = 64;
