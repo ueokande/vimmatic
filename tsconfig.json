@@ -9,7 +9,6 @@
     "sourceMap": true,
     "outDir": "./build",
     "removeComments": true,
-    "importHelpers": true,
 
     "strict": true,
     "noImplicitAny": true,
