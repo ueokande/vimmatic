@@ -8,9 +8,7 @@ export interface BrowserSettingRepository {
 export const BrowserSettingRepository = Symbol("BrowserSettingRepository");
 
 @injectable()
-export class FirefoxBrowserSettingRepositoryImpl
-  implements BrowserSettingRepository
-{
+export class FirefoxBrowserSettingRepositoryImpl implements BrowserSettingRepository {
   async getHomepageUrls(): Promise<string[]> {
     const { value } = await chrome.browserSettings.homepageOverride.get({});
     const normalizedURLs = value
@@ -30,9 +28,7 @@ export class FirefoxBrowserSettingRepositoryImpl
 }
 
 @injectable()
-export class ChromeBrowserSettingRepositoryImpl
-  implements BrowserSettingRepository
-{
+export class ChromeBrowserSettingRepositoryImpl implements BrowserSettingRepository {
   async getHomepageUrls(): Promise<string[]> {
     // chrome does not supports browserSettings APIs
     return ["chrome://newtab"];

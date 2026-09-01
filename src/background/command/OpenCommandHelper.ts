@@ -56,7 +56,7 @@ export class OpenCommandHelper {
       .filter((item) => item.title.length > 0)
       .filter((item) => typeof item.url !== "undefined")
       .filter((item) => {
-        let url = undefined;
+        let url: URL;
         try {
           url = new URL(item.url!);
         } catch {

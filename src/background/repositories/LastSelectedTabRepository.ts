@@ -15,9 +15,7 @@ type State = {
 export const LastSelectedTabRepository = Symbol("LastSelectedTabRepository");
 
 @provide(LastSelectedTabRepository)
-export class LastSelectedTabRepositoryImpl
-  implements LastSelectedTabRepository
-{
+export class LastSelectedTabRepositoryImpl implements LastSelectedTabRepository {
   constructor(
     private readonly cache: LocalCache<State> = new LocalCacheImpl(
       LastSelectedTabRepositoryImpl.name,
