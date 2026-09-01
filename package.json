@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "1.52.0",
+    "@playwright/test": "1.62.1",
     "@stylexjs/dev-runtime": "^0.11.1",
     "@stylexjs/esbuild-plugin": "^0.11.1",
     "@stylexjs/eslint-plugin": "^0.11.1",
@@ -59,7 +59,7 @@
     "jsdom": "^30.0.1",
     "jszip": "^3.10.1",
     "nodemon": "^3.1.14",
-    "playwright-webextext": "^0.0.4",
+    "playwright-webextext": "^0.0.5",
     "prettier": "3.9.6",
     "prettier-eslint": "17.1.2",
     "typescript-eslint": "^8.69.0",
