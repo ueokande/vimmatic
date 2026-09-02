@@ -1,18 +1,6 @@
 import "reflect-metadata";
-import inject from "@stylexjs/dev-runtime";
-import { vi, beforeAll, afterEach } from "vitest";
+import { vi, afterEach } from "vitest";
 import { cleanup } from "@testing-library/react";
-
-beforeAll(() => {
-  vi.mock("@stylexjs/stylex", () => {
-    const stylex = inject({
-      dev: true,
-      test: true,
-    } as any);
-
-    return stylex;
-  });
-});
 
 afterEach(() => {
   cleanup();
