@@ -2,9 +2,12 @@ import { StartFindOperator } from "../../../../src/background/operators/impls/St
 import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
+import { asAsyncSpy } from "../../../asAsyncSpy";
 
 describe("StartFindOperator", () => {
-  vi.spyOn(chrome.tabs, "query").mockResolvedValue([
+  asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+    vi.spyOn(chrome.tabs, "query"),
+  ).mockResolvedValue([
     { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
   ]);
   const consoleClient = new MockConsoleClient();

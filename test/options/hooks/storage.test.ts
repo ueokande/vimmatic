@@ -8,11 +8,14 @@ import {
   useSaveSettings,
 } from "../../../src/options/hooks/storage";
 import { describe, vi, it, expect } from "vitest";
+import { asAsyncSpy } from "../../asAsyncSpy";
 
 describe("useLoadSettings", () => {
   const spyGet = vi.spyOn(chrome.storage.sync, "get");
 
   it("returns initial values", async () => {
+    spyGet.mockImplementation(() => new Promise(() => {})); // never resolves
+
     const { result } = renderHook(() => useLoadSettings());
 
     await waitFor(() => expect(result.current.loading).toBeTruthy());
@@ -64,7 +67,9 @@ describe("useLoadSettings", () => {
 
 describe("useSaveSettings", () => {
   const spySet = vi.spyOn(chrome.storage.sync, "set");
-  const spySendMessage = vi.spyOn(chrome.runtime, "sendMessage");
+  const spySendMessage = asAsyncSpy<[unknown], unknown>(
+    vi.spyOn(chrome.runtime, "sendMessage"),
+  );
 
   it("returns initial values", async () => {
     const { result } = renderHook(() => useSaveSettings());

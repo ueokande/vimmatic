@@ -1,9 +1,12 @@
 import { QuitAllCommand } from "../../../src/background/command/QuitAllCommand";
 import { defaultTab } from "../mock/defaultTab";
 import { describe, it, vi, expect } from "vitest";
+import { asAsyncSpy } from "../../asAsyncSpy";
 
 describe("QuitAllCommand", () => {
-  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
+  const mockTabsQuery = asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+    vi.spyOn(chrome.tabs, "query"),
+  );
   const mockTabsRemove = vi
     .spyOn(chrome.tabs, "remove")
     .mockImplementation(() => Promise.resolve());

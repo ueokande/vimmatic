@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import type { FindQuery } from "../../shared/findQuery";
 
 export interface FindPresenter {

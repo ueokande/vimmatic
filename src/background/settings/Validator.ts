@@ -22,7 +22,9 @@ export class Validator {
       try {
         prop.validate(value);
       } catch (e) {
-        throw new TypeError(`Invalid ${name} property: ${e.message}`);
+        throw new TypeError(`Invalid ${name} property: ${e.message}`, {
+          cause: e,
+        });
       }
     });
 

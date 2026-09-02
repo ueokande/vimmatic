@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 
 export interface FrameIdRepository {
   saveFrameId(frameId: number, target: Window, element: Element): void;

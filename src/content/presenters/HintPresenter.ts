@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { SettingRepository } from "../repositories/SettingRepository";
 import { Hint } from "./Hint";
 import * as doms from "../../shared/utils/dom";

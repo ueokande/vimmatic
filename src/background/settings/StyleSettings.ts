@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { SettingsRepository } from "./SettingsRepository";
 import type { ComponentName } from "../../shared/styles";
 import { defaultSettings } from "../../settings";

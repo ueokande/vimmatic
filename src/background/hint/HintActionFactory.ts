@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { QuickHintAction } from "./QuickHintAction";
 import { OpenImageHintAction } from "./OpenImageHintAction";
 import { YankURLHintAction } from "./YankURLHintAction";

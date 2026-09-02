@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { buildProviderModule } from "inversify-binding-decorators";
+import { buildProviderModule } from "@inversifyjs/binding-decorators";
 import {
   BackgroundMessageSender,
   newSender as newBackgroundMessageSender,
@@ -27,7 +27,7 @@ import "./repositories/KeymapRepository";
 import "./repositories/ModeRepository";
 import "./repositories/SettingRepository";
 
-const container = new Container({ autoBindInjectable: true });
+const container = new Container({ autobind: true });
 
 container.load(buildProviderModule());
 
