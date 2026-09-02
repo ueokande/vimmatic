@@ -65,7 +65,7 @@
     "webext-agent": "^0.2.0"
   },
   "engines": {
-    "node": "20.1.0"
+    "node": "24.20.0"
   },
-  "packageManager": "pnpm@8.7.4"
+  "packageManager": "pnpm@11.25.0"
 }
