@@ -4,6 +4,7 @@ import { ContentMessageListener } from "./messaging/ContentMessageListener";
 import { KeyController } from "./controllers/KeyController";
 import { SettingsController } from "./controllers/SettingsController";
 import { InputDriver } from "./InputDriver";
+import { PortConnector } from "./PortConnector";
 import { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
 
 @injectable()
@@ -21,22 +22,36 @@ export class Application {
     private readonly readyStatusPresenter: ReadyStatusPresenter,
   ) {}
 
+  private readonly portConnector = new PortConnector();
+
   init(): Promise<void> {
     if (window === window.top) {
       this.windowMessageListener.listen();
     }
+
+    // Install the message listener BEFORE announcing readiness.  This ordering
+    // is the readiness handshake: the background only sends messages to frames
+    // it has registered in `ReadyFrameRepository`, and that registration is
+    // driven by the port connection opened below.  By registering the
+    // `chrome.runtime.onMessage` listener first, we guarantee that by the time
+    // the background learns about this frame (via the port `onConnect`), the
+    // frame is already able to receive messages.  This removes the send/receive
+    // race that previously required retries on the background side.
     this.contentMessageListener.listen();
+
     this.routeFocusEvents();
     this.routeKeymaps();
     this.settingsController.initSettings();
 
-    // Ping to background script and notify content script is ready with its
-    // frame id.  Background script gathers frame ids on the tab and use them
-    // when it communicate with each frames.
+    // Open a long-lived port to the background as the readiness signal.  The
+    // port itself carries no data; messages are delivered via
+    // `chrome.tabs.sendMessage` with a frame ID.  Its `onConnect` on the
+    // background side is what registers this (now listening) frame as ready.
     //
-    // The port is never used, and the messages are delivered via
-    // `chrome.tabs.sendMessage` API with a frame ID.
-    chrome.runtime.connect({ name: "vimmatic-port" });
+    // The port is reconnected automatically when it is disconnected (e.g. the
+    // MV3 background service worker is terminated) so the frame re-registers
+    // itself, and re-announces its readiness, to a freshly started background.
+    this.portConnector.start();
 
     this.readyStatusPresenter.setContentReady();
 
