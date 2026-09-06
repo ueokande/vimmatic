@@ -5,6 +5,7 @@ import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { MockMarkRepository } from "../mock/MockMarkRepository";
 import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
 import { describe, beforeAll, it, vi, expect } from "vitest";
+import { asAsyncSpy } from "../../asAsyncSpy";
 
 describe("MarkJumpUseCase", () => {
   const markRepository = new MockMarkRepository();
@@ -28,7 +29,9 @@ describe("MarkJumpUseCase", () => {
   });
 
   beforeAll(() => {
-    vi.spyOn(chrome.tabs, "query").mockResolvedValue([
+    asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+      vi.spyOn(chrome.tabs, "query"),
+    ).mockResolvedValue([
       { id: 100, url: "https://example.com/" } as chrome.tabs.Tab,
     ]);
   });

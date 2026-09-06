@@ -33,7 +33,9 @@ export const useLoadSettings = (): {
   const [jsonText, setJsonText] = React.useState<string>();
   React.useEffect(() => {
     (async () => {
-      const { settings_json } = await chrome.storage.sync.get("settings_json");
+      const { settings_json } = await chrome.storage.sync.get<{
+        settings_json?: string;
+      }>("settings_json");
       setJsonText(settings_json ?? defaultJSONSettings);
       setError(undefined);
     })()

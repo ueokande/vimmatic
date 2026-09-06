@@ -11,4 +11,6 @@ export const defaultTab: chrome.tabs.Tab = {
   discarded: false,
   autoDiscardable: false,
   groupId: 0,
+  frozen: false,
+  lastAccessed: 0,
 } as const;

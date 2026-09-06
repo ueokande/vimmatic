@@ -1,11 +1,14 @@
 import { ZoomInOperator } from "../../../../src/background/operators/impls/ZoomInOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
 import { describe, it, expect, vi } from "vitest";
+import { asAsyncSpy } from "../../../asAsyncSpy";
 
 describe("ZoomInOperator", () => {
   describe("#run", () => {
     it("zoom-out the current tab", async () => {
-      vi.spyOn(chrome.tabs, "getZoom").mockResolvedValue(1);
+      asAsyncSpy<[number], number>(
+        vi.spyOn(chrome.tabs, "getZoom"),
+      ).mockResolvedValue(1);
       const mockSetZoom = vi
         .spyOn(chrome.tabs, "setZoom")
         .mockImplementation(() => Promise.resolve());

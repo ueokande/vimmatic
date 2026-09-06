@@ -1,5 +1,5 @@
 import { Container } from "inversify";
-import { buildProviderModule } from "inversify-binding-decorators";
+import { buildProviderModule } from "@inversifyjs/binding-decorators";
 import {
   BrowserSettingRepository,
   FirefoxBrowserSettingRepositoryImpl,
@@ -44,7 +44,7 @@ import "./settings/SearchEngineSettings";
 import "./settings/SettingsRepository";
 import "./settings/StyleSettings";
 
-const container = new Container({ autoBindInjectable: true });
+const container = new Container({ autobind: true });
 
 container.load(buildProviderModule());
 
@@ -62,9 +62,9 @@ if (process.env.BROWSER === "firefox") {
 container.bind(PropertyRegistry).toConstantValue(createPropertyRegistry());
 container
   .bind(CommandRegistry)
-  .toConstantValue(container.resolve(CommandRegistryFactory).create());
+  .toConstantValue(container.get(CommandRegistryFactory).create());
 container
   .bind(OperatorRegistry)
-  .toConstantValue(container.resolve(OperatorRegistryFactory).create());
+  .toConstantValue(container.get(OperatorRegistryFactory).create());
 
 export { container };

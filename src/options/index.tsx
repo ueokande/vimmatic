@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import "./index.css";
 
 document.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.getElementById("vimmatic-settings");

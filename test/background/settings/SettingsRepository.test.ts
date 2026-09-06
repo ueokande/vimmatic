@@ -38,8 +38,8 @@ describe("PermanentSettingsRepositoryImpl", () => {
   });
 
   describe("#save", () => {
-    it("throws an error", () => {
-      expect(sut.save({})).rejects.toThrow();
+    it("throws an error", async () => {
+      await expect(sut.save({})).rejects.toThrow();
     });
   });
 });

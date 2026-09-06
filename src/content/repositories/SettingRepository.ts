@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { Blacklist } from "../../shared/blacklist";
 import type { Keymaps } from "../../shared/keymaps";
 import type { Properties } from "../../shared/properties";

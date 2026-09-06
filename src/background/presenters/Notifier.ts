@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 
 const NOTIFICATION_ID_UPDATE = "vimmatic-update";
 

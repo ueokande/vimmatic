@@ -21,6 +21,8 @@ describe("OpenImageHintAction", () => {
     discarded: false,
     autoDiscardable: false,
     groupId: 1,
+    frozen: false,
+    lastAccessed: 0,
   });
 
   const mockGetElement = vi.spyOn(hintClient, "getElement").mockResolvedValue({

@@ -28,11 +28,7 @@ export interface ShowInfoAction {
 }
 
 export type AppAction =
-  | HideAction
-  | ShowCommand
-  | ShowFindAction
-  | ShowErrorAction
-  | ShowInfoAction;
+  HideAction | ShowCommand | ShowFindAction | ShowErrorAction | ShowInfoAction;
 
 const hide = (): HideAction => {
   return {

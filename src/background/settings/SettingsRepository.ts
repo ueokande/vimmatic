@@ -1,5 +1,5 @@
 import { inject } from "inversify";
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import type { Settings } from "../../shared/settings";
 import { defaultSettings, serialize, deserialize } from "../../settings";

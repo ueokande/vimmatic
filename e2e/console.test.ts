@@ -12,14 +12,13 @@ test.fixme("open console with open command by o", async ({ page }) => {
   await expect.poll(() => page.console.getCommand()).toBe("open ");
 });
 
-test.fixme(
-  "open console with open command and current URL by O",
-  async ({ page }) => {
-    await page.keyboard.press("Shift+O");
+test.fixme("open console with open command and current URL by O", async ({
+  page,
+}) => {
+  await page.keyboard.press("Shift+O");
 
-    await expect.poll(() => page.console.getCommand()).toBe("open about:blank");
-  },
-);
+  await expect.poll(() => page.console.getCommand()).toBe("open about:blank");
+});
 
 test.fixme("open console with tabopen command by t", async ({ page }) => {
   await page.keyboard.press("t");
@@ -27,16 +26,15 @@ test.fixme("open console with tabopen command by t", async ({ page }) => {
   await expect.poll(() => page.console.getCommand()).toBe("tabopen ");
 });
 
-test.fixme(
-  "open console with tabopen command and current URL by T",
-  async ({ page }) => {
-    await page.keyboard.press("Shift+T");
+test.fixme("open console with tabopen command and current URL by T", async ({
+  page,
+}) => {
+  await page.keyboard.press("Shift+T");
 
-    await expect
-      .poll(() => page.console.getCommand())
-      .toBe("tabopen about:blank");
-  },
-);
+  await expect
+    .poll(() => page.console.getCommand())
+    .toBe("tabopen about:blank");
+});
 
 test.fixme("open console with winopen command by w", async ({ page }) => {
   await page.keyboard.press("w");
@@ -44,16 +42,15 @@ test.fixme("open console with winopen command by w", async ({ page }) => {
   await expect.poll(() => page.console.getCommand()).toBe("winopen ");
 });
 
-test.fixme(
-  "open console with winopen command and current URL by W",
-  async ({ page }) => {
-    await page.keyboard.press("Shift+W");
+test.fixme("open console with winopen command and current URL by W", async ({
+  page,
+}) => {
+  await page.keyboard.press("Shift+W");
 
-    await expect
-      .poll(() => page.console.getCommand())
-      .toBe("winopen about:blank");
-  },
-);
+  await expect
+    .poll(() => page.console.getCommand())
+    .toBe("winopen about:blank");
+});
 
 test.fixme("open console with buffer command by b", async ({ page }) => {
   await page.keyboard.press("b");
@@ -61,13 +58,12 @@ test.fixme("open console with buffer command by b", async ({ page }) => {
   await expect.poll(() => page.console.getCommand()).toBe("buffer ");
 });
 
-test.fixme(
-  "open console with addbookmark command with title by a",
-  async ({ page }) => {
-    await page.keyboard.press("a");
+test.fixme("open console with addbookmark command with title by a", async ({
+  page,
+}) => {
+  await page.keyboard.press("a");
 
-    await expect
-      .poll(() => page.console.getCommand())
-      .toBe("addbookmark New Tab");
-  },
-);
+  await expect
+    .poll(() => page.console.getCommand())
+    .toBe("addbookmark New Tab");
+});

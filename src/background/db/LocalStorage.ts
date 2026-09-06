@@ -18,7 +18,7 @@ export class LocalCacheImpl<T> {
   async getValue(): Promise<T> {
     const kv = await chrome.storage.local.get(this.key);
     if (this.key in kv) {
-      return JSON.parse(kv[this.key]);
+      return JSON.parse(kv[this.key] as string);
     }
     return this.initValue;
   }

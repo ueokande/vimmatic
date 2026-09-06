@@ -1,6 +1,6 @@
-import "@abraham/reflection";
+import "reflect-metadata";
 import { Application } from "./Application";
 import { container } from "./di";
 
-const app = container.resolve(Application);
+const app = container.get(Application);
 app.run();

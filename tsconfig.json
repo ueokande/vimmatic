@@ -9,7 +9,6 @@
     "sourceMap": true,
     "outDir": "./build",
     "removeComments": true,
-    "importHelpers": true,
 
     "strict": true,
     "noImplicitAny": true,
@@ -25,7 +24,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
 
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
 
     "experimentalDecorators": true,

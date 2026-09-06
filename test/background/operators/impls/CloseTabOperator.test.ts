@@ -1,6 +1,7 @@
 import { CloseTabOperator } from "../../../../src/background/operators/impls/CloseTabOperator";
 import { defaultTab } from "../../mock/defaultTab";
 import { describe, expect, it, vi } from "vitest";
+import { asAsyncSpy } from "../../../asAsyncSpy";
 
 describe("CloseTabOperator", () => {
   const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");
@@ -16,7 +17,9 @@ describe("CloseTabOperator", () => {
         { ...defaultTab, id: 102, index: 1, pinned: false, active: true },
         { ...defaultTab, id: 103, index: 2, pinned: false, active: false },
       ];
-      vi.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
+      asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+        vi.spyOn(chrome.tabs, "query"),
+      ).mockResolvedValue(tabs);
 
       const ctx = {
         sender: {
@@ -38,7 +41,9 @@ describe("CloseTabOperator", () => {
         { ...defaultTab, id: 102, index: 1, pinned: false, active: true },
         { ...defaultTab, id: 103, index: 2, pinned: false, active: false },
       ];
-      vi.spyOn(chrome.tabs, "query").mockResolvedValue(tabs);
+      asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+        vi.spyOn(chrome.tabs, "query"),
+      ).mockResolvedValue(tabs);
 
       const ctx = {
         sender: {

@@ -3,6 +3,7 @@ import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { defaultTab } from "../mock/defaultTab";
 import { describe, expect, vi, test } from "vitest";
+import { asAsyncSpy } from "../../asAsyncSpy";
 
 const tabs = [
   {
@@ -45,8 +46,13 @@ describe("UnpinCommand", () => {
     },
   };
   const tabQueryHelper = new TabQueryHelper(lastSelectedTab);
-  const mockTabUpdate = vi.spyOn(chrome.tabs, "update").mockResolvedValue();
-  const mockTabQuery = vi.spyOn(chrome.tabs, "query");
+  const mockTabUpdate = asAsyncSpy<
+    [number, chrome.tabs.UpdateProperties],
+    chrome.tabs.Tab | undefined
+  >(vi.spyOn(chrome.tabs, "update")).mockResolvedValue(undefined);
+  const mockTabQuery = asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+    vi.spyOn(chrome.tabs, "query"),
+  );
 
   test("unpins the current tab", async () => {
     mockTabQuery.mockResolvedValueOnce(tabs);

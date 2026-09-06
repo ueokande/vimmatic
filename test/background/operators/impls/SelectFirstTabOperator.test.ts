@@ -1,9 +1,12 @@
 import { SelectFirstTabOperator } from "../../../../src/background/operators/impls/SelectFirstTabOperator";
 import { defaultTab } from "../../mock/defaultTab";
 import { describe, it, expect, vi } from "vitest";
+import { asAsyncSpy } from "../../../asAsyncSpy";
 
 describe("SelectFirstTabOperator", () => {
-  vi.spyOn(chrome.tabs, "query").mockResolvedValue([
+  asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+    vi.spyOn(chrome.tabs, "query"),
+  ).mockResolvedValue([
     { ...defaultTab, id: 101, index: 0, active: false },
     { ...defaultTab, id: 102, index: 1, active: true },
     { ...defaultTab, id: 103, index: 2, active: false },

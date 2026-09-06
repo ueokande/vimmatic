@@ -75,7 +75,7 @@ describe("Validator", () => {
         }),
       });
     }).toThrow(
-      "Invalid property 'force' on keymap 'D': Expected boolean, received string",
+      "Invalid property 'force' on keymap 'D': Invalid input: expected boolean, received string",
     );
   });
 });

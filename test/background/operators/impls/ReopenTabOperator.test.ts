@@ -1,12 +1,15 @@
 import { ReopenTabOperator } from "../../../../src/background/operators/impls/ReopenTabOperator";
 import { defaultTab } from "../../mock/defaultTab";
 import { describe, it, expect, vi } from "vitest";
+import { asAsyncSpy } from "../../../asAsyncSpy";
 
 describe("ReopenTabOperator", () => {
   const mockSessionsRestore = vi
     .spyOn(chrome.sessions, "restore")
     .mockImplementation(() => Promise.resolve({ lastModified: 0 }));
-  vi.spyOn(chrome.windows, "getCurrent").mockResolvedValue({
+  asAsyncSpy<[chrome.windows.QueryOptions | undefined], chrome.windows.Window>(
+    vi.spyOn(chrome.windows, "getCurrent"),
+  ).mockResolvedValue({
     id: 20,
     focused: true,
     incognito: false,

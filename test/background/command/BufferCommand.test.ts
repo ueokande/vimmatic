@@ -3,6 +3,7 @@ import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
 import { defaultTab } from "../mock/defaultTab";
 import { describe, it, vi, expect } from "vitest";
+import { asAsyncSpy } from "../../asAsyncSpy";
 
 describe("BufferCommand", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
@@ -13,7 +14,9 @@ describe("BufferCommand", () => {
     lastSelectedTabRepository,
     "getLastSelectedTabId",
   );
-  const mockTabsQuery = vi.spyOn(chrome.tabs, "query");
+  const mockTabsQuery = asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(
+    vi.spyOn(chrome.tabs, "query"),
+  );
   const mockTabsUpdate = vi
     .spyOn(chrome.tabs, "update")
     .mockImplementation(() => Promise.resolve({}));

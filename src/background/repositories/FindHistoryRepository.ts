@@ -1,4 +1,4 @@
-import { provide } from "inversify-binding-decorators";
+import { provide } from "@inversifyjs/binding-decorators";
 import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 
 type State = string[];

@@ -3,6 +3,7 @@ import type { SearchEngineSettings } from "../../../src/background/settings/Sear
 import type { Search } from "../../../src/shared/search";
 import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { describe, expect, it, vi } from "vitest";
+import { asAsyncSpy } from "../../asAsyncSpy";
 
 class MockSearchEngineSettings implements SearchEngineSettings {
   get(): Promise<Search> {
@@ -15,12 +16,16 @@ describe("OpenCommandHelper", () => {
   const searchEngineSettings = new MockSearchEngineSettings();
   const sut = new OpenCommandHelper(searchEngineSettings, propertySettings);
 
-  const mockHistorySearch = vi
-    .spyOn(chrome.history, "search")
-    .mockImplementation(() => Promise.resolve([]));
-  const mockBookmarksSearch = vi
-    .spyOn(chrome.bookmarks, "search")
-    .mockResolvedValue([]);
+  const mockHistorySearch = asAsyncSpy<
+    [chrome.history.HistoryQuery],
+    chrome.history.HistoryItem[]
+  >(vi.spyOn(chrome.history, "search")).mockImplementation(() =>
+    Promise.resolve([]),
+  );
+  const mockBookmarksSearch = asAsyncSpy<
+    [string],
+    chrome.bookmarks.BookmarkTreeNode[]
+  >(vi.spyOn(chrome.bookmarks, "search")).mockResolvedValue([]);
   vi.spyOn(propertySettings, "getProperty").mockImplementation((name) => {
     if (name === "complete") {
       return Promise.resolve("sbh");
@@ -58,9 +63,9 @@ describe("OpenCommandHelper", () => {
   describe("bookmarks", () => {
     it("returns bookmarks", async () => {
       mockBookmarksSearch.mockResolvedValue([
-        { id: "0", title: "com", url: "https://example.com" },
-        { id: "1", title: "net", url: "https://example.net" },
-        { id: "2", title: "org", url: "https://example.org" },
+        { id: "0", title: "com", url: "https://example.com", syncing: false },
+        { id: "1", title: "net", url: "https://example.net", syncing: false },
+        { id: "2", title: "org", url: "https://example.org", syncing: false },
       ]);
 
       const completions = await sut.getCompletions("");
@@ -74,10 +79,10 @@ describe("OpenCommandHelper", () => {
 
     it("filters empty bookmarks", async () => {
       mockBookmarksSearch.mockResolvedValue([
-        { id: "0", title: "my bookmarks" },
-        { id: "1", title: "", url: "https://example.com" },
-        { id: "3", title: "invalid url", url: "********" },
-        { id: "4", title: "empty url" },
+        { id: "0", title: "my bookmarks", syncing: false },
+        { id: "1", title: "", url: "https://example.com", syncing: false },
+        { id: "3", title: "invalid url", url: "********", syncing: false },
+        { id: "4", title: "empty url", syncing: false },
       ]);
 
       const completions = await sut.getCompletions("");
@@ -91,6 +96,7 @@ describe("OpenCommandHelper", () => {
           id: "0",
           title: "com",
           url: "https://example.com",
+          syncing: false,
         }),
       );
 
