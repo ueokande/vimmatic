@@ -14,20 +14,22 @@ export class TabQueryHelper {
   async getCompletions(query: string, opts: TabOption): Promise<Completions> {
     const lastTabId =
       await this.lastSelectedTabRepository.getLastSelectedTabId();
-    const allTabs = await this.getAllTabs(opts);
     const num = parseInt(query, 10);
     let tabs: chrome.tabs.Tab[] = [];
     if (!isNaN(num)) {
+      const allTabs = await this.getAllTabs(opts);
       const tab = allTabs.find((t) => t.index === num - 1);
       if (tab) {
         tabs = [tab];
       }
     } else if (query == "%") {
+      const allTabs = await this.getAllTabs(opts);
       const tab = allTabs.find((t) => t.active);
       if (tab) {
         tabs = [tab];
       }
     } else if (query == "#") {
+      const allTabs = await this.getAllTabs(opts);
       const tab = allTabs.find((t) => t.id === lastTabId);
       if (tab) {
         tabs = [tab];
@@ -45,9 +47,9 @@ export class TabQueryHelper {
       }
       const index = tab.index + 1;
       return {
-        primary: `${index}: ${flag} ${tab.title}`,
+        primary: `${index}: ${flag} ${tab.title ?? ""}`,
         secondary: tab.url,
-        value: tab.url!,
+        value: tab.url ?? index.toString(),
         icon: tab.favIconUrl,
       };
     });
@@ -60,6 +62,9 @@ export class TabQueryHelper {
       currentWindow: true,
       pinned: opts.includePinned ? undefined : false,
     });
+    if (query.trim() === "") {
+      return tabs;
+    }
     return tabs
       .filter((t) => {
         return (

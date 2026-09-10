@@ -1,5 +1,6 @@
 import type { Command, CommandContext, Completions } from "./types";
 import type { ConsoleClient } from "../clients/ConsoleClient";
+import { requirePermission } from "../decorators/permissions";
 
 export class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}
@@ -20,6 +21,7 @@ export class AddBookmarkCommand implements Command {
     return Promise.resolve([]);
   }
 
+  @requirePermission("bookmarks")
   async exec(
     { sender }: CommandContext,
     _force: boolean,

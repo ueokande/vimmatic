@@ -51,6 +51,13 @@ export class OpenCommandHelper {
   }
 
   private async queryBookmarks(query: string): Promise<CompletionItem[]> {
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["bookmarks"],
+    });
+    if (!hasPermission) {
+      return [];
+    }
+
     const items = await chrome.bookmarks.search({ query });
     return items
       .filter((item) => item.title.length > 0)
@@ -73,6 +80,13 @@ export class OpenCommandHelper {
   }
 
   async queryHistories(query: string): Promise<CompletionItem[]> {
+    const hasPermission = await chrome.permissions.contains({
+      permissions: ["history"],
+    });
+    if (!hasPermission) {
+      return [];
+    }
+
     const items = await chrome.history.search({
       text: query,
       startTime: 0,
