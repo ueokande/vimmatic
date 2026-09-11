@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
-import { build } from "esbuild";
+import { build } from "vite";
 import stylex from "@stylexjs/unplugin";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -22,22 +22,50 @@ const entryPoints = {
 };
 
 const buildEntry = async (browser, entry) => {
+  const dev = process.env.NODE_ENV === "development";
   await build({
+    root: ROOT_DIR,
+    configFile: false,
+    logLevel: "warn",
+    publicDir: false,
     define: {
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? ""),
       "process.env.BROWSER": JSON.stringify(browser),
     },
-    entryPoints: [entryPoints[entry]],
-    outfile: `./dist/${browser}/lib/${entry}.js`,
-    bundle: true,
-    metafile: true,
-    target: targets[browser],
-    sourcemap: "inline",
-    keepNames: true,
-    minify: process.env.NODE_ENV !== "development",
-    platform: "browser",
+    build: {
+      target: targets[browser],
+      sourcemap: "inline",
+      minify: !dev,
+      reportCompressedSize: false,
+      outDir: `dist/${browser}/lib`,
+      emptyOutDir: false,
+      lib: {
+        // A fixed, unhashed output filename is required: the manifests and
+        // console/options HTML reference "<entry>.js"/"<entry>.css" by exact
+        // name, and Chrome MV3's background.service_worker/content_scripts
+        // must be a single self-contained, non-ESM file.
+        entry: path.resolve(ROOT_DIR, entryPoints[entry]),
+        formats: ["iife"],
+        name: `Vimmatic${entry[0].toUpperCase()}${entry.slice(1)}`,
+        fileName: () => `${entry}.js`,
+      },
+      rollupOptions: {
+        output: {
+          assetFileNames: `${entry}.css`,
+          // Rolldown's own minifier (not esbuild's `keepNames`) mangles
+          // function/class names by default; several repositories key
+          // caches off `SomeClassImpl.name`, so names must be preserved.
+          minify: dev
+            ? undefined
+            : {
+                compress: { keepNames: { function: true, class: true } },
+                mangle: { keepNames: { function: true, class: true } },
+              },
+        },
+      },
+    },
     plugins: [
-      stylex.esbuild({
+      stylex.vite({
         dev: false,
         importSources: ["@stylexjs/stylex"],
         unstable_moduleResolution: {

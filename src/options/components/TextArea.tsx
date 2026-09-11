@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import Prism from "prismjs";
 import "prismjs/components/prism-json";
 import "prismjs/themes/prism-coy.css";

@@ -1,5 +1,5 @@
 import React from "react";
-import stylex from "@stylexjs/stylex";
+import * as stylex from "@stylexjs/stylex";
 import { useLoadSettings, useSaveSettings } from "./hooks/storage";
 import { TextArea } from "./components/TextArea";
 import { ErrorMessage } from "./components/ErrorMessage";
