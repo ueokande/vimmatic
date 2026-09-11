@@ -1,8 +1,8 @@
+import { describe, expect, it, vi } from "vitest";
 import {
-  FirefoxBrowserSettingRepositoryImpl,
   ChromeBrowserSettingRepositoryImpl,
+  FirefoxBrowserSettingRepositoryImpl,
 } from "../../../src/background/repositories/BrowserSettingRepository";
-import { describe, it, vi, expect } from "vitest";
 
 describe("FirefoxBrowserSettingRepositoryImpl", () => {
   const mockHomepageOverrideGet = vi.spyOn(

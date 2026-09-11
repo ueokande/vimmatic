@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 import { newDynamicTitleServer } from "./lib/servers";
 
 const server = newDynamicTitleServer((req) => `Site ${req.url.slice(1)}`);

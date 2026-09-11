@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
-import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction, ActionResult } from "./types";
-import { ClipboardRepository } from "../repositories/ClipboardRepository";
+import { inject, injectable } from "inversify";
 import { ConsoleClient } from "../clients/ConsoleClient";
+import { HintClient } from "../clients/HintClient";
+import { ClipboardRepository } from "../repositories/ClipboardRepository";
+import type { ActionResult, HintAction, HintTarget } from "./types";
 
 @injectable()
 export class YankURLHintAction implements HintAction {
@@ -46,7 +46,7 @@ export class YankURLHintAction implements HintAction {
     }
 
     await this.clipboardRepository.write(href);
-    await this.consoleClient.showInfo(tabId, "Yanked " + href);
+    await this.consoleClient.showInfo(tabId, `Yanked ${href}`);
     return { keepConsole: true };
   }
 }

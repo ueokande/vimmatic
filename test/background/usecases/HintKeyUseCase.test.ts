@@ -1,10 +1,10 @@
+import { describe, expect, it, vi } from "vitest";
+import type { HintAction } from "../../../src/background/hint/types";
 import { HintKeyUseCase } from "../../../src/background/usecases/HintKeyUseCase";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { MockHintActionFactory } from "../mock/MockHintActionFactory";
 import { MockHintClient } from "../mock/MockHintClient";
 import { MockHintRepository } from "../mock/MockHintRepository";
-import { MockHintActionFactory } from "../mock/MockHintActionFactory";
-import type { HintAction } from "../../../src/background/hint/types";
-import { describe, it, vi, expect } from "vitest";
-import { MockConsoleClient } from "../mock/MockConsoleClient";
 
 class MockHintAction implements HintAction {
   description(): string {

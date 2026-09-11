@@ -1,7 +1,7 @@
+import { describe, expect, test, vi } from "vitest";
 import { WinopenCommandHintAction } from "../../../src/background/hint/WinopenCommandHintAction";
-import { MockHintClient } from "../mock/MockHintClient";
 import { MockConsoleClient } from "../mock/MockConsoleClient";
-import { describe, test, expect, vi } from "vitest";
+import { MockHintClient } from "../mock/MockHintClient";
 
 describe("WinopenCommandHintAction", () => {
   const hintClient = new MockHintClient();

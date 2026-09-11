@@ -1,5 +1,5 @@
 import { Sender } from "../../messaging";
-import type { Schema, Key, Request } from "../../messaging/schema/background";
+import type { Key, Request, Schema } from "../../messaging/schema/background";
 
 export const newSender = () => {
   const sender = new Sender<Schema>((type: Key, args: Request) => {

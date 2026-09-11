@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 import { newSingleContentServer } from "./lib/servers";
 
 const server = newSingleContentServer(

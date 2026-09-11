@@ -1,6 +1,6 @@
-import { injectable, inject } from "inversify";
-import { FindUseCase } from "../usecases/FindUseCase";
+import { inject, injectable } from "inversify";
 import type { FindQuery } from "../../shared/findQuery";
+import { FindUseCase } from "../usecases/FindUseCase";
 
 @injectable()
 export class FindController {

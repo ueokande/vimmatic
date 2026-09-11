@@ -1,6 +1,6 @@
-import { injectable, inject } from "inversify";
-import { HintUseCase } from "../usecases/HintUseCase";
+import { inject, injectable } from "inversify";
 import type { HTMLElementType } from "../../shared/HTMLElementType";
+import { HintUseCase } from "../usecases/HintUseCase";
 
 @injectable()
 export class HintController {

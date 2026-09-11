@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { NavigateParentOperator } from "../../../../src/background/operators/impls/NavigateParentOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 
 describe("NavigateParentOperator", () => {
   const mockTabsUpdate = vi

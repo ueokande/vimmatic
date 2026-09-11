@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import type { Operator } from "../types";
 import { LastSelectedTabRepository } from "../../repositories/LastSelectedTabRepository";
+import type { Operator } from "../types";
 
 @injectable()
 export class SelectPreviousSelectedTabOperator implements Operator {

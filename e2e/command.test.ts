@@ -1,6 +1,6 @@
-import { test, expect } from "./lib/fixture";
-import { newNopServer } from "./lib/servers";
+import { expect, test } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
+import { newNopServer } from "./lib/servers";
 
 const server = newNopServer();
 
@@ -35,8 +35,8 @@ const setupSearchEngines = async (api: typeof browser) => {
     search: {
       default: "google",
       engines: {
-        google: server.url("/google") + "?q={}",
-        yahoo: server.url("/yahoo") + "?q={}",
+        google: `${server.url("/google")}?q={}`,
+        yahoo: `${server.url("/yahoo")}?q={}`,
       },
     },
   });
@@ -66,7 +66,7 @@ test("should open a search result by the open command", async ({
 
   await expect
     .poll(() => page.url())
-    .toBe(server.url("/google") + "?q=an%20apple");
+    .toBe(`${server.url("/google")}?q=an%20apple`);
 });
 
 test("should select a tab by the buffer command", async ({ page, api }) => {

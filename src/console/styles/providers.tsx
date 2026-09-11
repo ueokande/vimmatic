@@ -1,6 +1,6 @@
 import type React from "react";
-import { UserPreferenceCSSProvider } from "./userPreferenceCSS";
 import { ColorSchemeProvider } from "./colorScheme";
+import { UserPreferenceCSSProvider } from "./userPreferenceCSS";
 
 type Props = {
   children: React.ReactNode;

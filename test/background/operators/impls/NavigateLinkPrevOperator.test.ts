@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { NavigateLinkPrevOperator } from "../../../../src/background/operators/impls/NavigateLinkPrevOperator";
-import { MockNavigateClient } from "../../mock/MockNavigateClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
+import { MockNavigateClient } from "../../mock/MockNavigateClient";
 
 describe("NavigateLinkPrevOperator", () => {
   describe("#run", () => {

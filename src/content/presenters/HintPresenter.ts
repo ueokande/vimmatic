@@ -1,10 +1,10 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
+import { inject } from "inversify";
+import type { HTMLElementType } from "../../shared/HTMLElementType";
+import * as doms from "../../shared/utils/dom";
 import { SettingRepository } from "../repositories/SettingRepository";
 import { Hint } from "./Hint";
-import * as doms from "../../shared/utils/dom";
 import { HTMLElementLocator } from "./HTMLElementLocator";
-import type { HTMLElementType } from "../../shared/HTMLElementType";
 
 interface Size {
   width: number;
@@ -151,7 +151,9 @@ export class HintPresenterImpl implements HintPresenter {
   }
 
   clearHints(): void {
-    this.hints.forEach((h) => h.remove());
+    this.hints.forEach((h) => {
+      h.remove();
+    });
     this.hints = [];
     this.locator = undefined;
   }

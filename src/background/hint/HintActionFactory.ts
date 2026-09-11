@@ -1,17 +1,17 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
-import { QuickHintAction } from "./QuickHintAction";
-import { OpenImageHintAction } from "./OpenImageHintAction";
-import { YankURLHintAction } from "./YankURLHintAction";
-import { YankLinkTextHintAction } from "./YankLinkTextHintAction";
-import { OpenHintAction } from "./OpenHintAction";
-import { TabopenHintAction } from "./TabopenHintAction";
-import { WinopenHintAction } from "./WinopenHintAction";
+import { inject } from "inversify";
 import { OpenCommandHintAction } from "./OpenCommandHintAction";
-import { TabopenCommandHintAction } from "./TabopenCommandHintAction";
-import { WinopenCommandHintAction } from "./WinopenCommandHintAction";
+import { OpenHintAction } from "./OpenHintAction";
+import { OpenImageHintAction } from "./OpenImageHintAction";
 import { OpenSourceHintAction } from "./OpenSourceHintAction";
+import { QuickHintAction } from "./QuickHintAction";
+import { TabopenCommandHintAction } from "./TabopenCommandHintAction";
+import { TabopenHintAction } from "./TabopenHintAction";
 import type { HintAction } from "./types";
+import { WinopenCommandHintAction } from "./WinopenCommandHintAction";
+import { WinopenHintAction } from "./WinopenHintAction";
+import { YankLinkTextHintAction } from "./YankLinkTextHintAction";
+import { YankURLHintAction } from "./YankURLHintAction";
 
 export interface HintActionFactory {
   createHintAction(name: string): HintAction;

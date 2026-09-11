@@ -1,11 +1,11 @@
+import { beforeAll, describe, expect, it, vi } from "vitest";
+import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
 import { MarkJumpUseCase } from "../../../src/background/usecases/MarkJumpUseCase";
+import { asAsyncSpy } from "../../asAsyncSpy";
 import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { MockContentMessageClient } from "../mock/MockContentMessageClient";
-import { MockPropertySettings } from "../mock/MockPropertySettings";
 import { MockMarkRepository } from "../mock/MockMarkRepository";
-import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
-import { describe, beforeAll, it, vi, expect } from "vitest";
-import { asAsyncSpy } from "../../asAsyncSpy";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
 
 describe("MarkJumpUseCase", () => {
   const markRepository = new MockMarkRepository();

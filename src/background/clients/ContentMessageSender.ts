@@ -1,5 +1,5 @@
-import type { Schema, Key, Request } from "../../messaging/schema/content";
 import { Sender } from "../../messaging";
+import type { Key, Request, Schema } from "../../messaging/schema/content";
 
 // Sends a message to a content script.  The receiving frame is guaranteed to be
 // listening because the background only ever sends to frames that are present
@@ -13,7 +13,7 @@ export const newSender = (tabId: number, frameId?: number) => {
     if (process.env.NODE_ENV === "development") {
       const style = "background-color: green; color: white; padding: 4px;";
       const reset = "background-color: unset; color: unset; padding: unset;";
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.debug("%cSEND%c %s %o", style, reset, type, args);
     }
 

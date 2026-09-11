@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { TogglePinnedTabOperator } from "../../../../src/background/operators/impls/TogglePinnedTabOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 
 describe("TogglePinnedTabOperator", () => {
   const mockTabsUpdate = vi

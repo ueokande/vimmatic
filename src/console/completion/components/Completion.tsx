@@ -2,8 +2,8 @@ import React from "react";
 import type { Completions } from "../../../shared/completions";
 import { useCompletionKeyBinds } from "../hooks/useCompletionKeyBinds";
 import { useCursor } from "../hooks/useCursor";
-import { CompletionList } from "./CompletionList";
 import styles from "./Completion.module.css";
+import { CompletionList } from "./CompletionList";
 
 type InputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -47,7 +47,7 @@ const useAutoInputValue = (
 
 const useFlatten = (completions: Completions) => {
   return React.useMemo(
-    () => completions.map((g) => g.items).flat(),
+    () => completions.flatMap((g) => g.items),
     [completions],
   );
 };

@@ -1,9 +1,9 @@
 import React from "react";
 import { Sender } from "../../messaging";
 import type {
-  Schema as BackgroundMessageSchema,
   Key as BackgroundMessageKey,
   Request as BackgroundMessageRequest,
+  Schema as BackgroundMessageSchema,
 } from "../../messaging/schema/background";
 
 export const useMessageClient = (): Sender<BackgroundMessageSchema> => {

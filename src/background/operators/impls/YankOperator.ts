@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import type { Operator, OperatorContext } from "../types";
-import { ClipboardRepository } from "../../repositories/ClipboardRepository";
+import { inject, injectable } from "inversify";
 import { ConsoleClient } from "../../clients/ConsoleClient";
+import { ClipboardRepository } from "../../repositories/ClipboardRepository";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class YankOperator implements Operator {
@@ -23,6 +23,6 @@ export class YankOperator implements Operator {
       return;
     }
     await this.clipboard.write(sender.tab.url);
-    await this.consoleClient.showInfo(sender.tabId, "Yanked " + sender.tab.url);
+    await this.consoleClient.showInfo(sender.tabId, `Yanked ${sender.tab.url}`);
   }
 }

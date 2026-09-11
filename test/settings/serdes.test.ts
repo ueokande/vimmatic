@@ -1,11 +1,11 @@
+import { describe, expect, it, test } from "vitest";
 import {
-  serializeSettings,
   deserializeSettings,
+  serializeSettings,
 } from "../../src/settings/serdes";
+import { Blacklist, BlacklistItem } from "../../src/shared/blacklist";
 import { Keymaps } from "../../src/shared/keymaps";
 import { Search } from "../../src/shared/search";
-import { BlacklistItem, Blacklist } from "../../src/shared/blacklist";
-import { describe, it, test, expect } from "vitest";
 
 describe("serializeSettings", () => {
   it("serializes empty settings", () => {

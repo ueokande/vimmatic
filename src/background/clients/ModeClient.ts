@@ -1,6 +1,6 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { newSender } from "./ContentMessageSender";
 import type { Mode } from "../../shared/mode";
+import { newSender } from "./ContentMessageSender";
 
 export interface ModeClient {
   setMode(tabid: number, mode: Mode): Promise<void>;

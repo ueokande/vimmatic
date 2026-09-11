@@ -1,4 +1,5 @@
-import React, { type InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes } from "react";
+import React from "react";
 import { useUserPreferenceCSS } from "../styles/userPreferenceCSS";
 import styles from "./PromptInput.module.css";
 

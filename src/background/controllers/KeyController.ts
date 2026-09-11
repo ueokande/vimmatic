@@ -1,9 +1,9 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import type { RequestContext } from "../messaging/types";
+import { HintKeyUseCase } from "../usecases/HintKeyUseCase";
+import { HintModeUseCase } from "../usecases/HintModeUseCase";
 import { MarkJumpUseCase } from "../usecases/MarkJumpUseCase";
 import { MarkSetUseCase } from "../usecases/MarkSetUseCase";
-import { HintModeUseCase } from "../usecases/HintModeUseCase";
-import { HintKeyUseCase } from "../usecases/HintKeyUseCase";
 import { ModeUseCase } from "../usecases/ModeUseCase";
 
 @injectable()

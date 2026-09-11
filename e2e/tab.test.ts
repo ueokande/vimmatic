@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 import { newNopServer } from "./lib/servers";
 
 const server = newNopServer();
@@ -175,5 +175,5 @@ test("opens view-source by gf", async ({ page, api }) => {
   await page.keyboard.type("gf");
   await expect
     .poll(() => api.tabs.query({ windowId, active: true }))
-    .toMatchObject([{ url: "view-source:" + server.url("2") }]);
+    .toMatchObject([{ url: `view-source:${server.url("2")}` }]);
 });

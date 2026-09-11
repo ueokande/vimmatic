@@ -1,11 +1,11 @@
+import { describe, expect, it, vi } from "vitest";
+import { FindUseCase } from "../../../src/background/usecases/FindUseCase";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { MockFindClient } from "../mock/MockFindClient";
 import { MockFindHistoryRepository } from "../mock/MockFindHistoryRepository";
 import { MockFindRepository } from "../mock/MockFindRepository";
-import { MockConsoleClient } from "../mock/MockConsoleClient";
-import { MockReadyFrameRepository } from "../mock/MockReadyFrameRepository";
 import { MockPropertySettings } from "../mock/MockPropertySettings";
-import { FindUseCase } from "../../../src/background/usecases/FindUseCase";
-import { describe, it, vi, expect } from "vitest";
+import { MockReadyFrameRepository } from "../mock/MockReadyFrameRepository";
 
 describe("FindUseCase", () => {
   const tabId = 100;
@@ -47,7 +47,7 @@ describe("FindUseCase", () => {
         case "findmode":
           return Promise.resolve("normal");
       }
-      throw new Error("Unexpected key: " + key);
+      throw new Error(`Unexpected key: ${key}`);
     },
   );
 
@@ -75,7 +75,7 @@ describe("FindUseCase", () => {
       expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
       expect(showInfoSpy).toHaveBeenCalledWith(
         tabId,
-        "Pattern found: " + keyword,
+        `Pattern found: ${keyword}`,
       );
     });
 
@@ -108,7 +108,7 @@ describe("FindUseCase", () => {
         expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
         expect(showInfoSpy).toHaveBeenCalledWith(
           tabId,
-          "Pattern found: " + keyword,
+          `Pattern found: ${keyword}`,
         );
       },
     );
@@ -143,7 +143,7 @@ describe("FindUseCase", () => {
         expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
         expect(showInfoSpy).toHaveBeenCalledWith(
           tabId,
-          "Pattern found: " + keyword,
+          `Pattern found: ${keyword}`,
         );
       },
     );
@@ -165,7 +165,7 @@ describe("FindUseCase", () => {
       expect(appendHistorySpy).toHaveBeenCalledWith(keyword);
       expect(showErrorSpy).toHaveBeenCalledWith(
         tabId,
-        "Pattern not found: " + keyword,
+        `Pattern not found: ${keyword}`,
       );
     });
 

@@ -1,5 +1,5 @@
-import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import type { Duplex } from "../types";
+import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
 
 export type Schema = {
   "console.show.command": Duplex<{ command: string }>;

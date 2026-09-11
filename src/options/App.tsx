@@ -1,8 +1,8 @@
 import React from "react";
-import { useLoadSettings, useSaveSettings } from "./hooks/storage";
-import { TextArea } from "./components/TextArea";
-import { ErrorMessage } from "./components/ErrorMessage";
 import styles from "./App.module.css";
+import { ErrorMessage } from "./components/ErrorMessage";
+import { TextArea } from "./components/TextArea";
+import { useLoadSettings, useSaveSettings } from "./hooks/storage";
 
 export const App: React.FC = () => {
   const { data: loadedValue, loading, error: loadError } = useLoadSettings();

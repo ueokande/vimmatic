@@ -1,6 +1,6 @@
 import React from "react";
-import { SettingClient } from "../clients/SettingClient";
 import { newSender } from "../clients/BackgroundMessageSender";
+import { SettingClient } from "../clients/SettingClient";
 import styles from "./theme.module.css";
 
 const settingClient = new SettingClient(newSender());
@@ -22,10 +22,7 @@ export const ColorSchemeProvider = ({
   const [userColorScheme, setUserColorScheme] = React.useState("system");
   const themeClassName = React.useMemo(() => {
     if (userColorScheme === "system") {
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      ) {
+      if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
         return styles.dark;
       }
     } else if (userColorScheme === "dark") {

@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
-import type { Operator, OperatorContext } from "../types";
 import { ContentMessageClient } from "../../clients/ContentMessageClient";
 import { PropertySettings } from "../../settings/PropertySettings";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class VerticalScrollOperator implements Operator {

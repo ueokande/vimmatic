@@ -1,6 +1,6 @@
-import { injectable, inject } from "inversify";
-import { SettingsUseCase } from "../usecases/SettingsUseCase";
+import { inject, injectable } from "inversify";
 import type { RequestContext } from "../messaging/types";
+import { SettingsUseCase } from "../usecases/SettingsUseCase";
 
 @injectable()
 export class SettingsController {

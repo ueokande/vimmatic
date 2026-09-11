@@ -1,9 +1,9 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
+import { ConsoleClient } from "../clients/ConsoleClient";
 import { HintClient } from "../clients/HintClient";
+import { HintActionFactory } from "../hint/HintActionFactory";
 import type { HintTarget } from "../hint/types";
 import { HintRepository } from "../repositories/HintRepository";
-import { HintActionFactory } from "../hint/HintActionFactory";
-import { ConsoleClient } from "../clients/ConsoleClient";
 
 export type PresskeyResult = "continue_key_input" | "activate" | "cancel";
 

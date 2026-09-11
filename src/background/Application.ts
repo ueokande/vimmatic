@@ -1,15 +1,15 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
+import { FrameClient } from "./clients/FrameClient";
 import { BackgroundMessageListener } from "./messaging/BackgroundMessageListener";
 import { FindPortListener } from "./messaging/FindPortListener";
-import { VersionUseCase } from "./usecases/VersionUseCase";
 import { FindRepository } from "./repositories/FindRepository";
-import { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
-import { SettingsEventUseCase } from "./usecases/SettingsEventUseCase";
-import { FrameClient } from "./clients/FrameClient";
-import { AddonEnabledEventUseCase } from "./usecases/AddonEnabledEventUseCase";
 import { LastSelectedTabRepository } from "./repositories/LastSelectedTabRepository";
-import { ModeUseCase } from "./usecases/ModeUseCase";
+import { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
+import { AddonEnabledEventUseCase } from "./usecases/AddonEnabledEventUseCase";
 import { HintModeUseCase } from "./usecases/HintModeUseCase";
+import { ModeUseCase } from "./usecases/ModeUseCase";
+import { SettingsEventUseCase } from "./usecases/SettingsEventUseCase";
+import { VersionUseCase } from "./usecases/VersionUseCase";
 
 @injectable()
 export class Application {
@@ -46,12 +46,12 @@ export class Application {
     this.addonEnabledEventUseCase.registerEvents();
 
     chrome.tabs.onUpdated.addListener(async (tabId: number, info) => {
-      if (info.status == "complete") {
+      if (info.status === "complete") {
         await this.modeUseCase.resetMode(tabId);
         await this.hintModeUseCase.stop(tabId);
       }
 
-      if (info.status == "loading") {
+      if (info.status === "loading") {
         await this.findRepository.deleteLocalState(tabId);
       }
     });

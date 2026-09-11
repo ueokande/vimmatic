@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { OpenHomeOperator } from "../../../../src/background/operators/impls/OpenHomeOperator";
-import { MockBrowserSettingRepository } from "../../mock/MockBrowserSettingRepository";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
+import { MockBrowserSettingRepository } from "../../mock/MockBrowserSettingRepository";
 
 describe("OpenHomeOperator", () => {
   describe("#run", () => {

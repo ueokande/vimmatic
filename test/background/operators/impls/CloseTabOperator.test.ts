@@ -1,7 +1,7 @@
-import { CloseTabOperator } from "../../../../src/background/operators/impls/CloseTabOperator";
-import { defaultTab } from "../../mock/defaultTab";
 import { describe, expect, it, vi } from "vitest";
+import { CloseTabOperator } from "../../../../src/background/operators/impls/CloseTabOperator";
 import { asAsyncSpy } from "../../../asAsyncSpy";
+import { defaultTab } from "../../mock/defaultTab";
 
 describe("CloseTabOperator", () => {
   const mockTabsRemove = vi.spyOn(chrome.tabs, "remove");

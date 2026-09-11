@@ -1,6 +1,6 @@
-import { test, expect } from "./lib/fixture";
-import { newScrollableServer } from "./lib/servers";
+import { expect, test } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
+import { newScrollableServer } from "./lib/servers";
 
 const server = newScrollableServer();
 const READY_STATE_SELECTOR =
@@ -19,7 +19,7 @@ test("should disable add-on if the URL is in the blacklist", async ({
   api,
 }) => {
   await new SettingRepository(api).save({
-    blacklist: [new URL(server.url()).host + "/a"],
+    blacklist: [`${new URL(server.url()).host}/a`],
   });
 
   await page.goto(server.url("/a"), { waitUntil: "domcontentloaded" });

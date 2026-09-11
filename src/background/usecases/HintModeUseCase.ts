@@ -1,13 +1,13 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
+import { ConsoleClient } from "../clients/ConsoleClient";
+import { HintClient } from "../clients/HintClient";
+import { TopFrameClient } from "../clients/TopFrameClient";
+import { HintActionFactory } from "../hint/HintActionFactory";
+import type { HintTarget } from "../hint/types";
+import { HintRepository } from "../repositories/HintRepository";
 import { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
 import { PropertySettings } from "../settings/PropertySettings";
-import { TopFrameClient } from "../clients/TopFrameClient";
-import type { HintTarget } from "../hint/types";
-import { HintClient } from "../clients/HintClient";
-import { HintRepository } from "../repositories/HintRepository";
-import { HintActionFactory } from "../hint/HintActionFactory";
 import { HintTagProducer } from "./HintTagProducer";
-import { ConsoleClient } from "../clients/ConsoleClient";
 
 @injectable()
 export class HintModeUseCase {

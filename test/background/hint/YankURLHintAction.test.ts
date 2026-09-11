@@ -1,8 +1,8 @@
+import { describe, expect, test, vi } from "vitest";
 import { YankURLHintAction } from "../../../src/background/hint/YankURLHintAction";
-import { MockHintClient } from "../mock/MockHintClient";
-import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { MockClipboardRepository } from "../mock/MockClipboardRepository";
-import { describe, test, vi, expect } from "vitest";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { MockHintClient } from "../mock/MockHintClient";
 
 describe("YankURLHintAction", () => {
   const hintClient = new MockHintClient();

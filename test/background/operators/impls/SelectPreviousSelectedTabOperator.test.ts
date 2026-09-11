@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { SelectPreviousSelectedTabOperator } from "../../../../src/background/operators/impls/SelectPreviousSelectedTabOperator";
 import { MockLastSelectedTabRepository } from "../../mock/MockLastSelectedTabRepository";
-import { describe, it, expect, vi } from "vitest";
 
 describe("SelectPreviousSelectedTabOperator", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();

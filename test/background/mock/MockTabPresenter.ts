@@ -1,6 +1,6 @@
 import type {
-  TabPresenter,
   Tab,
+  TabPresenter,
 } from "../../../src/background/presenters/TabPresenter";
 
 export class MockTabPresenter implements TabPresenter {

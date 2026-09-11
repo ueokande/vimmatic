@@ -1,5 +1,5 @@
-import type { MessageKey, MessageRequest } from "./helper";
 import type { Simplex } from "../types";
+import type { MessageKey, MessageRequest } from "./helper";
 
 export type Schema = {
   "console.unfocus": Simplex;

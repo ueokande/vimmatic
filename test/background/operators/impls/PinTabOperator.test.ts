@@ -1,5 +1,5 @@
+import { describe, expect, it, vi } from "vitest";
 import { PinTabOperator } from "../../../../src/background/operators/impls/PinTabOperator";
-import { describe, it, expect, vi } from "vitest";
 
 describe("PinTabOperator", () => {
   describe("#run", () => {

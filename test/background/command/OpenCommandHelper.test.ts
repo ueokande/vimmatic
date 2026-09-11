@@ -1,9 +1,9 @@
+import { describe, expect, it, vi } from "vitest";
 import { OpenCommandHelper } from "../../../src/background/command/OpenCommandHelper";
 import type { SearchEngineSettings } from "../../../src/background/settings/SearchEngineSettings";
 import type { Search } from "../../../src/shared/search";
-import { MockPropertySettings } from "../mock/MockPropertySettings";
-import { describe, expect, it, vi } from "vitest";
 import { asAsyncSpy } from "../../asAsyncSpy";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
 
 class MockSearchEngineSettings implements SearchEngineSettings {
   get(): Promise<Search> {

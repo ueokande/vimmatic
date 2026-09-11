@@ -1,5 +1,5 @@
 import React from "react";
-import { serialize, deserialize, defaultJSONSettings } from "../../settings";
+import { defaultJSONSettings, deserialize, serialize } from "../../settings";
 import { useMessageClient } from "./client";
 
 type SaveFn = (value: string) => void;

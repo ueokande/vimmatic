@@ -1,6 +1,6 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { newSender } from "./ContentMessageSender";
 import type { HTMLElementType } from "../../shared/HTMLElementType";
+import { newSender } from "./ContentMessageSender";
 
 export type Point = {
   x: number;

@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { SelectFirstTabOperator } from "../../../../src/background/operators/impls/SelectFirstTabOperator";
-import { defaultTab } from "../../mock/defaultTab";
-import { describe, it, expect, vi } from "vitest";
 import { asAsyncSpy } from "../../../asAsyncSpy";
+import { defaultTab } from "../../mock/defaultTab";
 
 describe("SelectFirstTabOperator", () => {
   asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(

@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { ReloadTabOperator } from "../../../../src/background/operators/impls/ReloadTabOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 
 describe("ReloadTabOperator", () => {
   const reloadSpy = vi

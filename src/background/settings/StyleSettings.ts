@@ -1,8 +1,8 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
-import { SettingsRepository } from "./SettingsRepository";
-import type { ComponentName } from "../../shared/styles";
+import { inject } from "inversify";
 import { defaultSettings } from "../../settings";
+import type { ComponentName } from "../../shared/styles";
+import { SettingsRepository } from "./SettingsRepository";
 
 export interface StyleSettings {
   getStyle(name: string): Promise<Record<string, string>>;
@@ -19,7 +19,7 @@ export class StyleSettingsImpl {
 
   async getStyle(name: ComponentName): Promise<Record<string, string>> {
     const settings = await this.settingsRepository.load();
-    const value = (settings.styles || {})[name];
+    const value = settings.styles?.[name];
     if (typeof value === "undefined") {
       return defaultSettings.styles![name]!;
     }

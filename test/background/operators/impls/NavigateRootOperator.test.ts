@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { NavigateRootOperator } from "../../../../src/background/operators/impls/NavigateRootOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 
 describe("NavigateRootOperator", () => {
   describe("#run", () => {

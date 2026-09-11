@@ -1,4 +1,4 @@
-import type { Completions, Command, CommandContext } from "./types";
+import type { Command, CommandContext, Completions } from "./types";
 
 export class QuitCommand implements Command {
   names(): string[] {

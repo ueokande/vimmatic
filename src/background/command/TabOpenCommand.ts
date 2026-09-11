@@ -1,8 +1,8 @@
-import type { Command, CommandContext, Completions } from "./types";
 import * as urls from "../../shared/urls";
-import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import type { PropertySettings } from "../settings/PropertySettings";
+import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import { OpenCommandHelper } from "./OpenCommandHelper";
+import type { Command, CommandContext, Completions } from "./types";
 
 export class TabOpenCommand implements Command {
   constructor(

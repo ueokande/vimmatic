@@ -1,6 +1,6 @@
 import React from "react";
-import { SettingClient } from "../clients/SettingClient";
 import { newSender } from "../clients/BackgroundMessageSender";
+import { SettingClient } from "../clients/SettingClient";
 
 const settingClient = new SettingClient(newSender());
 
@@ -34,7 +34,7 @@ export const UserPreferenceCSSProvider = ({
   // The user-configured font is only known at runtime, so it cannot be
   // expressed as a CSS Module class; it's applied as an inline style here.
   const userPreferenceStyle: React.CSSProperties = {
-    font: css["font"],
+    font: css.font,
     fontFamily: css["font-family"],
     fontSize: css["font-size"],
     fontStyle: css["font-style"],

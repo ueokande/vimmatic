@@ -1,13 +1,13 @@
-import { injectable, inject } from "inversify";
-import { CommandController } from "../controllers/CommandController";
-import { SettingsController } from "../controllers/SettingsController";
-import { OperationController } from "../controllers/OperationController";
-import { KeyController } from "../controllers/KeyController";
-import { ConsoleController } from "../controllers/ConsoleController";
-import { FindController } from "../controllers/FindController";
-import { ConsoleClient } from "../clients/ConsoleClient";
+import { inject, injectable } from "inversify";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
+import { ConsoleClient } from "../clients/ConsoleClient";
+import { CommandController } from "../controllers/CommandController";
+import { ConsoleController } from "../controllers/ConsoleController";
+import { FindController } from "../controllers/FindController";
+import { KeyController } from "../controllers/KeyController";
+import { OperationController } from "../controllers/OperationController";
+import { SettingsController } from "../controllers/SettingsController";
 import type { RequestContext } from "./types";
 
 @injectable()
@@ -75,7 +75,7 @@ export class BackgroundMessageListener {
       ) => {
         const ctx: RequestContext = { sender };
         if (typeof message !== "object" && message !== null) {
-          // eslint-disable-next-line no-console
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
           console.warn("unexpected message format:", message);
           return;
         }
@@ -84,14 +84,14 @@ export class BackgroundMessageListener {
           typeof type !== "string" ||
           (typeof args !== "undefined" && typeof args !== "object")
         ) {
-          // eslint-disable-next-line no-console
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
           console.warn("unexpected message format:", message);
           return;
         }
 
         if (process.env.NODE_ENV === "development") {
           const style = "background-color: purple; color: white; padding: 4px;";
-          // eslint-disable-next-line no-console
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
           console.debug("%cRECEIVE%c %s %o", style, "", type, args);
         }
 
@@ -99,9 +99,9 @@ export class BackgroundMessageListener {
           .then(() => this.receiver.receive(ctx, type, args))
           .then(sendResponse)
           .catch((err) => {
-            // eslint-disable-next-line no-console
+            // biome-ignore lint/suspicious/noConsole: intentional debug logging
             console.error(err);
-            if (!sender.tab || !sender.tab.id) {
+            if (!sender.tab?.id) {
               return;
             }
             if (typeof err.message !== "string") {

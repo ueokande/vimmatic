@@ -1,25 +1,26 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
+import { ConsoleClient } from "../clients/ConsoleClient";
+import { PropertyRegistry } from "../property/PropertyRegistry";
+import { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
+import { PropertySettings } from "../settings/PropertySettings";
+import { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import { AddBookmarkCommand } from "./AddBookmarkCommand";
 import { BufferCommand } from "./BufferCommand";
 import { BufferDeleteCommand } from "./BufferDeleteCommand";
 import { BufferDeletesCommand } from "./BufferDeletesCommand";
+import type { CommandRegistry } from "./CommandRegistry";
+import { CommandRegistryImpl } from "./CommandRegistry";
 import { HelpCommand } from "./HelpCommand";
 import { OpenCommand } from "./OpenCommand";
+import { PinCommand } from "./PinCommand";
 import { QuitAllCommand } from "./QuitAllCommand";
 import { QuitCommand } from "./QuitCommand";
 import { SetCommand } from "./SetCommand";
 import { TabOpenCommand } from "./TabOpenCommand";
-import { WindowOpenCommand } from "./WindowOpenCommand";
 import { TabQueryHelper } from "./TabQueryHelper";
-import { PropertyRegistry } from "../property/PropertyRegistry";
-import { PropertySettings } from "../settings/PropertySettings";
-import { SearchEngineSettings } from "../settings/SearchEngineSettings";
-import { PinCommand } from "./PinCommand";
-import { UnpinCommand } from "./UnpinCommand";
 import { TogglePinCommand } from "./TogglePinCommand";
-import { type CommandRegistry, CommandRegistryImpl } from "./CommandRegistry";
-import { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
-import { ConsoleClient } from "../clients/ConsoleClient";
+import { UnpinCommand } from "./UnpinCommand";
+import { WindowOpenCommand } from "./WindowOpenCommand";
 
 @injectable()
 export class CommandRegistryFactory {

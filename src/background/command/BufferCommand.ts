@@ -1,6 +1,6 @@
-import type { Command, CommandContext, Completions } from "./types";
 import type { LastSelectedTabRepository } from "../repositories/LastSelectedTabRepository";
 import type { TabQueryHelper } from "./TabQueryHelper";
+import type { Command, CommandContext, Completions } from "./types";
 
 export class BufferCommand implements Command {
   constructor(
@@ -36,7 +36,7 @@ export class BufferCommand implements Command {
       return;
     }
 
-    if (!isNaN(Number(keywords))) {
+    if (!Number.isNaN(Number(keywords))) {
       const tabs = await chrome.tabs.query({ currentWindow: true });
       const index = parseInt(keywords, 10) - 1;
       if (index < 0 || tabs.length <= index) {
@@ -70,7 +70,7 @@ export class BufferCommand implements Command {
       includePinned: true,
     });
     if (tabs.length === 0) {
-      throw new RangeError("No matching buffer for " + keywords);
+      throw new RangeError(`No matching buffer for ${keywords}`);
     }
     for (const tab of tabs) {
       if (tab.index > current.index) {

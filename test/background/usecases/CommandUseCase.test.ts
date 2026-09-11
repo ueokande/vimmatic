@@ -1,7 +1,7 @@
-import { CommandUseCase } from "../../../src/background/usecases/CommandUseCase";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 import { CommandRegistryImpl } from "../../../src/background/command/CommandRegistry";
 import type { Command } from "../../../src/background/command/types";
-import { describe, beforeAll, test, vi, expect } from "vitest";
+import { CommandUseCase } from "../../../src/background/usecases/CommandUseCase";
 
 const commandA: Command = {
   names: () => ["a"],

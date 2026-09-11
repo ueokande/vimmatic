@@ -1,11 +1,11 @@
+import { describe, expect, it, vi } from "vitest";
 import { RepeatLastOperator } from "../../../../src/background/operators/impls/RepeatLastOperator";
-import type { RepeatRepository } from "../../../../src/background/repositories/RepeatRepository";
 import type { OperatorRegistry } from "../../../../src/background/operators/OperatorRegistry";
 import type {
   Operator,
   OperatorContext,
 } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
+import type { RepeatRepository } from "../../../../src/background/repositories/RepeatRepository";
 
 const todo = () => {
   throw new Error(`not implemented`);

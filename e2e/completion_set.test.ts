@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 
 test.fixme('should show all property names by "set" command with empty params', async ({
   page,

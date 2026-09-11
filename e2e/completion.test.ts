@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 
 test.fixme("should shows all commands on empty line", async ({ page }) => {
   await page.console.show();

@@ -1,7 +1,7 @@
+import { describe, expect, test, vi } from "vitest";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
-import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, test, expect, vi } from "vitest";
+import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
 
 describe("TabQueryHelper", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();
@@ -39,7 +39,7 @@ describe("TabQueryHelper", () => {
     id: 10 + i,
     index: i,
     pinned: i <= 1,
-    active: i == 2,
+    active: i === 2,
     title: `tab${i + 1}`,
     url: `https://example.com/${i + 1}`,
   }));

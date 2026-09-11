@@ -1,8 +1,4 @@
-import {
-  reducer,
-  defaultState,
-  type State,
-} from "../../../src/console/app/recuer";
+import { describe, expect, it } from "vitest";
 import {
   hide,
   showCommand,
@@ -10,7 +6,8 @@ import {
   showFind,
   showInfo,
 } from "../../../src/console/app/actions";
-import { describe, it, expect } from "vitest";
+import type { State } from "../../../src/console/app/recuer";
+import { defaultState, reducer } from "../../../src/console/app/recuer";
 
 describe("app reducer", () => {
   describe("hide", () => {

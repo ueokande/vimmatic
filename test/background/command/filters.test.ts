@@ -1,5 +1,5 @@
+import { describe, expect, it } from "vitest";
 import * as filters from "../../../src/background/command/filters";
-import { describe, it, expect } from "vitest";
 
 describe("background/usecases/filters", () => {
   describe("filterHttp", () => {

@@ -1,6 +1,6 @@
+import { describe, expect, it } from "vitest";
 import { MarkRepositoryImpl } from "../../../src/background/repositories/MarkRepository";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
-import { describe, it, expect } from "vitest";
 
 describe("MarkRepositoryImpl", () => {
   const sut = new MarkRepositoryImpl(

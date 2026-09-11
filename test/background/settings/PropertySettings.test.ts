@@ -1,12 +1,12 @@
-import { PropertySettingsImpl } from "../../../src/background/settings/PropertySettings";
+import { describe, expect, it, vi } from "vitest";
 import type {
   Property,
   PropertyType,
   PropertyTypeName,
 } from "../../../src/background/property/types";
-import { MockSettingsRepository } from "../mock/MockSettingsRepository";
+import { PropertySettingsImpl } from "../../../src/background/settings/PropertySettings";
 import { MockPropertyRegistry } from "../mock/MockPropertyRegistry";
-import { describe, it, vi, expect } from "vitest";
+import { MockSettingsRepository } from "../mock/MockSettingsRepository";
 
 class MyProp implements Property {
   name(): string {

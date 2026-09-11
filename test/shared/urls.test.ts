@@ -1,6 +1,6 @@
-import * as parsers from "../../src/shared/urls";
+import { describe, expect, it } from "vitest";
 import { Search } from "../../src/shared/search";
-import { describe, it, expect } from "vitest";
+import * as parsers from "../../src/shared/urls";
 
 describe("shared/commands/parsers", () => {
   describe("#searchUrl", () => {

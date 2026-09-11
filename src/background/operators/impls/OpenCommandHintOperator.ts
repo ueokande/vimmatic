@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
-import type { Operator, OperatorContext } from "../types";
+import { Mode } from "../../../shared/mode";
 import { HintModeUseCase } from "../../usecases/HintModeUseCase";
 import { ModeUseCase } from "../../usecases/ModeUseCase";
-import { Mode } from "../../../shared/mode";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class OpenCommandHintOperator implements Operator {

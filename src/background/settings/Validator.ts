@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import type { Settings } from "../../shared/settings";
-import { PropertyRegistry } from "../property/PropertyRegistry";
 import { OperatorRegistry } from "../operators/OperatorRegistry";
+import { PropertyRegistry } from "../property/PropertyRegistry";
 
 @injectable()
 export class Validator {
@@ -32,7 +32,7 @@ export class Validator {
     keymapEntries.forEach(([key, { type, props }]) => {
       const op = this.operatorRegistry.getOperator(type);
       if (typeof op === "undefined") {
-        throw new Error("Unknown keymap: " + type);
+        throw new Error(`Unknown keymap: ${type}`);
       }
       const validator = op.schema();
       if (typeof validator === "undefined") {

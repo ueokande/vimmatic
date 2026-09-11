@@ -1,11 +1,11 @@
-import type { Schema, Key, Request } from "../../messaging/schema/console";
 import { Sender } from "../../messaging";
+import type { Key, Request, Schema } from "../../messaging/schema/console";
 
 export const newSender = (tabId: number, frameId?: number) => {
   const sender = new Sender<Schema>((type: Key, args: Request) => {
     if (process.env.NODE_ENV === "development") {
       const style = "background-color: green; color: white; padding: 4px;";
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.debug("%cSEND%c %s %o", style, "", type, args);
     }
 

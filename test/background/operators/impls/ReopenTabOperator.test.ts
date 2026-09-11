@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { ReopenTabOperator } from "../../../../src/background/operators/impls/ReopenTabOperator";
-import { defaultTab } from "../../mock/defaultTab";
-import { describe, it, expect, vi } from "vitest";
 import { asAsyncSpy } from "../../../asAsyncSpy";
+import { defaultTab } from "../../mock/defaultTab";
 
 describe("ReopenTabOperator", () => {
   const mockSessionsRestore = vi

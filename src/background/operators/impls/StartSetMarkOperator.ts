@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import type { Operator, OperatorContext } from "../types";
-import { ModeUseCase } from "../../usecases/ModeUseCase";
+import { inject, injectable } from "inversify";
 import { Mode } from "../../../shared/mode";
+import { ModeUseCase } from "../../usecases/ModeUseCase";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class StartSetMarkOperator implements Operator {

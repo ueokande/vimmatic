@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 
 test.fixme("open console with :", async ({ page }) => {
   await page.console.show();

@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 
+import { beforeAll, beforeEach, describe, expect, it, test, vi } from "vitest";
 import {
+  Finder,
   getTextGroups,
   TextGroupMap,
-  Finder,
 } from "../../../src/content/presenters/FindPresenter";
-import { describe, beforeAll, beforeEach, it, test, vi, expect } from "vitest";
 
 describe("getTextGroups", () => {
   beforeAll(() => {

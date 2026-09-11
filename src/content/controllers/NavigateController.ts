@@ -1,4 +1,4 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { NavigateUseCase } from "../usecases/NavigateUseCase";
 
 @injectable()

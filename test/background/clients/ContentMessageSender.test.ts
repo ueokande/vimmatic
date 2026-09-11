@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { newSender } from "../../../src/background/clients/ContentMessageSender";
 
 describe("ContentMessageSender", () => {

@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import type { Completions } from "../../shared/completions";
-import { FindUseCase } from "../usecases/FindUseCase";
 import type { RequestContext } from "../messaging/types";
+import { FindUseCase } from "../usecases/FindUseCase";
 
 @injectable()
 export class FindController {

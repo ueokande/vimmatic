@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { CloseTabRightOperator } from "../../../../src/background/operators/impls/CloseTabRightOperator";
 import { defaultTab } from "../../mock/defaultTab";
-import { describe, expect, it, vi } from "vitest";
 
 describe("CloseTabRightOperator", () => {
   describe("#run", () => {

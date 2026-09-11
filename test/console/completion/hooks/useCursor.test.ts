@@ -2,9 +2,9 @@
  * @vitest-environment jsdom
  */
 
-import { renderHook, act } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { useCursor } from "../../../../src/console/completion/hooks/useCursor";
-import { describe, it, expect } from "vitest";
 
 describe("useCursor", () => {
   describe("positive itemCount", () => {

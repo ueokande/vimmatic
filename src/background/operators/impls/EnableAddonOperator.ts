@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import type { Operator } from "../types";
 import { AddonEnabledUseCase } from "../../usecases/AddonEnabledUseCase";
+import type { Operator } from "../types";
 
 @injectable()
 export class EnableAddonOperator implements Operator {

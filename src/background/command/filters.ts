@@ -77,9 +77,9 @@ const filterByOrigin = (items: Item[], min: number): Item[] => {
 };
 
 export {
-  filterHttp,
   filterBlankTitle,
-  filterByTailingSlash,
-  filterByPathname,
   filterByOrigin,
+  filterByPathname,
+  filterByTailingSlash,
+  filterHttp,
 };

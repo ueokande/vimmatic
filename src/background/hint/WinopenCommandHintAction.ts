@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction, ActionResult } from "./types";
+import { inject, injectable } from "inversify";
 import { ConsoleClient } from "../clients/ConsoleClient";
+import { HintClient } from "../clients/HintClient";
+import type { ActionResult, HintAction, HintTarget } from "./types";
 
 @injectable()
 export class WinopenCommandHintAction implements HintAction {
@@ -42,7 +42,7 @@ export class WinopenCommandHintAction implements HintAction {
       return;
     }
 
-    await this.consoleClient.showCommand(tabId, "winopen " + href);
+    await this.consoleClient.showCommand(tabId, `winopen ${href}`);
     return { keepConsole: true };
   }
 }

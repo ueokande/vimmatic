@@ -1,7 +1,7 @@
-import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
 import type { Completions } from "../../shared/completions";
 import type { Operation } from "../../shared/operation";
 import type { Duplex } from "../types";
+import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
 
 export type Schema = {
   "typeof addon.enabled.response": Duplex<{ enabled: boolean }>;

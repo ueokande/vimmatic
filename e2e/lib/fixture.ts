@@ -1,8 +1,8 @@
+import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { createFixture, withExtension } from "playwright-webextext";
 import { connect } from "webext-agent";
-import fs from "fs/promises";
-import os from "os";
-import path from "path";
 
 type Browser = typeof browser;
 

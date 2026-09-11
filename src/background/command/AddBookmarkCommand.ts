@@ -1,5 +1,5 @@
-import type { Command, CommandContext, Completions } from "./types";
 import type { ConsoleClient } from "../clients/ConsoleClient";
+import type { Command, CommandContext, Completions } from "./types";
 
 export class AddBookmarkCommand implements Command {
   constructor(private readonly consoleClient: ConsoleClient) {}
@@ -45,7 +45,7 @@ export class AddBookmarkCommand implements Command {
       throw new Error("Could not create a bookmark");
     }
 
-    const message = "Saved current page: " + item.url;
+    const message = `Saved current page: ${item.url}`;
     return this.consoleClient.showInfo(sender.tabId, message);
   }
 }

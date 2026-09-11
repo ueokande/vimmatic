@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
-import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction, ActionResult } from "./types";
-import { ClipboardRepository } from "../repositories/ClipboardRepository";
+import { inject, injectable } from "inversify";
 import { ConsoleClient } from "../clients/ConsoleClient";
+import { HintClient } from "../clients/HintClient";
+import { ClipboardRepository } from "../repositories/ClipboardRepository";
+import type { ActionResult, HintAction, HintTarget } from "./types";
 
 @injectable()
 export class YankLinkTextHintAction implements HintAction {
@@ -44,7 +44,7 @@ export class YankLinkTextHintAction implements HintAction {
       if (element.tagName.toLowerCase() === "a") {
         return element.textContent;
       } else if (element.tagName.toLowerCase() === "area") {
-        return element.attributes["alt"];
+        return element.attributes.alt;
       }
       return undefined;
     })();
@@ -54,7 +54,7 @@ export class YankLinkTextHintAction implements HintAction {
     }
 
     await this.clipboardRepository.write(content);
-    await this.consoleClient.showInfo(tabId, "Yanked " + content);
+    await this.consoleClient.showInfo(tabId, `Yanked ${content}`);
     return { keepConsole: true };
   }
 }

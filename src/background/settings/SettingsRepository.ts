@@ -1,9 +1,10 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
-import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
-import type { Settings } from "../../shared/settings";
-import { defaultSettings, serialize, deserialize } from "../../settings";
+import { inject } from "inversify";
+import { defaultSettings, deserialize, serialize } from "../../settings";
 import type { SerializedSettings } from "../../settings/schema";
+import type { Settings } from "../../shared/settings";
+import type { LocalCache } from "../db/LocalStorage";
+import { LocalCacheImpl } from "../db/LocalStorage";
 
 type OnChangeListener = (value: Settings) => unknown;
 
@@ -30,9 +31,9 @@ export class PermanentSettingsRepositoryImpl implements SettingsRepository {
     try {
       return deserialize(settings);
     } catch (e) {
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.warn("settings may be storage is broken:", e);
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.warn("loaded settings is:", settings);
       return defaultSettings;
     }
@@ -55,9 +56,9 @@ export class PermanentSettingsRepositoryImpl implements SettingsRepository {
       try {
         settings = deserialize(changes.settings.newValue);
       } catch (e) {
-        // eslint-disable-next-line no-console
+        // biome-ignore lint/suspicious/noConsole: intentional debug logging
         console.warn("settings may be storage is broken:", e);
-        // eslint-disable-next-line no-console
+        // biome-ignore lint/suspicious/noConsole: intentional debug logging
         console.warn("loaded settings is:", changes.settings.newValue);
         return;
       }

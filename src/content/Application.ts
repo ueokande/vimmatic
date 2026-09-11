@@ -1,9 +1,9 @@
-import { injectable, inject } from "inversify";
-import { WindowMessageListener } from "./messaging/WindowMessageListener";
-import { ContentMessageListener } from "./messaging/ContentMessageListener";
+import { inject, injectable } from "inversify";
 import { KeyController } from "./controllers/KeyController";
 import { SettingsController } from "./controllers/SettingsController";
 import { InputDriver } from "./InputDriver";
+import { ContentMessageListener } from "./messaging/ContentMessageListener";
+import { WindowMessageListener } from "./messaging/WindowMessageListener";
 import { PortConnector } from "./PortConnector";
 import { ReadyStatusPresenter } from "./presenters/ReadyStatusPresenter";
 

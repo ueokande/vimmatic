@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
 import { ConsoleClient } from "../clients/ConsoleClient";
-import { FindRepository } from "../repositories/FindRepository";
-import { FindHistoryRepository } from "../repositories/FindHistoryRepository";
-import { PropertySettings } from "../settings/PropertySettings";
 import { FindClient } from "../clients/FindClient";
+import { FindHistoryRepository } from "../repositories/FindHistoryRepository";
+import { FindRepository } from "../repositories/FindRepository";
 import { ReadyFrameRepository } from "../repositories/ReadyFrameRepository";
+import { PropertySettings } from "../settings/PropertySettings";
 
 @injectable()
 export class FindUseCase {
@@ -92,7 +92,7 @@ export class FindUseCase {
         // The keyword is gone.
         this.consoleClient.showError(
           tabId,
-          "Pattern not found: " + state.keyword,
+          `Pattern not found: ${state.keyword}`,
         );
         return;
       }
@@ -112,11 +112,11 @@ export class FindUseCase {
         });
         if (found) {
           await this.findRepository.setLocalState(tabId, { frameId, keyword });
-          await this.consoleClient.showInfo(tabId, "Pattern found: " + keyword);
+          await this.consoleClient.showInfo(tabId, `Pattern found: ${keyword}`);
           return;
         }
       }
-      this.consoleClient.showError(tabId, "Pattern not found: " + keyword);
+      this.consoleClient.showError(tabId, `Pattern not found: ${keyword}`);
       return;
     }
     await this.consoleClient.showError(tabId, "No previous search keywords");
@@ -167,7 +167,7 @@ export class FindUseCase {
         // The keyword is gone.
         this.consoleClient.showError(
           tabId,
-          "Pattern not found: " + state.keyword,
+          `Pattern not found: ${state.keyword}`,
         );
         return;
       }
@@ -187,11 +187,11 @@ export class FindUseCase {
         });
         if (found) {
           await this.findRepository.setLocalState(tabId, { frameId, keyword });
-          await this.consoleClient.showInfo(tabId, "Pattern found: " + keyword);
+          await this.consoleClient.showInfo(tabId, `Pattern found: ${keyword}`);
           return;
         }
       }
-      this.consoleClient.showError(tabId, "Pattern not found: " + keyword);
+      this.consoleClient.showError(tabId, `Pattern not found: ${keyword}`);
       return;
     }
     await this.consoleClient.showError(tabId, "No previous search keywords");

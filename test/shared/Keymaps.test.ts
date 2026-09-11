@@ -1,5 +1,5 @@
+import { describe, expect, it } from "vitest";
 import { Keymaps } from "../../src/shared/keymaps";
-import { describe, it, expect } from "vitest";
 
 describe("Keymaps", () => {
   describe("#combine", () => {

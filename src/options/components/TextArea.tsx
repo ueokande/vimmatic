@@ -1,8 +1,9 @@
-import React from "react";
 import Prism from "prismjs";
+import React from "react";
 import "prismjs/components/prism-json";
 import "prismjs/themes/prism-coy.css";
-import { CharMeasure, type CharSize } from "./CharMeasure";
+import type { CharSize } from "./CharMeasure";
+import { CharMeasure } from "./CharMeasure";
 import styles from "./TextArea.module.css";
 
 type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement>;

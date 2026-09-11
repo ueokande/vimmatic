@@ -1,8 +1,6 @@
 type Callback = () => void;
 
 export class Bootstrap {
-  constructor() {}
-
   isReady(): boolean {
     return document.body !== null;
   }

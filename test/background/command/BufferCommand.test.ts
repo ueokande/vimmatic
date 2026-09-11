@@ -1,9 +1,9 @@
+import { describe, expect, it, vi } from "vitest";
 import { BufferCommand } from "../../../src/background/command/BufferCommand";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
-import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
-import { defaultTab } from "../mock/defaultTab";
-import { describe, it, vi, expect } from "vitest";
 import { asAsyncSpy } from "../../asAsyncSpy";
+import { defaultTab } from "../mock/defaultTab";
+import { MockLastSelectedTabRepository } from "../mock/MockLastSelectedTabRepository";
 
 describe("BufferCommand", () => {
   const lastSelectedTabRepository = new MockLastSelectedTabRepository();

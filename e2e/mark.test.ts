@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 import { newScrollableServer } from "./lib/servers";
 
 const server = newScrollableServer();

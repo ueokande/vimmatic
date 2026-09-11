@@ -2,5 +2,6 @@
   padding: 2px;
   font-family: system-ui;
   min-width: 480px;
+  /* biome-ignore lint/correctness/noUnknownUnit: pre-existing typo carried over from the original stylex source (should likely be "90vw"); left as-is, out of scope for the lint-tooling migration */
   max-width: 90wv;
 }

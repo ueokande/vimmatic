@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 import { newServer, staticContentHandler } from "./lib/servers";
 
 const server = newServer([
@@ -7,8 +7,8 @@ const server = newServer([
     handler: (req, reply) => {
       reply.type("text/html").send(`<!DOCTYPE html>
 <html lang="en">
-  <a href="/pagination-a/${Number(req.params["page"]) - 1}">prev</a>
-  <a href="/pagination-a/${Number(req.params["page"]) + 1}">next</a>
+  <a href="/pagination-a/${Number(req.params.page) - 1}">prev</a>
+  <a href="/pagination-a/${Number(req.params.page) + 1}">next</a>
 </html>`);
     },
   },
@@ -19,10 +19,10 @@ const server = newServer([
 <html lang="en">
   <head>
     <link rel="prev" href="/pagination-link/${
-      Number(req.params["page"]) - 1
+      Number(req.params.page) - 1
     }"></link>
     <link rel="next" href="/pagination-link/${
-      Number(req.params["page"]) + 1
+      Number(req.params.page) + 1
     }"></link>
   </head>
 </html>`);
@@ -53,7 +53,7 @@ test("should go to parent path without hash by gu", async ({ page }) => {
 });
 
 test("should remove hash by gu", async ({ page }) => {
-  await page.goto(server.url("/a/b/c") + "#hash");
+  await page.goto(`${server.url("/a/b/c")}#hash`);
   await page.keyboard.type("gu");
 
   await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/c");
