@@ -1,58 +1,9 @@
 import React from "react";
-import * as stylex from "@stylexjs/stylex";
 import Prism from "prismjs";
 import "prismjs/components/prism-json";
 import "prismjs/themes/prism-coy.css";
 import { CharMeasure, type CharSize } from "./CharMeasure";
-
-const styles = stylex.create({
-  container: {
-    display: "block",
-    width: "stretch",
-    border: "ButtonBorder 1px solid",
-    borderRadius: "4px",
-    overflow: "hidden",
-    ":focus-within": {
-      boxShadow: "inset 0 0 3px AccentColor",
-    },
-  },
-  wrapper: {
-    display: "grid",
-    gridTemplateAreas: '"content"',
-    padding: "8px",
-    fontFamily: "monospace",
-    fontSize: "14px",
-    lineHeight: "1.5",
-    overflow: "hidden",
-  },
-  highlightLayer: {
-    gridArea: "content",
-    margin: 0,
-    padding: 0,
-    fontFamily: "inherit",
-    fontSize: "inherit",
-    lineHeight: "inherit",
-    whiteSpace: "pre",
-    overflow: "visible",
-    pointerEvents: "none",
-  },
-  textarea: {
-    gridArea: "content",
-    padding: 0,
-    margin: 0,
-    fontFamily: "inherit",
-    fontSize: "inherit",
-    lineHeight: "inherit",
-    border: "none",
-    outline: "none",
-    resize: "none",
-    backgroundColor: "transparent",
-    color: "transparent",
-    caretColor: "CanvasText",
-    whiteSpace: "pre",
-    overflow: "hidden",
-  },
-});
+import styles from "./TextArea.module.css";
 
 type Props = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -120,16 +71,16 @@ export const TextArea: React.FC<Props> = ({
   }, [dimensions, charSize]);
 
   return (
-    <div {...stylex.props(styles.container)}>
-      <div ref={wrapperRef} {...stylex.props(styles.wrapper)}>
+    <div className={styles.container}>
+      <div ref={wrapperRef} className={styles.wrapper}>
         <pre
-          {...stylex.props(styles.highlightLayer)}
+          className={styles.highlightLayer}
           dangerouslySetInnerHTML={{ __html: highlightedHtml || "&nbsp;" }}
           aria-hidden="true"
         />
         <textarea
           {...restProps}
-          {...stylex.props(styles.textarea)}
+          className={styles.textarea}
           value={content}
           onChange={handleChange}
           spellCheck={false}

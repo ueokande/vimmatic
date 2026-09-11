@@ -1,0 +1,16 @@
+.container {
+  background-color: var(--color-command-background);
+  color: var(--color-command-foreground);
+  display: flex;
+}
+
+.prompt {
+  font-style: normal;
+}
+
+.input {
+  border: none;
+  flex-grow: 1;
+  background-color: var(--color-command-background);
+  color: var(--color-command-foreground);
+}

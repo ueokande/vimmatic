@@ -2,7 +2,6 @@ import globals from "globals";
 import js from "@eslint/js";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
 import react from "eslint-plugin-react";
-import stylex from "@stylexjs/eslint-plugin";
 import tseslint from "typescript-eslint";
 
 const ignoreConfig = {
@@ -18,7 +17,6 @@ const mainConfig = {
   },
   plugins: {
     react,
-    "@stylexjs": stylex,
   },
   languageOptions: {
     globals: {

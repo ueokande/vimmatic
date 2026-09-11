@@ -1,0 +1,6 @@
+.error {
+  border-top: 1px solid gray;
+  background-color: var(--color-error-background);
+  color: var(--color-error-foreground);
+  font-weight: bold;
+}

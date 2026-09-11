@@ -1,5 +1,4 @@
 import React from "react";
-import * as stylex from "@stylexjs/stylex";
 import { SettingClient } from "../clients/SettingClient";
 import { newSender } from "../clients/BackgroundMessageSender";
 
@@ -14,15 +13,6 @@ type ContextState = {
 const UserPreferenceCSSContext = React.createContext<ContextState>({
   ready: false,
   css: {},
-});
-
-const styles = stylex.create({
-  userPreference: (css: Record<string, string>) => ({
-    font: css["font"],
-    fontFamily: css["font-family"],
-    fontSize: css["font-size"],
-    fontStyle: css["font-style"],
-  }),
 });
 
 export const UserPreferenceCSSProvider = ({
@@ -41,11 +31,18 @@ export const UserPreferenceCSSProvider = ({
     })();
   }, []);
 
+  // The user-configured font is only known at runtime, so it cannot be
+  // expressed as a CSS Module class; it's applied as an inline style here.
+  const userPreferenceStyle: React.CSSProperties = {
+    font: css["font"],
+    fontFamily: css["font-family"],
+    fontSize: css["font-size"],
+    fontStyle: css["font-style"],
+  };
+
   return (
     <UserPreferenceCSSContext.Provider value={{ ready, css }}>
-      {ready ? (
-        <div {...stylex.props(styles.userPreference(css))}>{children}</div>
-      ) : null}
+      {ready ? <div style={userPreferenceStyle}>{children}</div> : null}
     </UserPreferenceCSSContext.Provider>
   );
 };

@@ -1,9 +1,9 @@
 import React from "react";
-import * as stylex from "@stylexjs/stylex";
 import type { Completions } from "../../../shared/completions";
 import { useCompletionKeyBinds } from "../hooks/useCompletionKeyBinds";
 import { useCursor } from "../hooks/useCursor";
 import { CompletionList } from "./CompletionList";
+import styles from "./Completion.module.css";
 
 type InputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -18,12 +18,6 @@ interface Props {
   completions: Completions;
   renderInput: (attrs: InputProps) => React.ReactNode;
 }
-
-const styles = stylex.create({
-  completionWrapper: {
-    borderTop: "1px solid gray",
-  },
-});
 
 const useSelectedValue = (
   select: number,
@@ -125,7 +119,7 @@ export const Completion: React.FC<Props> = ({
   useAutoInputValue(inputRef, selectedValue);
 
   return (
-    <div {...stylex.props(styles.completionWrapper)}>
+    <div className={styles.completionWrapper}>
       <CompletionList
         size={maxLineHeight}
         completions={completions}

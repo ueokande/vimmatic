@@ -1,19 +1,5 @@
 import React from "react";
-import * as stylex from "@stylexjs/stylex";
-
-const styles = stylex.create({
-  measure: {
-    position: "absolute",
-    visibility: "hidden",
-    height: "auto",
-    width: "auto",
-    whiteSpace: "pre",
-    fontFamily: "inherit",
-    fontSize: "inherit",
-    lineHeight: "inherit",
-    pointerEvents: "none",
-  },
-});
+import styles from "./CharMeasure.module.css";
 
 export interface CharSize {
   width: number;
@@ -35,7 +21,7 @@ export const CharMeasure: React.FC<CharMeasureProps> = ({ onMeasure }) => {
   }, [onMeasure]);
 
   return (
-    <span ref={measureRef} {...stylex.props(styles.measure)}>
+    <span ref={measureRef} className={styles.measure}>
       @
     </span>
   );

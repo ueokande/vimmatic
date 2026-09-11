@@ -1,0 +1,37 @@
+.base {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  padding-left: 1.8rem;
+  background-position: 0 center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  white-space: pre;
+}
+
+.highlighted {
+  background-color: var(--color-select-background);
+  color: var(--color-select-foreground);
+}
+
+.shown {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.primaryText {
+  display: inline-block;
+  width: 40%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.secondaryText {
+  display: inline-block;
+  color: var(--color-secondary-foreground);
+  width: 60%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

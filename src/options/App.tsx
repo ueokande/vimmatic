@@ -1,17 +1,8 @@
 import React from "react";
-import * as stylex from "@stylexjs/stylex";
 import { useLoadSettings, useSaveSettings } from "./hooks/storage";
 import { TextArea } from "./components/TextArea";
 import { ErrorMessage } from "./components/ErrorMessage";
-
-const styles = stylex.create({
-  container: {
-    padding: "2px",
-    fontFamily: "system-ui",
-    minWidth: "480px",
-    maxWidth: "90wv",
-  },
-});
+import styles from "./App.module.css";
 
 export const App: React.FC = () => {
   const { data: loadedValue, loading, error: loadError } = useLoadSettings();
@@ -39,7 +30,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <form {...stylex.props(styles.container)}>
+    <form className={styles.container}>
       <h1>Configure Vimmatic</h1>
       <p>
         See{" "}

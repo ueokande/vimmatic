@@ -1,0 +1,6 @@
+.container {
+  padding: 2px;
+  font-family: system-ui;
+  min-width: 480px;
+  max-width: 90wv;
+}

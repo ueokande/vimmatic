@@ -3,7 +3,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { build } from "vite";
-import stylex from "@stylexjs/unplugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -64,25 +63,13 @@ const buildEntry = async (browser, entry) => {
         },
       },
     },
-    plugins: [
-      stylex.vite({
-        dev: false,
-        importSources: ["@stylexjs/stylex"],
-        unstable_moduleResolution: {
-          type: "commonJS",
-          rootDir: ROOT_DIR,
-        },
-      }),
-    ],
   });
 };
 
 const buildScripts = async (browser) => {
-  // Each entry is built in its own child process rather than in-process,
-  // because @stylexjs/unplugin tracks collected StyleX rules in a
-  // process-global store. Running multiple build() calls in the same
-  // process let rules leak across entries and produced a stray
-  // "stylex.css" file for entries that don't use StyleX at all.
+  // Each entry is built in its own child process to keep every entry's
+  // build environment (Vite config, plugin state) fully isolated from the
+  // others.
   for (const entry of Object.keys(entryPoints)) {
     execFileSync(
       process.execPath,
