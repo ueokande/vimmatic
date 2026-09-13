@@ -3,6 +3,7 @@ import { BackgroundFocusClient } from "./client/BackgroundFocusClient";
 import { KeyController } from "./controllers/KeyController";
 import { SettingsController } from "./controllers/SettingsController";
 import { FocusStateDriver } from "./FocusStateDriver";
+import { isBlankUrlFrame } from "./frame";
 import { InputDriver } from "./InputDriver";
 import { ContentMessageListener } from "./messaging/ContentMessageListener";
 import { WindowMessageListener } from "./messaging/WindowMessageListener";
@@ -29,6 +30,16 @@ export class Application {
   private readonly portConnector = new PortConnector();
 
   init(): Promise<void> {
+    // Do not start the addon inside a blank-URL sub-frame (about:blank /
+    // about:srcdoc).  These are typically UI parts built by libraries (e.g. a
+    // rich-text editor rendered in an iframe), not pages the user navigates.
+    // Skipping them leaves the frame's own input handling untouched and keeps
+    // it out of the per-tab mode state entirely: it never opens a readiness
+    // port, so the background never registers it or sends it messages.
+    if (isBlankUrlFrame(window)) {
+      return Promise.resolve();
+    }
+
     if (window === window.top) {
       this.windowMessageListener.listen();
     }
