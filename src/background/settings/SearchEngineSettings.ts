@@ -1,8 +1,8 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
-import { SettingsRepository } from "./SettingsRepository";
-import type { Search } from "../../shared/search";
+import { inject } from "inversify";
 import { defaultSettings } from "../../settings";
+import type { Search } from "../../shared/search";
+import { SettingsRepository } from "./SettingsRepository";
 
 export interface SearchEngineSettings {
   get(): Promise<Search>;

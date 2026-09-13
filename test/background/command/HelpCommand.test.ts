@@ -1,5 +1,5 @@
+import { describe, expect, it, vi } from "vitest";
 import { HelpCommand } from "../../../src/background/command/HelpCommand";
-import { describe, it, expect, vi } from "vitest";
 
 describe("HelpCommand", () => {
   const mockTabsCreate = vi

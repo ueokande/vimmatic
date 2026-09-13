@@ -1,0 +1,16 @@
+.shown {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.title {
+  background-color: var(--color-title-background);
+  color: var(--color-title-foreground);
+  list-style: none;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}

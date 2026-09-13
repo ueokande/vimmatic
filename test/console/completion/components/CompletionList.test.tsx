@@ -3,8 +3,8 @@
  */
 
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { CompletionList } from "../../../../src/console/completion/components/CompletionList";
-import { describe, it, expect } from "vitest";
 
 describe("CompletionList", () => {
   const completions = [

@@ -1,9 +1,9 @@
+import { describe, expect, test, vi } from "vitest";
 import { PinCommand } from "../../../src/background/command/PinCommand";
-import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
-import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, vi, test } from "vitest";
 import { asAsyncSpy } from "../../asAsyncSpy";
+import { defaultTab } from "../mock/defaultTab";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 
 const tabs = [
   {

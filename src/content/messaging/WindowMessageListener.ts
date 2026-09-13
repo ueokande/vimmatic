@@ -1,4 +1,4 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { SimplexReceiverWithContext } from "../../messaging";
 import type { Schema as WindowMessageSchema } from "../../messaging/schema/window";
 import { ConsoleFrameController } from "../controllers/ConsoleFrameController";
@@ -66,7 +66,7 @@ export class WindowMessageListener {
       try {
         this.receiver.receive(ctx, type, args);
       } catch (e) {
-        // eslint-disable-next-line no-console
+        // biome-ignore lint/suspicious/noConsole: intentional debug logging
         console.error(e);
       }
     });

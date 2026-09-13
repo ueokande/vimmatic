@@ -1,19 +1,19 @@
 import React from "react";
-import { Prompt } from "./components/Prompt";
-import { InfoMessage } from "./components/InfoMessage";
-import { ErrorMessage } from "./components/ErrorMessage";
 import { SimplexReceiver } from "../messaging";
-import { StyleProvider } from "./styles/providers";
 import type { Schema as ConsoleMessageSchema } from "../messaging/schema/console";
 import {
   useConsoleMode,
-  useVisibility,
   useExecCommand,
-  useGetCommandCompletion,
   useExecFind,
+  useGetCommandCompletion,
   useGetFindCompletion,
   useSendReady,
+  useVisibility,
 } from "./app/hooks";
+import { ErrorMessage } from "./components/ErrorMessage";
+import { InfoMessage } from "./components/InfoMessage";
+import { Prompt } from "./components/Prompt";
+import { StyleProvider } from "./styles/providers";
 
 // (10item + 1title) * sbc
 const COMMAND_COMPLETION_MAX_ITEMS = 33;

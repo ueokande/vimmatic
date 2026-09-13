@@ -1,9 +1,10 @@
-import React, { type InputHTMLAttributes } from "react";
-import { Completion } from "../completion/components/Completion";
+import type { InputHTMLAttributes } from "react";
+import React from "react";
 import type { Completions as CompletionsType } from "../../shared/completions";
-import { PromptInput } from "./PromptInput";
-import { useDebounce } from "../hooks/useDebounce";
+import { Completion } from "../completion/components/Completion";
 import { useAutoResize } from "../hooks/useAutoResize";
+import { useDebounce } from "../hooks/useDebounce";
+import { PromptInput } from "./PromptInput";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   initValue: string;

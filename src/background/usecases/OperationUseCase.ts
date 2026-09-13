@@ -1,9 +1,9 @@
 import { inject, injectable } from "inversify";
-import type { OperatorContext } from "../operators/types";
 import type { Operation } from "../../shared/operation";
-import { OperatorRegistry } from "../operators/OperatorRegistry";
-import { RepeatRepository } from "../repositories/RepeatRepository";
 import type { RequestContext } from "../messaging/types";
+import { OperatorRegistry } from "../operators/OperatorRegistry";
+import type { OperatorContext } from "../operators/types";
+import { RepeatRepository } from "../repositories/RepeatRepository";
 
 @injectable()
 export class OperationUseCase {
@@ -34,7 +34,7 @@ export class OperationUseCase {
     }
     const got = this.operatorRegistry.getOperator(op.type);
     if (typeof got === "undefined") {
-      throw new Error("unknown operation: " + op.type);
+      throw new Error(`unknown operation: ${op.type}`);
     }
 
     for (let i = 0; i < repeat; ++i) {

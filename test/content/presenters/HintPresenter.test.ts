@@ -2,9 +2,9 @@
  * @vitest-environment jsdom
  */
 
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { HintPresenterImpl } from "../../../src/content/presenters/HintPresenter";
 import { MockSettingRepository } from "../mock/MockSettingRepository";
-import { describe, beforeEach, test, expect, vi } from "vitest";
 
 describe("HintPresenterImpl", () => {
   beforeEach(() => {

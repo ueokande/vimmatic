@@ -2,10 +2,10 @@
  * @vitest-environment jsdom
  */
 
+import { act, renderHook } from "@testing-library/react";
 import type React from "react";
-import { renderHook, act } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { useCompletionKeyBinds } from "../../../../src/console/completion/hooks/useCompletionKeyBinds";
-import { describe, it, vi, expect } from "vitest";
 
 const mockKeyEvent = ({
   key,

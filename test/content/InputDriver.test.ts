@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   InputDriver,
   keyFromKeyboardEvent,
 } from "../../src/content/InputDriver";
 import type { Key } from "../../src/shared/key";
-import { describe, beforeEach, afterEach, it, expect } from "vitest";
 
 describe("InputDriver", () => {
   let target: HTMLElement;
@@ -51,10 +51,10 @@ describe("InputDriver", () => {
     let a = 0,
       b = 0;
     driver.onKey((key: Key): boolean => {
-      if (key.key == "a") {
+      if (key.key === "a") {
         ++a;
       } else {
-        key.key == "b";
+        key.key === "b";
         ++b;
       }
       return true;

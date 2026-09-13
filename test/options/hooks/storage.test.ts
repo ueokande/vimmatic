@@ -2,12 +2,12 @@
  * @vitest-environment jsdom
  */
 
-import { renderHook, waitFor, act } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import {
   useLoadSettings,
   useSaveSettings,
 } from "../../../src/options/hooks/storage";
-import { describe, vi, it, expect } from "vitest";
 import { asAsyncSpy } from "../../asAsyncSpy";
 
 describe("useLoadSettings", () => {

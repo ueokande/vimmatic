@@ -1,0 +1,11 @@
+.measure {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: pre;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  pointer-events: none;
+}

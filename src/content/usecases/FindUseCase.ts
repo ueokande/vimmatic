@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import { FindPresenter } from "../presenters/FindPresenter";
 import type { FindQuery } from "../../shared/findQuery";
+import { FindPresenter } from "../presenters/FindPresenter";
 
 @injectable()
 export class FindUseCase {

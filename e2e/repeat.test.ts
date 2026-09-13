@@ -1,4 +1,4 @@
-import { test, expect } from "./lib/fixture";
+import { expect, test } from "./lib/fixture";
 
 test("repeats last operation", async ({ page, api }) => {
   const tab = await api.tabs.getCurrent();

@@ -1,10 +1,10 @@
+import { describe, expect, it, vi } from "vitest";
 import {
   PermanentSettingsRepositoryImpl,
   TransientSettingsRepositoryImpl,
 } from "../../../src/background/settings/SettingsRepository";
 import type { Settings } from "../../../src/shared/settings";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
-import { describe, it, vi, expect } from "vitest";
 
 describe("PermanentSettingsRepositoryImpl", () => {
   const mockStorageGet = vi.spyOn(chrome.storage.sync, "get");
@@ -60,7 +60,9 @@ class MockSettingsRepository {
   }
 
   invalidate(settings: Settings) {
-    this.listeners.forEach((l) => l(settings));
+    this.listeners.forEach((l) => {
+      l(settings);
+    });
   }
 }
 

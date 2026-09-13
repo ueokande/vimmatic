@@ -1,17 +1,17 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { Receiver } from "../../messaging";
 import type { Schema } from "../../messaging/schema/content";
 import { AddonEnabledController } from "../controllers/AddonEnabledController";
-import { SettingsController } from "../controllers/SettingsController";
 import { ConsoleFrameController } from "../controllers/ConsoleFrameController";
-import { NavigateController } from "../controllers/NavigateController";
 import { FindController } from "../controllers/FindController";
-import { ScrollController } from "../controllers/ScrollController";
 import { FocusController } from "../controllers/FocusController";
-import { ModeController } from "../controllers/ModeController";
 import { FrameController } from "../controllers/FrameController";
-import { TopFrameController } from "../controllers/TopFrameController";
 import { HintController } from "../controllers/HintController";
+import { ModeController } from "../controllers/ModeController";
+import { NavigateController } from "../controllers/NavigateController";
+import { ScrollController } from "../controllers/ScrollController";
+import { SettingsController } from "../controllers/SettingsController";
+import { TopFrameController } from "../controllers/TopFrameController";
 
 @injectable()
 export class ContentMessageListener {
@@ -146,7 +146,7 @@ export class ContentMessageListener {
     chrome.runtime.onMessage.addListener(
       (message: unknown, _sender, sendResponse) => {
         if (typeof message !== "object" && message !== null) {
-          // eslint-disable-next-line no-console
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
           console.warn("unexpected message format:", message);
           return;
         }
@@ -155,14 +155,14 @@ export class ContentMessageListener {
           typeof type !== "string" ||
           (typeof args !== "undefined" && typeof args !== "object")
         ) {
-          // eslint-disable-next-line no-console
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
           console.warn("unexpected message format:", message);
           return;
         }
 
         if (process.env.NODE_ENV === "development") {
           const style = "background-color: purple; color: white; padding: 4px;";
-          // eslint-disable-next-line no-console
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
           console.debug("%cRECEIVE%c %s %o", style, "", type, args);
         }
 
@@ -170,7 +170,7 @@ export class ContentMessageListener {
         Promise.resolve(ret)
           .then(sendResponse)
           .catch((err) => {
-            // eslint-disable-next-line no-console
+            // biome-ignore lint/suspicious/noConsole: intentional debug logging
             console.error(err);
           });
         return true;

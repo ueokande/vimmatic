@@ -1,5 +1,8 @@
-import type { HintClient } from "../../../src/background/clients/HintClient";
-import type { Point, Size } from "../../../src/background/clients/HintClient";
+import type {
+  HintClient,
+  Point,
+  Size,
+} from "../../../src/background/clients/HintClient";
 import type { HTMLElementType } from "../../../src/shared/HTMLElementType";
 
 export class MockHintClient implements HintClient {

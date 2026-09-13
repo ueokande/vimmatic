@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
-import { MarkRepository } from "../repositories/MarkRepository";
-import { ContentMessageClient } from "../clients/ContentMessageClient";
 import { ConsoleClient } from "../clients/ConsoleClient";
+import { ContentMessageClient } from "../clients/ContentMessageClient";
+import { MarkRepository } from "../repositories/MarkRepository";
 import { PropertySettings } from "../settings/PropertySettings";
 import { MarkHelper } from "./MarkHelper";
 

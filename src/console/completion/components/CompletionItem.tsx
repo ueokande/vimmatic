@@ -1,45 +1,5 @@
 import type React from "react";
-import * as stylex from "@stylexjs/stylex";
-import { colors } from "../../styles/tokens.stylex";
-
-const styles = stylex.create({
-  base: {
-    backgroundColor: colors.background,
-    color: colors.foreground,
-    paddingLeft: "1.8rem",
-    backgroundPosition: "0 center",
-    backgroundSize: "contain",
-    backgroundRepeat: "no-repeat",
-    whiteSpace: "pre",
-  },
-  icon: (icon: string | undefined) => ({
-    backgroundImage: typeof icon !== "undefined" ? `url(${icon})` : "unset",
-  }),
-  highlighted: {
-    backgroundColor: colors.selectBackground,
-    color: colors.selectForeground,
-  },
-  shown: {
-    display: "block",
-  },
-  hidden: {
-    display: "none",
-  },
-
-  primaryText: {
-    display: "inline-block",
-    width: "40%",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-  },
-  secondaryText: {
-    display: "inline-block",
-    color: colors.secondaryForeground,
-    width: "60%",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-  },
-});
+import styles from "./CompletionItem.module.css";
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
   shown: boolean;
@@ -62,20 +22,23 @@ export const CompletionItem: React.FC<Props> = ({
     aria-labelledby={`completion-item-${primary}`}
     aria-current={highlight}
     aria-hidden={!shown}
-    {...stylex.props(
+    className={[
       styles.base,
-      styles.icon(icon),
       shown ? styles.shown : styles.hidden,
       highlight ? styles.highlighted : null,
-    )}
+    ]
+      .filter(Boolean)
+      .join(" ")}
+    // The icon path is only known at runtime (per completion item), so it
+    // cannot be expressed as a CSS Module class; it's applied inline here.
+    style={{
+      backgroundImage: typeof icon !== "undefined" ? `url(${icon})` : "unset",
+    }}
     {...props}
   >
-    <span
-      id={`completion-item-${primary}`}
-      {...stylex.props(styles.primaryText)}
-    >
+    <span id={`completion-item-${primary}`} className={styles.primaryText}>
       {primary}
     </span>
-    <span {...stylex.props(styles.secondaryText)}>{secondary}</span>
+    <span className={styles.secondaryText}>{secondary}</span>
   </li>
 );

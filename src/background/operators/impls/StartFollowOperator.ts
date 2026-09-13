@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import { QuickHintOperator } from "./QuickHintOperator";
+import { inject, injectable } from "inversify";
 import { HintModeUseCase } from "../../usecases/HintModeUseCase";
 import { ModeUseCase } from "../../usecases/ModeUseCase";
+import { QuickHintOperator } from "./QuickHintOperator";
 
 // "follow.start" is an alias of "quick.hint"
 @injectable()

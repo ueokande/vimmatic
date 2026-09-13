@@ -1,13 +1,13 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
+import { inject } from "inversify";
+import { defaultSettings } from "../../settings";
 import { Blacklist } from "../../shared/blacklist";
 import type { Keymaps } from "../../shared/keymaps";
 import type { Properties } from "../../shared/properties";
 import type { Search } from "../../shared/search";
+import type { Settings } from "../../shared/settings";
 import type { ComponentName, CSS } from "../../shared/styles";
 import { SettingClient } from "../client/SettingClient";
-import { defaultSettings } from "../../settings";
-import type { Settings } from "../../shared/settings";
 
 let current: Settings = defaultSettings;
 
@@ -58,9 +58,6 @@ export class SettingRepositoryImpl implements SettingRepository {
   }
 
   getStyle(component: ComponentName): CSS {
-    return (
-      (current.styles && current.styles[component]) ||
-      defaultSettings.styles![component]!
-    );
+    return current.styles?.[component] || defaultSettings.styles![component]!;
   }
 }

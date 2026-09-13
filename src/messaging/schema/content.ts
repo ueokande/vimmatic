@@ -1,8 +1,8 @@
-import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
-import type { Duplex } from "../types";
-import type { Mode } from "../../shared/mode";
-import type { HTMLElementType } from "../../shared/HTMLElementType";
 import type { FindQuery } from "../../shared/findQuery";
+import type { HTMLElementType } from "../../shared/HTMLElementType";
+import type { Mode } from "../../shared/mode";
+import type { Duplex } from "../types";
+import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
 
 export type Schema = {
   "addon.enable": Duplex;

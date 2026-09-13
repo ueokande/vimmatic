@@ -1,13 +1,11 @@
 import { ColorSchemeProperty } from "./ColorSchemeProperty";
 import { CompleteProperty } from "./CompleteProperty";
-import { HintcharsProperty } from "./HintcharsProperty";
-import { SmoothScrollProperty } from "./SmoothScrollProperty";
-import { IgnoreCaseProperty } from "./IgnoreCaseProperty";
 import { FindModeProperty } from "./FindModeProperty";
-import {
-  type PropertyRegistry,
-  PropertyRegistryImpl,
-} from "./PropertyRegistry";
+import { HintcharsProperty } from "./HintcharsProperty";
+import { IgnoreCaseProperty } from "./IgnoreCaseProperty";
+import type { PropertyRegistry } from "./PropertyRegistry";
+import { PropertyRegistryImpl } from "./PropertyRegistry";
+import { SmoothScrollProperty } from "./SmoothScrollProperty";
 
 export const createPropertyRegistry = (): PropertyRegistry => {
   const r = new PropertyRegistryImpl();

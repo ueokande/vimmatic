@@ -42,7 +42,7 @@ export const validateSerializedSettings = (json: unknown): void => {
   const result = SerializedSettingsSchema.safeParse(json);
   if (!result.success) {
     const [issue] = result.error.issues;
-    const path = "." + issue.path.join(".");
+    const path = `.${issue.path.join(".")}`;
     const message = `Invalid settings at "${path}": ${issue.message}`;
 
     throw new TypeError(message);

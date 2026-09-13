@@ -1,9 +1,9 @@
-import { TogglePinCommand } from "../../../src/background/command/TogglePinCommand";
-import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { describe, expect, test, vi } from "vitest";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
-import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, vi, test } from "vitest";
+import { TogglePinCommand } from "../../../src/background/command/TogglePinCommand";
 import { asAsyncSpy } from "../../asAsyncSpy";
+import { defaultTab } from "../mock/defaultTab";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 
 const tabs = [
   {

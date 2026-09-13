@@ -1,6 +1,6 @@
 import React from "react";
-import { reducer, defaultState } from "./recuer";
 import { AppDispatchContext, AppStateContext } from "./contexts";
+import { defaultState, reducer } from "./recuer";
 
 type Props = {
   children: React.ReactNode;

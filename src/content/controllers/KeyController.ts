@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import type { Key } from "../../shared/key";
 import { Mode } from "../../shared/mode";
-import { ModeRepository } from "../repositories/ModeRepository";
 import { BackgroundKeyClient } from "../client/BackgroundKeyClient";
+import { ModeRepository } from "../repositories/ModeRepository";
 import { KeymapUseCase } from "../usecases/KeymapUseCase";
 import { OperationUseCase } from "../usecases/OperationUseCase";
 
@@ -44,7 +44,7 @@ export class KeyController {
     // identify to continue of abandon the event propagation.
     this.operationUseCase
       .exec(op.op, op.repeat)
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       .catch(console.error);
     return true;
   }

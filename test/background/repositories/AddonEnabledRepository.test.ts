@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { AddonEnabledRepositoryImpl } from "../../../src/background/repositories/AddonEnabledRepository";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
-import { describe, it, vi, expect } from "vitest";
 
 describe("AddonEnabledRepositoryImpl", () => {
   it("set and reset addon enabled", async () => {

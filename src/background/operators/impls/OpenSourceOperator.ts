@@ -13,7 +13,7 @@ export class OpenSourceOperator implements Operator {
     if (typeof sender.tab.url === "undefined") {
       return;
     }
-    const url = "view-source:" + sender.tab.url;
+    const url = `view-source:${sender.tab.url}`;
     await chrome.tabs.create({ url });
   }
 }

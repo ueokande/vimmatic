@@ -1,20 +1,19 @@
+import { Blacklist, BlacklistItem } from "../shared/blacklist";
+import { Keymaps } from "../shared/keymaps";
+import type { Operation } from "../shared/operation";
+import type { Properties } from "../shared/properties";
+import { Search } from "../shared/search";
+import type { Settings } from "../shared/settings";
+import type { Styles } from "../shared/styles";
 import type {
-  SerializedSettings,
-  SerializedKeymaps,
   SerializedBlacklist,
+  SerializedKeymaps,
   SerializedProperties,
   SerializedSearchEngine,
+  SerializedSettings,
   SerializedStyles,
 } from "./schema";
 import { validateSerializedSettings } from "./schema";
-import type { Operation } from "../shared/operation";
-import type { Settings } from "../shared/settings";
-import { Keymaps } from "../shared/keymaps";
-import { Search } from "../shared/search";
-import type { Properties } from "../shared/properties";
-import { Blacklist } from "../shared/blacklist";
-import type { Styles } from "../shared/styles";
-import { BlacklistItem } from "../shared/blacklist";
 
 const serializeKeymaps = (keymaps: Keymaps): SerializedKeymaps => {
   const obj: SerializedKeymaps = {};

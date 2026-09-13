@@ -1,9 +1,9 @@
 import { defaultJSONSettings } from "./default";
 import {
-  serializeSettings as serialize,
   deserializeSettings as deserialize,
+  serializeSettings as serialize,
 } from "./serdes";
 
 const defaultSettings = deserialize(JSON.parse(defaultJSONSettings));
 
-export { serialize, deserialize, defaultSettings, defaultJSONSettings };
+export { defaultJSONSettings, defaultSettings, deserialize, serialize };

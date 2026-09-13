@@ -1,5 +1,5 @@
+import { describe, expect, test, vi } from "vitest";
 import { ReceiverWithContext } from "../../../src/messaging/handler/ReceiverWithContext";
-import { describe, vi, test, expect } from "vitest";
 
 type Schema = {
   greeting: {

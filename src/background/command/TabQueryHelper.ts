@@ -17,17 +17,17 @@ export class TabQueryHelper {
     const allTabs = await this.getAllTabs(opts);
     const num = parseInt(query, 10);
     let tabs: chrome.tabs.Tab[] = [];
-    if (!isNaN(num)) {
+    if (!Number.isNaN(num)) {
       const tab = allTabs.find((t) => t.index === num - 1);
       if (tab) {
         tabs = [tab];
       }
-    } else if (query == "%") {
+    } else if (query === "%") {
       const tab = allTabs.find((t) => t.active);
       if (tab) {
         tabs = [tab];
       }
-    } else if (query == "#") {
+    } else if (query === "#") {
       const tab = allTabs.find((t) => t.id === lastTabId);
       if (tab) {
         tabs = [tab];
@@ -40,7 +40,7 @@ export class TabQueryHelper {
       let flag = " ";
       if (tab.active) {
         flag = "%";
-      } else if (tab.id == lastTabId) {
+      } else if (tab.id === lastTabId) {
         flag = "#";
       }
       const index = tab.index + 1;
@@ -63,8 +63,8 @@ export class TabQueryHelper {
     return tabs
       .filter((t) => {
         return (
-          (t.url && t.url.toLowerCase().includes(query.toLowerCase())) ||
-          (t.title && t.title.toLowerCase().includes(query.toLowerCase()))
+          t.url?.toLowerCase().includes(query.toLowerCase()) ||
+          t.title?.toLowerCase().includes(query.toLowerCase())
         );
       })
       .filter((item) => item.id && item.title && item.url);

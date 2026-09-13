@@ -1,8 +1,8 @@
-import { SettingRepositoryImpl } from "../../../src/content/repositories/SettingRepository";
+import { describe, expect, it, vi } from "vitest";
 import type { SettingClient } from "../../../src/content/client/SettingClient";
-import type { Settings } from "../../../src/shared/settings";
+import { SettingRepositoryImpl } from "../../../src/content/repositories/SettingRepository";
 import { deserialize } from "../../../src/settings";
-import { describe, it, vi, expect } from "vitest";
+import type { Settings } from "../../../src/shared/settings";
 
 class MockSettingClient implements SettingClient {
   load(): Promise<Settings> {

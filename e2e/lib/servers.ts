@@ -1,5 +1,5 @@
+import type { FastifyReply, FastifyRequest } from "fastify";
 import Fastify from "fastify";
-import type { FastifyRequest, FastifyReply } from "fastify";
 
 interface Server {
   start(): Promise<void>;
@@ -39,7 +39,9 @@ class MockServer {
   private readonly fastify = Fastify({});
 
   constructor(routes: Route[] = []) {
-    routes.forEach((r) => this.fastify.route({ method: "GET", ...r }));
+    routes.forEach((r) => {
+      this.fastify.route({ method: "GET", ...r });
+    });
   }
 
   async start(): Promise<void> {
@@ -115,12 +117,12 @@ const newDynamicTitleServer = (
 
 export {
   MockServer,
-  newServer,
-  newNopServer,
-  newSingleContentServer,
-  newSingleTitleServer,
-  newScrollableServer,
-  newSingleHandlerServer,
   newDynamicTitleServer,
+  newNopServer,
+  newScrollableServer,
+  newServer,
+  newSingleContentServer,
+  newSingleHandlerServer,
+  newSingleTitleServer,
   staticContentHandler,
 };

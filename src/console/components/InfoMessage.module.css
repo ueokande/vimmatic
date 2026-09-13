@@ -1,0 +1,7 @@
+.info {
+  border-top: 1px solid gray;
+  background-color: var(--color-info-background);
+  color: var(--color-info-foreground);
+  font-weight: normal;
+  white-space: pre-wrap;
+}

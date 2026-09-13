@@ -1,6 +1,6 @@
-import { OperationUseCase } from "../../../src/content/usecases/OperationUseCase";
+import { describe, expect, it, vi } from "vitest";
 import type { OperationClient } from "../../../src/content/client/OperationClient";
-import { describe, it, vi, expect } from "vitest";
+import { OperationUseCase } from "../../../src/content/usecases/OperationUseCase";
 
 const todo = () => {
   throw new Error(`not implemented`);

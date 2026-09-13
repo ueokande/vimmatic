@@ -1,5 +1,5 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
+import { inject } from "inversify";
 import type { Operation } from "../../shared/operation";
 import { BackgroundMessageSender } from "./BackgroundMessageSender";
 

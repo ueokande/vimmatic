@@ -1,5 +1,5 @@
+import { describe, expect, test } from "vitest";
 import { HintcharsProperty } from "../../../src/background/property/HintcharsProperty";
-import { describe, test, expect } from "vitest";
 
 describe("HintcharsProperty", () => {
   describe("validate", () => {

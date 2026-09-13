@@ -1,5 +1,5 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
+import { inject } from "inversify";
 import { WindowMessageSender } from "./WindowMessageSender";
 
 export interface TopFrameClient {

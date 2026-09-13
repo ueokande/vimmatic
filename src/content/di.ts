@@ -1,12 +1,12 @@
-import { Container } from "inversify";
 import { buildProviderModule } from "@inversifyjs/binding-decorators";
+import { Container } from "inversify";
 import {
   BackgroundMessageSender,
   newSender as newBackgroundMessageSender,
 } from "./client/BackgroundMessageSender";
 import {
-  WindowMessageSender,
   newSender as newWindowMessageSender,
+  WindowMessageSender,
 } from "./client/WindowMessageSender";
 
 import "./client/BackgroundKeyClient";

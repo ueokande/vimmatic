@@ -1,0 +1,31 @@
+.light {
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-secondary-foreground: #008000;
+  --color-command-background: #ffffff;
+  --color-command-foreground: #000000;
+  --color-title-background: lightgray;
+  --color-title-foreground: #000000;
+  --color-select-background: #ffff00;
+  --color-select-foreground: #000000;
+  --color-info-background: #ffffff;
+  --color-info-foreground: #018786;
+  --color-error-background: #ff0000;
+  --color-error-foreground: #ffffff;
+}
+
+.dark {
+  --color-background: #2f474f;
+  --color-foreground: white;
+  --color-secondary-foreground: #86fab0;
+  --color-command-background: #052027;
+  --color-command-foreground: white;
+  --color-title-background: #052027;
+  --color-title-foreground: white;
+  --color-select-background: #eeff41;
+  --color-select-foreground: #000000;
+  --color-info-background: #052027;
+  --color-info-foreground: #ffffff;
+  --color-error-background: red;
+  --color-error-foreground: white;
+}

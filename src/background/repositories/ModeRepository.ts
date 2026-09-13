@@ -1,6 +1,7 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import { Mode } from "../../shared/mode";
+import type { LocalCache } from "../db/LocalStorage";
+import { LocalCacheImpl } from "../db/LocalStorage";
 
 export interface ModeRepository {
   getMode(): Promise<Mode>;

@@ -1,12 +1,12 @@
-import type { Command, CommandContext, Completions } from "./types";
-import type { PropertySettings } from "../settings/PropertySettings";
-import type { PropertyRegistry } from "../property/PropertyRegistry";
 import type { ConsoleClient } from "../clients/ConsoleClient";
+import type { PropertyRegistry } from "../property/PropertyRegistry";
+import type { PropertySettings } from "../settings/PropertySettings";
+import type { Command, CommandContext, Completions } from "./types";
 
 const mustNumber = (v: any): number => {
   const num = Number(v);
-  if (isNaN(num)) {
-    throw new Error("Not a number: " + v);
+  if (Number.isNaN(num)) {
+    throw new Error(`Not a number: ${v}`);
   }
   return num;
 };
@@ -37,20 +37,20 @@ export class SetCommand implements Command {
         return [
           {
             primary: prop.name(),
-            secondary: "Enable " + prop.description(),
+            secondary: `Enable ${prop.description()}`,
             value: prop.name(),
           },
           {
-            primary: "no" + prop.name(),
-            secondary: "Disable " + prop.description(),
-            value: "no" + prop.name(),
+            primary: `no${prop.name()}`,
+            secondary: `Disable ${prop.description()}`,
+            value: `no${prop.name()}`,
           },
         ];
       } else {
         return [
           {
             primary: prop.name(),
-            secondary: "Set " + prop.description(),
+            secondary: `Set ${prop.description()}`,
             value: prop.name(),
           },
         ];
@@ -109,7 +109,7 @@ export class SetCommand implements Command {
   private async showProperty(ctx: CommandContext, key: string): Promise<void> {
     const def = this.propertyRegsitry.getProperty(key);
     if (typeof def === "undefined") {
-      throw new Error("Unknown property: " + key);
+      throw new Error(`Unknown property: ${key}`);
     }
     const value = await this.propretySettings.getProperty(key);
 
@@ -128,7 +128,7 @@ export class SetCommand implements Command {
   private async setProperty(key: string, value: string): Promise<void> {
     const def = this.propertyRegsitry.getProperty(key);
     if (!def) {
-      throw new Error("Unknown property: " + key);
+      throw new Error(`Unknown property: ${key}`);
     }
     switch (def.type()) {
       case "string":
@@ -136,7 +136,7 @@ export class SetCommand implements Command {
       case "number":
         return this.propretySettings.setProperty(key, mustNumber(value));
       case "boolean":
-        throw new Error("Invalid argument: " + value);
+        throw new Error(`Invalid argument: ${value}`);
     }
   }
 
@@ -154,7 +154,7 @@ export class SetCommand implements Command {
     if (args.startsWith("no")) {
       const def2 = this.propertyRegsitry.getProperty(args.slice(2));
       if (def2?.type() !== "boolean") {
-        throw new Error("Invalid argument: " + args);
+        throw new Error(`Invalid argument: ${args}`);
       }
       return this.propretySettings.setProperty(def2.name(), false);
     }

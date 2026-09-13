@@ -1,5 +1,5 @@
-import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 import type { Completions } from "../../shared/completions";
+import type { BackgroundMessageSender } from "./BackgroundMessageSender";
 
 export class CommandClient {
   constructor(private readonly sender: BackgroundMessageSender) {}

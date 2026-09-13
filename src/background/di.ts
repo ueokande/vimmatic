@@ -1,21 +1,21 @@
-import { Container } from "inversify";
 import { buildProviderModule } from "@inversifyjs/binding-decorators";
-import {
-  BrowserSettingRepository,
-  FirefoxBrowserSettingRepositoryImpl,
-  ChromeBrowserSettingRepositoryImpl,
-} from "./repositories/BrowserSettingRepository";
-import {
-  ClipboardRepository,
-  FirefoxClipboardRepositoryImpl,
-  ChromeClipboardRepositoryImpl,
-} from "./repositories/ClipboardRepository";
-import { createPropertyRegistry } from "./property";
+import { Container } from "inversify";
 import { CommandRegistryFactory } from "./command";
 import { CommandRegistry } from "./command/CommandRegistry";
 import { OperatorRegistryFactory } from "./operators";
 import { OperatorRegistry } from "./operators/OperatorRegistry";
+import { createPropertyRegistry } from "./property";
 import { PropertyRegistry } from "./property/PropertyRegistry";
+import {
+  BrowserSettingRepository,
+  ChromeBrowserSettingRepositoryImpl,
+  FirefoxBrowserSettingRepositoryImpl,
+} from "./repositories/BrowserSettingRepository";
+import {
+  ChromeClipboardRepositoryImpl,
+  ClipboardRepository,
+  FirefoxClipboardRepositoryImpl,
+} from "./repositories/ClipboardRepository";
 import "./clients/AddonEnabledClient";
 import "./clients/ConsoleClient";
 import "./clients/ConsoleFrameClient";

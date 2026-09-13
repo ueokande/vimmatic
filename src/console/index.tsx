@@ -1,8 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { AppProvider } from "./app/provider";
 import { App } from "./App";
-import "./index.css";
+import { AppProvider } from "./app/provider";
 
 window.addEventListener("DOMContentLoaded", () => {
   const wrapper = document.getElementById("vimmatic-console");

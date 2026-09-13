@@ -58,8 +58,8 @@ export class Hint {
     hint.style.position = "absolute";
     hint.style.textTransform = "uppercase";
     hint.style.zIndex = "2147483646"; // to be under the console
-    hint.style.left = x + scrollX + "px";
-    hint.style.top = y + scrollY + "px";
+    hint.style.left = `${x + scrollX}px`;
+    hint.style.top = `${y + scrollY}px`;
 
     doc.body.append(hint);
 

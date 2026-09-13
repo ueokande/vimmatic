@@ -1,5 +1,5 @@
-import type { Command, CommandContext, Completions } from "./types";
 import type { TabQueryHelper } from "./TabQueryHelper";
+import type { Command, CommandContext, Completions } from "./types";
 
 export class BufferDeletesCommand implements Command {
   constructor(private readonly tabQueryHelper: TabQueryHelper) {}
@@ -32,7 +32,7 @@ export class BufferDeletesCommand implements Command {
       includePinned: force,
     });
     if (tabs.length === 0) {
-      throw new Error("No matching buffer for " + keywords);
+      throw new Error(`No matching buffer for ${keywords}`);
     }
     const ids = tabs.map((tab) => tab.id as number);
     await chrome.tabs.remove(ids);

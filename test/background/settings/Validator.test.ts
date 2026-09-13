@@ -1,11 +1,11 @@
-import { Validator } from "../../../src/background/settings/Validator";
-import { createPropertyRegistry } from "../../../src/background/property";
-import { OperatorRegistryImpl } from "../../../src/background/operators/OperatorRegistry";
+import { describe, expect, test } from "vitest";
 import { CloseTabOperator } from "../../../src/background/operators/impls/CloseTabOperator";
 import { DuplicateTabOperator } from "../../../src/background/operators/impls/DuplicateTabOperator";
+import { OperatorRegistryImpl } from "../../../src/background/operators/OperatorRegistry";
+import { createPropertyRegistry } from "../../../src/background/property";
+import { Validator } from "../../../src/background/settings/Validator";
 import { Keymaps } from "../../../src/shared/keymaps";
 import { Search } from "../../../src/shared/search";
-import { describe, test, expect } from "vitest";
 
 describe("Validator", () => {
   const operatorRegistry = new OperatorRegistryImpl();

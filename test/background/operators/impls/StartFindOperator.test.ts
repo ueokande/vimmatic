@@ -1,8 +1,8 @@
+import { describe, expect, it, vi } from "vitest";
 import { StartFindOperator } from "../../../../src/background/operators/impls/StartFindOperator";
-import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 import { asAsyncSpy } from "../../../asAsyncSpy";
+import { MockConsoleClient } from "../../mock/MockConsoleClient";
 
 describe("StartFindOperator", () => {
   asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(

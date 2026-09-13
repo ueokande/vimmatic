@@ -1,12 +1,12 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
+import type { Key } from "../../shared/key";
+import { Keymaps } from "../../shared/keymaps";
+import type { Operation } from "../../shared/operation";
+import { KeySequence } from "../domains/KeySequence";
+import { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
+import { AddressRepository } from "../repositories/AddressRepository";
 import { KeymapRepository } from "../repositories/KeymapRepository";
 import { SettingRepository } from "../repositories/SettingRepository";
-import { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
-import type { Operation } from "../../shared/operation";
-import { AddressRepository } from "../repositories/AddressRepository";
-import { Keymaps } from "../../shared/keymaps";
-import type { Key } from "../../shared/key";
-import { KeySequence } from "../domains/KeySequence";
 
 const reservedKeymaps = new Keymaps({
   "<Esc>": { type: "cancel", props: {} },

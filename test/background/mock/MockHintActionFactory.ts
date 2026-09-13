@@ -1,7 +1,7 @@
 import type { HintActionFactory } from "../../../src/background/hint/HintActionFactory";
 import type {
-  HintTarget,
   HintAction,
+  HintTarget,
 } from "../../../src/background/hint/types";
 
 class MockHintAction implements HintAction {

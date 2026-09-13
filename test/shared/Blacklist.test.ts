@@ -1,6 +1,6 @@
-import { BlacklistItem, Blacklist } from "../../src/shared/blacklist";
+import { describe, expect, it } from "vitest";
+import { Blacklist, BlacklistItem } from "../../src/shared/blacklist";
 import { fromKeymap } from "../../src/shared/key";
-import { describe, it, expect } from "vitest";
 
 describe("BlacklistItem", () => {
   describe("#matches", () => {

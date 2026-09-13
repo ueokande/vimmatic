@@ -1,9 +1,9 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { z } from "zod";
-import type { Operator, OperatorContext } from "../types";
+import * as urls from "../../../shared/urls";
 import { ClipboardRepository } from "../../repositories/ClipboardRepository";
 import { SearchEngineSettings } from "../../settings/SearchEngineSettings";
-import * as urls from "../../../shared/urls";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class PasteOperator implements Operator {

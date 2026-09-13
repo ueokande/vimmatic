@@ -1,8 +1,7 @@
 import React from "react";
-import * as stylex from "@stylexjs/stylex";
-import { SettingClient } from "../clients/SettingClient";
 import { newSender } from "../clients/BackgroundMessageSender";
-import { lightTheme, darkTheme } from "./themes";
+import { SettingClient } from "../clients/SettingClient";
+import styles from "./theme.module.css";
 
 const settingClient = new SettingClient(newSender());
 
@@ -21,18 +20,15 @@ export const ColorSchemeProvider = ({
 }) => {
   const [ready, setReady] = React.useState(false);
   const [userColorScheme, setUserColorScheme] = React.useState("system");
-  const theme = React.useMemo(() => {
+  const themeClassName = React.useMemo(() => {
     if (userColorScheme === "system") {
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      ) {
-        return darkTheme;
+      if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
+        return styles.dark;
       }
     } else if (userColorScheme === "dark") {
-      return darkTheme;
+      return styles.dark;
     }
-    return lightTheme;
+    return styles.light;
   }, [userColorScheme]);
 
   React.useEffect(() => {
@@ -46,7 +42,7 @@ export const ColorSchemeProvider = ({
 
   return (
     <ColorSchemeContext.Provider value={{ ready }}>
-      {ready ? <div {...stylex.props(theme)}>{children}</div> : null}
+      {ready ? <div className={themeClassName}>{children}</div> : null}
     </ColorSchemeContext.Provider>
   );
 };

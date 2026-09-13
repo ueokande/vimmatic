@@ -1,9 +1,9 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import type { Completions } from "../../shared/completions";
 import { CommandRegistry } from "../command/CommandRegistry";
-import type { RequestContext } from "../messaging/types";
 import type { CommandContext } from "../command/types";
-import { parseCommand, onCommandInputting } from "./parser";
+import type { RequestContext } from "../messaging/types";
+import { onCommandInputting, parseCommand } from "./parser";
 
 @injectable()
 export class CommandUseCase {

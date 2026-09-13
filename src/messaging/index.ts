@@ -6,10 +6,10 @@ import { SimplexReceiverWithContext } from "./handler/SimplexReceiverWithContext
 import { SimplexSender } from "./handler/SimplexSender";
 
 export {
-  SimplexSender,
-  Sender,
   Receiver,
   ReceiverWithContext,
+  Sender,
   SimplexReceiver,
   SimplexReceiverWithContext,
+  SimplexSender,
 };

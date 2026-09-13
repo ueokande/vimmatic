@@ -1,5 +1,5 @@
 import { SimplexSender } from "../../messaging";
-import type { Key, Schema, Request } from "../../messaging/schema/window";
+import type { Key, Request, Schema } from "../../messaging/schema/window";
 
 export const WindowMessageSender = Symbol("WindowMessageSender");
 

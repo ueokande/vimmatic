@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { ShowTabOpenCommandOperator } from "../../../../src/background/operators/impls/ShowTabOpenCommandOperator";
-import { MockConsoleClient } from "../../mock/MockConsoleClient";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
+import { MockConsoleClient } from "../../mock/MockConsoleClient";
 
 describe("ShowTabOpenCommandOperator", () => {
   const consoleClient = new MockConsoleClient();

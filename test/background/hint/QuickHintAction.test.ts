@@ -1,7 +1,7 @@
+import { describe, expect, test, vi } from "vitest";
 import { QuickHintAction } from "../../../src/background/hint/QuickHintAction";
 import { MockHintClient } from "../mock/MockHintClient";
 import { MockTabPresenter } from "../mock/MockTabPresenter";
-import { describe, test, expect, vi } from "vitest";
 
 describe("QuickHintAction", () => {
   const hintClient = new MockHintClient();

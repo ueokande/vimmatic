@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction } from "./types";
 import { TabPresenter } from "../presenters/TabPresenter";
+import type { HintAction, HintTarget } from "./types";
 
 @injectable()
 export class OpenHintAction implements HintAction {

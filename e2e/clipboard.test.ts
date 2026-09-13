@@ -1,5 +1,5 @@
-import { test, expect } from "./lib/fixture";
 import * as clipboard from "./lib/clipboard";
+import { expect, test } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
 import { newNopServer } from "./lib/servers";
 

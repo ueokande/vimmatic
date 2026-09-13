@@ -1,5 +1,5 @@
-import { inject } from "inversify";
 import { provide } from "@inversifyjs/binding-decorators";
+import { inject } from "inversify";
 import { PropertyRegistry } from "../property/PropertyRegistry";
 import { SettingsRepository } from "./SettingsRepository";
 
@@ -26,7 +26,7 @@ export class PropertySettingsImpl {
   ): Promise<void> {
     const def = this.propertyRegistry.getProperty(name);
     if (!def) {
-      throw new Error("Unknown property: " + name);
+      throw new Error(`Unknown property: ${name}`);
     }
     def.validate(value);
 
@@ -39,18 +39,18 @@ export class PropertySettingsImpl {
   async getProperty(name: string): Promise<string | number | boolean> {
     const def = this.propertyRegistry.getProperty(name);
     if (!def) {
-      throw new Error("Unknown property: " + name);
+      throw new Error(`Unknown property: ${name}`);
     }
 
     const settings = await this.settingsRepository.load();
-    const value = (settings.properties || {})[name];
+    const value = settings.properties?.[name];
     if (typeof value === "undefined") {
       return def.defaultValue();
     }
     try {
       def.validate(value);
     } catch (e) {
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.warn(`Property ${name} has invalid value: ${e.message}`);
       return def.defaultValue();
     }

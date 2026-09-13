@@ -1,4 +1,4 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import type { Mode } from "../../shared/mode";
 import { ModeRepository } from "../repositories/ModeRepository";
 

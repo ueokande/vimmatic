@@ -1,6 +1,6 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { newSender } from "./ContentMessageSender";
 import type { FindQuery } from "../../shared/findQuery";
+import { newSender } from "./ContentMessageSender";
 
 export interface FindClient {
   findNext(tabId: number, frameId: number, query: FindQuery): Promise<boolean>;

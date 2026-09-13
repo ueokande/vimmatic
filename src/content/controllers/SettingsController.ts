@@ -1,6 +1,6 @@
-import { injectable, inject } from "inversify";
-import { AddonEnabledUseCase } from "../usecases/AddonEnabledUseCase";
+import { inject, injectable } from "inversify";
 import { SettingRepository } from "../repositories/SettingRepository";
+import { AddonEnabledUseCase } from "../usecases/AddonEnabledUseCase";
 
 @injectable()
 export class SettingsController {
@@ -26,7 +26,7 @@ export class SettingsController {
       }
     } catch (e) {
       // Sometime sendMessage fails when background script is not ready.
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.warn(e);
       setTimeout(() => this.initSettings(), 1000);
     }

@@ -1,7 +1,7 @@
+import { describe, expect, test, vi } from "vitest";
 import { TabopenHintAction } from "../../../src/background/hint/TabopenHintAction";
 import { MockHintClient } from "../mock/MockHintClient";
 import { MockTabPresenter } from "../mock/MockTabPresenter";
-import { describe, test, expect, vi } from "vitest";
 
 describe("TabopenHintAction", () => {
   const hintClient = new MockHintClient();

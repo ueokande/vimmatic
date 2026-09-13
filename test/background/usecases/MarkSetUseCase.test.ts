@@ -1,10 +1,10 @@
+import { describe, expect, it, vi } from "vitest";
+import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
 import { MarkSetUseCase } from "../../../src/background/usecases/MarkSetUseCase";
+import { defaultTab } from "../mock/defaultTab";
 import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { MockContentMessageClient } from "../mock/MockContentMessageClient";
 import { MockMarkRepository } from "../mock/MockMarkRepository";
-import { MarkHelper } from "../../../src/background/usecases/MarkHelper";
-import { defaultTab } from "../mock/defaultTab";
-import { describe, it, vi, expect } from "vitest";
 
 describe("MarkSetUseCase", () => {
   const markRepository = new MockMarkRepository();

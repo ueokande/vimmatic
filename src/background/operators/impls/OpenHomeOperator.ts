@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
-import type { Operator, OperatorContext } from "../types";
 import { BrowserSettingRepository } from "../../repositories/BrowserSettingRepository";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class OpenHomeOperator implements Operator {

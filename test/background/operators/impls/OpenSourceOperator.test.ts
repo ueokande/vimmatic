@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { OpenSourceOperator } from "../../../../src/background/operators/impls/OpenSourceOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 
 describe("OpenSourceOperator", () => {
   describe("#run", () => {

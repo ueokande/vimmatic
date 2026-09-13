@@ -18,7 +18,7 @@ const isHost = (src: string): boolean => {
     return isHostname(src);
   }
   const [hostname, port] = src.split(":", 2);
-  return isHostname(hostname) && !isNaN(Number(port));
+  return isHostname(hostname) && !Number.isNaN(Number(port));
 };
 
 const parseURL = (src: string): URL | undefined => {
@@ -45,7 +45,7 @@ const searchUrl = (keywords: string, search: SearchEngine): string => {
     }
   }
 
-  const urlWithHttp = parseURL("http://" + keywords);
+  const urlWithHttp = parseURL(`http://${keywords}`);
   if (typeof urlWithHttp !== "undefined" && isHost(urlWithHttp.host)) {
     return urlWithHttp.href;
   }
@@ -70,7 +70,7 @@ const normalizeUrl = (url: string): string => {
   } catch {
     // fallthrough
   }
-  return "http://" + url;
+  return `http://${url}`;
 };
 
-export { searchUrl, normalizeUrl };
+export { normalizeUrl, searchUrl };

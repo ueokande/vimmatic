@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import type { Operator, OperatorContext } from "../types";
+import { inject, injectable } from "inversify";
 import { ContentMessageClient } from "../../clients/ContentMessageClient";
 import { PropertySettings } from "../../settings/PropertySettings";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class ScrollToBottomOperator implements Operator {

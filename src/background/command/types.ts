@@ -1,7 +1,7 @@
 import type {
-  Completions as CompletionsType,
   CompletionGroup as CompletionGroupType,
   CompletionItem as CompletionItemType,
+  Completions as CompletionsType,
 } from "../../shared/completions";
 
 export type Completions = CompletionsType;

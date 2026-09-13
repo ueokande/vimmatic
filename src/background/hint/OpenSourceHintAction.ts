@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
+import { inject, injectable } from "inversify";
 import { HintClient } from "../clients/HintClient";
-import type { HintTarget, HintAction } from "./types";
 import { TabPresenter } from "../presenters/TabPresenter";
+import type { HintAction, HintTarget } from "./types";
 
 @injectable()
 export class OpenSourceHintAction implements HintAction {
@@ -42,7 +42,7 @@ export class OpenSourceHintAction implements HintAction {
       return;
     }
 
-    const url = "view-source:" + href;
+    const url = `view-source:${href}`;
     if (opts.newTab) {
       await this.tabPresenter.openNewTab(url, tabId, opts.background);
     } else {

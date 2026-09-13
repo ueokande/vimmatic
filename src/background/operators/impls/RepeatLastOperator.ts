@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import type { Operator, OperatorContext } from "../types";
-import { RepeatRepository } from "../../repositories/RepeatRepository";
+import { inject, injectable } from "inversify";
 import { OperatorRegistry } from "../../operators/OperatorRegistry";
+import { RepeatRepository } from "../../repositories/RepeatRepository";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class RepeatLastOperator implements Operator {
@@ -25,7 +25,7 @@ export class RepeatLastOperator implements Operator {
     }
     const op = this.operatorRegistry.getOperator(lastOp.type);
     if (typeof op === "undefined") {
-      throw new Error("unknown operation: " + lastOp.type);
+      throw new Error(`unknown operation: ${lastOp.type}`);
     }
     return op.run(ctx, lastOp.props);
   }

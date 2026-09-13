@@ -1,9 +1,9 @@
+import { describe, expect, it, vi } from "vitest";
 import { BufferDeleteCommand } from "../../../src/background/command/BufferDeleteCommand";
 import { TabQueryHelper } from "../../../src/background/command/TabQueryHelper";
 import type { CommandContext } from "../../../src/background/command/types";
-import { defaultTab } from "../mock/defaultTab";
-import { describe, it, expect, vi } from "vitest";
 import { asAsyncSpy } from "../../asAsyncSpy";
+import { defaultTab } from "../mock/defaultTab";
 
 describe("BufferDeleteCommand", () => {
   const lastSelectedTab = {

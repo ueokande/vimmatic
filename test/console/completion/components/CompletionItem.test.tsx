@@ -3,8 +3,8 @@
  */
 
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { CompletionItem } from "../../../../src/console/completion/components/CompletionItem";
-import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/CompletionItem", () => {
   it("renders a CompletionItem", () => {

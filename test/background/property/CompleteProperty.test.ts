@@ -1,5 +1,5 @@
+import { describe, expect, test } from "vitest";
 import { CompleteProperty } from "../../../src/background/property/CompleteProperty";
-import { describe, test, expect } from "vitest";
 
 describe("CompleteProperty", () => {
   describe("validate", () => {

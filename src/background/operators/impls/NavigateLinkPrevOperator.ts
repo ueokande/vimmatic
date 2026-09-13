@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import type { Operator, OperatorContext } from "../types";
 import { NavigateClient } from "../../clients/NavigateClient";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class NavigateLinkPrevOperator implements Operator {

@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 
+import { beforeEach, describe, expect, test } from "vitest";
 import { HTMLElementLocator } from "../../../src/content/presenters/HTMLElementLocator";
-import { describe, beforeEach, test, expect } from "vitest";
 
 describe("HTMLElementLocator", () => {
   beforeEach(() => {

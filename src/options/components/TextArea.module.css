@@ -1,0 +1,50 @@
+.container {
+  display: block;
+  width: stretch;
+  border: ButtonBorder 1px solid;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.container:focus-within {
+  box-shadow: inset 0 0 3px AccentColor;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-areas: "content";
+  padding: 8px;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.highlightLayer {
+  grid-area: content;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.textarea {
+  grid-area: content;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: none;
+  outline: none;
+  resize: none;
+  background-color: transparent;
+  color: transparent;
+  caret-color: CanvasText;
+  white-space: pre;
+  overflow: hidden;
+}

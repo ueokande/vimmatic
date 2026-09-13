@@ -2,7 +2,7 @@ import type { Key } from "./key";
 import { fromKeymap } from "./key";
 
 const regexFromWildcard = (pattern: string): RegExp => {
-  const regexStr = "^" + pattern.replace(/\*/g, ".*") + "$";
+  const regexStr = `^${pattern.replace(/\*/g, ".*")}$`;
   return new RegExp(regexStr);
 };
 

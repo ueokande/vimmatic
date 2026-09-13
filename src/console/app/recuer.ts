@@ -1,10 +1,10 @@
+import type { AppAction } from "./actions";
 import {
   HIDE,
   SHOW_COMMAND,
   SHOW_ERROR,
   SHOW_FIND,
   SHOW_INFO,
-  type AppAction,
 } from "./actions";
 
 export type State =

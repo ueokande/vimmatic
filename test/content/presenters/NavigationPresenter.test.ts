@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 
+import { beforeEach, describe, expect, test } from "vitest";
 import { NavigationPresenterImpl } from "../../../src/content/presenters/NavigationPresenter";
-import { describe, beforeEach, test, expect } from "vitest";
 
 describe("NavigationPresenterImpl", () => {
   beforeEach(() => {

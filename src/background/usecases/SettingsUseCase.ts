@@ -1,7 +1,7 @@
-import { injectable, inject } from "inversify";
-import { serialize, deserialize } from "../../settings";
-import { SettingsRepository } from "../settings/SettingsRepository";
+import { inject, injectable } from "inversify";
+import { deserialize, serialize } from "../../settings";
 import { PropertySettings } from "../settings/PropertySettings";
+import { SettingsRepository } from "../settings/SettingsRepository";
 import { StyleSettings } from "../settings/StyleSettings";
 import { Validator } from "../settings/Validator";
 

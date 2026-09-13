@@ -1,5 +1,6 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
+import type { LocalCache } from "../db/LocalStorage";
+import { LocalCacheImpl } from "../db/LocalStorage";
 
 export interface AddonEnabledRepository {
   enable(): Promise<void>;
@@ -61,6 +62,8 @@ export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
     if (oldValue === newValue) {
       return;
     }
-    listeners.forEach((f) => f({ oldValue, newValue }));
+    listeners.forEach((f) => {
+      f({ oldValue, newValue });
+    });
   }
 }

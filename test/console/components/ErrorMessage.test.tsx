@@ -3,8 +3,8 @@
  */
 
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { ErrorMessage } from "../../../src/console/components/ErrorMessage";
-import { describe, it, expect } from "vitest";
 
 describe("console/components/console/completion/ErrorMessage", () => {
   it("renders an error message", () => {

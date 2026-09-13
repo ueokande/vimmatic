@@ -1,5 +1,5 @@
+import { describe, expect, it, test } from "vitest";
 import { Search } from "../../src/shared/search";
-import { describe, it, test, expect } from "vitest";
 
 describe("Search", () => {
   it("create a search engines", () => {

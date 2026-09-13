@@ -1,6 +1,6 @@
-import type { Command, CommandContext, Completions } from "./types";
-import type { TabQueryHelper } from "./TabQueryHelper";
 import type { ConsoleClient } from "../clients/ConsoleClient";
+import type { TabQueryHelper } from "./TabQueryHelper";
+import type { Command, CommandContext, Completions } from "./types";
 
 export class PinCommand implements Command {
   constructor(
@@ -40,7 +40,7 @@ export class PinCommand implements Command {
         includePinned: true,
       });
       if (tabs.length === 0) {
-        throw new Error("No matching buffer for " + keywords);
+        throw new Error(`No matching buffer for ${keywords}`);
       }
       targetTabId = tabs[0].id!;
     }

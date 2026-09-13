@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { AddonEnabledUseCase } from "../../../src/background/usecases/AddonEnabledUseCase";
 import { MockAddonEnabledRepository } from "../mock/MockAddonEnabledRepository";
 import { MockToolbarPresenter } from "../mock/MockToolbarPresenter";
-import { describe, it, vi, expect } from "vitest";
 
 describe("AddonEnabledUseCase", () => {
   vi.spyOn(chrome.tabs.onActivated, "addListener").mockReturnValue();

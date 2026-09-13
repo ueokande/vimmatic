@@ -1,12 +1,12 @@
+import { describe, expect, it, vi } from "vitest";
 import { HintModeUseCase } from "../../../src/background/usecases/HintModeUseCase";
-import { MockHintClient } from "../mock/MockHintClient";
-import { MockTopFrameClient } from "../mock/MockTopFrameClient";
-import { MockReadyFrameRepository } from "../mock/MockReadyFrameRepository";
-import { MockPropertySettings } from "../mock/MockPropertySettings";
-import { MockHintRepository } from "../mock/MockHintRepository";
-import { MockHintActionFactory } from "../mock/MockHintActionFactory";
-import { describe, it, vi, expect } from "vitest";
 import { MockConsoleClient } from "../mock/MockConsoleClient";
+import { MockHintActionFactory } from "../mock/MockHintActionFactory";
+import { MockHintClient } from "../mock/MockHintClient";
+import { MockHintRepository } from "../mock/MockHintRepository";
+import { MockPropertySettings } from "../mock/MockPropertySettings";
+import { MockReadyFrameRepository } from "../mock/MockReadyFrameRepository";
+import { MockTopFrameClient } from "../mock/MockTopFrameClient";
 
 describe("HintModeUseCase", () => {
   const topFrameClient = new MockTopFrameClient();

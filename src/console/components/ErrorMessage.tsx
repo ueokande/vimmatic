@@ -1,16 +1,6 @@
 import type React from "react";
-import * as stylex from "@stylexjs/stylex";
 import { useAutoResize } from "../hooks/useAutoResize";
-import { colors } from "../styles/tokens.stylex";
-
-const styles = stylex.create({
-  error: {
-    borderTop: "1px solid gray",
-    backgroundColor: colors.errorBackground,
-    color: colors.errorForeground,
-    fontWeight: "bold",
-  },
-});
+import styles from "./ErrorMessage.module.css";
 
 type Props = {
   children: React.ReactNode;
@@ -20,7 +10,7 @@ export const ErrorMessage: React.FC<Props> = ({ children }) => {
   useAutoResize();
 
   return (
-    <p role="alert" {...stylex.props(styles.error)}>
+    <p role="alert" className={styles.error}>
       {children}
     </p>
   );

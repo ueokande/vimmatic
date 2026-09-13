@@ -1,7 +1,7 @@
-import type { Completions, CompletionItem } from "./types";
-import * as filters from "./filters";
-import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
 import type { PropertySettings } from "../settings/PropertySettings";
+import type { SearchEngineSettings } from "../settings/SearchEngineSettings";
+import * as filters from "./filters";
+import type { CompletionItem, Completions } from "./types";
 
 const COMPLETION_ITEM_LIMIT = 10;
 

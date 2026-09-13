@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { QuitAllCommand } from "../../../src/background/command/QuitAllCommand";
-import { defaultTab } from "../mock/defaultTab";
-import { describe, it, vi, expect } from "vitest";
 import { asAsyncSpy } from "../../asAsyncSpy";
+import { defaultTab } from "../mock/defaultTab";
 
 describe("QuitAllCommand", () => {
   const mockTabsQuery = asAsyncSpy<[chrome.tabs.QueryInfo], chrome.tabs.Tab[]>(

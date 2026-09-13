@@ -18,9 +18,9 @@ export class ReopenTabOperator implements Operator {
     if (!session) {
       return;
     }
-    if (session.tab && session.tab.sessionId) {
+    if (session.tab?.sessionId) {
       await chrome.sessions.restore(session.tab.sessionId);
-    } else if (session.window && session.window.sessionId) {
+    } else if (session.window?.sessionId) {
       await chrome.sessions.restore(session.window.sessionId);
     }
   }

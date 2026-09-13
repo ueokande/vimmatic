@@ -1,5 +1,6 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
+import type { LocalCache } from "../db/LocalStorage";
+import { LocalCacheImpl } from "../db/LocalStorage";
 import type { HintTarget } from "../hint/types";
 
 export interface HintRepository {

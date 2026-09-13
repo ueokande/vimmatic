@@ -1,7 +1,7 @@
+import { describe, expect, it, vi } from "vitest";
 import { AddBookmarkCommand } from "../../../src/background/command/AddBookmarkCommand";
-import { MockConsoleClient } from "../mock/MockConsoleClient";
 import { defaultTab } from "../mock/defaultTab";
-import { describe, expect, vi, it } from "vitest";
+import { MockConsoleClient } from "../mock/MockConsoleClient";
 
 describe("AddBookmarkCommand", () => {
   const mockBookmarkCreate = vi.spyOn(chrome.bookmarks, "create");

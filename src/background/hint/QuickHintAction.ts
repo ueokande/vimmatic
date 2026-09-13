@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
-import { HintClient } from "../clients/HintClient";
+import { inject, injectable } from "inversify";
 import type { HTMLElementType } from "../../shared/HTMLElementType";
+import { HintClient } from "../clients/HintClient";
 import { TabPresenter } from "../presenters/TabPresenter";
-import type { HintTarget, HintAction } from "./types";
+import type { HintAction, HintTarget } from "./types";
 
 @injectable()
 export class QuickHintAction implements HintAction {
@@ -64,7 +64,7 @@ export class QuickHintAction implements HintAction {
         );
         break;
       case "input":
-        switch (element.attributes["type"]?.toLowerCase()) {
+        switch (element.attributes.type?.toLowerCase()) {
           case "file":
           case "checkbox":
           case "radio":
@@ -88,12 +88,9 @@ export class QuickHintAction implements HintAction {
         this.click(tabId, target.frameId, target.element);
         break;
       default:
-        if (element.attributes["contenteditable"]) {
+        if (element.attributes.contenteditable) {
           this.focus(tabId, target.frameId, target.element);
-        } else if (
-          element.attributes["tabindex"] ||
-          element.attributes["onclick"]
-        ) {
+        } else if (element.attributes.tabindex || element.attributes.onclick) {
           this.click(tabId, target.frameId, target.element);
         }
     }
@@ -106,7 +103,7 @@ export class QuickHintAction implements HintAction {
     opts: { newTab: boolean; background: boolean },
   ): Promise<void> {
     const href = element.href;
-    const target = element.attributes["target"];
+    const target = element.attributes.target;
     let openNewtab = opts.newTab;
     if (target === "_blank") {
       openNewtab = true;

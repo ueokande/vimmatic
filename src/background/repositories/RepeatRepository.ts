@@ -1,6 +1,7 @@
 import { provide } from "@inversifyjs/binding-decorators";
-import { type LocalCache, LocalCacheImpl } from "../db/LocalStorage";
 import type { Operation } from "../../shared/operation";
+import type { LocalCache } from "../db/LocalStorage";
+import { LocalCacheImpl } from "../db/LocalStorage";
 
 export interface RepeatRepository {
   getLastOperation(): Promise<Operation | null>;

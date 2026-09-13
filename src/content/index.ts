@@ -9,7 +9,7 @@ const initDom = () => {
       const app = container.get(Application);
       await app.init();
     } catch (e) {
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: intentional debug logging
       console.error(e);
     }
   })();

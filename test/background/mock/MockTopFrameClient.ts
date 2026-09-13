@@ -1,7 +1,7 @@
 import type {
-  TopFrameClient,
-  Rect,
   Point,
+  Rect,
+  TopFrameClient,
 } from "../../../src/background/clients/TopFrameClient";
 
 export class MockTopFrameClient implements TopFrameClient {

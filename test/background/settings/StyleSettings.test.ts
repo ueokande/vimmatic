@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { StyleSettingsImpl } from "../../../src/background/settings/StyleSettings";
 import { MockSettingsRepository } from "../mock/MockSettingsRepository";
-import { describe, it, vi, expect } from "vitest";
 
 describe("StyleSettingsImpl", () => {
   const settingsRepository = new MockSettingsRepository();

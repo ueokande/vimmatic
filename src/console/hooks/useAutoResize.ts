@@ -1,6 +1,6 @@
 import React from "react";
-import { ConsoleFrameClient } from "../clients/ConsoleFrameClient";
 import { newSender } from "../clients/BackgroundMessageSender";
+import { ConsoleFrameClient } from "../clients/ConsoleFrameClient";
 
 const consoleFrameClient = new ConsoleFrameClient(newSender());
 

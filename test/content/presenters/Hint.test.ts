@@ -2,8 +2,8 @@
  * @vitest-environment jsdom
  */
 
+import { beforeEach, describe, expect, it } from "vitest";
 import { Hint } from "../../../src/content/presenters/Hint";
-import { describe, beforeEach, it, expect } from "vitest";
 
 describe("Hint", () => {
   beforeEach(() => {

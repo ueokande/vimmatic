@@ -1,6 +1,6 @@
+import { describe, expect, it } from "vitest";
 import { HintRepositoryImpl } from "../../../src/background/repositories/HintRepository";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
-import { describe, it, expect } from "vitest";
 
 describe("HintRepositoryImpl", () => {
   it("enable and disable followings", async () => {

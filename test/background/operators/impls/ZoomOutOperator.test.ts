@@ -1,6 +1,6 @@
+import { describe, expect, it, vi } from "vitest";
 import { ZoomOutOperator } from "../../../../src/background/operators/impls/ZoomOutOperator";
 import type { OperatorContext } from "../../../../src/background/operators/types";
-import { describe, it, expect, vi } from "vitest";
 import { asAsyncSpy } from "../../../asAsyncSpy";
 
 describe("ZoomOutOperator", () => {

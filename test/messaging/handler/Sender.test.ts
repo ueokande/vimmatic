@@ -1,5 +1,5 @@
+import { describe, expect, test, vi } from "vitest";
 import { Sender } from "../../../src/messaging/handler/Sender";
-import { describe, vi, test, expect } from "vitest";
 
 type Schema = {
   greeting: {

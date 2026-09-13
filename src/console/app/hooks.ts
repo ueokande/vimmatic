@@ -1,15 +1,15 @@
 import React from "react";
-import * as actions from "./actions";
-import { AppDispatchContext, AppStateContext } from "./contexts";
-import { CommandClient } from "../clients/CommandClient";
-import { FindClient } from "../clients/FindClient";
-import { newSender } from "../clients/BackgroundMessageSender";
 import { SimplexSender } from "../../messaging";
 import type {
-  Schema as WindowMessageSchema,
   Key as WindowMessageKey,
   Request as WindowMessageRequest,
+  Schema as WindowMessageSchema,
 } from "../../messaging/schema/window";
+import { newSender } from "../clients/BackgroundMessageSender";
+import { CommandClient } from "../clients/CommandClient";
+import { FindClient } from "../clients/FindClient";
+import * as actions from "./actions";
+import { AppDispatchContext, AppStateContext } from "./contexts";
 
 const sender = newSender();
 const commandClient = new CommandClient(sender);

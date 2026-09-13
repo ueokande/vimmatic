@@ -1,8 +1,8 @@
+import { describe, expect, test } from "vitest";
 import {
-  parseCommand,
   onCommandInputting,
+  parseCommand,
 } from "../../../src/background/usecases/parser";
-import { describe, test, expect } from "vitest";
 
 describe("parseCommand", () => {
   type TestCase = {

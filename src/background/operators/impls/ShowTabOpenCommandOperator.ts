@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { z } from "zod";
-import type { Operator, OperatorContext } from "../types";
 import { ConsoleClient } from "../../clients/ConsoleClient";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class ShowTabOpenCommandOperator implements Operator {
