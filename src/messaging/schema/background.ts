@@ -20,6 +20,12 @@ export type Schema = {
   "settings.get.style": Duplex<{ name: string }, Record<string, string>>;
   "settings.validate": Duplex<{ settings: unknown }, { error?: string }>;
   "press.key": Duplex<{ key: string }>;
+
+  // A frame reports whether it currently has an editable element (input,
+  // textarea, select or contentEditable) focused.  The background aggregates
+  // this per tab to decide whether the tab is in insert mode, then broadcasts
+  // the resolved mode back to every frame so the whole tab stays consistent.
+  "focus.state.changed": Duplex<{ focused: boolean }>;
 };
 
 export type Key = MessageKey<Schema>;

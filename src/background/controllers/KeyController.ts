@@ -26,7 +26,7 @@ export class KeyController {
       return;
     }
 
-    const mode = await this.modeUseCase.getMode();
+    const mode = await this.modeUseCase.getMode(sender.tab.id);
     if (mode === "follow") {
       const result = await this.hintKeyUseCase.pressKey(sender.tab.id, key);
       if (result === "cancel") {

@@ -5,6 +5,7 @@ import { ConsoleClient } from "../clients/ConsoleClient";
 import { CommandController } from "../controllers/CommandController";
 import { ConsoleController } from "../controllers/ConsoleController";
 import { FindController } from "../controllers/FindController";
+import { FocusController } from "../controllers/FocusController";
 import { KeyController } from "../controllers/KeyController";
 import { OperationController } from "../controllers/OperationController";
 import { SettingsController } from "../controllers/SettingsController";
@@ -28,6 +29,8 @@ export class BackgroundMessageListener {
     consoleController: ConsoleController,
     @inject(FindController)
     findController: FindController,
+    @inject(FocusController)
+    focusController: FocusController,
     @inject(ConsoleClient)
     private readonly consoleClient: ConsoleClient,
   ) {
@@ -64,6 +67,9 @@ export class BackgroundMessageListener {
     this.receiver
       .route("press.key")
       .to(keyController.pressKey.bind(keyController));
+    this.receiver
+      .route("focus.state.changed")
+      .to(focusController.changeFocusState.bind(focusController));
   }
 
   listen() {

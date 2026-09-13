@@ -1,6 +1,8 @@
 import { inject, injectable } from "inversify";
+import { BackgroundFocusClient } from "./client/BackgroundFocusClient";
 import { KeyController } from "./controllers/KeyController";
 import { SettingsController } from "./controllers/SettingsController";
+import { FocusStateDriver } from "./FocusStateDriver";
 import { InputDriver } from "./InputDriver";
 import { ContentMessageListener } from "./messaging/ContentMessageListener";
 import { WindowMessageListener } from "./messaging/WindowMessageListener";
@@ -20,6 +22,8 @@ export class Application {
     private readonly settingsController: SettingsController,
     @inject(ReadyStatusPresenter)
     private readonly readyStatusPresenter: ReadyStatusPresenter,
+    @inject(BackgroundFocusClient)
+    private readonly backgroundFocusClient: BackgroundFocusClient,
   ) {}
 
   private readonly portConnector = new PortConnector();
@@ -40,6 +44,7 @@ export class Application {
     this.contentMessageListener.listen();
 
     this.routeFocusEvents();
+    this.routeFocusState();
     this.routeKeymaps();
     this.settingsController.initSettings();
 
@@ -61,6 +66,20 @@ export class Application {
   private routeFocusEvents() {
     window.addEventListener("blur", () => {
       this.keyController.cancel();
+    });
+  }
+
+  private routeFocusState() {
+    // Report this frame's editable-focus transitions to the background, which
+    // aggregates a single per-tab insert/normal mode and broadcasts it back to
+    // every frame.  This is what stops a child frame's insert state from being
+    // invisible to the parent frame and the mode indicator.
+    const focusStateDriver = new FocusStateDriver(window.document);
+    focusStateDriver.onChange((focused) => {
+      this.backgroundFocusClient
+        .notifyFocusChanged(focused)
+        // biome-ignore lint/suspicious/noConsole: intentional debug logging
+        .catch(console.error);
     });
   }
 

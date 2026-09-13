@@ -23,7 +23,16 @@ export class KeyController {
     const mode = this.modeRepository.getMode();
     if (mode === Mode.Normal) {
       return this.handleKeymaps(key);
+    } else if (mode === Mode.Insert) {
+      // The tab is in insert mode because some frame has an editable element
+      // focused.  The frame that actually holds the input already lets the key
+      // through via `InputDriver` (its target `fromInput`).  For any other
+      // frame we deliberately do NOT run Vim keymaps, so the whole tab behaves
+      // consistently with the indicator: no Vim command fires anywhere while
+      // the user is typing.  Let the key propagate to the page untouched.
+      return false;
     } else {
+      // Transient hint/mark modes are driven by the background.
       this.sendKey(key);
       return true;
     }
