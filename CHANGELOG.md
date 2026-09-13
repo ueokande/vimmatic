@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.5](https://github.com/ueokande/vimmatic/compare/v0.8.4...v0.8.5) (2026-09-13)
+
+
+### Bug Fixes
+
+* Migrate to vitest, css module, and biomejs ([#547](https://github.com/ueokande/vimmatic/issues/547))      ([9f0071d](https://github.com/ueokande/vimmatic/commit/9f0071d48a5e12d73765138b96e6580c83ce9e97))
+* stabilize background-content messaging with a readiness handshake ([#544](https://github.com/ueokande/vimmatic/issues/544)) ([6026c1b](https://github.com/ueokande/vimmatic/commit/6026c1b03a1c138f97af7a4352cad8bce31e8c71))
+* update dependencides ([#546](https://github.com/ueokande/vimmatic/issues/546)) ([8a71869](https://github.com/ueokande/vimmatic/commit/8a71869234ea2a8227f6b428ff6fc54550d4f69c))
+
 ## [0.8.4](https://github.com/ueokande/vimmatic/compare/v0.8.3...v0.8.4) (2025-09-06)
 
 
