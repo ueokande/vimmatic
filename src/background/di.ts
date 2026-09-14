@@ -33,6 +33,7 @@ import "./presenters/ToolbarPresenter";
 import "./repositories/AddonEnabledRepository";
 import "./repositories/FindHistoryRepository";
 import "./repositories/FindRepository";
+import "./repositories/FocusedFrameRepository";
 import "./repositories/HintRepository";
 import "./repositories/LastSelectedTabRepository";
 import "./repositories/MarkRepository";

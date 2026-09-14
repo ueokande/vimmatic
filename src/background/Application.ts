@@ -6,6 +6,7 @@ import { FindRepository } from "./repositories/FindRepository";
 import { LastSelectedTabRepository } from "./repositories/LastSelectedTabRepository";
 import { ReadyFrameRepository } from "./repositories/ReadyFrameRepository";
 import { AddonEnabledEventUseCase } from "./usecases/AddonEnabledEventUseCase";
+import { FocusStateUseCase } from "./usecases/FocusStateUseCase";
 import { HintModeUseCase } from "./usecases/HintModeUseCase";
 import { ModeUseCase } from "./usecases/ModeUseCase";
 import { SettingsEventUseCase } from "./usecases/SettingsEventUseCase";
@@ -34,6 +35,8 @@ export class Application {
     private readonly modeUseCase: ModeUseCase,
     @inject(HintModeUseCase)
     private readonly hintModeUseCase: HintModeUseCase,
+    @inject(FocusStateUseCase)
+    private readonly focusStateUseCase: FocusStateUseCase,
   ) {}
 
   private readonly findPortListener = new FindPortListener(
@@ -53,6 +56,10 @@ export class Application {
 
       if (info.status === "loading") {
         await this.findRepository.deleteLocalState(tabId);
+        // A navigation tears down and reloads the content scripts, so any
+        // recorded editable-focus state is stale.  Drop it so it cannot
+        // re-derive insert mode after the reset below.
+        await this.focusStateUseCase.clearTab(tabId);
       }
     });
     chrome.runtime.onStartup.addListener(() => {
@@ -105,5 +112,8 @@ export class Application {
     }
 
     await this.frameRepository.removeFrameId(tabId, frameId);
+    // A disconnected frame can no longer hold focus; clear its contribution so
+    // the tab's insert mode reflects only live frames.
+    await this.focusStateUseCase.clearFrame(tabId, frameId);
   }
 }

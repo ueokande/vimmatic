@@ -1,6 +1,9 @@
 import { inject, injectable } from "inversify";
+import { BackgroundFocusClient } from "./client/BackgroundFocusClient";
 import { KeyController } from "./controllers/KeyController";
 import { SettingsController } from "./controllers/SettingsController";
+import { FocusStateDriver } from "./FocusStateDriver";
+import { isBlankUrlFrame } from "./frame";
 import { InputDriver } from "./InputDriver";
 import { ContentMessageListener } from "./messaging/ContentMessageListener";
 import { WindowMessageListener } from "./messaging/WindowMessageListener";
@@ -20,11 +23,23 @@ export class Application {
     private readonly settingsController: SettingsController,
     @inject(ReadyStatusPresenter)
     private readonly readyStatusPresenter: ReadyStatusPresenter,
+    @inject(BackgroundFocusClient)
+    private readonly backgroundFocusClient: BackgroundFocusClient,
   ) {}
 
   private readonly portConnector = new PortConnector();
 
   init(): Promise<void> {
+    // Do not start the addon inside a blank-URL sub-frame (about:blank /
+    // about:srcdoc).  These are typically UI parts built by libraries (e.g. a
+    // rich-text editor rendered in an iframe), not pages the user navigates.
+    // Skipping them leaves the frame's own input handling untouched and keeps
+    // it out of the per-tab mode state entirely: it never opens a readiness
+    // port, so the background never registers it or sends it messages.
+    if (isBlankUrlFrame(window)) {
+      return Promise.resolve();
+    }
+
     if (window === window.top) {
       this.windowMessageListener.listen();
     }
@@ -40,6 +55,7 @@ export class Application {
     this.contentMessageListener.listen();
 
     this.routeFocusEvents();
+    this.routeFocusState();
     this.routeKeymaps();
     this.settingsController.initSettings();
 
@@ -61,6 +77,20 @@ export class Application {
   private routeFocusEvents() {
     window.addEventListener("blur", () => {
       this.keyController.cancel();
+    });
+  }
+
+  private routeFocusState() {
+    // Report this frame's editable-focus transitions to the background, which
+    // aggregates a single per-tab insert/normal mode and broadcasts it back to
+    // every frame.  This is what stops a child frame's insert state from being
+    // invisible to the parent frame and the mode indicator.
+    const focusStateDriver = new FocusStateDriver(window.document);
+    focusStateDriver.onChange((focused) => {
+      this.backgroundFocusClient
+        .notifyFocusChanged(focused)
+        // biome-ignore lint/suspicious/noConsole: intentional debug logging
+        .catch(console.error);
     });
   }
 
