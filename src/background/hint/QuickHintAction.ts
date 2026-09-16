@@ -29,6 +29,7 @@ export class QuickHintAction implements HintAction {
       '[tabindex]:not([tabindex="-1"])',
       '[role="button"]',
       "[onclick]",
+      "select",
       "summary",
     ].join(",");
   }
@@ -73,6 +74,7 @@ export class QuickHintAction implements HintAction {
           case "button":
           case "image":
           case "color":
+          case "select":
             this.click(tabId, target.frameId, target.element);
             break;
           default:
