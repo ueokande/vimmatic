@@ -26,6 +26,9 @@ describe("OpenCommandHelper", () => {
     [string],
     chrome.bookmarks.BookmarkTreeNode[]
   >(vi.spyOn(chrome.bookmarks, "search")).mockResolvedValue([]);
+  vi.spyOn(chrome.runtime, "getURL").mockImplementation(
+    (path: string) => `chrome-extension://extensionid/${path}`,
+  );
   vi.spyOn(propertySettings, "getProperty").mockImplementation((name) => {
     if (name === "complete") {
       return Promise.resolve("sbh");
@@ -119,10 +122,43 @@ describe("OpenCommandHelper", () => {
       const completions = await sut.getCompletions("");
 
       expect(completions[2].items).toMatchObject([
-        { primary: "com", value: "https://example.com" },
-        { primary: "net", value: "https://example.net" },
-        { primary: "org", value: "https://example.org" },
+        {
+          primary: "com",
+          value: "https://example.com",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fexample.com&size=32",
+        },
+        {
+          primary: "net",
+          value: "https://example.net",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fexample.net&size=32",
+        },
+        {
+          primary: "org",
+          value: "https://example.org",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fexample.org&size=32",
+        },
       ]);
+    });
+
+    it("uses Google's favicon API on Firefox", async () => {
+      vi.stubEnv("BROWSER", "firefox");
+      mockHistorySearch.mockImplementation(() =>
+        Promise.resolve([
+          { id: "0", title: "com", url: "https://example.com" },
+        ]),
+      );
+
+      const completions = await sut.getCompletions("");
+
+      expect(completions[2].items).toMatchObject([
+        {
+          primary: "com",
+          value: "https://example.com",
+          icon: "https://www.google.com/s2/favicons?domain=example.com&sz=32",
+        },
+      ]);
+
+      vi.unstubAllEnvs();
     });
 
     it("reduces duplicated and similar URLs", async () => {

@@ -24,7 +24,8 @@
     "storage",
     "tabs",
     "notifications",
-    "bookmarks"
+    "bookmarks",
+    "favicon"
   ],
   "web_accessible_resources": [
     {

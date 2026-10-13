@@ -14,6 +14,7 @@ const todo = () => {
 global.chrome = {
   runtime: {
     sendMessage: todo,
+    getURL: todo,
   },
   tabs: {
     query: todo,
