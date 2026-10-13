@@ -47,6 +47,7 @@ export class OpenCommandHelper {
       .map((engine) => ({
         primary: engine,
         value: engine,
+        icon: this.getFaviconUrl(engines[engine]),
       }));
   }
 
@@ -69,6 +70,7 @@ export class OpenCommandHelper {
         primary: item.title,
         secondary: item.url,
         value: item.url!,
+        icon: this.getFaviconUrl(item.url!),
       }));
   }
 

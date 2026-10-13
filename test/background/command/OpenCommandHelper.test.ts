@@ -57,8 +57,16 @@ describe("OpenCommandHelper", () => {
       const completions = await sut.getCompletions("");
 
       expect(completions[0].items).toMatchObject([
-        { primary: "yahoo", value: "yahoo" },
-        { primary: "google", value: "google" },
+        {
+          primary: "yahoo",
+          value: "yahoo",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fsearch.yahoo.com%2Fsearch%3Fp%3D%7B%7D&size=32",
+        },
+        {
+          primary: "google",
+          value: "google",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7B%7D&size=32",
+        },
       ]);
     });
   });
@@ -74,9 +82,21 @@ describe("OpenCommandHelper", () => {
       const completions = await sut.getCompletions("");
 
       expect(completions[1].items).toMatchObject([
-        { primary: "com", value: "https://example.com" },
-        { primary: "net", value: "https://example.net" },
-        { primary: "org", value: "https://example.org" },
+        {
+          primary: "com",
+          value: "https://example.com",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fexample.com&size=32",
+        },
+        {
+          primary: "net",
+          value: "https://example.net",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fexample.net&size=32",
+        },
+        {
+          primary: "org",
+          value: "https://example.org",
+          icon: "chrome-extension://extensionid/_favicon/?pageUrl=https%3A%2F%2Fexample.org&size=32",
+        },
       ]);
     });
 
