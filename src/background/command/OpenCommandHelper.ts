@@ -47,6 +47,7 @@ export class OpenCommandHelper {
       .map((engine) => ({
         primary: engine,
         value: engine,
+        icon: this.getFaviconUrl(engines[engine]),
       }));
   }
 
@@ -69,6 +70,7 @@ export class OpenCommandHelper {
         primary: item.title,
         secondary: item.url,
         value: item.url!,
+        icon: this.getFaviconUrl(item.url!),
       }));
   }
 
@@ -90,6 +92,31 @@ export class OpenCommandHelper {
         primary: item.title,
         secondary: item.url,
         value: item.url!,
+        icon: this.getFaviconUrl(item.url!),
       }));
+  }
+
+  // Firefox has no WebExtension favicon-lookup API equivalent to Chrome's
+  // _favicon/, so Google's public API is used there instead.
+  private getFaviconUrl(pageUrl: string): string | undefined {
+    if (process.env.BROWSER === "firefox") {
+      let hostname: string;
+      try {
+        hostname = new URL(pageUrl).hostname;
+      } catch {
+        return undefined;
+      }
+      const url = new URL("https://www.google.com/s2/favicons");
+      url.searchParams.set("domain", hostname);
+      // Larger than displayed so it isn't blurry on high-DPI screens.
+      url.searchParams.set("sz", "32");
+      return url.toString();
+    }
+
+    const url = new URL(chrome.runtime.getURL("_favicon/"));
+    url.searchParams.set("pageUrl", pageUrl);
+    // Larger than displayed so it isn't blurry on high-DPI screens.
+    url.searchParams.set("size", "32");
+    return url.toString();
   }
 }
