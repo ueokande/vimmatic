@@ -135,6 +135,92 @@ describe("InputDriver", () => {
     div.setAttribute("contenteditable", "true");
     div.dispatchEvent(new KeyboardEvent("keydown", { key: "x" }));
   });
+
+  it("ignores events from plaintext-only contenteditable elements", () => {
+    const div = window.document.createElement("div");
+    div.setAttribute("contenteditable", "plaintext-only");
+    const driver = new InputDriver(div);
+    const keys: string[] = [];
+    driver.onKey((key: Key): boolean => {
+      keys.push(key.key);
+      return false;
+    });
+
+    div.dispatchEvent(new KeyboardEvent("keydown", { key: "x" }));
+
+    expect(keys).toEqual([]);
+  });
+
+  it("ignores events from descendants of contenteditable elements", () => {
+    const div = window.document.createElement("div");
+    div.setAttribute("contenteditable", "true");
+    const p = window.document.createElement("p");
+    div.appendChild(p);
+    const driver = new InputDriver(div);
+    const keys: string[] = [];
+    driver.onKey((key: Key): boolean => {
+      keys.push(key.key);
+      return false;
+    });
+
+    p.dispatchEvent(new KeyboardEvent("keydown", { key: "x", bubbles: true }));
+
+    expect(keys).toEqual([]);
+  });
+
+  it("handles events from non-editable children of contenteditable", () => {
+    const div = window.document.createElement("div");
+    div.setAttribute("contenteditable", "true");
+    const p = window.document.createElement("p");
+    p.setAttribute("contenteditable", "false");
+    div.appendChild(p);
+    const driver = new InputDriver(div);
+    const keys: string[] = [];
+    driver.onKey((key: Key): boolean => {
+      keys.push(key.key);
+      return false;
+    });
+
+    p.dispatchEvent(new KeyboardEvent("keydown", { key: "x", bubbles: true }));
+
+    expect(keys).toEqual(["x"]);
+  });
+
+  it("ignores events in designMode documents", () => {
+    const keys: string[] = [];
+    driver.onKey((key: Key): boolean => {
+      keys.push(key.key);
+      return false;
+    });
+
+    window.document.designMode = "on";
+    try {
+      target.dispatchEvent(new KeyboardEvent("keydown", { key: "x" }));
+    } finally {
+      window.document.designMode = "off";
+    }
+
+    expect(keys).toEqual([]);
+  });
+
+  it("ignores events from inputs in shadow DOM", () => {
+    const host = window.document.createElement("div");
+    target.appendChild(host);
+    const root = host.attachShadow({ mode: "open" });
+    const input = window.document.createElement("input");
+    root.appendChild(input);
+    const keys: string[] = [];
+    driver.onKey((key: Key): boolean => {
+      keys.push(key.key);
+      return false;
+    });
+
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "x", bubbles: true, composed: true }),
+    );
+
+    expect(keys).toEqual([]);
+  });
 });
 
 describe("#keyFromKeyboardEvent", () => {
