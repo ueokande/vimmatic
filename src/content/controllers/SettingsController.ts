@@ -14,16 +14,7 @@ export class SettingsController {
   async initSettings(): Promise<void> {
     try {
       await this.settingRepostory.reload();
-
-      const url = new URL(window.location.href);
-      const disabled = this.settingRepostory
-        .getBlacklist()
-        .includesEntireBlacklist(url);
-      if (disabled) {
-        this.addonEnabledUseCase.disable();
-      } else {
-        this.addonEnabledUseCase.enable();
-      }
+      await this.addonEnabledUseCase.sync();
     } catch (e) {
       // Sometime sendMessage fails when background script is not ready.
       // biome-ignore lint/suspicious/noConsole: intentional debug logging
@@ -34,5 +25,7 @@ export class SettingsController {
 
   async reloadSettings(): Promise<void> {
     await this.settingRepostory.reload();
+    // The blacklist may have changed.
+    await this.addonEnabledUseCase.sync();
   }
 }

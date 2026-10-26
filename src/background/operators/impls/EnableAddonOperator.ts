@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { AddonEnabledUseCase } from "../../usecases/AddonEnabledUseCase";
-import type { Operator } from "../types";
+import type { Operator, OperatorContext } from "../types";
 
 @injectable()
 export class EnableAddonOperator implements Operator {
@@ -15,7 +15,7 @@ export class EnableAddonOperator implements Operator {
 
   schema() {}
 
-  async run(): Promise<void> {
-    await this.addonEnabledUseCase.enable();
+  async run({ sender }: OperatorContext): Promise<void> {
+    await this.addonEnabledUseCase.enable(sender.tabId);
   }
 }

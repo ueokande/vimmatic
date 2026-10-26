@@ -4,7 +4,7 @@ import type { Duplex } from "../types";
 import type { MessageKey, MessageRequest, MessageResponse } from "./helper";
 
 export type Schema = {
-  "typeof addon.enabled.response": Duplex<{ enabled: boolean }>;
+  "addon.enabled": Duplex<undefined, { enabled: boolean }>;
   "background.operation": Duplex<{
     repeat: number;
     op: Operation;

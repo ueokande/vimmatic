@@ -9,6 +9,7 @@ import {
   WindowMessageSender,
 } from "./client/WindowMessageSender";
 
+import "./client/AddonEnabledClient";
 import "./client/BackgroundKeyClient";
 import "./client/OperationClient";
 import "./client/SettingClient";

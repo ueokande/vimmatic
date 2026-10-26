@@ -1,7 +1,7 @@
 import { provide } from "@inversifyjs/binding-decorators";
 
 export interface ToolbarPresenter {
-  setEnabled(enabled: boolean): Promise<void>;
+  setEnabled(tabId: number, enabled: boolean): Promise<void>;
 
   onClick(listener: (arg: chrome.tabs.Tab) => void): void;
 }
@@ -10,12 +10,12 @@ export const ToolbarPresenter = Symbol("ToolbarPresenter");
 
 @provide(ToolbarPresenter)
 export class ToolbarPresenterImpl {
-  async setEnabled(enabled: boolean): Promise<void> {
+  async setEnabled(tabId: number, enabled: boolean): Promise<void> {
     const path = enabled
       ? "../resources/enabled_32x32.png"
       : "../resources/disabled_32x32.png";
 
-    return chrome.action.setIcon({ path });
+    return chrome.action.setIcon({ tabId, path });
   }
 
   onClick(listener: (arg: chrome.tabs.Tab) => void): void {

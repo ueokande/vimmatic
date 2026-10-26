@@ -1,9 +1,8 @@
 import { inject, injectable } from "inversify";
-import { AddonEnabledClient } from "../clients/AddonEnabledClient";
 import { ToolbarPresenter } from "../presenters/ToolbarPresenter";
-import { AddonEnabledRepository } from "../repositories/AddonEnabledRepository";
+import type { SettingsRepository } from "../settings/SettingsRepository";
+import { PermanentSettingsRepository } from "../settings/SettingsRepository";
 import { AddonEnabledUseCase } from "./AddonEnabledUseCase";
-import { EventUseCaseHelper } from "./EventUseCaseHelper";
 
 @injectable()
 export class AddonEnabledEventUseCase {
@@ -12,45 +11,28 @@ export class AddonEnabledEventUseCase {
     private readonly toolbarPresenter: ToolbarPresenter,
     @inject(AddonEnabledUseCase)
     private readonly addonEnabledUseCase: AddonEnabledUseCase,
-    @inject(AddonEnabledRepository)
-    private readonly addonEnabledRepository: AddonEnabledRepository,
-    @inject(AddonEnabledClient)
-    private readonly addonEnabledClient: AddonEnabledClient,
-    @inject(EventUseCaseHelper)
-    private readonly eventUseCaseHelper: EventUseCaseHelper,
+    @inject(PermanentSettingsRepository)
+    private readonly settingsRepository: SettingsRepository,
   ) {}
 
   registerEvents() {
-    this.addonEnabledRepository.onChange(async () => {
-      const [tab] = await chrome.tabs.query({
-        active: true,
-        currentWindow: true,
-      });
-      if (typeof tab.id === "undefined") {
-        return;
-      }
-      this.syncTabEnabled(tab.id);
-    });
     this.toolbarPresenter.onClick((tab: chrome.tabs.Tab) => {
       if (typeof tab.id === "undefined") {
         return;
       }
-      return this.addonEnabledUseCase.toggle();
+      return this.addonEnabledUseCase.toggle(tab.id);
     });
-    chrome.tabs.onActivated.addListener(async (info) => {
-      if (await this.eventUseCaseHelper.isSystemTab(info.tabId)) {
-        return;
+    chrome.tabs.onRemoved.addListener((tabId) => {
+      this.addonEnabledUseCase.clear(tabId);
+    });
+    this.settingsRepository.onChanged(async () => {
+      const tabs = await chrome.tabs.query({});
+      for (const tab of tabs) {
+        if (typeof tab.id === "undefined") {
+          continue;
+        }
+        this.addonEnabledUseCase.refreshIndicator(tab.id, tab.url);
       }
-      this.syncTabEnabled(info.tabId);
     });
-  }
-
-  private async syncTabEnabled(tabId: number): Promise<void> {
-    const enabled = await this.addonEnabledRepository.isEnabled();
-    if (enabled) {
-      await this.addonEnabledClient.enable(tabId);
-    } else {
-      await this.addonEnabledClient.disable(tabId);
-    }
   }
 }
