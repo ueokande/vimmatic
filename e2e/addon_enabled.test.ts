@@ -85,7 +85,9 @@ test("applies the state to frames and toggles from a frame", async ({
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);
 
-  await frame.locator("body").click();
+  await frame.locator("body").click({ position: { x: 10, y: 10 } });
+  // Clicking may scroll the frame
+  await innerFrame.evaluate(() => window.scrollTo(0, 0));
   await page.keyboard.press("j");
   await page.waitForTimeout(500);
   expect(await innerScrollY()).toBe(0);
@@ -120,7 +122,9 @@ test("applies the disabled state to a frame loaded later", async ({ page }) => {
   // The state is applied asynchronously after the frame becomes ready.
   await page.waitForTimeout(500);
 
-  await frame.locator("body").click();
+  await frame.locator("body").click({ position: { x: 10, y: 10 } });
+  // Clicking may scroll the frame
+  await lateFrame.evaluate(() => window.scrollTo(0, 0));
   await page.keyboard.press("j");
   await page.waitForTimeout(500);
   expect(await lateFrame.evaluate(() => window.scrollY)).toBe(0);

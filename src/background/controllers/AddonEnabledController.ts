@@ -15,7 +15,14 @@ export class AddonEnabledController {
       return { enabled: true };
     }
     if (ctx.sender.frameId === 0) {
-      await this.addonEnabledUseCase.refreshIndicator(tabId, ctx.sender.url);
+      // Not awaited so that page key handling is not delayed by the icon
+      // update, which loads settings and calls the browser action API.
+      this.addonEnabledUseCase
+        .refreshIndicator(tabId, ctx.sender.url)
+        .catch((e) => {
+          // biome-ignore lint/suspicious/noConsole: intentional debug logging
+          console.warn(e);
+        });
     }
     const enabled = await this.addonEnabledUseCase.isEnabled(tabId);
     return { enabled };

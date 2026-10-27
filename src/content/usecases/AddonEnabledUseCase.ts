@@ -20,8 +20,12 @@ export class AddonEnabledUseCase {
     private readonly addonEnabledClient: AddonEnabledClient,
   ) {}
 
+  fetchTabEnabled(): Promise<boolean> {
+    return this.addonEnabledClient.isEnabled();
+  }
+
   async sync(): Promise<void> {
-    const tabEnabled = await this.addonEnabledClient.isEnabled();
+    const tabEnabled = await this.fetchTabEnabled();
     this.applyTabEnabled(tabEnabled);
   }
 

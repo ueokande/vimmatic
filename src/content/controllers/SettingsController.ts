@@ -13,8 +13,11 @@ export class SettingsController {
 
   async initSettings(): Promise<void> {
     try {
-      await this.settingRepostory.reload();
-      await this.addonEnabledUseCase.sync();
+      const [, tabEnabled] = await Promise.all([
+        this.settingRepostory.reload(),
+        this.addonEnabledUseCase.fetchTabEnabled(),
+      ]);
+      this.addonEnabledUseCase.applyTabEnabled(tabEnabled);
     } catch (e) {
       // Sometime sendMessage fails when background script is not ready.
       // biome-ignore lint/suspicious/noConsole: intentional debug logging
