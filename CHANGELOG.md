@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/ueokande/vimmatic/compare/v0.9.0...v0.9.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* Improve addon status ([#550](https://github.com/ueokande/vimmatic/issues/550)) ([d0851a2](https://github.com/ueokande/vimmatic/commit/d0851a2217a78168f85732f64074e60bb128e4c5))
+
 ## [0.9.0](https://github.com/ueokande/vimmatic/compare/v0.8.4...v0.9.0) (2026-10-14)
 
 
