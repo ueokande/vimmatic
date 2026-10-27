@@ -1,9 +1,20 @@
 const isContentEditable = (element: Element): boolean => {
-  const value = element.getAttribute("contenteditable");
-  if (value === null) {
+  // Rich text editors in iframes often enable editing by designMode
+  // without any contenteditable attribute.
+  if (element.ownerDocument.designMode === "on") {
+    return true;
+  }
+  if (element instanceof HTMLElement && element.isContentEditable) {
+    return true;
+  }
+  // HTMLElement.isContentEditable is not available in some environments
+  // (e.g. jsdom), so the inherited attribute is resolved manually too.
+  const host = element.closest("[contenteditable]");
+  if (host === null) {
     return false;
   }
-  return value.toLowerCase() === "true" || value.toLowerCase() === "";
+  const value = host.getAttribute("contenteditable")?.toLowerCase();
+  return value === "" || value === "true" || value === "plaintext-only";
 };
 
 interface Rect {

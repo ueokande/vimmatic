@@ -3,67 +3,67 @@ import type { LocalCache } from "../db/LocalStorage";
 import { LocalCacheImpl } from "../db/LocalStorage";
 
 export interface AddonEnabledRepository {
-  enable(): Promise<void>;
+  isEnabled(tabId: number): Promise<boolean>;
 
-  disable(): Promise<void>;
+  setEnabled(tabId: number, enabled: boolean): Promise<void>;
 
-  toggle(): Promise<boolean>;
+  toggle(tabId: number): Promise<boolean>;
 
-  isEnabled(): Promise<boolean>;
-
-  onChange(listener: OnChangeListener): void;
+  delete(tabId: number): Promise<void>;
 }
 
-type OnChangeListener = (values: {
-  oldValue: boolean;
-  newValue: boolean;
-}) => void;
-const listeners: OnChangeListener[] = [];
+// Only disabled tabs are stored so that tabs default to enabled without
+// pre-registration.
+type State = Record<string, boolean>;
 
 export const AddonEnabledRepository = Symbol("AddonEnabledRepository");
+
+// Updates are read-modify-write on a single storage entry, so concurrent
+// updates (e.g. repeated key presses) are serialized to avoid lost writes.
+let queue: Promise<unknown> = Promise.resolve();
+const serialize = <T>(f: () => Promise<T>): Promise<T> => {
+  const next = queue.then(f, f);
+  queue = next.catch(() => {});
+  return next;
+};
 
 @provide(AddonEnabledRepository)
 export class AddonEnabledRepositoryImpl implements AddonEnabledRepository {
   constructor(
-    private readonly cache: LocalCache<boolean> = new LocalCacheImpl<boolean>(
+    private readonly cache: LocalCache<State> = new LocalCacheImpl<State>(
       AddonEnabledRepositoryImpl.name,
-      true,
+      {},
     ),
   ) {}
 
-  async enable(): Promise<void> {
-    const current = await this.cache.getValue();
-    await this.cache.setValue(true);
-    this.afterUpdate(current, true);
+  async isEnabled(tabId: number): Promise<boolean> {
+    const state = await this.cache.getValue();
+    return state[tabId] ?? true;
   }
 
-  async disable(): Promise<void> {
-    const current = await this.cache.getValue();
-    await this.cache.setValue(false);
-    this.afterUpdate(current, false);
+  setEnabled(tabId: number, enabled: boolean): Promise<void> {
+    return serialize(() => this.write(tabId, enabled));
   }
 
-  async toggle(): Promise<boolean> {
-    const current = await this.cache.getValue();
-    await this.cache.setValue(!current);
-    this.afterUpdate(current, !current);
-    return !current;
-  }
-
-  isEnabled(): Promise<boolean> {
-    return this.cache.getValue();
-  }
-
-  onChange(listener: OnChangeListener): void {
-    listeners.push(listener);
-  }
-
-  private afterUpdate(oldValue: boolean, newValue: boolean) {
-    if (oldValue === newValue) {
-      return;
-    }
-    listeners.forEach((f) => {
-      f({ oldValue, newValue });
+  toggle(tabId: number): Promise<boolean> {
+    return serialize(async () => {
+      const enabled = !(await this.isEnabled(tabId));
+      await this.write(tabId, enabled);
+      return enabled;
     });
+  }
+
+  delete(tabId: number): Promise<void> {
+    return serialize(() => this.write(tabId, true));
+  }
+
+  private async write(tabId: number, enabled: boolean): Promise<void> {
+    const state = { ...(await this.cache.getValue()) };
+    if (enabled) {
+      delete state[tabId];
+    } else {
+      state[tabId] = false;
+    }
+    await this.cache.setValue(state);
   }
 }

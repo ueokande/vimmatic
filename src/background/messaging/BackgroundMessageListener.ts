@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { ReceiverWithContext } from "../../messaging";
 import type { Schema } from "../../messaging/schema/background";
 import { ConsoleClient } from "../clients/ConsoleClient";
+import { AddonEnabledController } from "../controllers/AddonEnabledController";
 import { CommandController } from "../controllers/CommandController";
 import { ConsoleController } from "../controllers/ConsoleController";
 import { FindController } from "../controllers/FindController";
@@ -16,6 +17,8 @@ export class BackgroundMessageListener {
     new ReceiverWithContext();
 
   constructor(
+    @inject(AddonEnabledController)
+    addonEnabledController: AddonEnabledController,
     @inject(SettingsController)
     settingsController: SettingsController,
     @inject(CommandController)
@@ -52,6 +55,9 @@ export class BackgroundMessageListener {
     this.receiver
       .route("settings.get.property")
       .to(settingsController.getProperty.bind(settingsController));
+    this.receiver
+      .route("addon.enabled")
+      .to(addonEnabledController.getEnabled.bind(addonEnabledController));
     this.receiver
       .route("settings.get.style")
       .to(settingsController.getStyle.bind(settingsController));

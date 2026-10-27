@@ -9,10 +9,10 @@ export class AddonEnabledController {
   ) {}
 
   async enable(): Promise<void> {
-    this.addonEnabledUseCase.enable();
+    this.addonEnabledUseCase.applyTabEnabled(true);
   }
 
   async disable(): Promise<void> {
-    this.addonEnabledUseCase.disable();
+    this.addonEnabledUseCase.applyTabEnabled(false);
   }
 }

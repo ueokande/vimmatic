@@ -82,7 +82,9 @@ export class InputDriver {
   }
 
   private capture(e: KeyboardEvent) {
-    const target = e.target;
+    // e.target is retargeted to the shadow host for events from shadow DOM,
+    // which hides the actual input element.
+    const target = e.composedPath()[0] ?? e.target;
     if (!(target instanceof HTMLElement)) {
       return;
     }

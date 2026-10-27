@@ -22,7 +22,8 @@ You can also specify path patterns to disable sites on the URL matched with the 
 }
 ```
 
-You can toggle Vimmatic between disabled and enabled with <kbd>shift</kbd>+<kbd>Esc</kbd>.
+Vimmatic is always disabled on webpages in the blacklist.
+On other webpages, you can toggle Vimmatic between disabled and enabled in the current tab with <kbd>shift</kbd>+<kbd>Esc</kbd>.
 
 ## Partial Blacklist
 

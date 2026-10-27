@@ -13,17 +13,11 @@ export class SettingsController {
 
   async initSettings(): Promise<void> {
     try {
-      await this.settingRepostory.reload();
-
-      const url = new URL(window.location.href);
-      const disabled = this.settingRepostory
-        .getBlacklist()
-        .includesEntireBlacklist(url);
-      if (disabled) {
-        this.addonEnabledUseCase.disable();
-      } else {
-        this.addonEnabledUseCase.enable();
-      }
+      const [, tabEnabled] = await Promise.all([
+        this.settingRepostory.reload(),
+        this.addonEnabledUseCase.fetchTabEnabled(),
+      ]);
+      this.addonEnabledUseCase.applyTabEnabled(tabEnabled);
     } catch (e) {
       // Sometime sendMessage fails when background script is not ready.
       // biome-ignore lint/suspicious/noConsole: intentional debug logging
@@ -34,5 +28,7 @@ export class SettingsController {
 
   async reloadSettings(): Promise<void> {
     await this.settingRepostory.reload();
+    // The blacklist may have changed.
+    await this.addonEnabledUseCase.sync();
   }
 }
