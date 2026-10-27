@@ -58,9 +58,7 @@ class MockServer {
       throw new Error("Server not started");
     }
 
-    const url = new URL(this.address);
-    url.pathname = path;
-    return url.toString();
+    return new URL(path, this.address).toString();
   }
 }
 

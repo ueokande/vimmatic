@@ -1,26 +1,38 @@
 import { expect, test } from "./lib/fixture";
+import { requiredId } from "./lib/requiredId";
+import { newScrollableServer } from "./lib/servers";
+
+const server = newScrollableServer();
+test.beforeAll(() => server.start());
+test.afterAll(() => server.stop());
+test.beforeEach(async ({ page }) => {
+  await page.goto(server.url());
+});
 
 test("repeats last operation", async ({ page, api }) => {
-  const tab = await api.tabs.getCurrent();
-  await api.tabs.setZoom(tab.id, 1);
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  const tabId = requiredId(tab?.id);
+  await api.tabs.setZoom(tabId, 1);
 
   await page.keyboard.type("zi..", { delay: 100 });
-  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1.5);
+  await expect.poll(() => api.tabs.getZoom(tabId)).toBe(1.5);
 });
 
-test("repeats scroll 3-times", async ({ page, api }) => {
-  const tab = await api.tabs.getCurrent();
-  await api.tabs.setZoom(tab.id, 1);
+test("repeats zoom-in 3-times", async ({ page, api }) => {
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  const tabId = requiredId(tab?.id);
+  await api.tabs.setZoom(tabId, 1);
 
   await page.keyboard.type("3zi", { delay: 100 });
-  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1.5);
+  await expect.poll(() => api.tabs.getZoom(tabId)).toBe(1.5);
 });
 
-test("repeats tab deletion 3-times", async ({ page, api }) => {
-  const tab = await api.tabs.getCurrent();
-  await api.tabs.setZoom(tab.id, 1);
+test("repeats the previous zoom operation 3-times", async ({ page, api }) => {
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  const tabId = requiredId(tab?.id);
+  await api.tabs.setZoom(tabId, 1);
 
   await page.keyboard.type("zi", { delay: 100 });
   await page.keyboard.type("3.", { delay: 100 });
-  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1.75);
+  await expect.poll(() => api.tabs.getZoom(tabId)).toBe(1.75);
 });

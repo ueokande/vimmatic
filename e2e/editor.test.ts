@@ -8,12 +8,12 @@ const editorPage = (setup: string) => `<!DOCTYPE html>
   iframe.name = "editor";
   iframe.style.width = "400px";
   iframe.style.height = "200px";
+  iframe.addEventListener("load", () => {
+    const doc = iframe.contentDocument;
+    ${setup}
+    doc.body.dataset.editorReady = "true";
+  });
   document.body.prepend(iframe);
-  const doc = iframe.contentDocument;
-  doc.open();
-  doc.write("<!DOCTYPE html><html><head></head><body></body></html>");
-  doc.close();
-  ${setup}
 </script>
 </body></html>`;
 
@@ -53,25 +53,75 @@ test.afterAll(async () => {
 });
 
 for (const path of ["/designmode", "/contenteditable"]) {
-  test(`types text into an iframe rich text editor (${path})`, async ({
-    page,
-  }) => {
+  test(`types text into an iframe rich text editor (${path})`, {
+    tag: "@smoke",
+  }, async ({ page }) => {
     await page.goto(server.url(path));
-    const frame = page.frame("editor")!;
-    // Wait for the content script in the frame to be initialized
-    await page.waitForTimeout(500);
+    const frame = page.frameLocator("iframe[name=editor]");
+    await expect(frame.locator("body[data-editor-ready=true]")).toBeAttached();
+    if (path === "/designmode") {
+      await expect
+        .poll(() =>
+          frame
+            .locator("body")
+            .evaluate((body) => body.ownerDocument.designMode),
+        )
+        .toBe("on");
+    }
+    await expect(
+      frame.locator("head[data-vimmatic-content-status=ready]"),
+    ).toBeAttached();
 
-    await page.frameLocator("iframe[name='editor']").locator("body").click();
+    await frame.locator("body").evaluate((body) => {
+      const events: {
+        key: string;
+        prevented: boolean;
+        target: string | undefined;
+      }[] = [];
+      body.ownerDocument.addEventListener(
+        "keydown",
+        (event) => {
+          setTimeout(() => {
+            events.push({
+              key: event.key,
+              prevented: event.defaultPrevented,
+              target: (event.target as Element)?.tagName,
+            });
+            body.dataset.keyEvents = JSON.stringify(events);
+          });
+        },
+        true,
+      );
+    });
+    await frame.locator("body").click();
+    await expect(page.locator("iframe[name=editor]")).toBeFocused();
+    // pressSequentially refocuses the body and can clear Firefox's
+    // designMode caret. Preserve the selection established by the click.
     await page.keyboard.type("jkG");
 
-    await expect
-      .poll(() => frame.evaluate(() => document.body.textContent))
-      .toBe("jkG");
+    try {
+      await expect.poll(() => frame.locator("body").textContent()).toBe("jkG");
+    } catch (error) {
+      const state = await frame.locator("body").evaluate((body) => ({
+        mode: body.ownerDocument.designMode,
+        editable: body instanceof HTMLElement && body.isContentEditable,
+        active: body.ownerDocument.activeElement?.tagName,
+        selection: body.ownerDocument.getSelection()?.anchorNode?.nodeName,
+        events: body.dataset.keyEvents,
+      }));
+      await test.info().attach("editor-input", {
+        body: JSON.stringify(state),
+        contentType: "application/json",
+      });
+      throw error;
+    }
     expect(await page.evaluate(() => window.scrollY)).toBe(0);
   });
 }
 
-test("types text into an input in shadow DOM", async ({ page }) => {
+test("types text into an input in shadow DOM", { tag: "@smoke" }, async ({
+  page,
+}) => {
   await page.goto(server.url("/shadow"));
 
   await page.locator("#input").click();

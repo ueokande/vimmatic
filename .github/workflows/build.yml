@@ -4,7 +4,14 @@ on:
   push:
     branches-ignore:
       - master
+  schedule:
+    - cron: '0 18 * * *'
   workflow_call:
+    inputs:
+      e2e_scope:
+        description: 'full or smoke; release callers run the full suite by default'
+        type: string
+        default: full
 
 jobs:
   build:
@@ -19,6 +26,7 @@ jobs:
         cache: 'pnpm'
     - run: pnpm install --frozen-lockfile
     - run: pnpm type-checks
+    - run: pnpm type-checks:e2e
     - run: pnpm lint
     - run: pnpm test
     - run: pnpm package
@@ -37,11 +45,32 @@ jobs:
       with:
         node-version-file: 'package.json'
         cache: 'pnpm'
-    - name: Install xsel
-      run: sudo apt-get install -y --no-install-recommends xsel
+    - name: Install headed browser prerequisites
+      run: sudo apt-get update && sudo apt-get install -y --no-install-recommends xsel xfwm4 xvfb xauth x11-utils
     - run: pnpm install --frozen-lockfile
     - run: pnpm exec playwright install firefox
     - run: pnpm build
     - run: pnpm exec webext-agent install --addon-ids vimmatic@i-beam.org
     - run: pnpm exec webext-agent create-addon --base-addon dist/firefox /tmp/vimmatic-mixedin
-    - run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- pnpm run test:e2e --headed
+    - name: Run E2E
+      env:
+        E2E_SCOPE: ${{ inputs.e2e_scope || (github.event_name == 'schedule' && 'full' || 'smoke') }}
+      run: |
+        task_e2e_args=()
+        case "$E2E_SCOPE" in
+          smoke) task_e2e_args+=(--grep @smoke) ;;
+          full) ;;
+          *) echo "Invalid E2E scope: $E2E_SCOPE" >&2; exit 1 ;;
+        esac
+        xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- bash script/run-e2e-headed.sh "${task_e2e_args[@]}"
+    - name: Summarize E2E results
+      if: always()
+      run: |
+        if [ -f test-results/results.json ]; then
+          node script/report-e2e.mjs >> "$GITHUB_STEP_SUMMARY"
+        fi
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      if: always()
+      with:
+        name: e2e-results
+        path: test-results/

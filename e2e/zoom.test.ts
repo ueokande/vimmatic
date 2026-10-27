@@ -1,4 +1,5 @@
 import { expect, test } from "./lib/fixture";
+import { requiredId } from "./lib/requiredId";
 import { newNopServer } from "./lib/servers";
 
 const server = newNopServer();
@@ -14,17 +15,18 @@ test.afterAll(async () => {
 test("should zoom-in and zoom-out", async ({ page, api }) => {
   await page.goto(server.url());
 
-  const tab = await api.tabs.getCurrent();
-  const before = await api.tabs.getZoom(tab.id);
+  const [tab] = await api.tabs.query({ active: true, currentWindow: true });
+  const tabId = requiredId(tab?.id);
+  const before = await api.tabs.getZoom(tabId);
 
   await page.keyboard.type("zi");
-  await expect.poll(() => api.tabs.getZoom(tab.id)).toBeGreaterThan(before);
+  await expect.poll(() => api.tabs.getZoom(tabId)).toBeGreaterThan(before);
 
   await page.keyboard.type("zo");
   await page.keyboard.type("zo");
-  await expect.poll(() => api.tabs.getZoom(tab.id)).toBeLessThan(before);
+  await expect.poll(() => api.tabs.getZoom(tabId)).toBeLessThan(before);
 
   await page.keyboard.type("zz");
 
-  await expect.poll(() => api.tabs.getZoom(tab.id)).toBe(1);
+  await expect.poll(() => api.tabs.getZoom(tabId)).toBe(1);
 });

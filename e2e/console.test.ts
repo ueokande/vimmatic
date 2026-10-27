@@ -1,69 +1,26 @@
+import { Console } from "./lib/Console";
 import { expect, test } from "./lib/fixture";
+import { newScrollableServer } from "./lib/servers";
 
-test.fixme("open console with :", async ({ page }) => {
-  await page.console.show();
+const server = newScrollableServer();
+test.beforeAll(() => server.start());
+test.afterAll(() => server.stop());
 
-  await expect.poll(() => page.console.getCommand()).toBe("");
-});
-
-test.fixme("open console with open command by o", async ({ page }) => {
-  await page.keyboard.press("o");
-
-  await expect.poll(() => page.console.getCommand()).toBe("open ");
-});
-
-test.fixme("open console with open command and current URL by O", async ({
-  page,
-}) => {
-  await page.keyboard.press("Shift+O");
-
-  await expect.poll(() => page.console.getCommand()).toBe("open about:blank");
-});
-
-test.fixme("open console with tabopen command by t", async ({ page }) => {
-  await page.keyboard.press("t");
-
-  await expect.poll(() => page.console.getCommand()).toBe("tabopen ");
-});
-
-test.fixme("open console with tabopen command and current URL by T", async ({
-  page,
-}) => {
-  await page.keyboard.press("Shift+T");
-
-  await expect
-    .poll(() => page.console.getCommand())
-    .toBe("tabopen about:blank");
-});
-
-test.fixme("open console with winopen command by w", async ({ page }) => {
-  await page.keyboard.press("w");
-
-  await expect.poll(() => page.console.getCommand()).toBe("winopen ");
-});
-
-test.fixme("open console with winopen command and current URL by W", async ({
-  page,
-}) => {
-  await page.keyboard.press("Shift+W");
-
-  await expect
-    .poll(() => page.console.getCommand())
-    .toBe("winopen about:blank");
-});
-
-test.fixme("open console with buffer command by b", async ({ page }) => {
-  await page.keyboard.press("b");
-
-  await expect.poll(() => page.console.getCommand()).toBe("buffer ");
-});
-
-test.fixme("open console with addbookmark command with title by a", async ({
-  page,
-}) => {
-  await page.keyboard.press("a");
-
-  await expect
-    .poll(() => page.console.getCommand())
-    .toBe("addbookmark New Tab");
+test("opens the console, selects a completion and returns focus on Escape", {
+  tag: "@smoke",
+}, async ({ page }) => {
+  await page.goto(server.url());
+  const console = new Console(page);
+  await console.show();
+  await page.keyboard.type("b");
+  const items = page
+    .frameLocator("#vimmatic-console-frame")
+    .getByRole("menuitem");
+  await expect(items).toHaveCount(3);
+  await page.keyboard.press("Tab");
+  await expect(console.input).toHaveValue("buffer");
+  await console.hide();
+  await expect(console.input).toHaveCount(0);
+  await page.keyboard.press("j");
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(64);
 });

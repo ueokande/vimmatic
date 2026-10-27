@@ -7,8 +7,8 @@ const server = newServer([
     handler: (req, reply) => {
       reply.type("text/html").send(`<!DOCTYPE html>
 <html lang="en">
-  <a href="/pagination-a/${Number(req.params.page) - 1}">prev</a>
-  <a href="/pagination-a/${Number(req.params.page) + 1}">next</a>
+  <a href="/pagination-a/${Number((req.params as { page: string }).page) - 1}">prev</a>
+  <a href="/pagination-a/${Number((req.params as { page: string }).page) + 1}">next</a>
 </html>`);
     },
   },
@@ -19,10 +19,10 @@ const server = newServer([
 <html lang="en">
   <head>
     <link rel="prev" href="/pagination-link/${
-      Number(req.params.page) - 1
+      Number((req.params as { page: string }).page) - 1
     }"></link>
     <link rel="next" href="/pagination-link/${
-      Number(req.params.page) + 1
+      Number((req.params as { page: string }).page) + 1
     }"></link>
   </head>
 </html>`);
@@ -107,7 +107,7 @@ test("should transit next/prev page in <link> by [[/]]", async ({ page }) => {
 test("should go to home page into current tab by gh", async ({ page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
 
-  await page.goto("https://example.com");
+  await page.goto(server.url("/initial"));
   await page.keyboard.type("gh");
 
   await expect
@@ -127,13 +127,15 @@ test("should go to home page into current tab by gH", async ({ page, api }) => {
     .toMatchObject([{ url: server.url() }, { url: "about:blank" }]);
 });
 
-test("should reload by r", async ({ page }) => {
+test("should reload by r", { tag: "@smoke" }, async ({ page }) => {
   await page.goto(server.url("/reload"));
   const before = await page.evaluate(
     () => window.performance.timing.navigationStart,
   );
 
+  const reloaded = page.waitForEvent("domcontentloaded");
   await page.keyboard.press("r");
+  await reloaded;
   await expect
     .poll(() => page.evaluate(() => window.performance.timing.navigationStart))
     .toBeGreaterThan(before);
@@ -146,6 +148,8 @@ test("should hard reload by R", async ({ page }) => {
   const before = await page.evaluate(() => window.pageYOffset);
   expect(before).toBe(100);
 
+  const reloaded = page.waitForEvent("domcontentloaded");
   await page.keyboard.press("Shift+R");
+  await reloaded;
   await expect.poll(() => page.evaluate(() => window.pageYOffset)).toBe(0);
 });

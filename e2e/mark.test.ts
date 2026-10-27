@@ -1,75 +1,80 @@
 import { expect, test } from "./lib/fixture";
+import { newTab } from "./lib/newTab";
+import { requiredId } from "./lib/requiredId";
 import { newScrollableServer } from "./lib/servers";
 
 const server = newScrollableServer();
+test.beforeAll(() => server.start());
+test.afterAll(() => server.stop());
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should set a local mark and jump to it", async ({ page }) => {
+test("sets a local mark and jumps to it", async ({ page }) => {
   await page.goto(server.url());
-  await page.evaluate(() => window.scrollBy(0, 200));
-  await page.keyboard.type("ma", { delay: 10 });
-  await page.evaluate(() => window.scrollBy(0, 500));
-  await page.keyboard.type("'a", { delay: 10 });
-
+  await page.evaluate(() => window.scrollTo(0, 200));
+  await page.keyboard.type("ma");
+  await expect(
+    page
+      .frameLocator("#vimmatic-console-frame")
+      .getByText("Set local mark to 'a'", { exact: true }),
+  ).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 700));
+  await page.keyboard.type("'a");
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(200);
 });
 
-test.fixme("should set a global mark and jump to it", async ({
+test("jumps to a global mark in an existing tab", { tag: "@smoke" }, async ({
+  page,
   context,
   api,
 }) => {
-  const { id: windowId } = await api.windows.getCurrent();
-
-  const page1 = await context.newPage();
-  const page2 = await context.newPage();
-  await page1.goto(server.url("/global-mark#first"));
-  await page2.goto(server.url("/global-mark#second"));
-  const tabs = await api.tabs.query({ url: "*://*/global-mark" });
-  await api.tabs.move(
-    tabs.map((tab) => tab.id),
-    { windowId, index: 0 },
-  );
-
-  await page1.evaluate(() => window.scrollBy(0, 200));
-  await page1.keyboard.type("mA");
-  await page1.evaluate(() => window.scrollBy(0, 500));
-  await page1.keyboard.type("'A");
-  await expect.poll(() => page1.evaluate(() => window.scrollY)).toBe(200);
-
-  await page2.keyboard.type("'A");
-
-  const [activeTab] = await api.tabs.query({ active: true, windowId });
-
-  expect(activeTab.url).toBe(server.url("/global-mark#first"));
+  await page.goto(server.url("/#first"));
+  await page.evaluate(() => window.scrollTo(0, 200));
+  await page.keyboard.type("mA");
+  await expect(
+    page
+      .frameLocator("#vimmatic-console-frame")
+      .getByText("Set global mark to 'A'", { exact: true }),
+  ).toBeVisible();
+  const other = await newTab(context, api, page, server.url("/#second"));
+  await other.bringToFront();
+  await other.keyboard.type("'A");
+  await expect
+    .poll(
+      async () =>
+        (await api.tabs.query({ active: true, currentWindow: true }))[0]?.url,
+    )
+    .toBe(server.url("/#first"));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(200);
 });
 
-test.fixme("set a global mark and creates new tab from gone", async ({
+test("recreates a closed tab for a global mark", async ({
+  page,
   context,
   api,
 }) => {
-  const page1 = await context.newPage();
-  await page1.goto(server.url("/#first"));
-  await page1.evaluate(() => window.scrollBy(0, 200));
-  await page1.keyboard.type("mA");
-  await page1.evaluate(() => window.scrollBy(0, 500));
-  await page1.keyboard.type("'A");
-  const [currentTab1] = await api.tabs.query({ active: true });
-  await page1.close();
-
-  const page2 = await context.newPage();
-  await page2.goto(server.url("/#second"));
-  await page2.keyboard.type("'A");
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const [currentTab2] = await api.tabs.query({ active: true });
-
-  expect(currentTab1.id).not.toBe(currentTab2.id);
-  expect(new URL(currentTab2.url).hash).toBe("#first");
-  expect(currentTab2.url).toBe(server.url("/#first"));
+  await page.goto(server.url("/#first"));
+  const [original] = await api.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  const originalId = requiredId(original?.id);
+  await page.evaluate(() => window.scrollTo(0, 200));
+  await page.keyboard.type("mA");
+  await expect(
+    page
+      .frameLocator("#vimmatic-console-frame")
+      .getByText("Set global mark to 'A'", { exact: true }),
+  ).toBeVisible();
+  const other = await newTab(context, api, page, server.url("/#second"));
+  await page.close();
+  await other.bringToFront();
+  await other.keyboard.type("'A");
+  await expect
+    .poll(async () => {
+      const [active] = await api.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
+      return { url: active?.url, recreated: active?.id !== originalId };
+    })
+    .toEqual({ url: server.url("/#first"), recreated: true });
 });

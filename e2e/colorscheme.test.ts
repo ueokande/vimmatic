@@ -1,45 +1,25 @@
+import { Console } from "./lib/Console";
 import { expect, test } from "./lib/fixture";
-import { newNopServer } from "./lib/servers";
+import { newScrollableServer } from "./lib/servers";
 
-const server = newNopServer();
+const server = newScrollableServer();
+test.beforeAll(() => server.start());
+test.afterAll(() => server.stop());
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test.fixme("changes color scheme by set command", async ({ page }) => {
+test("renders configured and system color schemes", { tag: "@smoke" }, async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
   await page.goto(server.url());
-
-  await page.console.show();
-  await expect
-    .poll(() => page.console.getBackgroundColor())
-    .toBe("rgb(255, 255, 255)");
-
-  await page.keyboard.type("set colorscheme=dark");
-  await page.keyboard.press("Enter");
-
-  await page.console.show();
-  await expect
-    .poll(() => page.console.getBackgroundColor())
-    .toBe("rgb(5, 32, 39)");
-
-  await page.keyboard.type("set colorscheme=light");
-  await page.keyboard.press("Enter");
-
-  await page.console.show();
-  await expect
-    .poll(() => page.console.getBackgroundColor())
-    .toBe("rgb(255, 255, 255)");
-
-  await page.keyboard.type("set colorscheme=system");
-  await page.keyboard.press("Enter");
-
-  await page.console.show();
-  await expect
-    .poll(() => page.console.getBackgroundColor())
-    .toBe("rgb(255, 255, 255)");
+  const console = new Console(page);
+  for (const [scheme, color] of [
+    ["dark", "rgb(5, 32, 39)"],
+    ["light", "rgb(255, 255, 255)"],
+    ["system", "rgb(255, 255, 255)"],
+  ]) {
+    await console.exec(`set colorscheme=${scheme}`);
+    await console.show();
+    await expect(console.input).toHaveCSS("background-color", color);
+    await console.hide();
+  }
 });

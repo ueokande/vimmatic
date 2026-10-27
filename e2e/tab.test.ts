@@ -1,4 +1,6 @@
+import { closeWithKey } from "./lib/closeWithKey";
 import { expect, test } from "./lib/fixture";
+import { requiredId } from "./lib/requiredId";
 import { newNopServer } from "./lib/servers";
 
 const server = newNopServer();
@@ -13,7 +15,7 @@ test.afterAll(async () => {
 });
 
 test.beforeEach(async ({ api, page }) => {
-  windowId = (await api.windows.getCurrent()).id;
+  windowId = requiredId((await api.windows.getCurrent()).id);
   await setupTabs(api);
   await page.goto(server.url("2"));
 });
@@ -65,7 +67,7 @@ test("select tab", async ({ page, api }) => {
 });
 
 test("deletes tab and selects right by d", async ({ page, api }) => {
-  await page.keyboard.press("d");
+  await closeWithKey(page, "d", api);
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
@@ -77,7 +79,7 @@ test("deletes tab and selects right by d", async ({ page, api }) => {
 });
 
 test("deletes tab and selects left by D", async ({ page, api }) => {
-  await page.keyboard.press("Shift+D");
+  await closeWithKey(page, "Shift+D", api);
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
@@ -121,7 +123,7 @@ test("duplicate and make pinned", async ({ page, api }) => {
 
 test("reopen tab by u", async ({ page, api }) => {
   const tabs = await api.tabs.query({ windowId });
-  await api.tabs.remove(tabs[4].id);
+  await api.tabs.remove(requiredId(tabs[4].id));
 
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -146,7 +148,7 @@ test("reopen tab by u", async ({ page, api }) => {
 
 test("delete a pinned tab", async ({ page, api }) => {
   const tabs = await api.tabs.query({ windowId });
-  await api.tabs.update(tabs[2].id, { pinned: true });
+  await api.tabs.update(requiredId(tabs[2].id), { pinned: true });
 
   await page.keyboard.press("d");
   await expect
@@ -160,7 +162,7 @@ test("delete a pinned tab", async ({ page, api }) => {
     ]);
 
   await page.keyboard.press("!");
-  await page.keyboard.press("d");
+  await closeWithKey(page, "d", api);
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([

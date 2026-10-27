@@ -122,4 +122,37 @@ describe("QuickHintAction", () => {
       expect(mockClickElement).toHaveBeenCalledWith(10, 0, "100");
     },
   );
+  test("waits for a new tab before completing hint activation", async () => {
+    const client = new MockHintClient();
+    const presenter = new MockTabPresenter();
+    vi.spyOn(client, "getElement").mockResolvedValue({
+      tagName: "A",
+      href: "https://example.com",
+      attributes: {},
+    });
+    let opened!: () => void;
+    const create = vi.spyOn(presenter, "openNewTab").mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          opened = resolve;
+        }),
+    );
+    let complete = false;
+    const result = new QuickHintAction(client, presenter)
+      .activate(
+        10,
+        { frameId: 0, element: "100", tag: "aa" },
+        { newTab: true, background: false },
+      )
+      .then(() => {
+        complete = true;
+      });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(create).toHaveBeenCalledWith("https://example.com", 10, false);
+    expect(complete).toBe(false);
+    opened();
+    await result;
+    expect(complete).toBe(true);
+  });
 });

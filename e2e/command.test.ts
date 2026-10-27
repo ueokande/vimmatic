@@ -1,3 +1,4 @@
+import { Console } from "./lib/Console";
 import { expect, test } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
 import { newNopServer } from "./lib/servers";
@@ -47,22 +48,19 @@ test("should add a bookmark by the addbookmark command", async ({
   page,
 }) => {
   await page.goto(server.url("/bookmark"));
-  await page.keyboard.type(":addbookmark my great bookmark");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("addbookmark my great bookmark");
 
   await expect
     .poll(() => api.bookmarks.search({ title: "my great bookmark" }))
     .toMatchObject([{ url: server.url("/bookmark") }]);
 });
 
-test("should open a search result by the open command", async ({
-  page,
-  api,
-}) => {
+test("should open a search result by the open command", {
+  tag: "@smoke",
+}, async ({ page, api }) => {
   await setupSearchEngines(api);
   await page.goto(server.url("/"));
-  await page.keyboard.type(":open an apple");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("open an apple");
 
   await expect
     .poll(() => page.url())
@@ -74,8 +72,7 @@ test("should select a tab by the buffer command", async ({ page, api }) => {
   await setupTabs(api);
   await page.goto(server.url("/current"));
 
-  await page.keyboard.type(":buffer site1");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("buffer site1");
 
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -93,8 +90,7 @@ test("should close a tab by the bdelete command", async ({ page, api }) => {
   await setupTabs(api);
   await page.goto(server.url("/current"));
 
-  await page.keyboard.type(":bdelete site3");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("bdelete site3");
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([
@@ -110,8 +106,7 @@ test("should close tabs by the bdeletes command", async ({ page, api }) => {
   await setupTabs(api);
   await page.goto(server.url("/current"));
 
-  await page.keyboard.type(":bdeletes site");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("bdeletes site");
 
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -121,8 +116,7 @@ test("should close tabs by the bdeletes command", async ({ page, api }) => {
       { url: server.url("/current") },
     ]);
 
-  await page.keyboard.type(":bdeletes! site");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("bdeletes! site");
   await expect
     .poll(() => api.tabs.query({ windowId }))
     .toMatchObject([{ url: server.url("/current") }]);

@@ -1,3 +1,4 @@
+import { Console } from "./lib/Console";
 import { expect, test } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
 import { newSingleContentServer } from "./lib/servers";
@@ -64,9 +65,13 @@ test("should open link into a new tab", async ({ page, api }) => {
   await setupHintchars(api);
   await page.goto(server.url());
   await page.keyboard.press("Shift+F");
-  await page.locator("[data-vimmatic-hint]:visible").first().waitFor();
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "K", "JJ", "JK", "KJ"]);
   await page.keyboard.press("j");
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "JJ", "JK"]);
   await page.keyboard.press("j");
 
   await expect
@@ -80,8 +85,13 @@ test("should open link into new tab in background", async ({ page, api }) => {
   await setupHintchars(api);
   await page.goto(server.url());
   await page.keyboard.press("Control+f");
-  await page.locator("[data-vimmatic-hint]:visible").first().waitFor();
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "K", "JJ", "JK", "KJ"]);
   await page.keyboard.press("j");
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "JJ", "JK"]);
   await page.keyboard.press("j");
 
   await expect
@@ -91,8 +101,7 @@ test("should open link into new tab in background", async ({ page, api }) => {
 
 test("should show hints with set hintchars", async ({ page }) => {
   await page.goto(server.url());
-  await page.keyboard.type(":set hintchars=abc");
-  await page.keyboard.press("Enter");
+  await new Console(page).exec("set hintchars=abc");
 
   await page.keyboard.press("f");
 

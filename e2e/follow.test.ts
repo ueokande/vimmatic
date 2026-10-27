@@ -120,7 +120,7 @@ test("should focus an input by f", async ({ page }) => {
   await page.keyboard.press("a");
 
   await expect
-    .poll(() => page.evaluate(() => document.activeElement.tagName))
+    .poll(() => page.evaluate(() => document.activeElement?.tagName))
     .toBe("INPUT");
 });
 
@@ -137,7 +137,10 @@ test("should open a link by f", async ({ page, api }) => {
     .toMatchObject([{ url: server.url("/hello") }]);
 });
 
-test("should open a link to new tab by F", async ({ page, api }) => {
+test("should open a link to new tab by F", { tag: "@smoke" }, async ({
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await page.goto(server.url());
@@ -171,10 +174,13 @@ test("should shows hints only in viewport", async ({ page }) => {
 test("should shows hints only in window of the frame", async ({ page }) => {
   await page.goto(server.url("/test2"));
   await page.keyboard.press("f");
-  await page.frame("inner-frame").locator("text=a").waitFor();
+  await page
+    .frameLocator("iframe[name=inner-frame]")
+    .locator("text=a")
+    .waitFor();
 
   const hints = await page
-    .frame("inner-frame")
+    .frameLocator("iframe[name=inner-frame]")
     .locator("[data-vimmatic-hint]")
     .allInnerTexts();
   expect(hints.length).toBe(1);
@@ -183,10 +189,13 @@ test("should shows hints only in window of the frame", async ({ page }) => {
 test("should shows hints only in the frame", async ({ page }) => {
   await page.goto(server.url("/test3"));
   await page.keyboard.press("f");
-  await page.frame("inner-frame").locator("text=a").waitFor();
+  await page
+    .frameLocator("iframe[name=inner-frame]")
+    .locator("text=a")
+    .waitFor();
 
   const hints = await page
-    .frame("inner-frame")
+    .frameLocator("iframe[name=inner-frame]")
     .locator("[data-vimmatic-hint]")
     .allInnerTexts();
   expect(hints.length).toBe(1);

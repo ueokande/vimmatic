@@ -1,9 +1,10 @@
 import type { Page } from "@playwright/test";
 import { expect, test } from "./lib/fixture";
+import { newTab } from "./lib/newTab";
 import { newServer } from "./lib/servers";
 
 const SCROLLABLE = `<!DOCTYPE html>
-<html lang="en"><body style="width:10000px; height:10000px"></body></html>`;
+<html lang="en"><body tabindex="0" style="width:10000px; height:10000px"></body></html>`;
 
 const server = newServer([
   {
@@ -43,16 +44,16 @@ const expectEnabled = async (page: Page, enabled: boolean) => {
     .toBe(enabled ? 64 : 0);
 };
 
-test("toggles the add-on only in the current tab", async ({
+test("toggles the add-on only in the current tab", { tag: "@smoke" }, async ({
   page,
   context,
+  api,
 }) => {
   await page.goto(server.url("/"));
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);
 
-  const other = await context.newPage();
-  await other.goto(server.url("/"));
+  const other = await newTab(context, api, page, server.url("/"));
   await expectEnabled(other, true);
 
   await page.bringToFront();
@@ -88,14 +89,14 @@ test("applies the state to frames and toggles from a frame", async ({
   await frame.locator("body").click({ position: { x: 10, y: 10 } });
   // Clicking may scroll the frame
   await innerFrame.evaluate(() => window.scrollTo(0, 0));
-  await page.keyboard.press("j");
+  await frame.locator("body").press("j");
   await page.waitForTimeout(500);
   expect(await innerScrollY()).toBe(0);
 
   // Shift+Esc in the frame enables the whole tab
-  await page.keyboard.press("Shift+Escape");
+  await frame.locator("body").press("Shift+Escape");
   await expect(page.locator(CONSOLE_FRAME)).toBeAttached();
-  await page.keyboard.press("j");
+  await frame.locator("body").press("j");
   await expect.poll(innerScrollY).toBe(64);
 });
 
@@ -125,7 +126,7 @@ test("applies the disabled state to a frame loaded later", async ({ page }) => {
   await frame.locator("body").click({ position: { x: 10, y: 10 } });
   // Clicking may scroll the frame
   await lateFrame.evaluate(() => window.scrollTo(0, 0));
-  await page.keyboard.press("j");
+  await frame.locator("body").press("j");
   await page.waitForTimeout(500);
   expect(await lateFrame.evaluate(() => window.scrollY)).toBe(0);
 });
