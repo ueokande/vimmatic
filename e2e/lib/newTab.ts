@@ -1,5 +1,6 @@
 import type { BrowserContext, Page } from "@playwright/test";
 import { waitForContentReady } from "./readiness";
+import { nativeTabFor, registerTab } from "./tabs";
 
 export const newTab = async (
   context: BrowserContext,
@@ -7,14 +8,15 @@ export const newTab = async (
   opener: Page,
   url: string,
 ): Promise<Page> => {
-  const tabs = await api.tabs.query({});
-  const parent = tabs.find((tab) => tab.url === opener.url());
-  if (!parent) throw new Error("Could not find the opener tab");
+  const parent = await nativeTabFor(opener, api);
   // Playwright newPage creates another Firefox window. Use the browser API
   // when the scenario requires tabs in the same window.
-  const opened = context.waitForEvent("page");
-  await api.tabs.create({ url, windowId: parent.windowId });
-  const page = await opened;
+  const [page, tab] = await Promise.all([
+    context.waitForEvent("page"),
+    api.tabs.create({ url, windowId: parent.windowId }),
+  ]);
+  registerTab(page, tab);
+  await page.waitForURL(url);
   await waitForContentReady(page);
   return page;
 };

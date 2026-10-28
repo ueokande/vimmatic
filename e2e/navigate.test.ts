@@ -3,21 +3,18 @@ import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "navigation" });
 
-test("should go to parent path without hash by gu", async ({
-  server,
-  page,
-}) => {
+test("goes to the parent path by gu", async ({ server, page }) => {
   await gotoWithExtension(page, server.url("/a/b/c"));
   await page.keyboard.type("gu");
 
-  await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/");
+  await expect(page).toHaveURL(server.url("/a/b/"));
 });
 
 test("should remove hash by gu", async ({ server, page }) => {
   await gotoWithExtension(page, `${server.url("/a/b/c")}#hash`);
   await page.keyboard.type("gu");
 
-  await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/c");
+  await expect(page).toHaveURL(server.url("/a/b/c"));
 });
 
 test("should go to root path by gU", async ({ server, page }) => {
@@ -25,7 +22,7 @@ test("should go to root path by gU", async ({ server, page }) => {
   await page.keyboard.press("g");
   await page.keyboard.press("Shift+U");
 
-  await expect.poll(() => new URL(page.url()).pathname).toBe("/");
+  await expect(page).toHaveURL(server.url("/"));
 });
 
 test("should go back and forward in history by H and L", async ({
@@ -92,7 +89,7 @@ test("should go to home page into current tab by gh", async ({
     .toMatchObject([{ url: "about:blank" }]);
 });
 
-test("should go to home page into current tab by gH", async ({
+test("opens the home page in a new tab by gH", async ({
   server,
   page,
   api,
@@ -123,7 +120,7 @@ test("should reload by r", async ({ server, page }) => {
     .toBeGreaterThan(before);
 });
 
-test("should hard reload by R", async ({ server, page }) => {
+test("resets the scroll position on reload by R", async ({ server, page }) => {
   await gotoWithExtension(page, server.url("/reload"));
   await page.evaluate(() => window.scrollBy(0, 100));
 

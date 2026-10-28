@@ -1,6 +1,7 @@
 import type { Page } from "@playwright/test";
 import { newTab } from "./lib/newTab";
 import { gotoWithExtension } from "./lib/readiness";
+import { expectScrollUnchanged } from "./lib/scroll";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "addon" });
@@ -14,10 +15,12 @@ const expectEnabled = async (page: Page, enabled: boolean) => {
     await expect(page.locator(CONSOLE_FRAME)).not.toBeAttached();
   }
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.keyboard.press("j");
-  await expect
-    .poll(() => page.evaluate(() => window.scrollY))
-    .toBe(enabled ? 64 : 0);
+  if (enabled) {
+    await page.keyboard.press("j");
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(64);
+  } else {
+    await expectScrollUnchanged(page, () => page.keyboard.press("j"));
+  }
 };
 
 test("toggles the add-on only in the current tab", async ({
@@ -67,9 +70,9 @@ test("applies the state to frames and toggles from a frame", async ({
   await frame.locator("body").click({ position: { x: 10, y: 10 } });
   // Clicking may scroll the frame
   await innerFrame.evaluate(() => window.scrollTo(0, 0));
-  await frame.locator("body").press("j");
-  await page.waitForTimeout(500);
-  expect(await innerScrollY()).toBe(0);
+  await expectScrollUnchanged(innerFrame, () =>
+    frame.locator("body").press("j"),
+  );
 
   // Shift+Esc in the frame enables the whole tab
   await frame.locator("body").press("Shift+Escape");
@@ -101,13 +104,16 @@ test("applies the disabled state to a frame loaded later", async ({
   await expect(
     frame.locator("head[data-vimmatic-content-status='ready']"),
   ).toBeAttached();
-  // The state is applied asynchronously after the frame becomes ready.
-  await page.waitForTimeout(500);
-
   await frame.locator("body").click({ position: { x: 10, y: 10 } });
   // Clicking may scroll the frame
   await lateFrame.evaluate(() => window.scrollTo(0, 0));
+  await expectScrollUnchanged(lateFrame, () =>
+    frame.locator("body").press("j"),
+  );
+
+  await page.bringToFront();
+  await page.keyboard.press("Shift+Escape");
+  await expect(page.locator(CONSOLE_FRAME)).toBeAttached();
   await frame.locator("body").press("j");
-  await page.waitForTimeout(500);
-  expect(await lateFrame.evaluate(() => window.scrollY)).toBe(0);
+  await expect.poll(() => lateFrame.evaluate(() => window.scrollY)).toBe(64);
 });

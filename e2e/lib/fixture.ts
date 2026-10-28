@@ -4,6 +4,7 @@ import path from "node:path";
 import { test as base, expect } from "@playwright/test";
 import { withExtension } from "playwright-webextext";
 import { connect } from "webext-agent";
+import { registerTab } from "./tabs";
 
 type Browser = typeof browser;
 
@@ -27,13 +28,20 @@ export const test = base.extend<Fixture>({
     { scope: "test", timeout: 12_000 },
   ],
   page: [
-    async ({ context }, use) => {
+    async ({ context, api }, use) => {
       // Firefox's initial persistent-context Page can fail to focus designMode
       // frames. A new Page works; remove the unused initial window afterwards.
       const initialPages = context.pages();
       const page = await context.newPage();
       for (const initial of initialPages) await initial.close();
       await page.bringToFront();
+      // Only the newly created Page remains. Record its native ID before
+      // scenarios create duplicate URLs or switch active tabs.
+      await expect(async () => {
+        const tabs = await api.tabs.query({});
+        expect(tabs).toHaveLength(1);
+        registerTab(page, tabs[0]);
+      }).toPass({ timeout: 5_000 });
       await use(page);
     },
     { scope: "test", timeout: 20_000 },

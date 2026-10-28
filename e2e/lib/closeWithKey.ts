@@ -1,16 +1,13 @@
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
+import { nativeTabFor } from "./tabs";
 
 export const closeWithKey = async (
   page: Page,
   key: string,
   api: typeof browser,
 ) => {
-  const target = (await api.tabs.query({})).find(
-    (tab) => tab.url === page.url(),
-  );
-  if (target?.id === undefined)
-    throw new Error("Could not find the tab to close");
+  const target = await nativeTabFor(page, api);
   try {
     await page.keyboard.press(key);
   } catch (error) {

@@ -17,15 +17,7 @@ const setupHintchars = async (api: typeof browser) => {
   });
 };
 
-const resetSettings = async (api: typeof browser) => {
-  await new SettingRepository(api).save({});
-};
-
 test.use({ siteProfile: "hints" });
-
-test.afterEach(async ({ api }) => {
-  await resetSettings(api);
-});
 
 test("should show hints with hintchars by settings", async ({
   server,

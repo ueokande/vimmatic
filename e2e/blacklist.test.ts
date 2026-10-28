@@ -1,5 +1,6 @@
-import { gotoWithExtension } from "./lib/readiness";
+import { gotoWithExtension, waitForContentReady } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
+import { expectScrollUnchanged } from "./lib/scroll";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "scrollable" });
@@ -16,6 +17,8 @@ test("should disable add-on if the URL is in the blacklist", async ({
   });
 
   await page.goto(server.url("/a"), { waitUntil: "domcontentloaded" });
+  await waitForContentReady(page);
+  await expectScrollUnchanged(page, () => page.keyboard.press("j"));
   await expect(page.locator(READY_STATE_SELECTOR)).not.toBeAttached();
 
   await page.goto(server.url("/ab"), { waitUntil: "domcontentloaded" });
@@ -34,6 +37,7 @@ test("should disable keys in the partial blacklist", async ({
   await gotoWithExtension(page, server.url());
   await expect(page.locator(READY_STATE_SELECTOR)).toBeAttached();
 
-  await page.keyboard.type("jk");
-  expect(await page.evaluate(() => window.scrollY)).toBe(64);
+  await page.keyboard.press("j");
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(64);
+  await expectScrollUnchanged(page, () => page.keyboard.press("k"));
 });
