@@ -12,7 +12,7 @@ export class ConsoleFrameUseCase {
   ) {}
 
   unfocus() {
-    window.focus();
+    // Window.focus() would reactivate this tab after a tab-switching command.
     this.consoleFramePresenter.blur();
   }
 

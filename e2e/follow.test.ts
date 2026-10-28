@@ -1,135 +1,25 @@
-import { expect, test } from "./lib/fixture";
-import { newServer, staticContentHandler } from "./lib/servers";
+import { gotoWithExtension, waitForContentReady } from "./lib/readiness";
+import { expect, test } from "./lib/serverFixture";
 
-const server = newServer([
-  {
-    url: "/",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <a href="hello">hello</a>
-</body></html>`),
-  },
-  {
-    url: "/follow-input",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <input>
-</body></html>`),
-  },
-  {
-    url: "/area",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <img
-    width="256" height="256"  usemap="#map"
-    src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs="
-  >
-  <map name="map">
-    <area shape="rect" coords="0,0,64,64" href="/">
-    <area shape="rect" coords="64,64,64,64" href="/">
-    <area shape="rect" coords="128,128,64,64" href="/">
-  </map>
-</body></html>`),
-  },
-  {
-    /*
-     * test case: link2 is out of the viewport
-     * +-----------------+
-     * |   [link1]       |<--- window
-     * |                 |
-     * |=================|<--- viewport
-     * |   [link2]       |
-     * |                 |
-     * +-----------------+
-     */
-    url: "/test1",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <div><a href="link1">link1</a></div>
-  <div style="min-height:3000px"></div>
-  <div><a href="link2">link2</a></div>
-</body></html>`),
-  },
-  {
-    /*
-     * test case 2: link2 and link3 are out of window of the frame
-     * +-----------------+
-     * | +-----------+   |
-     * | | [link1]   |   |
-     * |=================|
-     * | | [link2]   |   |
-     * | +-----------+   |
-     * |                 |
-     * +-----------------+
-     */
-    url: "/test2",
-    handler: staticContentHandler(`<!DOCTYPE html>
-    <html lang="en"><body>
-      <iframe name="inner-frame" height="5000" src='/test2-frame'>
-    </body></html>`),
-  },
-  {
-    url: "/test2-frame",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <div><a href="link1">link1</a></div>
-  <div style="min-height:3000px"></div>
-  <div><a href="link2">link2</a></div>
-</body></html>`),
-  },
-  {
-    /* test case 3: link2 is out of window of the frame
-     * +-----------------+
-     * | +-----------+   |
-     * | | [link1]   |   |
-     * | +-----------+   |
-     * | : [link2]   :   |
-     * | + - - - - - +   |
-     * |                 |
-     * +-----------------+
-     */
-    url: "/test3",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <iframe name="inner-frame" src='/test3-frame'>
-</body></html>`),
-  },
-  {
-    url: "/test3-frame",
-    handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en"><body>
-  <div><a href="link1">link1</a></div>
-  <div style="min-height:3000px"></div>
-  <div><a href="link2">link2</a></div>
-</body></html>`),
-  },
-]);
+test.use({ siteProfile: "follow" });
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should focus an input by f", async ({ page }) => {
-  await page.goto(server.url("/follow-input"));
+test("should focus an input by f", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url("/follow-input"));
   await page.keyboard.press("f");
-  await page.locator("text=a").waitFor();
+  await expect(page.locator("[data-vimmatic-hint]")).toHaveCount(1);
   await page.keyboard.press("a");
 
   await expect
-    .poll(() => page.evaluate(() => document.activeElement.tagName))
+    .poll(() => page.evaluate(() => document.activeElement?.tagName))
     .toBe("INPUT");
 });
 
-test("should open a link by f", async ({ page, api }) => {
+test("should open a link by f", async ({ server, page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
 
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("f");
-  await page.locator("text=a").waitFor();
+  await expect(page.locator("[data-vimmatic-hint]")).toHaveCount(1);
   await page.keyboard.press("a");
 
   await expect
@@ -137,12 +27,12 @@ test("should open a link by f", async ({ page, api }) => {
     .toMatchObject([{ url: server.url("/hello") }]);
 });
 
-test("should open a link to new tab by F", async ({ page, api }) => {
+test("should open a link to new tab by F", async ({ server, page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
 
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("Shift+F");
-  await page.locator("text=a").waitFor();
+  await expect(page.locator("[data-vimmatic-hint]")).toHaveCount(1);
   await page.keyboard.press("a");
 
   await expect
@@ -150,44 +40,27 @@ test("should open a link to new tab by F", async ({ page, api }) => {
     .toMatchObject([{ url: server.url() }, { url: server.url("/hello") }]);
 });
 
-test("should show hints of links in area", async ({ page }) => {
-  await page.goto(server.url("/area"));
+test("shows hints for image map areas", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url("/area"));
   await page.keyboard.press("f");
-  await page.locator("text=a").waitFor();
-
-  const hints = await page.locator("[data-vimmatic-hint]").allInnerTexts();
-  expect(hints.length).toBe(3);
+  await expect(page.locator("[data-vimmatic-hint]")).toHaveCount(3);
 });
 
-test("should shows hints only in viewport", async ({ page }) => {
-  await page.goto(server.url("/test1"));
+test("shows hints only in the viewport", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url("/test1"));
   await page.keyboard.press("f");
-  await page.locator("text=a").waitFor();
-
-  const hints = await page.locator("[data-vimmatic-hint]").allInnerTexts();
-  expect(hints.length).toBe(1);
+  await expect(page.locator("[data-vimmatic-hint]")).toHaveCount(1);
 });
 
-test("should shows hints only in window of the frame", async ({ page }) => {
-  await page.goto(server.url("/test2"));
-  await page.keyboard.press("f");
-  await page.frame("inner-frame").locator("text=a").waitFor();
-
-  const hints = await page
-    .frame("inner-frame")
-    .locator("[data-vimmatic-hint]")
-    .allInnerTexts();
-  expect(hints.length).toBe(1);
-});
-
-test("should shows hints only in the frame", async ({ page }) => {
-  await page.goto(server.url("/test3"));
-  await page.keyboard.press("f");
-  await page.frame("inner-frame").locator("text=a").waitFor();
-
-  const hints = await page
-    .frame("inner-frame")
-    .locator("[data-vimmatic-hint]")
-    .allInnerTexts();
-  expect(hints.length).toBe(1);
-});
+for (const [path, description] of [
+  ["/test2", "the window containing a tall frame"],
+  ["/test3", "a short frame"],
+]) {
+  test(`shows hints only in ${description}`, async ({ server, page }) => {
+    await gotoWithExtension(page, server.url(path));
+    const frame = page.frameLocator("iframe[name=inner-frame]");
+    await waitForContentReady(frame);
+    await page.keyboard.press("f");
+    await expect(frame.locator("[data-vimmatic-hint]")).toHaveCount(1);
+  });
+}

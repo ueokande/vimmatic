@@ -1,7 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": { "includes": ["**", "!**/*.d.ts", "!dist", "!docs"] },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": ["**", "!**/*.d.ts", "!dist", "!docs"]
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -26,7 +32,9 @@
         "noDefaultExport": "error",
         "useImportType": {
           "level": "error",
-          "options": { "style": "separatedType" }
+          "options": {
+            "style": "separatedType"
+          }
         }
       },
       "suspicious": {
@@ -41,21 +49,51 @@
     }
   },
   "javascript": {
-    "formatter": { "quoteStyle": "double" },
-    "parser": { "unsafeParameterDecoratorsEnabled": true }
+    "formatter": {
+      "quoteStyle": "double"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
   },
   "overrides": [
     {
       "includes": ["script/**/*.mjs"],
-      "linter": { "rules": { "suspicious": { "noConsole": "off" } } }
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
     },
     {
-      "includes": ["vitest.config.ts"],
-      "linter": { "rules": { "style": { "noDefaultExport": "off" } } }
+      "includes": ["vitest.config.ts", "playwright.config.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["test/**/*.ts", "test/**/*.tsx"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noUnusedExpressions": "error"
+          }
+        }
+      }
     }
   ],
   "assist": {
     "enabled": true,
-    "actions": { "source": { "organizeImports": "on" } }
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   }
 }

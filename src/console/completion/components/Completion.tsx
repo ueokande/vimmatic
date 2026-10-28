@@ -72,7 +72,7 @@ export const Completion: React.FC<Props> = ({
    * completion.
    */
   const waiting = React.useRef(false);
-  const waitingOp = React.useRef<() => unknown>(undefined);
+  const waitingOp = React.useRef<"next" | "prev">(undefined);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
@@ -83,13 +83,19 @@ export const Completion: React.FC<Props> = ({
   };
   React.useEffect(() => {
     if (waiting.current && typeof waitingOp.current !== "undefined") {
-      waitingOp.current();
+      // The previous render's callbacks capture the old candidate count.
+      // Resolve the direction against the newly received candidates.
+      if (waitingOp.current === "next") {
+        next();
+      } else {
+        prev();
+      }
       waitingOp.current = undefined;
     } else if (!waiting.current) {
       reset();
     }
     waiting.current = false;
-  }, [completions]);
+  }, [completions, next, prev, reset]);
   const handleKeyDown = useCompletionKeyBinds({
     onEnter(e: React.KeyboardEvent<HTMLInputElement>) {
       onInputEnter(e.currentTarget.value);
@@ -102,14 +108,14 @@ export const Completion: React.FC<Props> = ({
     },
     onNext: () => {
       if (waiting.current) {
-        waitingOp.current = next;
+        waitingOp.current = "next";
       } else {
         next();
       }
     },
     onPrev: () => {
       if (waiting.current) {
-        waitingOp.current = prev;
+        waitingOp.current = "prev";
       } else {
         prev();
       }

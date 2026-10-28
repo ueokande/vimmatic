@@ -16,9 +16,9 @@ describe("KeymapRepositoryImpl", () => {
       const sequence = sut.enqueueKey(fromKeymap("c"));
 
       const keys = sequence.keys;
-      expect(keys[0].equals(fromKeymap("a"))).toBeTruthy;
-      expect(keys[1].equals(fromKeymap("b"))).toBeTruthy;
-      expect(keys[2].equals(fromKeymap("c"))).toBeTruthy;
+      expect(keys[0].equals(fromKeymap("a"))).toBeTruthy();
+      expect(keys[1].equals(fromKeymap("b"))).toBeTruthy();
+      expect(keys[2].equals(fromKeymap("c"))).toBeTruthy();
     });
   });
 
