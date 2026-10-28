@@ -21,7 +21,7 @@ test("sets a local mark and jumps to it", async ({ page }) => {
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(200);
 });
 
-test("jumps to a global mark in an existing tab", { tag: "@smoke" }, async ({
+test("jumps to a global mark in an existing tab", async ({
   page,
   context,
   api,

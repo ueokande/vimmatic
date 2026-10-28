@@ -23,7 +23,7 @@ test.afterAll(async () => {
   await server.stop();
 });
 
-test("starts searching", { tag: "@smoke" }, async ({ page }) => {
+test("starts searching", async ({ page }) => {
   await page.goto(server.url());
 
   const console = new Console(page);

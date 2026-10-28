@@ -6,9 +6,9 @@ const server = newScrollableServer();
 test.beforeAll(() => server.start());
 test.afterAll(() => server.stop());
 
-test("opens the console, selects a completion and returns focus on Escape", {
-  tag: "@smoke",
-}, async ({ page }) => {
+test("opens the console, selects a completion and returns focus on Escape", async ({
+  page,
+}) => {
   await page.goto(server.url());
   const console = new Console(page);
   await console.show();

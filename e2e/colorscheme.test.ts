@@ -6,9 +6,7 @@ const server = newScrollableServer();
 test.beforeAll(() => server.start());
 test.afterAll(() => server.stop());
 
-test("renders configured and system color schemes", { tag: "@smoke" }, async ({
-  page,
-}) => {
+test("renders configured and system color schemes", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto(server.url());
   const console = new Console(page);

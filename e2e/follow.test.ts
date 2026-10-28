@@ -137,10 +137,7 @@ test("should open a link by f", async ({ page, api }) => {
     .toMatchObject([{ url: server.url("/hello") }]);
 });
 
-test("should open a link to new tab by F", { tag: "@smoke" }, async ({
-  page,
-  api,
-}) => {
+test("should open a link to new tab by F", async ({ page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await page.goto(server.url());

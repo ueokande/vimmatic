@@ -1,17 +1,10 @@
 name: Build
 
 on:
-  push:
-    branches-ignore:
+  pull_request:
+    branches:
       - master
-  schedule:
-    - cron: '0 18 * * *'
   workflow_call:
-    inputs:
-      e2e_scope:
-        description: 'full or smoke; release callers run the full suite by default'
-        type: string
-        default: full
 
 jobs:
   build:
@@ -53,16 +46,7 @@ jobs:
     - run: pnpm exec webext-agent install --addon-ids vimmatic@i-beam.org
     - run: pnpm exec webext-agent create-addon --base-addon dist/firefox /tmp/vimmatic-mixedin
     - name: Run E2E
-      env:
-        E2E_SCOPE: ${{ inputs.e2e_scope || (github.event_name == 'schedule' && 'full' || 'smoke') }}
-      run: |
-        task_e2e_args=()
-        case "$E2E_SCOPE" in
-          smoke) task_e2e_args+=(--grep @smoke) ;;
-          full) ;;
-          *) echo "Invalid E2E scope: $E2E_SCOPE" >&2; exit 1 ;;
-        esac
-        xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- bash script/run-e2e-headed.sh "${task_e2e_args[@]}"
+      run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- bash script/run-e2e-headed.sh
     - name: Summarize E2E results
       if: always()
       run: |

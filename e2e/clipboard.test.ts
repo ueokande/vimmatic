@@ -13,16 +13,14 @@ test.afterAll(async () => {
   await server.stop();
 });
 
-test("should copy current URL by y", { tag: "@smoke" }, async ({ page }) => {
+test("should copy current URL by y", async ({ page }) => {
   await page.goto(server.url());
   await page.keyboard.press("y");
 
   await expect.poll(() => clipboard.read()).toBe(server.url());
 });
 
-test("should open an URL from clipboard by p", { tag: "@smoke" }, async ({
-  page,
-}) => {
+test("should open an URL from clipboard by p", async ({ page }) => {
   await page.goto(server.url());
   await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("p");

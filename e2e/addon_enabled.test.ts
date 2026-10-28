@@ -44,7 +44,7 @@ const expectEnabled = async (page: Page, enabled: boolean) => {
     .toBe(enabled ? 64 : 0);
 };
 
-test("toggles the add-on only in the current tab", { tag: "@smoke" }, async ({
+test("toggles the add-on only in the current tab", async ({
   page,
   context,
   api,

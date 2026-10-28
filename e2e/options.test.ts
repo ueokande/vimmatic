@@ -9,9 +9,10 @@ test.afterAll(() => server.stop());
 // Firefox extension pages are not exposed as Playwright Page targets.
 // App.test.tsx verifies editing/blur/validation/storage; this test exercises
 // the real storage event through background and already loaded content.
-test("saved settings update keymaps in an already loaded tab", {
-  tag: "@smoke",
-}, async ({ page, api }) => {
+test("saved settings update keymaps in an already loaded tab", async ({
+  page,
+  api,
+}) => {
   await page.goto(server.url());
   await new SettingRepository(api).save({
     keymaps: { zz: { type: "scroll.vertically", count: 10 } },

@@ -55,9 +55,10 @@ test("should add a bookmark by the addbookmark command", async ({
     .toMatchObject([{ url: server.url("/bookmark") }]);
 });
 
-test("should open a search result by the open command", {
-  tag: "@smoke",
-}, async ({ page, api }) => {
+test("should open a search result by the open command", async ({
+  page,
+  api,
+}) => {
   await setupSearchEngines(api);
   await page.goto(server.url("/"));
   await new Console(page).exec("open an apple");

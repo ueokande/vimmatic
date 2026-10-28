@@ -53,9 +53,9 @@ test.afterAll(async () => {
 });
 
 for (const path of ["/designmode", "/contenteditable"]) {
-  test(`types text into an iframe rich text editor (${path})`, {
-    tag: "@smoke",
-  }, async ({ page }) => {
+  test(`types text into an iframe rich text editor (${path})`, async ({
+    page,
+  }) => {
     await page.goto(server.url(path));
     const frame = page.frameLocator("iframe[name=editor]");
     await expect(frame.locator("body[data-editor-ready=true]")).toBeAttached();
@@ -119,9 +119,7 @@ for (const path of ["/designmode", "/contenteditable"]) {
   });
 }
 
-test("types text into an input in shadow DOM", { tag: "@smoke" }, async ({
-  page,
-}) => {
+test("types text into an input in shadow DOM", async ({ page }) => {
   await page.goto(server.url("/shadow"));
 
   await page.locator("#input").click();

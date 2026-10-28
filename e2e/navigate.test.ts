@@ -127,7 +127,7 @@ test("should go to home page into current tab by gH", async ({ page, api }) => {
     .toMatchObject([{ url: server.url() }, { url: "about:blank" }]);
 });
 
-test("should reload by r", { tag: "@smoke" }, async ({ page }) => {
+test("should reload by r", async ({ page }) => {
   await page.goto(server.url("/reload"));
   const before = await page.evaluate(
     () => window.performance.timing.navigationStart,
