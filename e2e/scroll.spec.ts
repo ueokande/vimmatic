@@ -1,9 +1,7 @@
 import type { Page } from "@playwright/test";
-import { expect } from "./lib/fixture";
-import { withServer } from "./lib/serverFixture";
-import { newScrollableServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() => newScrollableServer());
+test.use({ siteProfile: "scrollable" });
 const expectScrollX = (page: Page) =>
   expect.poll(() => page.evaluate(() => window.scrollX));
 const expectScrollY = (page: Page) =>

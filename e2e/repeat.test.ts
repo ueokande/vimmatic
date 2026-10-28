@@ -1,9 +1,7 @@
-import { expect } from "./lib/fixture";
 import { requiredId } from "./lib/requiredId";
-import { withServer } from "./lib/serverFixture";
-import { newScrollableServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() => newScrollableServer());
+test.use({ siteProfile: "scrollable" });
 test.beforeEach(async ({ server, page }) => {
   await page.goto(server.url());
 });

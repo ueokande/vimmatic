@@ -1,8 +1,6 @@
 import { Console } from "./lib/Console";
-import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
-import { withServer } from "./lib/serverFixture";
-import { newSingleContentServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
 const setupHintchars = async (api: typeof browser) => {
   await new SettingRepository(api).save({
@@ -22,18 +20,7 @@ const resetSettings = async (api: typeof browser) => {
   await new SettingRepository(api).save({});
 };
 
-const test = withServer(() =>
-  newSingleContentServer(`
-  <!DOCTYPE html>
-  <html lang="en"><body>
-    <a href="/">link1</a>
-    <a href="/">link2</a>
-    <a href="/">link3</a>
-    <a href="/">link4</a>
-    <a href="/">link5</a>
-  </body></html>
-`),
-);
+test.use({ siteProfile: "hints" });
 
 test.afterEach(async ({ api }) => {
   await resetSettings(api);

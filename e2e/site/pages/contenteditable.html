@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"><body style="height:10000px">
+<script>
+  const iframe = document.createElement("iframe");
+  iframe.name = "editor";
+  iframe.style.width = "400px";
+  iframe.style.height = "200px";
+  iframe.addEventListener("load", () => {
+    const doc = iframe.contentDocument;
+    doc.body.setAttribute("contenteditable", "true");
+    doc.body.dataset.editorReady = "true";
+  });
+  document.body.prepend(iframe);
+</script>
+</body></html>

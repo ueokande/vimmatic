@@ -1,53 +1,6 @@
-import { expect } from "./lib/fixture";
-import { withServer } from "./lib/serverFixture";
-import { newServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const editorPage = (setup: string) => `<!DOCTYPE html>
-<html lang="en"><body style="height:10000px">
-<script>
-  const iframe = document.createElement("iframe");
-  iframe.name = "editor";
-  iframe.style.width = "400px";
-  iframe.style.height = "200px";
-  iframe.addEventListener("load", () => {
-    const doc = iframe.contentDocument;
-    ${setup}
-    doc.body.dataset.editorReady = "true";
-  });
-  document.body.prepend(iframe);
-</script>
-</body></html>`;
-
-const test = withServer(() =>
-  newServer([
-    {
-      url: "/designmode",
-      handler: (_req, reply) =>
-        reply.type("text/html").send(editorPage(`doc.designMode = "on";`)),
-    },
-    {
-      url: "/contenteditable",
-      handler: (_req, reply) =>
-        reply
-          .type("text/html")
-          .send(
-            editorPage(`doc.body.setAttribute("contenteditable", "true");`),
-          ),
-    },
-    {
-      url: "/shadow",
-      handler: (_req, reply) =>
-        reply.type("text/html").send(`<!DOCTYPE html>
-<html lang="en"><body style="height:10000px">
-<div id="host"></div>
-<script>
-  const root = document.getElementById("host").attachShadow({ mode: "open" });
-  root.innerHTML = '<input id="input">';
-</script>
-</body></html>`),
-    },
-  ]),
-);
+test.use({ siteProfile: "editor" });
 
 for (const path of ["/designmode", "/contenteditable"]) {
   test(`types text into an iframe rich text editor (${path})`, async ({

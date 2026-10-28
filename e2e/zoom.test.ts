@@ -1,9 +1,7 @@
-import { expect } from "./lib/fixture";
 import { requiredId } from "./lib/requiredId";
-import { withServer } from "./lib/serverFixture";
-import { newNopServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() => newNopServer());
+test.use({ siteProfile: "empty" });
 
 test("should zoom-in and zoom-out", async ({ server, page, api }) => {
   await page.goto(server.url());

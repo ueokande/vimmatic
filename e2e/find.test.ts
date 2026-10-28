@@ -1,14 +1,8 @@
 import type { Page } from "@playwright/test";
 import { Console } from "./lib/Console";
-import { expect } from "./lib/fixture";
-import { withServer } from "./lib/serverFixture";
-import { newSingleContentServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() =>
-  newSingleContentServer(
-    `<!DOCTYPE html><html lang="en"><body>--hello--hello--hello--</body></html>`,
-  ),
-);
+test.use({ siteProfile: "find" });
 
 const expectSelection = (page: Page) =>
   expect.poll(() =>

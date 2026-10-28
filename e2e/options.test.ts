@@ -1,9 +1,7 @@
-import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
-import { withServer } from "./lib/serverFixture";
-import { newScrollableServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() => newScrollableServer());
+test.use({ siteProfile: "scrollable" });
 
 // Firefox extension pages are not exposed as Playwright Page targets.
 // App.test.tsx verifies editing/blur/validation/storage; this test exercises

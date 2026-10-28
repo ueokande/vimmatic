@@ -1,28 +1,8 @@
 import type { Page } from "@playwright/test";
-import { expect } from "./lib/fixture";
 import { newTab } from "./lib/newTab";
-import { withServer } from "./lib/serverFixture";
-import { newServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const SCROLLABLE = `<!DOCTYPE html>
-<html lang="en"><body tabindex="0" style="width:10000px; height:10000px"></body></html>`;
-
-const test = withServer(() =>
-  newServer([
-    {
-      url: "/",
-      handler: (_req, reply) => reply.type("text/html").send(SCROLLABLE),
-    },
-    {
-      url: "/frame",
-      handler: (_req, reply) =>
-        reply.type("text/html").send(`<!DOCTYPE html>
-<html lang="en"><body style="height:10000px">
-  <iframe name="inner-frame" src="/" style="width:400px; height:400px"></iframe>
-</body></html>`),
-    },
-  ]),
-);
+test.use({ siteProfile: "addon" });
 
 const CONSOLE_FRAME = "#vimmatic-console-frame";
 

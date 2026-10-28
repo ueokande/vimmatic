@@ -1,9 +1,7 @@
-import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
-import { withServer } from "./lib/serverFixture";
-import { newScrollableServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() => newScrollableServer());
+test.use({ siteProfile: "scrollable" });
 const READY_STATE_SELECTOR =
   "head[data-vimmatic-content-status='ready'][data-vimmatic-console-status='ready']";
 

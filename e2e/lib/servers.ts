@@ -12,7 +12,7 @@ export interface Server {
 }
 
 type HandlerFunc = (request: FastifyRequest, reply: FastifyReply) => unknown;
-type Route = {
+export type Route = {
   url: string;
   handler: HandlerFunc;
 };
@@ -23,17 +23,7 @@ const staticContentHandler = (content: string): HandlerFunc => {
   };
 };
 
-const dynamicTitleHandler = (
-  handler: (req: FastifyRequest) => string,
-): HandlerFunc => {
-  return (request, reply) => {
-    const title = handler(request);
-    const content = `<!DOCTYPE html><html lang="en"><head><title>${title}</title></head></html>`;
-    reply.type("text/html").send(content);
-  };
-};
-
-class MockServer {
+class TestServer {
   private address: string | undefined;
 
   private readonly fastify = Fastify({});
@@ -62,65 +52,7 @@ class MockServer {
   }
 }
 
-const newServer = (routes: Route[]): Server => {
-  return new MockServer(routes);
-};
+export const createTestServer = (routes: Route[]): Server =>
+  new TestServer(routes);
 
-const newNopServer = (): Server => {
-  return new MockServer([]);
-};
-
-const newSingleContentServer = (content: string): Server => {
-  const routes = [
-    {
-      url: "/*",
-      handler: staticContentHandler(content),
-    },
-  ];
-  return new MockServer(routes);
-};
-
-const newSingleTitleServer = (title: string): Server => {
-  const content = `<!DOCTYPE html><html lang="en"><head>${title}<title></title></head></html>`;
-  const routes = [
-    {
-      url: "/*",
-      handler: staticContentHandler(content),
-    },
-  ];
-  return new MockServer(routes);
-};
-
-const newScrollableServer = (): Server => {
-  const content = `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`;
-  return newSingleContentServer(content);
-};
-
-const newSingleHandlerServer = (url: string, handler: HandlerFunc): Server => {
-  const routes = [{ url, handler }];
-  return new MockServer(routes);
-};
-
-const newDynamicTitleServer = (
-  handler: (req: FastifyRequest) => string,
-): Server => {
-  const routes = [
-    {
-      url: "/*",
-      handler: dynamicTitleHandler(handler),
-    },
-  ];
-  return new MockServer(routes);
-};
-
-export {
-  MockServer,
-  newDynamicTitleServer,
-  newNopServer,
-  newScrollableServer,
-  newServer,
-  newSingleContentServer,
-  newSingleHandlerServer,
-  newSingleTitleServer,
-  staticContentHandler,
-};
+export { staticContentHandler };

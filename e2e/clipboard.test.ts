@@ -1,10 +1,8 @@
 import * as clipboard from "./lib/clipboard";
-import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
-import { withServer } from "./lib/serverFixture";
-import { newNopServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() => newNopServer());
+test.use({ siteProfile: "empty" });
 
 test("should copy current URL by y", async ({ server, page }) => {
   await page.goto(server.url());

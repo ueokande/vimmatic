@@ -1,11 +1,9 @@
 import { closeWithKey } from "./lib/closeWithKey";
-import { expect } from "./lib/fixture";
 import { requiredId } from "./lib/requiredId";
-import { withServer } from "./lib/serverFixture";
+import { expect, test } from "./lib/serverFixture";
 import type { Server } from "./lib/servers";
-import { newNopServer } from "./lib/servers";
 
-const test = withServer(() => newNopServer());
+test.use({ siteProfile: "empty" });
 let windowId: number;
 
 test.beforeEach(async ({ server, api, page }) => {

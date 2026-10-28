@@ -1,44 +1,6 @@
-import { expect } from "./lib/fixture";
-import { withServer } from "./lib/serverFixture";
-import { newServer, staticContentHandler } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const test = withServer(() =>
-  newServer([
-    {
-      url: "/pagination-a/:page",
-      handler: (req, reply) => {
-        reply.type("text/html").send(`<!DOCTYPE html>
-<html lang="en">
-  <a href="/pagination-a/${Number((req.params as { page: string }).page) - 1}">prev</a>
-  <a href="/pagination-a/${Number((req.params as { page: string }).page) + 1}">next</a>
-</html>`);
-      },
-    },
-    {
-      url: "/pagination-link/:page",
-      handler: (req, reply) => {
-        reply.type("text/html").send(`<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="prev" href="/pagination-link/${
-      Number((req.params as { page: string }).page) - 1
-    }"></link>
-    <link rel="next" href="/pagination-link/${
-      Number((req.params as { page: string }).page) + 1
-    }"></link>
-  </head>
-</html>`);
-      },
-    },
-    {
-      url: "/reload",
-      handler: staticContentHandler(`<!DOCTYPE html>
-<html lang="en">
-  <body style="width:1000px; height:1000px"></body>
-</html>`),
-    },
-  ]),
-);
+test.use({ siteProfile: "navigation" });
 
 test("should go to parent path without hash by gu", async ({
   server,
