@@ -1,12 +1,14 @@
 import { Console } from "./lib/Console";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
+import { withServer } from "./lib/serverFixture";
 import { newScrollableServer } from "./lib/servers";
 
-const server = newScrollableServer();
-test.beforeAll(() => server.start());
-test.afterAll(() => server.stop());
+const test = withServer(() => newScrollableServer());
 
-test("renders configured and system color schemes", async ({ page }) => {
+test("renders configured and system color schemes", async ({
+  server,
+  page,
+}) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto(server.url());
   const console = new Console(page);

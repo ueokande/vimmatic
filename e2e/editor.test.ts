@@ -1,4 +1,5 @@
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
+import { withServer } from "./lib/serverFixture";
 import { newServer } from "./lib/servers";
 
 const editorPage = (setup: string) => `<!DOCTYPE html>
@@ -17,23 +18,26 @@ const editorPage = (setup: string) => `<!DOCTYPE html>
 </script>
 </body></html>`;
 
-const server = newServer([
-  {
-    url: "/designmode",
-    handler: (_req, reply) =>
-      reply.type("text/html").send(editorPage(`doc.designMode = "on";`)),
-  },
-  {
-    url: "/contenteditable",
-    handler: (_req, reply) =>
-      reply
-        .type("text/html")
-        .send(editorPage(`doc.body.setAttribute("contenteditable", "true");`)),
-  },
-  {
-    url: "/shadow",
-    handler: (_req, reply) =>
-      reply.type("text/html").send(`<!DOCTYPE html>
+const test = withServer(() =>
+  newServer([
+    {
+      url: "/designmode",
+      handler: (_req, reply) =>
+        reply.type("text/html").send(editorPage(`doc.designMode = "on";`)),
+    },
+    {
+      url: "/contenteditable",
+      handler: (_req, reply) =>
+        reply
+          .type("text/html")
+          .send(
+            editorPage(`doc.body.setAttribute("contenteditable", "true");`),
+          ),
+    },
+    {
+      url: "/shadow",
+      handler: (_req, reply) =>
+        reply.type("text/html").send(`<!DOCTYPE html>
 <html lang="en"><body style="height:10000px">
 <div id="host"></div>
 <script>
@@ -41,19 +45,13 @@ const server = newServer([
   root.innerHTML = '<input id="input">';
 </script>
 </body></html>`),
-  },
-]);
-
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
+    },
+  ]),
+);
 
 for (const path of ["/designmode", "/contenteditable"]) {
   test(`types text into an iframe rich text editor (${path})`, async ({
+    server,
     page,
   }) => {
     await page.goto(server.url(path));
@@ -119,7 +117,7 @@ for (const path of ["/designmode", "/contenteditable"]) {
   });
 }
 
-test("types text into an input in shadow DOM", async ({ page }) => {
+test("types text into an input in shadow DOM", async ({ server, page }) => {
   await page.goto(server.url("/shadow"));
 
   await page.locator("#input").click();

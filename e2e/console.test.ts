@@ -1,12 +1,12 @@
 import { Console } from "./lib/Console";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
+import { withServer } from "./lib/serverFixture";
 import { newScrollableServer } from "./lib/servers";
 
-const server = newScrollableServer();
-test.beforeAll(() => server.start());
-test.afterAll(() => server.stop());
+const test = withServer(() => newScrollableServer());
 
 test("opens the console, selects a completion and returns focus on Escape", async ({
+  server,
   page,
 }) => {
   await page.goto(server.url());

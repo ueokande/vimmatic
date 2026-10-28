@@ -1,18 +1,11 @@
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { requiredId } from "./lib/requiredId";
+import { withServer } from "./lib/serverFixture";
 import { newNopServer } from "./lib/servers";
 
-const server = newNopServer();
+const test = withServer(() => newNopServer());
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should zoom-in and zoom-out", async ({ page, api }) => {
+test("should zoom-in and zoom-out", async ({ server, page, api }) => {
   await page.goto(server.url());
 
   const [tab] = await api.tabs.query({ active: true, currentWindow: true });

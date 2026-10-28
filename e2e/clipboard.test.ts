@@ -1,26 +1,19 @@
 import * as clipboard from "./lib/clipboard";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
+import { withServer } from "./lib/serverFixture";
 import { newNopServer } from "./lib/servers";
 
-const server = newNopServer();
+const test = withServer(() => newNopServer());
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should copy current URL by y", async ({ page }) => {
+test("should copy current URL by y", async ({ server, page }) => {
   await page.goto(server.url());
   await page.keyboard.press("y");
 
   await expect.poll(() => clipboard.read()).toBe(server.url());
 });
 
-test("should open an URL from clipboard by p", async ({ page }) => {
+test("should open an URL from clipboard by p", async ({ server, page }) => {
   await page.goto(server.url());
   await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("p");
@@ -29,6 +22,7 @@ test("should open an URL from clipboard by p", async ({ page }) => {
 });
 
 test("should open an URL from clipboard to new tab by P", async ({
+  server,
   page,
   api,
 }) => {
@@ -47,6 +41,7 @@ test("should open an URL from clipboard to new tab by P", async ({
 });
 
 test("should open search result with keywords in clipboard by p", async ({
+  server,
   page,
   api,
 }) => {
@@ -67,6 +62,7 @@ test("should open search result with keywords in clipboard by p", async ({
 });
 
 test("should open search result with keywords in clipboard to new tab by P", async ({
+  server,
   page,
   api,
 }) => {

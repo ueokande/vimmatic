@@ -1,21 +1,23 @@
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
+import { withServer } from "./lib/serverFixture";
 import { newServer, staticContentHandler } from "./lib/servers";
 
-const server = newServer([
-  {
-    url: "/pagination-a/:page",
-    handler: (req, reply) => {
-      reply.type("text/html").send(`<!DOCTYPE html>
+const test = withServer(() =>
+  newServer([
+    {
+      url: "/pagination-a/:page",
+      handler: (req, reply) => {
+        reply.type("text/html").send(`<!DOCTYPE html>
 <html lang="en">
   <a href="/pagination-a/${Number((req.params as { page: string }).page) - 1}">prev</a>
   <a href="/pagination-a/${Number((req.params as { page: string }).page) + 1}">next</a>
 </html>`);
+      },
     },
-  },
-  {
-    url: "/pagination-link/:page",
-    handler: (req, reply) => {
-      reply.type("text/html").send(`<!DOCTYPE html>
+    {
+      url: "/pagination-link/:page",
+      handler: (req, reply) => {
+        reply.type("text/html").send(`<!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="prev" href="/pagination-link/${
@@ -26,40 +28,36 @@ const server = newServer([
     }"></link>
   </head>
 </html>`);
+      },
     },
-  },
-  {
-    url: "/reload",
-    handler: staticContentHandler(`<!DOCTYPE html>
+    {
+      url: "/reload",
+      handler: staticContentHandler(`<!DOCTYPE html>
 <html lang="en">
   <body style="width:1000px; height:1000px"></body>
 </html>`),
-  },
-]);
+    },
+  ]),
+);
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should go to parent path without hash by gu", async ({ page }) => {
+test("should go to parent path without hash by gu", async ({
+  server,
+  page,
+}) => {
   await page.goto(server.url("/a/b/c"));
   await page.keyboard.type("gu");
 
   await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/");
 });
 
-test("should remove hash by gu", async ({ page }) => {
+test("should remove hash by gu", async ({ server, page }) => {
   await page.goto(`${server.url("/a/b/c")}#hash`);
   await page.keyboard.type("gu");
 
   await expect.poll(() => new URL(page.url()).pathname).toBe("/a/b/c");
 });
 
-test("should go to root path by gU", async ({ page }) => {
+test("should go to root path by gU", async ({ server, page }) => {
   await page.goto(server.url("/a/b/c#hash"));
   await page.keyboard.press("g");
   await page.keyboard.press("Shift+U");
@@ -67,7 +65,10 @@ test("should go to root path by gU", async ({ page }) => {
   await expect.poll(() => new URL(page.url()).pathname).toBe("/");
 });
 
-test("should go back and forward in history by H and L", async ({ page }) => {
+test("should go back and forward in history by H and L", async ({
+  server,
+  page,
+}) => {
   await page.goto(server.url("/first"));
   await page.goto(server.url("/second"));
 
@@ -78,7 +79,10 @@ test("should go back and forward in history by H and L", async ({ page }) => {
   await expect.poll(() => new URL(page.url()).pathname).toBe("/second");
 });
 
-test("should transit next/prev page in <a> by [[/]]", async ({ page }) => {
+test("should transit next/prev page in <a> by [[/]]", async ({
+  server,
+  page,
+}) => {
   await page.goto(server.url("/pagination-a/10"));
 
   await page.keyboard.type("[[");
@@ -90,7 +94,10 @@ test("should transit next/prev page in <a> by [[/]]", async ({ page }) => {
     .toBe("/pagination-a/10");
 });
 
-test("should transit next/prev page in <link> by [[/]]", async ({ page }) => {
+test("should transit next/prev page in <link> by [[/]]", async ({
+  server,
+  page,
+}) => {
   await page.goto(server.url("/pagination-link/10"));
 
   await page.keyboard.type("[[");
@@ -104,7 +111,11 @@ test("should transit next/prev page in <link> by [[/]]", async ({ page }) => {
     .toBe("/pagination-link/10");
 });
 
-test("should go to home page into current tab by gh", async ({ page, api }) => {
+test("should go to home page into current tab by gh", async ({
+  server,
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await page.goto(server.url("/initial"));
@@ -115,7 +126,11 @@ test("should go to home page into current tab by gh", async ({ page, api }) => {
     .toMatchObject([{ url: "about:blank" }]);
 });
 
-test("should go to home page into current tab by gH", async ({ page, api }) => {
+test("should go to home page into current tab by gH", async ({
+  server,
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await page.goto(server.url());
@@ -127,7 +142,7 @@ test("should go to home page into current tab by gH", async ({ page, api }) => {
     .toMatchObject([{ url: server.url() }, { url: "about:blank" }]);
 });
 
-test("should reload by r", async ({ page }) => {
+test("should reload by r", async ({ server, page }) => {
   await page.goto(server.url("/reload"));
   const before = await page.evaluate(
     () => window.performance.timing.navigationStart,
@@ -141,7 +156,7 @@ test("should reload by r", async ({ page }) => {
     .toBeGreaterThan(before);
 });
 
-test("should hard reload by R", async ({ page }) => {
+test("should hard reload by R", async ({ server, page }) => {
   await page.goto(server.url("/reload"));
   await page.evaluate(() => window.scrollBy(0, 100));
 

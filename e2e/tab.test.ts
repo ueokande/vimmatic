@@ -1,26 +1,20 @@
 import { closeWithKey } from "./lib/closeWithKey";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { requiredId } from "./lib/requiredId";
+import { withServer } from "./lib/serverFixture";
+import type { Server } from "./lib/servers";
 import { newNopServer } from "./lib/servers";
 
-const server = newNopServer();
+const test = withServer(() => newNopServer());
 let windowId: number;
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test.beforeEach(async ({ api, page }) => {
+test.beforeEach(async ({ server, api, page }) => {
   windowId = requiredId((await api.windows.getCurrent()).id);
-  await setupTabs(api);
+  await setupTabs(api, server);
   await page.goto(server.url("2"));
 });
 
-const setupTabs = async (api: typeof browser) => {
+const setupTabs = async (api: typeof browser, server: Pick<Server, "url">) => {
   for (const i of [0, 1, 3, 4]) {
     await api.tabs.create({
       windowId,
@@ -31,7 +25,7 @@ const setupTabs = async (api: typeof browser) => {
   }
 };
 
-test("select tab", async ({ page, api }) => {
+test("select tab", async ({ server, page, api }) => {
   await expect
     .poll(() => api.tabs.query({ windowId, active: true }))
     .toMatchObject([{ url: server.url("2") }]);
@@ -66,7 +60,7 @@ test("select tab", async ({ page, api }) => {
     .toMatchObject([{ url: server.url("0"), active: true }]);
 });
 
-test("deletes tab and selects right by d", async ({ page, api }) => {
+test("deletes tab and selects right by d", async ({ server, page, api }) => {
   await closeWithKey(page, "d", api);
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -78,7 +72,7 @@ test("deletes tab and selects right by d", async ({ page, api }) => {
     ]);
 });
 
-test("deletes tab and selects left by D", async ({ page, api }) => {
+test("deletes tab and selects left by D", async ({ server, page, api }) => {
   await closeWithKey(page, "Shift+D", api);
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -90,7 +84,7 @@ test("deletes tab and selects left by D", async ({ page, api }) => {
     ]);
 });
 
-test("deletes all tabs to the right by x$", async ({ page, api }) => {
+test("deletes all tabs to the right by x$", async ({ server, page, api }) => {
   await page.keyboard.press("x");
   await page.keyboard.press("$");
   await expect
@@ -102,7 +96,7 @@ test("deletes all tabs to the right by x$", async ({ page, api }) => {
     ]);
 });
 
-test("duplicate and make pinned", async ({ page, api }) => {
+test("duplicate and make pinned", async ({ server, page, api }) => {
   await page.keyboard.type("zd");
   await expect
     .poll(() => api.tabs.query({ windowId }))
@@ -121,7 +115,7 @@ test("duplicate and make pinned", async ({ page, api }) => {
     .toMatchObject([{ url: server.url("2") }]);
 });
 
-test("reopen tab by u", async ({ page, api }) => {
+test("reopen tab by u", async ({ server, page, api }) => {
   const tabs = await api.tabs.query({ windowId });
   await api.tabs.remove(requiredId(tabs[4].id));
 
@@ -146,7 +140,7 @@ test("reopen tab by u", async ({ page, api }) => {
     ]);
 });
 
-test("delete a pinned tab", async ({ page, api }) => {
+test("delete a pinned tab", async ({ server, page, api }) => {
   const tabs = await api.tabs.query({ windowId });
   await api.tabs.update(requiredId(tabs[2].id), { pinned: true });
 
@@ -173,7 +167,7 @@ test("delete a pinned tab", async ({ page, api }) => {
     ]);
 });
 
-test("opens view-source by gf", async ({ page, api }) => {
+test("opens view-source by gf", async ({ server, page, api }) => {
   await page.keyboard.type("gf");
   await expect
     .poll(() => api.tabs.query({ windowId, active: true }))

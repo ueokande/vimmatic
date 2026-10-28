@@ -1,13 +1,12 @@
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { newTab } from "./lib/newTab";
 import { requiredId } from "./lib/requiredId";
+import { withServer } from "./lib/serverFixture";
 import { newScrollableServer } from "./lib/servers";
 
-const server = newScrollableServer();
-test.beforeAll(() => server.start());
-test.afterAll(() => server.stop());
+const test = withServer(() => newScrollableServer());
 
-test("sets a local mark and jumps to it", async ({ page }) => {
+test("sets a local mark and jumps to it", async ({ server, page }) => {
   await page.goto(server.url());
   await page.evaluate(() => window.scrollTo(0, 200));
   await page.keyboard.type("ma");
@@ -22,6 +21,7 @@ test("sets a local mark and jumps to it", async ({ page }) => {
 });
 
 test("jumps to a global mark in an existing tab", async ({
+  server,
   page,
   context,
   api,
@@ -47,6 +47,7 @@ test("jumps to a global mark in an existing tab", async ({
 });
 
 test("recreates a closed tab for a global mark", async ({
+  server,
   page,
   context,
   api,

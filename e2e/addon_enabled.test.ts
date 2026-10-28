@@ -1,35 +1,30 @@
 import type { Page } from "@playwright/test";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { newTab } from "./lib/newTab";
+import { withServer } from "./lib/serverFixture";
 import { newServer } from "./lib/servers";
 
 const SCROLLABLE = `<!DOCTYPE html>
 <html lang="en"><body tabindex="0" style="width:10000px; height:10000px"></body></html>`;
 
-const server = newServer([
-  {
-    url: "/",
-    handler: (_req, reply) => reply.type("text/html").send(SCROLLABLE),
-  },
-  {
-    url: "/frame",
-    handler: (_req, reply) =>
-      reply.type("text/html").send(`<!DOCTYPE html>
+const test = withServer(() =>
+  newServer([
+    {
+      url: "/",
+      handler: (_req, reply) => reply.type("text/html").send(SCROLLABLE),
+    },
+    {
+      url: "/frame",
+      handler: (_req, reply) =>
+        reply.type("text/html").send(`<!DOCTYPE html>
 <html lang="en"><body style="height:10000px">
   <iframe name="inner-frame" src="/" style="width:400px; height:400px"></iframe>
 </body></html>`),
-  },
-]);
+    },
+  ]),
+);
 
 const CONSOLE_FRAME = "#vimmatic-console-frame";
-
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
 
 const expectEnabled = async (page: Page, enabled: boolean) => {
   if (enabled) {
@@ -45,6 +40,7 @@ const expectEnabled = async (page: Page, enabled: boolean) => {
 };
 
 test("toggles the add-on only in the current tab", async ({
+  server,
   page,
   context,
   api,
@@ -63,7 +59,7 @@ test("toggles the add-on only in the current tab", async ({
   await expectEnabled(page, true);
 });
 
-test("keeps the state after reload", async ({ page }) => {
+test("keeps the state after reload", async ({ server, page }) => {
   await page.goto(server.url("/"));
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);
@@ -76,6 +72,7 @@ test("keeps the state after reload", async ({ page }) => {
 });
 
 test("applies the state to frames and toggles from a frame", async ({
+  server,
   page,
 }) => {
   await page.goto(server.url("/frame"));
@@ -100,7 +97,10 @@ test("applies the state to frames and toggles from a frame", async ({
   await expect.poll(innerScrollY).toBe(64);
 });
 
-test("applies the disabled state to a frame loaded later", async ({ page }) => {
+test("applies the disabled state to a frame loaded later", async ({
+  server,
+  page,
+}) => {
   await page.goto(server.url("/"));
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);

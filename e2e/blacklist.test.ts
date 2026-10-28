@@ -1,20 +1,14 @@
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
+import { withServer } from "./lib/serverFixture";
 import { newScrollableServer } from "./lib/servers";
 
-const server = newScrollableServer();
+const test = withServer(() => newScrollableServer());
 const READY_STATE_SELECTOR =
   "head[data-vimmatic-content-status='ready'][data-vimmatic-console-status='ready']";
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
 test("should disable add-on if the URL is in the blacklist", async ({
+  server,
   page,
   api,
 }) => {
@@ -29,7 +23,11 @@ test("should disable add-on if the URL is in the blacklist", async ({
   await expect(page.locator(READY_STATE_SELECTOR)).toBeAttached();
 });
 
-test("should disable keys in the partial blacklist", async ({ page, api }) => {
+test("should disable keys in the partial blacklist", async ({
+  server,
+  page,
+  api,
+}) => {
   await new SettingRepository(api).save({
     blacklist: [{ url: new URL(server.url()).host, keys: ["k"] }],
   });

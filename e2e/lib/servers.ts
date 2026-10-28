@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import Fastify from "fastify";
 
-interface Server {
+export interface Server {
   start(): Promise<void>;
 
   stop(): Promise<void>;

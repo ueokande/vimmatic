@@ -1,10 +1,13 @@
 import type { Page } from "@playwright/test";
 import { Console } from "./lib/Console";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
+import { withServer } from "./lib/serverFixture";
 import { newSingleContentServer } from "./lib/servers";
 
-const server = newSingleContentServer(
-  `<!DOCTYPE html><html lang="en"><body>--hello--hello--hello--</body></html>`,
+const test = withServer(() =>
+  newSingleContentServer(
+    `<!DOCTYPE html><html lang="en"><body>--hello--hello--hello--</body></html>`,
+  ),
 );
 
 const expectSelection = (page: Page) =>
@@ -15,15 +18,7 @@ const expectSelection = (page: Page) =>
     }),
   );
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("starts searching", async ({ page }) => {
+test("starts searching", async ({ server, page }) => {
   await page.goto(server.url());
 
   const console = new Console(page);
@@ -47,7 +42,7 @@ test("starts searching", async ({ page }) => {
   await expectSelection(page).toEqual({ from: 16, to: 21 });
 });
 
-test("starts regexp searching", async ({ page }) => {
+test("starts regexp searching", async ({ server, page }) => {
   await page.goto(server.url());
 
   await new Console(page).exec("set findmode=regexp");

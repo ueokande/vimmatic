@@ -1,16 +1,18 @@
 import { Console } from "./lib/Console";
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { SettingRepository } from "./lib/SettingRepository";
+import { withServer } from "./lib/serverFixture";
+import type { Server } from "./lib/servers";
 import { newNopServer } from "./lib/servers";
 
-const server = newNopServer();
+const test = withServer(() => newNopServer());
 
 // /site1
 // /site2
 // /current
 // /site3
 // /site4
-const setupTabs = async (api: typeof browser) => {
+const setupTabs = async (api: typeof browser, server: Pick<Server, "url">) => {
   const { id: windowId } = await api.windows.getCurrent();
   const tabs = [];
   for (let i = 1; i <= 4; i++) {
@@ -23,15 +25,10 @@ const setupTabs = async (api: typeof browser) => {
   return tabs;
 };
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-const setupSearchEngines = async (api: typeof browser) => {
+const setupSearchEngines = async (
+  api: typeof browser,
+  server: Pick<Server, "url">,
+) => {
   await new SettingRepository(api).save({
     search: {
       default: "google",
@@ -44,6 +41,7 @@ const setupSearchEngines = async (api: typeof browser) => {
 };
 
 test("should add a bookmark by the addbookmark command", async ({
+  server,
   api,
   page,
 }) => {
@@ -56,10 +54,11 @@ test("should add a bookmark by the addbookmark command", async ({
 });
 
 test("should open a search result by the open command", async ({
+  server,
   page,
   api,
 }) => {
-  await setupSearchEngines(api);
+  await setupSearchEngines(api, server);
   await page.goto(server.url("/"));
   await new Console(page).exec("open an apple");
 
@@ -68,9 +67,13 @@ test("should open a search result by the open command", async ({
     .toBe(`${server.url("/google")}?q=an%20apple`);
 });
 
-test("should select a tab by the buffer command", async ({ page, api }) => {
+test("should select a tab by the buffer command", async ({
+  server,
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
-  await setupTabs(api);
+  await setupTabs(api, server);
   await page.goto(server.url("/current"));
 
   await new Console(page).exec("buffer site1");
@@ -86,9 +89,13 @@ test("should select a tab by the buffer command", async ({ page, api }) => {
     ]);
 });
 
-test("should close a tab by the bdelete command", async ({ page, api }) => {
+test("should close a tab by the bdelete command", async ({
+  server,
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
-  await setupTabs(api);
+  await setupTabs(api, server);
   await page.goto(server.url("/current"));
 
   await new Console(page).exec("bdelete site3");
@@ -102,9 +109,13 @@ test("should close a tab by the bdelete command", async ({ page, api }) => {
     ]);
 });
 
-test("should close tabs by the bdeletes command", async ({ page, api }) => {
+test("should close tabs by the bdeletes command", async ({
+  server,
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
-  await setupTabs(api);
+  await setupTabs(api, server);
   await page.goto(server.url("/current"));
 
   await new Console(page).exec("bdeletes site");

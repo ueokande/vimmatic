@@ -1,11 +1,10 @@
-import { expect, test } from "./lib/fixture";
+import { expect } from "./lib/fixture";
 import { requiredId } from "./lib/requiredId";
+import { withServer } from "./lib/serverFixture";
 import { newScrollableServer } from "./lib/servers";
 
-const server = newScrollableServer();
-test.beforeAll(() => server.start());
-test.afterAll(() => server.stop());
-test.beforeEach(async ({ page }) => {
+const test = withServer(() => newScrollableServer());
+test.beforeEach(async ({ server, page }) => {
   await page.goto(server.url());
 });
 
