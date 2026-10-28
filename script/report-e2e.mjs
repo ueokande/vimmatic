@@ -16,15 +16,15 @@ const countInterrupted = (suites) =>
   );
 const interrupted = countInterrupted(report.suites);
 const skippedOrUnrun = Math.max(0, skipped - interrupted);
-console.log("### E2E実行結果\n");
+console.log("### E2E results\n");
 console.log(
-  "| 成功 | 失敗 | リトライで成功 | skip/未実行 | 中断 | 実行時間 |\n| ---: | ---: | ---: | ---: | ---: | ---: |",
+  "| Expected | Failed | Passed on retry | Skipped / not run | Interrupted | Duration |\n| ---: | ---: | ---: | ---: | ---: | ---: |",
 );
 console.log(
-  `| ${expected} | ${unexpected} | ${flaky} | ${skippedOrUnrun} | ${interrupted} | ${(duration / 1000).toFixed(1)}秒 |`,
+  `| ${expected} | ${unexpected} | ${flaky} | ${skippedOrUnrun} | ${interrupted} | ${(duration / 1000).toFixed(1)}s |`,
 );
 if (report.errors?.length) {
-  console.log(`\n収集・実行基盤のエラー: ${report.errors.length}件`);
+  console.log(`\nCollection or runner errors: ${report.errors.length}`);
 }
 const tests = [];
 const walk = (suite) => {
@@ -73,7 +73,7 @@ for (const test of tests) {
   files.set(test.file, row);
 }
 console.log(
-  "\n| ファイル | 期待どおり | 失敗 | flaky | skip | 未実行 | 中断 | 準備timeout |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+  "\n| File | Expected | Failed | Flaky | Skipped | Not run | Interrupted | Setup timeouts |\n| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
 );
 for (const [file, row] of files) {
   console.log(
@@ -81,10 +81,12 @@ for (const [file, row] of files) {
   );
 }
 console.log(
-  "\n「期待どおり」には期待された失敗も含まれます。先頭のskip集計には未実行も含まれるため、ファイル別に区別しています。",
+  "\nThe Expected count includes expected failures. The summary combines skipped and unrun tests; the per-file table lists them separately.",
 );
-console.log("\nテスト本体の実行時間上位（リトライを含む）:\n");
-console.log("| テスト | 秒 | 試行 | 結果 |\n| --- | ---: | ---: | --- |");
+console.log("\nSlowest test bodies (including retries):\n");
+console.log(
+  "| Test | Seconds | Attempts | Result |\n| --- | ---: | ---: | --- |",
+);
 for (const test of tests.sort((a, b) => b.duration - a.duration).slice(0, 5)) {
   console.log(
     `| ${test.title} | ${(test.duration / 1000).toFixed(1)} | ${test.attempts} | ${test.status} |`,
@@ -92,5 +94,5 @@ for (const test of tests.sort((a, b) => b.duration - a.duration).slice(0, 5)) {
 }
 
 console.log(
-  "\n総時間にはブラウザ等の準備も含みます。専用fixtureに割り当てた準備時間は、個別テストの秒数から除外されます。",
+  "\nTotal duration includes browser startup and other setup. Setup time assigned to fixtures with their own timeouts is excluded from individual test durations.",
 );

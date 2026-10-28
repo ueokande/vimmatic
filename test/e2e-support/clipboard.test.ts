@@ -27,8 +27,8 @@ describe("clipboard subprocess failures", () => {
   it("writes text to stdin and waits for successful exit", async () => {
     const child = process();
     spawn.mockReturnValue(child);
-    const result = write("日本語");
-    expect(child.stdin.read().toString()).toBe("日本語");
+    const result = write("Unicode text 🦊");
+    expect(child.stdin.read().toString()).toBe("Unicode text 🦊");
     child.emit("close", 0);
     await expect(result).resolves.toBeUndefined();
   });
