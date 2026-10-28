@@ -1,5 +1,6 @@
 import type { Page } from "@playwright/test";
 import { newTab } from "./lib/newTab";
+import { gotoWithExtension } from "./lib/readiness";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "addon" });
@@ -25,7 +26,7 @@ test("toggles the add-on only in the current tab", async ({
   context,
   api,
 }) => {
-  await page.goto(server.url("/"));
+  await gotoWithExtension(page, server.url("/"));
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);
 
@@ -40,7 +41,7 @@ test("toggles the add-on only in the current tab", async ({
 });
 
 test("keeps the state after reload", async ({ server, page }) => {
-  await page.goto(server.url("/"));
+  await gotoWithExtension(page, server.url("/"));
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);
 
@@ -55,7 +56,7 @@ test("applies the state to frames and toggles from a frame", async ({
   server,
   page,
 }) => {
-  await page.goto(server.url("/frame"));
+  await gotoWithExtension(page, server.url("/frame"));
   const frame = page.frameLocator("iframe[name='inner-frame']");
   const innerFrame = page.frame("inner-frame")!;
   const innerScrollY = () => innerFrame.evaluate(() => window.scrollY);
@@ -81,7 +82,7 @@ test("applies the disabled state to a frame loaded later", async ({
   server,
   page,
 }) => {
-  await page.goto(server.url("/"));
+  await gotoWithExtension(page, server.url("/"));
   await page.keyboard.press("Shift+Escape");
   await expectEnabled(page, false);
 

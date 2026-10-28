@@ -1,3 +1,4 @@
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
 import { expect, test } from "./lib/serverFixture";
 
@@ -30,7 +31,7 @@ test("should disable keys in the partial blacklist", async ({
     blacklist: [{ url: new URL(server.url()).host, keys: ["k"] }],
   });
 
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await expect(page.locator(READY_STATE_SELECTOR)).toBeAttached();
 
   await page.keyboard.type("jk");

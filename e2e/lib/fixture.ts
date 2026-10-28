@@ -4,7 +4,6 @@ import path from "node:path";
 import { test as base, expect } from "@playwright/test";
 import { withExtension } from "playwright-webextext";
 import { connect } from "webext-agent";
-import { preparePage } from "./readiness";
 
 type Browser = typeof browser;
 
@@ -12,7 +11,9 @@ type Fixture = {
   api: Browser;
 };
 
-const addonPath = "/tmp/vimmatic-mixedin";
+const addonPath =
+  process.env.VIMMATIC_E2E_ADDON_PATH ??
+  path.join(os.tmpdir(), "vimmatic-mixedin");
 
 export const test = base.extend<Fixture>({
   api: [
@@ -42,24 +43,19 @@ export const test = base.extend<Fixture>({
       const userDataDir = await fs.mkdtemp(
         path.join(os.tmpdir(), `playwright_${browserName}dev_profile-`),
       );
-      const browserType = withExtension(playwright[browserName], addonPath);
-      const newContext = await browserType.launchPersistentContext(
-        userDataDir,
-        {
-          headless,
-        },
-      );
-
-      newContext.pages().forEach(preparePage);
-      newContext.on("page", preparePage);
       try {
-        await use(newContext);
-      } finally {
+        const browserType = withExtension(playwright[browserName], addonPath);
+        const newContext = await browserType.launchPersistentContext(
+          userDataDir,
+          { headless },
+        );
         try {
-          await newContext.close();
+          await use(newContext);
         } finally {
-          await fs.rm(userDataDir, { recursive: true, force: true });
+          await newContext.close();
         }
+      } finally {
+        await fs.rm(userDataDir, { recursive: true, force: true });
       }
     },
     // Browser installation/startup has its own budget; functional checks

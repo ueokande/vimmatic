@@ -1,10 +1,11 @@
+import { gotoWithExtension } from "./lib/readiness";
 import { requiredId } from "./lib/requiredId";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "empty" });
 
 test("should zoom-in and zoom-out", async ({ server, page, api }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   const [tab] = await api.tabs.query({ active: true, currentWindow: true });
   const tabId = requiredId(tab?.id);

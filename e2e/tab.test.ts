@@ -1,4 +1,5 @@
 import { closeWithKey } from "./lib/closeWithKey";
+import { gotoWithExtension } from "./lib/readiness";
 import { requiredId } from "./lib/requiredId";
 import { expect, test } from "./lib/serverFixture";
 import type { Server } from "./lib/servers";
@@ -9,7 +10,7 @@ let windowId: number;
 test.beforeEach(async ({ server, api, page }) => {
   windowId = requiredId((await api.windows.getCurrent()).id);
   await setupTabs(api, server);
-  await page.goto(server.url("2"));
+  await gotoWithExtension(page, server.url("2"));
 });
 
 const setupTabs = async (api: typeof browser, server: Pick<Server, "url">) => {

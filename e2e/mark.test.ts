@@ -1,12 +1,13 @@
 import { jumpToMark, setMark } from "./lib/marks";
 import { newTab } from "./lib/newTab";
+import { gotoWithExtension } from "./lib/readiness";
 import { requiredId } from "./lib/requiredId";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "scrollable" });
 
 test("sets a local mark and jumps to it", async ({ server, page, api }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.evaluate(() => window.scrollTo(0, 200));
   await setMark(page, api, "a");
   await page.evaluate(() => window.scrollTo(0, 700));
@@ -20,7 +21,7 @@ test("jumps to a global mark in an existing tab", async ({
   context,
   api,
 }) => {
-  await page.goto(server.url("/#first"));
+  await gotoWithExtension(page, server.url("/#first"));
   await page.evaluate(() => window.scrollTo(0, 200));
   await setMark(page, api, "A");
   const other = await newTab(context, api, page, server.url("/#second"));
@@ -41,7 +42,7 @@ test("recreates a closed tab for a global mark", async ({
   context,
   api,
 }) => {
-  await page.goto(server.url("/#first"));
+  await gotoWithExtension(page, server.url("/#first"));
   const [original] = await api.tabs.query({
     active: true,
     currentWindow: true,

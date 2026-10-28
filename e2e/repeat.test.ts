@@ -1,9 +1,10 @@
+import { gotoWithExtension } from "./lib/readiness";
 import { requiredId } from "./lib/requiredId";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "scrollable" });
 test.beforeEach(async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 });
 
 test("repeats last operation", async ({ page, api }) => {

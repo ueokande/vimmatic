@@ -1,4 +1,5 @@
 import { Console } from "./lib/Console";
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
 import { expect, test } from "./lib/serverFixture";
 
@@ -32,7 +33,7 @@ test("should show hints with hintchars by settings", async ({
   api,
 }) => {
   await setupHintchars(api);
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("f");
 
   await expect
@@ -49,7 +50,7 @@ test("should open link into a new tab", async ({ server, page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await setupHintchars(api);
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("Shift+F");
   await expect
     .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
@@ -73,7 +74,7 @@ test("should open link into new tab in background", async ({
   const { id: windowId } = await api.windows.getCurrent();
 
   await setupHintchars(api);
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("Control+f");
   await expect
     .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
@@ -90,7 +91,7 @@ test("should open link into new tab in background", async ({
 });
 
 test("should show hints with set hintchars", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await new Console(page).exec("set hintchars=abc");
 
   await page.keyboard.press("f");

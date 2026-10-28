@@ -1,4 +1,5 @@
 import { Console } from "./lib/Console";
+import { gotoWithExtension } from "./lib/readiness";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "scrollable" });
@@ -7,7 +8,7 @@ test("opens the console, selects a completion and returns focus on Escape", asyn
   server,
   page,
 }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   const console = new Console(page);
   await console.show();
   await page.keyboard.type("b");

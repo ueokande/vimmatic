@@ -1,4 +1,5 @@
 import { Console } from "./lib/Console";
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
 import { expect, test } from "./lib/serverFixture";
 import type { Server } from "./lib/servers";
@@ -43,7 +44,7 @@ test("should add a bookmark by the addbookmark command", async ({
   api,
   page,
 }) => {
-  await page.goto(server.url("/bookmark"));
+  await gotoWithExtension(page, server.url("/bookmark"));
   await new Console(page).exec("addbookmark my great bookmark");
 
   await expect
@@ -57,7 +58,7 @@ test("should open a search result by the open command", async ({
   api,
 }) => {
   await setupSearchEngines(api, server);
-  await page.goto(server.url("/"));
+  await gotoWithExtension(page, server.url("/"));
   await new Console(page).exec("open an apple");
 
   await expect
@@ -72,7 +73,7 @@ test("should select a tab by the buffer command", async ({
 }) => {
   const { id: windowId } = await api.windows.getCurrent();
   await setupTabs(api, server);
-  await page.goto(server.url("/current"));
+  await gotoWithExtension(page, server.url("/current"));
 
   await new Console(page).exec("buffer site1");
 
@@ -94,7 +95,7 @@ test("should close a tab by the bdelete command", async ({
 }) => {
   const { id: windowId } = await api.windows.getCurrent();
   await setupTabs(api, server);
-  await page.goto(server.url("/current"));
+  await gotoWithExtension(page, server.url("/current"));
 
   await new Console(page).exec("bdelete site3");
   await expect
@@ -114,7 +115,7 @@ test("should close tabs by the bdeletes command", async ({
 }) => {
   const { id: windowId } = await api.windows.getCurrent();
   await setupTabs(api, server);
-  await page.goto(server.url("/current"));
+  await gotoWithExtension(page, server.url("/current"));
 
   await new Console(page).exec("bdeletes site");
 

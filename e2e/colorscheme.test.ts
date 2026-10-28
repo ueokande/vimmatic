@@ -1,4 +1,5 @@
 import { Console } from "./lib/Console";
+import { gotoWithExtension } from "./lib/readiness";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "scrollable" });
@@ -8,7 +9,7 @@ test("renders configured and system color schemes", async ({
   page,
 }) => {
   await page.emulateMedia({ colorScheme: "light" });
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   const console = new Console(page);
   for (const [scheme, color] of [
     ["dark", "rgb(5, 32, 39)"],

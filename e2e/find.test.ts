@@ -1,5 +1,6 @@
 import type { Page } from "@playwright/test";
 import { Console } from "./lib/Console";
+import { gotoWithExtension } from "./lib/readiness";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "find" });
@@ -13,7 +14,7 @@ const expectSelection = (page: Page) =>
   );
 
 test("starts searching", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   const console = new Console(page);
   await page.keyboard.type("/");
@@ -37,7 +38,7 @@ test("starts searching", async ({ server, page }) => {
 });
 
 test("starts regexp searching", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await new Console(page).exec("set findmode=regexp");
   const console = new Console(page);

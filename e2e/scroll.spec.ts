@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test";
+import { gotoWithExtension } from "./lib/readiness";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "scrollable" });
@@ -8,7 +9,7 @@ const expectScrollY = (page: Page) =>
   expect.poll(() => page.evaluate(() => window.scrollY));
 
 test("scroll by j/k/h/l", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.evaluate(() => window.scrollBy(1000, 1000));
 
   await page.keyboard.press("j");
@@ -25,7 +26,7 @@ test("scroll by j/k/h/l", async ({ server, page }) => {
 });
 
 test("scrolls top/bottom by gg/G/0/$", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.evaluate(() => window.scrollBy(1000, 1000));
 
   await page.keyboard.press("g");
@@ -43,7 +44,7 @@ test("scrolls top/bottom by gg/G/0/$", async ({ server, page }) => {
 });
 
 test("scroll by pages", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   const pageHeight = await page.evaluate(
     () => window.document.documentElement.clientHeight,
   );

@@ -1,3 +1,4 @@
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
 import { expect, test } from "./lib/serverFixture";
 
@@ -11,7 +12,7 @@ test("saved settings update keymaps in an already loaded tab", async ({
   page,
   api,
 }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await new SettingRepository(api).save({
     keymaps: { zz: { type: "scroll.vertically", count: 10 } },
   });

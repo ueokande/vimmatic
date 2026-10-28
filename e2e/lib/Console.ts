@@ -1,5 +1,6 @@
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
+import { waitForExtensionReady } from "./readiness";
 
 export class Console {
   constructor(private readonly page: Page) {}
@@ -23,6 +24,7 @@ export class Console {
   }
 
   async show() {
+    await waitForExtensionReady(this.page);
     await this.page.bringToFront();
     await this.page.keyboard.type(":");
     await this.expectReady();

@@ -1,3 +1,4 @@
+import { gotoWithExtension } from "./lib/readiness";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "editor" });
@@ -7,7 +8,7 @@ for (const path of ["/designmode", "/contenteditable"]) {
     server,
     page,
   }) => {
-    await page.goto(server.url(path));
+    await gotoWithExtension(page, server.url(path));
     const frame = page.frameLocator("iframe[name=editor]");
     await expect(frame.locator("body[data-editor-ready=true]")).toBeAttached();
     if (path === "/designmode") {
@@ -71,7 +72,7 @@ for (const path of ["/designmode", "/contenteditable"]) {
 }
 
 test("types text into an input in shadow DOM", async ({ server, page }) => {
-  await page.goto(server.url("/shadow"));
+  await gotoWithExtension(page, server.url("/shadow"));
 
   await page.locator("#input").click();
   await page.keyboard.type("jkG");

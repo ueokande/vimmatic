@@ -1,18 +1,19 @@
 import * as clipboard from "./lib/clipboard";
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
 import { expect, test } from "./lib/serverFixture";
 
 test.use({ siteProfile: "empty" });
 
 test("should copy current URL by y", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("y");
 
   await expect.poll(() => clipboard.read()).toBe(server.url());
 });
 
 test("should open an URL from clipboard by p", async ({ server, page }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("p");
 
@@ -24,7 +25,7 @@ test("should open an URL from clipboard to new tab by P", async ({
   page,
   api,
 }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("Shift+P");
@@ -51,7 +52,7 @@ test("should open search result with keywords in clipboard by p", async ({
       },
     },
   });
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await clipboard.write(`an apple`);
   await page.keyboard.press("p");
@@ -72,7 +73,7 @@ test("should open search result with keywords in clipboard to new tab by P", asy
       },
     },
   });
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await clipboard.write(`an apple`);
   await page.keyboard.press("Shift+P");
