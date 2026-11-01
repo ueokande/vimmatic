@@ -1,8 +1,8 @@
 name: Build
 
 on:
-  pull_request:
-    branches:
+  push:
+    branches-ignore:
       - master
   workflow_call:
 
