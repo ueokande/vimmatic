@@ -1,23 +1,15 @@
 import type { Page } from "@playwright/test";
-import { expect, test } from "./lib/fixture";
-import { newScrollableServer } from "./lib/servers";
+import { gotoWithExtension } from "./lib/readiness";
+import { expect, test } from "./lib/serverFixture";
 
-const server = newScrollableServer();
+test.use({ siteProfile: "scrollable" });
 const expectScrollX = (page: Page) =>
   expect.poll(() => page.evaluate(() => window.scrollX));
 const expectScrollY = (page: Page) =>
   expect.poll(() => page.evaluate(() => window.scrollY));
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("scroll by j/k/h/l", async ({ page }) => {
-  await page.goto(server.url());
+test("scroll by j/k/h/l", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url());
   await page.evaluate(() => window.scrollBy(1000, 1000));
 
   await page.keyboard.press("j");
@@ -33,8 +25,8 @@ test("scroll by j/k/h/l", async ({ page }) => {
   await expectScrollX(page).toBe(1000);
 });
 
-test("scrolls top/bottom by gg/G/0/$", async ({ page }) => {
-  await page.goto(server.url());
+test("scrolls top/bottom by gg/G/0/$", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url());
   await page.evaluate(() => window.scrollBy(1000, 1000));
 
   await page.keyboard.press("g");
@@ -51,8 +43,8 @@ test("scrolls top/bottom by gg/G/0/$", async ({ page }) => {
   await expectScrollX(page).toBeGreaterThan(5000);
 });
 
-test("scroll by pages", async ({ page }) => {
-  await page.goto(server.url());
+test("scroll by pages", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url());
   const pageHeight = await page.evaluate(
     () => window.document.documentElement.clientHeight,
   );

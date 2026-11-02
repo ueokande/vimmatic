@@ -1,7 +1,16 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import Fastify from "fastify";
 
-interface Server {
+export type ServedRequest = {
+  at: number;
+  method: string;
+  url: string;
+  status: number;
+};
+
+export interface Server {
+  requests(): readonly ServedRequest[];
+
   start(): Promise<void>;
 
   stop(): Promise<void>;
@@ -12,7 +21,7 @@ interface Server {
 }
 
 type HandlerFunc = (request: FastifyRequest, reply: FastifyReply) => unknown;
-type Route = {
+export type Route = {
   url: string;
   handler: HandlerFunc;
 };
@@ -23,25 +32,30 @@ const staticContentHandler = (content: string): HandlerFunc => {
   };
 };
 
-const dynamicTitleHandler = (
-  handler: (req: FastifyRequest) => string,
-): HandlerFunc => {
-  return (request, reply) => {
-    const title = handler(request);
-    const content = `<!DOCTYPE html><html lang="en"><head><title>${title}</title></head></html>`;
-    reply.type("text/html").send(content);
-  };
-};
-
-class MockServer {
+class TestServer {
   private address: string | undefined;
+
+  private readonly recentRequests: ServedRequest[] = [];
 
   private readonly fastify = Fastify({});
 
   constructor(routes: Route[] = []) {
+    this.fastify.addHook("onResponse", async (request, reply) => {
+      this.recentRequests.push({
+        at: Date.now(),
+        method: request.method,
+        url: request.url,
+        status: reply.statusCode,
+      });
+      if (this.recentRequests.length > 100) this.recentRequests.shift();
+    });
     routes.forEach((r) => {
       this.fastify.route({ method: "GET", ...r });
     });
+  }
+
+  requests(): readonly ServedRequest[] {
+    return [...this.recentRequests];
   }
 
   async start(): Promise<void> {
@@ -58,71 +72,11 @@ class MockServer {
       throw new Error("Server not started");
     }
 
-    const url = new URL(this.address);
-    url.pathname = path;
-    return url.toString();
+    return new URL(path, this.address).toString();
   }
 }
 
-const newServer = (routes: Route[]): Server => {
-  return new MockServer(routes);
-};
+export const createTestServer = (routes: Route[]): Server =>
+  new TestServer(routes);
 
-const newNopServer = (): Server => {
-  return new MockServer([]);
-};
-
-const newSingleContentServer = (content: string): Server => {
-  const routes = [
-    {
-      url: "/*",
-      handler: staticContentHandler(content),
-    },
-  ];
-  return new MockServer(routes);
-};
-
-const newSingleTitleServer = (title: string): Server => {
-  const content = `<!DOCTYPE html><html lang="en"><head>${title}<title></title></head></html>`;
-  const routes = [
-    {
-      url: "/*",
-      handler: staticContentHandler(content),
-    },
-  ];
-  return new MockServer(routes);
-};
-
-const newScrollableServer = (): Server => {
-  const content = `<!DOCTYPE html><html lang="en"><body style="width:10000px; height:10000px"></body></html>`;
-  return newSingleContentServer(content);
-};
-
-const newSingleHandlerServer = (url: string, handler: HandlerFunc): Server => {
-  const routes = [{ url, handler }];
-  return new MockServer(routes);
-};
-
-const newDynamicTitleServer = (
-  handler: (req: FastifyRequest) => string,
-): Server => {
-  const routes = [
-    {
-      url: "/*",
-      handler: dynamicTitleHandler(handler),
-    },
-  ];
-  return new MockServer(routes);
-};
-
-export {
-  MockServer,
-  newDynamicTitleServer,
-  newNopServer,
-  newScrollableServer,
-  newServer,
-  newSingleContentServer,
-  newSingleHandlerServer,
-  newSingleTitleServer,
-  staticContentHandler,
-};
+export { staticContentHandler };

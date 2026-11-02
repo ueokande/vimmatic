@@ -13,7 +13,8 @@
     "lint:fix": "biome check --write .",
     "type-checks": "tsc --noEmit",
     "test": "vitest",
-    "test:e2e": "playwright test --browser=firefox --timeout=20000 --workers=1 --retries=3 ./e2e"
+    "test:e2e": "playwright test",
+    "type-checks:e2e": "tsc -p tsconfig.e2e.json"
   },
   "repository": {
     "type": "git",

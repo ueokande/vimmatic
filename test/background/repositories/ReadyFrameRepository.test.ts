@@ -1,13 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import type { LocalCache } from "../../../src/background/db/LocalStorage";
 import { ReadyFrameRepositoryImpl } from "../../../src/background/repositories/ReadyFrameRepository";
 import { MockLocalStorage } from "../mock/MockLocalStorage";
 
 describe("ReadyFrameRepositoryImpl", () => {
-  const sut = new ReadyFrameRepositoryImpl(new MockLocalStorage({}));
+  let sut: ReadyFrameRepositoryImpl;
+  beforeEach(() => {
+    sut = new ReadyFrameRepositoryImpl(new MockLocalStorage({}));
+  });
 
   it("get and set a keyword", async () => {
-    expect(await sut.getFrameIds(1)).toBeUndefined;
+    expect(await sut.getFrameIds(1)).toBeUndefined();
 
     await sut.addFrameId(1, 10);
     await sut.addFrameId(1, 12);
@@ -23,11 +26,11 @@ describe("ReadyFrameRepositoryImpl", () => {
     expect(await sut.getFrameIds(2)).toEqual([20]);
 
     await sut.removeFrameId(2, 20);
-    expect(await sut.getFrameIds(2)).toBeUndefined;
+    expect(await sut.getFrameIds(2)).toBeUndefined();
   });
 
-  it("flush on tom frame ID", async () => {
-    expect(await sut.getFrameIds(1)).toBeUndefined;
+  it("flushes on top frame ID", async () => {
+    expect(await sut.getFrameIds(1)).toBeUndefined();
 
     await sut.addFrameId(1, 0);
     await sut.addFrameId(1, 10);
@@ -42,10 +45,10 @@ describe("ReadyFrameRepositoryImpl", () => {
     expect(await sut.getFrameIds(1)).toEqual([0]);
 
     await sut.removeFrameId(2, 0);
-    expect(await sut.getFrameIds(2)).toBeUndefined;
+    expect(await sut.getFrameIds(2)).toBeUndefined();
 
     await sut.removeFrameId(2, 20);
-    expect(await sut.getFrameIds(2)).toBeUndefined;
+    expect(await sut.getFrameIds(2)).toBeUndefined();
   });
 
   it("clears the tab entry when the last non-top frame is removed", async () => {

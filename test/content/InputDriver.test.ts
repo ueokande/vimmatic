@@ -27,10 +27,10 @@ describe("InputDriver", () => {
     return new Promise<void>((resolve) => {
       driver.onKey((key: Key): boolean => {
         expect(key.key).toEqual("a");
-        expect(key.ctrl).toBeTruthy;
-        expect(key.shift).toBeFalsy;
-        expect(key.alt).toBeFalsy;
-        expect(key.meta).toBeFalsy;
+        expect(key.ctrl).toBeTruthy();
+        expect(key.shift).toBeFalsy();
+        expect(key.alt).toBeFalsy();
+        expect(key.meta).toBeFalsy();
         resolve();
         return true;
       });
@@ -53,8 +53,7 @@ describe("InputDriver", () => {
     driver.onKey((key: Key): boolean => {
       if (key.key === "a") {
         ++a;
-      } else {
-        key.key === "b";
+      } else if (key.key === "b") {
         ++b;
       }
       return true;
@@ -235,10 +234,10 @@ describe("#keyFromKeyboardEvent", () => {
       }),
     );
     expect(k.key).toEqual("x");
-    expect(k.shift).toBeFalsy;
-    expect(k.ctrl).toBeTruthy;
-    expect(k.alt).toBeFalsy;
-    expect(k.meta).toBeTruthy;
+    expect(k.shift).toBeFalsy();
+    expect(k.ctrl).toBeTruthy();
+    expect(k.alt).toBeFalsy();
+    expect(k.meta).toBeTruthy();
   });
 
   it("returns from keyboard input Shift+Esc", () => {
@@ -252,10 +251,10 @@ describe("#keyFromKeyboardEvent", () => {
       }),
     );
     expect(k.key).toEqual("Esc");
-    expect(k.shift).toBeTruthy;
-    expect(k.ctrl).toBeFalsy;
-    expect(k.alt).toBeFalsy;
-    expect(k.meta).toBeTruthy;
+    expect(k.shift).toBeTruthy();
+    expect(k.ctrl).toBeFalsy();
+    expect(k.alt).toBeFalsy();
+    expect(k.meta).toBeTruthy();
   });
 
   it("returns from keyboard input Ctrl+$", () => {
@@ -270,10 +269,10 @@ describe("#keyFromKeyboardEvent", () => {
       }),
     );
     expect(k.key).toEqual("$");
-    expect(k.shift).toBeFalsy;
-    expect(k.ctrl).toBeTruthy;
-    expect(k.alt).toBeFalsy;
-    expect(k.meta).toBeFalsy;
+    expect(k.shift).toBeFalsy();
+    expect(k.ctrl).toBeTruthy();
+    expect(k.alt).toBeFalsy();
+    expect(k.meta).toBeFalsy();
   });
 
   it("returns from keyboard input Crtl+Space", () => {
@@ -287,9 +286,9 @@ describe("#keyFromKeyboardEvent", () => {
       }),
     );
     expect(k.key).toEqual("Space");
-    expect(k.shift).toBeFalsy;
-    expect(k.ctrl).toBeTruthy;
-    expect(k.alt).toBeFalsy;
-    expect(k.meta).toBeFalsy;
+    expect(k.shift).toBeFalsy();
+    expect(k.ctrl).toBeTruthy();
+    expect(k.alt).toBeFalsy();
+    expect(k.meta).toBeFalsy();
   });
 });

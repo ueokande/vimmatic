@@ -18,7 +18,7 @@ describe("app reducer", () => {
       };
       const nextState = reducer(initialState, hide());
 
-      expect(nextState.mode).toBeUndefined;
+      expect(nextState.mode).toBeUndefined();
     });
   });
 

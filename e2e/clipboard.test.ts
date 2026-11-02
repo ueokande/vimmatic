@@ -1,27 +1,19 @@
 import * as clipboard from "./lib/clipboard";
-import { expect, test } from "./lib/fixture";
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
-import { newNopServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
-const server = newNopServer();
+test.use({ siteProfile: "empty" });
 
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should copy current URL by y", async ({ page }) => {
-  await page.goto(server.url());
+test("should copy current URL by y", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("y");
 
   await expect.poll(() => clipboard.read()).toBe(server.url());
 });
 
-test("should open an URL from clipboard by p", async ({ page }) => {
-  await page.goto(server.url());
+test("should open an URL from clipboard by p", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url());
   await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("p");
 
@@ -29,10 +21,11 @@ test("should open an URL from clipboard by p", async ({ page }) => {
 });
 
 test("should open an URL from clipboard to new tab by P", async ({
+  server,
   page,
   api,
 }) => {
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await clipboard.write(`${server.url()}#open_to_new_tab`);
   await page.keyboard.press("Shift+P");
@@ -47,6 +40,7 @@ test("should open an URL from clipboard to new tab by P", async ({
 });
 
 test("should open search result with keywords in clipboard by p", async ({
+  server,
   page,
   api,
 }) => {
@@ -58,7 +52,7 @@ test("should open search result with keywords in clipboard by p", async ({
       },
     },
   });
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await clipboard.write(`an apple`);
   await page.keyboard.press("p");
@@ -67,6 +61,7 @@ test("should open search result with keywords in clipboard by p", async ({
 });
 
 test("should open search result with keywords in clipboard to new tab by P", async ({
+  server,
   page,
   api,
 }) => {
@@ -78,7 +73,7 @@ test("should open search result with keywords in clipboard to new tab by P", asy
       },
     },
   });
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
 
   await clipboard.write(`an apple`);
   await page.keyboard.press("Shift+P");

@@ -11,7 +11,7 @@ describe("KeySequence", () => {
 
       expect(seq.keys[0].key).toEqual("g");
       expect(seq.keys[1].key).toEqual("U");
-      expect(seq.keys[1].shift).toBeTruthy;
+      expect(seq.keys[1].shift).toBeTruthy();
     });
   });
 
@@ -19,11 +19,11 @@ describe("KeySequence", () => {
     it("returns true if the key sequence starts with param", () => {
       const seq = new KeySequence([fromKeymap("g"), fromKeymap("<S-U>")]);
 
-      expect(seq.startsWith(new KeySequence([]))).toBeTruthy;
-      expect(seq.startsWith(new KeySequence([fromKeymap("g")]))).toBeTruthy;
+      expect(seq.startsWith(new KeySequence([]))).toBeTruthy();
+      expect(seq.startsWith(new KeySequence([fromKeymap("g")]))).toBeTruthy();
       expect(
         seq.startsWith(new KeySequence([fromKeymap("g"), fromKeymap("<S-U>")])),
-      ).toBeTruthy;
+      ).toBeTruthy();
       expect(
         seq.startsWith(
           new KeySequence([
@@ -32,15 +32,15 @@ describe("KeySequence", () => {
             fromKeymap("x"),
           ]),
         ),
-      ).toBeFalsy;
-      expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy;
+      ).toBeFalsy();
+      expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy();
     });
 
     it("returns true if the empty sequence starts with an empty sequence", () => {
       const seq = new KeySequence([]);
 
-      expect(seq.startsWith(new KeySequence([]))).toBeTruthy;
-      expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy;
+      expect(seq.startsWith(new KeySequence([]))).toBeTruthy();
+      expect(seq.startsWith(new KeySequence([fromKeymap("h")]))).toBeFalsy();
     });
   });
 
@@ -51,14 +51,14 @@ describe("KeySequence", () => {
           new Key({ key: "4" }),
           new Key({ key: "0" }),
         ]).isDigitOnly(),
-      ).toBeTruthy;
+      ).toBeTruthy();
       expect(
         new KeySequence([
           new Key({ key: "4" }),
           new Key({ key: "0" }),
           new Key({ key: "z" }),
         ]).isDigitOnly(),
-      ).toBeFalsy;
+      ).toBeFalsy();
     });
   });
 
@@ -151,19 +151,19 @@ describe("KeySequence", () => {
       const keys = KeySequence.fromMapKeys("<S-Esc>").keys;
       expect(keys).toHaveLength(1);
       expect(keys[0].key).toEqual("Esc");
-      expect(keys[0].shift).toBeTruthy;
+      expect(keys[0].shift).toBeTruthy();
     });
 
     it("returns mapped keys for a<C-B><A-C>d<M-e>", () => {
       const keys = KeySequence.fromMapKeys("a<C-B><A-C>d<M-e>").keys;
       expect(keys).toHaveLength(5);
       expect(keys[0].key).toEqual("a");
-      expect(keys[1].ctrl).toBeTruthy;
+      expect(keys[1].ctrl).toBeTruthy();
       expect(keys[1].key).toEqual("b");
-      expect(keys[2].alt).toBeTruthy;
+      expect(keys[2].alt).toBeTruthy();
       expect(keys[2].key).toEqual("c");
       expect(keys[3].key).toEqual("d");
-      expect(keys[4].meta).toBeTruthy;
+      expect(keys[4].meta).toBeTruthy();
       expect(keys[4].key).toEqual("e");
     });
   });

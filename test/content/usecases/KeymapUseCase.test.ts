@@ -51,7 +51,7 @@ describe("KeymapUseCase", () => {
           props: { count: 1 },
         },
       });
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 1,
         op: {
@@ -59,13 +59,13 @@ describe("KeymapUseCase", () => {
           props: {},
         },
       });
-      expect(sut.nextOps(fromKeymap("z"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("z"))).toBeNull();
     });
 
     it("repeats n-times by numeric prefix and multiple key operations", () => {
-      expect(sut.nextOps(fromKeymap("1"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("0"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("1"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("0"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 10,
         op: {
@@ -96,7 +96,7 @@ describe("KeymapUseCase", () => {
     });
 
     it("returns the matched operation ends with digit", () => {
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("5"))).toEqual({
         repeat: 1,
         op: {
@@ -107,7 +107,7 @@ describe("KeymapUseCase", () => {
     });
 
     it("returns an operation matched the operation with digit keymaps", () => {
-      expect(sut.nextOps(fromKeymap("2"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("2"))).toBeNull();
       expect(sut.nextOps(fromKeymap("0"))).toEqual({
         repeat: 1,
         op: {
@@ -118,8 +118,8 @@ describe("KeymapUseCase", () => {
     });
 
     it("returns operations repeated by numeric prefix", () => {
-      expect(sut.nextOps(fromKeymap("2"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("2"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("5"))).toEqual({
         repeat: 2,
         op: {
@@ -130,10 +130,10 @@ describe("KeymapUseCase", () => {
     });
 
     it("does not matches with digit operation with numeric prefix", () => {
-      expect(sut.nextOps(fromKeymap("3"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("2"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("0"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("3"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("2"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("0"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("5"))).toEqual({
         repeat: 320,
         op: {
@@ -164,9 +164,9 @@ describe("KeymapUseCase", () => {
     });
 
     it("clears input keys with no-matched operations", () => {
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("x"))).toBeNull; // clear
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("x"))).toBeNull(); // clear
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 1,
         op: {
@@ -177,13 +177,13 @@ describe("KeymapUseCase", () => {
     });
 
     it("clears input keys and the prefix with no-matched operations", () => {
-      expect(sut.nextOps(fromKeymap("1"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("0"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("x"))).toBeNull; // clear
-      expect(sut.nextOps(fromKeymap("1"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("0"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("1"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("0"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("x"))).toBeNull(); // clear
+      expect(sut.nextOps(fromKeymap("1"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("0"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 10,
         op: {
@@ -215,7 +215,7 @@ describe("KeymapUseCase", () => {
     });
 
     it("returns only ADDON_ENABLE and ADDON_TOGGLE_ENABLED operation", () => {
-      expect(sut.nextOps(fromKeymap("k"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("k"))).toBeNull();
       expect(sut.nextOps(fromKeymap("a"))).toEqual({
         repeat: 1,
         op: {
@@ -269,8 +269,8 @@ describe("KeymapUseCase", () => {
           props: { count: 1 },
         },
       });
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("G"))).toEqual({
         repeat: 1,
         op: {
@@ -286,7 +286,7 @@ describe("KeymapUseCase", () => {
         new MockAddressRepository(new URL("https://example.org")),
       );
 
-      expect(sut.nextOps(fromKeymap("g"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("g"))).toBeNull();
       expect(sut.nextOps(fromKeymap("g"))).toEqual({
         repeat: 1,
         op: {
@@ -294,7 +294,7 @@ describe("KeymapUseCase", () => {
           props: {},
         },
       });
-      expect(sut.nextOps(fromKeymap("G"))).toBeNull;
+      expect(sut.nextOps(fromKeymap("G"))).toBeNull();
     });
   });
 });

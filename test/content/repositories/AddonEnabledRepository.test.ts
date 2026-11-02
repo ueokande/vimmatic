@@ -6,9 +6,9 @@ describe("AddonEnabledRepositoryImpl", () => {
     const sut = new AddonEnabledRepositoryImpl();
 
     sut.set(true);
-    expect(sut.get()).toBeTruthy;
+    expect(sut.get()).toBeTruthy();
 
     sut.set(false);
-    expect(sut.get()).toBeFalsy;
+    expect(sut.get()).toBeFalsy();
   });
 });

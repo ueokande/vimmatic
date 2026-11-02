@@ -1,106 +1,54 @@
 import { spawn } from "node:child_process";
 
-const readLinux = (): Promise<string> => {
-  let stdout = "",
-    stderr = "";
-  return new Promise((resolve) => {
-    const xsel = spawn("xsel", ["--clipboard", "--output"]);
-    xsel.stdout.on("data", (data) => {
+const run = (
+  command: string,
+  args: string[],
+  input?: string,
+): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const child = spawn(command, args, { timeout: 5_000 });
+    let stdout = "";
+    let stderr = "";
+    child.stdout.on("data", (data) => {
       stdout += data;
     });
-    xsel.stderr.on("data", (data) => {
+    child.stderr.on("data", (data) => {
       stderr += data;
     });
-    xsel.on("close", (code) => {
+    child.on("error", reject);
+    child.stdin.on("error", reject);
+    child.on("close", (code, signal) => {
       if (code !== 0) {
-        throw new Error(`xsel returns ${code}: ${stderr}`);
+        reject(new Error(`${command} failed (${signal ?? code}): ${stderr}`));
+      } else {
+        resolve(stdout);
       }
-      resolve(stdout);
     });
+    child.stdin.end(input);
   });
-};
 
-const writeLinux = (data: string): Promise<void> => {
-  let stderr = "";
-  return new Promise((resolve) => {
-    const xsel = spawn("xsel", ["--clipboard", "--input"]);
-    xsel.stderr.on("data", (data) => {
-      stderr += data;
-    });
-    xsel.on("close", (code) => {
-      if (code !== 0) {
-        throw new Error(`xsel returns ${code}: ${stderr}`);
-      }
-      resolve();
-    });
-    xsel.stdin.write(data);
-    xsel.stdin.end();
-  });
-};
-
-const readDarwin = (): Promise<string> => {
-  let stdout = "",
-    stderr = "";
-  return new Promise((resolve) => {
-    const pbpaste = spawn("pbpaste");
-    pbpaste.stdout.on("data", (data) => {
-      stdout += data;
-    });
-    pbpaste.stderr.on("data", (data) => {
-      stderr += data;
-    });
-    pbpaste.on("close", (code) => {
-      if (code !== 0) {
-        throw new Error(`pbpaste returns ${code}: ${stderr}`);
-      }
-      resolve(stdout);
-    });
-  });
-};
-
-const writeDarwin = (data: string): Promise<void> => {
-  let stderr = "";
-  return new Promise((resolve) => {
-    const pbcopy = spawn("pbcopy");
-    pbcopy.stderr.on("data", (data) => {
-      stderr += data;
-    });
-    pbcopy.on("close", (code) => {
-      if (code !== 0) {
-        throw new Error(`pbcopy returns ${code}: ${stderr}`);
-      }
-      resolve();
-    });
-    pbcopy.stdin.write(data);
-    pbcopy.stdin.end();
-  });
-};
-
-class UnsupportedError extends Error {
-  constructor(platform: string) {
-    super();
-    this.message = `Unsupported platform: ${platform}`;
-  }
-}
-
-const read = () => {
+const read = (): Promise<string> => {
   switch (process.platform) {
     case "linux":
-      return readLinux();
+      return run("xsel", ["--clipboard", "--output"]);
     case "darwin":
-      return readDarwin();
+      return run("pbpaste", []);
+    default:
+      throw new Error(`Unsupported platform: ${process.platform}`);
   }
-  throw new UnsupportedError(process.platform);
 };
 
-const write = (data: string) => {
+const write = async (data: string): Promise<void> => {
   switch (process.platform) {
     case "linux":
-      return writeLinux(data);
+      await run("xsel", ["--clipboard", "--input"], data);
+      break;
     case "darwin":
-      return writeDarwin(data);
+      await run("pbcopy", [], data);
+      break;
+    default:
+      throw new Error(`Unsupported platform: ${process.platform}`);
   }
-  throw new UnsupportedError(process.platform);
 };
 
 export { read, write };

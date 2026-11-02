@@ -53,7 +53,7 @@ export class QuickHintAction implements HintAction {
     switch (element.tagName.toLowerCase()) {
       case "a":
       case "area":
-        this.openLink(
+        await this.openLink(
           tabId,
           target.frameId,
           {
@@ -73,25 +73,25 @@ export class QuickHintAction implements HintAction {
           case "button":
           case "image":
           case "color":
-            this.click(tabId, target.frameId, target.element);
+            await this.click(tabId, target.frameId, target.element);
             break;
           default:
-            this.focus(tabId, target.frameId, target.element);
+            await this.focus(tabId, target.frameId, target.element);
             break;
         }
         break;
       case "textarea":
-        this.focus(tabId, target.frameId, target.element);
+        await this.focus(tabId, target.frameId, target.element);
         break;
       case "button":
       case "summary":
-        this.click(tabId, target.frameId, target.element);
+        await this.click(tabId, target.frameId, target.element);
         break;
       default:
         if (element.attributes.contenteditable) {
-          this.focus(tabId, target.frameId, target.element);
+          await this.focus(tabId, target.frameId, target.element);
         } else if (element.attributes.tabindex || element.attributes.onclick) {
-          this.click(tabId, target.frameId, target.element);
+          await this.click(tabId, target.frameId, target.element);
         }
     }
   }
@@ -109,13 +109,13 @@ export class QuickHintAction implements HintAction {
       openNewtab = true;
     }
     if (!href || href === "#" || href.startsWith("javascript:")) {
-      this.click(tabId, frameId, element.elementId);
+      await this.click(tabId, frameId, element.elementId);
       return;
     }
     if (openNewtab) {
-      this.tabPresenter.openNewTab(href, tabId, opts.background);
+      await this.tabPresenter.openNewTab(href, tabId, opts.background);
     } else {
-      this.tabPresenter.openToTab(href, tabId);
+      await this.tabPresenter.openToTab(href, tabId);
     }
   }
 
@@ -124,7 +124,7 @@ export class QuickHintAction implements HintAction {
     frameId: number,
     elementId: string,
   ): Promise<void> {
-    this.hintClient.clickElement(tabId, frameId, elementId);
+    await this.hintClient.clickElement(tabId, frameId, elementId);
   }
 
   private async focus(
@@ -132,6 +132,6 @@ export class QuickHintAction implements HintAction {
     frameId: number,
     elementId: string,
   ): Promise<void> {
-    this.hintClient.focusElement(tabId, frameId, elementId);
+    await this.hintClient.focusElement(tabId, frameId, elementId);
   }
 }

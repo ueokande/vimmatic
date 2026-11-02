@@ -6,54 +6,55 @@ describe("BlacklistItem", () => {
   describe("#matches", () => {
     it('matches by "*"', () => {
       const item = new BlacklistItem("*");
-      expect(item.matches(new URL("https://github.com/abc"))).toBeTruthy;
+      expect(item.matches(new URL("https://github.com/abc"))).toBeTruthy();
     });
 
     it("matches by hostname", () => {
       const item = new BlacklistItem("github.com");
-      expect(item.matches(new URL("https://github.com"))).toBeTruthy;
-      expect(item.matches(new URL("https://gist.github.com"))).toBeFalsy;
-      expect(item.matches(new URL("https://github.com/ueokande"))).toBeTruthy;
-      expect(item.matches(new URL("https://github.org"))).toBeFalsy;
-      expect(item.matches(new URL("https://google.com/search?q=github.org")))
-        .toBeFalsy;
+      expect(item.matches(new URL("https://github.com"))).toBeTruthy();
+      expect(item.matches(new URL("https://gist.github.com"))).toBeFalsy();
+      expect(item.matches(new URL("https://github.com/ueokande"))).toBeTruthy();
+      expect(item.matches(new URL("https://github.org"))).toBeFalsy();
+      expect(
+        item.matches(new URL("https://google.com/search?q=github.org")),
+      ).toBeFalsy();
     });
 
     it("matches by hostname with wildcard", () => {
       const item = new BlacklistItem("*.github.com");
 
-      expect(item.matches(new URL("https://github.com"))).toBeFalsy;
-      expect(item.matches(new URL("https://gist.github.com"))).toBeTruthy;
+      expect(item.matches(new URL("https://github.com"))).toBeFalsy();
+      expect(item.matches(new URL("https://gist.github.com"))).toBeTruthy();
     });
 
     it("matches by path", () => {
       const item = new BlacklistItem("github.com/abc");
 
-      expect(item.matches(new URL("https://github.com/abc"))).toBeTruthy;
-      expect(item.matches(new URL("https://github.com/abcdef"))).toBeFalsy;
-      expect(item.matches(new URL("https://gist.github.com/abc"))).toBeFalsy;
+      expect(item.matches(new URL("https://github.com/abc"))).toBeTruthy();
+      expect(item.matches(new URL("https://github.com/abcdef"))).toBeFalsy();
+      expect(item.matches(new URL("https://gist.github.com/abc"))).toBeFalsy();
     });
 
     it("matches by path with wildcard", () => {
       const item = new BlacklistItem("github.com/abc*");
 
-      expect(item.matches(new URL("https://github.com/abc"))).toBeTruthy;
-      expect(item.matches(new URL("https://github.com/abcdef"))).toBeTruthy;
-      expect(item.matches(new URL("https://gist.github.com/abc"))).toBeFalsy;
+      expect(item.matches(new URL("https://github.com/abc"))).toBeTruthy();
+      expect(item.matches(new URL("https://github.com/abcdef"))).toBeTruthy();
+      expect(item.matches(new URL("https://gist.github.com/abc"))).toBeFalsy();
     });
 
     it("matches address and port", () => {
       const item = new BlacklistItem("127.0.0.1:8888");
 
-      expect(item.matches(new URL("http://127.0.0.1:8888/"))).toBeTruthy;
-      expect(item.matches(new URL("http://127.0.0.1:8888/hello"))).toBeTruthy;
+      expect(item.matches(new URL("http://127.0.0.1:8888/"))).toBeTruthy();
+      expect(item.matches(new URL("http://127.0.0.1:8888/hello"))).toBeTruthy();
     });
 
     it("matches with partial blacklist", () => {
       const item = new BlacklistItem("google.com", true, ["j", "k"]);
 
-      expect(item.matches(new URL("https://google.com"))).toBeTruthy;
-      expect(item.matches(new URL("https://yahoo.com"))).toBeFalsy;
+      expect(item.matches(new URL("https://google.com"))).toBeTruthy();
+      expect(item.matches(new URL("https://yahoo.com"))).toBeFalsy();
     });
   });
 
@@ -63,19 +64,19 @@ describe("BlacklistItem", () => {
 
       expect(
         item.includeKey(new URL("http://google.com/maps"), fromKeymap("j")),
-      ).toBeTruthy;
+      ).toBeTruthy();
       expect(
         item.includeKey(new URL("http://google.com/maps"), fromKeymap("<C-U>")),
-      ).toBeTruthy;
+      ).toBeTruthy();
       expect(
         item.includeKey(new URL("http://google.com/maps"), fromKeymap("z")),
-      ).toBeFalsy;
+      ).toBeFalsy();
       expect(
         item.includeKey(new URL("http://google.com/maps"), fromKeymap("u")),
-      ).toBeFalsy;
+      ).toBeFalsy();
       expect(
         item.includeKey(new URL("http://maps.google.com/"), fromKeymap("j")),
-      ).toBeFalsy;
+      ).toBeFalsy();
     });
   });
 });
@@ -87,13 +88,15 @@ describe("Blacklist", () => {
         new BlacklistItem("google.com"),
         new BlacklistItem("*.github.com"),
       ]);
-      expect(blacklist.includesEntireBlacklist(new URL("https://google.com")))
-        .toBeTruthy;
-      expect(blacklist.includesEntireBlacklist(new URL("https://github.com")))
-        .toBeFalsy;
+      expect(
+        blacklist.includesEntireBlacklist(new URL("https://google.com")),
+      ).toBeTruthy();
+      expect(
+        blacklist.includesEntireBlacklist(new URL("https://github.com")),
+      ).toBeFalsy();
       expect(
         blacklist.includesEntireBlacklist(new URL("https://gist.github.com")),
-      ).toBeTruthy;
+      ).toBeTruthy();
     });
 
     it("does not matches with partial blacklist", () => {
@@ -101,10 +104,12 @@ describe("Blacklist", () => {
         new BlacklistItem("google.com"),
         new BlacklistItem("yahoo.com", true, ["j", "k"]),
       ]);
-      expect(blacklist.includesEntireBlacklist(new URL("https://google.com")))
-        .toBeTruthy;
-      expect(blacklist.includesEntireBlacklist(new URL("https://yahoo.com")))
-        .toBeFalsy;
+      expect(
+        blacklist.includesEntireBlacklist(new URL("https://google.com")),
+      ).toBeTruthy();
+      expect(
+        blacklist.includesEntireBlacklist(new URL("https://yahoo.com")),
+      ).toBeFalsy();
     });
   });
 
@@ -117,13 +122,13 @@ describe("Blacklist", () => {
 
       expect(
         blacklist.includeKey(new URL("https://google.com"), fromKeymap("j")),
-      ).toBeFalsy;
+      ).toBeFalsy();
       expect(
         blacklist.includeKey(new URL("https://github.com"), fromKeymap("j")),
-      ).toBeTruthy;
+      ).toBeTruthy();
       expect(
         blacklist.includeKey(new URL("https://github.com"), fromKeymap("a")),
-      ).toBeFalsy;
+      ).toBeFalsy();
     });
   });
 });

@@ -1,6 +1,7 @@
-import { expect, test } from "./lib/fixture";
+import { Console } from "./lib/Console";
+import { gotoWithExtension } from "./lib/readiness";
 import { SettingRepository } from "./lib/SettingRepository";
-import { newSingleContentServer } from "./lib/servers";
+import { expect, test } from "./lib/serverFixture";
 
 const setupHintchars = async (api: typeof browser) => {
   await new SettingRepository(api).save({
@@ -16,36 +17,15 @@ const setupHintchars = async (api: typeof browser) => {
   });
 };
 
-const resetSettings = async (api: typeof browser) => {
-  await new SettingRepository(api).save({});
-};
+test.use({ siteProfile: "hints" });
 
-const server = newSingleContentServer(`
-  <!DOCTYPE html>
-  <html lang="en"><body>
-    <a href="/">link1</a>
-    <a href="/">link2</a>
-    <a href="/">link3</a>
-    <a href="/">link4</a>
-    <a href="/">link5</a>
-  </body></html>
-`);
-
-test.beforeAll(async () => {
-  await server.start();
-});
-
-test.afterEach(async ({ api }) => {
-  await resetSettings(api);
-});
-
-test.afterAll(async () => {
-  await server.stop();
-});
-
-test("should show hints with hintchars by settings", async ({ page, api }) => {
+test("should show hints with hintchars by settings", async ({
+  server,
+  page,
+  api,
+}) => {
   await setupHintchars(api);
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("f");
 
   await expect
@@ -58,15 +38,19 @@ test("should show hints with hintchars by settings", async ({ page, api }) => {
     .toEqual(["J", "JJ", "JK"]);
 });
 
-test("should open link into a new tab", async ({ page, api }) => {
+test("should open link into a new tab", async ({ server, page, api }) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await setupHintchars(api);
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("Shift+F");
-  await page.locator("[data-vimmatic-hint]:visible").first().waitFor();
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "K", "JJ", "JK", "KJ"]);
   await page.keyboard.press("j");
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "JJ", "JK"]);
   await page.keyboard.press("j");
 
   await expect
@@ -74,14 +58,23 @@ test("should open link into a new tab", async ({ page, api }) => {
     .toMatchObject([{ active: false }, { active: true }]);
 });
 
-test("should open link into new tab in background", async ({ page, api }) => {
+test("should open link into new tab in background", async ({
+  server,
+  page,
+  api,
+}) => {
   const { id: windowId } = await api.windows.getCurrent();
 
   await setupHintchars(api);
-  await page.goto(server.url());
+  await gotoWithExtension(page, server.url());
   await page.keyboard.press("Control+f");
-  await page.locator("[data-vimmatic-hint]:visible").first().waitFor();
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "K", "JJ", "JK", "KJ"]);
   await page.keyboard.press("j");
+  await expect
+    .poll(() => page.locator("[data-vimmatic-hint]:visible").allInnerTexts())
+    .toEqual(["J", "JJ", "JK"]);
   await page.keyboard.press("j");
 
   await expect
@@ -89,10 +82,9 @@ test("should open link into new tab in background", async ({ page, api }) => {
     .toMatchObject([{ active: true }, { active: false }]);
 });
 
-test("should show hints with set hintchars", async ({ page }) => {
-  await page.goto(server.url());
-  await page.keyboard.type(":set hintchars=abc");
-  await page.keyboard.press("Enter");
+test("should show hints with set hintchars", async ({ server, page }) => {
+  await gotoWithExtension(page, server.url());
+  await new Console(page).exec("set hintchars=abc");
 
   await page.keyboard.press("f");
 

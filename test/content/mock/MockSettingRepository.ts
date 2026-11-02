@@ -26,7 +26,7 @@ export class MockSettingRepository implements SettingRepository {
   }
 
   getBlacklist(): Blacklist {
-    return new Blacklist([]);
+    return this.value.blacklist ?? new Blacklist([]);
   }
 
   getSearch(): Search {

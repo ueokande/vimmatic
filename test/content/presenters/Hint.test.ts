@@ -62,9 +62,9 @@ describe("Hint", () => {
       const hint = new Hint({ element: link, id: "0", tag: "abc", style: {} });
 
       const elem = document.querySelector("span")!;
-      expect(elem.parentElement).not.toBeNull;
+      expect(elem.parentElement).not.toBeNull();
       hint.remove();
-      expect(elem.parentElement).toBeNull;
+      expect(elem.parentElement).toBeNull();
     });
   });
 });
