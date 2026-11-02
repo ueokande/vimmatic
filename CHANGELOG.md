@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.1](https://github.com/ueokande/vimmatic/compare/v0.9.0...v0.9.1) (2026-11-02)
+
+
+### Bug Fixes
+
+* Enhance test reliability, E2E suite verification, and core implementation ([#552](https://github.com/ueokande/vimmatic/issues/552)) ([ad7f0c0](https://github.com/ueokande/vimmatic/commit/ad7f0c03cf89d3041831cdfb9a016d9a4208633f))
+* Improve addon status ([#550](https://github.com/ueokande/vimmatic/issues/550)) ([d0851a2](https://github.com/ueokande/vimmatic/commit/d0851a2217a78168f85732f64074e60bb128e4c5))
+
 ## [0.9.0](https://github.com/ueokande/vimmatic/compare/v0.8.4...v0.9.0) (2026-10-14)
 
 
